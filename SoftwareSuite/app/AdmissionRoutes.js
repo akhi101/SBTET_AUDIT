@@ -3744,7 +3744,7 @@
             'Dashboard.Results.StudentConsolidatedResult': {
                 url: "/StudentConsolidatedResult",
                 templateUrl: 'app/views/StudentExamResults/StudentConsolidatedResult.html',
-                dependencies: ['controllers/StudentExamResults/StudentConsolidatedResultController', 'services/StudentResultService']
+                dependencies: ['controllers/StudentExamResults/StudentConsolidatedResultController', 'services/StudentResultService', 'services/PreExamination/PreExaminationService']
             },
             'Dashboard.Results.StudentsResultsHistory': {
                 url: "/StudentsResultsHistory",

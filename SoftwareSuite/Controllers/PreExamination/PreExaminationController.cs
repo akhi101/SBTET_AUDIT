@@ -41,6 +41,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 using DocumentFormat.OpenXml.Bibliography;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Drawing;
 
 namespace SoftwareSuite.Controllers.PreExamination
 {
@@ -2451,6 +2452,7 @@ namespace SoftwareSuite.Controllers.PreExamination
 
         public class person
         {
+            public string Image { get; set; }
             public string file { get; set; }
             public string ResponceCode { get; set; }
             public string ResponceDescription { get; set; }
@@ -11955,6 +11957,98 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
         }
 
+
+
+        [HttpGet, ActionName("GetCaptchaString")]
+        public string GetCaptchaString(string SessionId)
+        {
+            var dbHandler = new dbHandler();
+            try
+            {
+                string strCaptchaString = "";
+                //int intZero = '0';
+                //int intNine = '9';
+                int intA = 'A';
+                int intZ = 'Z';
+                int intCount = 0;
+                int intRandomNumber = 0;
+                //string strCaptchaString = "";
+
+                Random random = new Random(System.DateTime.Now.Millisecond);
+
+                while (intCount < 5)
+                {
+                    intRandomNumber = random.Next(intA, intZ);
+                    if ((intRandomNumber >= intA) && (intRandomNumber <= intZ))
+                    {
+                        strCaptchaString = strCaptchaString + (char)intRandomNumber;
+                        intCount = intCount + 1;
+                    }
+                }
+                SetSessionId(SessionId, strCaptchaString);
+                var skyblue = System.Drawing.ColorTranslator.FromHtml("#1F497D");
+                //var white = System.Drawing.ColorTranslator.FromHtml("linear-gradient(90deg, rgba(237,245,255,1) 0%, rgba(204,223,247,1) 100%)");
+                string str = ConvertTextToImage(strCaptchaString, "sans-serif", 35, System.Drawing.Color.White, skyblue, 250, 65).ToString();
+
+                List<person> p = new List<person>();
+                person p1 = new person();
+
+                p1.Image = str;
+                //p1.Text = strCaptchaString;
+                p.Add(p1);
+
+                return JsonConvert.SerializeObject(p);
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_SET_ReleaseTcPin", 0, ex.Message);
+                return ex.Message;
+            }
+        }
+
+          public string ConvertTextToImage(string txt, string fontname, int fontsize, System.Drawing.Color bgcolor, System.Drawing.Color fcolor, int width, int Height)
+        {
+            Bitmap bmp = new Bitmap(width, Height);
+            using (Graphics graphics = Graphics.FromImage(bmp))
+            {
+
+                System.Drawing.Font font = new System.Drawing.Font(fontname, fontsize);
+                graphics.FillRectangle(new SolidBrush(bgcolor), 0, 0, bmp.Width, bmp.Height);
+                graphics.DrawString(txt, font, new SolidBrush(fcolor), 0, 0);
+                graphics.Flush();
+                font.Dispose();
+                graphics.Dispose();
+
+
+            }
+            Bitmap bImage = bmp;  // Your Bitmap Image
+            System.IO.MemoryStream ms = new MemoryStream();
+            bImage.Save(ms, ImageFormat.Jpeg);
+            byte[] byteImage = ms.ToArray();
+            var SigBase64 = Convert.ToBase64String(byteImage);
+            return SigBase64;
+
+        }
+
+        [HttpGet, ActionName("SetSessionId")]
+        public string SetSessionId(string SessionId, string Captcha)
+        {
+            var dbHandler = new dbHandler();
+            try
+            {
+
+                var param = new SqlParameter[2];
+                param[0] = new SqlParameter("@SessionId", SessionId);
+                param[1] = new SqlParameter("@Captcha", Captcha);
+                var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SET_ExamsCaptchaSessionLog", param);
+                return JsonConvert.SerializeObject(dt);
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_SET_ExamsCaptchaSessionLog", 0, ex.Message);
+                return ex.Message;
+            }
+        }
         //[HttpGet, ActionName("GenerateOtpForFacultyMobileNoUpdate")]
 
         //public string GenerateOtpForFacultyMobileNoUpdate([FromBody] JsonObject request)

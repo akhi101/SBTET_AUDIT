@@ -16,6 +16,11 @@
             return promise;
         }
 
+        this.GetCaptchaString10 = function () {
+            return DataAccessService.getDataAll('api/AdminService/GetCaptchaString10');
+        };
+
+
         this.GetActiveBranches = function () {
             var promise = DataAccessService.getDataWithPara('api/AdminService/getActiveBranches');
             return promise;

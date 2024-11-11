@@ -59,6 +59,23 @@
         var WebApiUrl = '/API/';
         var d = new Date();
         var n = d.getTime();  //n in ms
+        var data = { "userName": data !== null ? data : $localStorage.authorizationData.userName };
+        var request = {
+            method: 'GET',
+            url: WebApiUrl + "/AdminService/GetCaptchaString10",
+            data: data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        $http(request).then(function (d) {
+            sessionStorage.removeItem('SessionCaptcha');
+            console.log(d.data)
+            sessionStorage.setItem('SessionCaptcha', d.data);
+        }, function (err) {
+            let error = JSON.parse(err);
+            alert(error.message);
+        });
 
         $rootScope.idleEndTime = n + (15 * 60 * 1000); //set end time to 10 min from now
         $document.find('body').on('mousemove keydown DOMMouseScroll mousewheel mousedown touchstart', checkAndResetIdle); //monitor events
