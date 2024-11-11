@@ -1,0 +1,309 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+</style>
+
+<div ng-controller="CcicUpdateDateSheetController">
+    <div class="breadcrumb-header">
+        <div class="container">
+            <section class="content-header">
+                <h5>Update DateSheet </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard">Ccic Dashboard</i> </a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination">Ccic PreExamination</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination/UpdateDateSheet">Update DateSheet</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <a href="#!/CcicDashboard/PreExamination" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#1" data-toggle="tab" ng-click="coursewise()">CourseWise</a>
+                </li>
+                <li>
+                    <a href="#2" data-toggle="tab" ng-click="datewise()">DateWise</a>
+                </li>
+              
+
+            </ul>
+
+
+            <div class="tab-content ">
+
+
+                <div class="tab-pane active" id="1">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2>Course Wise</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="base-row" style="padding:15px!important;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Academic Year :</label>
+                                        <select class="form-control " ng-model="academicYear" name="AcademicYear" required ng-change="GetCourseDurationBatchData(academicYear)">
+                                            <option value="" selected="selected">Select Year</option>
+                                            <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                {{data.AcademicYear}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label class="font-weight-bold"> Batch :</label>
+                                        <select class="form-control " ng-model="BaTch" name="BatchType" required" ng-change="getAYBatchExamMonthYear(academicYear,BaTch)">
+                                            <option value="" selected="selected">Select Batch</option>
+                                            <option value="{{data.Batch}}" ng-repeat="data in GetCurrentBatch" class="">
+                                                {{data.Batch}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Month/Year :
+                                    </label>
+                                    <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                            ng-options="monYer.ExamMonthYearID as monYer.ExamMonthYearName for monYer in GetAYBatchExamMonthYearData">
+                                        <option value="" selected>Select Month/Year of Exam</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label class="font-weight-bold"> CourseName :</label>
+                                        <select class="form-control " ng-model="coursename" name="Course" required">
+                                            <option value="" selected="selected">Select Course</option>
+                                            <option value="{{data.CourseID}}" ng-repeat="data in GetCurrentBatch" class="">
+                                                {{data.CourseName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddCcicModule()">
+                                            Get
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive table-custom-tables-tb" ng-if="">
+                            <table class="table table-bordered  table-striped table-rounded">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th style="width: 5%;">S.No</th>
+                                        <th class="">Module Name</th>
+                                        <th class="">Module Route Name</th>
+                                        <th class="" style="">Colour</th>
+                                        <th class="" style="">Module Order</th>
+                                        <th class="" style="">Status</th>
+                                        <th class="">Edit/Update</th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in GetAllCcicModules">
+                                        <td class="">{{$index+1}}</td>
+                                        <td>
+
+                                            <div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.ModuleName" /></div>
+                                        </td>
+
+                                        <td>
+
+                                            <div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.ModuleRouteName" /></div>
+                                        </td>
+
+                                        <td>
+
+
+                                            <select class="form-control tableinpt enabletable{{$index + 1}}" id="ModuleCardColourID" ng-model="data.ModuleCardColourID"
+                                                    ng-options="data.ModuleCardColourID as data.ModuleCardColourName for data in ModuleCardColours">
+                                                <option value="" selected>Select Module Colour</option>
+                                            </select>
+                                        </td>
+
+
+                                        <td>
+
+                                            <div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.ModuleOrder" /></div>
+                                        </td>
+
+
+                                        <td class="" style="" text-align:center" width="10%" ;">
+                                            <button class="btn btn-success btn-xs" ng-show="data.Active == true" ng-click="SetModuleStatus(data.ModuleID,data.ModuleName,data.Active)">Active</button>
+                                            <button class="btn btn-danger btn-xs" ng-show="data.Active == false" ng-click="SetModuleStatus(data.ModuleID,data.ModuleName,data.Active)">InActive</button>
+                                        </td>
+
+                                        <td style="text-align:center" width="8%">
+                                            <button ng-hide="viewField" class="btn-xs btn btn-info" style="width: 70px;" ng-click="modify($index+1)">Edit</button>
+                                            <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="modifyField" ng-click="update($index+1,data.ModuleID,data.ModuleName,data.ModuleRouteName,data.ModuleCardColourID,data.ModuleOrder)"><span>Update</span></button>
+                                        </td>
+
+
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sm-spacer"></div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="tab-pane" id="2">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2>Date Wise</h2>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="base-row" style="padding:15px!important;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Academic Year :</label>
+                                        <select class="form-control " ng-model="academicYear" name="AcademicYear" required ng-change="GetCourseDurationBatchData(academicYear)">
+                                            <option value="" selected="selected">Select Year</option>
+                                            <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                {{data.AcademicYear}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label class="font-weight-bold"> Batch :</label>
+                                        <select class="form-control " ng-model="BaTch" name="BatchType" required" ng-change="getAYBatchExamMonthYear(academicYear,BaTch)">
+                                            <option value="" selected="selected">Select Batch</option>
+                                            <option value="{{data.Batch}}" ng-repeat="data in GetCurrentBatch" class="">
+                                                {{data.Batch}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Month/Year :
+                                    </label>
+                                    <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                            ng-options="monYer.ExamMonthYearID as monYer.ExamMonthYearName for monYer in GetAYBatchExamMonthYearData">
+                                        <option value="" selected>Select Month/Year of Exam</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label class="font-weight-bold"> Date :</label>
+                                        <select class="form-control " ng-model="date" name="Date" required">
+                                            <option value="" selected="selected">Select Date</option>
+                                            <option value="{{data.DateID}}" ng-repeat="data in getdates" class="">
+                                                {{data.Date}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddCcicUserModule()">
+                                            Get
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sm-spacer"></div>
+                        <div class="sm-spacer"></div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+             
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>

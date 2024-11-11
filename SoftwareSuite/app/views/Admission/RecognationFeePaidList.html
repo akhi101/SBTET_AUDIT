@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Recognation Fees Payment</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+
+
+
+    <!--<script type="text/x-jsrender" id="headerTemplate">
+        <input type="checkbox" hidden="true" id="headchk" />
+    </script>-->
+    <div ng-controller="RecognationFeePaidListController" id="idForJS">
+        <section id="main-content">
+            <!-- New Style Start-->
+            <div class="container">
+                <div class="row ctitle">
+                    <div class="col-md-5">
+                        <span><strong>Recognation Fee Payment</strong></span>
+                    </div>
+                    <div class="col-md-7 text-right">
+                        <ol class="breadcrumb">
+                            <li>You are in </li>
+                            <li>Home</li>
+                            <li>Student Admission</li>
+                            <li>Recognation Fee Payment</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="row base-row">
+                    <div class="col-md-2 col-md-offset-3">
+                        <div class="form-group">
+                            <label for="sel1">Stream :</label>
+                            <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                                <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Exam :</label>
+                            <select class="form-control" id="ExamID" ng-model="ExamID">
+                                <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Branch :</label>
+                            <select class="form-control" id="BranchID" ng-model="BranchID">
+                                <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">View</button>
+                        <button type="button" ng-click="ShowAll()" class="btn btn-sm btn-detail">View All </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <!--<div class="row">
+                    <div class="col-md-12">
+                        <div id="StudentRegs" ng-init="chkinit()" ej-grid e-datasource="RecognationFeePaidData"
+                             e-editsettings-allowediting="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                    </div>
+                </div>-->
+                <div class="row">
+                    <table style="font-size:11px;" id="alldata" class="table table-striped">
+                        <tr>
+                            <th><input type="checkbox" ng-click='GetCheckStudentHeader(headercheck)' ng-model="headercheck" /></th>
+                            <th>S. No.</th>
+                            <th>Admission No.</th>
+                            <th>Student Name</th>
+                            <th>Father Name</th>
+                            <th>Birth Date</th>
+                            <th>Sex</th>
+                            <th>Hall Ticket No.</th>
+                            <th>Medium</th>
+                            <th>Group</th>
+                            <th>Second Lang.</th>
+                            <th>Fee Amount"</th>
+                        </tr>
+                        <tr ng-repeat="x in RecognationFeePaidData">
+                            <td style="text-align:center; width:100px;"><input type="checkbox" ng-click='GetCheckStudent(x)' ng-model="x.CheckStudent"></td>
+                            <td>{{ x.StuRegSrNo }}</td>
+                            <td>{{ x.AdmNo }}</td>
+                            <td>{{ x.StudName }}</td>
+                            <td>{{ x.FatherName }}</td>
+                            <td>{{ x.BirthDateDesc }}</td>
+                            <td>{{ x.GenderDesc }}</td>
+                            <td>{{ x.SSCHallTicket }}</td>
+                            <td>{{ x.MediumName }}</td>
+                            <td>{{ x.MainGrpName }}</td>
+                            <td>{{ x.SubName }}</td>
+                            <td>{{ x.FeeAmount }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-2  col-md-offset-3">
+                        <label for="adno"> Total Candidates : </label>
+                        <input type="text" class="form-control" id="TotalCondidate" ng-Model="RecognationFeePaidList.TotalCondidate" ng-readonly="true">
+                    </div>
+                    <div class="col-md-2 ">
+                        <label for="adno"> Total Fee Amount(Rs./-): </label>
+                        <input type="text" class="form-control" id="TotalFeeAmount" ng-Model="RecognationFeePaidList.TotalFeeAmount" ng-readonly="true">
+                    </div>
+                    <div style="padding-top:24px;" class="col-md-2 ">
+                        <button type="button" ng-disabled="RollEditDisable" ng-click="SaveRecognationFeePaid()" class="btn btn-sm btn-primary">Pay Now </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Style end-->
+            <!--<div class="row">
+                        <div class="panel-group">
+                            <div class="panel">
+                                <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Recognation Fees Payment</b></div>
+                                <div class="panel-body form_border">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="sel1">Stream :</label>
+                                                    <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                                                        <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="sel1">Exam :</label>
+                                                    <select class="form-control" id="ExamID" ng-model="ExamID">
+                                                        <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="sel1">Branch :</label>
+                                                    <select class="form-control" id="BranchID" ng-model="BranchID">
+                                                        <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 text-center get_admission_details">
+                                                <button type="button" ng-click="Show()" class="btn form_btn_align save_btn">Show<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                                <button type="button" ng-click="ShowAll()" class="btn form_btn_align save_btn">Show All <span class="fa fa-file-text heading_icon btn_icons"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-content">
+                                <div id="StudentRegs" ng-init="chkinit()" ej-grid e-datasource="RecognationFeePaidData"
+                                     e-editsettings-allowediting="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="adno"> Total Condidates : </label>
+                                <input type="text" class="form-control" id="TotalCondidate" ng-Model="RecognationFeePaidList.TotalCondidate" ng-readonly="true">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="adno"> Total Fee Amount(Rs./-): </label>
+                                <input type="text" class="form-control" id="TotalFeeAmount" ng-Model="RecognationFeePaidList.TotalFeeAmount" ng-readonly="true">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" ng-disabled="RollEditDisable" ng-click="SaveRecognationFeePaid()" class="btn form_btn_align save_btn">Fees To Be Paid <span class="fa fa-save heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+                    </div>
+            </div>-->
+        </section>
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successful.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });  
+    </script>
+</body>
+</html>
+

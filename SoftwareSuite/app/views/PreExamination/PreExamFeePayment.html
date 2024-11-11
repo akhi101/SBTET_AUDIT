@@ -1,0 +1,214 @@
+<style>
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+        .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+       margin-bottom: 20px!important;
+        margin-top: 20px!important;
+    width: 120px!important;
+    height: 31px!important;
+    border-radius: 20px!important;
+    font-size: 16px!important;
+    font-weight: 600!important;
+    color: #fff!important;
+    /* font-family: itallic; */
+    background-color: #63aacf!important;
+    padding: 4px!important;
+    outline: none!important;
+    float: right!important;
+    margin-right: 15px!important;
+}
+        .spacer{
+            height:50px!important;
+        }
+</style>
+        <div ng-controller="PreExamFeePaymentController">
+            <section class="content">
+                <div class="container">
+                    <div class="col-md-12">
+                        <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                    </div>
+
+                    <div class="col-md-12" ng-if="isShowTags">
+                        <div class="row ">
+                            <div class="cl-details">
+                                <h2>Fee Payment Report</h2>
+                            </div>
+                        </div>
+                        <div class="row base-row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">
+                                        Academic Year :
+                                    </label>
+                                    <div id='year'>
+                                        <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Exam Type:</label>
+                                    <div class="">
+                                        <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="SetStudentType(Student.id)" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                {{Student.type}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Semester:</label>
+                                    <div class="">
+                                        <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="current_schemeid" ng-change="LoadExamType(current_schemeid)" ng-disabled="isBackLog">
+                                            <option value="" selected>Select Semester</option>
+                                            <option ng-repeat="sem in ActiveSemesters" value="{{sem.semid}}">
+                                                {{sem.semester}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form-group" ng-show="Student.id=='1'">
+                                <label for="sel1">
+                                    Exam Month Year:
+                                </label>
+                                <select class="form-control" ng-model="ExamMonthYea" ng-change="ChangeData(ExamMonthYea)" name="StudentType">
+                                    <option value="" selected>Select Exam Month Year</option>
+                                    <option ng-repeat="data in GetExamMonthYear" value="{{data}}">
+                                        {{data.ExamYearMonth}}
+                                    </option>
+                                    <!--ng-options="Student.type for Student in StudentType">-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-detail" ng-click="showPaymentDetails(ExamMonthYear)">
+                                    Show Results
+                                </button>
+                            </div>
+                        </div>
+                        <div class="sm-spacer"></div>
+                        <div class="col-md-12" ng-if="isShowResults">
+                            <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12" ng-if="dataRegular">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-checked="allItemsSelectedthing" ng-change="selectAll()"></th>
+                                            <th style="width: 2%;">S.No</th>
+                                            <th ng-click="sort('Scheme')" style="width: 10%">Pin</th>
+                                            <th class="" ng-click="sort('Semester')">Student Name</th>
+                                            <th class="" ng-click="sort('Semester')">Phone Number</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('Branch')">(TAD +PAD)/90 *100 %</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('Branch')">Actual Attendance %</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Exam Fee (Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Condonation Fee (Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Penalty Fee(Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Tatkal Fee (Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Certification Fee (Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Total Fee (Rs)</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;" ng-repeat="x in ExamPayment">
+                                            <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="x.isChecked" ng-change="selectEntity(x)"></td>
+                                            <td class="text-left">{{$index + 1}}</td>
+                                            <td class="text-left" style="width: 15%">{{x.Pin}}</td>
+                                            <td class="text-left">{{x.Name}}</td>
+                                            <td class="text-left">{{ x.StudentContact === undefined || x.StudentContact == null ? "-":x.StudentContact}}</td>
+                                            <td class="text-left">{{x.PresemptivePercentage}}%</td>
+                                            <td class="text-left">{{x.ActualPercentage}}%</td>
+                                            <td class="text-left">{{x.ExamFee}}</td>
+                                            <td class="text-left">{{x.Condonation}}</td>
+                                            <td class="text-left">{{x.Penality}}</td>
+                                            <td class="text-left">{{x.Tatkal}}</td>
+                                            <td class="text-left">{{x.CertificateFee}}</td>
+                                            <td class="text-left">{{x.Total}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12" ng-if="dataBackLog">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-checked="allItemsSelectedthing" ng-change="selectAll()"></th>
+                                            <th style="width: 2%;">S.No</th>
+                                            <th ng-click="sort('Scheme')" style="width: 10%">Pin</th>
+                                            <th class="" ng-click="sort('Semester')">Student Name</th>
+                                            <th class="" ng-click="sort('Semester')">Phone Number</th>
+                                            <!--<th class="text-left" style="width: 10%" ng-click="sort('Branch')">(TAD +PAD)/90 *100 %</th>-->
+                                            <!--<th class="text-left" style="width: 10%" ng-click="sort('Branch')">Actual Attendance %</th>-->
+                                            <th class="text-left" style="width: 10%" ng-click="sort('Branch')">Year/Sem</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('Branch')">Scheme</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Exam Fee (Rs)</th>
+                                            <!--<th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Condonation Fee (Rs)</th>-->
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Penalty Fee(Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Tatkal Fee (Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Certification Fee (Rs)</th>
+                                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Total Fee (Rs)</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;" ng-repeat="x in ExamPayment">
+                                            <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="x.isChecked" ng-change="selectEntity(x)"></td>
+                                            <td class="text-left">{{$index + 1}}</td>
+                                            <td class="text-left" style="width: 15%">{{x.Pin}}</td>
+                                            <td class="text-left">{{x.Name}}</td>
+                                            <td class="text-left">{{ x.StudentContact === undefined || x.StudentContact == null ? "-":x.StudentContact}}</td>
+                                            <!--<td class="text-left">{{x.PresemptivePercentage}}%</td>-->
+                                            <!--<td class="text-left">{{x.ActualPercentage}}%</td>-->
+                                            <td class="text-left">5SEM</td>
+                                            <td class="text-left">C16S</td>
+                                            <td class="text-left">{{x.ExamFee}}</td>
+                                            <!--<td class="text-left">{{x.Condonation}}</td>-->
+                                            <td class="text-left">{{x.Penality}}</td>
+                                            <td class="text-left">{{x.Tatkal}}</td>
+                                            <td class="text-left">{{x.CertificateFee}}</td>
+                                            <td class="text-left">{{x.Total}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn pay_bck_btn" ng-click="payNow()">Pay Now <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                   
+                    <div class="text-center" ng-if="!isShowTags">
+                        <img src="../../../contents/img/comingsoon.png">
+                    </div>
+                </div>
+                <div class="spacer"></div>
+            </section>
+        </div>

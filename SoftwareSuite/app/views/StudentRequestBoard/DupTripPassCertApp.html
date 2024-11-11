@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Duplicate Triplicate Pass Certificate</title>
+</head>
+<body>
+    <div ng-controller="DupTripPassCertAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Duplicate Triplicate Pass Certificate</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Duplicate Triplicate Pass Certificate</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date :  {{DupTripPassCertApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+               
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="DupTripPassCertApp.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="DupTripPassCertApp.Fathername" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Form No : </label>
+                                        <input type="text" class="form-control" id="AdmNo" ng-model="DupTripPassCertApp.FormNo" ng-readonly="true">
+                                        <div class="form-group" ng-hide="true">
+                                            <label>{{DupTripPassCertApp.PreStudRegID}}</label>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-6 form-group">
+        <label for=""> Course:</label>
+        <input type="text" class="form-control" id="CourseName" ng-model="DupTripPassCertApp.CourseName" ng-readonly="true">
+    </div>-->
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number: </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="DupTripPassCertApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee(in Rupees):</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="DupTripPassCertApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Lost (Or) Damaged:</label>
+                                        <input type="text" class="form-control" id="LostOrDamage" ng-model="DupTripPassCertApp.LostOrDamage" ng-readonly="true">
+                                    </div>
+                                    <div >
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Approve / Reject at Level 1 :</label>
+                                            <select class="form-control" id="ReqStatus" ng-model="DupTripPassCertApp.ReqStatus" ng-disabled="Approverdisable" ng-change="ChangeTextArea(DupTripPassCertApp.ReqStatus,'ReqStatus')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <!--<option value="P">Pending</option>-->
+                                                <option value="R">Reject</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Process Remark at Level 1 :</label>
+                                            <textarea rows="2" style="width: 100%;" id="ProcessRemark" ng-model="DupTripPassCertApp.ProcessRemark" ng-disabled="DisableProcessRemark"></textarea>
+                                            <span for="" class="status" ng-show="ShowLevel1">
+                                                Level 1 Status Approved/Rejected Date : {{DupTripPassCertApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{DupTripPassCertApp.ReqStatusIPAddress}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> College Name:</label>
+                                        <input type="text" class="form-control" id="ColName" ng-model="DupTripPassCertApp.ColName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Purpose :</label>
+                                        <textarea rows="2" style="width: 100%;" id="Purpose" ng-model="DupTripPassCertApp.Purpose" ng-readonly="true"></textarea>
+                                    </div>
+                                    <div ng-show="Approver1">
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Approve / Reject at Level 2 :</label>
+                                            <select class="form-control" id="ReqStatus1" ng-model="DupTripPassCertApp.ReqStatus1"  ng-disabled="Approver1disable" ng-change="ChangeTextArea(DupTripPassCertApp.ReqStatus1,'ReqStatus1')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <option value="R">Reject</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Process Remark at Level 2 :</label>
+                                            <textarea rows="2" style="width: 100%;" id="ProcessRemark1" ng-model="DupTripPassCertApp.ProcessRemark1" ng-disabled="DisableProcessRemark1"></textarea>
+                                            <span for="" class="status" ng-show="ShowLevel2">Level 2 Status Approved/Rejected Date : {{DupTripPassCertApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{DupTripPassCertApp.ReqStatus1IPAddress}}</span>
+                                        </div>
+                                    </div>
+                                    <div ng-show="Approver2" >
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Approve / Reject at Level 3 :</label>
+                                            <select class="form-control" id="ReqStatus2" ng-model="DupTripPassCertApp.ReqStatus2" ng-disabled="Approver2disable" ng-change="ChangeTextArea(DupTripPassCertApp.ReqStatus2,'ReqStatus2')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <option value="R">Reject</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for="">Process Remark at Level 3 :</label>
+                                            <textarea rows="2" style="width: 100%;" id="ProcessRemark" ng-model="DupTripPassCertApp.ProcessRemark2" ng-disabled="DisableProcessRemark2"></textarea>
+                                            <span for="" class="status" ng-show="ShowLevel3">
+                                                Level 3 Status Approved/Rejected Date : {{DupTripPassCertApp.ProcessDate2 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{DupTripPassCertApp.ReqStatus2IPAddress}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2 text-right">
+                                <p><strong>View Student Certificates</strong> </p>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="btn btn-sm btn-primary" target="_blank" href="{{DupTripPassCertApp.UploadDoc1}}" id="UploadPhoto"> Photo</a>
+                                <a class="btn btn-sm btn-primary" target="_blank" href="{{DupTripPassCertApp.UploadDoc2}}" id="UploadPrincipalLetter"> Letter From Principal</a>
+                                <a class="btn btn-sm btn-primary" target="_blank" href="{{DupTripPassCertApp.UploadDoc3}}" id="UploadFIR"> FIR</a>
+                                <a class="btn btn-sm btn-primary" target="_blank" href="{{DupTripPassCertApp.UploadDoc4}}" id="UploadAffidavit">Affidavit</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="font-size:10px;" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr style="background-color: #cfcfcf;">
+                                            <th></th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th><div  id="PC1">{{DupTripPassCertAppMarks.YR1PC1_NAME}}</div></th>
+                                            <th><div id="PC2">{{DupTripPassCertAppMarks.YR1PC2_NAME}}</div> </th>
+                                            <th><div  id="PC3">{{DupTripPassCertAppMarks.YR1PC3_NAME}}</div></th>
+                                            <th><div  id="PC4">{{DupTripPassCertAppMarks.YR1PC4_NAME}}</div> </th>
+                                            <th><div  id="PC5">{{DupTripPassCertAppMarks.YR1PC5_NAME}}</div></th>
+                                            <th><div  id="PC6">{{DupTripPassCertAppMarks.YR1PC6_NAME}}</div></th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1 Year</td>
+                                            <td><div  id="M11">{{DupTripPassCertAppMarks.YR1MRK1}}</div></td>
+                                            <td><div  id="M12">{{DupTripPassCertAppMarks.YR1MRK2}}</div></td>
+                                            <td><div  id="M13">{{DupTripPassCertAppMarks.YR1MRK3}}</div></td>
+                                            <td><div id="M14">{{DupTripPassCertAppMarks.YR1MRK4}}</div></td>
+                                            <td><div  id="M15">{{DupTripPassCertAppMarks.YR1MRK5}}</div></td>
+                                            <td><div id="M16">{{DupTripPassCertAppMarks.YR1MRK6}}</div></td>
+                                            <td><div id="M1T">{{DupTripPassCertAppMarks.YR1TOT}}</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2 Year</td>
+                                            <td><div  id="M21">{{DupTripPassCertAppMarks.YR2MRK1}}</div></td>
+                                            <td><div id="M22">{{DupTripPassCertAppMarks.YR2MRK2}}</div></td>
+                                            <td><div  id="M23">{{DupTripPassCertAppMarks.YR2MRK3}}</div></td>
+                                            <td><div  id="M24">{{DupTripPassCertAppMarks.YR2MRK4}}</div></td>
+                                            <td><div id="M25">{{DupTripPassCertAppMarks.YR2MRK5}}</div></td>
+                                            <td><div  id="M26">{{DupTripPassCertAppMarks.YR2MRK6}}</div></td>
+                                            <td><div  id="M2T">{{DupTripPassCertAppMarks.YR2TOT}}</div></td>
+                                        </tr>
+                                        <tr style="font-weight:bold;">
+                                            <td align="right" colspan="7">Grand Total</td>
+                                            <td><span class="myspan" id="GTOT"><strong>{{DupTripPassCertAppMarks.GTOT}}</strong></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="RollEditDisable" ng-show="showSubmit" ng-click="SaveDupTripPassCertApp()" class="btn btn-detail btn-sm">Submit</button>
+                                <button type="button" ng-show="ShowPrint" ng-disabled="DigitalSign" ng-click="DigiSignApp()" class="btn btn-reset btn-sm">Digital Sign</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

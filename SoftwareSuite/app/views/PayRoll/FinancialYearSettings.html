@@ -1,0 +1,171 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+</style>
+<div ng-controller="FinancialYearSettingsController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>-->
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Financial Year Setting</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/PayRollDashboard">Financial</a></li>
+                    <li><a href="#!/Dashboard/PayRollDashboard/FinancialYearSettings">Financial Year Setting</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content">
+
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PayRollMasters" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold"> Start of Financial Year :</label> <input autocomplete="off" class="form-control" type="text" ng-model="StartYear" ng-change="UpdateFinYear(StartYear)" placeholder="Select Financial Year" id="example1">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold">Financial Year :</label> <input autocomplete="off" class="form-control" type="text" ng-model="FinancialYear" disabled placeholder="Financial Year">
+                                </div>
+                                
+
+                                <div class="col-md-12 pull-left">
+                                    <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="Submit()">
+                                       ADD
+                                    </button>
+                                    <!--<button type="submit" class="btn pull-left btn-success btn-css" ng-click="update()" ng-if="UpdateData">
+                                        Update
+                                    </button>-->
+                                </div>
+                                <!--<div class="col-md-4 pull-left">
+
+                                </div>-->
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container ">
+            <div>
+                <div class="cl-details">
+                    <h2>Financial Years</h2>
+                </div>
+
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="5%">S.No</th>
+                                <th width="10%" class="text-center">Year</th>
+                                <th width="15%" class="text-center">Financial Year</th>
+                                <th width="15%" class="text-center">Action</th>
+                                <th width="15%" class="text-center">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in FinancialYearData">
+                                <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.FinancialStartYear" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.FinancialYear" /></td>
+                                <td class="text-center">
+                                    <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditFinancialYear(data,$index+1)">
+                                        Edit
+                                    </button>
+                                    <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdateFinancialYear(data,$index+1)">
+                                        Update
+                                    </button>
+
+                                </td>
+                                <td style="text-align:center">
+                                    <button class="btn-xs btn btn-success" title="Click here to Inactive" ng-click="ChangeStatus(data.FinancialYearId,0)" ng-if="data.Active==1">Active</button>
+                                    <button class="btn-xs btn btn-danger" title="Click here to Active" ng-click="ChangeStatus(data.FinancialYearId,1)" ng-if="data.Active==0">InActive</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div ng-if="Noreports" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

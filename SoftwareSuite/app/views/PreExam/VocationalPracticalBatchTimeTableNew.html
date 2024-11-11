@@ -1,0 +1,108 @@
+﻿<div class="container">
+    <div div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Vocational Practical Exam Time Table</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam</li>
+                <li>Vocational Practical Exam Time Table</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="vocationalPracticalBatchTimeTableNewController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="vocationalBatchexamTimeTableForm">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <label for="sel1">Stream :</label>
+                        <input type="text" class="form-control" ng-model="vocationalPracticalBatchTimeTable.CourseName" id="CourseName" readonly="true">
+                        <!--<sa-select ng-model="vocationalPracticalBatchTimeTable.CourseID" object="vocationalPracticalBatchTimeTable.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream"> </sa-select>-->
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="vocationalPracticalBatchTimeTable.DistrictID" object="vocationalPracticalBatchTimeTable.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="vocationalPracticalBatchTimeTable.PrePractCntrID" object="vocationalPracticalBatchTimeTable.PrePractCntrID" options="PraCenterList" displaycolumn="ColName" valuecolumn="PrePractCntrID" objectname="PrePractCntrID" objecttext="Centers"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="vocationalPracticalBatchTimeTable.MainGrpID" object="vocationalPracticalBatchTimeTable.MainGrpID" options="basicMainGroupList" displaycolumn="MainGrpName" valuecolumn="MainGrpID" objectname="MainGrpID" objecttext="Course"> </sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button ng-click="GetPracticalBatchesByGroup()" ng-disabled="showdisable" class="btn btn-detail btn-sm">Show Details</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-show="false">
+                    <input type="text" class="form-control" ng-model="vocationalPracticalBatchTimeTable.CourseID" id="CourseID" visible="false">
+                    <input type="text" class="form-control" ng-model="vocationalPracticalBatchTimeTable.ExamID" id="ExamID" visible="false">
+                    <input type="text" class="form-control" ng-model="vocationalPracticalBatchTimeTable.GroupCode" id="GroupCode" visible="false">
+                    <input type="text" class="form-control" ng-model="vocationalPracticalBatchTimeTable.ExaminerCode" id="ExaminerCode" visible="false">
+                </div>
+            </form>
+
+            <form name="vocationalbatchTimeTableForm">
+                <div class="row">
+                    <hr />
+                    <div class="col-md-12">
+                        <input type="checkbox" ng-model="vocationalPracticalBatchTimeTable.cheExaminerAll" ng-change="getfillAllExaminer(vocationalPracticalBatchTimeTable.cheExaminerAll)">Show All District Examiners
+                        <table class="table table-bordered table-responsive rspan">
+                            <thead>
+                                <tr style="font-weight:bold">
+                                    <td>Sr.No.</td>
+                                    <td>Select Examiner</td>
+                                    <td>Enter New Examiner</td>
+                                    <!--<td>Examiner No.</td>-->
+                                    <td>Mobile No</td>
+                                    <td>Date</td>
+                                    <td>Session</td>
+                                    <td>Subject Code</td>
+                                    <td>Batch No</td>
+                                    <td>No of Students</td>
+                                    <td>MF Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="BasicExaminer in PracticalBatchesList">
+                                    <td>{{BasicExaminer.srno}}</td>
+                                    <td style="text-align:left; width:200px;">
+                                        <select class="form-control" ng-disabled="BasicExaminer.disableExmId" ng-model="BasicExaminer.ExaminerID" id="ExaminerID" ng-change="Examinerchange(BasicExaminer,$index)">
+                                            <option>Select</option>
+                                            <option ng-selected="BasicExaminer.ExaminerID == option.ExaminerID" ng-repeat="option in BasicExaminerListForChange" value="{{option.ExaminerID}}">{{option.full_name}}</option>
+                                        </select>
+                                    </td>
+                                    <td style="text-align:left; width:200px;" ng-disabled="BasicExaminer.disablerow">
+                                        <input type="text" class="form-control" ng-disabled="BasicExaminer.disablename" ng-model="BasicExaminer.full_name" id="full_name" ng-change="getnamechange(BasicExaminer)"> <!--ng-blur="getexmcode(BasicExaminer,$index)"-->
+                                    </td>
+                                    <!--<td style="text-align:left; width:120px;">
+                    <input ng-disabled="true" type="text" class="form-control" ng-model="BasicExaminer.examinerNo" id="examinerNo" input-Number-Only maxlength="8">
+                </td>-->
+                                    <td style="text-align:left; width:120px;">
+                                        <input type="text" class="form-control" ng-model="BasicExaminer.mobile_no" ng-disabled="BasicExaminer.disablerow" input-Number-Only maxlength="10">
+                                    </td>
+                                    <td style="padding-top:0;padding-bottom:0;">
+                                        <sa-date-rng startDate="BasicExaminer.VocMinDate" ng-model="BasicExaminer.AppointMentDate" disabled="BasicExaminer.disablerow" object="BasicExaminer.AppointMentDate" objectname="AppointMentDate" ng-click="getchangedate(BasicExaminer,$index)" length="100" ispascal="true"> </sa-date-rng>
+                                    </td>
+                                    <td>{{BasicExaminer.Session}}</td>
+                                    <td>{{BasicExaminer.ExmSubCode}}</td>
+                                    <td>{{BasicExaminer.BatchName}}</td>
+                                    <td>{{BasicExaminer.NoofStudents}}</td>
+                                    <td>{{BasicExaminer.MFNumber}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button ng-click="saveVocatinalBatchExamTimeTable()" ng-disabled="savedisable" class="btn btn-detail btn-sm">Save</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+﻿<div ng-controller="MarksSheetController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Marksheet Detail</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/FeePayment">Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/FeePayment/SetExamCenters">Marksheet Detail</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="row frow">
+            <div class="col-md-12 base-row">
+                <form name="seatingArrangementBlockwiseForm" ng-submit="saveSeatingArrangementBlockwise()" ng-init="init()">
+                    <div class="row ">
+                        <div class="col-md-3 form-group">
+                            <!--  <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                            <label>Course</label>
+                            <select class="form-control" ng-model="seatingArrangementBlockwise.courseID">
+                                <option value="">Select Course</option>
+                                <option>EC</option>
+                                <option>MECH</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <!--  <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                            <label>Exam Type</label>
+                            <select class="form-control" ng-model="seatingArrangementBlockwise.ExamId">
+                                <option value="">Select Exam Type</option>
+                                <option>Regular</option>
+                                <option>Backlog</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <!-- <sa-select ng-model="seatingArrangement.branch" object="seatingArrangement.branch" options="basicBranches" displaycolumn="branchName" valuecolumn="branchID" objectname="branchID" objecttext="Branch" compulsory="true"> </sa-select>-->
+                            <label>Branch</label>
+                            <select class="form-control" ng-model="seatingArrangementBlockwise.branch">
+                                <option value="">Select Branch</option>
+                                <option>ECE</option>
+                                <option>CIVIL</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <!-- <sa-select ng-model="seatingArrangement.newCenter" object="seatingArrangement.newCenter" options="basicColleges" displaycolumn="colName" valuecolumn="collegeID" objectname="collegeID" objecttext="New Center" compulsory="true"> </sa-select>-->
+                            <label>College</label>
+                            <select class="form-control" ng-model="seatingArrangementBlockwise.newCenter">
+                                <option value="">Select College</option>
+                                <option>Govt Polytechnic, Warangal</option>
+                                <option>VMR polytechnic, Warangal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <!--  <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                            <label>Seat Number From</label>
+                            <input class="form-control" ng-model="HallticketNoForm" required />
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <!--  <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                            <label>Seat Number To</label>
+                            <input class="form-control" ng-model="HallticketNoTo" required />
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <!--  <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                            <label>Result Date</label>
+                            <input class="form-control" ng-model="HallticketNoTo" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <input type="checkbox" /> Revaluation Student
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <input type="checkbox" /> Modification Student
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <input type="checkbox" /> Print Result Date
+                        </div>
+                        <div class="col-md-3 form-group pull-right">
+                            <button type="submit" class="btn btn-detail btn-sm  pull-right">Save</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            <!--   <hr />-->
+            <!--<div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2>Seating Arrangement Blockwise</h2>
+                        </div>
+                        <div class="table-responsive table-custom-tables-tb scrollbox">
+                            <table class="table table-bordered table-hover table-striped table-rounded  scrollbox-content">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th>S.No</th>
+                                        <th>Block No.</th>
+                                        <th>Capacity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="seatingArrangementBlockwise in seatingArrangementBlockwises">
+                                        <td width="7%">{{$index+1}}</td>
+                                        <td>
+                                            {{seatingArrangementBlockwise.blockNo}}
+                                        </td>
+                                        <td>
+                                            {{seatingArrangementBlockwise.capacity}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-detail btn-sm" style="margin-bottom:40px;">Print</button>
+                      <button ui-sref="#" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+
+            </div>-->
+            <div class="sm-spacer"></div>
+        </div>
+    </div>
+
+</div>

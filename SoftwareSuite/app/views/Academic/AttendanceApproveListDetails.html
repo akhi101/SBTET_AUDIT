@@ -1,0 +1,183 @@
+﻿<style>
+    .arrow-up:after {
+        bottom: 12px;
+        border-bottom-color: #fff;
+    }
+
+    .footer_section {
+        /* position: fixed; */
+        display: none !important;
+        bottom: 0px;
+        z-index: 99;
+    }
+
+    .arrow-down:after {
+        top: 10px;
+        border-top-color: white;
+    }
+</style>
+<div ng-controller="AttendanceApproveListDetailsController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <a href="#!/Dashboard/Academic/AttendanceApproveList" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="sm-spacer"></div>
+
+        <div class="col-md-6" ng-show="Data">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+            <!--<label class="notifylabel" for="sel1" style="color: red;"> Double click on row to Update Student</label>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>-->
+        </div>
+        <div class="col-md-6 " ng-show="Data && ApproveType =='0'">
+            <a class="ExportToExcel1 pointer pull-right"
+               id="ExportToExcel1" ng-click="DownloadtoExcel('#preExamReports')" style="margin-top: 15px;">
+                <i class="fa fa-file-excel-o"></i>
+                Export to Excel
+            </a>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2>Attendance Students List</h2>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-if="Data && ApproveType =='0'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                           
+                            <th style="width: 1%;"><input name='allItemsSelected' type="checkbox" ng-model="items.allItemsSelected" ng-checked="checkedStatus" ng-click="selectAll(items.allItemsSelected)"></th>
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>CollegeCode <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Pin")' ng-class='sortClass("Pin")'>Pin<i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("AttendeeId")' ng-class='sortClass("AttendeeId")'>AttendeeId <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Verified")' ng-class='sortClass("Verified")'>Status <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                          
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalDetails |orderBy:sortKey:reverse|filter:search">
+                            			
+                            <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="x.isChecked" ng-change="selectEntity(x)"></td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{$index + 1}}</td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.CollegeCode}}</td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.Pin}} </td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.AttendeeId}}</td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.Name}}</td>
+                            <td class="text-center "  ng-click="OpenPopup(x.AttendeeId,x.Pin)">
+                            <button class="btn btn-success btn-xs" ng-show="x.Verified==true" ng-click="OpenPopup(x.AttendeeId,x.Pin)">Verified</button>
+                            <button class="btn btn-danger btn-xs" ng-show="x.Verified==false" ng-click="OpenPopup(x.AttendeeId,x.Pin)">Pending</button></td>
+                        
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Data && ApproveType =='1'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+
+                          <!--  <th style="width: 1%;"><input name='allItemsSelected' type="checkbox" ng-model="items.allItemsSelected" ng-checked="checkedStatus" ng-click="selectAll(items.allItemsSelected)"></th>-->
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;" >S.No</th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>CollegeCode <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Pin")' ng-class='sortClass("Pin")'>Pin<i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("AttendeeId")' ng-class='sortClass("AttendeeId")'>AttendeeId <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Verified")' ng-class='sortClass("Verified")'>Status <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalDetails |orderBy:sortKey:reverse|filter:search">
+
+                         <!--   <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="x.isChecked" ng-change="selectEntity(x)"></td>-->
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{$index + 1}}</td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.CollegeCode}}</td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.Pin}} </td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.AttendeeId}}</td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.Name}}</td>
+                            <td class="text-center "ng-click="OpenPopup(x.AttendeeId,x.Pin)" >
+                            <b class="text-success" ng-show="x.Verified==true">Verified</b>
+                            <b class="text-success" ng-show="x.Verified==false">Pending</b></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data && ApproveType =='2'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+
+                           <!-- <th style="width: 1%;"><input name='allItemsSelected' type="checkbox" ng-model="allItemsSelected" ng-checked="checkedStatus" ng-click="selectAll(allItemsSelected)"></th>-->
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;" >S.No</th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>CollegeCode <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Pin")' ng-class='sortClass("Pin")'>Pin<i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("AttendeeId")' ng-class='sortClass("AttendeeId")'>AttendeeId <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Verified")' ng-class='sortClass("Verified")'>Status <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalDetails |orderBy:sortKey:reverse|filter:search">
+
+                           <!-- <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="x.isChecked" ng-change="selectEntity(x)"></td>-->
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{$index + 1}}</td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.CollegeCode}}</td>
+                            <td class="text-center" ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.Pin}} </td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.AttendeeId}}</td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">{{x.Name}}</td>
+                            <td class="text-center " ng-click="OpenPopup(x.AttendeeId,x.Pin)">
+                                <b class="text-success" ng-show="x.Verified==true">Verified</b>
+                                <b class="text-success" ng-show="x.Verified==false">Pending</b>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       
+        <div class="col-md-12" style="position: fixed;bottom: 0px;width: 100%;padding-bottom: 5px;padding-top: 5px;" ng-show="Data && ApproveType ==0">
+            <div class="col-md-8">
+                <button class="btn btn-danger print_btn" ng-show="UserTypeId==1015 " ng-click="Reject()">Reject</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success print_btn " ng-show="UserTypeId==1015" ng-disabled="btndisable" ng-click="!btndisable && Submit(1)">Approve</button>
+               <!-- <button class="btn btn-success print_btn " ng-show="UserTypeId==1015" ng-disabled="btndisable" ng-click="!btndisable && Submit()">{{buttonlabel}}</button>-->
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

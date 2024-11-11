@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Create Campus </title>
+</head>
+<body>
+    <div ng-controller="PreCampusController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Create Campus</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>Create Campus</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="showhide">
+
+                    <div>
+                        <div class="col-md-2 col-md-offset-2">
+                            <div class="form-group">
+                                <label for="sel1"> DRDC :</label>
+                                <select class="form-control" ng-model="PreCampus.DRDCID" id="DRDCID">
+                                    <option value="">--Select DRDC --</option>
+                                    <option ng-selected="PreCampus.DRDCID == option.DRDCID" ng-repeat="option in PreDRDCList" value="{{option.DRDCID}}">{{option.DRDCCenterName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="sel1"> Stream :</label>
+                                <select class="form-control" ng-model="PreCampus.CourseID" id="CourseID" ng-change="GetExamList(PreCampus.CourseID)">
+                                    <option value="">--Select Stream --</option>
+                                    <option ng-selected="PreCampus.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="SelectExam"> Year :</label>
+                                <select class="form-control" ng-model="PreCampus.ExamID" id="ExamID" ng-disabled="EnableYear">
+                                    <option value="">--Select Year--</option>
+                                    <option ng-selected="PreCampus.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="sel1">District :</label>
+                                <select class="form-control" ng-model="PreCampus.DistrictID" id="DistrictID" ng-change="GetCollegeData(PreCampus.DistrictID)">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreCampus.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="sel1">College :</label>
+                                    <select class="form-control" ng-model="PreCampus.CollegeID" id="CollegeID" ng-change="GetCollCenterName(PreCampus.CollegeID)" ng-disabled="EnableCenterCollege">
+                                        <option value="">--Select College --</option>
+                                        <option ng-selected="PreCampus.CollegeID == option.CollegeID" ng-repeat="option in BasicCollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Campus Name</label>
+                                    <input type="text" class="form-control" id="name" ng-model="PreCampus.CampusName" required="" ng-disabled="EnableCodeCampusName" maxlength="100" placeholder="Campus Name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Campus Code </label>
+                                    <input type="text" class="form-control" id="Code" ng-model="PreCampus.CampusCode" required="" maxlength="20" ng-disabled="EnableCodeCampusName" placeholder="Campus Code">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Address  </label>
+                                    <textarea style="width:100%;" rows="3" cols="75" id="Address" ng-model="PreCampus.Address" maxlength="250"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left:5px">
+                        <div class="col-md-2 col-md-offset-2">
+                            <div class="form-group">
+                                <label for="email">Start Date :</label>
+                                <input type="text" datepicker class="form-control" ng-model="PreCampus.FromDate" id="RegFromDate" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="sel1">End Date :</label>
+                                <input type="text" datepicker class="form-control" ng-model="PreCampus.ToDate" id="RegToDate" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="margin-top:25px">
+                            <button type="button" ng-disabled="isupdatableDisable" class="btn btn-detail btn-sm" ng-click="SavePreCampus()">Save</button>
+                            <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <form action="#">
+                                <div id="PreCampus" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                                     e-datasource="PreCampusList"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

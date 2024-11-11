@@ -1,0 +1,48 @@
+stages:
+  - build
+  - publish
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo restoring packages...
+    - C:\Tools\nuget.exe restore
+    - echo building...
+    - '&"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild.exe" SoftwareSuite.sln'
+  cache:
+    paths:
+      - packages/
+  except:
+    - tags
+
+publish:
+  stage: publish
+  dependencies:
+    - build
+  cache:
+    paths:
+      - packages/
+  script:
+    - echo restoring packages...
+    - C:\Tools\nuget.exe restore
+    - echo publishing...
+    - '&"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild.exe" SoftwareSuite\SoftwareSuite.csproj /t:Build /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile=SbtetPublishProfile /p:RestorePackages=true /p:SkipPostSharp=true'
+  only:
+    - merge_requests
+
+deploy:
+    stage: deploy
+    dependencies:
+    - build
+    script:
+      - echo restoring packages...
+      - C:\Tools\nuget.exe restore
+      - echo publishing...
+      - '&"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild.exe" SoftwareSuite\SoftwareSuite.csproj /t:Build /p:DeployOnBuild=true /p:Configuration=Release /p:PublishProfile=SbtetPublishProfile /p:RestorePackages=true /p:SkipPostSharp=true'
+      - C:\\Windows\\System32\\inetsrv\\AppCmd Stop Site sbtet-dev
+      - Remove-Item -Recurse -Force C:\SBTET\dev
+      - Copy-Item -Path Publish -Destination C:\SBTET\dev -Recurse
+      - C:\\Windows\\System32\\inetsrv\\AppCmd Start Site sbtet-dev
+    only:
+      - master

@@ -1,0 +1,422 @@
+﻿<style>
+    .Pending {
+        color: #dd1010;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .Completed {
+        color: green;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .Approved {
+        color: green;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .UnderProcess {
+        color: yellow;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .download_btn, .download_btn:hover {
+        background-color: #fff;
+        width: 35px;
+        font-size: 18px;
+        border: 2px solid #d9edf7;
+        color: #35a5f1 !important;
+    }
+
+    .btn_delete, .btn_delete:hover {
+        background-color: #fff;
+        width: 35px;
+        font-size: 18px;
+        border: 1px solid #ffafaf;
+        color: red !important;
+    }
+    /*.download_btn:hover {
+        color: #fff;
+        text-decoration: none;
+        background-color: #d9edf7;
+    }*/
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #000;
+        font-size: 14px !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        /*color: #000;*/
+        font-size: 14px !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer;
+    }
+
+    .table-hover > tbody > tr {
+        background-color: #fff !important;
+        cursor: pointer;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+    table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxes label:hover {
+        background-color: #1e90ff;
+    }
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 1px solid #d8d8d8 !important;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
+    element.style {
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .myBtn1 {
+        margin-top: 23px;
+        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+    /**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+<div class="header" ng-include="'app/views/SBPHeader.html'"> </div>
+<div class="row navbar_section">
+    <nav class="navbar navbar-inverse navbar_inverse_section">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+
+            </div>
+            <div class="container navbar_container_section">
+                <div class="row">
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li ng-class="{'active':homeDashBoard}">
+                                <a href="#!/Dashboard"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                            </li>
+                            <!-- <li>
+                                <a href="#!/Dashboard/Assessment">
+                                    <b class="main_header_main_menu">
+                                        Assessment
+
+                                    </b>
+                                </a>
+                            </li>
+                            <li ng-if="!access3">
+                                <a href="#!/Dashboard/MarksSummary">
+                                    <b  class="main_header_main_menu">
+                                        Reports
+
+                                    </b>
+                                </a>
+                            </li>
+                            <li ng-show="access1">
+                                <a href="#!/Dashboard/SearchPin">
+                                    <b class="main_header_main_menu">
+                                        Search Pin
+
+                                    </b>
+                                </a>
+                            </li> -->
+                            <!--temporary field open-->
+
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right log-navbar">
+                            <li>
+                                <a href="#">
+                                    Welcome <span id="college_name1">{{college_name1}}</span>
+                                    {{userName}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                    <i class="fa fa-sign-out fa-fw"></i>
+                                    Logout
+                                </a>
+                            </li>
+                            <li>
+                                <a style="font-size:small" href="#" class="main_header_main_menu" ng-click="ChangePassword()">
+                                    <i class="fa fa-sign-out fa-fw"></i> Change
+                                    Password <span><b></b></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div ng-controller="TicketsController">
+
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Tickets Count</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/Tickets">Tickets</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="circularForm">
+
+                        <div class="row">
+
+                            <div class="col-md-4" style="left:80px">
+                                <button type="submit" class="btn btn-success pull-left" ng-click="AddTicketsPage()">Add Ticket</button>
+
+                            </div>
+                                <div class="col-md-4" style="left:80px">
+                                    <button type="submit" class="btn btn-info pull-left" ng-click="GetStatuswiseReport()">Statuswise Report</button>
+                                </div>
+                                <!--<div class="col-md-3" style="left:30px">
+                                    <div class="form-group">
+                                        <label>Statuswise Report</label>
+                                        <select class="form-control" name="" ng-model="StatusValue">
+                                            <option value="">Select Status</option>
+                                            <option value="">Pending</option>
+                                            <option value="">Approved</option>
+                                            <option value="">Under Process</option>
+                                            <option value="">Completed</option>
+                                        </select>
+
+                                    </div>
+                                </div>-->
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-primary pull-right" ng-click="TicketsReportPage()">Datewise Report</button>
+                                </div>
+                            </div>
+
+</form>
+                </div>
+            </div>
+            <!--<div class="sm-spacer"></div>-->
+        </div>
+        <div class="col-md-12" ng-show="TaskCount.length>0">
+            <div class="cl-details">
+                <h2> Tickets Count List</h2>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive table-custom-tables-tb scrollbox" ng-show="TaskCount.length>0">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead class="sticky-header">
+                        <tr class="cb-1">
+                            <th class="text-center" width="7%">S.No</th>
+                            <th class="text-center"> User</th>
+                            <th class="text-center"> Project Name</th>
+                            <th class="text-center"> Pending</th>
+
+                            <th class="text-center">Approved</th>
+                            <th class="text-center">Under Process</th>
+                            <th class="text-center">Completed</th>
+                            <th class="text-center">Total</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in TaskCount">
+                            <td class="text-center">{{$index+1}}</td>
+                            <td class="text-center">{{data.UserName}}</td>
+                            <td class="text-center">{{data.ProjectName}}</td>
+                            <td class="text-center"><b><a ng-click="PendingCount(data.UserName,data.ProjectID)">{{data.Pending == null ?'--':data.Pending}}</a></b></td>
+                            <td class="text-center"><b><a ng-click="ApprovedCount(data.UserName,data.ProjectID)">{{data.Approved == null ?'--':data.Approved}}</a></b></td>
+                            <td class="text-center"><b><a ng-click="UnderProcessCount(data.UserName,data.ProjectID)">{{data.UnderProcess == null ?'--':data.UnderProcess}}</a></b></td>
+                            <td class="text-center"><b><a ng-click="CompletedCount(data.UserName,data.ProjectID)">{{data.Completed == null ?'--':data.Completed}}</a></b></td>
+                            <td class="text-center"><b>{{data.Pending+data.Approved+data.UnderProcess+data.Completed}}</b></td>
+
+                        </tr>
+                        <tr>
+                            <td class="text-center" colspan="3">Total</td>
+                            <td class="text-center"><b>{{Pending}}</b></td>
+                            <td class="text-center"><b>{{Approved}}</b></td>
+                            <td class="text-center"><b>{{UnderProcess}}</b></td>
+                            <td class="text-center"><b>{{Completed}}</b></td>
+                            <td class="text-center"><b>{{Pending+Approved+UnderProcess+Completed}}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+
+        </div>
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="error">
+            <div class="col-md-12 no-results">
+                <h2>No Data</h2>
+                <img src="../../contents/img/Folder-Icon.svg" />
+            </div>
+        </div>
+    </div>
+    <!--<div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>-->
+</div>

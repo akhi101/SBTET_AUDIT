@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exam Instance</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div ng-controller="ExamInstanceScheduleController">
+		<div class="container top_margin">
+			<div class="container col-xs-12">
+				<div class="panel-group">
+					<div class="panel">
+						<div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Exam Instance</b></div>
+						<div class="panel-body form_border">
+							<form action="#">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group" ng-show="false">
+											<label class=" control-label col-lg-2"> ExamInstID :</label>
+											<div class="col-lg-1">
+												<input type="text" class="form-control" ng-model="ExamInstanceSchedule.ExamInstID" id="ExamInstID">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="sel1">ExamInstance :</label>
+											<select class="form-control" ng-model="ExamInstanceSchedule.ExamInstID" id="ExamInstID">
+												<option>ExamInstance 1</option>
+												<option>ExamInstance 2</option>
+												<option>ExamInstance 3</option>
+												<option>ExamInstance 4</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="sel1">Exam :</label>
+											<select class="form-control" ng-model="ExamInstanceSchedule.ExamID" id="ExamID">
+												<option>Exam 1</option>
+												<option>Exam 2</option>
+												<option>Exam 3</option>
+												<option>Exam 4</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="sel1">Branch :</label>
+											<select class="form-control" ng-model="ExamInstanceSchedule.BranchID" id="BranchID">
+												<option>Branch 1</option>
+												<option>Branch 2</option>
+												<option>Branch 3</option>
+												<option>Branch 4</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="sel1">Super Super Late Fee Date :</label>
+											<input type="text"  class="form-control" ng-model="ExamInstanceSchedule.SuperSuperLateFeeDate" id="SuperSuperLateFeeDate" required="">
+										</div>
+										<label for="email"> Posting OF Mark's :</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.PostingOfMarksFlag" id="PostingOfMarksFlag" required="">
+										</div>
+										<label for="email"> Marks Sheet Archieve :</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.MarksSheetArchieveFlag" id="MarksSheetArchieveFlag" required="">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="email">Exam Form Entry Count :</label>
+											<input type="text" class="form-control" ng-model="ExamInstanceSchedule.ExamFormEntryCount" id="ExamFormEntryCount" required="" placeholder="Enter Remark">
+										</div>
+										<div class="form-group">
+											<label for="email">Exam Form Posting Count :</label>
+											<input type="text" class="form-control" ng-model="ExamInstanceSchedule.ExamFormPostingCount" id="ExamAuthorityName" required="" placeholder="Authority Name">
+										</div>
+										<label for="email">Start Date:</label>
+										<div class="form-group">
+											<input type="text" datepicker class="form-control" ng-model="ExamInstanceSchedule.StartDate" id="StartDate" required="">
+										</div>
+										<label for="email">Exam Center Allocation:</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.ExamCenterAllocationFlag" id="ExamCenterAllocationFlag" required="">
+										</div>
+										<label for="email">Result Processing:</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.ResultPocessingFlag" id="ResultPocessingFlag" required="">
+										</div>
+										<label for="email">Approve:</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.ApproveFlag" id="ApproveFlag" required="">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label for="email">End Date:</label>
+										<div class="form-group">
+											<input type="datetime" class="form-control" ng-model="ExamInstanceSchedule.EndDate" id="EndDate" required="">
+										</div>
+										<label for="email">Late Fee Date:</label>
+										<div class="form-group">
+											<input type="datetime" class="form-control" ng-model="ExamInstanceSchedule.LateFeeDate" id="LateFeeDate" required="">
+										</div>
+										<label for="email">Super Late Fee Date:</label>
+										<div class="form-group">
+											<input type="datetime" class="form-control" ng-model="ExamInstanceSchedule.SuperLateFeeDate" id="SuperLateFeeDate" required="">
+										</div>
+										<label for="email">Seat No Generation :</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.SeatNoGenerationFlag" id="SeatNoGenerationFlag" required="">
+										</div>
+										<label for="email">Ledger Archieve:</label>
+										<div class="form-group">
+											<input type="checkbox" ng-model="ExamInstanceSchedule.LedgerArchieveFlag" id="LedgerArchieveFlag" required="">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<center>
+										<button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveExamInstanceSchedule()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+										<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteExamInstanceSchedule()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+										<button type="button" class="btn form_btn_align cancel_btn">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+									</center>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

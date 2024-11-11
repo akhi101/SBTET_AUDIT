@@ -1,0 +1,111 @@
+﻿<style>
+    .alert-danger {
+        color: #a94442 !important;
+        background-color: #f2dede !important;
+        border-color: #ebccd1 !important;
+        margin-bottom: 0px;
+    }
+
+    .alert-success {
+        color: #3c763d !important;
+        background-color: #dff0d8 !important;
+        border-color: #d6e9c6 !important;
+        margin-bottom: 0px;
+    }
+
+    span {
+        font-size: 2em;
+    }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+
+
+/*    .pending {
+        color: orangered;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .approved {
+        color: green;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .rejected {
+        color: red;
+        font-weight: 600;
+        text-decoration: none;
+    }*/
+
+</style>
+
+<div ng-controller="ViewAuthorizationController">
+    <div class="container">
+
+
+        <div class="spacer"></div>
+        <div class="row">
+            <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                <span>{{StatusMessage}}</span>
+            </div>
+            <div class="col-md-12 " ng-show="studDetailsfound"><div class="notifylabel pull-right" for="sel1" style="color: red;">Click on row to view details</div></div>
+            <div class="col-md-12" ng-if="studDetailsfound">
+                <div class="cl-details">
+                    <h2 ng-click="openStudentDetails()">{{Title}} Candidates List</h2>
+                </div>
+            </div>
+            <!--<div style="width:100%;text-align:center;">
+
+                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>-->
+            <div class="col-md-12" ng-if="studDetailsfound">
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead class="sticky-header">
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th class="text-center" style="width: 3%" ng-click="sort('Sno')">Sno</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('Scheme')">Application Number</th>
+                                <th class="text-center" style="width: 5%" ng-click="sort('ExamMode')">Exam Mode</th>
+                                <th class="text-center" style="width: 5%" ng-click="sort('GradeCode')">Grade Code</th>
+                                <th class="text-center" style="width: 15%" ng-click="sort('Semester')">Student Name</th>
+                                <th style="width: 5%" class="text-center" ng-click="sort('Branch')">Gender</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Phone Number</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Applied Date</th>
+                                <th class="text-center" style="width: 8%" ng-click="sort('On Roll')">Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in approvedList" ng-click="openStudentDetails(data.ApplicationNumber,data.StudentName,data.Gender,data.StudentPhoneNumber,data.Id)" style="background-color:#fff!important;cursor:pointer">
+                                <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                                <td class="text-center" style="width: 3%" ng-click="sort('Sno')">{{$index+1}}</td>
+                                <td class="text-center">{{data.ApplicationNumber}}</td>
+                                <td class="text-center" ng-if="data.ExamMode == 1">CBT</td>
+                                <td class="text-center" ng-if="data.ExamMode == 2">Manual</td>
+                                <td class="text-center">{{data.GradeCode}}</td>
+                                <td class="text-center">{{data.StudentName}}</td>
+                                <td class="text-center">{{data.Gender}}</td>
+                                <td class="text-center">{{data.StudentPhoneNumber}}</td>
+                                <td class="text-center">{{data.AppliedDate|date:'dd-MM-yyyy'}}</td>
+                                <td class="text-center" style="color: green;font-weight: 600" ng-if="data.IsEligible==true &&  data.isrejected == false">Approved</td>
+                                <td class="text-center" style="color: #ef4263; font-weight: 600" ng-if="data.IsEligible == false &&  data.isrejected == false">Pending</td>
+                                <td class="text-center" style="color: #d50b07; font-weight: 600" ng-if="data.isrejected == true && data.IsEligible == false">Rejected</td>
+                                <!--<td ng-if="data.IsEligible == 'false' && data.IsRejected != 'false'">Pending</td>
+    <td ng-if="data.IsRejected == 'True' ">Rejected</td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+s

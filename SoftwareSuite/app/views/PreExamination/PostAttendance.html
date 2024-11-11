@@ -1,0 +1,176 @@
+﻿<style>
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------------------------------------*/
+    tr th {
+        background: #98abb9;
+        color: #fff !important;
+        font-weight: normal;
+    }
+
+    .cl-details h4 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+    }
+
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+    .btn_margin{
+        margin-top:24px;
+    }
+</style>
+<div ng-controller="PostAttendanceController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            //$('#example2').datepicker({
+            //    minViewMode: 1,
+            //    autoclose: true,
+            //    format: 'mm-yyyy'
+            //});
+            //$('.tabledate').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    format: 'dd-mm-yyyy'
+            //});
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Marks Entry Dates</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard"> Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard/SetDates">Set Dates</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <form name="SetDatesForm" novalidate>
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="datetimepicker1" class="font-weight-bold">Select Date :</label>
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" disabled class="form-control" placeholder="Select Start Date" autocomplete="off" name="StartDate" datetime-picker="dd/MM/yyyy" id="setToDate " ng-model="StartDate" is-open="showFlag4" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag4 = true"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                       </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-success btn_margin" ng-click="GetDetails()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                <img src="../../../contents/img/loading.gif"  width="100" />
+                <p>Attendance Data Recieving from TSTS and Calculating Attendance, it takes few minutes please wait...</p>
+            </div>
+        </div>
+    </div>
+</div>

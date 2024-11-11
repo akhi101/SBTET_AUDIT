@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Vocational Practical Batch Time Table </title>
+</head>
+
+<body>
+    <div ng-controller="VocationalPracticalBatchTimeTableController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> Vocational Practical Batch Time Table  </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li> Home </li>
+                        <li> Report </li>
+                        <li> Vocational Practical Batch Time Table </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="VocationalPracticalBatchTimeTable.CourseID" id="CourseID" ng-disabled="true">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="VocationalPracticalBatchTimeTable.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="VocationalPracticalBatchTimeTable.DistrictID" id="DistrictID" ng-disabled="true">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="VocationalPracticalBatchTimeTable.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Center :</label>
+                                    <select class="form-control" ng-model="VocationalPracticalBatchTimeTable.PrePractCntrID" id="PrePractCntrID">
+                                        <option value=""> -- Select Center -- </option>
+                                        <option ng-selected="VocationalPracticalBatchTimeTable.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PraCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Course :</label>
+                                    <select class="form-control" ng-model="VocationalPracticalBatchTimeTable.MainGrpID" id="MainGrpID" ng-change="GetEximinerData()">
+                                        <option value=""> -- Select Course -- </option>
+                                        <option ng-selected="VocationalPracticalBatchTimeTable.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="showDisable" class="btn btn-sm btn-detail" ng-click="GetPracticalBatchesByGroup()">Show Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div id="exTab1" style="margin-top:0px;">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr style="font-weight:bold">
+                                    <td>Examiner</td>
+                                    <td>Examiner No.</td>
+                                    <td>Mobile No</td>
+                                    <td>Date</td>
+                                    <td>Session</td>
+                                    <td>Subject Code</td>
+                                    <td>Batch No</td>
+                                    <td>No of Students</td>
+                                    <td>MF Number</td>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="BasicExaminer in PracticalBatchesList">
+                                <td style="text-align:left; width:300px;">
+                                    <select class="form-control" ng-model="BasicExaminer.ExaminerID" id="ExaminerID" ng-change="Examinerchange(BasicExaminer)">
+                                        <option ng-selected="BasicExaminer.ExaminerID == option.ExaminerID" ng-repeat="option in BasicExaminerListForChange" value="{{option.ExaminerID}}">{{option.full_name}}</option>
+                                    </select>
+                                </td>
+                                <!--<td><input type="text" ng-show="false" class="form-control" ng-model="BasicExaminer.full_nameNew" id="full_nameNew" maxlength="60"></td>-->
+                                <td style="text-align:left; width:100px;"><input ng-disabled="BasicExaminerListForChange.length>0" type="text" class="form-control" ng-model="BasicExaminer.examinerNo" id="examinerNo" input-Number-Only maxlength="8"></td>
+                                <td style="text-align:left; width:120px;"><input ng-disabled="BasicExaminerListForChange.length>0" type="text" class="form-control" ng-model="BasicExaminer.mobile_no" input-Number-Only maxlength="10"></td>
+                                <!--<td><input type="text" datepicker class="form-control" ng-model="BasicExaminer.AppointMentDate" id="AppointMentDate"></td>-->
+                                <td><sa-date-rng ng-model="BasicExaminer.AppointMentDate" object="BasicExaminer.AppointMentDate" objectname="AppointMentDate" length="100" compulsory="true" ispascal="true"> </sa-date-rng></td>
+                                <td>{{BasicExaminer.Session}}</td>
+                                <td>{{BasicExaminer.ExmSubCode}}</td>
+                                <td>{{BasicExaminer.BatchNo}}</td>
+                                <td>{{BasicExaminer.NoofStudents}}</td>
+                                <td>{{BasicExaminer.MFNumber}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveData()">Submit</button>
+                    <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

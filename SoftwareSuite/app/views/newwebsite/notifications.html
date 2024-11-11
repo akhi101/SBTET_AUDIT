@@ -1,0 +1,263 @@
+﻿<style>
+    .loadImg1 {
+        height: 380px;
+        width: 570px;
+        /*position:relative;
+                top:100px;*/
+    }
+    table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    /*Pagination CSS*/
+    table tbody tr {
+        display: none;
+    }
+
+    body {
+        background-color: #eee;
+    }
+
+
+</style>
+
+<div ng-controller="NotificationsController">
+    <div class="pages-links">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item "><a href="disclaimer.html">More</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="notifications.html">Notifications</a></li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="inner-body">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="inner-heading">
+                        <h3>Notifications</h3>
+                    </div>
+                </div>
+                <div class="col-md-3" ng-show="data">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+                    </div>
+                </div>
+               
+                <div class="col-sm-12" ng-show="data">
+                    <div class="table-responsive scrollbox">
+                        <table id="paginated-table" class="table table-bordered table-hover scrollbox-content">
+                            <thead>
+                                <tr>
+                                    <th width="3%" ng-click="sort('Id')">S.No</th>
+                                    <th width="10%" ng-click="sort('CircularType')">Circular Type <i class="fa fa-fw fa-sort"></i></th>
+                                    <th data-priority="1" ng-click="sort('Title')">Description <i class="fa fa-fw fa-sort"></i></th>
+                                    <th width="12%" ng-click="sort('NotificationDate')">Notification Date <i class="fa fa-fw fa-sort"></i></th>
+                                    <th data-priority="2" width="10%" ng-click="sort('Url')">Download <i class="fa fa-fw fa-sort"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in Circulars  |orderBy:sortKey:reverse|filter:search">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{data.CircularType}}</td>
+                                    <td>{{data.Title}}</td>
+                                    <td>{{data.NotificationDate|date:'dd-MM-yyyy'}}</td>
+                                    <td>
+                                        <a href="{{data.Url}}" download>
+                                            <img class="img-responsive" height="50px" width="85px" src="assets/img/custom/download-button-155-48.svg">
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--		Start Pagination -->
+                    <div class="col-md-3">
+        <h4>Select Number Of Rows</h4>
+        <div class="form-group">
+
+            <select class="form-control" name="state" id="maxRows">
+                <option value="500">Show ALL Rows</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+    </div>
+                    <div class="col-md-6">
+                        <div class='pagination-container'>
+                            <nav>
+                                <ul class="pagination">
+
+                                    <li data-page="prev">
+                                        <span> Prev <span class="sr-only">(current)</span></span>
+                                    </li>
+
+                                    <li data-page="next" id="prev">
+                                        <span> Next <span class="sr-only">(current)</span></span>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                    <div class="col-md-12" ng-if="loading">
+                        <!--<div class="col-md-12 no-results">-->
+                        <!--<h2>No Data</h2>-->
+                        <center><img class="loadImg1" src="../../../contents/img/websiteloading.gif"></center>
+                        <!--</div>-->
+                    </div>
+                    <div class="col-md-12" ng-if="error">
+                        <div class="col-md-12 no-results">
+                            <h2>No Data</h2>
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+</div>
+<script>
+     
+    
+    getPagination('#paginated-table');
+
+         setTimeout(function () {
+             $('#maxRows').val(20).change();
+            }, 2000);
+   
+        function getPagination(table) {
+            var lastPage = 1;
+
+
+
+            $('#maxRows').on('change', function (evt) {
+            
+                lastPage = 1;
+                $('.pagination')
+                    .find('li')
+                    .slice(1, -1)
+                    .remove();
+                var trnum = 0;
+                var maxRows = parseInt($(this).val()); 
+
+                if (maxRows == 500 || maxRows == 100) {
+                    $('.pagination').hide();
+                } else {
+                    $('.pagination').show();
+                }
+
+                var totalRows = $(table+' tbody tr').length;		// numbers of rows
+               
+                $(table + ' tr:gt(0)').each(function () {
+                   
+                    trnum++;
+                    if (trnum > maxRows) {
+                       
+                        $(this).hide();
+                    }
+                    if (trnum <= maxRows) {
+                        $(this).show();
+                    } 
+                }); 
+
+                if (totalRows > maxRows) {                
+                    var pagenum = Math.ceil(totalRows / maxRows);
+                   
+                    for (var i = 1; i <= pagenum;) {
+                     
+                        $('.pagination #prev')
+                            .before(
+                                '<li data-page="' +
+                                i +
+                                '">\
+								  <span>' +
+                                i++ +
+                                '<span class="sr-only">(current)</span></span>\
+								</li>'
+                            )
+                            .show();
+                    } 
+                }
+                $('.pagination [data-page="1"]').addClass('active'); 
+                $('.pagination li').on('click', function (evt) {                  
+                    evt.stopImmediatePropagation();
+                    evt.preventDefault();
+                    var pageNum = $(this).attr('data-page'); 
+
+                    var maxRows = parseInt($('#maxRows').val()); 
+
+                    if (pageNum == 'prev') {
+                        if (lastPage == 1) {
+                            return;
+                        }
+                        pageNum = --lastPage;
+                    }
+                    if (pageNum == 'next') {
+                        if (lastPage == $('.pagination li').length - 2) {
+                            return;
+                        }
+                        pageNum = ++lastPage;
+                    }
+
+                    lastPage = pageNum;
+                    var trIndex = 0; 
+                    $('.pagination li').removeClass('active');
+                    $('.pagination [data-page="' + lastPage + '"]').addClass('active');
+                    limitPagging();
+                    $(table + ' tr:gt(0)').each(function () {
+                        trIndex++; 
+                        if (
+                            trIndex > maxRows * pageNum ||
+                            trIndex <= maxRows * pageNum - maxRows
+                        ) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        } 
+                    }); 
+                }); 
+                limitPagging();
+            })
+                .val(20)
+                .change();
+
+        }
+
+        function limitPagging() {
+         
+            if ($('.pagination li').length > 10) {
+                if ($('.pagination li.active').attr('data-page') <= 5) {
+                    $('.pagination li:gt(5)').hide();
+                    $('.pagination li:lt(5)').show();
+                    $('.pagination [data-page="next"]').show();
+                } if ($('.pagination li.active').attr('data-page') > 5) {
+                    $('.pagination li:gt(0)').hide();
+                    $('.pagination [data-page="next"]').show();
+                    for (let i = (parseInt($('.pagination li.active').attr('data-page')) - 2); i <= (parseInt($('.pagination li.active').attr('data-page')) + 2); i++) {
+                        $('.pagination [data-page="' + i + '"]').show();
+
+                    }
+
+                }
+            }
+        }
+</script>

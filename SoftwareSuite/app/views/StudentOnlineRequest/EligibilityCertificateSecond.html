@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eligibility Certificate Second Year</title>
+</head>
+<body>
+    <div ng-controller="EligibilityCertificateSecondController">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-8">
+                    <div class="panel-group">
+                        <div class="panel">
+                            <div class="panel-heading header_background"><b>Eligibility Certificate</b></div>
+                            <div class="panel-body form_border">
+                                <form class="form-horizontal" action="#">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li class="active"><a data-toggle="pill" href="#home">Student Details</a></li>
+                                        <li><a data-toggle="pill" href="#menu1">10th Details</a></li>
+                                        <li><a data-toggle="pill" href="#menu2">11th Details</a></li>
+                                        <li><a data-toggle="pill" href="#menu3">Address Details</a></li>
+                                        <li><a data-toggle="pill" href="#menu4">Other Details</a></li>
+                                    </ul>
+                                    <hr>
+                                    <div class="tab-content">
+                                        <div id="home" class={{FirsttabPanActiveClass}}>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="sel1">Course:</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control" id="CourseID" ng-model="EligibilityCertificateSecond.CourseID" ng-change="FillCoursePart(EligibilityCertificateSecond.CourseID)">
+                                                        <option ng-selected="EligibilityCertificateSecond.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="sel1">
+                                                    Year into Which
+                                                    Student want admission:
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control" id="ExamID" ng-model="EligibilityCertificateSecond.ExamID" ng-disabled="ExamDisable">
+                                                        <option ng-selected="EligibilityCertificateSecond.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="sel1">Branch:</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control" id="BranchID" ng-model="EligibilityCertificateSecond.BranchID" ng-disabled="BranchDisable">
+                                                        <option ng-selected="EligibilityCertificateSecond.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Candidate Name:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="StudName" ng-model="EligibilityCertificateSecond.StudName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Father Name:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="FatherName" ng-model="EligibilityCertificateSecond.FatherName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Mother Name:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="MotherName" ng-model="EligibilityCertificateSecond.MotherName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Date of Birth:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-model="EligibilityCertificateSecond.BirthDate">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Gender:</label>
+                                                <div class="form-group" style="margin-top: 2px;">
+                                                    <form>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="optradio" ng-model="EligibilityCertificateSecond.Gender" checked value="M">Male
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="optradio" ng-model="EligibilityCertificateSecond.Gender" value="F">Female
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="optradio" ng-model="EligibilityCertificateSecond.Gender" value="O">Other
+                                                        </label>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Hall Ticket No/Roll No/Seat No/Unique Id:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="SSCHallTicket" ng-model="EligibilityCertificateSecond.SSCHallTicket" input-Number-Only>
+                                                    (If You have Roll Code,Roll No. Please enter Roll Code first give a space then enter Roll No.)
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Mobile Number:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="MobileNo" ng-model="EligibilityCertificateSecond.MobileNo" maxlength="10" input-Number-Only>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-4 col-sm-8">
+                                                    <!--<button type="button" class="btn btn-warning" ng-click="ContinueFirstPage()">Proceed</button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="menu1" class="{{SecondtabPanActiveClass}}">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="sel1">10th Board Name:</label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="BoardID" ng-model="EligibilityCertificateSecond.BoardID" ng-change="BoardChange(EligibilityCertificateSecond.BoardID)">
+                                                        <option ng-selected="EligibilityCertificateSecond.BoardID == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label for="">Other Board Name:</label>
+                                                        <input type="text" class="form-control" id="OtherBoard" ng-model="EligibilityCertificateSecond.OtherBoard" maxlength="50">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">10th Examination Name:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="ExamName" ng-model="EligibilityCertificateSecond.ExamName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="sel1">10th Year and Month:</label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="ExamYear" ng-model="EligibilityCertificateSecond.ExamYear">
+                                                        <option value="0">Select Year</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2016">2016</option>
+                                                        <option value="2015">2015</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="ExamMonth" ng-model="EligibilityCertificateSecond.ExamMonth">
+                                                        <option value="0">Select Month</option>
+                                                        <option value="01">Jan</option>
+                                                        <option value="02">Feb</option>
+                                                        <option value="03">Mar</option>
+                                                        <option value="04">Apr</option>
+                                                        <option value="05">May</option>
+                                                        <option value="06">Jun</option>
+                                                        <option value="07">Jul</option>
+                                                        <option value="08">Aug</option>
+                                                        <option value="09">Sep</option>
+                                                        <option value="10">Oct</option>
+                                                        <option value="11">Nov</option>
+                                                        <option value="12">Dec</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">10th Marks Memo(pdf & &lt; 200 KB)::</label>
+                                                <div class="col-sm-4">
+                                                    <input type="file" class="form-control" name="10thMarkFile" id="10thMarkFile" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button type="button" ng-disabled="UploadFiles" ng-click="SaveUploadDoc1()" class="btn btn-success">Upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-4 col-sm-8">
+                                                    <!--<button type="button" class="btn btn-warning" ng-click="ContinueSecondPage()">Proceed</button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="menu2" class={{ThirdtabPanActiveClass}}>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="EleventhBoardID">11th Class Board name:</label>
+                                                <div class="col-sm-6">
+                                                    <select class="form-control" id="EleventhBoardID" ng-model="EligibilityCertificateSecond.EleventhBoardID" ng-change="BoardChangeElevent(EligibilityCertificateSecond.EleventhBoardID)">
+                                                        <option ng-selected="EligibilityCertificateSecond.EleventhBoardID == option.BoardID" ng-repeat="option in EleventhBoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label for="">11th Class Other Board Name:</label>
+                                                        <input type="text" class="form-control" id="OtherBoardEleventh" ng-model="EligibilityCertificateSecond.OtherBoardEleventh" maxlength="50">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="sel1">11th Year and Month:</label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="ExamYear" ng-model="EligibilityCertificateSecond.EleventhYear">
+                                                        <option value="0">Select Year</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2016">2016</option>
+                                                        <option value="2015">2015</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="ExamMonth" ng-model="EligibilityCertificateSecond.EleventhMonth">
+                                                        <option value="0">Select Month</option>
+                                                        <option value="01">Jan</option>
+                                                        <option value="02">Feb</option>
+                                                        <option value="03">Mar</option>
+                                                        <option value="04">Apr</option>
+                                                        <option value="05">May</option>
+                                                        <option value="06">Jun</option>
+                                                        <option value="07">Jul</option>
+                                                        <option value="08">Aug</option>
+                                                        <option value="09">Sep</option>
+                                                        <option value="10">Oct</option>
+                                                        <option value="11">Nov</option>
+                                                        <option value="12">Dec</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">School/Collage Name:</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="EleventhColNmAndAddr" ng-model="EligibilityCertificateSecond.EleventhColNmAndAddr">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">11th Marks Memo(pdf & &lt; 200 KB):</label>
+                                                <div class="col-sm-4">
+                                                    <input type="file" class="form-control" file-model="myFile" name="10thMarkFile" id="10thMarkFile" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button type="button" ng-disabled="UploadFiles" ng-click="SaveUploadDoc2()" class="btn btn-success">Upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">11th Transfer certificate(pdf & &lt; 200 KB):</label>
+                                                <div class="col-sm-4">
+                                                    <input type="file" class="form-control" name="10thMarkFile" id="10thMarkFile" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload3(this)" />
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button type="button" ng-disabled="UploadFiles" ng-click="SaveUploadDoc3()" class="btn btn-success">Upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-4 col-sm-6">
+                                                    <!--<button type="button" class="btn btn-warning" ng-click="ContinueThirdPage()">Proceed</button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="menu3" class="{{FourthtabPanActiveClass}}">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Residential Address:</label>
+                                                <div class="col-sm-6">
+                                                    <textarea class="form-control" rows="4" id="Address" ng-model="EligibilityCertificateSecond.Address"></textarea>
+                                                </div>
+                                            </div>
+                                            <!--<div class="form-group">
+                                    <label class="control-label col-sm-4" for="">Address of School/Collage :</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control" rows="4" id="ColNmAndAddr" ng-model="EligibilityCertificateSecond.ColNmAndAddr" ></textarea>
+                                    </div>
+                                </div>-->
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Address and Name of the College into Which Admission is sought:</label>
+                                                <div class="col-sm-6">
+                                                    <textarea class="form-control" rows="4" id="ColNmAndAddr" ng-model="EligibilityCertificateSecond.ColNmAndAddr"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-4 col-sm-6">
+                                                    <!-- <button type="button" class="btn btn-warning" ng-click="ContinueFourthPage()">Proceed</button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="menu4" class="{{FifthtabPanActiveClass}}">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Fee (in rupees) :</label>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control" id="FeeAmount" ng-model="EligibilityCertificateSecond.FeeAmount" ng-readonly="true" input-Number-Only>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Purpose:</label>
+                                                <div class="col-sm-6">
+                                                    <textarea class="form-control" rows="4" id="Purpose" ng-model="EligibilityCertificateSecond.Purpose"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-show="DwFileShow">
+                                                <div class="col-sm-5">
+                                                    <a href="{{EligibilityCertificateSecond.DwFilePath}}">Download Eligibility Certificate></a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-4 col-sm-8">
+                                                    <button type="button" ng-disabled="RollEditDisable" ng-click="SaveEligibilityCertificateSecond()" class="btn btn-primary">Submit</button>
+                                                    <button type="button" ng-disabled="RollPaymentDisable" ng-click="SaveEligibilityCertificatePayment()" class="btn btn-primary">Payment</button>
+                                                    <button type="button" ng-click="Exit()" class="btn btn-primary">Exit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--<script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>-->
+</body>
+</html>

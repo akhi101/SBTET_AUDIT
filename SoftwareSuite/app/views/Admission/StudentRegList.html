@@ -1,0 +1,162 @@
+﻿<style>
+    .genAttId {
+        cursor: pointer;
+        color: cornflowerblue;
+    }
+
+        .genAttId:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Student Admission</title>
+    <style>
+        /*.col-md-3 {
+            padding-right: 2px !important;
+            padding-left: 2px !important;
+        }*/
+        .modal {
+            text-align: center;
+            padding: 0 !important;
+        }
+
+            .modal:before {
+                content: '';
+                display: inline-block;
+                height: 100%;
+                vertical-align: middle;
+                margin-right: -4px;
+            }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .table-bordered > thead > tr > th {
+            position: sticky;
+            top: 0px;
+        }
+
+        .clrRed {
+            color: red;
+            font-weight: bold;
+        }
+
+            .clrRed:hover {
+                color: red;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+        .ClrGreen {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="StudentRegListController">
+        <!-- New Style Start-->
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <div class="">
+
+
+
+            <div class="breadcrumb-header">
+                <!-- breadcrumb Open -->
+                <div class="container">
+                    <section class="content-header">
+                        <h5>Student Admission</h5>
+                        <ol class="breadcrumb">
+                            <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                            <li><a href="#!/Dashboard/AdmissionDashboard/Admission/StudentRegList">Student Admission</a></li>
+                        </ol>
+                    </section>
+                </div>
+                <!-- breadcrumb Close -->
+            </div>
+            <section class="">
+                <div class="container">
+                    <div class="col-md-12">
+                        <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard/Admission" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row base-row">
+                            <div class="col-md-12">
+                                <div class="pull-right" ng-if="StudentDetailsFound">
+                                    <a class="ExportToExcel1 pointer"
+                                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                                        <i class="fa fa-file-excel-o"></i>
+                                        Export to Excel
+                                    </a>
+                                </div>
+                                <div class="col-lg-12">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label>Search</label>
+                                            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                        </div>
+                                    </form>
+                                    <label class="notifylabel" for="sel1" style="color: red;"> Double click on row to Update Student</label>
+                                    <div style="width:100%;text-align:center;">
+                                        <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                    </div>
+                                    <div class="scrollbox" id="tblParent" ng-show="StudentRegListFound">
+                                        <table id="studentRegTable" class="table table-hover table-fixed table-bordered studentadmission-table table-responsive scrollbox-content">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5%" ng-click="sort('StudentId')">S No.</th>
+                                                    <th style="width: 10%" ng-click="sort('PIN')">PIN<i class="fa fa-fw fa-sort"></i></th>
+                                                    <th style="width: 10%" ng-click="sort('AttendeeId')">AttendeeId <i class="fa fa-fw fa-sort"></i></th>
+                                                    <th style="width: 20%" ng-click="sort('Name')">Student Name <i class="fa fa-fw fa-sort"></i></th>
+                                                    <th style="width: 10%" ng-click="sort('DateOfBirth')">Birth Date <i class="fa fa-fw fa-sort"></i></th>
+                                                    <th style="width: 10%" ng-click="sort('ADMType')">AdmissionType <i class="fa fa-fw fa-sort"></i></th>
+                                                    <th style="width: 10%">Aadhaar Status</th>
+                                                    <th style="width: 10%" ng-show="SystemUserTypeId==1||SystemUserTypeId==1014">Generate Pin</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-dblclick="doubleclick(x)" ng-repeat="x in filteredData|orderBy:sortKey:reverse|filter:search">
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{x.Pin == null ? '-' : x.Pin}}</td>
+                                                    <td ng-class="{'genAttId': x.AttendeeId =='Generate AttendeeId'}" ng-click="generateAttendeeId(x.StudentId,x.AttendeeId)">{{x.AttendeeId}}</td>
+
+                                                    <td>{{x.Name}}</td>
+                                                    <td>{{x.DateOfBirth == null ? '-' :x.DateOfBirth.replace('-','/').replace('-','/')}}</td>
+                                                    <td>{{x.ADMType}}</td>
+                                                    <td ng-show="x.AadharVerfied==true" class="Verify">Completed</td>
+                                                    <td ng-show="x.AadharVerfied==false">
+                                                        <a class="notVerify" ng-click="showAadhaarModal(x.StudentId,x.Pin)">Pending</a>
+                                                    </td>
+                                                    <td ng-show="SystemUserTypeId ==1||SystemUserTypeId==1014">
+                                                        <b class="clrRed" ng-click="GeneratePin(x.StudentId)" title="Click to Generate Pin" ng-show="x.Pin==''||x.Pin==null">Generate Pin</b>
+                                                        <b class="ClrGreen" ng-show="x.Pin!=''&&x.Pin!=null">Pin Generated</b>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</body>
+
+</html>

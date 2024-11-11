@@ -1,0 +1,306 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+   position:sticky;
+   top:0px;
+   
+
+}
+    th, td, p, input {
+        font: 14px Verdana;
+    }
+
+    table, th, td {
+        border: solid 1px #000;
+        border-collapse: collapse;
+        padding: 5px 5px;
+        /*text-align: center;*/
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .th {
+        background-color: red;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 13px !important;
+    }
+    label.notifylabel1 {
+        position: absolute;
+        /* right: 19px; */
+        /* top: -32px; */
+    }
+</style>
+<div ng-controller="TwshExamCentersController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Exam Centers</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting"> TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/SetTwshInstitutions">TWSH Exam Centers</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <!-- <div class="sm-spacer"></div>-->
+            <div class="row" style="">
+                <div class="cl-details">
+                    <h2>TWSH Exam Centers list</h2>
+                </div>
+            </div>
+            <!--<div class="base-row row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="bold" for="sel1">
+                        <b> Exam : </b>
+                    </label>-->
+            <!--<select class="form-control " ng-model="ExamMode" name="ExamMode" >
+            <option value="" selected="selected">Select Exam mode</option>
+            <option value="{{Exam.Id}}" ng-repeat="Exam in ExamTypes">
+                {{Exam.Name}}
+            </option>
+        </select>-->
+            <!--<select class="form-control" id="ExamMode" ng-model="ExamMode"
+                            ng-options="Exam.Id as Exam.Name for Exam in ExamTypes ">
+                        <option value="" selected>Select Exam mode</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="gr-btn">
+                    <button class="btn btn-success" ng-click="GetDetails()">Submit</button>
+                </div>
+            </div>
+        </div>-->
+        </div>
+        <!--<div class="container">-->
+        <!--<div class="col-md-12">
+        <button class="btn pull-right btn-default btn-css text-uppercase" style="margin-top: 10px;margin-bottom: 10px;">
+            Add Exam Center
+        </button>
+    </div>-->
+        <!--</div>-->
+        <div class="container">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">
+                                            Academic Year :
+                                        </label>
+                                        <select class="form-control " id="selSession" ng-change="getExamMonthYearsData(year)" ng-model="year" ng-options="yr.AcademicID  as yr.AcademicYear   for yr in Acayears">
+                                            <option value="" selected>Select Academic Year</option>
+                                        </select>
+                                        <!--<select class="form-control" ng-model="year" ng-change="getExamMonthYearsData(year)">
+                                            <option value="" selected>Select Academic Year</option>
+                                            <option ng-repeat="yr in Acayears" value="{{yr.AcademicID}}">
+                                                {{yr.AcademicYear}}
+                                            </option>
+                                        </select>-->
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Exam Month year:</label>
+                                        <div class="">
+                                            <select class="form-control " id="selSession" ng-change="getExamCentres(ExamMonthYear)" ng-model="ExamMonthYear" 
+                                                    ng-options="data.ExamMonthYearID  as data.ExamMonthYear  for data in ExamMonthYears">
+                                                <option value="" selected>Select Month year</option>
+                                            </select>
+                                            <!--<select class="form-control" name="semister" required ng-model="ExamMonthYear" ng-change="getExamCentres(ExamMonthYear)">
+                                                <option value="" selected>Select Month year</option>
+                                                <option ng-repeat="data in ExamMonthYears" value="{{data.ExamMonthYearID}}">
+                                                    {{data.ExamMonthYear}}
+                                                </option>
+                                            </select>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Center :
+                                    </label>
+                                    <select class="form-control" ng-model="College" name="College">
+                                        <option value="" selected>Select Exam Center</option>
+                                        <option ng-repeat="center in ExamCenterCollegeList" value="{{center}}">
+                                            {{center.CollegeCode}} - {{center.CollegeName}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam District :
+                                    </label>
+                                    <select class="form-control" ng-model="ExamDistrict" name="ExamDistrict">
+                                        <option value="" selected>Select Exam District</option>
+                                        <option ng-repeat="dist in ExamDistrictList" value="{{dist.Id}}">
+                                            {{dist.district_name}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Genders Allowed :
+                                    </label>
+                                    <select class="form-control" ng-model="Gendersallow"
+                                            ng-options="data.Id as data.Name for data in GendersList">
+                                        <option value="" selected>Select gender</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        <!--TypeWriting(Online) :-->
+                                        CBT
+                                    </label>
+                                    <select class="form-control" ng-model="CBT"
+                                            ng-options="data.Id as data.Value for data in inputs">
+                                        <option value="" selected>Select </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        <!--TypeWriting(Offline) :-->
+                                        TMBT
+                                    </label>
+                                    <select class="form-control" ng-model="MBT"
+                                            ng-options="data.Id as data.Value for data in inputs">
+                                        <option value="" selected>Select</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        <!--Shorthand(Offline) :-->
+                                        Shorthand :
+                                    </label>
+                                    <select class="form-control" ng-model="ShortHand"
+                                            ng-options="data.Id as data.Value for data in inputs">
+                                        <option value="" selected>Select</option>
+                                    </select>
+                                </div>
+                                <!--<div class="col-md-2 form-group">
+                                <label for="ExamType">
+                                    Shorthand(online) :
+                                </label>
+                                <select class="form-control" ng-model="IsShOnline"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Select</option>
+                                </select>
+                            </div>-->
+                                <div class="col-md-12">
+                                    <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="Submit()">
+                                        ADD Center
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <label class="notifylabel1" ng-show="getData.length>1" for="sel1" style="color: red;"> Double Click on table row to get Grade Strength</label>
+        <div class="col-md-12" ng-show="Data">
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+
+        </div>
+        <div class="col-md-12" style="padding:0px!important" ng-show="Data">
+            <div class="cl-details">
+                <h2>Exam Centers list</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="getData.length>1">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center" style="width: 2%;">S.No</th>
+                            <th class="text-center">Academic Year</th>
+                            <th class="text-center">Exam Month Year</th>
+                            <th class="text-center">Exam Center Code</th>
+                            <th class="text-center">Exam Center</th>
+                            <th class="text-center">District</th>
+                            <th class="text-center">CBT</th>
+                            <th class="text-center">MBT</th>
+                            <th class="text-center">SHORT HAND</th>
+                            <th class="text-center" style="width:10%">Is Active</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getData" ng-dblclick="openDetails(data)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{data.AcademicYear}}</td>
+                            <td class="text-center">{{data.ExamMonthYear}}</td>
+                            <td class="text-center">{{data.ExaminationCenterCode}}</td>
+                            <td class="text-center">{{data.ExaminationCenterName}}</td>
+                            <td class="text-center">{{data.District}}</td>
+                            <td class="text-center">{{data.IsTwOnline==1 ? 'Yes' : 'No'}}</td>
+                            <td class="text-center">{{data.IsTw==1 ? 'Yes' : 'No'}}</td>
+                            <td class="text-center">{{data.IsSh==1 ? 'Yes' : 'No'}}</td>
+                            <td class="text-center">{{data.IsActive==1 ? 'Yes' : 'No'}}</td>
+
+
+
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-click="EditCentres(data.Id)">
+                                    Edit
+                                </button>
+
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="width:100%;text-align:center;">
+            <div class="loading">
+                <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+            </div>
+
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

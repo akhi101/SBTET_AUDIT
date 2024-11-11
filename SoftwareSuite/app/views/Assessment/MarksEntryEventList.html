@@ -1,0 +1,84 @@
+﻿<div ng-controller="MarksEntryEventListController">
+  
+
+    <div class="clearfix"></div>
+    <div>
+        <div class="">
+            <ui-view>
+                <div class="breadcrumb-header">
+                    <!-- breadcrumb Open -->
+                    <div class="container">
+                        <section class="content-header">
+                            <h5>Branch Name : {{branch}}</h5>
+                            <ol class="breadcrumb">
+                                <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                                <li><a href="#!/Admission">Admission</a></li>
+                                <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                            </ol>
+                        </section>
+                    </div>
+                    <!-- breadcrumb Close -->
+                </div>
+                <section class="content">
+                    <div class="container ">
+                        <div class="row base-row">
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect">Academic Year :</label>
+                                    </div>
+                                    {{AcademicYearsActiveResponse.AcademicYear}}
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect">Select Scheme :</label>
+                                    </div>
+                                    {{loadedScheme.Scheme}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect">Select Semester :</label>
+                                    </div>
+                                    {{selectedsem.sem}}
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 text-center">
+                                <div class="table-responsive table-custom-tables">
+                                    <table class="table table-bordered table-striped table-rounded">
+                                        <thead>
+                                            <tr>
+                                                <td style="width: 10%" class="cb-1"><h3> Select Event </h3></td>
+                                            </tr>
+                                            <tr class="pointer" ng-repeat="exam in exams" ng-click="Showsubjects(exam)">
+                                                <td style="width: 10%"><h4>{{exam.examname}}</h4></td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                           
+
+                            <!--subject Details -->
+
+
+                        </div>
+                    </div>
+                </section>
+            </ui-view>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+</div>

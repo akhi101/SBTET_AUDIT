@@ -1,0 +1,45 @@
+﻿<div class="container" >
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Packet Distribution Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Packet Distribution Report</li>
+            </ol>
+        </div>
+    </div>
+   
+    <div class="row base-row" ng-controller="packetDistributionReportController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="packetDistributionReportForm" ng-submit="getPacketDistributionReport()">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <sa-select ng-model="packetDistributionReport.CourseID" object="packetDistributionReport.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="packetDistributionReport.ExamID" object="packetDistributionReport.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="packetDistributionReport.DistrictID" object="packetDistributionReport.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="packetDistributionReport.PreZoneCntrID" object="packetDistributionReport.PreZoneCntrID" options="preZoneCenters" displaycolumn="CenterName" valuecolumn="PreZoneCntrID" objectname="PreZoneCntrID" objecttext="Center" compulsory="true"> </sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

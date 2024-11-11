@@ -1,0 +1,120 @@
+﻿<style>
+    .modal-fit-att .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    .modal-xlg{
+   width:1200px;
+}
+    /*#printData{
+        display:none;
+    }*/
+    @media print {
+        #printableArea {
+            width: 80%;
+        }
+         #printableAreas {
+            width: 80%;
+        }
+        .content {
+            display: none;
+        }
+          #printData{
+        display:block;
+    }
+          
+    }
+  
+
+
+</style>
+<div id="myModal">
+    <div class="modal-header aadhar-modal-header">
+        <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+        <h4 class="modal-title center-block">Student Attendance</h4>
+    </div>
+    <div class="modal-body">
+        <section class="content">
+            <div class="container" >
+            
+                <!--<div class="row">
+                    <div class="col-lg-12 hidden">
+                        <a id="ExportToExcel1" class="pointer pull-right" ng-click="DownloadtoExcel('#StudentAttendanceReport')">
+                            Export to Excel<i class="fa fa-file-excel-o"></i>
+                        </a>
+                    </div>
+                </div>-->
+                <div class="row" >
+                  
+                        <div id="printableArea"  class="table-responsive table-custom-tables-tb">
+                            <div class="col-md-12">
+                                <div class="col-lg-4" id="printData">
+                                    <label>Pin:{{attpin}}</label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>Name:{{attName}}</label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>Attendee ID:{{attendId}}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table userTable table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 4%">Sc no</th>
+                                            <th style="width: 5%">Month</th>
+                                            <th style="width: 1%" ng-repeat="day in days">{{day}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in attendancedata">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{x.month}}</td>
+                                            <td style="width: 1%" ng-repeat="y in x.attstat">{{y.Status==null ? '-':y.Status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                                <div class="col-md-12">
+                                    <div style="color:green" class="col-md-2">
+                                        <label>P-Present</label>
+                                    </div>
+                                    <div style="color:red" class="col-md-2">
+                                        <label>A-Absent</label>
+                                    </div>
+                                    <div style="color:blue" class="col-md-2">
+                                        <label>H-Holiday</label>
+                                    </div>
+                                    <div style="color:darkslategrey" class="col-md-2">
+                                        <label>W-Weekend</label>
+                                    </div>
+                                    <div style="color:#8f303e" class="col-md-2">
+                                        <label>HP-HalfDay Present</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                           
+                     
+                        <!--track by stringify(y) track by stringify(x) ng-init="getattendance()"-->
+                      
+						<!--<div class="col-md-12 hidden">
+                            <b class="text-danger"> Notes : Attendance is Considered  From 19-06-2019.1</b>
+                         </div>-->
+                    </div>
+                    <div class="col-md-12" hidden>
+                        <button type="submit" ng-click="printDetails('printableArea')" style="margin-bottom:50px;" class="btn printBtn btn-detail pull-right">
+                            Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

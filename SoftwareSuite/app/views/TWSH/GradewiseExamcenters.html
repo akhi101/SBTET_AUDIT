@@ -1,0 +1,613 @@
+﻿<style>
+    th, td, p, input {
+        font: 14px Verdana;
+    }
+
+    table, th, td {
+        border: solid 1px #000;
+        border-collapse: collapse;
+        padding: 5px 5px;
+        /*text-align: center;*/
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .th {
+        background-color: red;
+    }
+
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .scrollbox {
+        height: 540px;
+        overflow: auto !important;
+        visibility: hidden;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+    }
+
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+   position:sticky;
+   top:0px;
+   
+}
+           .table-custom-tables-tb .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+</style>
+
+<div ng-controller="GradewiseExamcentersController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH  Gradewise Exam Centerwise</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TypeWriting</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/GradewiseExamCenters">TWSH  Gradewise Exam Centerwise</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="sm-spacer"></div>
+            <div class="cl-details">
+                <h2>TWSH Gradewise Exam Centers </h2>
+            </div>
+            <div class="base-row row">
+                <form name="GradeForm">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> Exam Center: </b>
+                            </label>
+                            <select class="form-control" ng-model="ExamCenter" name="ExamCenter" required>
+                                <option value="" selected>Select Exam Center</option>
+                                <option ng-repeat="center in ExamCentersList" value="{{center.Id}}" >
+                                    {{center.ExamCenter}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TEL: </b>
+                            </label>
+                            <select class="form-control" ng-model="TEL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TEH: </b>
+                            </label>
+                            <select class="form-control" ng-model="TEH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TEHS: </b>
+                            </label>
+                            <select class="form-control" ng-model="TEHS"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TTL: </b>
+                            </label>
+                            <select class="form-control" ng-model="TTL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TTH: </b>
+                            </label>
+                            <select class="form-control" ng-model="TTH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TTHS: </b>
+                            </label>
+                            <select class="form-control" ng-model="TTHS"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> THL: </b>
+                            </label>
+                            <select class="form-control" ng-model="THL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> THH: </b>
+                            </label>
+                            <select class="form-control" ng-model="THH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TUL: </b>
+                            </label>
+                            <select class="form-control" ng-model="TUL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TUH: </b>
+                            </label>
+                            <select class="form-control" ng-model="TUH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SEL: </b>
+                            </label>
+                            <select class="form-control" ng-model="SEL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SEI: </b>
+                            </label>
+                            <select class="form-control" ng-model="SEI"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SEH: </b>
+                            </label>
+                            <select class="form-control" ng-model="SEH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SEHS150: </b>
+                            </label>
+                            <select class="form-control" ng-model="SEHS150"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SEHS180: </b>
+                            </label>
+                            <select class="form-control" ng-model="SEHS180"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SEHS200: </b>
+                            </label>
+                            <select class="form-control" ng-model="SEHS200"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> STL: </b>
+                            </label>
+                            <select class="form-control" ng-model="STL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> STH: </b>
+                            </label>
+                            <select class="form-control" ng-model="STH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> STHS80: </b>
+                            </label>
+                            <select class="form-control" ng-model="STHS80"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> STHS100: </b>
+                            </label>
+                            <select class="form-control" ng-model="STHS100"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SUL: </b>
+                            </label>
+                            <select class="form-control" ng-model="SUL"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> SUH: </b>
+                            </label>
+                            <select class="form-control" ng-model="SUH"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> TEJ: </b>
+                            </label>
+                            <select class="form-control" ng-model="TEJ"
+                                    ng-options="data.Id as data.Value for data in inputs" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="gr-btn">
+                            <button class="btn btn-success" ng-click="GradeForm.$valid && Add()">Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div style="width:100%;text-align:center;">
+            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+        </div>
+        </div>
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="pull-right" ng-if="Data">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2>TWSH Gradewise Exam Centers</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div id=" Studentstrength" class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width: 2%;">S.No</th>
+                           <!-- <th class="text-center">CollegeCode</th>-->
+                            <th class="text-center">Exam Centeer</th>
+                            <th class="text-center" >TEJ Typewriting English Junior (25 WPM) </th>
+                            <th class="text-center">TEL Typewriting English Lower (30 WPM)	</th>
+                            <th class="text-center">TEH Typewriting English Higher (45 WPM)</th>
+                            <th class="text-center">TEHS Typewriting English High Speed (60 WPM)</th>
+                            <th class="text-center">TTL Typewriting Telugu Lower (25 WPM)</th>
+                            <th class="text-center">TTH	Typewriting Telugu Higher (40 WPM)</th>
+                            <th class="text-center">TTHS Typewriting Telugu High Speed (50 WPM)</th>
+                            <th class="text-center">THL Typewriting Hindi Lower (25 WPM)</th>
+                            <th class="text-center">THH	Typewriting Hindi Higher (40 WPM)</th>
+                            <th class="text-center">TUL Typewriting Urdu Lower (25 WPM)</th>
+                            <th class="text-center">TUH	Typewriting Urdu Higher (40 WPM)</th>
+                            <th class="text-center">SEL Shorthand English Lower (80 WPM)</th>
+                            <th class="text-center">SEI Shorthand English Intermediate (100 WPM)</th>
+                            <th class="text-center">SEH Shorthand English Higher (120 WPM)</th>
+                            <th class="text-center">SEHS150 Shorthand English High Speed (150 WPM)</th>
+                            <th class="text-center">SEHS180 Shorthand English High Speed (180 WPM)</th>
+                            <th class="text-center">SEHS200 Shorthand English High Speed (200 WPM)</th>
+                            <th class="text-center">STL Shorthand Telugu Lower (40 WPM)</th>
+                            <th class="text-center">STH	Shorthand Telugu Higher (60 WPM)</th>
+                            <th class="text-center">STHS80 Shorthand Telugu High Speed (80 WPM)</th>
+                            <th class="text-center">STHS100	Shorthand Telugu High Speed (100 WPM)</th>
+                            <th class="text-center">SUL Shorthand Urdu Lower (80 WPM)</th>
+                            <th class="text-center">SUH Shorthand Urdu Higher (120 WPM)</th>
+                            <th class="text-center" style="width: 60px">Is Active</th>
+                            <th width="10%" class="text-center">Delete</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="x in StrengthReport">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                           <!-- <td class="text-center">{{x.CollegeCode}}</td>-->
+                            <td class="text-center">{{x.ExamCenter}}</td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TEJ"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TEL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TEH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TEHS"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                           </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TTL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TTH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TTHS"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.THL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.THH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TUL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.TUH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SEL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SEI"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SEH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SEHS150"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                           </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SEHS180"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SEHS200"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.STL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.STH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.STHS80"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                           </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.STHS100"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                           </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SUL"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="x.SUH"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                           </td>
+                            <td class="text-center">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" style="width: 110px" ng-model="x.IsActive"
+                                        ng-options="data.Id as data.Value for data in inputs">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <a>
+                                    <button title="Click here to Delete" ng-click="deleteExamcenter(x.Id,x)" class="btn btn-xs btn_delete">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </button>
+                                </a>
+
+                            </td>
+
+
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(x,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Update(x,$index+1)">
+                                    Update
+                                </button>
+
+                            </td>
+                        </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

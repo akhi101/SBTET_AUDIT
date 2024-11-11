@@ -1,0 +1,60 @@
+﻿<div class="container-fluid">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Exam Forms List</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Exam Forms</li>
+                <li>Exam Forms List</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="ExamFormNRReportController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="examFormNRReportForm">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <sa-select ng-model="ExamFormNRReport.CourseID" object="ExamFormNRReport.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-change="ChangeExam()" ng-model="ExamFormNRReport.ExamID" object="ExamFormNRReport.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="examID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div style="margin-top:26px;" class="col-md-3">
+                        <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Fee :</span>
+                        <div class="maxl">
+
+                            <label class="radio inline">
+                                <input type="radio" name="optradio" ng-model="ReportType" value="P">
+                                <span>Paid </span>
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="optradio" ng-model="ReportType" value="N">
+                                <span>Not Paid </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top:19px;">
+                        <button type="submit" ng-click="getExamFormNRReport()" class="btn btn-detail btn-sm">Get Report</button>
+                        <button ui-sref="Exam" class="btn btn-reset btn-sm">Cancel</button>
+                        <button type="submit" ng-show="ShowPrint" ng-click="printExamFormNRReport()" class="btn btn-detail btn-sm">Print Report</button>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+            </form>
+            <br />
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+            <embed id="nrviewer" src="" type="application/pdf" width="100%" height="500px" />
+        </div>
+    </div>
+</div>

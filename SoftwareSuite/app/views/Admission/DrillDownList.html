@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div ng-controller="DrillDownController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b> College </b></div>
+                <div class="panel-body form_border">
+                    <!--<form action="#">
+        <div id="DrillDown" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+             e-datasource="DrillDownList"></div>
+    </form>-->
+                    <!--<input type="button" ng-click="exportTableToExcel('#alldata')" value="Export to Excel">-->
+                    <table id="alldata" class="table">
+                        <tr>
+                            <th>CollegeDistrictID</th>
+                            <th>CollegeDistName</th>
+                            <th>AcdYrID</th>
+                            <th>Total</th>
+                            <th>Male</th>
+                            <th>Female</th>
+                        </tr>
+                        <tr ng-repeat="x in DrillDownList">
+                            <td>{{ x.CollegeDistrictID }}</td>
+                            <td>{{ x.CollegeDistName }}</td>
+                            <td>{{ x.AcdYrID }}</td>
+                            <td><a ng-click='GetTotalRecord(x)'> {{ x.Total }} </a>  </td>
+                            <td><a ng-click='GetMaleRecord(x)'>{{ x.Male }} </a></td>
+                            <td><a ng-click='GetFemaleRecord(x)'>{{ x.Female }}</a></td>
+                        </tr>
+                    </table>
+
+                    <br /><br /><br />
+                    <!--<input type="button" ng-click="exportTableToExcel('#filtereddata')" value="Export to Excel">-->
+                    <table id="filtereddata" class="table">
+                        <tr>
+                            <th>PreStudRegID</th>
+                            <th>SSC Hall Ticket</th>
+                            <th>Admission No.</th>
+                            <th>Student Name</th>
+                            <th>Gender</th>
+                            <th>College Name</th>
+                            <th>PRNNo</th>
+                            <th>Stream</th>
+                            <th>Second. Lang.</th>
+                            <th>Medium</th>
+                        </tr>
+                        <tr ng-repeat="x in TotalRecordList">
+                            <td>{{ x.PreStudRegID }}</td>
+                            <td>{{ x.SSCHallTicket }}</td>
+                            <td>{{ x.AdmNo }}</td>
+                            <td>{{ x.StudName }}</td>
+                            <td>{{ x.Gender }}</td>
+                            <td>{{ x.ColCode }}  -  {{ x.ColName }}</td>
+                            <td><a href="../DrillDown/DrillDownDistrictwiseList.html" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetDrillDownStudentDetailsListByID(x)'> {{ x.PRNNo }} </a></td>
+                            <td>{{ x.CourseName }}</td>
+                            <td>{{ x.SecondLangName }}</td>
+                            <td>{{ x.MediumName }}</td>
+                        </tr>
+                    </table>
+
+
+                    <br /><br /><br />
+                    <!--<input type="button" ng-click="exportTableToExcel('#singledata')" value="Export to Excel">-->
+                    <!--<table id="singledata" class="table">
+                        <tr>
+                            <th>PreStudRegID</th>
+                            <th>SSC Hall Ticket</th>
+                            <th>Admission No.</th>
+                            <th>Student Name</th>
+                            <th>Gender</th>
+                            <th>College Name</th>
+                            <th>PRNNo</th>
+                            <th>Stream</th>
+                            <th>Second. Lang.</th>
+                            <th>Medium</th>
+                        </tr>
+                        <tr ng-repeat="x in SingleRecordList">
+                            <td>{{ x.PreStudRegID }}</td>
+                            <td>{{ x.SSCHallTicket }}</td>
+                            <td>{{ x.AdmNo }}</td>
+                            <td>{{ x.StudName }}</td>
+                            <td>{{ x.Gender }}</td>
+                            <td>{{ x.ColCode }}  -  {{ x.ColName }}</td>
+                            <td>{{ x.PRNNo }}</td>
+                            <td>{{ x.CourseName }}</td>
+                            <td>{{ x.SecondLangName }}</td>
+                            <td>{{ x.MediumName }}</td>
+                        </tr>
+                    </table>-->
+
+                </div>
+            </div>
+            
+            
+            
+            <div  id="popupContainer"  class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document"  style="width:100%;">
+                        <div class="modal-content" style="width:100%;">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Student Data</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="filtereddata" class="table">
+                                    <tr>
+                                        <th>PreStudRegID</th>
+                                        <th>SSC Hall Ticket</th>
+                                        <th>Admission No.</th>
+                                        <th>Student Name</th>
+                                        <th>Gender</th>
+                                        <th>College Name</th>
+                                        <th>PRNNo</th>
+                                        <th>Stream</th>
+                                        <th>Second. Lang.</th>
+                                        <th>Medium</th>
+                                    </tr>
+                                    <tr ng-repeat="x in SingleRecordList">
+                                        <td>{{ x.PreStudRegID }}</td>
+                                        <td>{{ x.SSCHallTicket }}</td>
+                                        <td>{{ x.AdmNo }}</td>
+                                        <td>{{ x.StudName }}</td>
+                                        <td>{{ x.Gender }}</td>
+                                        <td>{{ x.ColName }}</td>
+                                        <td>{{ x.PRNNo }}</td>
+                                        <td>{{ x.CourseName }}</td>
+                                        <td>{{ x.SecondLangName }}</td>
+                                        <td>{{ x.MediumName }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

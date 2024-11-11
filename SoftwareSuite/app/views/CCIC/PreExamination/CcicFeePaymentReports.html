@@ -1,0 +1,443 @@
+﻿
+<style>
+    .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxesinstitution {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+
+    #checkboxesinstitution label {
+        display: block;
+    }
+
+    #checkboxescourse label:hover {
+        background-color: #1e90ff;
+    }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div ng-controller="CcicFeePaymentReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Fee Payment Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination"> Pre Examination</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination/FeePaymentReports">Fee Payment Reports</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container" style="margin-bottom:50px">
+
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#1" data-toggle="tab" ng-click="tab1()">Institute Wise</a>
+                </li>
+                <li>
+                    <a href="#2" data-toggle="tab" ng-click="tab2()">Course Wise</a>
+                </li>
+            </ul>
+
+            <div class="tab-content container">
+
+                <div class="tab-pane active" id="1">
+
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <form novalidate>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="font-weight-bold"> Academic Year :</label>
+                                                <select class="form-control " ng-model="AcademicYear" ng-disabled="AcademicYearDisable" name="AcademicYear" required ng-change="GetExamMonthYearData(AcademicYear)">
+                                                    <option value="" selected="selected">Select Year</option>
+                                                    <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                        {{data.AcademicYear}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label class="font-weight-bold" for="ExamMonthYear">
+                                                Exam Month/Year :
+                                            </label>
+                                            <select class="form-control" name="ExamMonthYear" ng-disabled="monthyearDisable" required ng-model="monthyear">
+                                                <option value="" selected>Select Exam Month/Year</option>
+                                                <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                                    {{data.ExamMonthYearName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-md-2 pull-left">
+                                            <div class="gr-btn">
+                                                <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getAdminFeePaymentCount()">
+                                                    Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-if="AdminFeePaymentInstituteCount.length>0">
+                            <div class="pull-right">
+                                <a class="ExportToExcel1 pointer"
+                                   id="ExportToExcel1" ng-click="getAdmFeePaymentInstituteCountExcel('#tblParent')">
+                                    <i class="fa fa-file-excel-o"></i>
+                                    Export to Excel
+                                </a>
+                            </div>
+                        </div>
+
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="ResultNotFound" class="no-results ng-hide">
+                                    <img src="../../contents/img/Folder-Icon.svg">
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+
+
+                    <div class="col-md-12">
+
+
+                        <div class="table-responsive table-custom-tables-tb" ng-if="AdminFeePaymentInstituteCount.length>0">
+                            <div class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                    <thead class="sticky-header">
+                                        <tr class="cb-1">
+                                            <th width="2%">S.No</th>
+                                            <th class="text-center">Institution</th>
+                                            <!--<th class="text-center">Course</th>-->
+                                            <!--<th class="text-center">Course Duration</th>-->
+                                            <th class="text-center">Regular</th>
+                                            <th class="text-center">Regular FeePaid</th>
+                                            <th class="text-center">Backlog</th>
+                                            <th class="text-center">Backlog FeePaid</th>
+                                            <th class="text-center">Registration</th>
+                                            <th class="text-center">Registration FeePaid</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in AdminFeePaymentInstituteCount" ng-dblclick="getCoursewiseCount(data.InstitutionID)">
+                                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Institution}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Regular}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.RegularFeePaid}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Backlog}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.BacklogFeePaid}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Registration}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.RegistrationFeePaid}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Regular+data.RegularFeePaid+data.Backlog+data.BacklogFeePaid+data.Registration+data.RegistrationFeePaid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" colspan="2">Total</td>
+                                            <td class="text-center"><b>{{Regular}}</b></td>
+                                            <td class="text-center"><b>{{RegularFeePaid}}</b></td>
+                                            <td class="text-center"><b>{{Backlog}}</b></td>
+                                            <td class="text-center"><b>{{BacklogFeePaid}}</b></td>
+                                            <td class="text-center"><b>{{Registration}}</b></td>
+                                            <td class="text-center"><b>{{RegistrationFeePaid}}</b></td>
+                                            <td class="text-center"><b>{{Regular+RegularFeePaid+Backlog+BacklogFeePaid+Registration+RegistrationFeePaid}}</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <div ng-if="Noresult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane" id="2">
+
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <form novalidate>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="font-weight-bold"> Academic Year :</label>
+                                                <select class="form-control " ng-model="Academicyear" name="AcademicYear" required ng-change="getexamMonthYearData(Academicyear)">
+                                                    <option value="" selected="selected">Select Year</option>
+                                                    <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                        {{data.AcademicYear}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label for="ExamMonthYear" class="font-weight-bold">
+                                                Exam Month/Year :
+                                            </label>
+                                            <select class="form-control" name="ExamMonthYear" required ng-model="Monthyear">
+                                                <option value="" selected>Select Exam Month/Year</option>
+                                                <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                                    {{data.ExamMonthYearName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2 ">
+                                            <div class="gr-btn">
+                                                <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getAdminFeePaymentCourseCount()">
+                                                    Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" ng-if="AdminFeePaymentCourseCount.length>0">
+                            <div class="pull-right">
+                                <a class="ExportToExcel1 pointer"
+                                   id="ExportToExcel1" ng-click="getAdmFeePaymentCourseCountExcel('#tblParent')">
+                                    <i class="fa fa-file-excel-o"></i>
+                                    Export to Excel
+                                </a>
+                            </div>
+                        </div>
+
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="ResultNotFound" class="no-results ng-hide">
+                                    <img src="../../contents/img/Folder-Icon.svg">
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+
+                    <div class="col-md-12">
+
+
+                        <div class="table-responsive table-custom-tables-tb" ng-if="AdminFeePaymentCourseCount.length>0">
+                            <div class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                    <thead class="sticky-header">
+                                        <tr class="cb-1">
+                                            <th width="2%">S.No</th>
+                                            <th class="text-center">Course</th>
+                                            <th class="text-center">Regular</th>
+                                            <th class="text-center">Regular FeePaid</th>
+                                            <th class="text-center">Backlog</th>
+                                            <th class="text-center">Backlog FeePaid</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in AdminFeePaymentCourseCount" ng-dblclick="getInstitutewiseCount(data.CourseID)">
+                                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Course}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Regular}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.RegularFeePaid}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Backlog}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.BacklogFeePaid}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.Regular+data.RegularFeePaid+data.Backlog+data.BacklogFeePaid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" colspan="2">Total</td>
+                                            <td class="text-center"><b>{{Regular}}</b></td>
+                                            <td class="text-center"><b>{{RegularFeePaid}}</b></td>
+                                            <td class="text-center"><b>{{Backlog}}</b></td>
+                                            <td class="text-center"><b>{{BacklogFeePaid}}</b></td>
+                                            <td class="text-center"><b>{{Regular+RegularFeePaid+Backlog+BacklogFeePaid}}</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="NoResult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </section>
+</div>

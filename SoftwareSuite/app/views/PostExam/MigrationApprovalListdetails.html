@@ -1,0 +1,249 @@
+﻿<style>
+    .arrow-up:after {
+        bottom: 12px;
+        border-bottom-color: #fff;
+    }
+
+    .footer_section {
+        /* position: fixed; */
+        display: none !important;
+        bottom: 0px;
+        z-index: 99;
+    }
+    .arrow-down:after {
+        top: 10px;
+        border-top-color: white;
+    }
+</style>
+<div ng-controller="MigrationApprovalListdetailsController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam/MigrationApprovalList" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="sm-spacer"></div>
+
+        <div class="col-md-6" ng-show="Data">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+            <!--<label class="notifylabel" for="sel1" style="color: red;"> Double click on row to Update Student</label>
+        <div style="width:100%;text-align:center;">
+            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+        </div>-->
+        </div>
+        <div class="col-md-6 " ng-show="Data && ApproveType =='0'">
+            <a class="ExportToExcel1 pointer pull-right"
+               id="ExportToExcel1" ng-click="DownloadtoExcel()" style="margin-top: 15px;">
+                <i class="fa fa-file-excel-o"></i>
+                Export to Excel
+            </a>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2>Migration Certificate Students List</h2>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-if="Data && ApproveType =='0'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width: 1%;"><input name='allItemsSelected' type="checkbox" ng-model="items.allItemsSelected" ng-checked="checkedStatus" ng-click="selectAll(items.allItemsSelected)"></th>
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center" ng-click='sortColumn("Scheme")' ng-class='sortClass("Scheme")'>Scheme <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>College Code <i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("PIN")' ng-class='sortClass("PIN")'>PIN <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("PhoneNumber")' ng-class='sortClass("PhoneNumber")'>Phone <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("AppliedDate")' ng-class='sortClass("AppliedDate")'>Applied Date <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th> 
+                            <th class="text-center" ng-click='sortColumn("AppliedDate")' >ODC </th>
+                            <!-- <th class="text-center">Approve</th>-->
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalDetails |orderBy:sortKey:reverse|filter:search">
+                            <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="x.isChecked" ng-change="selectEntity(x)"></td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{$index + 1}}</td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{x.Scheme}}</td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{x.CollegeCode}} </td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.PIN}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.Name}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.PhoneNumber == null ? '-':x.PhoneNumber}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.AppliedDate|date:"dd-MMM-yyyy hh:mm:ss a"}}</td>
+                          
+                            <td class="text-center ">
+                                <span>
+                                    <button class="btn btn-default btn-xs"  ng-click="GetODC(x.PIN)"><span>Get ODC</span></button>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Data && ApproveType =='1'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;" ng-click="sort('PIN')">S.No</th>
+                            <th class="text-center" ng-click='sortColumn("Scheme")' ng-class='sortClass("Scheme")'>Scheme <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>College Code <i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("PIN")' ng-class='sortClass("PIN")'>PIN <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("PhoneNumber")' ng-class='sortClass("PhoneNumber")'>Phone <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("IsJsApproveDate")' ng-class='sortClass("IsJsApproveDate")'>Approved Date <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center">ODC </th>
+                            <th class="text-center">certificate</th>
+                            <th class="text-center" ng-show="UserTypeId==1009">Reset</th>
+                            <th class="text-center">Message</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer"  ng-repeat="x in ApprovalDetails|orderBy:sortKey:reverse|filter:search">
+
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{$index + 1}}</td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{x.Scheme}}</td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{x.CollegeCode}} </td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.PIN}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.Name}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.PhoneNumber == null ? '-':x.PhoneNumber}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.IsJsApproveDate  == null? '-':x.IsJsApproveDate|date:"dd-MMM-yyyy hh:mm:ss a"}}</td>
+                            <td class="text-center ">
+                                <span>
+                                    <button class="btn btn-default btn-xs" ng-click="GetODC(x.PIN)"><span>Get ODC</span></button>
+                                </span>
+                            </td>
+                            <td class="text-center "><a ng-href={{x.CertificatePath}} target="_blank">{{x.CertificatePath == null ? '-':"Document"}}</a></td>
+                            <td class="text-center " ng-show="UserTypeId==1009">
+                                <span>
+                                    <button class="btn btn-warning btn-xs" ng-click="ResetCertificateStatus(x.PIN,x.CertificatePath)"><span>Reset</span></button>
+                                </span>
+                            </td>
+                            <td class="text-center ">
+                                <span>
+                                    <button class="btn btn-info btn-xs" ng-show="!x.IsSmsSent" ng-disabled="smsbtndisable{{$index}}" ng-class="{'disabled': smsbtndisable{{$index}}}" ng-click="sensSMS(x.PIN,x.CertificatePath,x.PhoneNumber,$index)"><span>Send SMS</span></button>
+                                </span>
+                                <span>
+                                    <button class="btn btn-success btn-xs" ng-show="x.IsSmsSent" ng-disabled="smsbtndisable{{$index + 1}}" ng-class="{'disabled': smsbtndisable{{$index}}}" ng-click="sensSMS(x.PIN,x.CertificatePath,x.PhoneNumber,$index)"><span>SMS Sent</span></button>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data && ApproveType =='2'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center" ng-click='sortColumn("Scheme")' ng-class='sortClass("Scheme")'>Scheme <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>College Code <i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("PIN")' ng-class='sortClass("PIN")'>PIN <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("PhoneNumber")' ng-class='sortClass("PhoneNumber")'>Phone <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("AppliedDate")' ng-class='sortClass("AppliedDate")'>Applied Date <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("AppliedDate")'>ODC </th>
+                            <th class="text-center">Remarks</th>
+                            <!--<th class="text-center">Approve</th>-->
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalDetails|orderBy:sortKey:reverse|filter:search">
+
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{$index + 1}}</td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{x.Scheme}}</td>
+                            <td class="text-center" ng-click="openPending(x.PIN,x.CertificateType)">{{x.CollegeCode}} </td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.PIN}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.Name}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.PhoneNumber == null ? '-':x.PhoneNumber}}</td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.AppliedDate|date:"dd-MMM-yyyy hh:mm:ss a"}}</td>
+                            <td class="text-center ">
+                                <span>
+                                    <button class="btn btn-default btn-xs" ng-click="GetODC(x.PIN)"><span>Get ODC</span></button>
+                                </span>
+                            </td>
+                            <td class="text-center " ng-click="openPending(x.PIN,x.CertificateType)">{{x.Remarks == null ? '-':x.Remarks}}</td>
+                            <!--<td class="text-center "><button class="btn btn-success btn-xs" ng-click="Approve(x.Scheme)">Send Certificate</button></td>-->
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data && ApproveType =='3'">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center" ng-click='sortColumn("Scheme")' ng-class='sortClass("Scheme")'>Scheme <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("CollegeCode")' ng-class='sortClass("CollegeCode")'>College Code <i class="fa fa-fw fa-sort" ng-if="arrows"></th>
+                            <th class="text-center" ng-click='sortColumn("PIN")' ng-class='sortClass("PIN")'>PIN <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("Name")' ng-class='sortClass("Name")'>Name <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("PhoneNumber")' ng-class='sortClass("PhoneNumber")'>Phone <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("AppliedDate")' ng-class='sortClass("AppliedDate")'>Applied Date <i class="fa fa-fw fa-sort" ng-if="arrows"></i></th>
+                            <th class="text-center" ng-click='sortColumn("AppliedDate")'>ODC </th>
+                            <!--<th class="text-center">Sent to college Date</th>-->
+                            <!--<th class="text-center">Approve</th>-->
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalDetails|orderBy:sortKey:reverse|filter:search">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{x.Scheme}}</td>
+                            <td class="text-center">{{x.CollegeCode}} </td>
+                            <td class="text-center ">{{x.PIN}}</td>
+                            <td class="text-center ">{{x.Name}}</td>
+                            <td class="text-center ">{{x.PhoneNumber == null ? '-':x.PhoneNumber}}</td>
+                            <td class="text-center ">{{x.AppliedDate|date:"dd-MMM-yyyy hh:mm:ss a"}}</td>
+                            <td class="text-center ">
+                                <span>
+                                    <button class="btn btn-default btn-xs" ng-click=" GetODC(x.PIN)"><span>Get ODC</span></button>
+                                </span>
+                            </td>
+                            <!--<td class="text-center "><button class="btn btn-success btn-xs" ng-click="Approve(x.Scheme)">Send Certificate</button></td>-->
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" style="position: fixed;bottom: 0px;width: 100%;padding-bottom: 5px;padding-top: 5px;" ng-show="Data && ApproveType ==0">
+            <div class="col-md-8">
+                <button class="btn btn-danger print_btn" ng-show="UserTypeId==1007 || UserTypeId==1002 || UserTypeId==1009" ng-click="Reject()">Reject</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-success print_btn " ng-show="UserTypeId==1007 || UserTypeId==1002" ng-disabled="btndisable" ng-click="!btndisable && Approve()">Forward</button>
+                <button class="btn btn-success print_btn " ng-show="UserTypeId==1009" ng-disabled="btndisable" ng-click="!btndisable && Approve()">{{buttonlabel}}</button>
+            </div>
+          
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

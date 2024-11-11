@@ -1,0 +1,75 @@
+﻿<div ng-controller="ReleaseSixthSemController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Release 5th/6th Sem</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic/ReleaseSixthSem">Release 5th/6th Sem</a></li>
+
+                    <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container ">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12 ">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form name="ReleaseForm">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">
+                                            Academic Year :
+                                        </label>
+                                        <div id='year'>
+                                            <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="font-weight-bold"> College :</label>
+                                    <select class="form-control" ng-model="College" name="College" ng-change="ChangeCollege()" required>
+                                        <option value="" selected>Select College</option>
+                                        <option ng-repeat="data in GetCollegeList" value="{{data.CollegeCode}}">
+                                            {{data.CollegeCode}} - {{data.CollegeName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="font-weight-bold"> Branch :</label>
+                                    <select class="form-control" ng-model="SelBranch" name="Branch" required>
+                                        <option value="" selected>Select Branch</option>
+                                        <option ng-repeat="data in branchdata" value="{{data.BranchId}}">
+                                            {{data.Branch}}
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-2 pull-right">
+                                    <div class="gr-btn">
+                                        <button type="submit" class="btn  btn-primary " ng-click="ReleaseForm.$valid && Release()">Release 5th/6th Sem</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

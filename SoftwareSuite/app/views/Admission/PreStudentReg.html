@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student PRN Detail</title>
+</head>
+<body>
+    <div ng-controller="PreStudentRegController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Student PRN Detail</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Student Admission</li>
+                        <li>Student PRN Detail</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="exTab1">
+                <center>
+                    <ul style="margin-top: 20px;" class="nav nav-pills">
+                        <li class={{FirsttabPanActiveClassLi}}>
+                            <a href="#1a" data-toggle="tab">Personal Details</a>
+                        </li>
+                        <li class={{SecondtabPanActiveClassLi}}>
+                            <a href="#2a" data-toggle="tab">Admission Details</a>
+                        </li>
+                        <li class={{ThirdtabPanActiveClassLi}}>
+                            <a href="#3a" data-toggle="tab">Address Info</a>
+                        </li>
+                    </ul>
+                </center>
+
+                <div class="tab-content clearfix base-row">
+                    <div class={{FirsttabPanActiveClass}} id="1a">
+                        <h3 class="ch3">Student's Academic Detail <hr></h3>
+                        <!-- New style start-->
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="adno">Admission No.:</label>
+                                    <input type="text" class="form-control" id="adno" ng-Model="PreStudentReg.AdmNo" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Name Of Institution (SSC) :</label>
+                                    <input type="text" class="form-control" id="LstInstName" ng-Model="PreStudentReg.LstInstName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">SSC HallTicket No.:</label>
+                                    <input type="text" class="form-control" id="adno" ng-Model="PreStudentReg.SSCHallTicket" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">PRN No.:</label>
+                                    <input type="text" class="form-control" id="PRNNo" ng-Model="PreStudentReg.PRNNo" ng-readonly="true" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="ch3">Student's Personal Detail <hr></h3>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="adno">Candidate's  Name:</label>
+                                    <input type="text" class="form-control" id="cname" ng-Model="PreStudentReg.StudName" maxlength="100" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Father's Name:</label>
+                                    <input type="text" class="form-control" id="fname" ng-Model="PreStudentReg.FatherName" maxlength="40" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Mother's Name:</label>
+                                    <input type="text" class="form-control" id="mname" ng-Model="PreStudentReg.MotherName" maxlength="40" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="Nationality">Nationality :</label>
+                                    <select class="form-control" id="Nationality" ng-model="PreStudentReg.Nationality" ng-readonly="true" ng-disabled="true">
+                                        <option value="I">Indian</option>
+                                        <option value="F">Foreigner</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="email">Date Of Birth :</label>
+                                    <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-model="PreStudentReg.BirthDate" ng-readonly="true" ng-disabled="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SubCastID">Caste/Community :</label>
+                                    <select class="form-control" id="CasteID" ng-model="PreStudentReg.CasteID" ng-change="FillSubCaste(PreStudentReg.CasteID)" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SubCastID">Sub Caste :</label>
+                                    <select class="form-control" id="SubCastID" ng-model="PreStudentReg.SubCastID" ng-disabled="{{PreDisable}}">
+                                        <!--ng-disabled="SubCasteDisable"-->
+                                        <option ng-selected="PreStudentReg.SubCastID == option.SubCastID" ng-repeat="option in SubCastList" value="{{option.SubCastID}}">{{option.SubCastName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email">Gender :</label>
+                                    <form ng-disabled="true">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="PreStudentReg.Gender" checked value="M">Male
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="PreStudentReg.Gender" value="F">Female
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="PreStudentReg.Gender" value="O">Other
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="MothTID">Mother Tongue :</label>
+                                    <select class="form-control populate placeholder" id="MothTID" ng-model="PreStudentReg.MothTID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.MothTID == option.MothTID" ng-repeat="option in MotherTongueList" value="{{option.MothTID}}">{{option.MothTName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" style="padding-top: 6px;">
+                                    <label for="adno">Student Identification Mark 1 :</label>
+                                    <input type="text" class="form-control" id="IdentiMarks" ng-Model="PreStudentReg.IdentiMarks" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" style="padding-top: 6px;">
+                                    <label for="adno">Student Identification Mark 2 :</label>
+                                    <input type="text" class="form-control" id="IdentiMarks2" ng-Model="PreStudentReg.IdentiMarks2" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">Physically Handicapped :</label>
+                                    <form ng-disabled="{{PreDisable}}">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="PreStudentReg.Handicaped" value="N">No
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="PreStudentReg.Handicaped" value="Y">Yes
+                                        </label>
+                                    </form>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="row" ng-show="PreStudentReg.Handicaped=='Y'">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group" ng-show="PreStudentReg.Handicaped=='Y'">
+                                    <label for="PhysDisbID">Physical Disability :</label>
+                                    <select class="form-control" id="PhysDisbID" ng-model="PreStudentReg.PhysDisbID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.PhysDisbID == option.PhysDisbID" ng-repeat="option in PhysDisbList" value="{{option.PhysDisbID}}">{{option.PhysDisbName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-show="PreStudentReg.Handicaped=='Y'">
+                                    <label for="SpclConsID">Special Consider :</label>
+                                    <select class="form-control" id="SpclConsID" ng-model="PreStudentReg.SpclConsID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.SpclConsID == option.SpclConsID" ng-repeat="option in SpclConsList" value="{{option.SpclConsID}}">{{option.SpclConsName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-show="PreStudentReg.Handicaped=='Y'">
+                                    <label for="PhysDisbID">Disability Per. :</label>
+                                    <input type="text" class="form-control input-sm" id="PhysDisbPer" ng-Model="PreStudentReg.PhysDisbPer" input-Number-Only ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="OcupID">Father's Occupation :</label>
+                                    <select class="form-control" id="OcupID" ng-model="PreStudentReg.OcupID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.OcupID == option.OcupID" ng-repeat="option in OccupationList" value="{{option.OcupID}}">{{option.OcupName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Parent/Guardian Income:</label>
+                                    <select class="form-control" id="IncGrID" ng-model="PreStudentReg.IncGrpID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.IncGrpID == option.IncGrpID" ng-repeat="option in IncGrList" value="{{option.IncGrpID}}">{{option.IncGrpame}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Parent/Guardian Name:</label>
+                                    <input type="text" class="form-control" id="Guardianname" ng-Model="PreStudentReg.Guardianname" maxlength="60" ng-disabled="{{PreDisable}}">
+                                </div>
+                                <div class="form-group" ng-show="RelGaridanShow">
+                                    <label for="adno">Relation With Guardian:</label>
+                                    <!--<input type="text" class="form-control input-sm" id="RelwithGuardian" ng-Model="StudentReg.RelwithGuardian" maxlength="20">-->
+                                    <select class="form-control input-sm" id="RelwithGuardian" ng-model="PreStudentReg.RelwithGuardian" ng-disabled="{{PreDisable}}">
+                                        <option value="Uncle">Uncle</option>
+                                        <option value="Brother">Brother</option>
+                                        <option value="Father">Father</option>
+                                        <option value="Mother">Mother</option>
+                                        <option value="Sister">Sister</option>
+                                        <option value="Cosine">Cousin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="GradePoints">Grade Points :</label>
+                                    <input type="text" class="form-control input-sm" id="GradePoints" ng-Model="PreStudentReg.GradePoints" maxlength="5" input-Number-Only oncopy="return false" onpaste="return false" ng-disabled="true">
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="ch3">Student's Communication Detail <hr></h3>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="adno">Student Mobile No :</label>
+                                    <input type="text" class="form-control" id="MobileNo" ng-Model="PreStudentReg.MobileNo" maxlength="10" input-Number-Only ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Parent Mobile No :</label>
+                                    <input type="text" class="form-control input-sm" id="ParentCellno" ng-Model="PreStudentReg.ParentCellno" maxlength="10" input-Number-Only ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Email ID :</label>
+                                    <input type="text" class="form-control" id="EmailId" ng-Model="PreStudentReg.EmailId" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Aadhaar No. (UID) :</label>
+                                    <a href="https://resident.uidai.gov.in/aadhaarverification" target="_blank" style="font-size:10px;">Verify</a>
+                                    <input type="text" class="form-control" id="AadharNo" maxlength="12" ng-Model="PreStudentReg.AadharNo" input-Number-Only ng-disabled="true">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-detail" ng-click="ContinueFirstPage()">Continue</button>
+                                <button type="button" class="btn btn-reset" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+
+                        <!-- New style end-->
+
+
+                    </div>
+                    <div class="{{SecondtabPanActiveClass}}" id="2a">
+                        <!-- New style start-->
+                        <div style="margin-top: 20px;" class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="AdmDate">Date Of Admission :</label>
+                                    <!--<input type="date" class="form-control" id="AdmDate" ng-Model="PreStudentReg.AdmDate">-->
+                                    <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="AdmDate" ng-readonly="true" ng-model="PreStudentReg.AdmDate" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">Class Admitted :</label>
+                                    <select class="form-control" id="ExamID" ng-model="PreStudentReg.ExamID" ng-disabled="{{PreDisable}}">
+                                        <!--ng-disabled="true"-->
+                                        <option ng-selected="PreStudentReg.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">Receiving Any Scholarship :</label>
+                                    <form ng-disabled="{{PreDisable}}">
+                                        <label class="radio-inline">
+                                            <input type="radio" value="Y" ng-model="PreStudentReg.ScholarshipFlag" name="optradio">Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="N" ng-model="PreStudentReg.ScholarshipFlag" checked name="optradio">No
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="MediumID">Medium :</label>
+                                    <select class="form-control" id="MediumID" ng-model="PreStudentReg.MediumID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Second Language (Part II) :</label>
+                                    <select class="form-control" id="SecondLangID" ng-model="PreStudentReg.SecondLangID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Group (Part III) :</label>
+                                    <select class="form-control" id="MainGrpID" ng-model="PreStudentReg.MainGrpID" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn btn-reset" ng-click="BackFirstPage()">Back</button>
+                                <button type="button" class="btn btn-detail" ng-click="ContinueSecondPage()">Continue</button>
+                                <button type="button" class="btn btn-reset" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <!-- New style end-->
+                    </div>
+                    <div class="{{ThirdtabPanActiveClass}}" id="3a">
+                        <!-- New style start-->
+                        <div class="row frow">
+                            <h3 class="ch3">Parent/Guardian's Present Address: <hr></h3>
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="HousenoP">House No. :</label>
+                                    <input type="text" class="form-control" id="Houseno" ng-Model="PreStudentReg.Houseno" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="StreetnameP">Street :</label>
+                                    <input type="text" class="form-control" id="Streetname" ng-Model="PreStudentReg.Streetname" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Village :</label>
+                                    <input type="text" class="form-control" id="Cityname" ng-Model="PreStudentReg.Cityname" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1">Mandal :</label>
+                                    <select class="form-control" id="MandalID" ng-model="PreStudentReg.MandalID" ng-disabled="MandalDisable">
+                                        <option ng-selected="PreStudentReg.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Your District :</label>
+                                    <select class="form-control" id="DistrictID" ng-model="PreStudentReg.DistrictID" ng-change="FillMandal(StudentReg.DistrictID)" ng-disabled="{{PreDisable}}">
+                                        <!--ng-disabled="DistrictDisable"-->
+                                        <option ng-selected="PreStudentReg.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                                <!-- <div class="form-group">
+                                <label for="sel1">&nbsp;</label>
+                                <label for="sel1">&nbsp;</label>
+                            </div>-->
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">State :</label>
+                                    <select class="form-control" id="StateID" ng-model="PreStudentReg.StateID" ng-change="FillDistrict(PreStudentReg.StateID)" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.StateID == option.StateID" ng-repeat="option in StateList" value="{{option.StateID}}">{{option.StateName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h3 class="ch3">Parent/Guardian's Permanant Address: <hr></h3>
+                            <div class="col-md-12">
+                                <label style="padding-top:3px;" class="control-label">Same as Present Address:</label>
+                                <input type="checkbox" id="CheckSamesAddress" ng-model="PreStudentReg.CheckSamesAddress" ng-disabled="{{PreDisable}}" ng-change="GetCheckSamesAddress(PreStudentReg.CheckSamesAddress)" style="width:40px" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="HousenoP">House No. :</label>
+                                    <input type="text" class="form-control" id="HousenoP" ng-Model="PreStudentReg.HousenoP" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno">Street :</label>
+                                    <input type="text" class="form-control" id="StreetnameP" ng-Model="PreStudentReg.StreetnameP" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="adno"> Village :</label>
+                                    <input type="text" class="form-control" id="CitynameP" ng-Model="PreStudentReg.CitynameP" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1">Mandal :</label>
+                                    <select class="form-control" id="MandalIDP" ng-model="PreStudentReg.MandalIDP" ng-disabled="{{PreDisable}}">
+                                        <!--ng-disabled="MandalDisableP"-->
+                                        <option ng-selected="PreStudentReg.MandalIDP == option.MandalID" ng-repeat="option in MandalListP" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Your District :</label>
+                                    <select class="form-control" id="DistrictIDP" ng-model="PreStudentReg.DistrictIDP" ng-change="FillMandalP(StudentReg.DistrictIDP)" ng-disabled="{{PreDisable}}">
+                                        <!--ng-disabled="DistrictDisableP"-->
+                                        <option ng-selected="PreStudentReg.DistrictIDP == option.DistrictID" ng-repeat="option in DistrictListP" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">State :</label>
+                                    <select class="form-control" id="StateIDP" ng-model="PreStudentReg.StateIDP" ng-change="FillDistrictP(PreStudentReg.StateIDP)" ng-disabled="{{PreDisable}}">
+                                        <option ng-selected="PreStudentReg.StateIDP == option.StateID" ng-repeat="option in StateList" value="{{option.StateID}}">{{option.StateName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1">Remark :</label>
+                                    <input type="text" class="form-control" id="Remark" ng-Model="PreStudentReg.Remark" ng-disabled="{{PreDisable}}">
+                                </div>
+                            </div>
+                            <!--<div class="col-md-2"></div>
+                        <div class="col-md-2"></div>-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn btn-reset" ng-click="BackSecondPage()">Back</button>
+                                <button type="button" class="btn btn-reset" ng-click="Exit()">Exit</button>
+                                <!--<button type="button" ng-disabled="RollEditDisable" class="btn btn-detail" ng-click="SavePreStudentReg()">SUBMIT</button>-->
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <!-- New style end-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script language=Javascript>
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+</script>
+
+</html>

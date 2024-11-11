@@ -1,0 +1,137 @@
+﻿<div ng-controller="AdministrationServicesController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Administration Services</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Student Services</a></li>
+                    <li><a href="#"> Administration Services</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/StudentServices" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+
+            <div class="base-row" style="padding:15px!important;">
+                <div class="">
+                    <div class="row">
+                      
+                      
+                        <div class="col-md-4 ng-hide" ng-show="studentTypeId == 2">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Semester:</label>
+                                <div class="">
+                                    <select class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" name="semister" required="" ng-model="sem" ng-change="changeSemester(sem)">
+                                        <option value="" selected="selected">Select Semester</option>
+                                        <!-- ngRepeat: sem in ActiveSemesters -->
+                                       
+                                    </select>
+                                    <!--<select class="form-control input-sm" id="stdGender" value="{{x}}" ng-model="x" ng-change="changeSem(x)" ng-disabled="PreDisable" name="Gender"
+                                    ng-options="x.semid as x.semester for x in ActiveSemesters">
+                                <option value="" selected>Choose</option>
+                            </select>-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                  
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="datetimepicker3" class="font-weight-bold">Tatkal Date :</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control ng-pristine ng-untouched ng-empty ng-valid-min ng-invalid ng-invalid-required" id="datetimepicker4" ng-model="TatkalDate1" min="" ng-disabled="tatkalDisable" ng-change="SetTatkalDateFormats(TatkalDate1)" name="FineDate" required="" disabled="disabled">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                                <span ng-show="SetDatesForm.FineDate.$dirty &amp;&amp; SetDatesForm.FineDate.$invalid" class="ng-hide">
+                                    <span ng-show="hasError('FineDate', 'required')" class="ng-hide">Fine Date no is required</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="datetimepicker3" class="font-weight-bold">Fee Amount :</label>
+                                <div id="Fineamount">
+                                    <input type="text" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="feeAmount1" autocomplete="off" name="Fineamount1" required="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="datetimepicker3" class="font-weight-bold">Late Fee :</label>
+                                <div id="Fineamount">
+                                    <input type="text" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="lateFee1" autocomplete="off" name="Fineamount1" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="datetimepicker3" class="font-weight-bold">Tatkal Fee :</label>
+                                <div id="Fineamount">
+                                    <input type="text" class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="tatkalFee1" autocomplete="off" name="Fineamount" required="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-detail">
+                            Set Dates
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Administration Services</h2>
+
+   
+
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-2">
+                            <th width="5%">S.No</th>
+                            <th>PIN</th>
+                            <th>Name</th>
+                            <th>Application No</th>
+                            <th class="text-center">Is Fee Paid ?</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        <!-- ngRepeat: x in AttendanceReports -->
+                        <tr class="ng-scope" ng-repeat="data in Approvals"  >
+                            <td >{{$index+1}}</td>
+                            <td ng-click="ViewDetails()"><a>{{data.pin}}</a></td>
+                            <td >{{data.Name}}</td> 
+                            <td >{{data.Application}}</td>
+                            <td class="text-center"><input type="checkbox" ng-checked="{{data.FeePaid}}" >  </td>
+                            <td ><input type="text" /></td>
+                            <td>
+                            <button class="btn btn-success btn-xs">Approve</button>
+                            <button class="btn btn-danger btn-xs">Reject</button></td>
+                        </tr>                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       
+    </div>
+</div>

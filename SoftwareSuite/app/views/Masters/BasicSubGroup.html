@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subject Group</title>
+</head>
+<body>
+    <div ng-controller="BasicSubGroupController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Subject Group</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Subject Group</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>SubGrpID :</label>
+                            <input type="text" class="form-control" ng-model="BasicSubGroup.SubGrpID" id="SubGrpID">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Main Group  :</label>
+                                        <select class="form-control" ng-model="BasicSubGroup.MainGrpID" id="MainGrpID">
+                                            <option value="">--Select Main Group --</option>
+                                            <option ng-selected="BasicSubGroup.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Group Sequence No :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubGroup.GroupSeq" id="GroupSeq" input-Number-Only placeholder="Group Sequence No">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Subject Group :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubGroup.SubGrpName" id="SubGrpName" maxlength="20" placeholder="Subject Group Name">
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Group Type :</label>
+                                        <select class="form-control" ng-model="BasicSubGroup.GroupType" id="GroupType">
+                                            <option value="">--Select Group Type--</option>
+                                            <option value="C">Complsory</option>
+                                            <option value="O">Optional</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Compulsory Subject Count :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubGroup.CompCount" no-Special-Char id="CompCount" input-Number-Only placeholder="Compulsory Subject Count">
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email"> Optional Subject Count :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubGroup.OptCount" no-Special-Char id="OptCount" input-Number-Only placeholder="Optional Subject Count">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicSubGroup()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicSubGroup()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+     <!--   <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Subject Group</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group" ng-show="false">
+                                                <label class=" control-label col-lg-2">SubGrpID :</label>
+                                                <div class="col-lg-1">
+                                                    <input type="text" class="form-control" ng-model="BasicSubGroup.SubGrpID" id="SubGrpID">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1"> Main Group  :</label>
+                                            <select class="form-control" ng-model="BasicSubGroup.MainGrpID" id="MainGrpID">
+                                                <option value="">--Select Main Group --</option>
+                                                <option ng-selected="BasicSubGroup.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Group Sequence No :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubGroup.GroupSeq" id="GroupSeq" input-Number-Only placeholder="Group Sequence No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Subject Group :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubGroup.SubGrpName" id="SubGrpName" maxlength="20" placeholder="Subject Group Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1"> Group Type :</label>
+                                            <select class="form-control" ng-model="BasicSubGroup.GroupType" id="GroupType">
+                                                <option value="">--Select Group Type--</option>
+                                                <option value="C">Complsory</option>
+                                                <option value="O">Optional</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Compulsory Subject Count :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubGroup.CompCount" no-Special-Char id="CompCount" input-Number-Only placeholder="Compulsory Subject Count">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email"> Optional Subject Count :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubGroup.OptCount" no-Special-Char id="OptCount" input-Number-Only placeholder="Optional Subject Count">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicSubGroup()">SUBMIT<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicSubGroup()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

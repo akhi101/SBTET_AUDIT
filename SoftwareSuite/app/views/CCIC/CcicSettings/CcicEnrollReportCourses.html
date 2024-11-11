@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<style>
+    span {
+        color: white !important;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+    }
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Enrollment Report</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        span {
+            color: red;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="CcicEnrollReportCoursesController">
+
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <ui-view>
+                    <div class="breadcrumb-header">
+                        <!-- breadcrumb Open -->
+                        <div class="container">
+                            <section class="content-header">
+                                <h5>Enrollment Report View </h5>
+                                <ol class="breadcrumb">
+                                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> CcicDashboard</a></li>
+                                    <li><a href="#!/CcicDashboard/Academic">Academic</a></li>
+                                </ol>
+                            </section>
+                        </div>
+                    </div>
+                    <section class="content">
+                        <div class="container">
+
+
+
+
+
+                            <div class="col-md-12">
+                                <div class="row base-row">
+
+                                    <div class="col-md-12">
+                                        <div id="EnrollmentReportTable">
+                                            <div class="cl-details">
+                                                <h2>Enrollment Report</h2>
+                                            </div>
+                                            <!--<div style="width:100%;text-align:center;">
+                                                <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                            </div>-->
+
+                                            <div class="table-responsive table-custom-tables-tb" id="EnrollmentDetails">
+                                                <table class="table table-bordered table-hover table-rounded">
+                                                    <thead>
+                                                        <tr class="cb-1">
+                                                            <th>CourseCode</th>
+                                                            <th>Intake</th>
+                                                            <th>Enrolled</th>
+                                                            <th>Submitted</th>
+                                                            <th>Approved</th>
+                                                            <th>Pending</th>
+                                                            <th>Revised</th>
+                                                            <th>Rejected</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="Data in EnrollmentReportCountTable">
+
+                                                            <td>{{Data.CourseCode}}</td>
+                                                            <td>{{Data.Intake}}</td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,1)">{{Data.Enrolled == null ?'--':Data.Enrolled}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,2)">{{Data.Submitted == null ?'--':Data.Submitted}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,3)">{{Data.Approved == null ?'--':Data.Approved}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,4)">{{Data.Pending == null ?'--':Data.Pending}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,5)">{{Data.Revised == null ?'--':Data.Revised}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,6)">{{Data.Rejected == null ?'--':Data.Rejected}}</a></b></td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-12 footer_section" ng-include="'app/views/CCIC/CCICFooter.html'"></div>
+
+</body>
+</html>

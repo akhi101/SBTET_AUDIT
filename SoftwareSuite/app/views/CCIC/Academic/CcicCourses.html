@@ -1,0 +1,352 @@
+<style>
+
+    thead {
+        background-color: #f2f2f2;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .container .containercontent {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .containercontent {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div ng-controller="CcicCoursesController">
+
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container containercontent">
+            <section class="content-header">
+                <h5>Courses</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/CcicDashboard/Academic">Academic</a></li>
+                    <li><a href="#!/CcicDashboard/Academic/Courses">Courses</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container containercontent">
+
+        <div class="col-md-12 containercontent">
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+
+
+
+
+        <div class="tab-content ">
+
+
+            <div class="col-md-12 containercontent">
+                <div class="cl-details">
+                    <h2>Add Courses</h2>
+
+                </div>
+            </div>
+            <div class="col-md-12 containercontent">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Scheme:
+                                </label>
+                                <input class="form-control" disabled type="text" maxlength="10" placeholder="Enter Scheme" ng-model="Scheme">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Course Code:
+                                </label>
+                                <input class="form-control" type="text" maxlength="2" minlength="2" onkeyup="this.value = this.value.toUpperCase()" placeholder="Enter Course Code" ng-model="CourseCode">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Course Duration:
+                                </label>
+                                <select class="form-control" id="CourseDuration" ng-model="CourseDuration" ng-change="changeduration(CourseDuration)"
+                                        ng-options="data.CourseDurationName as data.CourseDurationName for data in CourseDurationsData">
+                                    <option value="" selected>Select CourseDuration</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Course Name:
+                                </label>
+                                <input class="form-control" type="text" maxlength="250" onkeyup="this.value = this.value.toUpperCase()" placeholder="Enter Course Name" ng-model="CourseName">
+                            </div>
+                        </div>
+
+
+
+
+                        <!--<div class="col-md-4">
+        <div class="form-group">
+            <label class="font-weight-bold">
+                Course Qualification:
+            </label>
+            <select class="form-control" id="CourseQualification" ng-model="CourseQualification" ng-change="changequalification(CourseQualification)"
+                    ng-options="data.Qualification as data.Qualification for data in QualificationsData">
+                <option value="" selected>Select Course Qualification</option>
+            </select>
+        </div>
+    </div>-->
+
+
+                        <div class="col-md-12" ng-show="AddDetails=='1'">
+                            <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="adddetails()">
+                                ADD
+                            </button>
+                        </div>
+
+                        <div class="col-md-12" ng-show="UpdateDetails=='1'">
+                            <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="updatedetails()">
+                                UPDATE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-if="loading">
+                    <!--<div class="sm-spacer"></div>-->
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-if="NoData">
+                    <div class="col-md-12 no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data</h2>z
+                    </div>
+                </div>
+                <div class="table-responsive table-custom-tables-tb">
+                    <div ng-if="CoursesTable.length>0" class="cl-details">
+                        <h2>Courses</h2>
+                    </div>
+                    <div ng-if="CoursesTable.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                        <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th width="5%">S.No</th>
+                                    <th width="15%" class="text-center">Course Code</th>
+                                    <th width="15%" class="text-center">Course Name</th>
+                                    <th width="15%" class="text-center">Course Duration</th>
+                                    <th width="15%" class="text-center">Status</th>
+                                    <th width="15%" class="text-center">Edit/Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in CoursesTable">
+                                    <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.CourseCode}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.CourseName}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.CourseDuration}}</td>
+
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-xs"  style="width: 70px;" ng-show="data.Active == true" ng-click="SetCourseStatus(data.CourseID,false)">Active</button>
+                                        <button class="btn btn-danger btn-xs"  style="width: 70px;" ng-show="data.Active == false" ng-click="SetCourseStatus(data.CourseID,true)">InActive</button>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-click="editCourses(data)">
+                                            Edit
+                                        </button>
+
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sm-spacer"></div>
+                    <div class="sm-spacer"></div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

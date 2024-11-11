@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Zone Wise College Attached List</title>
+   
+</head>
+<body>
+    <div ng-controller="ReportOfZoneWiseCollegeAttachedController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Zone Wise College Attached List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Zone Wise College Attached List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group col-md-2 col-md-offset-4">
+                            <select class="form-control" ng-model="ReportOfZoneWiseCollegeAttached.ReportType" id="ReportType" ng-change="GetPreZoneData(ReportOfZoneWiseCollegeAttached.DistrictID)">
+                                <option value="">Select Report Type</option>
+                                <option ng-selected="ReportOfZoneWiseCollegeAttached.ReportType == option.ReportType" ng-repeat="option in reportTypes" value="{{option.ReportType}}">{{option.ReportTypeName}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                        <div class="showhide">
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-1">
+                                    <div class="form-group">
+                                        <!--  <label for="sel1">Select District :</label>-->
+                                        <select class="form-control" ng-model="ReportOfZoneWiseCollegeAttached.DistrictID" id="DistrictID" ng-change="GetPreZoneData(ReportOfZoneWiseCollegeAttached.DistrictID)">
+                                            <option value=""> District </option>
+                                            <option ng-selected="ReportOfZoneWiseCollegeAttached.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <!-- <label for="sel1">Select Zone :</label>-->
+                                        <select class="form-control" ng-model="ReportOfZoneWiseCollegeAttached.ZoneID" id="ZoneID">
+                                            <option value="">Select Zone / ALL</option>
+                                            <option ng-selected="ReportOfZoneWiseCollegeAttached.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-sm btn-detail" ng-click="PrintZoneWiseCollegeAttachedList()">Show</button>
+                                        <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <form class="form-horizontal" name="ReportForm" novalidate>
+                                        <div class="content-container-fluid">
+                                            <div class="row">
+                                                <div class="cols-sample-area">
+                                                    <div class="control">
+                                                        <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            <!-- New Style End-->
+        </div>
+       <!-- <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b>Zone Wise College Attached List</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-left:500px;">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="ReportOfZoneWiseCollegeAttached.DistrictID" id="DistrictID" ng-change="GetPreZoneData(ReportOfZoneWiseCollegeAttached.DistrictID)">
+                                        <option value="">--District --</option>
+                                        <option ng-selected="ReportOfZoneWiseCollegeAttached.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1"> Zone :</label>
+                                    <select class="form-control" ng-model="ReportOfZoneWiseCollegeAttached.ZoneID" id="ZoneID">
+                                        <option value="">--ALL--</option>
+                                        <option ng-selected="ReportOfZoneWiseCollegeAttached.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12" style="overflow-x: auto;">
+                                <div class="panel-body" style="overflow-x: auto;">
+                                    <center>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="PrintZoneWiseCollegeAttachedList()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">Exit<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr style="margin-top:20px;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

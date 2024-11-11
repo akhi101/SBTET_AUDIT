@@ -1,0 +1,207 @@
+﻿<style>
+    .tab-content{
+        border:1px solid #ddd;
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #ffffff!important;
+    cursor: pointer !important;
+    background-color: #35a5f1!important;
+    font-weight: bold!important;
+    border: 1px solid #ddd!important;
+    border-bottom-color: transparent!important;
+        letter-spacing: 0.5px;
+}
+</style>
+<div ng-controller="S2sTransactionReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Student Search</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/SearchStudent">Student Search</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+     
+
+        
+                <div class="spacer"></div>
+
+
+                <div id="exTab2" class="container">
+                    <ul class="nav nav-tabs" style="margin-bottom:0px!important;">
+                        <li class="active">
+                            <a href="#1" data-toggle="tab">Payment Summary</a>
+                        </li>
+                        <li>
+                            <a href="#2" data-toggle="tab">Transation Reports</a>
+                        </li>
+                        <!--<li>
+                            <a href="#3" data-toggle="tab">Solution</a>
+                        </li>-->
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="1"> 
+                            <div class="row">
+                             
+                                <div class="col-md-12" ng-show="datatransactionReports1">
+ 
+                                    <div class="cl-details">
+                                        <h2>Exam Fee Transaction Report Summary</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table style="width:100%;" class="table table-bordered  table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th style="width:1%;font-weight:600;">S.No</th>
+                                                    <th style="font-weight:600;">Exam Type</th>
+                                                    <th style="font-weight:600;">Date</th>
+                                                    <th style="font-weight:600;">Success Transaction</th>
+                                                    <th style="font-weight:600;">Failure Transactions</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in transactionReports1">
+                                                    <td style="width: 1%">{{$index+1}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.Type}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.Date|date:"dd-MMM-yyyy"}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.SuccessTransactions}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.FailureTransactions}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <br />
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="2"> 
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="base-row" style="margin-bottom: auto;">
+                                        <form name="seatingArrangementBlockwiseForm" ng-submit="saveSeatingArrangementBlockwise()" ng-init="init()" class="ng-pristine ng-valid">
+                                            <div class="row ">
+                                                <!--<div class="col-md-3 form-group">
+                                                    <!--  <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                                                    <!--<label>Course</label>
+                                                    <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="seatingArrangementBlockwise.courseID">
+                                                        <option value="" selected="selected">Select Course</option>
+                                                        <option value="EC">EC</option>
+                                                        <option value="MECH">MECH</option>
+                                                    </select>
+                                                    <select class="form-control" ng-model="SelectedStudent" ng-change="getExamCategory(SelectedStudent,selectedsem)">
+                                                        <option value="" selected>Select Exam Type</option>
+                                                        <option ng-repeat="Student in StudentType" value="{{Student}}">
+                                                            {{Student.type}}
+                                                        </option>
+                                                    </select>
+                                                </div>-->
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Exam Type:
+                                                    </label>
+                                                    <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changedVal(Student.id)" required>
+                                                        <option value="" selected>Select Exam Type</option>
+                                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                            {{Student.type}}
+                                                        </option>
+                                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Start Date</label>
+                                                    <sa-date ng-model="StartDate" displaylabel="Start Date" object="StatrtDate" objectname="StatrtDate" length="100" ispascal="true"> </sa-date>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>End Date</label>
+                                                    <sa-date ng-model="EndDate" displaylabel="End Date" object="EndDate" objectname="EndDate" length="100" ispascal="true"> </sa-date>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <button style="margin-top: 20px;" class="btn btn-success" ng-click="getData()">Download File</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--   <hr />-->
+
+                                   <!-- <div class="sm-spacer"></div>-->
+                                </div>
+                                <div class="pull-right hidden">
+                                    <a class="ExportToExcel1 pointer" ng-if="transactionReports2.length > 0"
+                                       id="ExportToExcel1" style="padding: 20px;" ng-click="DownloadtoExcel('#tblParents')">
+                                        <i class="fa fa-file-excel-o"></i>
+                                        Export to Excel
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12 hidden">
+                                    
+                                    
+                                    <div class="cl-details hidden">
+                                        <h2>Transaction Report</h2>
+                                    </div>
+                                    <div class="scrollbox" style="overflow-x:auto;">
+                                        <sa-table id="tblParents" class="table table-bordered scrollbox-content table-striped table-rounded" tabledata="transactionReports2">
+                                        </sa-table>
+                                    </div>
+                                    <!--<div class="table-responsive table-custom-tables-tb">
+                                        <table style="width:100%;" class="table table-bordered  table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th style="width:1%;font-weight:600;">S.No</th>
+                                                    <th style="font-weight:600;">Exam Type</th>
+                                                    <th style="font-weight:600;">Date</th>
+                                                    <th style="font-weight:600;">Success Transaction</th>
+                                                    <th style="font-weight:600;">Failure Transactions</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in transactionReports">
+                                                    <td style="width: 1%">{{$index+1}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.Type}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.Date|date:"dd-MMM-yyyy"}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.SuccessTransactions}}</td>
+                                                    <td style="font-weight:500;font-style:italic;">{{data.FailureTransactions}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>-->
+                                </div>
+                                <br />
+
+                            </div>
+                         </div>
+                        <div class="tab-pane" id="3">
+                            <h3>add clearfix to tab-content (see the css)</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+            
+
+
+                <!-- Bootstrap core JavaScript
+        ================================================== -->
+                <!-- Placed at the end of the document so the pages load faster -->
+                <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+    <div class="sm-spacer"></div>       
+     </div>
+        </div>
+    <!--</div>
+</div>-->

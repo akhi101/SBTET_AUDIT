@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Late Student Admission</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+    </style>
+</head>
+<body style="background-image:none;">
+    <div ng-controller="LateStudentAdmissionController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-user heading_icon"></span><b> Late Student Admission </b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">Select College :</label>
+                                <select class="form-control" id="CourseID" ng-model="LateStudentAdmission.CollegeID" >
+                                    <option ng-selected="LateStudentAdmission.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sel1">Select Stream :</label>
+                                <select class="form-control" id="CourseID" ng-model="LateStudentAdmission.CourseID" ng-change="FillCoursePart(LateStudentAdmission.CourseID)">
+                                    <option ng-selected="LateStudentAdmission.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sel1">Select Exam :</label>
+                                <select class="form-control" id="ExamID" ng-model="LateStudentAdmission.ExamID">
+                                    <option ng-selected="LateStudentAdmission.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <form>
+                                    <label for="email" style="margin-top: 10px;"> Student Type :</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="LateStudentAdmission.AdmType" checked value="S">State SSC Board
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="LateStudentAdmission.AdmType" value="E">Other than State SSC Board
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">HallTicket No :</label>
+                                <input type="text" class="form-control" id="SSCHallTicket"  ng-model="LateStudentAdmission.SSCHallTicket">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sel1"> Student Name :</label>
+                                <input type="text" class="form-control" id="StudName"  ng-model="LateStudentAdmission.StudName">
+                            </div>
+                            <div class="form-group" ng-show="LateStudentAdmission.AdmType=='E'">
+                                <label for="sel1">Eligibility Certificate Number :</label>
+                                <input type="text" class="form-control" id="EligibilityNo"  ng-model="LateStudentAdmission.EligibilityNo">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-12">
+                                    <button ng-disabled="RollEditDisable" type="button" class="btn btn-primary" ng-click="SaveLateStudentAdmission()">Save</button>
+                                    <button ng-disabled="RollDeleteDisable" type="button" class="btn btn-primary" ng-click="DeleteLateStudentAdmission()">Delete</button>
+                                    <button type="reset" class="btn btn-default" ng-click="Exit()">Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

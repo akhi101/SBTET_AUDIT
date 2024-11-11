@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>True Extracts of Marks Memo</title>
+</head>
+<body>
+    <div ng-controller="TrueExMarksMemoAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>True Extracts of Marks Memo</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>True Extracts of Marks Memo</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date : {{TrueExMarksMemoApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="TrueExMarksMemoApp.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="FatherName" ng-model="TrueExMarksMemoApp.FatherName" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <!--<div class="col-md-6 form-group">
+        <label for=""> SSC Hall Ticket: </label>
+        <input type="text" class="form-control" id="HTNO" ng-model="TrueExMarksMemoApp.HTNO" input-Number-Only>
+    </div>-->
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Hall Ticket Number/Roll No.:</label>
+                                        <input type="text" class="form-control" id="RollNO" ng-model="TrueExMarksMemoApp.RollNO" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Form No.:</label>
+                                        <input type="text" class="form-control" id="RollNO" ng-model="TrueExMarksMemoApp.FormNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Group Name: </label>
+                                        <input type="text" class="form-control" id="GroupName" ng-model="TrueExMarksMemoApp.GroupName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number:</label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="TrueExMarksMemoApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Fee(in Rupees) : </label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="TrueExMarksMemoApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red" ng-show="ShowStar1">*&nbsp;</font></label><label for=""> Accept / Reject at Level 1 :</label>
+                                        <select class="form-control" id="ReqStatus" ng-model="TrueExMarksMemoApp.ReqStatus" ng-disabled="FirstLoginStatus" ng-change="ChangeTextArea(TrueExMarksMemoApp.ReqStatus,'ReqStatus')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <!--<option value="P">Pending</option>-->
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <div ng-show="ShowLevel1" class="status"> Level 1 Status Approved/Rejected Date : {{TrueExMarksMemoApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{TrueExMarksMemoApp.ReqStatusIPAddress}}</div>
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> College Name :</label>
+                                        <input type="text" class="form-control" id="ColName" ng-model="TrueExMarksMemoApp.ColName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Purpose :</label>
+                                        <textarea rows="2" style="width: 100%;" id="Purpose" class="form-control" ng-model="TrueExMarksMemoApp.Purpose" ng-readonly="true"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""><font color="red" ng-show="ShowStar1">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="TrueExMarksMemoApp.ProcessRemark" ng-disabled="FirstLoginStatus"></textarea>
+                                    </div>
+                                    <div ng-show="Approver1">
+                                        <div class="col-md-6 form-group">
+                                            <label for=""><font color="red" ng-show="ShowStar2">*&nbsp;</font> Accept / Reject at Level 2:</label>
+                                            <select class="form-control" id="ReqStatus" ng-model="TrueExMarksMemoApp.ReqStatus1" ng-disabled="SecondLoginStatus" ng-change="ChangeTextArea(TrueExMarksMemoApp.ReqStatus1,'ReqStatus1')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <!--<option value="P">Pending</option>-->
+                                                <option value="R">Reject</option>
+                                            </select>
+                                            <div ng-show="ShowLevel2" class="status"> Level 2 Status Approved/Rejected Date : {{TrueExMarksMemoApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{TrueExMarksMemoApp.ReqStatus1IPAddress}}</div>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for=""><font color="red" ng-show="ShowStar2">*&nbsp;</font> Process Remark at Level 2:</label>
+                                            <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="TrueExMarksMemoApp.ProcessRemark1" ng-disabled="SecondLoginStatus"></textarea>
+                                        </div>
+                                    </div>
+                                    <div ng-show="Approver2">
+                                        <div class="col-md-6 form-group">
+                                            <label for=""><font color="red" ng-show="ShowStar3">*&nbsp;</font> Approve / Reject at Level 3 :</label>
+                                            <select class="form-control" id="ReqStatus" ng-disabled="ThirdLoginStatus" ng-model="TrueExMarksMemoApp.ReqStatus2" ng-change="ChangeTextArea(TrueExMarksMemoApp.ReqStatus2,'ReqStatus2')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <!--<option value="P">Pending</option>-->
+                                                <option value="R">Reject</option>
+                                            </select>
+                                            <div ng-show="ShowLevel3" class="status"> Level 3 Status Approved/Rejected Date : {{TrueExMarksMemoApp.ProcessDate2 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{TrueExMarksMemoApp.ReqStatus1IPAddress}}</div>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label for=""><font color="red" ng-show="ShowStar3">*&nbsp;</font> Process Remark at Level 3:</label>
+                                            <textarea rows="4" style="width: 100%;" ng-disabled="ThirdLoginStatus" id="ProcessRemark" ng-model="TrueExMarksMemoApp.ProcessRemark2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-show="SubmitTrueEx" ng-disabled="RollEditDisable" ng-click="SaveTrueExMarksMemoApp()" class="btn btn-detail btn-sm">Submit</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Subjectwise Center Summary</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Subjectwise Center Summary</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="subjectwiseCenterSummaryController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="subjectwiseCenterSummaryForm" ng-submit="getSubjectwiseCenterSummary()">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <sa-select ng-model="subjectwiseCenterSummary.CourseID" object="subjectwiseCenterSummary.CourseID" options="courses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCenterSummary.ExamID" object="subjectwiseCenterSummary.ExamID" options="bacicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCenterSummary.DistrictID" object="subjectwiseCenterSummary.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCenterSummary.PreZoneCntrID" object="subjectwiseCenterSummary.PreZoneCntrID" options="basicCenters" displaycolumn="ColName" valuecolumn="PreZoneCntrID" objectname="PreZoneCntrID" objecttext="Center"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCenterSummary.ExmSubID" object="subjectwiseCenterSummary.ExmSubID" options="basicExamSubjects" displaycolumn="ExmSubName" valuecolumn="ExmSubID" objectname="ExmSubID" objecttext="Subject"> </sa-select>
+                    </div>
+
+                    <div style="margin-top:22px;" class="col-md-7 text-right">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+

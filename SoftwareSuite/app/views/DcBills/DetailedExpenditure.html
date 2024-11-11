@@ -1,0 +1,420 @@
+﻿<style>
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{
+         font-weight:bold!important;
+    background-color: #5ca0d3!important;
+    color: #fff!important;
+    }
+    .gr-button {
+        background: #1b84e7;
+        border: none;
+        padding: 7px 10px;
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        border-radius: 4px;
+        border: none;
+        font-size: 13px;
+        float: right;
+    }
+
+    .deleteBtn {
+        width: 42px;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .editbtn {
+        width: 42px;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .cl-details h2 {
+        margin-bottom: -1px;
+    }
+
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #78987c !important;
+        font-size: 14px !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer !important;
+        border: 1px solid #ddd !important;
+        color: #ffffff !important;
+        background-color: #1976d2 !important;
+    }
+
+    .table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #ffffff !important;
+        background-color: #1976d2 !important;
+        font-size: 12px !important;
+    }
+</style>
+<div ng-controller="DetailedExpenditureController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Exam Detailed  Expenditure</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/DcBillsDashboard">DC Bills</a></li>
+                        <li><a href="#!/Dashboard/DcBillsDashboard/DetailedExpenditure">Exam Detailed Expenditure</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/DcBillsDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>Exam Detailed Expenditure  </h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm">
+                        <div class="row">
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="AcademicYear" name="StudentType" required
+                                        ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears" ng-change="ChangeData()">
+                                    <option value="" selected>Select Academic Year</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control input-sm" id="monthyear" ng-model="monthyear"
+                                        ng-options="x.Id as x.ExamYearMonth for x in GetExamMonthYear" required ng-change="ChangeData()"
+                                        no-Special-Char ng-disabled="UpdateTrue">
+                                    <option value="" selected>Select Exam Month Year</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label for="ExaminationType">
+                                    Exam Type:
+                                </label>
+                                <select class="form-control input-sm" id="stdShift" ng-model="ExaminationType" ng-change="ChangeData()"
+                                        ng-options="x.id as x.type for x in StudentTypes"
+                                        no-Special-Char ng-disabled="UpdateTrue">
+                                    <option value="" selected>Select Exam Type</option>
+                                </select>
+
+                            </div>
+
+
+
+
+                            <div class="col-md-3 ">
+                                <div class="gr-btn">
+                                    <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="GetDetails()">Get Details</button>
+                                    <!--  <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="UpdateExpenditure()" ng-show="UpdateTrue">Update Expenditure</button>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+
+        <div class="">
+            <!--<button class="btn pull-left btn-info btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+           Branch Wise
+        </button>
+        <button class="btn pull-left btn-info btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+            Branch Wise
+        </button>
+        <button class="btn pull-left btn-info btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+            Branch Wise
+        </button>-->
+
+
+
+            <div  class="container" ng-show="hideTrue">
+                <ul class="nav nav-tabs">
+                    <li class="myBtn active" ng-click="ClearData()">
+                        <a href="#1" data-toggle="tab">Theory Expenditure</a>
+                    </li>
+                    <li ng-click="ClearData()">
+                        <a href="#2" data-toggle="tab">Practical Expenditure</a>
+                    </li>
+                    <li ng-click="ClearData()">
+                        <a href="#3" data-toggle="tab">Event Expenditure</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content ">
+                    <div class="tab-pane active" id="1">
+                        <div class="col-md-12" ng-show="TheoryExpenditureReport.length >0">
+                            <a class="ExportToExcel1 pointer pull-right"
+                               id="ExportToExcel1" ng-click="DownloadtoExcel('#Table1')" style="margin-top: 15px;">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                        <div class="col-md-12 ng-scope" ng-show="TheoryExpenditureReport.length >0">
+                            <div class="cl-details">
+                                <h2> Theory Expenditure</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="TheoryExpenditureReport.length >0">
+                            <div class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content" id="Table1">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:bold;">S.No</th>
+                                            <th>College Code</th>
+                                            <th class="text-center"> Student Strength</th>
+                                            <th class="text-center"> Exam Date</th>
+                                            <th class="text-center"> Exam Time</th>
+                                            <th class="text-center">Chief Superintendent</th>
+                                            <th class="text-center">Delivery Charges PerDay</th>
+                                            <th class="text-center"> Examination Clerk Typing Charges</th>
+
+                                            <th class="text-center"> Internal Flying SquadCharges</th>
+                                            <th class="text-center"> Joint Chief Superintendent</th>
+                                            <th class="text-center"> Police Bandobasth</th>
+
+                                            <th class="text-center"> Total Control Room Charges</th>
+                                            <th class="text-center"> Total EDEP Charges</th>
+                                            <th class="text-center"> Total Invigilator charges</th>
+                                            <th class="text-center"> Total Printing Charges</th>
+                                            <th class="text-center"> Total Theory Attender Cum Waterman Cum Sweeper Charges Per Subject</th>
+                                            <th class="text-center"> Total </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color:#fff!important;" ng-repeat="data in TheoryExpenditureReport">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.ExamCenterCode}} - {{data.ExamCenterName}}</td>
+                                            <td class="text-center">{{data.StudentStrength}}</td>
+                                            <td class="text-center">{{data.ExamDate}}</td>
+                                            <td class="text-center">{{data.ExamTime}}</td>
+                                            <td class="text-center">{{data.ChiefSuperintendent}}</td>
+                                            <td class="text-center">{{data.DeliveryChargesPerDay}}</td>
+                                            <td class="text-center">{{data.ExaminationClerk_TypingCharges}}</td>
+
+                                            <td class="text-center">{{data.InternalFlyingSquadCharges}}</td>
+                                            <td class="text-center">{{data.JointChiefSuperintendent}}</td>
+                                            <td class="text-center">{{data.PoliceBandobasth}}</td>
+
+                                            <td class="text-center">{{data.TotalControlRoomCharges}}</td>
+                                            <td class="text-center">{{data.TotalEDEPCharges}}</td>
+                                            <td class="text-center">{{data.TotalInvigilatorcharges}}</td>
+                                            <td class="text-center">{{data.TotalPrintingCharges}}</td>
+                                            <td class="text-center">{{data.TotalTheoryAttenderCumWatermanCumSweeperChargesPerSubject}}</td>
+                                            <td class="text-center">
+                                                {{data.ChiefSuperintendent+data.DeliveryChargesPerDay+data.ExaminationClerk_TypingCharges+data.InternalFlyingSquadCharges+data.JointChiefSuperintendent+data.PoliceBandobasth+data.TotalControlRoomCharges+data.TotalEDEPCharges+data.TotalInvigilatorcharges+data.TotalPrintingCharges+data.TotalTheoryAttenderCumWatermanCumSweeperChargesPerSubject}}
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color:#fff!important;">
+                                            <td colspan="2">Total</td>
+                                            <td class="text-center">{{StudentStrength}}</td>
+                                            <td class="text-center"> </td>
+                                            <td class="text-center"> </td>
+                                            <td class="text-center">{{ChiefSuperintendent}}</td>
+                                            <td class="text-center">{{DeliveryChargesPerDay}}</td>
+                                            <td class="text-center">{{ExaminationClerk_TypingCharges}}</td>
+
+                                            <td class="text-center">{{InternalFlyingSquadCharges}}</td>
+                                            <td class="text-center">{{JointChiefSuperintendent}}</td>
+                                            <td class="text-center">{{PoliceBandobasth}}</td>
+
+                                            <td class="text-center">{{TotalControlRoomCharges}}</td>
+                                            <td class="text-center">{{TotalEDEPCharges}}</td>
+                                            <td class="text-center">{{TotalInvigilatorcharges}}</td>
+                                            <td class="text-center">{{TotalPrintingCharges}}</td>
+                                            <td class="text-center">{{TotalTheoryAttenderCumWatermanCumSweeperChargesPerSubject}}</td>
+                                            <td class="text-center">{{ChiefSuperintendent+DeliveryChargesPerDay+ExaminationClerk_TypingCharges+InternalFlyingSquadCharges+JointChiefSuperintendent+PoliceBandobasth+TotalControlRoomCharges+TotalEDEPCharges+TotalInvigilatorcharges+TotalPrintingCharges+TotalTheoryAttenderCumWatermanCumSweeperChargesPerSubject}}</td>
+                                        </tr>
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <div ng-show="TheoryExpenditureReport.length <1" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data Found</h2>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="2">
+                        <div class="col-md-12" ng-show="PracticalExpenditureReport.length >0">
+                            <a class="ExportToExcel1 pointer pull-right"
+                               id="ExportToExcel1" ng-click="DownloadtoExcel1('#Table2')" style="margin-top: 15px;">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                        <div class="col-md-12 ng-scope" ng-show="PracticalExpenditureReport.length >0">
+                            <div class="cl-details">
+                                <h2> Practical Expenditure</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="PracticalExpenditureReport.length >0">
+                            <div class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content" id="Table2">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:bold;">S.No</th>
+                                            <th>College Code</th>
+                                            <th>Subject Code</th>
+                                            <th>Subject Type</th>
+                                            <th class="text-center">No Of Students</th>
+                                            <th class="text-center">No Of External Examiners</th>
+                                            <th class="text-center"> Total Practical AttenderCharges</th>
+                                            <th class="text-center">Total Practical External Paper Setting Charges</th>
+                                            <th class="text-center"> Total Practical Internal Paper Setting Charges</th>
+                                            <th class="text-center"> Total Practical Local Conveyance Charges</th>
+                                            <th class="text-center"> Total Practical Paper Valuation Charges</th>
+                                            <th class="text-center"> Total Practical Viva Charges (Industrial Training)</th>
+                                            <th class="text-center"> Total Practical Technical Assistant Charges</th>
+                                            <th class="text-center"> Total Practical Waterman Cum Sweeper Charges</th>
+                                            <th class="text-center"> Total </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color:#fff!important;" ng-repeat="data in PracticalExpenditureReport">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.ExamCenterCode}} - {{data.ExamCenterName}}</td>
+                                            <td>{{data.SubjectCode}}</td>
+                                            <td>{{data.SubType}}</td>
+                                            <td class="text-center">{{data.NO_OF_STUDENTS}}</td>
+                                            <td class="text-center">{{data.NoOfExternalExaminers}}</td>
+                                            <td class="text-center">{{data.TotalPracticalAttenderCharges}}</td>
+                                            <td class="text-center">{{data.TotalPracticalExternalPaperSettingCharges}}</td>
+                                            <td class="text-center">{{data.TotalPracticalInternalPaperSettingCharges}}</td>
+                                            <td class="text-center">{{data.TotalPracticalLocalConveyanceCharges}}</td>
+                                            <td class="text-center">{{data.TotalPracticalPaperValuationCharges}}</td>
+                                            <td class="text-center">{{data.TotalPracticalVivaChargesforSixthSem}}</td>
+                                            <td class="text-center">{{data.TotalPracticalTechnicalAssistantCharges}}</td>
+                                            <td class="text-center">{{data.TotalPracticalWatermanCumSweeperCharges}}</td>
+                                           
+                                            <td class="text-center"> {{data.TotalPracticalAttenderCharges+data.TotalPracticalExternalPaperSettingCharges+data.TotalPracticalInternalPaperSettingCharges+data.TotalPracticalLocalConveyanceCharges+data.TotalPracticalPaperValuationCharges+data.TotalPracticalVivaChargesforSixthSem+data.TotalPracticalTechnicalAssistantCharges+data.TotalPracticalWatermanCumSweeperCharges}}</td>
+                                        </tr>
+                                        <tr style="background-color:#fff!important;">
+                                            <td colspan="4">Total</td>
+                                            <td class="text-center">{{NO_OF_STUDENTS}}</td>
+                                            <td class="text-center">{{NoOfExternalExaminers}}</td>
+                                            <td class="text-center">{{TotalPracticalAttenderCharges}}</td>
+                                            <td class="text-center">{{TotalPracticalExternalPaperSettingCharges}} </td>
+                                            <td class="text-center">{{TotalPracticalInternalPaperSettingCharges}}</td>
+                                            <td class="text-center">{{TotalPracticalLocalConveyanceCharges}}</td>
+                                            <td class="text-center">{{TotalPracticalPaperValuationCharges}}</td>
+                                            <td class="text-center">{{TotalPracticalVivaChargesforSixthSem}}</td>
+                                            <td class="text-center">{{TotalPracticalTechnicalAssistantCharges}}</td>
+                                            <td class="text-center">{{TotalPracticalWatermanCumSweeperCharges}}</td>
+                                            <td class="text-center">{{TotalPracticalAttenderCharges+TotalPracticalExternalPaperSettingCharges+TotalPracticalInternalPaperSettingCharges+TotalPracticalLocalConveyanceCharges+TotalPracticalPaperValuationCharges+TotalPracticalVivaChargesforSixthSem+TotalPracticalTechnicalAssistantCharges+TotalPracticalWatermanCumSweeperCharges}}</td>
+                                        </tr>
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <div ng-show="PracticalExpenditureReport.length <1" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data Found</h2>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="3">
+                        <div class="col-md-12" ng-show="EventExpenditureReport.length >0">
+                            <a class="ExportToExcel1 pointer pull-right"
+                               id="ExportToExcel1" ng-click="DownloadtoExcel2('#Table3')" style="margin-top: 15px;">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                        <div class="col-md-12 ng-scope" ng-show="EventExpenditureReport.length >0">
+                            <div class="cl-details">
+                                <h2> Exam Expenditure</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="EventExpenditureReport.length >0">
+                            <div class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content" id="Table3">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:bold;">S.No</th>
+                                            <th>College Code</th>
+                                            <th class="text-center">AoNotification</th>
+                                            <th class="text-center">Seat Clerk Charges</th>
+                                            <th class="text-center"> Superintendent</th>
+                                            <th class="text-center"> Total Seating Charges</th>
+                                            <th class="text-center"> Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color:#fff!important;" ng-repeat="data in EventExpenditureReport">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.ExamCenterCode}} - {{data.ExamCenterName}}</td>
+                                            <td class="text-center">{{data.AoNotification}}</td>
+                                            <td class="text-center">{{data.SeatclerkCharges}}</td>
+                                            <td class="text-center">{{data.Superintendent}}</td>
+                                            <td class="text-center">{{data.TotalSeatingCharges}}</td>
+                                            <td class="text-center">{{data.AoNotification+data.SeatclerkCharges+data.Superintendent+data.TotalSeatingCharges}}</td>
+                                        </tr>
+                                        <tr style="background-color:#fff!important;">
+                                            <td colspan="2">Total</td>
+                                            <td class="text-center">{{AoNotification}}</td>
+                                            <td class="text-center">{{SeatclerkCharges}}</td>
+                                            <td class="text-center">{{Superintendent}}</td>
+                                            <td class="text-center">{{TotalSeatingCharges}} </td>
+                                            <td class="text-center">{{AoNotification+SeatclerkCharges+Superintendent+TotalSeatingCharges}} </td>
+                                        </tr>
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <div ng-show="EventExpenditureReport.length <1" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data Found</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div ng-show="NoResult" class="no-results">
+            <img src="../../contents/img/Folder-Icon.svg" />
+            <h2>No Data Found</h2>
+        </div>
+        <div style="width: 100%; text-align: center;">
+            <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+</div>

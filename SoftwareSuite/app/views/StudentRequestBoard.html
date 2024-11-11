@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Student Online Board</title>
+    <style>
+        .adm {
+            height: 50px !important;
+        }
+
+            .adm p {
+                color: #FFF !important;
+                margin-top:0px !important;
+            }
+    </style>
+</head>
+<body>
+    <div ng-controller="StudentRequestBoardController">
+        <header>
+            <div class="row topbar_row_section">
+                <div class="container">
+                    <div class="row">
+                        <img src="../../contents/img/updated_header.jpg" class="img img-responsive" alt="header_banner" style="width: 100%;position: relative;">
+                    </div>
+                </div>
+            </div>
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>
+                                        <!--<li class="active">
+                                            <a ng-click="GoToHome()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>-->
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Request
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <!--<li><a ui-sref=".StudSerList({ServiceID: '01', ServiceName: 'Migration Certificate'})">Migration Certificate</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '02', ServiceName: 'Equivalency Certificate'})">Equivalency Certificate</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '03', ServiceName: 'Eligiblity Certificate'})">Eligibility Certificate</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '04', ServiceName: 'Duplicate Marks Memo'})">Duplicate Marks Memo</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '05', ServiceName: 'Name Correction'})">Name Correction</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '06', ServiceName: 'Duplicate/Triplicate Pass Certificate'})">Duplicate/Triplicate Pass Certificate</a></li>
+    <li><a ui-sref="">Attendance Exemption</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '08', ServiceName: 'Counter Signature'})">Counter Signature</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '09', ServiceName: 'True Extracts of Marks Memo'})">True extracts of Marks Memo</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '10', ServiceName: 'Transcripts'})">Transcripts</a></li>
+    <li><a ui-sref=".ReverifAppList">Reverification of Valued Answer Scripts</a></li>
+    <li><a ui-sref=".ReCountingAppList">Recounting of Marks</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '13', ServiceName: 'Group Change'})">Group Change</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '14', ServiceName: 'Medium Change'})">Medium Change</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '15', ServiceName: 'Study of 2nd Language At Own Risk'})">Study of 2nd Language at Own Risk</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '16', ServiceName: 'TC Admission Request'})">TC Admission Request</a></li>
+    <li><a ui-sref=".StudSerList({ServiceID: '17', ServiceName: 'ReAdmission'})">ReAdmission Request</a></li>-->
+                                                <li><a ui-sref=".ServiceRequestDrillDownReport">Request Drill Down Report</a></li>
+                                                <li><a ui-sref=".ServicesRevenueReport">Services Revenue Report</a></li>
+                                                <!--<li><a ui-sref=".TCIssue({ServiceID: '18', ServiceName: 'TCIssue'})">TC Issue</a></li>-->
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" ng-click="Myrequest()" href="#">
+                                                <b> Requests Count</b>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                   <!-- <ul class="nav navbar-right">
+                                        <li class="dropdown">
+                                            <a style="color:#fff;" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-user"></i>  <i class="fa fa-caret-down"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-user">
+                                                <li>
+                                                    <a href="#" ng-click="MyProfile()">
+                                                        <i class="fa fa-user"></i> My Profile
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="MyCollege()">
+                                                        <i class="fa fa-university"></i> My College
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>-->
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li style="font-size:13px; color:#fff; margin-top:10px;">Welcome <span id="college_name1">{{college_name1}}</span> | {{userName}} |</li>
+                                        <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b></b></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div id="page-wrapper">
+            <div id="page-content" class="page-content page-content-ease-in">
+                <div class="row">
+                    <ui-view>
+                        <div class="row">
+                            <div class="col-md-11 col-md-offset-1">
+                                <a ui-sref=".StudSerList({ServiceID: '01', ServiceName: 'Migration Certificate'})"><div style="background-color:#009688;" class="adm oes"><p>Migration Certificate</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '02', ServiceName: 'Equivalency Certificate'})"><div style="background-color:#009688;" class="adm oes"><p>Equivalency Certificate</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '03', ServiceName: 'Eligiblity Certificate'})"><div style="background-color:#009688;" class="adm oes"><p>Eligibility Certificate</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '04', ServiceName: 'Duplicate Marks Memo'})"><div style="background-color:#009688;" class="adm oes"><p>Duplicate Marks Memo</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '06', ServiceName: 'Duplicate/Triplicate Pass Certificate'})"><div style="background-color:#009688;" class="adm oes"><p>Duplicate/Triplicate Pass Certificate</p></div></a>
+                                <a ui-sref=".ReCountingAppList"><div style="background-color:#009688;" class="adm oes"><p>Re-Counting</p></div></a>
+                                <a ui-sref=".ReverifAppList"><div style="background-color:#009688;" class="adm oes"><p>Re-verification Subject</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '10', ServiceName: 'Transcripts'})"><div style="background-color:#009688;" class="adm oes"><p>Transcripts</p></div></a>
+                                <a ui-sref=".GroupChange"><div style="background-color:#009688;" class="adm oes"><p>Attendance Exemption</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '05', ServiceName: 'Name Correction'})"><div style="background-color:#009688;" class="adm oes"><p>Name Correction</p></div></a>
+                                <a ui-sref=".TrueExMarksMemoAppList"><div style="background-color:#009688;" class="adm oes"><p>True Extracts of Marks Memo</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '08', ServiceName: 'Counter Signature'})"><div style="background-color:#009688;" class="adm oes"><p>Counter Signature</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '13', ServiceName: 'Group Change'})"><div style="background-color:#009688;" class="adm oes"><p>Group Change</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '14', ServiceName: 'Medium Change'})"><div style="background-color:#009688;" class="adm oes"><p>Medium Change</p></div></a>
+                                <a ui-sref=".StudSerList({ServiceID: '15', ServiceName: 'Study of 2nd Language At Own Risk'})"><div style="background-color:#009688;" class="adm oes"><p>Study of 2nd Language</p></div></a>
+                                <a ui-sref=".TCAdmissionRequestList"><div style="background-color:#009688;" class="adm oes"><p>TC Admission Request</p></div></a>
+                                <!--<a ui-sref=".ReAdmission"><div class="adm oes"><p>Re Admission</p></div></a>-->
+                            </div>
+                        </div>
+                    </ui-view>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 footer_section">
+            <center>
+                <p>2019 &copy; State Board of Technical Education and Training, Telangana</p>
+            </center>
+        </div>
+    </div>
+</body>
+</html>
+

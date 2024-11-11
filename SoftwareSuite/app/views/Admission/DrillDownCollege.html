@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="DrillDownCollegeController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Drill Down For Admission</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Reports</li>
+                        <li>Drill Down For Admission</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="sel1">Academic Year :</label>
+                            <select class="form-control input-sm" id="AcdYrID" ng-model="DrillDownCollege.AcdYrID">
+                                <option ng-selected="DrillDownCollege.AcdYrID == option.AcdYrID" ng-repeat="option in AcdYrList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="sel1">Stream :</label>
+                            <select class="form-control" id="CourseID" ng-model="DrillDownCollege.CourseID" ng-change="FillCoursePart(CourseID)">
+                                <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="sel1">Group (Part III) :</label>
+                            <select class="form-control" id="MainGrpID" ng-model="DrillDownCollege.MainGrpID">
+                                <option ng-selected="DrillDownCollege.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="MediumID">Medium :</label>
+                            <select class="form-control" id="MediumID" ng-model="DrillDownCollege.MediumID">
+                                <option ng-selected="DrillDownCollege.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="SubCastID">Caste/Community :</label>
+                            <select class="form-control" id="CasteID" ng-model="DrillDownCollege.CasteID">
+                                <option ng-selected="DrillDownCollege.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div ng-repeat="option in BasicManagementTypeList">
+                            <div class="col-md-3">
+                                <input id="chkCustomer_{{option.MngtTypID}}" type="checkbox" ng-change="getcheckvalue(option.Selected)" ng-model="option.Selected" />
+                                {{option.MngtTypName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-3">
+                        <div class="form-group">
+                            <div style="margin-top:22px;" class="form-group">
+                                <button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table style="font-size:12px;" id="alldata" class="table">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Colleg Name</th>
+                            <th>Total Intake</th>
+                            <th>Total Admission</th>
+                            <th>Male</th>
+                            <th>Female</th>
+                        </tr>
+                        <tr ng-repeat="x in StudPageDrillDownCollegeList">
+                            <td>{{ x.ColSrno }}</td>
+                            <td>{{ x.CollegeName }}</td>
+                            <td>{{ x.ColTotakIntake }}</td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x)'> {{ x.ColTotal }} </a></td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColMaleRecord(x)'> {{ x.ColMale }} </a></td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColFemaleRecord(x)'> {{ x.ColFemale }} </a></td>
+                        </tr>
+                    </table>
+                    <br /><br /><br />
+                    <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalStud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:100%;">
+                        <div class="modal-content" style="width:100%;">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Student Data</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">Academic Year:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.AcdYrName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">District:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.CollegeDistName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Management Type :</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.MngtTypName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">Stream:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.CourseName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">Group:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.MainGrpName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Medium :</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.MediumName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Caste :</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="StudPage.CasteName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="filtereddata" class="table">
+                                    <tr>
+                                        <th>SSC Hall Ticket</th>
+                                        <th>Admission No.</th>
+                                        <th>Student Name</th>
+                                        <th>Gender</th>
+                                        <th>College Name</th>
+                                        <th>PRNNo</th>
+                                        <th>Stream</th>
+                                        <th>Second. Lang.</th>
+                                        <th>Medium</th>
+                                    </tr>
+                                    <tr ng-repeat="x in studpageDrillDownCollegeList">
+                                        <td>{{ x.SSCHallTicket }}</td>
+                                        <td>{{ x.AdmNo }}</td>
+                                        <td>{{ x.StudName }}</td>
+                                        <td>{{ x.Gender }}</td>
+                                        <td>{{ x.ColName }}</td>
+                                        <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalDetail" ng-click='GetDrillDownCollegeStudentDetailsListByID(x)'> {{ x.PRNNo }} </a></td>
+                                        <td>{{ x.CourseName }}</td>
+                                        <td>{{ x.SecondLangName }}</td>
+                                        <td>{{ x.MediumName }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-blue">Education Detail <hr /></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Medium :</label>
+                                            <input type="text" class="form-control input-sm" id="MediumName" ng-Model="StudentReg.MediumName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Second Language :</label>
+                                            <input type="text" class="form-control input-sm" id="SecondLangName" ng-Model="StudentReg.SecondLangName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Group :</label>
+                                            <input type="text" class="form-control input-sm" id="MainGrpName" ng-Model="StudentReg.MainGrpName" ng-disabled="true">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-blue">Personal Detail <hr /></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Candidate's  Name:</label>
+                                            <input type="text" class="form-control input-sm" id="cname" ng-Model="StudentReg.StudName" maxlength="100" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Father's Name:</label>
+                                            <input type="text" class="form-control input-sm" id="fname" ng-Model="StudentReg.FatherName" maxlength="40" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Mother's Name:</label>
+                                            <input type="text" class="form-control input-sm" id="mname" ng-Model="StudentReg.MotherName" maxlength="40" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Student Mobile No :</label>
+                                            <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="StudentReg.MobileNo" maxlength="10" ng-disabled="true">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Aadhaar Card No. (UID) :</label>
+                                            <input type="text" class="form-control input-sm" id="AadharNo" ng-Model="StudentReg.AadharNo" maxlength="12" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Village :</label>
+                                            <input type="text" class="form-control input-sm" id="Cityname" ng-Model="StudentReg.Cityname" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Caste/Community :</label>
+                                            <input type="text" class="form-control input-sm" id="CasteName" ng-Model="StudentReg.CasteName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Sub Caste :</label>
+                                            <input type="text" class="form-control input-sm" id="SubCastName" ng-Model="StudentReg.SubCastName" ng-disabled="true">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Father's Occupation :</label>
+                                            <input type="text" class="form-control input-sm" id="OcupName" ng-Model="StudentReg.OcupName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="email">Physically Handicapped :</label>
+                                            <form>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="StudentReg.Handicaped" checked value="N">No
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="StudentReg.Handicaped" value="Y">Yes
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Mother Tongue :</label>
+                                            <input type="text" class="form-control input-sm" id="MothTName" ng-Model="StudentReg.MothTName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Student Mobile No :</label>
+                                            <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="StudentReg.MobileNo" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-blue">Address Detail <hr /></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Street :</label>
+                                            <input type="text" class="form-control input-sm" id="Streetname" ng-Model="StudentReg.Streetname" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">House No. :</label>
+                                            <input type="text" class="form-control input-sm" id="Houseno" ng-Model="StudentReg.Houseno" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">District :</label>
+                                            <input type="text" class="form-control input-sm" id="StudDistName" ng-Model="StudentReg.StudDistName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Email ID :</label>
+                                            <input type="text" class="form-control input-sm" id="EmailId" ng-Model="StudentReg.EmailId" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

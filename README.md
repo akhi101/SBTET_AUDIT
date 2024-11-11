@@ -1,0 +1,1 @@
+[![Quality Gate Status](http://192.168.100.9:9000/api/project_badges/measure?project=SBTET_SS&metric=alert_status)](http://192.168.100.9:9000/dashboard?id=SBTET_SS)

@@ -1,0 +1,167 @@
+﻿
+
+<style>
+  
+
+    button {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+   
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;   
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+    input[type=checkbox]:not(:checked) {
+        background-image: url(../../../contents/img/unchecked.png);
+    }
+
+    input[type=checkbox]:checked {
+        background-image: url(../../../contents/img/checked.png);
+    }
+
+
+   
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="ElectivesPinListController">
+
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <div class="breadcrumb-header">
+                    <!-- breadcrumb Open -->
+                    <div class="container">
+                        <section class="content-header">
+                            <h5>Branch Name : {{branch}}</h5>
+                            <ol class="breadcrumb">                             
+                                <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                                <li><a href="#!/Dashboard/Academic/Electives">Electives</a></li>
+                                <li><a href="#!/Dashboard/Academic/Electives/MarksEntry">StudentList</a></li>
+                               
+                            </ol>
+                        </section>
+                    </div>
+                    <!-- breadcrumb Close -->
+                </div>
+                <section class="content">
+                    <div class="container ">
+                        <div class="col-md-12">
+                            <button class="btn bck_btn"><a href="#!/Dashboard/Academic/Electives" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                        </div>
+                    </div>
+                        <div class="container ">
+                            <div class="row base-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <label class="label" for="collegSelect">Academic Year :</label>
+                                        </div>
+                                        {{AcademicYearsActiveResponse.AcademicYear}}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <label class="label" for="collegSelect"> Scheme :</label>
+                                        </div>
+                                        {{loadedScheme.Scheme}}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <label class="label" for="collegSelect"> Semester :</label>
+                                        </div>
+                                        {{selectedsem.sem}}
+                                    </div>
+                                </div>
+
+                                <!--subject Details -->
+                                <div>
+                                    <div style="width:100%;text-align:center;">
+                                        <img src="../../../contents/img/loading2.gif" ng-show="LoadImgForPinList" width="100" />
+                                    </div>
+                                    <div class="col-md-12" ng-show="subjectDetailsView">
+                                        <div class="cl-details">
+                                            <h2>Elective Studentlist</h2>
+                                        </div>
+
+                                        <div class="table-responsive table-custom-tables-tb" ng-init="loadpins()">
+                                            <table class="table table-bordered table-hover table-striped table-rounded">
+                                                <thead>
+
+                                                    <tr class="cb-1">
+                                                        <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>
+                                                        <th style="width: 2%;text-align: center">Pin</th>
+                                                        <th style="width: 10%;text-align: center">Name</th>
+                                                        <th style="width: 2%;text-align: center">Subject Code</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr ng-repeat="x in pinWise">
+                                                        <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>
+                                                        <td style="text-align: center">{{x.pin}} </td>
+                                                        <td style="text-align: center">{{x.name}}</td>
+                                                        <td style="text-align: center">{{SubjectCode}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-md-4">
+                                                <button class="btn btn-default" ng-click="back()">
+                                                    Back
+                                                </button>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="pull-right">
+                                                    <button type="button" class="btn btn-primary" ng-click="save()">
+                                                        Add Student List
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div ng-show="StudentsNotFound" class="no-results">
+                                        <img src="../../../contents/img/Folder-Icon.svg" />
+                                        <h2>Students are not Available for this Elective</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</section>
+
+            </div>
+        </div>
+
+        <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Enrollment Form</title>
+</head>
+<body>
+    <div ng-controller="RegisterAdmittedStudentController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Student Enrollment Form</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Student Admission</li>
+                        <li>Student Enrollment Form</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+
+                        <select class="form-control  input-sm" ng-model="RegisterAdmittedStudent.CheckType" ng-change="changeCheckType(RegisterAdmittedStudent.CheckType)">
+                            <option value="" selected>Select Board</option>
+                            <option value="S">Telangana Board of Secondary School</option>
+                            <option value="E">Other Than Telangana</option>
+                            <option value="O">Telangana Open School</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="RegisterAdmittedStudent.CheckType=='E'">
+
+                        <select class="form-control" id="CourseID" ng-model="RegisterAdmittedStudent.BoardID">
+                            <option value="" selected>Other Board</option>
+                            <option ng-selected="BoardList == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <input type="text" placeholder="SSC HallTicket No" class="form-control input-sm" ng-model="RegisterAdmittedStudent.SSCHallTicket" id="SSCHallTicket" maxlength="16">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <select class="form-control input-sm" ng-model="RegisterAdmittedStudent.YrName">
+                            <option value="" selected>Select Year</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <select class="form-control input-sm" ng-model="RegisterAdmittedStudent.PassingMonth">
+                            <option value="" selected>Select Month</option>
+                            <option value="Mar">March</option>
+                            <option value="Jun">Jun</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" ng-click="ShowStudentInfo()" ng-disabled="RollEditDisableShow" class="btn btn-detail btn-sm">Show Student Info</button>
+                    <button type="button" ng-click="ClearData()" class="btn btn-reset btn-sm">Reset </button>
+                </div>
+            </div>
+            
+            <div class="base-row" id="candidateinfo" ng-hide="candidateinfo">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="ch3">Student Personal Details<hr></h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="adno">Candidate's  Name:</label>
+                            <input type="text" class="form-control input-sm" id="cname" ng-Model="RegisterAdmittedStudent.StudName" maxlength="100" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Father's Name:</label>
+                            <input type="text" class="form-control input-sm" id="fname" ng-Model="RegisterAdmittedStudent.FatherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Mother's Name:</label>
+                            <input type="text" class="form-control input-sm" id="mname" ng-Model="RegisterAdmittedStudent.MotherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="email">Gender :</label>
+                            <div class="form-group" style="margin-top: 2px;">
+                                <form>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-disabled="GenderDisable" ng-model="RegisterAdmittedStudent.Gender" checked value="M">Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-disabled="GenderDisable" ng-model="RegisterAdmittedStudent.Gender" value="F">Female
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-disabled="GenderDisable" ng-model="RegisterAdmittedStudent.Gender" value="O">Other
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="Nationality">Nationality :</label>
+                            <select class="form-control input-sm" id="Nationality" ng-disabled="true" ng-model="RegisterAdmittedStudent.Nationality" ng-readonly="true">
+                                <option value="I">Indian</option>
+                                <option value="F">Foreigner</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="email">Date Of Birth :</label>
+                            <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-Model="RegisterAdmittedStudent.BirthDate">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">
+                                Aadhaar Card No. (UID) :
+                            </label>  <a href="https://resident.uidai.gov.in/aadhaarverification" target="_blank" style="font-size:10px;">Verify</a>
+                            <input type="text" class="form-control input-sm" id="AadharNo" maxlength="12" ng-Model="RegisterAdmittedStudent.AadharNo" input-Number-Only>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Mobile No. :</label>
+                            <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="RegisterAdmittedStudent.MobileNo" maxlength="10" input-Number-Only>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="ch3">Student College Details<hr></h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group" ng-show="StreamDisable">
+                            <label for="sel1">Stream :</label>
+                            <select class="form-control input-sm" id="CourseID" ng-model="RegisterAdmittedStudent.CourseID" ng-change="FillCoursePart(RegisterAdmittedStudent.CourseID)">
+                                <option ng-init="RegisterAdmittedStudent.CourseID = option.CourseID" ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-hide="StreamDisable">
+                            <label for="sel1">Stream :</label>
+                            <input type="text" class="form-control input-sm" id="CourseName" ng-model="RegisterAdmittedStudent.CourseName" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Group :</label>
+                            <select class="form-control input-sm" id="MainGrpID" ng-model="RegisterAdmittedStudent.MainGrpID" ng-change="FillBranchByGroup(RegisterAdmittedStudent.MainGrpID)">
+                                <option ng-selected="RegisterAdmittedStudent.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Branch :</label>
+                            <input type="text" class="form-control input-sm" id="BranchName" ng-model="RegisterAdmittedStudent.BranchName" ng-readonly="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="ExamID" ng-hide="true">{{RegisterAdmittedStudent.ExamID}}</label>
+                            <label for="BranchID" ng-hide="true">{{RegisterAdmittedStudent.BranchID}}</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="sel1">Second Language (Part II) :</label>
+                            <select class="form-control input-sm" id="MediumID" ng-model="RegisterAdmittedStudent.SecondLangID" ng-change="ChangeSecondLanguage(RegisterAdmittedStudent.SecondLangID)">
+                                <option ng-selected="RegisterAdmittedStudent.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="MediumID">Medium :</label>
+                            <select class="form-control input-sm" id="MediumID" ng-model="RegisterAdmittedStudent.MediumID">
+                                <option ng-selected="RegisterAdmittedStudent.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <center>
+                            <button ng-disabled="RollEditDisable" type="button" ng-click="SaveRegisterAdmittedStudent()" class="btn btn-detail btn-sm">Submit</button>
+                            <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                        </center>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

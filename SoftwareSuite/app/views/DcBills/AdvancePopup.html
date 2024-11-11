@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <style>
+        .modal-dialog {
+            width: 70%;
+        }
+    </style>
+</head>
+<body >
+    <div class="modal-body">
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Calculate Advance</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm">
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Advance Amount per Student :
+                                </label>
+                                <input class="form-control" placeholder="Enter Advance Amount per Student" ng-change="ChangeValue(StudentAmount)" ng-model="StudentAmount" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="gr-btn">
+                                    <button class="btn submit_btn btn-sm btn-primary gr-button" style="margin-top:10px;" ng-click="GenerateNr()">Calculate Advance Amount</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   
+        <div class="col-md-12">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="font-size:bold;">S.No</th>
+                            <th>College Name </th>
+                            <th>22-02-2021</th>
+                            <th>23-02-2021</th>
+                            <th>24-02-2021</th>
+                            <th>25-02-2021</th>
+                            <th>26-02-2021</th>
+                            <th>27-02-2021</th>
+                            <th>28-02-2021</th>
+                            <th>Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in ExamAdvanceData1">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.CollegeCode== null ?'-':data.CollegeCode}} - {{data.Clgname== null ?'-':data.Clgname}}</td>
+                            <td>200</td>
+                            <td>300</td>
+                            <td>400</td>
+                            <td>500</td>
+                            <td>600</td>
+                            <td>700</td>
+                            <td>800</td>
+                            <td>{{data.Price == null ?'-':data.Price}}</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>

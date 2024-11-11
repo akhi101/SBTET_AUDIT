@@ -1,0 +1,71 @@
+﻿<style>
+
+    .sm_btn {
+        background-color: #1da462;
+        color: #fff;
+        min-width: 50px;
+    }
+
+        .sm_btn:hover {
+            background-color: #1da462;
+            color: #fff;
+            min-width: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+    .fail-btn, .fail-btn:hover, .fail-btn:focus {
+        background-color: #f5632d;
+        color: #fff;
+        min-width: 30px;
+    }
+</style>
+<div ng-controller="MultipleFeePaymentsController">
+    <div class="container">
+        <div class="spacer"></div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="cl-details">
+                    <h2>Applied Student  Details</h2>
+                </div>
+                <!--<div style="width:100%;text-align:center;">
+                    <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>-->
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th style="width: 5%" ng-click="sort('Sno')">Sno</th>
+                                <th style="width: 10%" ng-click="sort('Scheme')">Grade</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('Semester')">Applied</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('Branch')">Fee Paid</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Not Paid</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in InstituteReports" style="background-color:#fff!important;">
+                                <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                                <td style="width: 5%">{{$index+1}}</td>
+                                <td>{{data.GradeName}}</td>
+                                <td class="text-center"><b><a class="text-center" ng-click="openNotPaid(data.id,3)">{{data.Applied == null ?'--':data.Applied}}</a></b></td>
+                                <!--<td class="text-center">{{data.Applied}}</td>-->
+                                <td class="text-center"><a class="text-center" ng-click="openNotPaid(data.id,1)">{{data.FeePaid}}</a></td>
+                                <td class="pointer text-center">
+                                    <button class="btn-xs btn sm_btn" ng-click="feePaid(data.id,2)" data-toggle="tooltip" data-placement="top" title="Click to Open Details" ng-if="data.FeeNotPaid == '0' ">{{data.FeeNotPaid}}</button>
+                                    <button class="btn-xs btn fail-btn" ng-click="openNotPaid(data.id,2)" data-toggle="tooltip" data-placement="top" title="Click to Open Details" ng-if="data.FeeNotPaid != '0' ">{{data.FeeNotPaid}}</button>
+                                    <!--<button class="btn-xs btn fail-btn"  data-toggle="tooltip" data-placement="top" title="Click to Open Details" ng-if="data.FeeNotPaid != '0' ">{{data.FeeNotPaid}}</button>-->
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

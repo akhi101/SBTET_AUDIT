@@ -1,0 +1,297 @@
+﻿<style>
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+    #checkboxesScheme {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesScheme label {
+            display: block;
+        }
+
+            #checkboxesScheme label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesHandicaped {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesHandicaped label {
+            display: block;
+        }
+
+            #checkboxesHandicaped label:hover {
+                background-color: #1e90ff;
+            }
+
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCollegeTypes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCollegeTypes label {
+            display: block;
+        }
+
+            #checkboxesCollegeTypes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAcademicYear {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAcademicYear label {
+            display: block;
+        }
+
+            #checkboxesAcademicYear label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAdmissionType {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAdmissionType label {
+            display: block;
+        }
+
+            #checkboxesAdmissionType label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCategory {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCategory label {
+            display: block;
+        }
+
+            #checkboxesCategory label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem label {
+        display: block;
+    }
+
+        #checkboxessem label:hover {
+            background-color: #1e90ff;
+        }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+</style>
+<div ng-controller="ReadmissionListController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Readmission List</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission </a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdmissionReports">Readmission List</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <!-- breadcrumb Close -->
+
+    <section>
+        <div class="container">
+            <div class="col-md-12">
+                <a href="#!/Dashboard/AdmissionDashboard" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="col-md-12">
+                <form name="SetDatesForm" ng-submit="submit(CurrentMonthYear)">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+
+                                <select class="form-control" ng-model="AcademicYear" name="StudentType" required
+                                        ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                    <option value="" selected>Select Academic Year</option>
+                                </select>
+                            </div>
+
+
+
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Semester:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showsemCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closesemCheckbox()">Select Sem</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxessem" style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllsem()" ng-model="isAllSelectedsem" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="sem in GetSemesters">
+                                            <input type="checkbox" ng-model="sem.selected" ng-change="optionToggledsem(sem.selected)"><span class="checkmark"></span>{{sem.semester}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn  btn-info  btn_top pull-left" style="margin-top: 24px!important;" ng-click="FilterData()">
+                                    Get Report
+                                </button>
+                            </div>
+
+                        </div>
+        <div class="sm-spacer"></div>
+    </section>
+
+</div>

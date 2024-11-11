@@ -1,0 +1,105 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Station">
+    <title>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</title>
+    <link href="../../contents/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        setInterval(function () {
+            var date = new Date();
+            var format = "DD-MMM-YYYY DDD";
+            dateConvert(date, format)
+        }, 1);
+
+        function dateConvert(dateobj, format) {
+            var year = dateobj.getFullYear();
+            var month = ("0" + (dateobj.getMonth() + 1)).slice(-2);
+            var date = ("0" + dateobj.getDate()).slice(-2);
+            var hours = ("0" + dateobj.getHours()).slice(-2);
+            var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+            var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+            var day = dateobj.getDay();
+            var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+            var converted_date = "";
+
+            switch (format) {
+                case "DD-MMM-YYYY DDD":
+                    converted_date = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;;
+                    break;
+                case "YYYY-MM-DD":
+                    converted_date = year + "-" + month + "-" + date;
+                    break;
+                case "YYYY-MMM-DD DDD":
+                    converted_date = year + "-" + months[parseInt(month) - 1] + "-" + date
+                    + " " + hours + ":" + minutes + ":" + seconds;
+                    break;
+            }
+            //return converted_date;
+            // to show it I used innerHTMl in a <p> tag
+            if (document.getElementById("example") != null) {
+                document.getElementById("example").innerHTML = "Today's Date is :  " + converted_date + "  GMT+0530 (India Standard Time)";
+            }
+        }
+    </script>
+</head>
+<body>
+    <section class="header-top-section top-header">
+        <div class="container containercontent">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dateCgDetails">
+                        <div class="time">
+                            <p id="example">Date: <span>11-05-2019 16:45:11  GMT+0530 (India Standard Time)</span></p>
+                        </div>
+                        <div class="college-details" ng-if="UserTypeID!=1">
+                            <ul class="cg-ul">
+                                <li><span style="color: white;font-size:14px">{{InstitutionCode + ':-'}} {{InstitutionName}}</span></li>
+                            </ul>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="container containercontent" hidden>
+        <div class="main-header ">
+            <div class="container  containercontent">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="logo-img">
+                            <img src="../../contents/img/big-logo.png" class="img-responsive" />
+                            <h2>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</h2>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="o-info">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>040-23222192</a></li>
+                                <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>sbtet-helpdesk@telangana.gov.in</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="s-icons">
+                            <p>
+                                CONNECT US WITH: <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                            </p>
+                            <!--<p>
+                               <a href=" https://play.google.com/store/apps/details?id=com.sbtet.centerlocator">
+                                   <img src="../../contents/img/chrome.png" /> Download Mobile App
+                               </a>
+                            </p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

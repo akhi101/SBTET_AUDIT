@@ -1,0 +1,89 @@
+﻿<style>
+    .cl-details h2{
+       margin-bottom: 0px;
+    }
+/*.editbtn{
+        width:42px;
+        margin :0px 10px 0px 10px;
+    }*/
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    width: 55px;
+}
+</style>
+<div ng-controller="TCApprovalHODController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>HOD </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/StudentServices">StudentServices</a></li>
+                    <li><a href="#!/Dashboard/StudentServices/TcApplicationForm">TcApplication</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class=" row">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2>Tc Recommendation List</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="table-responsive table-custom-tables-tb">
+            <table class="table table-bordered table-hover table-striped table-rounded">
+
+                <thead>
+                    <tr>
+                        <th >S.No</th>
+                        <th >PIN</th>
+                        <th>Name</th>
+                        <th>Application Request No</th>
+                        <th>Detailes in  Register</th>
+                        <th>Dues in Lab</th>
+                        <th>Remark</th>
+                        <th>Apporved</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr  ng-repeat="X in Data">
+                        <td>{{$index+1}}</td>
+                        <td>{{X.PIN}}</td>
+                        <td>{{X.Name}}</td>
+                        <td>{{X.ApplicationNo}}</td>
+                        <td style="text-align:center">
+                            <div class="form-check">
+                                <input ng-model="x" ng-change="change(x, x.active,$index)" type="checkbox" ng-checked="{{X.Detailes}}" />
+                            </div>
+                        </td>
+                        <td style="text-align:center">
+                            <div class="form-check">
+                                <input ng-model="x1" ng-change="change(x, x.active,$index)" type="checkbox"  ng-checked="{{X.Dues}}"/>
+                            </div>
+                        </td>
+                        <td>
+                            <textarea rows="2" cols="22"></textarea>
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-xs" >Apporve</button>
+                            <button class="btn btn-danger btn-xs">Reject</button>
+
+                        </td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>

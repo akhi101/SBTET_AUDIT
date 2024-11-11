@@ -1,0 +1,142 @@
+﻿
+    <style>
+        .btn-css {
+            margin-top: 25px;
+            padding: 5px 12px;
+        }
+
+        .editbtn {
+            width: 42px;
+            margin: 0px 10px 0px 10px;
+        }
+
+        .deleteBtn {
+            width: 42px;
+            margin: 0px 10px 0px 10px;
+        }
+
+        .cl-details h2 {
+            margin-bottom: -1px;
+        }
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+    border: 1px solid #ddd !important;
+    color: #fff;
+    background-color:#1976D2;
+    font-size: 12px !important;
+}
+    </style>
+
+    <div ng-controller="AttendanceSmsController">
+        <div class="breadcrumb-header">
+
+            <div class="container">
+                <section class="content-header">
+                    <h5>Attendance SMS Settings</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="#!/Dashboard/MasterSettingsDashboard">MasterSettings Dashboard</a></li>
+                        <li><a href="#!/Dashboard/MasterSettings/AttendanceSms">Attendance SMS Settings</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+            
+        </div>
+        <div class="container">
+            <div class="col-md-12">
+                <a href="#!/Dashboard/MasterSettings" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="">
+                <div class="card">
+                    <div class="col-md-5">
+                        <div class="rdo-grp">
+                            <input id="rdo1" type="radio" name="radio1" value="1" ng-model="yesBtn" ng-click="clickRadio(yesBtn)" />
+                            <label for="rdo1"><span></span><span>Send SMS</span></label>
+                            <input id="rdo2" type="radio" name="radio1" value="0" ng-model="noBtn" ng-click="clickRadio(noBtn)" />
+                            <label for="rdo2"><span></span><span>Don't Send EMS</span></label>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" ng-show="Button==1">
+          
+                <form name="RoleForm">
+                  
+                        <div class="cl-details">
+                            <h2>Attendance SMS Settings</h2>
+                        </div>
+                   
+                    <div class="col-md-12">
+                        <div class="base-row row">
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Session :</label> 
+                                    <div class="">
+                                        <select class="form-control" name="RoleType" ng-model="Session" required>
+                                            <option value="" selected>Select </option>
+                                            <option ng-repeat="data in Years" value="{{data.Id}}">
+                                                {{data.Name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Time :</label>
+                                        <input type="time" name="examtime" class="examtime" value={{examtime}} ng-model='examtime' />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 pull-left">
+                                <button type="submit" class="btn pull-left btn-success btn-css" ng-click="RoleForm.$valid && Save()" >
+                                    Save
+                                </button>
+                               
+                            </div>
+                            <!--<div class="col-md-4 pull-left">
+
+                            </div>-->
+
+                        </div>
+                    </div>
+                </form>
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2>Attendance SMS Settings List</h2>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+
+                        <thead>
+                            <tr>
+                                <th class="font-weight-bo">S.No</th>
+                                <th class="font-weight-bold">Session</th>
+                                <th class="font-weight-bold">Time</th>
+                                <th class="font-weight-bold" width="20%">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="X in GetSmsList">
+                                <td>{{$index+1}}</td>
+                                <td>{{X.Session}}</td>
+                                <td>{{X.Time}}</td>
+                                <td>{{X.logdate|date:'dd-MM-yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+
+        </div>

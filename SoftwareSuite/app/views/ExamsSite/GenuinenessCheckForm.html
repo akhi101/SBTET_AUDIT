@@ -1,0 +1,539 @@
+﻿<style>
+    .userRow {
+        padding: 5px;
+    }
+
+    .font_bold {
+        font-weight: bold;
+    }
+
+    .datepicker .text-info {
+        font-size: 14px;
+        color: black !important;
+    }
+    /* .datpicker .btn-info contains selected date */
+    .datepicker .btn-info {
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #39b3d7 !important;
+    }
+
+    .required:before {
+        content: "*";
+        color: red;
+        font-weight: bold;
+    }
+
+    .clr_red {
+        color: red;
+    }
+
+    .btn-default {
+        border-color: #fdfdfd !important;
+        color: #fff !important;
+        background-color: #34495e !important;
+    }
+
+    .datepicker .btn:disabled {
+        font-size: 14px;
+        font-weight: normal;
+        color: gray;
+    }
+
+        .datepicker .btn:disabled > .text-muted {
+            font-size: 14px;
+            font-weight: normal;
+            color: gray;
+        }
+
+    .datepicker .text-muted {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .datepicker .btn:enabled {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .inputCls {
+        width: 50%;
+    }
+
+    .clr_red {
+        color: red;
+    }
+</style>
+<style>
+      #idtoDivPrint {
+          /*display: flex;*/
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          align-content: center;
+          color: #000;
+      }
+
+      @media print {
+          .logo-img {
+              display: none;
+          }
+
+          .base-row {
+              border: none;
+          }
+
+          .logo-name {
+              text-align: center;
+          }
+
+          .header-top-section {
+              display: none;
+          }
+
+          .footer_section {
+              width: 100%;
+              display: none;
+          }
+
+          .print_btn {
+              display: none;
+          }
+
+          .logo_name {
+              font-size: 20px !important;
+          }
+
+          .cb-2 {
+              font-weight: bold !important;
+              color: #000 !important;
+          }
+
+          .wrapper {
+              display: none;
+          }
+
+          #helpDesk {
+              display: block;
+              bottom: 30px;
+              position: absolute;
+          }
+
+          #tbl_head1 {
+              color: #000 !important;
+          }
+
+          #tbl_head2 {
+              color: #000 !important;
+          }
+      }
+
+      .spacer {
+          height: 30px;
+      }
+
+      textarea {
+          /*width: 200px;
+    min-width:200px;
+    max-width:200px;*/
+          width: 260px;
+          height: 100px;
+          min-height: 100px;
+          max-height: 100px;
+      }
+
+      .loader {
+          border: 4px solid #5cb85c;
+          border-radius: 50%;
+          border-top: 4px solid #fff;
+          border-left: 4px solid #fff;
+          width: 20px;
+          height: 20px;
+          -webkit-animation: spin 4s linear infinite; /* Safari */
+          animation: spin 1s linear infinite;
+      }
+
+      @-webkit-keyframes spin {
+          0% {
+              -webkit-transform: rotate(0deg);
+          }
+
+          100% {
+              -webkit-transform: rotate(360deg);
+          }
+      }
+
+      @keyframes spin {
+          0% {
+              transform: rotate(0deg);
+          }
+
+          100% {
+              transform: rotate(360deg);
+          }
+      }
+
+      .cls_verified {
+          color: #5cb85c;
+          font-weight: bold;
+      }
+</style>
+
+<div ng-controller="GenuinenessCheckFormController">
+   
+    <div class="container">
+        <div class="spacer"></div>
+
+        <!--<div class="col-md-12" ng-show="Form1">
+            <button class="btn bck_btn"><a href="#/Dashboard/Diploma" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>-->
+        <div class="col-md-12 ng-scope" ng-show="Form2">
+            <div class="cl-details">
+                <h2>Genuineness Check Application</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Form3">
+            <form name="StudentRequestForm">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="">
+                        <div class="row">
+
+                            <!--<div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="font-weight-bold">Services :</label>
+                                    <select class="form-control" ng-disabled="Service" ng-model="CertificateType" ng-change="changeCertificate()" name="CertificateType">
+                                        <option value="" selected>Select Service</option>
+                                        <option ng-repeat="data in CertificateTypes" value="{{data}}">
+                                            {{data.Name}}
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>-->
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="font-weight-bold">PIN :</label>
+                                    <div id="PinNumber">
+                                        <input type='text' class="form-control" placeholder="Enter PIN" maxlength="20" ng-model="PinNumber" autocomplete="off" name="PinNumber" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="sel1" class="font-weight-bold">
+                                    Enter Captcha :
+                                </label>
+                                <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+                                    box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="stserCaptcha" />
+
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="">
+                                    <button class="btn btn-success " style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
+                                        Get Details
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-12 ">
+                                <div class="">
+                                    <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
+                                        Get Details
+                                    </button>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div id="captcha" class="col-md-2"><canvas id="captcha" width="100" height="40"></canvas></div>
+                            <div class="col-md-2" style="padding-top:15px;margin-left: -30px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ng-scope" ng-show="result">
+            <div class="cl-details">
+                <h2>Student Details</h2>
+            </div>
+        </div>
+        <form name="results">
+            <div class="col-md-12" ng-show="result">
+                <div class="card">
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">PIN</div>
+                        <div class="col-md-6">: {{userData.Pin}}</div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Name</div>
+                        <div class="col-md-6">: {{userData.Name}}</div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==8">
+                        <div class="col-md-4 font_bold">Father Name</div>
+                        <div class="col-md-6">: {{userData.FatherName == null ? '-': userData.FatherName}}</div>
+
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Branch</div>
+                        <div class="col-md-6">: {{userData.BranchName}}</div>
+
+                    </div>
+
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Organization Type</div>
+                        <div class="col-md-6">
+                            <select class="inputCls" ng-model="OrganizationType" name="OrganizationType" ng-change="ChangeOrganization()">
+                                <option value="" selected>Select Organization</option>
+                                <option ng-repeat="data in OrganizationTypes" value="{{data}}">
+                                    {{data.OrganizationType}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Organization Name</div>
+                        <div class="col-md-6">
+                            <input class="inputCls" type="text" autocomplete="off" placeholder="Enter Organization Name" maxlength="100" name="OrganizationName" ng-model="OrganizationName" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Organization Address</div>
+                        <div class="col-md-6">
+                            <textarea type="text" autocomplete="off" placeholder="Enter Organization Address" maxlength="500" name="OrganizationAddress" ng-model="OrganizationAddress" rows="3"></textarea>
+                            <!--<input class="inputCls" type="text" autocomplete="off" placeholder="Enter Organization Address" name="OrganizationAddress" ng-model="OrganizationAddress" />-->
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Organization Email</div>
+                        <div class="col-md-2">
+                            <input type="text" autocomplete="off" ng-blur="ValidateEmail()" ng-disabled="MailDisabled" maxlength="100" placeholder="Enter Organization Email" name="OrganizationEmail" ng-model="OrganizationEmail" />
+                        </div>
+
+                        <div class="col-md-2" ng-show="SendMail">
+                            <button class="btn btn-success btn-xs" ng-click="sendmail()">click here to verify</button>
+                        </div>
+                        <div class="col-md-2" ng-show="ResendMail">
+                            <input type="text" autocomplete="off" placeholder="Enter OTP" maxlength="5" name="OrganizationEmail" ng-model="MailOTP" />
+                        </div>
+                        <div class="col-md-1" ng-show="ResendMail">
+                            <button class="btn btn-success btn-xs" ng-click="sendmail()">Resend OTP</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-success btn-xs" ng-show="ResendMail" ng-click="Verify()">Verify</button>
+                            <div class="cls_verified" ng-show="MailVerified"><i class="fa fa-check" aria-hidden="true"></i> Verified</div>
+                        </div>
+                        <!--<div class="col-md-2" ng-show="Veified">
+
+                        </div>-->
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Organization Contact Number</div>
+                        <div class="col-md-6">
+                            <input class="inputCls" type="text" autocomplete="off" maxlength="20" placeholder="Enter Organization Contact Number" name="OrganizationMobile" ng-model="OrganizationMobile" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Name of the Officer Applying</div>
+                        <div class="col-md-6">
+                            <input class="inputCls" type="text" autocomplete="off" maxlength="100" placeholder="Enter Name of the Officer Applying" name="Applying" ng-model="ApplyingOfficer" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Officer Designation</div>
+                        <div class="col-md-6">
+                            <input class="inputCls" type="text" autocomplete="off" maxlength="100" placeholder="Enter Officer Designation" name="Designation" ng-model="OfficerDesignation" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold required">Verify Mobile Number for Communication</div>
+                        <div class="col-md-2">
+                            <input class="" autocomplete="off" placeholder="Enter Mobile Number" maxlength="10" ng-disabled="MobileDisable" ng-model="StudentPhoneNumber" />
+                        </div>
+                        <div class="col-md-2" ng-show="NoOtp  && !phonenoupdated">
+                            <button class="btn btn-success btn-xs" ng-click="SendOtp()">click here to verify</button>
+                        </div>
+                        <div class="col-md-2" ng-show="Otp && !phonenoupdated">
+                            <input type="text" ng-model="OTPdata" placeholder="Enter OTP">
+                            <a ng-click="ReSendOtp()" ng-hide="limitexceeded" class="pull-right">Resend OTP</a>
+                        </div>
+                        <div class="col-md-2" ng-show="Otp && !phonenoupdated">
+                            <button class="btn btn-success btn-xs" ng-click="updatephonenumber()">Verify</button>
+                        </div>
+                        <div class="col-md-2" ng-show="Otp && phonenoupdated && Verified">
+                            <div class="cls_verified" ng-show="Verified"><i class="fa fa-check" aria-hidden="true"></i> Verified</div>
+                        </div>
+
+                    </div>
+                    <div class="row userRow">
+
+                        <div class="col-md-4 font_bold">Amount</div>
+                        <div class="col-md-6">: {{Price}}</div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Enter Month & Year of Pass</div>
+                        <div class="col-md-6">
+                            <input class="inputCls" type="text" autocomplete="off" maxlength="15" placeholder="Enter Month & Year of Pass" ng-model="ExamMonth">
+
+                        </div>
+                    </div>
+                    <!--<div class="row userRow" >
+                        <div class="col-md-4 font_bold" >Amount for each Duplicate Memo</div>
+
+                        <div class="col-md-6" >: 600</div>
+                    </div>-->
+
+
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">ODC No</div>
+                        <div class="col-md-6">
+                            <input class="inputCls" type="text" autocomplete="off" maxlength="20" placeholder="Enter ODC Number" name="OrganizationNumber" ng-model="OdcNo" />
+                        </div>
+                    </div>
+
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">
+                            Upload Diploma Certificate
+                        </div>
+                        <div class="col-md-6">
+                            <input class="inputCls" id="Aadhar" autocomplete="off" type="file" placeholder="" onchange="angular.element(this).scope().uploadAadhar()" accept="image/*" ng-model="upldfile1" />
+                        </div>
+                    </div>
+
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">
+                            View Diploma Certificate
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{Aadharxerox1}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewAadhar" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">
+                            Upload Department/Covering Letter
+                        </div>
+                        <div class="col-md-6">
+                            <input class="inputCls" id="ApplicationLetter" type="file" placeholder="" onchange="angular.element(this).scope().UploadApplication()" accept="image/*" ng-model="upldfile1" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">
+                            View Department/Covering Letter
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{ApplicationLetter1}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewApplicationLetter" />
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-md-6">
+                            <img ng-src="{{Aadharxerox}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewAadhar" />
+                        </div>
+                    </div>-->
+
+
+
+                    <br />
+                </div>
+                </div>
+            </div>
+        </form>
+        <!--// ng-if="paymentResponseFound"-->
+        <div ng-show="paymentResponseFound" id="idtoDivPrint">
+            <!--<div class="col-md-12" >
+                <button class="btn bck_btn" ng-click="Back()"><a  class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>-->
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h3 class="payment_head">Receipt Summary</h3>
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="tblParent">
+                    <div class="table-responsive  table-custom-tables-tb">
+                        <table class="table table-bordered mytable table-hover table-striped table-rounded">
+                            <thead class="tablehead">
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Details</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="">
+
+                                <tr ng-show="ApplicationNo != undefined">
+                                    <td style="text-align: left;">Application Number</td>
+                                    <td>{{ApplicationNo}}</td>
+                                </tr>
+
+
+                                <tr ng-if="ResponsePin !== undefined && ResponsePin != '' ">
+                                    <td style="text-align: left;">PIN </td>
+                                    <td>{{ResponsePin}}</td>
+                                </tr>
+
+                                <tr ng-if="date !== undefined">
+                                    <td style="text-align: left;">Date </td>
+                                    <td>{{date |date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <h5 class="clr_red">Note : Please Note the Application Number for Further Reference</h5>
+
+            </div>
+            <div class="container print_btn">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;">
+                            <button type="button" style="background-color:#2a8fcf!important;float:left!important;" ng-click="Back()">Back</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;margin-right: 40px;">
+                            <button type="button" ng-click="printMarksEntered()">Print</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="result">
+            <button class="btn  pull-right  btn-success" ng-disabled="proceedDisable" ng-click="Proceed()">
+                <span ng-show="!loader">Proceed</span><span ng-show="loader"> <div class="loader"></div></span>
+            </button>
+        </div>
+        <div class="-col-md-12">
+            <div class="loadingImg">
+                <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+            </div>
+            <div class="col-md-12">
+                <div ng-if="NoDataFound" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Data Found</h2>
+                </div>
+                <div ng-if="Error" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>{{ErrorMsg}}</h2>
+                </div>
+                <div ng-if="NoData" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>This Service will be Enabled Soon</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+</div>

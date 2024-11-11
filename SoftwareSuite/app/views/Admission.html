@@ -1,0 +1,514 @@
+﻿
+<!DOCTYPE html>
+<style>
+    span {
+        color: white !important;
+    }
+
+    #ExportToPdf1 {
+        color: #df4d60;
+    }
+
+    #ExportToExcel1 {
+        color: #31c420;
+    }
+   .table-custom-tables-tb .table-bordered > tbody > tr > td {
+    border: 1px solid #ddd !important;
+    color: #788598;
+    font-size: 14px !important;
+    cursor: default!important;
+}
+</style>
+<html lang="en">
+<head>
+    <!--<script src="../../scripts/jspdf.min.js"></script>-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admission</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+        span {
+            color: red;
+        }
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="AdmissionController">
+
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <ui-view>
+                    <div class="breadcrumb-header">
+                        <!-- breadcrumb Open -->
+                        <div class="container">
+                            <section class="content-header">
+                                <h5>College Detail View </h5>
+                                <ol class="breadcrumb">
+                                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                                    <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                                </ol>
+                            </section>
+                        </div>
+                        <!-- breadcrumb Close -->
+                    </div>
+                    <section class="content">
+                        <div class="container ">
+                            <div class="col-md-12" ng-show="userType == 1 ||userType == 5 || userType == 1000 || userType == 1011 || userType == 1012 || userType == 1013 || userType == 1014 ||  userType == 1015||userType == 1002 || userType == 1007 || userType == 1009">
+                                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard/AdminAdmissions" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                            </div>
+                            <div class="col-md-12" ng-show="userType == 2 ||userType == 3">
+                                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                            </div>
+                           
+                            <!--<div class="row ctitle">
+                                <div class="col-md-5">
+                                    <span><strong>College Detail View</strong></span>
+                                </div>
+                                <div class="col-md-7 text-right">
+                                    <ol class="breadcrumb">
+                                        <li>You are in </li>
+                                        <li>Home</li>
+                                        <li>College Detail View</li>
+                                    </ol>
+                                </div>
+                            </div>-->
+                            <div class="col-md-12">
+                                <div class="row base-row">
+                                    <div class="col-md-6">
+                                        <!--<div class="form-group" ng-show="SystemUserTypeId==1">
+                                            <div class="col-md-3">
+                                                <label class="label" for="collegSelect">Select College :</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select class="form-control" id="CollegeName" ng-model="college" ng-change="loadAdmissionData()">
+                                                    <option ng-repeat="x in collegeinfo" value="{{x.CollegeCode}}" ng-selected="{{ x.Selected == true }}">
+                                                        {{x.CollegeCode}} - {{x.college_name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="label" for="collegSelect">Academic Year :</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select class="form-control" id="AcademicYear" ng-model="AcademicId" ng-init="loadYears()" ng-change="loadAdmissionDataByYear(x.AcademicId)"
+                                                        ng-options="x.AcademicId as x.AcademicYear for x in AcademicYears"></select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="cl-details">
+                                            <h2>College Details</h2>
+                                        </div>
+                                        <div style="width:100%;text-align:center;">
+                                            <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                        </div>
+                                        <div class="table-responsive table-custom-tables" ng-show="CollegeDetailsFound">
+                                            <table class="table table-bordered table-hover table-striped table-rounded">
+                                                <thead>
+                                                    <tr>
+                                                        <td style="width: 10%" class="cb-1">College</td>
+                                                        <td style="width: 90%" colspan="5">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        {{college}} - {{hodData.Table[0].CollegeName}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 10%" class="cb-1">Principal</td>
+                                                        <td style="width: 25%">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        {{hodData.Table[0].GeneralName}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                        <td style="width: 15%">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>{{hodData.Table[0].Phone}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+
+                                                        <td style="width: 30%" colspan="2">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>Email:{{hodData.Table[0].Principal_Email}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+
+                                                        <td style="width: 20%">
+                                                            <table>
+                                                                <tr>
+                                                                    <td> College Established Date:{{hodData.Table[0].Clg_Est_Date}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+
+
+                                                    </tr>
+
+
+
+                                                    <tr ng-show="SystemUserTypeId!=2">
+                                                        <td class="cb-1">Address</td>
+
+                                                        <td colspan="2">
+                                                            {{hodData.Table[0].Address}}
+                                                        </td>
+
+                                                        <!--<td>
+                    <table>
+                        <tr>
+                            <td>District: &nbsp; </td>
+                            <td>{{hodData.Table[0].District}}</td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td>
+                    <table>
+                        <tr>
+                            <td>Mandal: &nbsp;</td>
+                            <td>{{hodData.Table[0].Mandal}}</td>
+                        </tr>
+                    </table>
+                </td>-->
+
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>College ph_no : {{hodData.Table[0].clg_mobile_no}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>College {{hodData.Table[0].Email}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                    </tr>
+
+
+                                                    <tr ng-show="SystemUserTypeId!=2">
+                                                        <td class="cb-1">Bank Details</td>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>{{hodData.Table[0].BankBranch}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <table>
+
+                                                                <tr>
+                                                                    <td>A/C No: &nbsp;</td>
+                                                                    <td>{{hodData.Table[0].BankAcNo}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>IFSC: &nbsp;</td>
+                                                                    <td>{{hodData.Table[0].BankIfsc}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                        <!--<td colspan="2">
+                    <table>
+                        <tr>
+                            <td>Address: &nbsp;</td>
+                            <td>{{hodData.Table[0].BankAddress}}</td>
+                        </tr>
+                    </table>
+                </td>-->
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <!--<table class="table table-bordered table-hover table-striped table-rounded">
+                                                <thead>
+                                                    <tr>
+                                                        <td style="width: 10%" class="cb-1">Principal</td>
+                                                        <td style="width: 25%">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        {{hodData.Table[0].GeneralName}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                        <td style="width: 15%">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>{{hodData.Table[0].Phone}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+
+                                                        <td style="width: 30%" colspan="2">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>Email:{{hodData.Table[0].Principal_Email}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+
+                                                        <td style="width: 20%">
+                                                            <table>
+                                                                <tr>
+                                                                    <td> College Established Date:{{hodData.Table[0].Clg_Est_Date}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+
+
+                                                    </tr>
+
+
+
+                                                    <tr ng-show="SystemUserTypeId!=2">
+                                                        <td class="cb-1">Address</td>
+
+                                                        <td colspan="2">
+                                                            {{hodData.Table[0].Address}}
+                                                        </td>
+
+                                                       
+
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>College ph_no : {{hodData.Table[0].clg_mobile_no}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tr>
+                                                                    <td>College {{hodData.Table[0].Email}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                    </tr>
+
+
+                                                    <tr ng-show="SystemUserTypeId!=2">
+                                                        <td class="cb-1">Bank Details</td>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>{{hodData.Table[0].BankBranch}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td colspan="3">
+                                                            <table  >
+
+                                                                <tr>
+                                                                    <td>A/C No: &nbsp;</td>
+                                                                    <td>{{hodData.Table[0].BankAcNo}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                        <td colspan="2" >
+                                                            <table>
+                                                                <tr>
+                                                                    <td>IFSC: &nbsp;</td>
+                                                                    <td>{{hodData.Table[0].BankIfsc}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                               
+                                                    </tr>
+                                                </thead>
+                                            </table>-->
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-12">
+                                        <div class="pull-right">
+                                            <span  class="ExportToPdf1"
+                                                    id="ExportToPdf1" ng-click="DownloadtoPdf('#StudentDetailsTable')">
+                                                Download Pdf<span class="fa fa-download heading_icon btn_icons"></span>
+                                            </span>
+                                            <span class="ExportToExcel1"
+                                                    id="ExportToExcel1" ng-click="DownloadExcel('#StudentDetailsTable')">
+                                                Download Excel<span class="fa fa-download heading_icon btn_icons"></span>
+                                            </span>
+                                        </div>
+                                    </div>-->
+                                    <div class="col-md-12">
+                                        <div class="pull-right" ng-show="StudentDetailsFound">
+                                            <a class="ExportToExcel1 pointer"
+                                               id="ExportToExcel1" ng-click="DownloadtoExcel('#StudentDetails')">
+                                                <i class="fa fa-file-excel-o"></i>
+
+                                                Export to Excel
+                                            </a>
+                                            <a class="ExportToPdf1 pointer"
+                                               id="ExportToPdf1" ng-click="DownloadtoPdf('#StudentDetailsTable')">
+                                                <i class="fa fa-file-pdf-o"></i>
+                                                Export To PDF
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="StudentDetailsTable">
+                                            <div class="cl-details">
+                                                <h2>Student Details</h2>
+                                            </div>
+                                            <div style="width:100%;text-align:center;">
+                                                <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                            </div>
+
+                                            <div class="table-responsive table-custom-tables-tb" id="StudentDetails" ng-show="StudentDetailsFound">
+                                                <table class="table table-bordered table-hover table-rounded">
+                                                    <thead>
+                                                        <tr class="cb-1">
+                                                            <th>Academic Year</th>
+                                                            <th>Scheme</th>
+                                                            <th>Semester</th>
+                                                            <th>Branch</th>
+                                                            <!-- <th>Intake</th>-->
+                                                            <th>Allotted</th>
+                                                            <th>On Roll</th>
+                                                            <th>Data Not Updated</th>
+                                                            <th>Aadhar Not Verified</th>
+                                                            <th>AttendeeId Not Generated</th>
+                                                            <th>Pin Not Generated</th>
+                                                            <!--<th>View</th>-->
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr  ng-repeat="x in hodData.Table1">
+                                                            <!--AadharVerified: 1
+                                                            Allotted: 58
+                                                            Branch: "A"
+                                                            DataStatus: 2
+                                                            Intake: 60
+                                                            Reported: 57
+                                                            SNO: 1
+                                                            Scheme: "C18"
+                                                            Schemeid: 5
+                                                            Semester: "1SEM"
+                                                            Semesterid: 1
+                                                            branchid: 8-->
+                                                            <!--AadharNotUpdated: 13
+                                                            Alloted: 82
+                                                            AttendeeIdNotGenerated: null
+                                                            BranchCode: "C"
+                                                            BranchId: 1
+                                                            CollegeCode: "035  "
+                                                            DataNotUpdated: 13
+                                                            OnRoll: 82
+                                                            PinNotGenerated: null
+                                                            Scheme: "C16S"
+                                                            SchemeID: 4
+                                                            SemId: 5
+                                                            Semester: "5SEM"-->
+                                                            <td>{{x.AcademicYear}}</td>
+                                                            <td>{{x.Scheme}}</td>
+                                                            <td>{{x.Semester}}</td>
+                                                            <td>{{x.BranchCode}}</td>
+                                                            <!--<td>{{x.Intake == null ?'-':x.Intake}}</td>-->
+                                                            <td> <b><a class="Verify" ng-click="showDetails(1,x.SchemeID,x.SemId,x.BranchId)">{{x.Alloted == null ?'-':x.Alloted}}</a></b></td>
+                                                            <td> <b><a class="Verify" ng-click="showDetails(2,x.SchemeID,x.SemId,x.BranchId)"> {{x.OnRoll == null ?'-':x.OnRoll}} </a></b></td>
+                                                            <td> <b><a class="Verify" ng-click="showDetails(6,x.SchemeID,x.SemId,x.BranchId)"> {{x.DataNotUpdated == null ?'-':x.DataNotUpdated}} </a></b></td>
+                                                            <td> <b><a class="Verify" ng-click="showDetails(3,x.SchemeID,x.SemId,x.BranchId)"> {{x.AadharNotUpdated == null ?'-':x.AadharNotUpdated}} </a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(4,x.SchemeID,x.SemId,x.BranchId)">{{x.AttendeeIdNotGenerated  == null ?'-':x.AttendeeIdNotGenerated}} </a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(5,x.SchemeID,x.SemId,x.BranchId)">{{x.PinNotGenerated  == null ?'-':x.PinNotGenerated}} </a></b></td>
+                                                           <!-- <td><a class="Verify" ng-click="showDetails(x.Schemeid,x.Semesterid,x.branchid)">Click Here</a></td>-->
+                                                        </tr>
+                                                        <tr style="font-weight:bold">
+                                                            <td colspan="3">Total</td>
+                                                            <td>{{Alloted}}</td>
+                                                            <td>{{OnRoll}}</td>
+                                                            <td>{{DataNotUpdated}}</td>
+                                                            <td>{{AadharNotUpdated}}</td>
+                                                            <td colspan="3">{{AttendeeIdNotGenerated}}</td>
+                                                            <td  colspan="2">{{x.PinNotGenerated}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                 
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'"></div>
+    <!--<script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successful.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+    </script>-->
+</body>
+</html>

@@ -1,0 +1,106 @@
+﻿<style>
+    .img_rep {
+        border: 2px solid #ddd;
+        height: 180px;
+        width: 380px;
+    }
+</style>
+<div ng-controller="HomePagePhotosController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Upload Slide</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/Notification">Upload Slide</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/MasterSettings" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+        <div class="col-md-12 ">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row userRow">
+                        <div class="col-md-2 font_bold">
+                            Upload Slide
+                        </div>
+                        <div class="col-md-6">
+                            <input class="inputCls" id="ApplicationLetter" type="file" placeholder="" onchange="angular.element(this).scope().UploadApplication()" accept="image/*" ng-model="upldfile1" />
+                        </div>
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-2 font_bold">
+                            View Slide
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{ApplicationLetter1}}" style="border: 2px solid #ddd;" height="220" width="500" id="ViewApplicationLetter" />
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="gr-btn">
+                                <button type="button" style="margin-bottom:10px;" class="btn btn-primary gr-button" ng-click="UploadSignature()">Upload Slide</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div ng-show="Loading">
+            <center><img class="img_loading" src="/contents/images/preloader.gif"></center>
+        </div>
+        <div class="sm-spacer"></div>
+
+        <div class=" " ng-show="HomeSlides.length>0">
+
+            <div class="cl-details">
+                <div class="pannel-bar1">Home Slides</div>
+            </div>
+
+            <div class="table-responsive table-custom-tables-tb">
+                <table class="table table-bordered table-hover table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th>S no</th>
+                            <th>Image Text</th>
+                            <th class="text-center" width="30%">Image</th>
+                            <th class="text-center">Active</th>
+                            <th>Added on</th>
+
+                            <th style="text-align:center;">Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in HomeSlides">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.PhotoPath}}</td>
+                            <td class="text-center"><img ng-src="{{data.PhotoPath}}" style="border: 2px solid #ddd;" class="img_rep" /></td>
+                            <td class="text-center"><span class="text-success" ng-if="data.IsActive==1"><b>Yes</b></span><span ng-if="data.IsActive== 0" class="text-danger"><b>No</b></span></td>
+                            <td>{{data.Logdate| date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                            <td style="text-align:center">
+                                <!--<button class="btn-xs btn btn-success" ng-click="ViewCorousel(data.SliderImageID)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                            <button class="btn-xs btn btn-info" ng-click="EditCorousel(data.SliderImageID)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>-->
+                                <button class="btn-xs btn btn-success" title="Click here to Inactive" ng-click="ChangeStatus(data.Id,0)" ng-if="data.IsActive==1">Active</button>
+                                <button class="btn-xs btn btn-danger" title="Click here to Active" ng-click="ChangeStatus(data.Id,1)" ng-if="data.IsActive==0">InActive</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </div>
+</div>

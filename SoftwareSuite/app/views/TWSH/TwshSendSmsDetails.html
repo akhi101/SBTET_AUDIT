@@ -1,0 +1,115 @@
+﻿
+
+<style>
+
+
+    button {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="TwshSmsDetailsController">
+
+        <div class="clearfix"></div>
+        <div>
+            <div class="">               
+                <section class="content">
+                    <div class="container ">
+                        <div class="row base-row">                           
+
+                            <!--subject Details -->
+                            <div>
+                                <div style="width:100%;text-align:center;">
+                                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                </div>
+                                <div class="col-md-12" ng-show="SmsDetailsFound">
+                                    <div class="cl-details">
+                                        <h2>Sms Details</h2>
+                                    </div>
+
+                                    <div class="table-responsive table-custom-tables-tb" ng-init="loadsmsDetails()">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+
+                                                <tr class="cb-1">
+                                                    <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>
+                                                    <th style="width: 2%;text-align: center">Application No</th>
+                                                    <th style="width: 10%;text-align: center">Name</th>
+                                                    <th style="width: 2%;text-align: center">Mobile No</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr ng-repeat="x in SmsDetailsList">
+                                                    <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>
+                                                    <td style="text-align: center">{{x.ApplicationNumber}} </td>
+                                                    <td style="text-align: center">{{x.StudentName}}</td>
+                                                    <td style="text-align: center">{{x.StudentPhoneNumber}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <div class="col-md-6">
+                                            <button class="btn btn-default" ng-click="back()">
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="btn-success pull-right btn" ng-class="{'disabled': btndisable}" style="margin-bottom:0px;margin-top:20px" ng-click="SendSms()">
+                                               Send Sms
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="StudentsNotFound" class="no-results">
+                                    <img src="../../../contents/img/Folder-Icon.svg" />
+                                    <h2>Students are not Available for this Elective</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+        </div>
+    </div>
+
+</body>
+</html>

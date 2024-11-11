@@ -1,0 +1,81 @@
+﻿<style>
+
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 6px 6px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        border-top: 1px solid #ddd;
+        font-size: 13px;
+        border: 1px solid #000 !important;
+    }
+
+    table.table {
+        clear: both;
+        margin-bottom: 0px !important;
+        max-width: none !important;
+        border: 1px solid #000;
+    }
+
+    .labCls {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .DataCss {
+        font-size: 13px;
+    }
+
+    .h_iframe iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    .h_iframe {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
+<div class="modal-header aadhar-modal-header">
+    <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+    <h4 class="modal-title center-block"><b>Reschedule CBT exam </b></h4>
+</div>
+
+
+<div class="modal-body">
+    <br />
+
+    <div class="col-md-12">
+        <div class="col-md-5 labCls">Application no </div><div class="col-md-7 DataCss">: {{Rescheduledata.ApplicationNumber}}</div>
+        <div class="col-md-5 labCls">Hall Ticket Number </div><div class="col-md-7 DataCss">: {{Rescheduledata.HallTicketNumber}}</div>
+        <div class="col-md-5 labCls">Name </div><div class="col-md-7 DataCss">: {{Rescheduledata.StudentName}}</div>
+
+        <div class="col-md-5 labCls">Father Name </div><div class="col-md-7 DataCss">: {{Rescheduledata.FatherName}}</div>
+        <div class="col-md-5 labCls">Phone no </div><div class="col-md-7 DataCss">: {{Rescheduledata.StudentPhoneNumber}}</div>
+        <div class="col-md-5 labCls">Grade Applied </div><div class="col-md-7 DataCss">: {{Rescheduledata.GradeCode}} - {{Rescheduledata.GradeName}}</div>
+        <div class="col-md-5 labCls">Current Exam Date </div><div class="col-md-7 DataCss">: {{Rescheduledata.SelectedOnlineExamDate}}</div>
+
+        <div class="col-md-5 labCls">Re-Schedule Date </div><div class="col-md-5 DataCss"> <input type="date" class="form-control" ng-model="RescheduleDate" /></div> <div class="col-md-2 DataCss"> <input type="time" name="examtime" class="examtime" min="09:00" max="18:00" value={{rescheduleexamtime}} ng-model='rescheduleexamtime' /></div>
+    </div> 
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" ng-click="closeModal()">Cancel</button>
+    <button type="button" class="btn btn-danger pull-Right" ng-click="AbsentExam(Rescheduledata.Id)">Absent</button>
+    <button type="button" class="btn btn-primary pull-Right" ng-click="RescheduleStudentExam(Rescheduledata.Id,RescheduleDate,rescheduleexamtime)">Reschedule Exam</button>
+</div>
+

@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exam Form Correction</title>
+</head>
+<body>
+    <div ng-controller="ExamFormsCorrectionController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Form Correction</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Exam Form Correction</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top: -15px;" class="row">
+                            <div class="col-md-6"><h3 class="ch3">Admission Details</h3></div>
+                            <div style="margin-top: 13px;" class="col-md-6 text-right"><button type="button" class="btn btn-detail btn-sm" ng-click="Exit()">Back</button></div>
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-2"> <label for="sel1">Student Name :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="StudNameChecked" ng-change="ChangeName(StudNameChecked)">
+                                            </span>
+                                            <input type="text" class="form-control" ng-model="TempExamFormsCorrection.StudName" id="temp_StudName" placeholder="Student Name" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"> <label for="sel1">Update Student Name :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" ng-disabled="!StudNameChecked" ng-model="ExamFormsCorrection.StudName" id="StudName" placeholder="Student Name" ng-maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"> <label for="email">Gender :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="GenderChecked">
+                                            </span>
+                                            <div class="form-group" ng-disabled="true">
+                                                <form>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="temp_optradio" ng-model="TempExamFormsCorrection.Gender" value="M" disabled>Male
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="temp_optradio" ng-model="TempExamFormsCorrection.Gender" value="F" disabled>Female
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="temp_optradio" ng-model="TempExamFormsCorrection.Gender" value="O" disabled>Other
+                                                    </label>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"> <label for="email">Update Gender :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group" ng-disabled="true">
+                                            <form>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamFormsCorrection.Gender" checked value="M" ng-disabled="!GenderChecked">Male
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamFormsCorrection.Gender" value="F" ng-disabled="!GenderChecked">Female
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamFormsCorrection.Gender" value="O" ng-disabled="!GenderChecked">Other
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"> <label for="sel1">Father Name :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="FathernameChecked" ng-change="ChangeFatherName(FathernameChecked)">
+                                            </span>
+                                            <input type="text" class="form-control input-sm" id="temp_Fathername" ng-Model="TempExamFormsCorrection.Fathername" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"> <label for="sel1">Update Father Name :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control input-sm" id="Fathername" ng-Model="ExamFormsCorrection.Fathername" ng-disabled="!FathernameChecked" ng-maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"> <label for="sel1">Mother Name :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="MotherNameChecked" ng-change="ChangeMotherName(MotherNameChecked)">
+                                            </span>
+                                            <input type="text" class="form-control input-sm" id="temp_MotherName" ng-Model="TempExamFormsCorrection.MotherName" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"> <label for="sel1">Update Mother Name :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control input-sm" id="MotherName" ng-Model="ExamFormsCorrection.MotherName" ng-disabled="!MotherNameChecked" ng-maxlength="100" ng-change="text = text.toUpperCase()">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"> <label for="sel1">Student Category :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="StudCatIDChecked">
+                                            </span>
+                                            <select class="form-control" id="temp_StudCatID" ng-model="TempExamFormsCorrection.StudCatID" disabled>
+                                                <option ng-selected="TempExamFormsCorrection.StudCatID == option.StudCatID" ng-repeat="option in StudCatList" value="{{option.StudCatID}}">{{option.StudCatName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"> <label for="sel1">Update Student Category :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control" id="StudCatID" ng-model="ExamFormsCorrection.StudCatID" ng-disabled="!StudCatIDChecked">
+                                                <option ng-selected="ExamFormsCorrection.StudCatID == option.StudCatID" ng-repeat="option in StudCatList" value="{{option.StudCatID}}">{{option.StudCatName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Student Photo</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExamFormsCorrection.StudentPhotoChecked">
+                                            </span>
+                                            <img data-ng-src="{{tempStudentPhoto}}" id="temp_StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Update Photo</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img data-ng-src="{{StudentPhoto}}" id="StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px;">
+                                        <input style="border:none; margin-left: -10px; box-shadow: none; margin-top:10px;" class="form-control" type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" ng-disabled="!ExamFormsCorrection.StudentPhotoChecked" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Student Signature</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExamFormsCorrection.StudentSignChecked">
+                                            </span>
+                                            <img data-ng-src={{tempStudentSign}} id="temp_StudentSign" class="img img-responsive" style="height: 80px; width: 150px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Update Signature</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img data-ng-src={{StudentSign}} id="StudentSign" class="img img-responsive" style="height: 80px; width: 150px;">
+                                        <input style="border:none; margin-left: -10px; box-shadow: none;" class="form-control" type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" ng-disabled="!ExamFormsCorrection.StudentSignChecked" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="true">
+                            <div class="col-md-12"><h3 class="ch3"> Exam Form Details <hr></h3></div>
+                        </div>
+                        <div class="row" ng-hide="true">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Form No :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrection.Formno" id="Formno" placeholder="Form Number" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Application Date :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrection.CreDateDesc" id="CreDateDesc" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="true">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Regular Fee :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrection.RegularFees" id="RegularFees" placeholder="Regular Fees" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Late Fee :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrection.LateFees" id="LateFees" placeholder="Late Fees" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Fee Amount :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrection.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="true"></div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">NR Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-2"><label for="sel1">Year :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" ng-model="TempExamFormsCorrection.ExmName" id="temp_ExmName" readonly="readonly" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><label for="sel1">Stream :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" ng-model="ExamFormsCorrection.CourseChanged" ng-change="changeCourse(ExamFormsCorrection.CourseChanged, 'Course')" ng-disabled="checkDisabledCourse">
+                                                </span>
+                                                <select class="form-control" id="temp_CourseID" ng-model="TempExamFormsCorrection.CourseID" ng-change="CourseChange(TempExamFormsCorrection.CourseID)" disabled>
+                                                    <option ng-selected="TempExamFormsCorrection.CourseID == option.CourseID" ng-repeat="option in StudCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"><label for="sel1">Update Stream :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control" id="CourseID" ng-model="ExamFormsCorrection.CourseID" ng-disabled="!ExamFormsCorrection.CourseChanged" ng-change="CourseChange(ExamFormsCorrection.CourseID)">
+                                                <option ng-selected="ExamFormsCorrection.CourseID == option.CourseID" ng-repeat="option in StudCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><label for="sel1">Main Group :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" ng-model="ExamFormsCorrection.MainGroupChanged" ng-change="changeGroup(ExamFormsCorrection.MainGroupChanged,'Group')" ng-disabled="checkDisabledMain">
+                                                </span>
+                                                <select class="form-control input-sm" id="temp_MainGrpID" ng-model="TempExamFormsCorrection.MainGrpID" disabled>
+                                                    <option value="0" selected>Select</option>
+                                                    <option ng-selected="TempExamFormsCorrection.MainGrpID == option.MainGrpID" ng-repeat="option in tempMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"><label for="sel1">Update Main Group :</label></div>
+                                    <div class="col-md-4">
+                                        <select class="form-control input-sm" id="MainGrpID" ng-model="ExamFormsCorrection.MainGrpID" ng-disabled="!ExamFormsCorrection.MainGroupChanged" ng-change="NewGroup(ExamFormsCorrection.MainGrpID)">
+                                            <option value="0" selected>Select</option>
+                                            <option ng-selected="ExamFormsCorrection.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><label for="MediumID">Medium :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" value="" ng-model="ExamFormsCorrection.MediumChanged" ng-change="changeMedium(ExamFormsCorrection.MediumChanged,'Medium')" ng-disabled="checkDisabledMed">
+                                                </span>
+                                                <select class="form-control input-sm" id="temp_MediumID" ng-model="TempExamFormsCorrection.MediumID" disabled>
+                                                    <option ng-selected="TempExamFormsCorrection.MediumID == option.MediumID" ng-repeat="option in tempMediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"><label for="MediumID">Update Medium :</label></div>
+                                    <div class="col-md-4">
+                                        <select class="form-control input-sm" id="MediumID" ng-model="ExamFormsCorrection.MediumID" ng-disabled="!ExamFormsCorrection.MediumChanged" ng-change="MediumChange(ExamFormsCorrection.MediumID)">
+                                            <option ng-selected="ExamFormsCorrection.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"><label for="MediumID">2nd Language :</label></div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" value="" ng-model="ExamFormsCorrection.SecondLanguageChanged" ng-change="changeSecondLanguage(ExamFormsCorrection.SecondLanguageChanged,'SecondLangName')" ng-disabled="checkDisabledSec">
+                                                </span>
+                                                <select class="form-control input-sm" id="temp_SecondLangID" ng-model="TempExamFormsCorrection.SecondLangID" disabled>
+                                                    <option ng-selected="TempExamFormsCorrection.SecondLangID == option.SecondLangID" ng-repeat="option in tempSecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"><label for="MediumID">Update 2nd Language :</label></div>
+                                    <div class="col-md-4">
+                                        <select class="form-control input-sm" id="SecondLangID" ng-model="ExamFormsCorrection.SecondLangID" ng-disabled="!ExamFormsCorrection.SecondLanguageChanged" ng-change="CheckMediumLimit(ExamFormsCorrection.MediumID)">
+                                            <option ng-selected="ExamFormsCorrection.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Subject Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                Old Subjects
+                                <table id="filtereddata" class="table table-striped">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Subject Code</th>
+                                        <th>Subject Name</th>
+                                    </tr>
+                                    <tr ng-repeat="x in Subjectdata">
+                                        <td style="text-align:center; width:100px;"><input type="checkbox" ng-disabled="x.SubDisable " ng-click='GetCheckSubject(x)' ng-model="x.CheckSub"></td>
+                                        <td>{{ x.ExmSubCode }}</td>
+                                        <td>{{ x.ExmSubName }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-4 col-md-offset-2">
+                                Group Subjects
+                                <table id="filtereddataNew" class="table table-striped">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Subject Code</th>
+                                        <th>Subject Name</th>
+                                    </tr>
+                                    <tr ng-repeat="x in SubjectdataNew">
+                                        <td style="text-align:center; width:100px;"><input type="checkbox" ng-disabled="x.SubDisable " ng-click='GetCheckSubjectNew(x)' ng-model="x.CheckSub"></td>
+                                        <td>{{ x.ExmSubCode }}</td>
+                                        <td>{{ x.ExmSubName }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveExamFormsCorrection()">Save</button>
+                                    <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                                    <button type="button" class="btn btn-sm btn-detail" data-toggle="modal" data-target="#exampleModal" ng-click="ShowBill()" ng-disabled="viewDisable">View Bill</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="popupContainer" class="panel">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document" style="width:90%;">
+                            <div class="modal-content" style="width:90%; margin-left:5%;">
+                                <div class="modal-header">
+                                    <div class="row">
+                                        <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Payment Details</h5></div>
+                                        <div class="col-md-12 text-right">
+                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body" id="filterdatatoprint">
+                                    <table id="filtereddata" class="table table-striped table-responsive" style="font-size:11px">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr.No.</th>
+                                                <th>Field Type</th>
+                                                <th>Existing</th>
+                                                <th>Requested</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in ExamFormsCorrectionBill">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{ x.ValueDisplayName }}</td>
+                                                <td>{{ x.OldValue }}</td>
+                                                <td>{{ x.NewValue }}</td>
+                                                <td>{{ x.Amount }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td ng-hide="HidePhoto">
+                                                    <img ng-src="{{UpdatedPhotoPath}}" id="StudentPhotoUploaded" class="img img-responsive" style="height: 150px; width: 150px;">
+                                                </td>
+                                                <td ng-hide="HideSign">
+                                                    <img ng-src="{{UpdatedSignPath}}" id="StudentSignUploaded" class="img img-responsive" style="height: 150px; width: 150px;">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td align="right" colspan="4"><b>Total</b></td>
+                                                <td><b>{{ExamFormsCorrectionBill.TotalAmount}}</b></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnPrintModal" class="btn btn-primary btn-sm" ng-disabled="paybtndisable" ng-click="PayCorrectionFees(x)">Pay Amount</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

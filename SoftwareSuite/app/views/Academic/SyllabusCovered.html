@@ -1,0 +1,73 @@
+﻿<div ng-controller="SyllabusCoveredController">
+    <div class="breadcrumb-header ng-scope">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5 class="ng-binding">Branch Name:{{BrancName}}</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/Electives">SyllabusCovered</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic/SubjectsList" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>Syllabus Coverage</h2>
+            </div>
+        </div>
+        <div class="base_row">
+            <div class="col-md-2"><label><b>Scheme :</b></label> {{Scheme}}</div>
+            <div class="col-md-2"><label><b>Sem :</b></label> {{Sem}}</div>
+            <div class="col-md-2"><label><b>Subject Code:</b></label> {{SubjectCode}}</div>
+         <!--   <div class="col-md-2"><label><b>Shift:</b></label> {{Shift}}</div>-->
+            <div class="col-md-4"><label><b>Subject Name:</b></label> {{SubjectName}}</div>
+        </div>
+        <div class="col-md-12">
+
+            <div id="attendanceReport" class="table-responsive table-custom-tables-tb  ng-scope">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center" ng-click="sort('Branch')">Chapter</th>
+                            <th class="text-center" ng-click="sort('Branch')">Completition Date</th>
+                            <th colspan="1" style="width: 10%;"><input hidden type="checkbox" ng-model="allItemsSelected" ng-checked="allItemsSelectedthing" ng-change="selectAll()">Completition Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="x in ChapterList" class="ng-scope">
+
+                            <td class="text-center ng-binding">{{$index+1}}</td>
+                            <td class="text-center ng-binding">{{x.Chapter}}</td>
+                            <td class="text-center ng-binding">{{x.SubmittedDate == null ? '-' : x.SubmittedDate|date:'dd-MMM-yyyy'}}</td>
+                            <td style="text-align: center">
+                                <input type="checkbox" ng-model="x.IsActive"  ng-checked="x.IsActive" ng-change="selectEntity(x)">
+                            </td>
+                            <!--ng-disabled="x.IsActive == true && x.Is_Submitted == true"-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-success pull-right" ng-click="submitData()"> Update </button>
+        </div>
+        <!--<div class="col-md-12">
+            <h2>Syllabus Coverage Progress Bar</h2>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                    70%
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

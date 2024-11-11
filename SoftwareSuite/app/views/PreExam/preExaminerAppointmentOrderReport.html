@@ -1,0 +1,50 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Examiner Appointment Order Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Report</li>
+                <li>Examiner Appointment Order Report</li>
+            </ol>
+        </div>
+    </div>
+   
+    <div class="row base-row" ng-controller="preExaminerAppointmentOrderReportController"  ng-init="init()">
+        <div class="col-md-12">
+            <form name="preExaminerAppointmentsForm" ng-submit="getExaminerAappointmentOrderReport()">
+                <div class="row">
+                    <div class="col-md-2 ">
+                        <sa-select ng-model="preExaminerAppointments.ZoneType" object="preExaminerAppointments.ZoneType" options="ZoneTypes" displaycolumn="ZoneTypeName" valuecolumn="ZoneType" objectname="ZoneType" objecttext="Zone Type" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2" >
+                        <sa-select ng-model="preExaminerAppointments.CourseID" object="preExaminerAppointments.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2" >
+                        <sa-select ng-model="preExaminerAppointments.ExamID" object="preExaminerAppointments.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2"  ng-hide="ForCollege">
+                        <sa-select ng-model="preExaminerAppointments.DistrictID" object="preExaminerAppointments.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2"  ng-hide="ForCollege">
+                        <sa-select ng-model="preExaminerAppointments.CollegeID" object="preExaminerAppointments.CollegeID" options="basicColleges" displaycolumn="ColName" valuecolumn="CollegeID" objectname="CollegeID" objecttext="College"> </sa-select>
+                    </div>
+                    <div class="col-md-2"  ng-hide="ForCollege">
+                        <sa-select ng-model="preExaminerAppointments.ExaminerID" object="preExaminerAppointments.ExaminerID" options="examinerList" displaycolumn="full_name" valuecolumn="ExaminerID" objectname="ExaminerID" objecttext="Examiner"> </sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

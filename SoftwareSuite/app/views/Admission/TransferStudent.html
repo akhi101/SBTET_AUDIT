@@ -1,0 +1,170 @@
+﻿<style>
+    .padleft {
+        padding-left: 0px;
+    }
+
+    .formLabel {
+        font-size: large !important;
+        font-weight: bold;
+        width: 150px;
+    }
+
+    #print_head {
+        display: block;
+    }
+
+    fieldset.group-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend.group-border {
+        width: inherit;
+        /* Or auto */
+        padding: 0 10px;
+        /* To give a bit of padding on the left and right */
+        border-bottom: none;
+    }
+
+    .tables {
+        font-size: 12px !important;
+    }
+</style>
+<div ng-controller="TransferStudentController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Transfer Student</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Admission"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/TransferStudent">Transfer Student</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+
+    <div class="container">
+        <div class="col-md-6">
+            <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success pull-right" ng-click="OpenPopup()">  Transfer Attendee Id</button>
+        </div>
+    </div>
+    <div class="container">
+        <section class="content">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="sel1">
+                                PIN :
+                            </label>
+                            <input class="form-control" placeholder="Enter PIN" type="text" ng-model="Pin" maxlength="20" />
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <div class="gr-btn">
+                                <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="getDetails()">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                <img src="../../../contents/img/loading2.gif" width="100" />
+            </div>
+            <!--<div class="col-md-12" ng-show="Result">
+                <div class="cl-details">
+                    <h2>Student Details</h2>
+
+                </div>
+            </div>-->
+            <div class="col-md-12" style="margin-bottom: 80px;" ng-show="ResultFound">
+                <fieldset class="group-border">
+                    <legend class="group-border">Student Details</legend>
+                    <div class="col-md-9">
+                        <div class="col-md-12 padleft">
+                            <label class="formLabel">PIN </label>: {{studentdata.Pin}}
+                        </div>
+                        <div class="col-md-12 padleft">
+                            <label class="formLabel">AttendeeId </label>: {{studentdata.AttendeeId}}
+                        </div>
+                        <div class="col-md-12 padleft ">
+                            <label class="formLabel">Name </label>: {{studentdata.Name}}
+                        </div>
+
+                        <div class="col-md-12 padleft">
+                            <label class="formLabel">Father Name </label>: {{studentdata.FatherName}}
+                        </div>
+
+                        <div class="col-md-12 padleft">
+                            <label class="formLabel">Branch </label>: {{studentdata.BranchCode}}-{{studentdata.BranchName}}
+                        </div>
+                        <div class="col-md-12 padleft">
+                            <label class="formLabel">Semester </label>: {{studentdata.Semester}}
+                        </div>
+                        <div class="col-md-12 padleft ">
+                            <label class="formLabel">College </label>: {{studentdata.CollegeCode}}-{{studentdata.CollegeName}}
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <!--<img ng-src="{{studentdata.ProfilePhoto}}" style="border: 2px solid #ddd;" height="175" width="150" />-->
+                    </div>
+                </fieldset>
+                <fieldset class="group-border">
+                    <legend class="group-border">Colleges to Transfer</legend>
+                    <div class="col-md-6 form-group">
+                        <label for="sel1" class="formLabel">Colleges :</label>
+                        <select class="form-control" id="newcollege" ng-model="newcollege" ng-change="Changecollege(newcollege)"
+                                ng-options="college.CollegeName for college in Eligiblecolleges">
+                            <option value="" selected>Select College</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 padleft" ng-show="branchdata != undefined || branchdata != null">
+                        <label class="formLabel">Branch InTake </label>: {{branchdata.Intake==null?"--":branchdata.Intake}}
+                    </div>
+                    <div class="col-md-12 padleft" ng-show="branchdata != undefined || branchdata != null">
+                        <label class="formLabel">Branch OnRoll </label>: {{branchdata.OnRoll==null?"--":branchdata.OnRoll}}
+                    </div>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <button class="btn btn-default" ng-click="cancel()">
+                            cancel
+                        </button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-detail  pull-right" ng-click="Transfer()">
+                            Transfer
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row" ng-show="ResultNotFound">
+                <div class="col-md-12">
+                    <div class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>PIN details not Found</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

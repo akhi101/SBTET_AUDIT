@@ -1,0 +1,83 @@
+﻿<div ng-controller="TwshApprovalListController">
+    <div class="sm-spacer"></div>
+    <div class="container">
+        <div class="col-md-12 " ng-if="userType == '2'|| userType == '3'">
+            <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                UnAuthorized Access
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-if="userType == '1' ||userType == '5' ||userType == '1007'|| userType == '1002'|| userType == '1009'">
+        <!-- -->
+        <div class="row">
+            <div class="col-md-12 pull-left mtp-50">
+                <div class="col-md-12">
+                    <a href="#!/Dashboard/TypeWriting" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+                </div>
+                <!--<div class="back-btn" style="margin-bottom:0px;">
+                    <a href="#!/Dashboard/TypeWriting" style="color:#fff!important;border-bottom:none"><button type="button" style="background: #1976d2;">Back</button></a>
+                </div>-->
+            </div>
+            <div class="col-md-12 " ng-if="showStatus">
+                <div class="sm-spacer"></div>
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                    {{StatusMessage}}
+                </div>
+            </div>
+
+            <div class="col-md-12" ng-show="data">
+                <div class="pull-right" style="color:red">Click on the row to View Candidates List</div>
+            </div>
+            <div class="col-md-12 " ng-show="data">
+                <div class="cl-details">
+                    <h2>TWSH Qualified Candidates</h2>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb ">
+                    <table class="table table-bordered  table-striped table-rounded ">
+                        <thead>
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th style="width: 2%" ng-click="sort('Sno')">S.No</th>
+                                <th class="" style="width: 40%" ng-click="sort('Scheme')">Grade</th>
+                                <th class="text-center" ng-click="sort('Scheme')">Approval Pending</th>
+                                <th class="text-center" ng-click="sort('Semester')">Approved</th>
+                                <th class="text-center" ng-click="sort('Branch')">Rejected</th>
+                                <!--<th class="text-center" ng-click="sort('On Roll')">Phone Number</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Print</th>-->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in QualifiedList" style="background-color:#fff!important;" ng-click="OpenData(data.RegistrationNo)">
+                                <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                               
+                                 <td>{{$index+1}}</td>
+                                <td class="">{{data.GradeName}} ({{data.GradeCode}})</td>
+                                <td class="text-center" ng-click="OpenCountData(0,data.GradeId)"><b><a>{{data.ApprovalPending}}</a></b></td>
+                                <td class="text-center" ng-click="OpenCountData(1,data.GradeId)"><b><a>{{data.Approved}}</a></b></td>
+                                <td class="text-center" ng-click="OpenCountData(2,data.GradeId)"><b><a>{{data.Rejected}}</a></b></td>
+                                <!--<td class="pointer text-center">{{data.StudentPhoneNumber}}</td>
+                                <td class="pointer text-center">
+                                    <button class="btn btn-xs btn-success" ng-if="data.Print == 1">Printed</button>
+                                    <button class="btn btn-xs btn-danger" ng-if="data.Print == 0">Need to Print</button>
+                                </td>-->
+
+                            </tr>
+                            <tr class="">
+                                <td colspan="2">Total</td>
+                                <td class="text-center">{{ApprovalPending}}</td>
+                                <td class="text-center">{{Approved}}</td>
+                                <td class="pointer text-center">{{Rejected}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </div>
+</div>

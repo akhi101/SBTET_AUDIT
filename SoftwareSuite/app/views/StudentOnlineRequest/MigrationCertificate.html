@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Migration Certificate</title>
+</head>
+<body>
+    <div ng-controller="MigrationCertificateController">
+        <div class="container">
+             <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Migration Certificate</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Migration Certificate</li>
+                    </ol>
+                </div>
+            </div>
+                 <div class="row base-row">
+                     <div class="col-md-3 left-col">
+                         <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                         <p># Candidates who passed IInd year are eligible.</p>
+                         <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                         <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference.</p>
+                         <p style="font-size:18px; font-weight:100;">For any queries please mail to: </p>
+                         <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                         <p style="font-weight:700;">
+                             Contact 040-24600110
+                         </p>
+                         <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                     </div>
+                     <div class="col-md-9">
+                         <div class="row frow">
+                             <div class="col-md-3 col-md-offset-1 text-right" style="padding-top: 7px;">
+                                 <label><font color="red">*</font> Enter Hall Ticket No./Roll No. </label>
+                             </div>
+                             <div class="col-md-3">
+                                 <input type="text" placeholder="Enter Hall Ticket No." class="form-control" id="HTNO" ng-model="MigrationCertificate.HTNO" maxlength="12" ng-keyup="keyup()" >
+                             </div>
+                             <div class="col-md-2">
+                                 <button type="button" class="btn btn-detail btn-sm" ng-click="FillDataByHTNO()">Get Data</button>
+                             </div>
+                         </div>
+                         <div class="showhide" ng-hide="ShowCandidateDetails">
+                             <div class="row">
+                                 <div class="col-md-12"><hr></div>
+                             </div>
+                             <!--New Code Start-->
+                             <div class="row">
+                                 <div class="col-md-8 col-md-offset-2"><h3 class="ch3">Student Details <hr></h3></div>
+                                 <div class="col-md-8 col-md-offset-2">
+                                     <table class="table table-striped table-responsive">
+                                         <tbody>
+                                             <tr>
+                                                 <td><p class="cp"><strong>Hall Ticket No./Roll No. :</strong></p></td>
+                                                 <td><p>{{MigrationCertificate.HTNO}}</p></td>
+                                             </tr>
+                                             <tr>
+                                                 <td><p class="cp"><strong>Candidate Name :</strong></p></td>
+                                                 <td>{{MigrationCertificate.StudName}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td><p class="cp"><strong>Father Name :</strong></p></td>
+                                                 <td>{{MigrationCertificate.Fathername}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td><p class="cp"><strong>Course :</strong></p></td>
+                                                 <td>{{MigrationCertificate.GroupName}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td><p class="cp"><strong>College Name :</strong></p></td>
+                                                 <td>{{MigrationCertificate.ColName}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td><p class="cp"><strong><font color="red">*</font> Mobile Number :</strong></p></td>
+                                                 <td><input type="text" class="form-control" id="MobileNo" ng-model="MigrationCertificate.MobileNo" oncopy="return false" maxlength="10" input-Number-Only></td>
+                                             </tr>
+                                             <tr>
+                                                 <td><p class="cp"><strong><font color="red">*</font>  Purpose :</strong></p></td>
+                                                 <td><textarea rows="4" style="width: 100%;" id="Purpose" ng-model="MigrationCertificate.Purpose" ng-pattern="pattern" maxlength="120"></textarea></td>
+                                             </tr>
+                                             <tr>
+                                                 <td> <p style="color:red;" class="cp"><strong>Fee (in Rupees) :</strong></p></td>
+                                                 <td style="color:red;"><strong>Rs.  {{MigrationCertificate.FeeAmount}}</strong></td>
+                                             </tr>
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                             <!--New Code End-->
+                             <div class="row">
+                                 <div class="col-md-12"><hr></div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-12 text-center">
+                                     <button type="button" class="btn btn-sm btn-detail" ng-click="SaveMigrationCertificate()">Submit & Pay</button>
+                                     <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                                 </div>
+                             </div>
+                         </div>
+
+
+                     </div>
+                 </div>
+        </div>
+    </div>
+</body>
+</html>

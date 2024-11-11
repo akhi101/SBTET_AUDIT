@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--<script src="../../../scripts/date.js"></script>
+    <script src="../../../scripts/time.js"></script>-->
+    <title>Update Student Certificates</title>
+</head>
+<body>
+    <div ng-controller="UpdateStudentCertificatesController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Update Student Certificate</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Student Admission</li>
+                        <li>Update Student Certificates</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="adno">Enroll No.:</label>
+                            <input type="text" class="form-control" id="adno" ng-Model="UpdateStudentCertificates.AdmNo" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">SSC Hall Ticket:</label>
+                            <input type="text" class="form-control" id="adno" ng-Model="UpdateStudentCertificates.SSCHallTicket" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Candidate's  Name:</label>
+                            <input type="text" class="form-control" id="cname" ng-Model="UpdateStudentCertificates.StudName" maxlength="100" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Father's Name:</label>
+                            <input type="text" class="form-control" id="fname" ng-Model="UpdateStudentCertificates.FatherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-8 col-md-offset-2">
+                        <hr>
+                        <label>
+                            Whether Student Submitted the:
+                        </label>
+                    </div>
+                    <div class="col-md-3 col-md-offset-2">
+                        <span class="rspan">SSC Original Memo :</span>
+                        <div class="maxl">
+                            <form>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="SSCCertFlag" checked value="Y">
+                                    <span>Yes </span>
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="SSCCertFlag" value="N">
+                                    <span>No </span>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="rspan">Study Certificate :</span>
+                        <div class="maxl">
+                            <form>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="StudyCertFlag" checked value="Y">
+                                    <span>Yes </span>
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="StudyCertFlag" value="N">
+                                    <span>No </span>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="rspan">TC Certificate :</span>
+                        <div class="maxl">
+                            <form>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="TCCertFlag" checked value="Y">
+                                    <span>Yes </span>
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="TCCertFlag" value="N">
+                                    <span>No </span>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <hr>
+                    </div>
+                    <div class="col-md-2 col-md-offset-4" ng-show="TCCertFlag=='Y'">
+                        <div class="form-group">
+                            <label for="adno">TC No.:</label>
+                            <input type="text" class="form-control" id="fname" ng-Model="UpdateStudentCertificates.TCNO" input-Number-Only maxlength="9" oncopy="return false" onpaste="return false"  no-Special-Char>
+                        </div>
+                    </div>
+                    <div class="col-md-2" ng-show="TCCertFlag=='Y'">
+                        <div class="form-group">
+                            <label for="adno"> Date of TC Issue:</label>
+                            <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="TCCertSubDate" ng-Model="UpdateStudentCertificates.TCCertSubDate" oncopy="return false" onpaste="return false">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <button type="button" ng-click="SaveUpdateStudentCertificates()" class="btn btn-detail btn-sm">Submit</button>
+                        <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

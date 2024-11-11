@@ -1,0 +1,512 @@
+﻿<style>
+    .genAttId {
+        cursor: pointer;
+        color: cornflowerblue;
+    }
+
+        .genAttId:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Register Report</title>
+    <style>
+        /*.col-md-3 {
+            padding-right: 2px !important;
+            padding-left: 2px !important;
+        }*/
+        .modal {
+            text-align: center;
+            padding: 0 !important;
+        }
+
+            .modal:before {
+                content: '';
+                display: inline-block;
+                height: 100%;
+                vertical-align: middle;
+                margin-right: -4px;
+            }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .table-bordered > thead > tr > th {
+            position: sticky;
+            top: 0px;
+        }
+
+        .clrRed {
+            color: red;
+            font-weight: bold;
+        }
+
+            .clrRed:hover {
+                color: red;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+        .cancel-btn button {
+            background: #e51313;
+            padding: 5px 20px;
+            color: #fff;
+            float: right;
+            border: none;
+            font-size: 14px;
+            box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+            border-radius: 2px;
+        }
+
+        .ClrGreen {
+            color: green;
+            font-weight: bold;
+        }
+
+        .notVerify {
+            color: #dd1010;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .Verify {
+            color: green;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        fieldset.group-border {
+            border: 1px groove #ddd !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        .custom-forms label {
+            color: #222;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 10px 0px 10px 0px;
+            font-weight: 700;
+            font-family: 'Open Sans';
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+            margin-top: 25px;
+        }
+
+        .col-md-9 {
+            width: 75%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+            margin-top: 15px;
+        }
+
+
+        .col-md-7 {
+            width: 58.33333333%;
+            font-weight: 500;
+            font-family: 'Open Sans';
+        }
+
+        .col-md-3 {
+            width: 25%;
+            font-weight: 500;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+            margin-bottom: 5px;
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px !important;
+        }
+
+        .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+            border: 1px solid #ddd !important;
+            color: #337ab7;
+            font-size: 14px !important;
+            cursor: default !important;
+            font-family: 'Open Sans';
+        }
+
+        .base-row {
+            background-color: #fefefe;
+            border-radius: 4px;
+            margin-top: 0px;
+            margin-bottom: 60px;
+            padding: 15px;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0px 3px 17px -8px #888888;
+            font-family: 'Open Sans';
+        }
+
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+            border: 1px solid #ddd !important;
+            color: #788598;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+        }
+
+        .navbar_section {
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: -20px;
+        }
+
+        a.backA, a.backA:focus {
+            color: #fff !important;
+            text-decoration: none !important;
+            font-family: 'Open Sans';
+            font-size: 14px;
+        }
+
+        a {
+            color: #337ab7;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .breadcrumb-header {
+            background-color: #d8d8d8;
+            padding: 8px 0px;
+            margin-bottom: 20px;
+            font-family: 'Open Sans';
+            font-size: 14px;
+        }
+
+        .col-md-12 {
+            width: 100%;
+            font-family: 'Open Sans';
+        }
+
+        .btn:not(.btn-link):not(.btn-circle) {
+            box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+            /* -webkit-border-radius: 2px; */
+            /* border-radius: 0px !important; */
+            font-size: 14px;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: #555;
+            cursor: default;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-bottom-color: transparent;
+            font-family: 'Open Sans';
+        }
+
+        .nav-tabs > li > a {
+            margin-right: 2px;
+            line-height: 1.42857143;
+            border: 1px solid transparent;
+            border-radius: 4px 4px 0 0;
+            font-family: 'Open Sans';
+        }
+
+        .cl-details h2 {
+            color: #ffffff;
+            font-size: 14px;
+            font-family: 'Open Sans';
+            background: #5ca0d3;
+            padding: 6px 9px;
+            font-weight: 600;
+            margin-top: 0px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="ViewStuDetailsController">
+        <!-- New Style Start-->
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+
+
+
+
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container containercontent">
+                <section class="content-header">
+                    <h5>Register Report Data View</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="#!/CcicDashboard/Academic">Academic Dashboard</a></li>
+                        <li><a href="#!/CcicDashboard/Academic/CcicRegisterReportData">Register Report Data</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+
+        <!--<div class="container">
+
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/CcicDashboard/Academic/EnrollmentReport/CcicAdmEnrollReportCourses" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+
+
+
+        </div>-->
+        <div class="container containercontent">
+            <div class="col-md-12 mtp-50 containercontent" ng-if="PreviewData" style="padding-bottom:150px">
+                <fieldset class="group-border" style="border-color:black">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offer-custom-style">
+                                <h2>Application Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="custom-forms">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="">
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"><label>Course  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.CourseName}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"><label>Qualification  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.Qualification}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12" ng-if="PreviewData.Experience">
+                                            <div class="col-md-3"><label>Experience  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.Experience}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"> <label>SSCHallTicket </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.SSCHallticketNumber}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"> <label>SSCPassedYear </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.SSCPassedYear}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"> <label>SSCType </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.SSCPassedType}}</div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 pull-right">
+                                        <img class="zoom" ng-src="{{PreviewData.StudentPhoto}}" style="border: 2px solid #ddd;margin-top: 15px;" height="175" width="150" />
+                                    </div>
+
+                                    <div class="col-md-3 pull-right">
+                                        <img class="zoom" ng-src="{{PreviewData.StudentSign}}" style="border: 2px solid #ddd;" height="60" width="150" />
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="border-color: #454545 ">
+                            <div class="row " style="padding: 0px 15px;">
+
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>CandidateName </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.StudentName}}</div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>FatherName </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.FatherName}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.MotherName">
+                                    <div class="col-md-5"> <label>MotherName </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.MotherName}}</div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>DateofBirth </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.DateofBirth}}</div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>Gender </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.Gender}}</div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>Aadhar Number </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.AadharNumber}}</div>
+
+                                </div>
+
+
+
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>HouseNo </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.HouseNumber}}</div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>Street </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.Street}}</div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"> <label>Landmark </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.Landmark}}</div>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>Village</label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.Village}}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>Pincode</label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.Pincode}}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>District </label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.District}}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>State</label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.AddressState}}</div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>Mobile Number</label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.StudentMobile}}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>Email</label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.StudentEmail}}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-5"><label>Is Blind</label></div>
+                                    <div class="col-md-7 pre-text">: {{PreviewData.IsBlind==true ? 'Yes' : 'No'}}</div>
+                                </div>
+
+                            </div>
+
+
+                            <hr style="border-color: #454545 ">
+                            <div class="row " style="padding: 0px 15px;">
+
+                                <div class="col-md-3 text-center" ng-show="imagesrc != '' && imagesrc != null ">
+                                    <label>SSC Certificate</label>
+                                    <img class="zoom" ng-src="{{imagesrc}}" ng-click="openImage(imagesrc)" style="border: 2px solid #ddd;" height="175" width="150" />
+                                    <div>Click on the file to Expand</div>
+
+                                </div>
+
+                                <div class="col-md-3 text-center" ng-show="imagesrc1 != '' && imagesrc1 != null ">
+                                    <label>Qualication Certificate</label>
+                                    <img class="zoom" ng-src="{{imagesrc1}}" ng-click="openImage(imagesrc1)" style="border: 2px solid #ddd;" height="175" width="150" />
+                                    <div>Click on the file to Expand</div>
+                                </div>
+
+                                <div class="col-md-3 text-center" ng-show="imagesrc2 != '' && imagesrc2 != null ">
+                                    <label>Experience Certificate</label>
+                                    <img class="zoom" ng-src="{{imagesrc2}}" ng-click="openImage(imagesrc2)" style="border: 2px solid #ddd;" height="175" width="150" />
+                                    <div>Click on the file to Expand</div>
+                                </div>
+                                <div class="col-md-3 text-center" ng-show="imagesrc3 != '' && imagesrc3 != null ">
+                                    <label>Medical Certificate</label>
+                                    <img class="zoom" ng-src="{{imagesrc3}}" ng-click="openImage(imagesrc3)" style="border: 2px solid #ddd;" height="175" width="150" />
+                                    <div>Click on the file to Expand</div>
+                                </div>
+
+
+
+                            </div>
+
+                            <hr style="border-color: #454545 ">
+                            <div class="col-md-6">
+                                <div class="col-md-5"><label>Remarks</label></div>
+                                <div class="col-md-7 pre-text">: {{PreviewData.Remarks}}</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="spacer"></div>
+                <div class="col-md-8">
+
+                </div>
+                <div>
+                    <div class="col-md-1 pull-right mtp-50" style="font-family: 'Open Sans'; width: 1212px; padding-right: 0px">
+
+                        <div class="cancel-btn" style="margin-bottom:0px;">
+                            <button type="button" ng-click="Close()">Close</button>
+                        </div>
+                    </div>
+                </div>
+                <!--<div ng-if="!isSubmitted&&UserTypeID==2">
+                    <div class="col-md-2 pull-right mtp-50">
+                        <div class="submit-btn" style="margin-bottom:0px;">
+                            <button type="submit" ng-model="SubmitStdDetails" ng-click="SubmitStdDetails(ApplicationNumber,StudentId)">Submit</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2 pull-right mtp-50">
+                        <div class="submit-btn" style="margin-bottom:0px;">
+                            <button type="submit" ng-model="ModifyStdDet" ng-click="ModifyStdDetails(ApplicationNumber,StudentId)">Modify</button>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-md-1 pull-right mtp-50">
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

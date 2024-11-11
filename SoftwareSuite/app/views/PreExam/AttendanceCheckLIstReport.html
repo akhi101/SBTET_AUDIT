@@ -1,0 +1,122 @@
+﻿<div ng-controller="AttendanceCheckLIstReportController">
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Attendance Check List Report </h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a href="#">Report</a></li>
+                        <li><a href="#">Attendance Check List Report</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+        <section class="content">
+            <div class="container">
+                <div class="row base-row">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1"> Stream :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.CourseID" id="CourseID" ng-change="GetExamList(AttendanceCheckList.CourseID)">
+                                            <option value="">--Select Stream --</option>
+                                            <option ng-selected="AttendanceCheckList.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="SelectExam"> Year :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.ExamID" id="ExamID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="AttendanceCheckList.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="SelectExam"> Branch :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.BranchID" id="BranchID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="AttendanceCheckList.BranchID == option.ExamID" ng-repeat="option in BasicBranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="SelectExam"> Subject Type :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.SubjectType" id="SubjectType" ng-change="GetOtherExamSubjectList(AttendanceCheckList.ExamID)">
+                                            <option value="">--Select--</option>
+                                            <option value="O">Other Subject</option>
+                                            <option value="R">Reguler Subject</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="SelectExam"> Subject :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.ExmSubID" id="ExmSubID" ng-disabled="isExamSubjectDisable">
+                                            <option value="">-- Select --</option>
+                                            <option ng-selected="AttendanceCheckList.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">District :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.DistrictID" id="DistrictID" ng-change="GetBasicCollegeList(AttendanceCheckList.DistrictID)">
+                                            <option value="">--Select District --</option>
+                                            <option ng-selected="AttendanceCheckList.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">Center :</label>
+                                        <select class="form-control" ng-model="AttendanceCheckList.PreZoneCntrID" id="PreZoneCntrID">
+                                            <option value=""> -- Select Center -- </option>
+                                            <option ng-selected="AttendanceCheckList.PreZoneCntrID == option.PreZoneCntrID" ng-repeat="option in PraCenterList" value="{{option.PreZoneCntrID}}">{{option.ColName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-primary btn-md custom-btn-block" ng-click="GetTheoryExamAttendanceCheckListReport()">Show</button>
+                                <button type="reset" class="btn btn-danger btn-md custom-btn-block" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div style="width:100%;text-align:center;">
+                <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+            </div>-->
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <form class="form-horizontal" name="ReportForm" novalidate>
+                                <div class="content-container-fluid">
+                                    <div class="row">
+                                        <div class="cols-sample-area">
+                                            <div class="control">
+                                                <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+            
+</div>

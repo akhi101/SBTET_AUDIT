@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update Examiner</title>
+</head>
+<body>
+    <div ng-controller="UpdateExaminerController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Update Examiner</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>Update Examiner</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="showhide">
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sel1"> Examiner Number :</label>
+                                    <input type="text" class="form-control" id="ExaminerID" input-number-only ng-model="UpdateExaminer.ExaminerID" ng-keydown="GetExaminerAppoinmentDetails($event)" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sel1">Examiner Type :</label>
+                                    <select class="form-control" ng-model="UpdateExaminer.ExaminerTypeID" id="DistrictID">
+                                        <option value="">--Select Type --</option>
+                                        <option ng-selected="UpdateExaminer.ExaminerTypeID == option.ExaminerTypeID" ng-repeat="option in BasicExaminerTypesList" value="{{option.ExaminerTypeID}}">{{option.ExmTypName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="email">Examiner Name</label>
+                                    <input type="text" class="form-control" id="full_name" ng-model="UpdateExaminer.full_name" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="email">Year </label>
+                                    <input type="text" class="form-control" id="ExmName" ng-model="UpdateExaminer.ExmName" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Subject </label>
+                                    <input type="text" class="form-control" id="ExmSubName" ng-model="UpdateExaminer.ExmSubName" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Category</label>
+                                    <input type="text" class="form-control" id="EvalTypName" ng-model="UpdateExaminer.EvalTypName" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="email">District</label>
+                                    <input type="text" class="form-control" id="DistName" ng-model="UpdateExaminer.DistName" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="email">College</label>
+                                    <input type="text" class="form-control" id="ColName" ng-model="UpdateExaminer.ColName" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="email">Campus</label>
+                                    <input type="text" class="form-control" id="CampusName" ng-model="UpdateExaminer.CampusName" required="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="email">Start Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="UpdateExaminer.StrFromDate" id="RegFromDate" readonly>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="sel1">End Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="UpdateExaminer.StrToDate" id="RegToDate" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="button" readonly="isupdatableDisable" class="btn btn-detail btn-sm" ng-click="UpdateExaminerAppoinments()">Update&Print</button>
+                            <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

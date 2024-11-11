@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+</head>
+<body>
+    <div ng-controller="SameManagementCollegeListZoneWiseController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Same Management College List Zone Wise</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Same Management College List Zone Wise</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Select District :</label>
+                                    <select class="form-control" ng-model="SameManagementCollegeListZoneWise.DistrictID" id="DistrictID" ng-change="GetPreZoneData(SameManagementCollegeListZoneWise.DistrictID)">
+                                        <option value="">---Select District---</option>
+                                        <option ng-selected="SameManagementCollegeListZoneWise.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Select Zone :</label>
+                                    <select class="form-control" ng-model="SameManagementCollegeListZoneWise.ZoneID" id="ZoneID">
+                                        <option value="0">ALL</option>
+                                        <option ng-selected="SameManagementCollegeListZoneWise.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Select Managment :</label>
+                                    <select class="form-control" ng-model="SameManagementCollegeListZoneWise.ExamMgntID" id="ExamMgntID">
+                                        <option value="0">ALL</option>
+                                        <option ng-selected="SameManagementCollegeListZoneWise.ExamMgntID == option.ExamMgntID" ng-repeat="option in PreExamManagementList" value="{{option.ExamMgntID}}">{{option.ExamMngtName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 22px;" class="col-md-3">
+                                <button type="button" class="btn btn-sm btn-detail" ng-click="PrintSameManagementCollegeList()">Show</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <form class="form-horizontal" name="ReportForm" novalidate>
+                                    <div class="content-container-fluid">
+                                        <div class="row">
+                                            <div class="cols-sample-area">
+                                                <div class="control">
+                                                    <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,256 @@
+﻿<style>
+    .marque_data {
+        background-color: #efe8e8;
+        color: #ff5722;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .table > thead:first-child > tr:first-child > th {
+    border-top: 0;
+    background-color: #98abb9;
+    color:#fff;
+}
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+    .loginCard{
+        margin-top:0px;
+    }
+    .nav-tabs, .nav-pills {
+    margin-bottom: 0px!important;
+}
+</style>
+<div ng-controller="LoginServiceController">
+    <ui-view>
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Create Login</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a href="#!/Dashboard/AdmissionDashboard"> Fee Payment</a></li>
+                        <li><a href="#!/Dashboard/AdmissionDashboard/SetDates">Set Fee Payment Dates</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+        <div class="container">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home"> Create User</a></li>
+                <li><a data-toggle="tab" href="#menu1">Switch User</a></li>
+            <!--    <li><a data-toggle="tab" href="#menu2">Admission</a></li>-->
+                <!-- <li class="pull-right"><button class="btn btn-success" ng-click="EditDetails()">Edit Details{{mid1Marks}}</button></li>-->
+            </ul>
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <div class="card loginCard">
+                        <form novalidate>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> User Type :</label>
+                                        <select class="form-control " ng-model="userTypeId" name="StudentType" ng-change="changeUser(userTypeId)" required>
+                                            <option value="" selected="selected">Select Usertype</option>
+                                            <option value="{{data.Id}}" ng-repeat="data in userTypes" class="">
+                                                {{data.UserType}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label class="font-weight-bold">Username :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="Name" autocomplete="off" name="Name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Password :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="password" autocomplete="off" name="Fineamount" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="datetimepicker1" class="font-weight-bold">Expiry Date :</label>
+                                    <div class="input-group date">
+                                        <input type="date" class="form-control " id="datetimepicker1" ng-model="expiryDate" min="{{today}}" name="expiryDate" required>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">First Name :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="firstName" autocomplete="off" name="Fineamount" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Last Name :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="lastLame" autocomplete="off" name="Fineamount" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Address :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="Address" autocomplete="off" name="Fineamount" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Email :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="Email" autocomplete="off" name="Fineamount" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Mobile Number :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="mobileNo" autocomplete="off" name="Fineamount" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="user == '2' ||user == '3' ">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Select College :</label>
+                                        <select class="form-control " ng-model="SelectedCollege" name="college" ng-change="changeCollege(SelectedCollege)" required>
+                                            <option value="" selected="selected">Select College</option>
+                                            <option class="ng-binding ng-scope" ng-value="data.college_code"  ng-repeat="data in collegesList" >
+                                                {{data.college_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-3" ng-show="user == '2' ||user == '3' ">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Select Scheme :</label>
+                                        <select class="form-control " ng-model="SelectedScheme" name="StudentType" ng-change="changeScheme(SelectedCollege,SelectedScheme)" required>
+                                            <option value="" selected="selected">Select Scheme</option>
+                                            <option class="ng-binding ng-scope" ng-value="data.Scheme" ng-repeat="data in Schemes">
+                                                {{data.Scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                                <div class="col-md-3" ng-show="user == '3'">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Branch Type :</label>
+                                        <select class="form-control " ng-model="BranchId" name="branchType" required>
+                                            <option value="" selected="selected">Select Branch</option>
+                                            <option class="ng-binding ng-scope" ng-value="data.BranchId" ng-repeat="data in getBranches">
+                                                {{data.BranchName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="row">
+                                
+                                <div class="col-md-12 text-center">
+                                    <button class="btn btn-success text-center" type="submit" style="margin-top: 24px;" ng-click="submit(userTypeId,Name,password,expiryDate,firstName,firstName,
+                                    lastLame,Address,Email,mobileNo,SelectedCollege,BranchId)">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade in ">
+                    <div class="card loginCard">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label class="font-weight-bold">Username :</label>
+                                        <div id="Fineamount">
+                                            <input type="text" class="form-control " ng-model="UserName" autocomplete="off" name="Name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-success " type="submit" style="margin-top: 24px;" ng-click="SearchUser(UserName)">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="" ng-show="result">
+                                <div class="cl-details">
+                                    <h4>User Details</h4>
+                                </div>
+                                <div class="">
+                                    <table class="table   table-fixed table-bordered  table-responsive ">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 2%">S No.</th>
+                                                <th style="">Role</th>
+                                                <th style="">UserName</th>
+                                                <th style="">Password </th>
+                                                <th style="">Created Date</th>
+                                                <th style="">First Name</th>
+                                                <th style="">Last Name </th>
+                                                <th style="">Email Id</th>
+                                                <th style="">Mobile No </th>
+                                                <th style="">Expiry Date</th>
+                                                <th style="">Is Active</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="data in userDetails">
+                                                <td style="width: 2%">{{$index+1}} </td>
+                                                <td>{{data.role==null ||data.role==undefined ? '-' :data.role}}</td>
+                                                <td>{{data.UserName==null ||data.UserName==undefined ? '-' :data.UserName}}</td>
+                                                <td>{{data.UserPassword==null ||data.UserPassword==undefined ? '-' :data.UserPassword}}</td>
+                                                <td>{{data.CreateDate==null ||data.CreateDate==undefined ?'-' :data.CreateDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                                                <td>{{data.FirstName==null ||data.FirstName==undefined ? '-' :data.FirstName}}</td>
+                                                <td>{{data.LastName==null ||data.LastName==undefined ? '-' :data.LastName}}</td>
+                                                <td>{{data.EmailId==null ||data.EmailId==undefined ? '-' :data.EmailId}}</td>
+                                                <td>{{data.CellNo==null ||data.CellNo==CellNo ? '-' :data.CellNo}}</td>
+                                                <td>{{data.ExpiryDate==null ||data.ExpiryDate==undefined ? '-' :data.ExpiryDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn-xs" title="Click to Deactivate" ng-disabled="data.UserTypeId == '1'" ng-click="SwitchUser(data.Id)" ng-if="data.IsActive == true">Active</button>
+                                                    <button type="button" class="btn btn-warning btn-xs" title="Click to Activate" ng-click="SwitchUser(data.Id)" ng-if="data.IsActive == false">InActive</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div ng-if="Noresult" class="no-results">
+                                    <img src="../../contents/img/Folder-Icon.svg" />
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>      
+                <div class="spacer"></div>
+    </ui-view>
+</div>

@@ -1,0 +1,328 @@
+ <style>
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 6px 6px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        border: 1px solid #ddd !important;
+        font-size: 13px;
+    }
+.customtable{
+    width:100%;
+}
+    .modal-fit-att .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    #currenttime {
+        display: none;
+    }
+
+    .modal-xlg {
+        width: 1200px;
+    }
+    table{
+        width:100%;
+    }
+
+    @media print {
+        /* #printableArea {
+            width: 80%;
+        } */
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    padding: 6px 6px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border: 1px solid #0c0c0c !important;
+    font-size: 13px;
+}
+        .alert {
+         display: none;
+        }
+        .resultsHeader {
+            display: none;
+        }
+        #currenttime {
+            display: block !important;
+        }
+        /* .table.table-bordered {
+            border: 1px solid #000 !important;
+        } */
+       
+        .logo-name h2 {
+            text-align: left;
+            margin-left: 130px;
+            margin-top: -20px;
+            font-size: 25px !important;
+            line-height: 36px;
+        }
+        #submit {
+            display: none;
+        }
+        .backA{
+            display: none;
+        }
+
+        /* #printableAreas {
+            width: 80%;
+        } */
+         .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+             float: left;
+         }
+
+         .col-md-12 {
+             width: 100%;           
+         }
+
+          .col-md-2 {
+             width: 16.666666666666664%;          
+         }
+           .col-md-3 {
+             width: 25%;            
+         }
+        /*.content {
+            display: none;
+        }*/
+        tr.cb-1 th {
+            color: #000 !important;
+        }
+
+        #printData {
+            display: block;
+        }
+    }
+</style>
+
+<script type="text/javascript">
+    setInterval(function () {
+        var date = new Date();
+        var format = "DD-MMM-YYYY DDD";
+        dateConvert(date, format)
+    }, 1);
+
+    function dateConvert(dateobj, format) {
+        var year = dateobj.getFullYear();
+        var month = ("0" + (dateobj.getMonth() + 1)).slice(-2);
+        var date = ("0" + dateobj.getDate()).slice(-2);
+        var hours = ("0" + dateobj.getHours()).slice(-2);
+        var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+        var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+        var day = dateobj.getDay();
+        var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+        var converted_date = "";
+
+        switch (format) {
+            case "DD-MMM-YYYY DDD":
+                converted_date = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;;
+                break;
+            case "YYYY-MM-DD":
+                converted_date = year + "-" + month + "-" + date;
+                break;
+            case "YYYY-MMM-DD DDD":
+                converted_date = year + "-" + months[parseInt(month) - 1] + "-" + date
+                    + " " + hours + ":" + minutes + ":" + seconds;
+                break;
+        }
+        //return converted_date;
+        // to show it I used innerHTMl in a <p> tag
+        if (document.getElementById("currenttime") != null) {
+            document.getElementById("currenttime").innerHTML = "" + converted_date + "  GMT+0530 (India Standard Time)";
+        }
+    }
+</script>
+<div ng-controller="StudentMobileAppAttendanceController" id="studentAttendance1">
+    <section class="content">
+        <div class="container">
+                                <!--<div class="text-center">
+                <img class="gif_css" src="../../../contents/img/under_construction.gif">
+            </div>-->
+           
+
+         
+            <!--<div class="col-md-12 pull-right" ng-show="result">
+                <button class="btn btn-success pull-right" ng-click="OpenAttendance()">{{buttontext}}</button>
+            </div>-->
+            <div id="printableArea">
+                
+                <div class="col-md-12" ng-show="ResultFound">                      
+                 
+                            <div class="row">
+                                <div class="col-lg-2 col-md-">
+                                    <div class="logo-img">
+                                        <img src="../../../contents/img/big-logo.png" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-10 col-md-12">
+                                    <div class="logo-name">
+                                        <h2 style="text-align: center">
+                                            STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                        </h2>
+                                        <!--<h2><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br /><p style="text-align: center">TELANGANA</p></h2>-->
+                                    </div>
+                                </div>
+                            </div>
+                       
+                        <div class="col-lg-12">
+
+                            <div class="card-title" >
+                                <h2><bold  >Student Attendance  Summary</bold></h2>
+                            </div>
+                        </div>
+
+
+                    <div class="col-md-12 col-sm-12">
+                        <div class="table-responsive customtable ">
+
+                            <table class="table table-bordered" style="">
+                                <thead>
+                                    <tr>
+                                        <th>PIN</th>
+                                        <th>Name</th>
+                                        <th>AttendeeId</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{StudentData.Pin}}</td>
+                                        <td>{{StudentData.Name}}</td>
+                                        <td>{{StudentData.AttendeeId}}</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>College Code</th>
+                                        <th>Branch Code</th>
+                                        <th>Semester</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{StudentData.CollegeCode}}</td>
+                                        <td>{{StudentData.BranchCode}}</td>
+                                        <td>{{StudentData.Semester}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Working Days</th>
+                                        <th>Number Of Days Present</th>
+                                        <th>Attendance Percentage(%)</th>
+                                        <th>Attendance Calculated :</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{StudentData.WorkingDays}}</td>
+                                        <td>{{StudentData.NumberOfDaysPresent}}</td>
+                                        <td>{{StudentData.Percentage}}</td>
+                                        <td>{{StudentData.UpdatedDate | date:'medium'}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Total working days considered for exams</th>
+                                        <th>Actual working days present</th>
+                                        <th>Attendance % to be considered for Examination</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{StudentData.WorkingDaysForExams}}</td>
+                                        <td>{{StudentData.NumberOfDaysPresent}}</td>
+                                        <td>{{StudentData.AttdForExams}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div ng-show="ResultFound">               
+
+                    <div class="col-md-12" >
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th style="width: 4%">Sc no</th>
+                                    <th style="width: 5%">Month</th>
+                                    <th style="width: 1%" ng-repeat="day in days"><b>{{day}}</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in attendancedata">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{x.month}}</td>
+                                    <td style="width: 1%" ng-repeat="y in x.attstat">{{y.Status==null ? '-':y.Status}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="color:green" class="col-md-2">
+                            <label>P-Present</label>
+                        </div>
+                        <div style="color:red" class="col-md-2">
+                            <label>A-Absent</label>
+                        </div>
+                        <div style="color:blue" class="col-md-2">
+                            <label>H-Holiday</label>
+                        </div>
+                        <div style="color:darkslategrey" class="col-md-2">
+                            <label>W-Weekend</label>
+                        </div>
+                        <div style="color:#8f303e" class="col-md-2">
+                            <label>HP-HalfDay Present</label>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <p id="currenttime"></p>
+
+                    <!--track by stringify(y) track by stringify(x) ng-init="getattendance()"-->
+
+                    <div class="col-md-12 hidden">
+                        <b class="text-danger"> Notes : Attendance is Considered  From 19-06-2019</b>
+                    </div>
+
+                    <div class="col-md-12">
+                        <button type="submit" id ="submit" ng-click="printDetails('printableArea')" style="margin-bottom:50px;" class="btn printBtn btn-detail pull-right">
+                            Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-show="ResultNotFound" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>Attendance Not Found</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

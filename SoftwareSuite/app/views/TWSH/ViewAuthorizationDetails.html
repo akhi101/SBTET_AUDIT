@@ -1,0 +1,300 @@
+﻿<style>
+    .release-text {
+        padding-top: 10px;
+        padding-left: 8px;
+        color: red;
+    }
+    .cancel-btn button {
+    background: #f99213;
+    padding: 5px 20px;
+    color: #fff;
+    float: left;
+    border: none;
+    font-size: 14px;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+    }
+
+    .release-btn button {
+        background: #5bd50f;
+        padding: 5px 20px;
+        color: #fff;
+        float: left;
+        border: none;
+        font-size: 14px;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+        border-radius: 2px;
+    }
+
+    .approve-btn button {
+        background: green;
+        padding: 5px 20px;
+        color: #fff;
+        float: right;
+        border: none;
+        font-size: 14px;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+        border-radius: 2px;
+   }
+
+    .reject-btn button {
+        background: #e90404;
+        padding: 5px 20px;
+        color: #fff;
+        float: right;
+        border: none;
+        font-size: 14px;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+        border-radius: 2px;
+    }
+      .zoom:hover {
+  /*height:200px;
+  width:200px;
+  background-color:#FF0C10;
+  margin:60px auto;
+  transition-property: height, width, box-shadow, background-color, font-size;
+  box-shadow: 2px 2px 10px black, 0 0 0 9999px rgba(128,128,128,.5);*/
+   /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+    .zoom {
+  /*padding: 50px;*/
+  /*background-color: green;*/
+  transition: transform .2s; /* Animation */
+  /*width: 150px;
+  height: 200px;*/
+  margin: 0 auto;
+}
+
+    .rdo-grp {
+    position: absolute;
+    top: calc(50% - 10px);
+    top: 40px;
+   display:contents;
+
+}
+
+    .rdo-grp label {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        /*padding: 6px 8px;*/
+        border-radius: 20px;
+        float: left;
+        margin: 10px;
+        transition: all 0.2s ease;
+        font-size: 14px;
+        color: #788598;
+    }
+
+
+        /*.rdo-grp label:hover {
+  background: rgba(125,100,247,0.06);
+}*/
+
+        .rdo-grp label:not(:last-child) {
+            margin-right: 16px;
+        }
+
+        .rdo-grp label span {
+            vertical-align: middle;
+        }
+
+        .rdo-grp label :first-child {
+            margin-right: 16px;
+        }
+
+        .rdo-grp label span:first-child {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            background: #e8eaed;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            margin-right: 8px;
+            padding: 0px;
+        }
+
+            .rdo-grp label span:first-child:after {
+                content: '';
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                margin: 2px;
+                background: #fff;
+                border-radius: 50%;
+                transition: all 0.2s ease;
+            }
+
+        .rdo-grp label:hover span:first-child {
+            background: #2a8fcf;
+        }
+
+    .rdo-grp input {
+        display: none;
+    }
+
+        .rdo-grp input:checked + label span:first-child {
+            background: #2a8fcf;
+        }
+
+            .rdo-grp input:checked + label span:first-child:after {
+                transform: scale(0.5);
+            }
+
+
+    .custom-modal {
+        top: 125px; /* Adjust the top position as needed */
+        left: 543px; /* Adjust the left position as needed */
+    }
+
+</style>
+<div ng-controller="ViewAuthorizationDetailsController">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                    {{StatusMessage}}
+                </div>
+            </div>
+            <div class="col-md-12" >
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                </div>
+            </div>
+            <div class="col-md-12 mtp-50" ng-show="getData">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offer-custom-style">
+                                <h2>Application Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="custom-forms">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="">
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"><label>Application Number  </label></div>
+                                            <div class="col-md-9 pre-text">: {{ApplicationNumber}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"> <label>Student Name </label></div>
+                                            <div class="col-md-9 pre-text">: {{Name}} </div>
+                                        </div>
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"> <label>Gender </label></div>
+                                            <div class="col-md-9 pre-text">: {{Gender}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"><label>Mobile Number </label></div>
+                                            <div class="col-md-9 pre-text">: {{PhoneNumber}}</div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"><label>Date of Birth </label></div>
+                                            <div class="col-md-9 pre-text">: {{DateOfBirth}}</div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"><label>Grade </label></div>
+                                            <div class="col-md-9 pre-text">: {{GradeName}}</div>
+                                        </div>
+
+                                        <div class="col-md-12" ng-show="isrejected==true">
+                                            <div class="col-md-3"><label>Rejected Remarks</label></div>
+                                            <div class="col-md-9 release-text">: {{RejectedRemarks}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-center">
+                                    <img ng-src="{{uploadPhoto}}" style="border: 2px solid #ddd;" height="145" width="125" />
+                                </div>
+
+                                <div class="col-md-12" ng-show="ExamMode ==1">
+                                    <div class="col-md-3" ng-show="SelectedOnlineExamDate==null||SelectedOnlineExamDate==undefined||SelectedOnlineExamDate==''"><label>Select Date for Online Examination</label></div>
+                                    <div class="col-md-8" ng-show="SelectedOnlineExamDate==null||SelectedOnlineExamDate==undefined||SelectedOnlineExamDate==''">
+                                        <div class="rdo-grp">
+                                            <div ng-repeat="date in avaexamdates track by $index">
+                                                <input id="rdo{{$index+1}}" type="radio" name="examdate" class="examdate" value="{{date}}" ng-model="def.exam" />
+                                                <label for="rdo{{$index+1}}"><span></span><span>{{date}}</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" ng-show="ExamMode ==1">
+                                    <div class="col-md-3" ng-show="SelectedOnlineExamDate==null||SelectedOnlineExamDate==undefined||SelectedOnlineExamDate==''">
+                                        <label>Select time for Online Examination</label>
+                                    </div>
+                                    <input type="time" ng-show="SelectedOnlineExamDate==null||SelectedOnlineExamDate==undefined||SelectedOnlineExamDate==''" name="examtime" class="examtime" min="09:00" max="18:00" value={{examtime}} ng-model='examtime' />
+                                </div> <div class="col-md-12" ng-show="ExamMode ==1">
+                                    <div class="col-md-3" ng-show="SelectedOnlineExamDate!=null||SelectedOnlineExamDate!=undefined||SelectedOnlineExamDate!=''">
+                                        <label>Selectd time for Online Examination</label>
+                                    </div>
+                                    <!--                     <input type="time"  name="examtime" class="examtime" min="09:00" max="18:00" value={{examtime}} ng-model='examtime' />-->
+                                    <label ng-show="SelectedOnlineExamDate!=null&&SelectedOnlineExamDate!=undefined&&SelectedOnlineExamDate!=''">: {{SelectedOnlineExamDate}}</label>
+                                </div>
+
+
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-3" ng-if="imagesrc != '' && imagesrc != null ">
+                                    <div>Click on the file to Expand</div>
+                                        <img ng-src="{{imagesrc}}" class="zoom" ng-click="openImage(imagesrc)" style="border: 2px solid #ddd;" height="200" width="150"  />
+
+                                </div>
+                                <div class="col-md-3" ng-if="imagesrc2 != ''  && imagesrc2 != null ">
+                                    <div>Click on the file to Expand</div>
+                                    <img ng-src="{{imagesrc2}}" class="zoom" style="border: 2px solid #ddd;" ng-click="openImage(imagesrc2)" height="200" width="150" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3" style="left:65px" ng-if="imagesrc != '' && imagesrc != null ">
+                                    <span class="text-muted word-break" style="font-size:20px" ng-show="imagesrc">
+                                        <button ng-click="DownloadFile1()" title="Click here to Download" class="btn btn-xs download_btn" style="color:blue"> <i class="fa fa-download" aria-hidden="true"></i></button>
+                                    </span>
+                                </div>
+                                <div class="col-md-3" style="left:65px" ng-if="imagesrc2 != '' && imagesrc2 != null ">
+                                    <span class="text-muted word-break" style="font-size:20px" ng-show="imagesrc2">
+                                        <button ng-click="DownloadFile2()" title="Click here to Download" class="btn btn-xs download_btn" style="color:blue"> <i class="fa fa-download" aria-hidden="true"></i></button>
+                                    </span>
+                                </div>
+
+                            </div>
+                            </div>
+                    </div>
+                </div>           
+        </div>
+        <div class="row">
+            <div class="col-md-6" ng-show="getData==true">
+                <div class="cancel-btn" style="margin-bottom:0px;">
+                    <button class="" ng-click="cancel()">Cancel</button>
+
+                </div>
+                <div class="col-md-6" style="left:950px" ng-show="isrejected==true || IsEligible==true">
+                    <div class="release-btn" style="margin-bottom:0px;">
+                        <button class="" ng-click="ReleaseButton(3)">Release</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="reject-btn" style="margin-bottom: 0px; margin-left: 935px" ng-show="((IsEligible==false  && isrejected==false) && (SelectedOnlineExamDate==null||SelectedOnlineExamDate==undefined||SelectedOnlineExamDate==''))">
+                        <button class="" ng-click="Reject(2)">Reject</button>
+                    </div>
+                    <div class="approve-btn" style="margin-bottom: 0px; margin-left: 1041px" ng-show="((IsEligible==false  && isrejected==false) && (SelectedOnlineExamDate==null||SelectedOnlineExamDate==undefined||SelectedOnlineExamDate==''))">
+                        <button class="" ng-click="ApproveButton(1)">Approve</button>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+ 

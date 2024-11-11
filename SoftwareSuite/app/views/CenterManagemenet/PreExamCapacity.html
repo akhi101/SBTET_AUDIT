@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Pre Exam Capacity </title>
+</head>
+<body>
+    <div ng-controller="PreExamCapacityController">
+        <div class="panel-group">
+            <div class="container">
+                <!-- New Style Start-->
+                <div class="row ctitle">
+                    <div class="col-md-5">
+                        <span><strong>Pre Exam Capacity</strong></span>
+                    </div>
+                    <div class="col-md-7 text-right">
+                        <ol class="breadcrumb">
+                            <li>You are in </li>
+                            <li>Home</li>
+                            <li>Center Management</li>
+                            <li>Pre Exam Capacity</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row base-row">
+
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-3 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="sel1">Select District :</label>
+                                        <select class="form-control" ng-model="PreExamCapacity.DistrictID" id="DistrictID" ng-change="FillCollege(PreExamCapacity.DistrictID)">
+                                            <option value="">--Select District --</option>
+                                            <option ng-selected="PreExamCapacity.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sel1">Select College :</label>
+                                        <select class="form-control" ng-model="PreExamCapacity.CollegeID" id="CollegeID" ng-disabled="CollegeDisable">
+                                            <option value="">--Select College --</option>
+                                            <option ng-selected="PreExamCapacity.CollegeID == option.CollegeID" ng-repeat="option in BasicCollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="email">Capacity </label>
+                                        <input type="text" class="form-control" id="Code" ng-model="PreExamCapacity.ExamCapacity" required="" input-Number-Only placeholder="Capacity">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-3">
+                                    <div class="form-group">
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreExamCapacity()">Save</button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeletePreExamCapacity()">Delete</button>
+                                        <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <form action="#">
+                                        <div id="PreExamCapacity" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                                             e-datasource="PreExamCapacityList"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- New Style End-->
+            </div>
+           <!-- <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b>Pre Exam Capacity</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-6" style="margin-left:400px;">
+                            <div class="form-group">
+                                <label for="sel1">District :</label>
+                                <select class="form-control" ng-model="PreExamCapacity.DistrictID" id="DistrictID" ng-change="FillCollege(PreExamCapacity.DistrictID)">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreExamCapacity.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sel1">Select College :</label>
+                                <select class="form-control" ng-model="PreExamCapacity.CollegeID" id="CollegeID" ng-disabled="CollegeDisable">
+                                    <option value="">--Select College --</option>
+                                    <option ng-selected="PreExamCapacity.CollegeID == option.CollegeID" ng-repeat="option in BasicCollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="email">Capacity </label>
+                                    <input type="text" style="width:150px; text-align:right;" class="form-control" id="Code" ng-model="PreExamCapacity.ExamCapacity" required="" input-Number-Only placeholder="Capacity">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12 list_table" style="overflow-x: auto;">
+                                <div class="panel-body" style="overflow-x: auto;">
+                                    <div class="form-group text-center">
+                                        <div class="form-group" style="text-align: center;">
+                                            <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SavePreExamCapacity()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                            <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeletePreExamCapacity()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                            <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="panel-body form_border">
+                        <form action="#">
+                            <div id="PreExamCapacity" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                                 e-datasource="PreExamCapacityList"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

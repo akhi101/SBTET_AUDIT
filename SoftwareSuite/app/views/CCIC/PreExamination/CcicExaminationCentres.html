@@ -1,0 +1,403 @@
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .container .containercontent {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .containercontent {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div ng-controller="CcicExaminationCentresController">
+    
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container containercontent">
+            <section class="content-header">
+                <h5>Examination Centres</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination">Pre Examination</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination/ExaminationCentres">Examination Centres</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container containercontent">
+
+        <div class="col-md-12 containercontent">
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+
+
+
+
+        <div class="tab-content ">
+
+
+            <div class="col-md-12 containercontent">
+                <div class="cl-details">
+                    <h2>Add Examination Centres</h2>
+
+                </div>
+            </div>
+            <div class="col-md-12 containercontent">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Examination Centre Code:
+                                </label>
+                                <input class="form-control" type="text" maxlength="3" minlength="3" placeholder="Enter Examination Centre Code" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ng-model="ExaminationCentreCode">
+                            </div>
+                        </div>
+
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Examination Centre Name:
+                                </label>
+                                <input class="form-control" type="text" maxlength="250" placeholder="Enter Examination Centre Name" ng-model="ExaminationCentreName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    House Number / Building Name:
+                                </label>
+                                <input class="form-control" type="text" maxlength="100" placeholder="Enter House Number / Building Name" ng-model="HouseNumber">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Street Number / Name:
+                                </label>
+                                <input class="form-control" type="text" maxlength="100" placeholder="Enter Street Number / Name" ng-model="StreetName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Locality:
+                                </label>
+                                <input class="form-control" type="text" maxlength="100" placeholder="Enter Locality" ng-model="Locality">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="font-weight-bold">
+                                Landmark:
+                            </label>
+                            <input class="form-control" type="text" maxlength="100" placeholder="Enter Landmark (Optional)" ng-model="Landmark">
+                        </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Village / Town / City:
+                                </label>
+                                <input class="form-control" type="text" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' maxlength="100" placeholder="Enter Village / Town / City" ng-model="Village">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    District:
+                                </label>
+                                <select class="form-control" id="District" ng-model="District"
+                                        ng-options="data.DistrictID as data.DistrictName for data in DistrictsData">
+                                    <option value="" selected>Select District</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Pin Code:
+                                </label>
+                                <input class="form-control" type="text" minlength="6" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Pin Code" ng-model="PinCode">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Principal Name:
+                                </label>
+                                <input class="form-control" type="text" maxlength="100" placeholder="Enter Principal Name" ng-model="PrincipalName">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Principal Mobile:
+                                </label>
+                                <input class="form-control" type="text" minlength="10" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Principal Mobile" ng-model="PrincipalMobile">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Principal Email:
+                                </label>
+                                <input class="form-control" type="text" maxlength="250" placeholder="Enter Principal Email" ng-model="PrincipalEmail">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2 pull-left">
+                            <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="Submit()">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                        </div>
+
+                <div class="col-md-12" ng-if="loading">
+                    <!--<div class="sm-spacer"></div>-->
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-if="NoData">
+                    <div class="col-md-12 no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data</h2>
+                    </div>
+                </div>
+                <div class="table-responsive table-custom-tables-tb">
+                    <div ng-if="GetExaminationCentresTable.length>0" class="cl-details">
+                        <h2>Examination Centres</h2>
+                    </div>
+                    <div ng-if="GetExaminationCentresTable.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                        <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th width="5%">S.No</th>
+                                    <th width="15%" class="text-center">Centre Code</th>
+                                    <th width="15%" class="text-center">Centre Name</th>
+                                    <th width="15%" class="text-center">District</th>
+                                    <th width="15%" class="text-center">Principal Name</th>
+                                    <th width="15%" class="text-center">Principal Mobile</th>
+                                    <th width="15%" class="text-center">Status</th>
+                                    <th width="15%" class="text-center">Edit/Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in GetExaminationCentresTable">
+                                    <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.ExaminationCentreCode}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.ExaminationCentreCode}}-{{data.ExaminationCentreName}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.District}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.PrincipalName}}</td>
+                                    <td class="text-center" style="padding: 3px;">{{data.PrincipalMobile}}</td>
+
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-xs" disabled style="width: 70px;" ng-show="data.Active == true" ng-click="SetExaminationCentreStatus(data.ExaminationCentreID,false)">Active</button>
+                                        <button class="btn btn-danger btn-xs" disabled style="width: 70px;" ng-show="data.Active == false" ng-click="SetExaminationCentreStatus(data.ExaminationCentreID,true)">InActive</button>
+                                    </td>
+
+
+
+                                    <td class="text-center">
+                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-click="editExaminationCentres(data.ExaminationCentreID)">
+                                            Edit
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sm-spacer"></div>
+                    <div class="sm-spacer"></div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

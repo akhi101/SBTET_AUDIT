@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Station">
+    <title>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</title>
+    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LdNyNMUAAAAANxOwkhO2oNMB5-0-zaL4i5BQlhz"></script> -->
+    <style>
+        .blinking {
+            animation: blinkingText 1.2s infinite;
+            font-weight: bold;
+        }
+
+        @keyframes blinkingText {
+            0% {
+                color: #33a6dc;
+            }
+
+            49% {
+                color: #33a6dc;
+            }
+
+            60% {
+                color: transparent;
+            }
+
+            99% {
+                color: transparent;
+            }
+
+            100% {
+                color: #33a6dc;
+            }
+        }
+
+        .logo-new h3 {
+            font-size: 21px;
+            line-height: 32px;
+            font-weight: 700;
+            letter-spacing: 0.1px;
+            font-family: 'Open Sans';
+        }
+        .bssheadline h2 {
+            margin-top: 55px;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-family: 'Open Sans';
+        }
+        .LogIn h3 {
+            font-size: 21px;
+            line-height: 28px;
+            font-weight: 400;
+            color: #5b41de;
+            letter-spacing: 0.1px;
+            font-family: 'Open Sans';
+        }
+        input[class*="sm"] {
+            display: block;
+            /* min-width: 242px; */
+            /* margin-top: 5px; */
+            padding-bottom: 5px;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.4) !important;
+            text-align: left;
+            font-weight: 400;
+            -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 0%) !important;
+            font-family: 'Open Sans';
+        }
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 12px !important;
+            font-family: 'Open Sans';
+        }
+        .logoarea-footer p {
+            margin: 0 0 10px;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 16px;
+            line-height: 24px;
+            font-family: 'Open Sans';
+        }
+        .clear-both {
+            clear: both;
+            font-family: 'Open Sans';
+        }
+        a {
+            color: #337ab7;
+            text-decoration: none;
+            font-family: 'Open Sans';
+        }
+        element.style {
+            padding: 12px 20px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family:'Open Sans';
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+    <script src="./scripts/require.js" data-main="./app/main.js"></script>
+    <!-- New login page open -->
+    <div ng-controller="CcicLoginController">
+        <div class="limiter">
+            <!-- <div id="recaptcha"></div> -->
+            <div class="container-login100">
+                <div class="wrap-login100 bg-shadow">
+                    <form class="login100-form validate-form">
+                        <div class="card-part1-logInpart">
+                            <div class="logInarea">
+                                <div class="LogIn">
+                                    <img src="../../contents/img/lock.png" />
+                                    <h3>Board / College <br />Login</h3>
+                                </div>
+                                <div class="cont">
+                                    <div class="form sign-in" ng-init="createCaptcha()">
+                                        <label>
+                                            <input id="username" type="text" class="form-control sm" name="username" ng-keypress="keyLogin($event)" ng-keydown="ClearErrorText($event)" auto-focus ng-model="CcicLogin.UserName" placeholder="Username" required maxlength="30" />
+                                        </label>
+                                        <label>
+                                            <input id="password" type="password" class="form-control sm" name="password" ng-keypress="keyLogin($event)" ng-keydown="ClearErrorText($event)" ng-model="CcicLogin.UserPassword" placeholder="Password" required maxlength="25" />
+                                        </label>
+                                        <label>
+                                            <div class="row">
+                                                <div class="col-md-2"></div>
+                                                <div id="captcha" class="col-md-5"><canvas id="captcha" width="120" height="40"></canvas></div>
+                                                <div class="col-md-5" style="padding-top:15px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+                                            </div>
+                                            <!--<div id="captcha"> {{newCapchaCode}}
+                                            </div>-->
+                                            <input type="text" placeholder="Enter Captcha" autocomplete="off" ng-keypress="keyLogin($event)" style="font-family: 'Open Sans';font-weight:500; font-size: 14px; padding: 12px 20px; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="CcicLogin.Captcha" />
+                                        </label>
+
+                                        <div id='recaptcha' class="g-recaptcha"
+                                             data-sitekey="6LdNyNMUAAAAANxOwkhO2oNMB5-0-zaL4i5BQlhz"
+                                             data-callback="validateRecaptcha"
+                                             data-size="invisible"></div>
+                                        <button type="button" class="btn btn-primary submit" id='submit' ng-click="CcicLogin()">LogIn</button>
+                                        <p class="forgot-pass">
+                                          <a ng-click="CcicForgetPasswordChange()">Forgot Password?</a>
+                                        </p>
+                                        <!--<p class="forgot-pass text-danger">
+                                            <a class="blinking" ui-sref="index">Website</a>
+                                        </p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="login100-more">
+                        <div class="card-part1-logoPart">
+                            <div class="logoarea">
+                                <div class="logo-new">
+                                    <img src="../../contents/img/big-logo.png" />
+                                    <h3>STATE BOARD OF TECHNICAL <br />EDUCATION AND TRAINING TELANGANA</h3>
+                                </div>
+                                <div class="bssheadline text-center">
+                                    <h2>Certificate Courses - CCIC Portal</h2>
+                                </div>
+                            </div>
+                            <div class="logoarea-footer clear-both">
+                                <p>Any queries - Connect with us. <br />In all working days : 10:30AM to 05:00PM</p>
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-phone" aria-hidden="true"></i> +918031404549 </a></li>
+                                    <li><a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i> sbtet-helpdesk@telangana.gov.in</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="copyrights" style="bottom:5px">
+                    <p>2022 © State Board of Technical Education and Training, Telangana</p>
+                </div>-->
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+
+        function validate(event) {
+            event.preventDefault();
+
+            grecaptcha.execute();
+
+        }
+
+        function onload() {
+            var element = document.getElementById('submit');
+            element.onclick = validate;
+        }
+    </script>
+    <script src= "https://www.google.com/recaptcha/"></script>
+    <script>onload();</script>
+
+</body>
+
+</html>

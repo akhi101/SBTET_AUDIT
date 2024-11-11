@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TSBIE | ReAdmission Request</title>
+</head>
+<body>
+    <div ng-controller="ReAdmissionController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Re Admission</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Re Admission</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference.</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100;">For any Queries please mail to : </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow" ng-hide="HideGenVoc">
+                        <div class="col-md-5 col-md-offset-3">
+                            <span class="rspan">Select Stream:</span>
+                            <div class="maxl">
+                                <form>
+                                    <label class="radio inline"><input type="radio" id="General" name="General" checked value="1" ng-model="CourseID" ng-change="StreamChange(CourseID)"><span>General</span></label>
+                                    <label class="radio inline"><input type="radio" id="Vocational" name="Vocational" value="2" ng-model="CourseID" ng-change="StreamChange(CourseID)"><span>Vocational</span></label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row frow">
+                        <div class="col-md-5 col-md-offset-3">
+                            <span class="rspan">Select Year:</span>
+                            <div class="maxl">
+                                <form>
+                                    <label class="radio inline"><input type="radio" id="ExamID" name="ExamID" value="1" ng-model="ExamID" ng-change="ExamChange(ExamID)"><span> First Year </span></label>
+                                    <label class="radio inline"><input type="radio" id="ExamID" name="ExamID" value="2" ng-model="ExamID" ng-change="ExamChange(ExamID)"><span>Second Year </span></label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Hall Ticket No.</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="{{EnterText}}" id="SSCHallTicket" ng-model="ReAdmission.SSCHallTicket" ng-keyup="hideInfo()" maxlength="15" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-detail btn-sm" ng-click="FillReAdmissionByHTNO()">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div ng-show="showDetails">
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Candidate Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="cp"><strong>Name:</strong><span id="StudName">{{ReAdmission.StudName}}</span></p>
+                                <p class="cp"><strong>Father Name:</strong><span id="FatherName">{{ReAdmission.FatherName}}</span></p>
+                                <p class="cp"><strong>Mother Name :</strong><span id="MotherName">{{ReAdmission.MotherName}}</span></p>
+                                <p class="cp"><strong>Group Name :</strong><span id="MotherName">{{ReAdmission.MainGrpName}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>College Code:</strong><span id="ColCode">{{ReAdmission.ColCode}}</span></p>
+                                <p class="cp"><strong>College Name:</strong><span id="ColName">{{ReAdmission.ColName}}</span></p>
+                                <p class="cp"><strong>Admission No. :</strong><span id="AdmNo">{{ReAdmission.AdmNo}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>District:</strong><span id="DistrictName">{{ReAdmission.DistName}}</span></p>
+                                <p class="cp"><strong>Mandal:</strong><span id="MandalName">{{ReAdmission.MandalName}}</span></p>
+                                <p class="cp"><strong>Year of Admission :</strong><span id="AcdYrName">{{ReAdmission.AcdYrName}}</span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="showhide">
+                            <!--ng-show="showCandidateDetails"-->
+                            <div class="row">
+                                <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <label for="">Current Group Name :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox" value="" ng-model="ReAdmission.GroupNameFlag" ng-change="ChngGrpFlag(ReAdmission.GroupNameFlag,'Group')">
+                                        </span>
+                                        <input type="text" class="form-control" id="OldGroupID" ng-model="ReAdmission.MainGrpName" ng-readonly="true" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">New Group Name :</label>
+                                        <select class="form-control" id="NewGroupId" ng-model="ReAdmission.MainGrpIDNew" ng-disabled="!ReAdmission.GroupNameFlag">
+                                            <option value="0">Select Group Name</option>
+                                            <option ng-selected="ReAdmission.MainGrpIDNew == option.MainGrpID" ng-repeat="option in MainGrpList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>.
+                            </div>
+                            <div class="row" ng-hide="MediumHide">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <label for="">Current Medium Name :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox" value="" ng-model="ReAdmission.MediumNameFlag" ng-change="ChngMediumFlag(ReAdmission.MediumNameFlag,'Medium')">
+                                        </span>
+                                        <input type="text" class="form-control" id="OldMediumID" ng-model="ReAdmission.MediumName" ng-readonly="true" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">New Medium Name :</label>
+                                        <select class="form-control" id="NewMediumID" ng-model="ReAdmission.MediumIDNew" ng-disabled="!ReAdmission.MediumNameFlag">
+                                            <option value="0">Select Medium Name</option>
+                                            <option ng-selected="ReAdmission.MediumIDNew == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-hide="SecondLanguageHide">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <label for="">Current 2nd Language Name :</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox" value="" ng-model="ReAdmission.SecondLangNameFlag" ng-change="ChngSecondLangFlag(ReAdmission.SecondLangNameFlag,'SecondLangName')">
+                                        </span>
+                                        <input type="text" class="form-control" id="OldSecondLangID" ng-model="ReAdmission.SubName" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">New 2nd Language Name :</label>
+                                        <select class="form-control" id="SubjectID" ng-model="ReAdmission.SubjectIDNew" ng-disabled="!ReAdmission.SecondLangNameFlag" ng-change="CheckSecondLanguageExist(SubjectIDNew)">
+                                            <option value="0">Select Second Language</option>
+                                            <option ng-selected="ReAdmission.SubjectIDNew == option.SubjectID" ng-repeat="option in SecondLanguageList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <label for="">Mobile Number :</label>
+                                    <input type="text" class="form-control" id="MobileNo" ng-model="ReAdmission.MobileNo" maxlength="10" input-Number-Only>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Payble Amount :</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="FeeAmount" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-click="SaveReAdmission()" class="btn btn-sm btn-detail">Submit &amp; Pay</button>
+                                    <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

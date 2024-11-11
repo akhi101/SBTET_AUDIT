@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table {
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="DrillDownTCIssuedReportController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>TC Issued Students Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Student Applications</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div style="margin-top: 6px;" class="col-md-2 col-md-offset-4 text-right">
+                                <div class="form-group">
+                                    <label for="">Academic Year :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select class="form-control input-sm" id="SelectYear" ng-model="ServiceRequestDrillDownReport.AcdYrID" ng-change="FillRequests(ServiceRequestDrillDownReport.AcdYrID)">
+                                        <option value="">Select Year</option>
+                                        <option ng-repeat="option in AcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divSup" >
+                                    <table id="supTable" class="table table-striped table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Sl. No.</th>
+                                                <th>College Code</th>
+                                                <th>College Name</th>
+                                                <th>Total Students</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{ x.ColCode }}</td>
+                                                <td>{{ x.ColName }}</td>
+                                                <!--<td>{{ x.TotalStud }}</td>-->
+                                                <td><a href="#" ng-click='GetTotalRecord(x,3)'> {{ x.TotalStud }} </a>  </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

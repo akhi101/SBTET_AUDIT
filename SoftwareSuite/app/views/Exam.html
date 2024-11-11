@@ -1,0 +1,689 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Examination</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+        .print-cnt {
+            display: none;
+        }
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .print-cnt {
+                display: block;
+            }
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        function PrintDashboard() {
+            printElement(document.getElementById("idtoDivPrintAdmin"));
+        }
+        function PrintInfo() {
+            printElement(document.getElementById("PrintCollegeDataDiv"));
+        }
+        function PrintArea() {
+            printElement(document.getElementById("printableArea"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+        $("[id$=ExportToExcel]").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=idtoDivPrintAdmin]').html()));
+            e.preventDefault();
+        });
+    </script>
+</head>
+<body>
+    <div ng-controller="ExamController">
+        <header>
+            <div class="row topbar_row_section">
+                <div class="container">
+                    <div class="row">
+                        <img src="../../contents/img/updated_header.jpg" class="img img-responsive" alt="header_banner" style="width: 100%;position: relative;">
+                    </div>
+                </div>
+            </div>
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>
+                                        <!--<li class="active">
+                                            <a ng-click="GoToHome()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>-->
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Examination
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in programsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Reports
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in ReportsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="MyCollege()" href="#">
+                                                <b class="main_header_main_menu">
+                                                    College Detail View
+                                                </b>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li style="font-size:13px; color:#fff; margin-top:10px;">Welcome <span id="college_name1">{{college_name1}}</span> | {{userName}} |</li>
+                                        <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b></b></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div>
+            <div class="container-fluid">
+                <ui-view>
+                    <div class="container-fluid">
+                        <div class="row ctitle">
+                            <div class="col-md-5">
+                                <span><strong>Examination Dashboard</strong></span>
+                            </div>
+                            <div class="col-md-7 text-right">
+                                <ol class="breadcrumb">
+                                    <li>You are in </li>
+                                    <li>Examination Dashboard</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="row base-row">
+                            <!-- <div class="col-md-3">
+                                 <ul style="list-style:none;" class="vertical-menu">
+                                     <a href="#" class="active">Examination</a>
+                                     <li ng-repeat="item in programsList">
+                                         <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                     </li>
+                                 </ul>
+                             </div>-->
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Exam Instance :</label>
+                                            <select class="form-control input-sm" id="ExamInstID" ng-model="Exam.ExamInstID">
+                                                <option ng-selected="Exam.ExamInstID == option.ExamInstID" ng-repeat="option in BasicExamInstanceList" value="{{option.ExamInstID}}">{{option.ExamInstanceRemark}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" ng-show="adminuser">
+                                        <div class="form-group">
+                                            <label for="sel1">District :</label>
+                                            <select class="form-control input-sm" id="DistrictID" ng-model="Exam.DistrictID">
+                                                <option value="" selected>All</option>
+                                                <option ng-selected="Exam.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Stream :</label>
+                                            <select class="form-control" id="CourseID" ng-model="Exam.CourseID" ng-change="FillCoursePart(Exam.CourseID)">
+                                                <option ng-selected="Exam.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Year :</label>
+                                            <select class="form-control" ng-model="Exam.ExamID" id="ExamID">
+                                                <option ng-selected="Exam.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Group (Part III) :</label>
+                                            <select class="form-control" id="MainGrpID" ng-model="Exam.MainGrpID" ng-change="FillMedium(Exam.MainGrpID)">
+                                                <option value="" selected>All</option>
+                                                <option ng-selected="Exam.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="MediumID">Medium :</label>
+                                            <select class="form-control" id="MediumID" ng-model="Exam.MediumID">
+                                                <option value="" selected>All</option>
+                                                <option ng-selected="Exam.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Caste/Community :</label>
+                                            <select class="form-control" id="CasteID" ng-model="Exam.CasteID">
+                                                <option value="" selected>All</option>
+                                                <option ng-selected="Exam.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="adminuser==true">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="sel1">Select Management Type :</label>
+                                            <div ng-repeat="option in BasicManagementTypeList">
+                                                <div style="font-size:12px;" class="col-md-3">
+                                                    <input id="chkCustomer_{{option.MngtTypID}}" type="checkbox" ng-change="getcheckvalue(option.Selected)" ng-model="option.Selected" ng-disabled="ifcoluser" />
+                                                    {{option.MngtTypName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>
+                                                <button type="button" ng-show="ShowBtn" onclick="PrintDashboard()" class="btn btn-sm btn-primary">Print</button>
+                                                <button id="ExportToExcel" ng-show="ShowBtn" class="btn btn-sm btn-detail">Export To Excel</button>
+                                                <!--<button type="button" ng-click="PrintDashBoard()" class="btn btn-sm btn-primary">Print</button>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width:100%;text-align:center;">
+                                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                </div>
+                                <div class="col-md-12" ng-show="adminuser" id="idtoDivPrintAdmin">
+                                    <label id="HeadLabel" class="print-cnt"></label><br />
+                                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                                    <table style="font-size:12px;" id="alldata" class="table">
+                                        <tr>
+                                            <th>Sr.No.</th>
+                                            <th>District Name</th>
+                                            <th>Total Forms</th>
+                                            <th>Male</th>
+                                            <th>Female</th>
+                                            <th>Other</th>
+                                        </tr>
+                                        <tr ng-repeat="x in DrillDownList">
+                                            <td style="text-align:center;">{{ x.Srno }}</td>
+                                            <td style="text-align:left;">{{ x.CollegeDistName }}</td>
+                                            <td style="text-align:center;"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord(x)'> {{ x.Total }} </a></td>
+                                            <td style="text-align:center;"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetMaleRecord(x)'> {{ x.Male }} </a></td>
+                                            <td style="text-align:center;"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetFemaleRecord(x)'> {{ x.Female }} </a></td>
+                                            <td style="text-align:center;"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetOtherRecord(x)'> {{ x.Other }} </a></td>
+                                        </tr>
+                                    </table>
+                                    <br /><br /><br />
+                                    <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                                    <br /><br /><br />
+                                </div>
+                                <div class="col-md-12" ng-hide="adminuser">
+                                    <table style="font-size:12px;" id="alldata" class="table">
+                                        <tr>
+                                            <td colspan="6">
+                                                <strong> Examination Dashboard For Exam Instance &nbsp; Marach 2018 &nbsp; for college &nbsp; &nbsp;{{college_name1}}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sr.No.</th>
+                                            <th>College Name</th>
+                                            <th>Total Forms</th>
+                                            <th>Male</th>
+                                            <th>Female</th>
+                                            <th>Other</th>
+                                        </tr>
+                                        <tr ng-repeat="x in colPageAdmissionListForfirst">
+                                            <td>{{ x.Srno }}</td>
+                                            <td>{{ x.ColCode }}-{{ x.ColName }}</td>
+                                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x)'> {{ x.Total }} </a></td>
+                                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColMaleRecord(x)'> {{ x.Male }} </a></td>
+                                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColFemaleRecord(x)'> {{ x.Female }} </a></td>
+                                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColOtherRecord(x)'> {{ x.Other }} </a></td>
+                                        </tr>
+                                    </table>
+                                    <br /><br /><br />
+                                    <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                                    <br /><br /><br />
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5%;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">College Data</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="adno">Exam Instance:</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="AcdYrName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="adno">District:</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="CollegeDistName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="sel1">Management Type :</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="MngtTypName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="adno">Stream:</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="CourseName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="adno">Group:</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="MainGrpName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="sel1">Medium :</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="MediumName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label for="sel1">Caste :</label>
+                                                                    <input type="text" class="form-control" id="adno" ng-Model="CasteName" ng-readonly="true">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="PrintCollegeDataDiv">
+                                                        <table id="filtereddata" class="table">
+                                                            <tr>
+                                                                <th>Sr.No.</th>
+                                                                <th>College Name</th>
+                                                                <th>Total Forms</th>
+                                                                <th>Male</th>
+                                                                <th>Female</th>
+                                                                <th>Other</th>
+                                                            </tr>
+                                                            <tr ng-repeat="x in colPageAdmissionList">
+                                                                <td>{{ x.Srno }}</td>
+                                                                <td>{{ x.ColCode }}-{{ x.ColName }}</td>
+                                                                <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x)'> {{ x.Total }} </a></td>
+                                                                <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColMaleRecord(x)'> {{ x.Male }} </a></td>
+                                                                <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColFemaleRecord(x)'> {{ x.Female }} </a></td>
+                                                                <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColOtherRecord(x)'> {{ x.Other }} </a></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <!--<button type="button" class="btn btn-primary" onclick="printDiv('PrintCollegeDataDiv')"> Print </button>-->
+                                                    <button type="button" class="btn btn-primary" onclick="PrintInfo()"> Print </button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModalStud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5%;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Data</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div style="margin-top:24px;" class="col-md-1">
+                                                        <!--<input type="button" onclick="printDiv('printableArea')" value="Print" class="btn btn-sm btn-detail" />-->
+                                                        <input type="button" onclick="PrintArea()" value="Print" class="btn btn-sm btn-detail" />
+                                                    </div>
+                                                </div>
+                                                <div class="model-body">
+                                                    <div class="row" id="printableArea">
+                                                        <table style="font-size:12px;" id="filtereddata" class="table">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Sr. No.</th>
+                                                                <th>Form no</th>
+                                                                <th>PRN No</th>
+                                                                <th>Student Name</th>
+                                                                <th>Father Name</th>
+                                                                <th>Category</th>
+                                                                <th>Form Fees</th>
+                                                                <th>Gender</th>
+                                                                <th>Main Group Name</th>
+                                                                <th>Second Lang.</th>
+                                                                <th>Medium</th>
+                                                            </tr>
+                                                            <tr ng-repeat="x in studpageAdmissionList">
+                                                                <td></td>
+                                                                <td>{{ x.Srno }}</td>
+                                                                <td>{{ x.Formno }}</td>
+                                                                <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalDetail" ng-click='GetDrillDownStudentDetailsListByID(x)'> {{ x.PRNNo }} </a></td>
+                                                                <td>{{ x.StudName }}</td>
+                                                                <td>{{ x.Fathername }}</td>
+                                                                <td>{{ x.StudCatName }}</td>
+                                                                <td>{{ x.FormFees }}</td>
+                                                                <td>{{ x.Gender }}</td>
+                                                                <td>{{ x.MainGrpName }}</td>
+                                                                <td>{{ x.SecondLangName }}</td>
+                                                                <td>{{ x.MediumName }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5%;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-blue">Personal Detail <hr /></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Candidate's  Name:</label>
+                                                                <input type="text" class="form-control input-sm" id="cname" ng-Model="ExamForms.StudName" maxlength="100" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Father's Name:</label>
+                                                                <input type="text" class="form-control input-sm" id="fname" ng-Model="ExamForms.Fathername" maxlength="40" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Mother's Name:</label>
+                                                                <input type="text" class="form-control input-sm" id="mname" ng-Model="ExamForms.MotherName" maxlength="40" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group" ng-disabled="true">
+                                                                <label for="email">Gender :</label>
+                                                                <form>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="ExamForms.Gender" checked value="M">Male
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="ExamForms.Gender" value="F">Female
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="ExamForms.Gender" value="O">Other
+                                                                    </label>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Student Category :</label>
+                                                                <input type="text" class="form-control input-sm" id="StudCatID" ng-Model="ExamForms.StudCatDesc" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group" ng-disabled="true">
+                                                                <label for="email">Physically Handicapped :</label>
+                                                                <form>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="ExamForms.Handicaped" checked value="N">No
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="ExamForms.Handicaped" value="Y">Yes
+                                                                    </label>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-blue">Education Detail <hr /></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2  col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="sel1"> Main Group :</label>
+                                                                <input type="text" class="form-control input-sm" id="MainGrpName" ng-Model="ExamForms.MainGrpName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="sel1">Branch :</label>
+                                                                <input type="text" class="form-control" ng-model="ExamForms.BranchName" id="BranchName" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Exam Name :</label>
+                                                                <input type="text" class="form-control input-sm" id="ExmName" ng-Model="ExamForms.ExmName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Course Name :</label>
+                                                                <input type="text" class="form-control input-sm" id="AadharNo" ng-Model="ExamForms.CourseName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-blue">Fee Detail <hr /></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="sel1"> Form No :</label>
+                                                                <input type="text" class="form-control" ng-model="ExamForms.Formno" id="Formno" placeholder="Form Number" readonly="readonly">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 ">
+                                                            <div class="form-group">
+                                                                <label for="sel1"> Regular Fee :</label>
+                                                                <input type="text" class="form-control" ng-model="ExamForms.RegularFees" id="RegularFees" placeholder="Regular Fees" ng-readonly="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="sel1"> Late Fee :</label>
+                                                                <input type="text" class="form-control" ng-model="ExamForms.LateFees" id="LateFees" placeholder="Late Fees" ng-readonly="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="sel1"> Fee Amount :</label>
+                                                                <input type="text" class="form-control" ng-model="ExamForms.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //function printDiv(divName) {
+        //    var printContents = document.getElementById(divName).innerHTML;
+        //    var originalContents = document.body.innerHTML;
+        //    document.body.innerHTML = printContents;
+        //    window.print();
+        //    document.body.innerHTML = originalContents;
+        //}
+
+        //function printMainDashBoard() {
+        //    alert("ok");
+        //    alert($Scope.adminuser);
+        //    var divName = "";
+        //    if ($Scope.adminuser == true) {
+        //        alert($Scope.adminuser);
+        //        divName = "idtoDivPrintAdmin";
+        //    }
+        //    else {
+        //        divName = "DivIdToPrint";
+        //    }
+        //    var divToPrint = document.getElementById(divName);
+
+        //    var newWin = window.open('', 'Print-Window');
+
+        //    newWin.document.open();
+
+        //    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+        //    newWin.document.close();
+
+        //    setTimeout(function () { newWin.close(); }, 10);
+
+        //}
+
+    </script>
+</body>
+</html>
+
+
+
+
+

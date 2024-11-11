@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Migration Certificate</title>
+</head>
+<body>
+    <div ng-controller="MigrCertAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Migration Certificate</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Migration Certificate</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date : {{MigrCertApp.MigrDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+               
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="MigrCertApp.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="MigrCertApp.Fathername" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Form No. : </label>
+                                        <input type="text" class="form-control" id="FormNo" ng-model="MigrCertApp.FormNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Hall Ticket No :</label>
+                                        <input type="text" class="form-control" id="HTNO" ng-model="MigrCertApp.HTNO" input-Number-Only ng-readonly="true">
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Course :</label>
+                                        <input type="text" class="form-control" id="CourseName" ng-model="MigrCertApp.MainGrpName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number : </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="MigrCertApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee(in rupees) :</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="MigrCertApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group" >
+                                        <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font>Accept / Reject at Level 1 :</label>
+                                        <select class="form-control" id="ReqStatus" ng-disabled="ApproverRemarks" ng-model="MigrCertApp.ReqStatus" ng-change="ChangeTextArea(MigrCertApp.ReqStatus,'ReqStatus')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <!--<option value="P">Pending</option>-->
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <div class="status" ng-show="ShowLevel1">Level 1 Status Approved/Rejected Date : {{MigrCertApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{MigrCertApp.ReqStatusIPAddress}}</div>
+                                    </div>
+                                    <div class="col-md-6 form-group" ng-show="Approver1" ng-disabled="Approver1Remarks">
+                                        <label for=""><font color="red">*&nbsp;</font> Accept / Reject at Level 2 :</label>
+                                        <select class="form-control" id="ReqStatus1" ng-disabled="Status1Disable" ng-model="MigrCertApp.ReqStatus1" ng-change="ChangeTextArea(MigrCertApp.ReqStatus1,'ReqStatus1')">
+                                            <option value="0">Select Status1</option>
+                                            <option value="A">Approve</option>
+                                            <!--<option value="P">Pending</option>-->
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <div class="status" ng-show="ShowLevel2">Level 2 Status Approved/Rejected Date : {{MigrCertApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{MigrCertApp.ReqStatus1IPAddress}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> College Name : </label>
+                                        <input type="text" class="form-control" id="ColName" ng-model="MigrCertApp.ColName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Purpose :</label>
+                                        <textarea rows="2" class="form-control" style="width: 100%;" id="Purpose" ng-model="MigrCertApp.Purpose" ng-readonly="true"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group" >
+                                        <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                        <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks" id="ProcessRemark" ng-model="MigrCertApp.ProcessRemark"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-show="Approver1" ng-disabled="Approver1Remarks">
+                                        <label for=""><font color="red">*&nbsp;</font> Process Remark at Level 2 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark1" ng-disabled="Status1Disable" ng-model="MigrCertApp.ProcessRemark1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="RollEditDisable" ng-show="ShowSubmit" ng-click="SaveMigrCertApp()" class="btn btn-detail btn-sm">Submit</button>
+                                <button type="button" ng-disabled="PrintDisable" ng-show="PrintShow" ng-click="PrintMigrCertApp()" class="btn btn-reset btn-sm">Digital Sign</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

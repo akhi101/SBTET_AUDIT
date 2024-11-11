@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QP Reqiurement For Environment And Ethics Subject</title>
+</head>
+<body>
+    <div ng-controller="RptQPRequirementForEnvironmentAndEthicsSubjectController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>QP Reqiurement For Environment And Ethics Subject</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>QP Reqiurement For Environment And Ethics Subject</li>
+                    </ol>
+                </div>
+            </div>
+            <div style="margin-top:20px;" class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="RptQPRequirementForEnvironmentAndEthicsSubject.CourseID" id="CourseID" ng-change="GetExamList(RptQPRequirementForEnvironmentAndEthicsSubject.CourseID)">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="RptQPRequirementForEnvironmentAndEthicsSubject.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Year :</label>
+                                    <select class="form-control" ng-model="RptQPRequirementForEnvironmentAndEthicsSubject.ExamID" id="ExamID">
+                                        <option value="">--Select Year--</option>
+                                        <option ng-selected="RptQPRequirementForEnvironmentAndEthicsSubject.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="RptQPRequirementForEnvironmentAndEthicsSubject.DistrictID" id="DistrictID" ng-change="GetPreZoneCenterName(RptQPRequirementForEnvironmentAndEthicsSubject.DistrictID)">
+                                        <option value="0">ALL</option>
+                                        <option ng-selected="RptQPRequirementForEnvironmentAndEthicsSubject.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Center :</label>
+                                    <select class="form-control" ng-model="RptQPRequirementForEnvironmentAndEthicsSubject.PrePractCntrID" id="PrePractCntrID">
+                                        <option value="0">ALL</option>
+                                        <option ng-selected="RptQPRequirementForEnvironmentAndEthicsSubject.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PrePractCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="PrintData()">Show</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

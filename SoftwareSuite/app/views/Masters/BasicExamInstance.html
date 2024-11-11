@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Instance</title>
+</head>
+<body>
+    <div ng-controller="BasicExamInstanceController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Instance</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>Instance & Schedule </li>
+                        <li>Exam Instance</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>ExamInstID : :</label>
+                            <input type="text" class="form-control" ng-model="BasicExamInstance.ExamInstID" id="ExamInstID">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Academic Year :</label>
+                                        <select class="form-control" ng-model="BasicExamInstance.AcdYrID" id="AcdYrID">
+                                            <option value=""> --Select State -- </option>
+                                            <option ng-selected="BasicExamInstance.AcdYrID == option.AcdYrID" ng-repeat="option in BasicAcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Year :</label>
+                                        <select class="form-control" ng-model="BasicExamInstance.ExamInstanceYear" id="ExamInstanceYear">
+                                            <!--<option value="">--Select Year -- </option>-->
+                                            <option value="2017">2017</option>
+                                            <option value="2018">2018</option>
+                                            <option value="2019">2019</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Month :</label>
+                                        <select class="form-control" ng-model="BasicExamInstance.ExamInstanceMonth" id="ExamInstanceMonth">
+                                            <!--<option value="">-- Select Month --</option>-->
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Exam Instance Status :</label>
+                                        <select class="form-control" ng-model="BasicExamInstance.ExamInstanceStatus" id="ExamInstanceStatus">
+                                            <option value="O">Open</option>
+                                            <option value="C">Close</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Authority Name :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamInstance.ExamAuthorityName" id="ExamAuthorityName" maxlength="50" required="" placeholder="Authority Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="email">Remark :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamInstance.ExamInstanceRemark" id="ExamInstanceRemark" maxlength="60" required="" placeholder="Enter Remark">
+                                    </div>
+                                </div>
+                                <div style="margin-top:26px;" class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExamInstance.CurrentInstanceFlag" id="CurrentInstanceFlag" required="">
+                                        <label for="email">Current Instance Applicable</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Authority Sign:</label>
+                                        <input type="File" ng-model="BasicExamInstance.ExamAuthoritySign" id="ExamAuthoritySign" required="">
+                                    </div>
+                                </div>
+                                <div style="margin-top:26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExamInstance.ReExamFlag" id="ReExamFlag" required="">
+                                        <label for="email">Re-Exam</label>
+                                    </div>
+                                </div>
+                                <div style="margin-top:22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicExamInstance()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicExamInstance()">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+      <!--  <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Exam Instance</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" ng-show="false">
+                                            <label class=" control-label col-lg-2">ExamInstID :</label>
+                                            <div class="col-lg-1">
+                                                <input type="text" class="form-control" ng-model="BasicExamInstance.ExamInstID" id="ExamInstID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sel1">Academic Year :</label>
+                                            <select class="form-control" ng-model="BasicExamInstance.AcdYrID" id="AcdYrID">
+                                                <option value=""> --Select State -- </option>
+                                                <option ng-selected="BasicExamInstance.AcdYrID == option.AcdYrID" ng-repeat="option in BasicAcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1"> Year :</label>
+                                            <select class="form-control" ng-model="BasicExamInstance.ExamInstanceYear" id="ExamInstanceYear">
+                                                <!--<option value="">--Select Year -- </option>-->
+                                               <!-- <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1"> Month :</label>
+                                            <select class="form-control" ng-model="BasicExamInstance.ExamInstanceMonth" id="ExamInstanceMonth">
+                                                <!--<option value="">-- Select Month --</option>-->
+                                              <!--  <option value="1">January</option>
+                                                <option value="2">February</option>
+                                                <option value="3">March</option>
+                                                <option value="4">April</option>
+                                                <option value="5">May</option>
+                                                <option value="6">June</option>
+                                                <option value="7">July</option>
+                                                <option value="8">August</option>
+                                                <option value="9">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Exam Instance Status :</label>
+                                            <select class="form-control" ng-model="BasicExamInstance.ExamInstanceStatus" id="ExamInstanceStatus">
+                                                <option value="O">Open</option>
+                                                <option value="C">Close</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamInstance.CurrentInstanceFlag" id="CurrentInstanceFlag" required="">
+                                            <label for="email">Current Instance Applicable</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Remark :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamInstance.ExamInstanceRemark" id="ExamInstanceRemark" maxlength="60" required="" placeholder="Enter Remark">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Authority Name :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamInstance.ExamAuthorityName" id="ExamAuthorityName" maxlength="50" required="" placeholder="Authority Name">
+                                        </div>
+                                        <label for="email">Authority Sign:</label>
+                                        <div class="form-group">
+                                            <input type="File" ng-model="BasicExamInstance.ExamAuthoritySign" id="ExamAuthoritySign" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <!--<label for="email">Code :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamInstance.TempCode" id="TempCode" required="" placeholder="Code" maxlength="2">-->
+                                       <!-- </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamInstance.ReExamFlag" id="ReExamFlag" required="">
+                                            <label for="email">Re-Exam</label>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-lg-4">
+                                    <label for="adno">Authority Sign :</label>
+                                    <img ng-src="{{ExamAuthoritySign}}" style=" width: 100px; height: 100px; margin: 5px; float: left;" />
+                                    <input type="file" id="SignUpload" style="height:30px;width:700%" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                </div>-->
+                             <!--   </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicExamInstance()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicExamInstance()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

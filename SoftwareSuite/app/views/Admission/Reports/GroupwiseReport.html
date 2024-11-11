@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Group wise Report</title>
+    <style type="text/css">
+        .control {
+            padding-left: 10px;
+            min-height: 680px !important;
+        }
+
+        .content-container-fluid > :first-child.row {
+            width: 100% !important;
+        }
+
+        .cols-sample-area {
+            min-width: 800px !important;
+            min-height: 706px !important;
+            width: 100% !important;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
+</head>
+<body>
+    <div ng-controller="GroupwiseReportController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Group wise Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Group wise Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="col-md-3 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="sel1">District :</label>
+                        <select class="form-control input-sm" id="DistrictID" ng-model="DistrictID" ng-change="FillMandal(DistrictID)" ng-disabled="DistrictDisable">
+                            <option ng-selected="DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Mandal :</label>
+                        <select class="form-control input-sm" id="MandalID" ng-model="MandalID" ng-change="FillCollege(MandalID)" ng-disabled="MandalDisable">
+                            <option value="" selected>{{AllMondal}}</option>
+                            <option ng-selected="MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Stream :</label>
+                        <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)" ng-disabled="CourseDisable">
+                            <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Group :</label>
+                        <select class="form-control" id="MainGrpID" ng-model="MainGrpID" ng-change="FillBranchByGroup(MainGrpID)" ng-disabled="MainGrpDisable">
+                            <option value="" selected>{{AllGroup}}</option>
+                            <option ng-selected="MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <label for="sel1">College :</label>
+                    <select class="form-control input-sm" id="CollegeID" ng-model="CollegeID" ng-change="FillCollData(CollegeID)" ng-disabled="CollegeDisable">
+                        <option value="" selected>{{AllCollege}}</option>
+                        <option ng-selected="CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Branch :</label>
+                        <input type="text" class="form-control" id="BranchName" ng-model="BranchName" ng-readonly="true">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Second Language :</label>
+                        <select class="form-control" id="SecondLangID" ng-model="SecondLangID" ng-disabled="SecondLangDisable" ng-change="ChangeSecondLanguage(SecondLangID)">
+                            <option value="" selected>{{AllLang}}</option>
+                            <option ng-selected="SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="text-align:center;" class="col-md-12">
+                        <button type="button" ng-click="Print()" class="btn btn-detail">Show Detail</button>
+                        <button type="button" ng-click="Exit()" class="btn btn-reset">Exit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr style="margin-top:20px;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p ng-bind-html="tabledata"></p>
+                    <!--<form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <!--<div id="tbldata" ng-bind-html="tabledataist">
+
+                                    </div>-->
+
+                                    <!--<div class="control">
+                                        <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                    </div>-->
+                                <!--</div>
+                            </div>
+                        </div>
+                    </form>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Physically Handicapped Exemption</title>
+    <style>
+        .myspan {
+            font-size: 10px !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="PHExemptionController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Physically Handicapped Exemption</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Physically Handicapped Exemption</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Candidates who passed 1st and 2nd year are eligible </p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference</p>
+                </div>
+                <div class="col-md-9">
+                    <!--<div class="row frow" ng-show="hideReApply">
+                        <div class="col-md-8 col-md-offset-3">
+                            <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Type:</span>
+                            <div class="maxl">
+                                <label class="radio inline"><input type="radio" id="Duplicate" name="Duplicate" ng-model="DupTrip" value="1" checked ng-change="chekDupTrip(DupTrip)"><span>Duplicate Pass Certificate</span></label>
+                                <label class="radio inline"><input type="radio" id="Triplicate" name="Triplicate" ng-model="DupTrip" value="2" ng-change="chekDupTrip(DupTrip)"><span>Triplicate Pass Certificate</span></label>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Admission No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Enter Admission No." class="form-control" id="HTNO" ng-model="PHExemption.AdmNo" maxlength="15"><!--ng-keyup="clearScreen()"-->
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillPreStudentByAdmNo()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-hide="ShowViewHide">
+                        <!--<div class="row" ng-show="hideReApply">
+                            <div class="col-md-12 text-center blu-txt">Submit original documents which are uploaded along with Ack Receipt in TSBIE NAMPALLY </div>
+                        </div>-->
+                        <!--Data Row Start-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="">SSC Hall Ticket No. :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="HTNO" ng-model="PHExemption.RollNo" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Candidate Name :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="StudName" ng-model="PHExemption.StudName" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for=""> Photo</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <img ng-src="{{PhotoData.PhotoString}}" style=" width: 100%; height: 220px;" alt="Candidate Photo Not Available" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Father Name :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" class="form-control" id="FatherName" ng-model="PHExemption.FatherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Mother Name :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" class="form-control" id="MotherName" ng-model="PHExemption.MotherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Gender :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" class="form-control" id="Gender" ng-model="PHExemption.Gender" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Date Of Birth :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="BirthDate" ng-model="PHExemption.BirthDate" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Stream :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="CourseName" ng-model="PHExemption.CourseName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Group :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="MainGrpName" ng-model="PHExemption.MainGrpName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Medium :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="MediumName" ng-model="PHExemption.MediumName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">College Code :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="ColCode" ng-model="PHExemption.ColCode" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">College Name :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="ColName" ng-model="PHExemption.ColName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Exam Name :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group" ">
+
+                                        <input type="text" class="form-control" id="ExmName" ng-model="PHExemption.ExmName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Mandal :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="MandalName" ng-model="PHExemption.MandalName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">District :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="DistName" ng-model="PHExemption.DistName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Disability :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="radio-inline"><input type="radio" id="rdDamage" name="Yes" ng-model="YesOrNo" value="Y" ng-change="chekValue(YesOrNo)">Yes </label>
+                                            <label class="radio-inline"><input type="radio" id="rdLost" name="No" ng-model="YesOrNo" checked value="N" ng-change="chekValue(YesOrNo)">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div ng-hide="DisabilityHide">
+                                        <div class="col-md-3">
+                                            <label><font color="red">*</font> Disability Type : </label>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+
+                                            <select class="form-control input-sm" id="PhysDisbID" ng-model="PHExemption.PhysDisbID">
+                                                <option value="0">-- Select --</option>
+                                                <option ng-selected="PHExemption.PhysDisbID == option.PhysDisbID" ng-repeat="option in DisabilityList" value="{{option.PhysDisbID}}">{{option.PhysDisbName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div ng-hide="DisabilityHide">
+                                        <div class="col-md-3">
+                                            <label for=""><font color="red">*</font> % of Disability :</label>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <div class="form-group">
+
+                                                <input type="text" class="form-control" id="PhysDisbPer" ng-model="PHExemption.PhysDisbPer" maxlength="6" input-Number-Only onpaste="return false;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="show" ng-hide="DisabilityHide">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Already Given Excemption of One Subject In X Class :</label>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <div class="form-group">
+
+                                                <label class="radio-inline"><input type="radio" id="rdDamage" name="Yes1" ng-model="Yes1OrNo1" value="Y1" ng-change="SubjectXClass(Yes1OrNo1)">Yes </label>
+                                                <label class="radio-inline"><input type="radio" id="rdLost" name="No1" ng-model="Yes1OrNo1" checked value="N1" ng-change="SubjectXClass(Yes1OrNo1)">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div ng-hide="SubjectXHide">
+                                    <div class="row">
+                                        <div class="col-md-3">
+
+                                            <label for=""><font color="red">* </font>Enter Subject Name SSC :</label>
+
+                                        </div>
+                                        <div class="col-md-6 form-group">
+
+                                            <input type="text" class="form-control" id="SSCSubjectName" ng-model="PHExemption.SSCSubjectName">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for=""><font color="red">* </font>Upload SSC Marks Memo(Pdf &  &lt;200 KB) :</label>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <input type="file" class="form-control btn btn-primary" name="SSCMarksMemo" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-hide="DisabilityHide">
+                                    <div class="row">
+                                        <div class="col-md-3">
+
+                                            <label for=""><font color="red">* </font>Mobile Number :</label>
+
+                                        </div>
+                                        <div class="col-md-6 form-group">
+
+                                            <input type="text" class="form-control" id="MobileNo" ng-model="PHExemption.MobileNo" maxlength="10" input-Number-Only onpaste="return false;">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+
+                                            <label for=""><font color="red">* </font>Upload Disability Certificate(Pdf &  &lt;200 KB) :</label>
+
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <input type="file" class="form-control btn btn-primary" name="DisabilityCertificate" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 text-center">
+                                <button type="button" ng-click="SavePHEcemption()" class="btn btn-detail btn-sm">Submit</button><!--class="btn btn-sm btn-detail"-->
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--New Style End-->
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+
+

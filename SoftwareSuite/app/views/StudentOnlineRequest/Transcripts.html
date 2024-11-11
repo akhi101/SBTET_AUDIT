@@ -1,0 +1,274 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transcripts</title>
+</head>
+<body>
+    <div ng-controller="TranscriptsController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Transcripts</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Transcripts</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px; font-weight:100;">For any Queries please mail to </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                    <p><hr /></p>
+                    <p style="color:red;">Submit original documents which are uploaded along with Acknowledgement to TSBIE, NAMPALLY</p>
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-4 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Hall Ticket Number/Roll No. :</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="" placeholder="Enter Hall Ticket No." ng-model="Transcripts.HTNO" maxlength="12" ng-keyup="keyup()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillDataByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div ng-show="ShowCandidateDetails">
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="showhide">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for=""> Candidate Name :</label>
+                                        <input type="text" class="form-control" id="StudName" ng-model="Transcripts.StudName" ng-readonly="true" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Father's Name :</label>
+                                        <input type="text" class="form-control" id="FatherName" ng-model="Transcripts.FatherName" ng-readonly="true" disabled="disabled">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for=""> College Code & Name :</label>
+                                        <input type="text" class="form-control" id="ColCodeName" ng-model="Transcripts.ColCodeName" ng-readonly="true" disabled="disabled">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">*</font> Address :</label>
+                                        <textarea rows="4" style="width: 100%;" id="Address" ng-model="Transcripts.Address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">*</font> Address for sending the transcripts :</label>
+                                        <textarea rows="4" style="width: 100%;" id="SendTransAddr" ng-model="Transcripts.SendTransAddr"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label for=""><font color="red">*</font> Mobile Number: </label>
+                                            <input type="text" class="form-control" id="MobileNo" ng-model="Transcripts.MobileNo" maxlength="10" input-Number-Only>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for=""><font color="red">*</font> Number of Copies : </label>
+                                            <select class="form-control" id="NoOfCopy" ng-change="ChangeFess(Transcripts.NoOfCopy)" ng-model="Transcripts.NoOfCopy">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for=""> Fee (in rupees) :</label>
+                                            <input type="text" class="form-control" id="FeeAmount" ng-model="Transcripts.FeeAmount" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <label>
+                                                Intermediate Pass Certificate front side(File Type Should Be:pdf & Size Less Than 200kb) :
+                                            </label>
+                                            <input type="file" class="form-control btn-primary" name="UploadDoc1" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label>Intermediate Pass Certificate Back side(File Type Should Be:pdf & Size Less Than 200kb) :</label>
+                                            <input type="file" class="form-control btn-primary" name="UploadDoc2" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="SaveTranscripts()" class="btn btn-detail btn-sm">Submit & Pay</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- New Style End-->
+        <!--<div class="row">
+            <div class="col-md-12 col-xs-12  top_margin">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><b>Transcripts</b></div>
+                        <div class="panel-body form_border">
+                            <form class="form-horizontal" action="#">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="">Enter Hall Ticket Number :</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="" ng-model="Transcripts.HTNO">
+                                    </div>
+
+                                    <div class="col-sm-4 ">
+                                        <button type="button" ng-click="FillDataByHTNO()" class="btn btn-primary">Get Data</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+                            <form class="form-horizontal" action="#">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">Candidate Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="StudName" ng-model="Transcripts.StudName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">Father Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="Fathername" ng-model="Transcripts.Fathername" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">College Name:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="ColName" ng-model="Transcripts.ColName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">Address:</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control" rows="4" id="Address" ng-model="Transcripts.Address"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">Address for Sending the transcripts:</label>
+                                            <div class="col-sm-8">
+
+                                                <textarea class="form-control" rows="5" id="SendTransAddr" ng-model="Transcripts.SendTransAddr"></textarea>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">Mobile Number:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="MobileNo" ng-model="Transcripts.MobileNo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for=""> Pass Certificate font side(pdf & &lt;200):</label>
+                                            <div class="col-sm-5">
+                                                <input type="file" class="form-control" name="UploadDoc1" id="UploadDoc1" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="button" ng-disabled="UploadFiles" ng-click="SaveUploadDoc1()" class="btn btn-success">Upload</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">Pass Certificate Back side(pdf & &lt;200):</label>
+                                            <div class="col-sm-5">
+                                                <input type="file" class="form-control" name="UploadDoc2" id="UploadDoc2" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="button" ng-disabled="UploadFiles" ng-click="SaveUploadDoc2()" class="btn btn-success">Upload</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="sel1">Number Of Copies:</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="NoOfCopy" ng-change="ChangeFess(Transcripts.NoOfCopy)" ng-model="Transcripts.NoOfCopy">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="">50 rupees(Fifty Only):</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="FeeAmount" ng-model="Transcripts.FeeAmount" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="form-group">
+                                            <button type="button" ng-disabled="RollEditDisable" ng-click="SaveTranscripts()" class="btn btn-primary">Submit</button>
+                                            <button type="button" ng-disabled="RollPaymentDisable" ng-click="SaveTranscriptsPayment()" class="btn btn-primary">Payment</button>
+                                            <button type="button" ng-click="Exit()" class="btn btn-primary">Exit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+    </div>
+</body>
+</html>

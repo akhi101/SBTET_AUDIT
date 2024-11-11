@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Practical Mark Entry Absent Check List Report</title>
+</head>
+<body>
+    <div ng-controller="PracticalMarkEntryAbsentCheckListReportController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> Practical Mark Entry Absent Check List Report </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li> You are in </li>
+                        <li> Home </li>
+                        <li> Report </li>
+                        <li> Practical Mark Entry Absent Check List Report </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.CourseID" id="CourseID" ng-change="GetBasicExamList(PracticalMarkEntryAbsentList.CourseID)">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Year :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.ExamID" id="ExamID">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Branch :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.BranchID" id="BranchID" ng-change="GetExamSubjectList(PracticalMarkEntryAbsentList.BranchID)">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.BranchID == option.BranchID" ng-repeat="option in BasicBranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Subject :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.ExmSubID" id="ExmSubID" ng-disabled="isExamSubjectDisable">
+                                        <option value=""> -- Select -- </option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Report Type :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.StatusFlag" id="StatusFlag">
+                                        <option value=""> -- All -- </option>
+                                        <option value="P"> Present </option>
+                                        <option value="A"> Absent </option>
+                                        <option value="N"> Not Offers </option>
+                                        <option value="M"> Malpractice </option>
+                                        <option value="AM"> Already Malpractice </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.DistrictID" id="DistrictID" ng-change="GetPracticalCenterList(PracticalMarkEntryAbsentList.DistrictID)">
+                                        <option value=""> -- Select District -- </option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="sel1">Center :</label>
+                                    <select class="form-control" ng-model="PracticalMarkEntryAbsentList.PrePractCntrID" id="PrePractCntrID">
+                                        <option value=""> -- Select Center -- </option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PraCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetPracticalMarkEntryAbsentListReport()">Show</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+                <!--<div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>-->
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

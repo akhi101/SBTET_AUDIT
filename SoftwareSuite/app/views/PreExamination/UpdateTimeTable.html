@@ -1,0 +1,582 @@
+﻿<style>
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------------------------------------*/
+
+
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxessem label {
+            display: block;
+        }
+
+            #checkboxessem label:hover {
+                background-color: #1e90ff;
+            }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .image {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+
+        .logo-name h2 {
+            text-align: left;
+            margin-left: 130px;
+            margin-top: -20px;
+            font-size: 25px !important;
+            line-height: 36px;
+        }
+
+        #idtoDivPrintAdmin {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        #goto-top-arrow {
+            display: block;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+    }
+</style>
+<div ng-controller="GenerateTimeTableController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Date Sheet Generation</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PreExamination">Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/FeePayment/GenerateTimeTable">Date Sheet </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="row frow base-row">
+            <div class="col-md-12">
+                <form name="TimeTableForm" ng-submit="getTimeTable()" ng-init="init()">
+                    <!--<div class="row">
+                        <div class="col-md-3 form-group">
+                            <label>Student Type</label>
+                            <select class="form-control" ng-model="studentTypeId">
+                                <option value="">Select Student Type</option>
+                                <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                    {{Student.type}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                Scheme :
+                            </label>
+                            <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)"
+                                    ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                <option value="" selected>Select Scheme</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group">
+
+                            <label>   Sem & Year : </label>
+                            <div class="multiselect">
+                                <div class="selectBox" ng-click="showsemCheckboxes()">
+                                    <select class="form-control ">
+                                        <option ng-blur="closesemCheckbox()">Select Sem</option>
+                                    </select>
+                                    <div class="overSelect"></div>
+                                </div>
+                                <div id="checkboxessem" style="max-height: 8em;overflow-y: scroll;">
+                                    <label class="contain">
+                                        <input type="checkbox" ng-click="toggleAllsem()" ng-model="isAllSelectedsem" /><span class="checkmark"></span>Select All
+                                    </label>
+                                    <label class="contain" ng-repeat="sem in seminfo">
+                                        <input type="checkbox" ng-model="sem.selected" ng-change="optionToggledsem(sem.selected)"><span class="checkmark"></span>{{sem.semester}}
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="ExamType">
+                                Exam :
+                            </label>
+                            <select class="form-control" id="ExamType" ng-model="examtype" ng-change="hidePreviousResult()">
+                                <option value="" selected>Select Exam</option>
+                                <option ng-repeat="examtype in examtypeinfo" value="{{examtype.examtypeid}}">
+                                    {{examtype.examname}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3" ng-show="examtype ==1 ||examtype ==2">
+                            <label>FN Start Time</label>
+                            <div class="form-group">
+                                <select id="FnSthh" ng-model="FnSthh" style="width: 66px;height:28px; max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>HH</option>
+                                    <option ng-repeat="harr in hoursarr" style="max-height: 12em;overflow-y: scroll;" value="{{harr.Harr}}">
+                                        {{harr.Harr}}
+                                    </option>
+                                </select><b>:</b>
+                                <select id="FnStmm" ng-model="FnStmm" style="width: 66px;height:28px;max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>MM</option>
+                                    <option ng-repeat="marr in mintuesarr" style="max-height: 12em;overflow-y: scroll;" value="{{marr.Marr}}">
+                                        {{marr.Marr}}
+                                    </option>
+                                </select>
+                                <select id="FnStamorpm" ng-model="FnStamorpm" style="width: 66px;height:28px; text-align: center;margin:4px;">
+                                    <option value="" selected>AM/PM</option>
+                                    <option value="AM" selected>AM</option>
+                                    <option value="PM" selected>PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-show="examtype ==1 ||examtype ==2">
+                            <label>FN END Time</label>
+                            <div class="form-group">
+                                <select id="FnEdhh" ng-model="FnEdhh" style="width: 66px;height:28px; max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>HH</option>
+                                    <option ng-repeat="harr in hoursarr" style="max-height: 12em;overflow-y: scroll;" value="{{harr.Harr}}">
+                                        {{harr.Harr}}
+                                    </option>
+                                </select><b style="margin: auto">:</b>
+                                <select id="FnEdmm" ng-model="FnEdmm" style="width: 66px;height:28px;max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>MM</option>
+                                    <option ng-repeat="marr in mintuesarr" style="max-height: 12em;overflow-y: scroll;" value="{{marr.Marr}}">
+                                        {{marr.Marr}}
+                                    </option>
+                                </select>
+                                <select id="FnEdamorpm" ng-model="FnEdamorpm" style="width: 66px;height:28px; text-align: center;margin:4px;">
+                                    <option value="" selected>AM/PM</option>
+                                    <option value="AM" selected>AM</option>
+                                    <option value="PM" selected>PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-show="examtype ==1 ||examtype ==2">
+                            <label>AN Start Time</label>
+                            <div class="form-group">
+                                <select id="AnSthh" ng-model="AnSthh" style="width: 49px;height:28px; max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>HH</option>
+                                    <option ng-repeat="harr in hoursarr" style="max-height: 12em;overflow-y: scroll;" value="{{harr.Harr}}">
+                                        {{harr.Harr}}
+                                    </option>
+                                </select><b  style="margin: auto">:</b>
+                                <select id="AnStmm" ng-model="AnStmm" style="width: 49px;height:28px;max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>MM</option>
+                                    <option ng-repeat="marr in mintuesarr" style="max-height: 12em;overflow-y: scroll;" value="{{marr.Marr}}">
+                                        {{marr.Marr}}
+                                    </option>
+                                </select>
+                                <select id="AnStamorpm" ng-model="AnStamorpm" style="width: 49px;height:28px; text-align: center;margin:4px;">
+                                    <option value="" selected>AM/PM</option>
+                                    <option value="AM" selected>AM</option>
+                                    <option value="PM" selected>PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-show="examtype ==1 ||examtype ==2">
+                            <label>AN END Time</label>
+                            <div class="form-group">
+                                <select id="AnEdhh" ng-model="AnEdhh" style="width: 49px;height:28px; max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>HH</option>
+                                    <option ng-repeat="harr in hoursarr" style="max-height: 12em;overflow-y: scroll;" value="{{harr.Harr}}">
+                                        {{harr.Harr}}
+                                    </option>
+                                </select><b>:</b>
+                                <select id="AnEdmm" ng-model="AnEdmm" style="width: 49px;height:28px;max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;">
+                                    <option value="" selected>MM</option>
+                                    <option ng-repeat="marr in mintuesarr" style="max-height: 12em;overflow-y: scroll;" value="{{marr.Marr}}">
+                                        {{marr.Marr}}
+                                    </option>
+                                </select>
+                                <select id="AnEdamorpm" ng-model="AnEdamorpm" style="width: 49px;height:28px; text-align: center;margin:4px;">
+                                    <option value="" selected>AM/PM</option>
+                                    <option value="AM" selected>AM</option>
+                                    <option value="PM" selected>PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Start Date</label>
+                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                <input type="text" class="form-control" placeholder="Select Start Date" autocomplete="off" name="StartDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="StartDate" ng-change="loadHolidaydates()" is-open="showFlag1" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label> Holidays </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeCheckbox()">Select Holidays</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxes" style="max-height: 8em;overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="data in holdate">
+                                            <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)"><span class="checkmark"></span>{{data.Dates|date: "dd-MM-yyyy"}}
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>-->
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold">
+                                Academic Year  :
+                            </label>
+                            <select class="form-control" id="Academic" ng-model="selAcademicYear"
+                                    ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                                <option value="" selected>Select Academic Year</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold">
+                                Exam Month/Year :
+                            </label>
+                            <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                    ng-options="monYer.Id as monYer.ExamYearMonth for monYer in MonthAndYear">
+                                <option value="" selected>Select Month/Year of Exam</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold">
+                                Student Type :
+                            </label>
+                            <select class="form-control" ng-model="SelStudentType" name="StudentType"
+                                    ng-options="Student.id as Student.type for Student in StudentType ">
+                                <option value="" selected>Select Exam Type</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="ExamType">
+                                Exam :
+                            </label>
+                            <select class="form-control" id="ExamType" ng-model="examtype"
+                                    ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                <option value="" selected>Select Exam</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                Branch :
+                            </label>
+                            <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)"
+                                    ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                <option value="" selected>Select Scheme</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                Scheme :
+                            </label>
+                            <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)"
+                                    ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                <option value="" selected>Select Scheme</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                Semester :
+                            </label>
+                            <select class="form-control " ng-model="data.SemId" name="SemId" style="width: min-content;"
+                                    ng-options="sems.semid as sems.sem for sems in ActiveSemesters">
+                                <option value="" selected>Select sem</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                            </div>
+                            <div class="col-md-3 text-center" style="padding:20px;">
+                                <button type="submit" ng-click="getTimeTableData()" class="btn btn-block btn-detail btn-md">Get Date Sheet </button>
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+</form>
+
+            </div>
+
+
+        </div>
+        <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+            <img src="../../../contents/img/loading.gif" width="100" />
+        </div>
+        <div class="row" ng-show="ResultFound">
+            <div class="col-md-12 pull-right">
+                <div class="pt-btn col-md-4">
+                    <button type="button" style="margin: 0px 20px;padding: 2px;" class="btn btn-sm btn-success ptr-button" ng-click="exportTimetableToExcel('#excelexport')">Export To Excel<span class="fa fa-file-excel-o  heading_icon btn_icons"></span></button>
+                    <button type="button" style="margin: 0px 20px;" class="btn btn-sm btn-primary ptr-button" ng-click="PrintTimeTable()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="container" ng-show="ResultFound" id="idtoDivPrintAdmin" style="margin-bottom: 60px;">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-2 col-md-12">
+                        <div class="logo-img">
+                            <img src="../../../contents/img/big-logo.png" />
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-12">
+                        <div class="logo-name">
+                            <h2 style="text-align: center">
+                                STATE BOARD OF TECHNICAL EDUCATION AND TRAINING, TELANGANA
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" id="excelexport">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" style="font-size: 15px !important;text-align: center;color: black;text-transform: uppercase;margin: 0px;">
+                    DATE SHEET
+                </div>
+                <div class="col-md-3"></div>
+                <div class="table table-responsive">
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th>DATE</th>
+                                <th>TIME</th>
+                                <th>SUBJECT CODE </th>
+                                <th>SUBJECT NAME</th>
+                                <!--<th>REMARKS </th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat-start="(key, val) in timetabledata">
+                                <td colspan="2" style="text-align: center"> Branch :{{val.BranchId}}</td>
+                                <td colspan="2" style="text-align: center"> Semester :{{val.SemId}}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="dat in val.TimeTablebranch">
+                                <td>{{dat.ExamDate|date: "dd-MM-yyyy"}}</td>
+                                <td>{{dat.ExamTime}}</td>
+                                <td>{{dat.SubjectCode}}</td>
+                                <td>{{dat.SubjectName}}</td>
+                                <!--<td>{{data.Remarks}}</td>-->
+                            </tr>
+
+
+                            <tr ng-repeat-end ng-repeat="dat in val.TimeTablebranch">
+                                <td>{{dat.ExamDate|date: "dd-MM-yyyy"}}</td>
+                                <td>{{dat.ExamTime}}</td>
+                                <td>{{dat.SubjectCode}}</td>
+                                <td>{{dat.SubjectName}}</td>
+                                <!--<td>{{data.Remarks}}</td>-->
+                            </tr>
+
+
+
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div ng-show="ResultNotFound" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

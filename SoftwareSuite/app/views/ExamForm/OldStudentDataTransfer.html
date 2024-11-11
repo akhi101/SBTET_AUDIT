@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Exam Fee Payment</title>
+</head>
+<body>
+    <div ng-controller="OldStudentDataTransferController">
+        <section id="main-content">
+            <!-- New Style Start-->
+            <div class="container">
+                <div class="row ctitle">
+                    <div class="col-md-5">
+                        <span><strong>Data Transfer (Non-Functional Colleges)</strong></span>
+                    </div>
+                    <div class="col-md-7 text-right">
+                        <ol class="breadcrumb">
+                            <li>You are in </li>
+                            <li>Home</li>
+                            <li>Examination</li>
+                            <li>Data Transfer (Non-Functional Colleges)</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row base-row" style="margin-bottom: 0;">
+                    <div class="row col-md-offset-4">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="sel1">HT No:</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="HTNO" ng-keyup="HideInfo()" id="HTNO" placeholder="Hall Ticket Number" input-Number-Only />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" ng-click="GetOldStudentData()" class="btn btn-sm btn-detail">Get Data</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="ShowLoading" width="100" />
+                </div>
+                <div class="row base-row" ng-show="ShowStudDetails">
+                    <div class="row">
+                        <div class="col-md-7 col-md-offset-2">
+                            <table border="1" width="100%">
+                                <tr>
+                                    <td style="width: 30%;padding: 3px;"><b>Student Name</b></td>
+                                    <td style="width: 70%;padding: 3px;">{{OldStudentData.CNAME}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%;padding: 3px;"><b>Group Code & Name</b></td>
+                                    <td style="width: 70%;padding: 3px;">{{OldStudentData.GroupCode}} {{OldStudentData.MainGrpName}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%;padding: 3px;"><b>District Code & Name</b></td>
+                                    <td style="width: 70%;padding: 3px;">{{OldStudentData.DistCode}} {{OldStudentData.DistName}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%;padding: 3px;"><b>Previous College Code</b></td>
+                                    <td style="width: 70%;padding: 3px;">{{OldStudentData.OldColCode}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%;padding: 3px;font-weight:bold;">Transfer To <br />College Code & Name</td>
+                                    <td style="width: 70%;padding: 3px;">
+                                    <select class="form-control" id="NewCollege" ng-model="OldStudentData.NewColCode">
+                                    <option value="0">--Select College--</option>
+                                    <option ng-selected="OldStudentData.NewColCode == option.ColCode" ng-repeat="option in ColList" value="{{option.ColCode}}">{{option.ColName}}-({{option.ColCode}})</option>
+                                </select></td>
+                                </tr>
+                                <!--<tr>
+        <td style="width: 30%;padding: 3px;font-weight:bold;">Transfer To <br/>College Code & Name</td>
+        <td style="width: 70%;padding: 3px;">{{OldStudentData.NewColCode}} {{OldStudentData.NewColName}}</td>
+    </tr>-->
+                            </table>
+                            <div style="font-size: 14px;font-weight: bold;color: red;padding: 5px;">Note: Non-Functioning colleges students data will be transfered as per the colleges list submitted to the TSBIE.</div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:center">
+                            <button type="button" class="btn btn-sm btn-detail" ng-disabled="TransferDisable" ng-click="TransferStudentData()">Transfer Data</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
+    </div>
+</body>
+</html>
+

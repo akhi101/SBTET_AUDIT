@@ -1,0 +1,113 @@
+﻿<style>
+
+
+    .success-btn, .success-btn:hover, .success-success:focus {
+        background-color: #639829 !important;
+        color: #fff;
+        min-width: 30px;
+    }
+
+        .success-btn:hover {
+            color: #fff
+        }
+
+    .fail-btn, .fail-btn:hover, .fail-btn:focus {
+        background-color: #f5632d;
+        color: #fff;
+        min-width: 30px;
+    }
+    .cls_red{
+        color:red;
+        font-weight:600;
+    }
+    .cls_red:hover,.cls_red:active,.cls_red:focus{
+        color:red!important;
+        font-weight:600!important;
+        text-decoration:none;
+    }
+</style>
+
+<div ng-controller="TwshCbtStudentsController">
+    <div class="container">
+        <div class="spacer"></div>
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>CBT Exams Scheduled</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+            <!--<div class="cl-details">
+                <h2>CBT Exams Scheduled</h2>
+            </div>-->
+            <div class="col-md-3">
+                <div class="">
+                    <div class="form-group">
+                        <label>From Date: </label>
+                        <input type="date" class="form-control" ng-model="FromDate" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="">
+                    <div class="form-group">
+                        <label>To Date: </label>
+                        <input type="date" class="form-control" ng-model="ToDate" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    &nbsp;<button class="btn btn-primary" style="margin-top:30px;" ng-click="getStudents()">Get Students</button>
+                </div>
+            </div>
+                </div>
+        </div>
+        <!--{{CbtStudents}}-->
+            <div class="col-md-12" ng-if="showStatus">
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}">
+                    {{StatusMessage}}
+                </div>
+            </div>
+        <div class="col-md-12" ng-show="showStudentsTable">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width: 5%" ng-click="sort('Sno')">Sno</th>
+                            <th class="text-center" style="width: 10%" ng-click="">Application Number</th>
+                            <th class="text-center" style="width: 30%" ng-click="sort('Semester')">Exam Code</th>
+                            <th class="text-center" style="width: 30%" ng-click="sort('Semester')">Student Name</th>
+                            <th class="text-center" style="width: 15%" ng-click="sort('Semester')">Student Phone</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('Semester')">Time</th>
+                            <th class="text-center" style="width: 10%">Exam Reschedule</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('Semester')">Start Exam</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr title="Click to Open Details" ng-repeat="s in CbtStudents" style="background-color:#fff!important;">
+                            <td style="width: 5%" ng-click="sort('Sno')">{{$index+1}}</td>
+                            <td class="text-center">{{s.ApplicationNumber}}</td>
+                            <td class="text-center">{{s.GradeCode}}</td>
+                            <td class="text-center">{{s.StudentName}}</td>
+                            <td class="text-center">{{s.StudentPhoneNumber}}</td>
+                            <td class="text-center">{{s.SelectedOnlineExamDate}}</td>
+                            <td>
+                                <span>
+                                    <button class="btn btn-info btn-xs" ng-click="CbtReschedule(s)" ng-disabled="s.IsAbsent==1"><span>Reschedule </span></button>
+                                </span>
+                            </td>
+                            <td>
+                                <button ng-click="getExamStartToken(s.ApplicationNumber)" class="btn btn-link" ng-if="s.IsAbsent==0">Start Exam</button>
+                                <button title="Marked as Absent" class="btn cls_red btn-link" ng-if="s.IsAbsent==1">Marked as Absent</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        .modal-dialog {
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-body">
+        <div class="col-md-12 ">
+            <div class="cl-details">
+                <h2>Transfer Attendee Id</h2>
+            </div>
+        </div>
+        <!--  <section class="content">-->
+        <div class="col-md-12 ">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label for="sel1" class="font-weight-bold">
+                                Attendee Id :
+                            </label>
+                            <input class="form-control" placeholder="Enter  Attendee Id" type="text" ng-model="AttendeeId" maxlength="20" />
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold">To College :</label>
+                            <select class="form-control" ng-model="AttendeeCollege" ng-change="ChangeValue(AttendeeCollege)" name="College">
+                                <option value="" selected>Select College</option>
+                                <option ng-repeat="data in GetCollegeList" value="{{data.CollegeCode}}">
+                                    {{data.CollegeCode}} - {{data.CollegeName}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold">To Branch :</label>
+                            <select class="form-control" ng-model="AttendeeBranch" name="Branch">
+                                <option value="" selected>Select Branch</option>
+                                <option ng-repeat="data in branchdata" value="{{data.BranchCode}}">
+                                    {{data.Branch}}
+                                </option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="sel1" class="font-weight-bold">
+                                Remarks :
+                            </label>
+                            <input class="form-control" placeholder="Enter Remarks" type="text" ng-model="Remarks" maxlength="20" />
+                        </div>
+
+                        <div class="col-md-2 pull-right">
+                            <div class="gr-btn">
+                                <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="TransferAttendeeId(AttendeeId,AttendeeCollege,AttendeeBranch,Remarks)">Transfer Attendee Id</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

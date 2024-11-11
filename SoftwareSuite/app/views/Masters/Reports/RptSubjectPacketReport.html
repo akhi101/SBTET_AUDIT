@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Subject Packet Report</title>
+</head>
+<body>
+    <div ng-controller="BasicSubPacktReportController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Subject Packet Report </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Master</li>
+                        <li>Reports</li>
+                        <li>Subject Packet Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.CourseID" id="CourseID" ng-change="GetExamList(BasicSubPackt.CourseID)">
+                                        <option value="">--Select Course --</option>
+                                        <option ng-selected="BasicSubPackt.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="sel1"> Exam :</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.ExamID" id="ExamID" ng-change="GetMainGroupList(BasicSubPackt.CourseID)">
+                                        <option value="">--Select Exam --</option>
+                                        <option ng-selected="BasicSubPackt.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="Name"> Packet:</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.PcktID" id="PcktID">
+                                        <option value=""> -- All -- </option>
+                                        <option ng-selected="BasicSubPackt.PcktID == option.PcktID" ng-repeat="option in BasicPacketList" value="{{option.PcktID}}">{{option.PcktName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="Name">Main Group:</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.MainGrpID" id="MainGrpID" ng-disabled="MainGroupDisable" ng-change="GetVocationalExamSubjectList(BasicSubPackt.ExamID,BasicSubPackt.MainGrpID)">
+                                        <option value=""> -- All -- </option>
+                                        <option ng-selected="BasicSubPackt.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGrpList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="Name">Subject Type:</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.SubjectType" id="SubjectType">
+                                        <option value=""> -- Select Subject Type -- </option>
+                                        <option value="LS">Languages</option>
+                                        <option value="GS">Group Subject</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="Name">Medium:</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.MediumID" id="ExmSubID" ng-change="GetExamSubjectList(BasicSubPackt.ExamID)">
+                                        <option value=""> - All - </option>
+                                        <option ng-selected="BasicSubPackt.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <!--<div class="col-md-2">-->
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetSubjecPacketReport()">Show</button>
+                                <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

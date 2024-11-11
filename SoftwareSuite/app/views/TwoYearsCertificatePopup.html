@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .modal-dialog {
+            width: 60% !important;
+            margin: 30px auto;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5 class="modal-title text-center">Two Years Certificate Details</h5>
+                <!--<ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#/Dashboard/Diploma">Results </a></li>
+                        <li><a href="#/Dashboard/Diploma/StudentConsolidatedResult">Diploma Consolidated Results</a></li>
+                    </ol>
+
+                </ol>-->
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div id="preExamReports" class="table-responsive table-custom-tables-tb  modal-body">
+        <table class="table table-bordered  table-striped table-rounded">
+
+            <tbody>
+                <tr class="cb-1">
+                    <td class="textBold" colspan="2">PIN</td>
+                    <td colspan="5">{{StudentData.Pin}}</td>
+
+                </tr>
+                <tr style="background-color:#fff!important;cursor:pointer" ng-click="openDetails(x)">
+
+                    <td class="textBold" colspan="2">Name</td>
+                    <td class="" colspan="5">{{StudentData.Name}}</td>
+
+                </tr>
+                <tr>
+                    <td class="textBold" colspan="2">Father Name</td>
+                    <td class="" colspan="5">{{StudentData.FatherName}}</td>
+
+                </tr>
+                <tr>
+                    <td class="textBold" colspan="2">Scheme</td>
+                    <td class="" colspan="5">{{StudentData.Scheme}}</td>
+
+                </tr>
+                <!--<tr>
+        <td class="textBold" colspan="2">No of Backlogs</td>
+        <td class="" colspan="5">{{StudentData.NumberOfBacklogs}}</td>
+    </tr>-->
+                <tr>
+                    <td class="textBold" co0lspan="2">College </td>
+                    <td class="" colspan="5">{{StudentData.CollegeCode}} - {{StudentData.CollegeName}}</td>
+
+                </tr>
+                <tr>
+                    <td class="textBold" colspan="2">Mobile Number </td>
+                    <td class="" colspan="5">{{StudentData.MobileNumber == null ? '-' : StudentData.MobileNumber}}</td>
+
+                </tr>
+                <!--<tr>
+        <td class="textBold" colspan="2">Latest Mobile Number </td>
+        <td class="" colspan="5"><input type="text" class="form-control" placeholder="Enter Latest Mobile Number" maxlength="10" ng-model="LMobileNumber" /></td>
+
+    </tr>-->
+                <tr ng-show="StudentData.Scheme!='C18' && StudentData.Scheme!='C21'">
+                    <td class="textBold">Subject Type </td>
+                    <td class="textBold text-center" colspan="2">Total subjects </td>
+                    <td class="textBold text-center" colspan="2">Subjects passed  </td>
+                    <td class="textBold text-center" colspan="2">Percentage of subjects passed</td>
+
+                </tr>
+
+                <tr ng-show="StudentData.Scheme!='C18' && StudentData.Scheme!='C21'">
+                    <td class="textBold ">Theory </td>
+                    <td class="text-center" colspan="2">{{StudentData.TheoryTotalSubjects}}</td>
+                    <td class="text-center" colspan="2">{{StudentData.TheoryPassedSubjects}}</td>
+                    <td class="text-center" colspan="2">{{StudentData.TheoryPassedPercentage}}%</td>
+                </tr>
+                <tr ng-show="StudentData.Scheme!='C18' && StudentData.Scheme!='C21'">
+                    <td class="textBold ">Practical </td>
+                    <td class="text-center" colspan="2">{{StudentData.PracticalTotalSubjects}}</td>
+                    <td class="text-center" colspan="2">{{StudentData.PracticslPassedSubjects}}</td>
+                    <td class="text-center" colspan="2">{{StudentData.PracticalPassedPercentage}}%</td>
+                </tr>
+
+                <tr ng-show="StudentData.Scheme=='C18' || StudentData.Scheme=='C21'">
+                    <td class="textBold">Subject Type </td>
+                    <td class="textBold text-center" colspan="3">Total credits </td>
+                    <td class="textBold text-center" colspan="3">Pass Credits earned </td>
+                </tr>
+                <tr ng-show="StudentData.Scheme=='C18' || StudentData.Scheme=='C21'">
+                    <td class="textBold ">Theory </td>
+                    <td class="text-center" colspan="3">{{StudentData.TheoryTotalCredits}}</td>
+                    <td class="text-center" colspan="3">{{StudentData.TheoryPassedCredits}}</td>
+                </tr>
+                <tr ng-show="StudentData.Scheme=='C18' || StudentData.Scheme=='C21'">
+                    <td class="textBold ">Practical </td>
+                    <td class="text-center" colspan="3">{{StudentData.PracticalTotalCredits}}</td>
+                    <td class="text-center" colspan="3">{{StudentData.PracticslPassedCredits}}</td>
+                </tr>
+                <tr ng-show="(StudentData.Scheme=='C18' ) || (StudentData.Scheme=='C21')">
+                    <td class="textBold ">Rubrics </td>
+                    <td class="text-center" colspan="3">{{StudentData.RubricsTotalCredits}}</td>
+                    <td class="text-center" colspan="3">{{StudentData.RubricsPassedCredits}}</td>
+                </tr>
+                <tr ng-show="(StudentData.Scheme=='C18' ) || (StudentData.Scheme=='C21')">
+                    <td class="textBold ">Total Credits </td>
+                    <td class="text-center" colspan="6">{{StudentData.TotalPassCredits}}</td>
+                    
+                </tr>
+                <tr ng-show="(PageType == '1' && StudentData.NumberOfBacklogs == '0')|| PageType=='2'">
+                    <td colspan="2" class="textBold">
+                        Fee Amount
+                    </td>
+                    <td colspan="5">{{FeeAmount}}</td>
+                </tr>
+                <tr ng-show="FeeAmount">
+                    <td colspan="2" class="textBold">
+                        Certificate Fee
+                    </td>
+                    <td colspan="5">{{FeeAmount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-success pull-right" ng-show="ApproveType =='0'" ng-click="Verify(StudentData.Pin)" style="margin-top: 20px;" >Verify</button>
+        <button type="button" class="btn btn-default pull-left" ng-click="closeModal()" style="margin-top: 20px;">Cancel</button>
+    </div>
+</body>
+</html>

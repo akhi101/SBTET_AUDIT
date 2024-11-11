@@ -1,0 +1,163 @@
+﻿<style>
+    .cls_bold {
+        font-weight: bold;
+        font-size: 14px;
+    }
+</style>
+<header>
+    <div class="header" ng-include="'app/views/SBPHeader.html'"> </div>
+    <div class="container hidden">
+        <div class="main-header ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="logo-img">
+                            <img src="../../contents/img/big-logo.png" class="img-responsive" />
+                            <h2>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</h2>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="o-info">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>040-23222192</a></li>
+                                <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>sbtet-helpdesk@telangana.gov.in</a></li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row navbar_section">
+        <nav class="navbar navbar-inverse navbar_inverse_section">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"></a>
+
+                </div>
+                <div class="container navbar_container_section">
+                    <div class="row">
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+                                <li ng-class="{'active':homeDashBoard}">
+                                    <a href="#!/Dashboard"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                                </li>
+                                <!-- <li>
+                                    <a href="#!/Dashboard/Assessment">
+                                        <b class="main_header_main_menu">
+                                            Assessment
+
+                                        </b>
+                                    </a>
+                                </li>
+                                <li ng-if="!access3">
+                                    <a href="#!/Dashboard/MarksSummary">
+                                        <b  class="main_header_main_menu">
+                                            Reports
+
+                                        </b>
+                                    </a>
+                                </li>
+                                <li ng-show="access1">
+                                    <a href="#!/Dashboard/SearchPin">
+                                        <b class="main_header_main_menu">
+                                            Search Pin
+
+                                        </b>
+                                    </a>
+                                </li> -->
+                                <!--temporary field open-->
+
+                            </ul>
+
+                            <ul class="nav navbar-nav navbar-right log-navbar">
+                                <li>
+                                    <a href="#">
+                                        Welcome <span id="college_name1">{{college_name1}}</span>
+                                        {{userName}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                        <i class="fa fa-sign-out fa-fw"></i>
+                                        Logout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a style="font-size:small" href="#" class="main_header_main_menu" ng-click="ChangePassword()">
+                                        <i class="fa fa-sign-out fa-fw"></i> Change
+                                        Password <span><b></b></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<style>
+    .label {
+        display: inline;
+        padding: .2em .6em .3em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        color: #3d7eaa !important;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+    }
+</style>
+<div ng-controller="UserManualController">
+    <ui-view>
+        <section class="content">
+            <div class="container">
+                <div class="col-sm-12">
+                    <div class="inner-heading">
+                        <h3>User Manual </h3>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="userType==2||userType==3">
+                    <ul>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/College/Admission.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Admission</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/College/Asessment.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Asessment</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/College/Academic.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Academic</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/College/PreExamination.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> PreExamination</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/College/StudentServices.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Student Services</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/College/Results.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Results</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12" ng-show="userType==1">
+                    <ul>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/Admission.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Admission</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/Asessment.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Asessment</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/Academic.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Academic</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/PreExamination.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> PreExamination</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/Post_Exam.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Post Examination</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/Results.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Results</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/DCBills.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> DC Bills</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/StudentServices.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Student Services</a></li>
+                        <li style="margin-bottom: 20px;"><a class="cls_bold" href="https://www.sbtet.telangana.gov.in/UserManual/Board/Settings.docx" title="Click to Download" download><i class="fa fa-angle-double-right" aria-hidden="true"></i> Settings</a></li>
+                    </ul>
+                </div>
+                <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+            </div>
+</section>
+
+
+    </ui-view>
+</div>
+
+

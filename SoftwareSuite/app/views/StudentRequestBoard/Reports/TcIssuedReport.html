@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <style>
+        table {
+            font-size: 12px;
+        }
+    </style>
+    <title>Student Service Requests</title>
+</head>
+<body>
+    <div ng-controller="TcIssuedReportController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>TC Issued Students Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>TC Issued Students Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="col-md-2" ng-show="ShowAcdDropDown">
+                        <label>Academic Year : </label>
+                        <select class="form-control input-sm" id="AcdYrID" ng-model="AcdYrID" ng-change="ChangeAcdYear()">
+                            <option ng-selected="AcdYrID == option.AcdYrID" ng-repeat="option in AcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                        </select>
+                    </div>
+                    <button type="button" ng-show="ShowBack" ng-click="PageBack()" class="btn btn-detail btn-sm">Back</button>  
+                    <table id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>College Code</th>
+                                <th>College Name</th>
+                                <th>Total Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in TCReportData">
+                                <td>{{$index + 1}}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td><a ng-click='GetTcIssueReportByCollege(x.CollegeID)'> {{ x.TotalStud }} </a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row base-row" ng-show="ShowCollegeDetail">
+                <div class="col-md-12">
+                    <table id="supTable" class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>Admission No</th>
+                                <th>student Name</th>
+                                <th>Father Name</th>
+                                <th>SSC Details</th>
+                                <th>Medium / Group</th>
+                                <th>Tc No</th>
+                                <th>Withdrawl Class</th>
+                                <th>Withdrawl Date</th>
+                                <th>Withdrawl Reasons</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in TcIssueData">
+                                <td>{{$index + 1}}</td>
+                                <td><a ng-click='GetStudentDetails(x.CollegeID, x.PreStudRegID)'> {{ x.AdmNo }} </a></td>
+                                <td>{{ x.StudName }}</td>
+                                <td>{{ x.FatherName }}</td>
+                                <td>{{ x.SSC_Info }}</td>
+                                <td>{{ x.Gruop_Info }}</td>
+                                <td>{{ x.TCNo }}</td>
+                                <td></td>
+                                <td>{{ x.IssueDate | date :  "dd-MM-yyyy" }}</td>
+                                <td>{{ x.ReasonDescription }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="ShowStudentDetail">
+                <div class="row base-row" ng-repeat="x in TcStudData">
+                    <div class="row">
+                        <h3 class="ch3">Personal Details <hr></h3>
+                        <div class="col-md-6 col-md-offset-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="cp"><strong>Admission Number</strong></p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="cp">{{x.AdmNo}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="cp"><strong>SSC Details</strong></p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="cp">{{x.SSC_Info}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="cp"><strong>Candidate's Name</strong></p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="cp">{{x.StudName}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="cp"><strong>Fathers's </strong></p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="cp">{{x.FatherName}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="cp"><strong>Mother's Name</strong></p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="cp">{{x.MotherName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <img src="#" width="100%" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Sex</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.Gender}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>UID</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.AadharNo}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Nationality</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.Nationality}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Mother Tongue</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.MothTName}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Occupation</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.OcupName}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Parent Income</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Religiion</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.CasteName}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Community</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.CommName}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Subcaste</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.SubCastName}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Date of Birth</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.BirthDate | date : "dd-MM-yyyy"}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Date of Birth in words</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">******</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Physically Handicapped</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.PhysDisablity}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Identification Marks</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.IdentiMarks}}</p>
+                            <p class="cp">{{x.IdentiMarks2}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Eligibilty Cert. No</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.Elig_Cert_No}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Name of the Institution last studied(SSC)</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.School_Name}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3 class="ch3">Institution Details <hr></h3>
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Group (Part III)</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.MainGrpName}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Midium</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.MediumName}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Second Language (Part II)</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.SubName}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Date of Admission</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.AdmDate | date : "dd-MM-yyyy"}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Admission Category</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.AdmCategory}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Recognition Fee Paid</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.RecgfeesFlag}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>Examination Fee Paid</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>College Address</strong></p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="cp">{{x.Col_Addr}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <p class="cp"><strong>Receiving and Scholarship</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">{{x.Scholarship}}</p>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <p class="cp"><strong>National Means-cum-Merit Scholarship Scheme(NMMS) HAll Ticket No.</strong></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="cp">987997979</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3 class="ch3">Address Details <hr></h3>
+                        <div class="col-md-4 col-md-offset-2">
+                            <p class="cp"><strong>Present Address</strong><hr /></p>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>H. No:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>Street:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>Village:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>Mandal:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>District:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>State:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="cp"><strong>Permanent Address</strong><hr /></p>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>H. No:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>Street:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>Village:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>Mandal:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>District:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><p class="cp"><strong>State:</strong></p></div>
+                                <div class="col-md-6"><p class="cp">Value</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <button type="submit" class="btn btn-detail btn-sm">Print</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</body>
+</html>
+

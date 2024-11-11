@@ -1,0 +1,257 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+</style>
+<div ng-controller="EmployeeSalaryDetailsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Salary Details</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/PayRollDashboard">Pay Roll</a></li>
+                    <li><a href="#!/Dashboard/PayRollDashboard/Department">SalaryDetails</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PayRollMasters" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+    </div>
+    <div>
+        <div class="container">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+
+
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Department:
+                                    </label>
+                                    <select class="form-control" id="departmentid" ng-model="Department" ng-change="ChangeDepartment(Department)"
+                                            ng-options="data as data.DepartmentName for data in DepartmentData">
+                                        <option value="" selected>Select Department</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label>
+                                        Employee Name :
+                                    </label>
+
+                                    <select class="form-control" ng-model="EmployeeID" ng-change="ChangeEmployee(EmployeeID)"
+                                            ng-options="data.EmployeeID as data.EmployeeName for data in EmployeeDetailsData">
+                                        <option value="" selected>Select Employee Name</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showCBA">
+                                    <label>
+                                        Current Basic Amount :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Current Basic Amount" ng-model="CurrentBasicAmount">
+                                </div>
+
+                                <div class="form-group col-md-4" ng-show="showIR">
+                                    <label>
+                                        Interim Relief:
+                                    </label>
+                                    <select class="form-control" name="applicationForm.InterimRelief" ng-model="InterimRelief">
+                                        <option value="">Select Interim Relief</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showCCA">
+                                    <label>
+                                        CCA :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter CCA Amount" ng-model="CCA">
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showPP">
+                                    <label>
+                                        PP :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter PP Amount" ng-model="PP">
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showFPI">
+                                    <label>
+                                        FPI :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter FPI Amount" ng-model="FPI">
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showTGI">
+                                    <label>
+                                        TG Increment :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter TG Increment Amount" ng-model="TG_Increment">
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showCE">
+                                    <label>
+                                        Conveyance Allowance :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Conveyance Elevence Amount" ng-model="ConveyanceAllowance">
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showMedical">
+                                    <label>
+                                        Medical  :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Medical Amount" ng-model="Medical">
+                                </div>
+                                <div class="form-group col-md-4" ng-show="showNCI">
+                                    <label>
+                                        NCI:
+                                    </label>
+                                    <select class="form-control" name="applicationForm.NCI" ng-model="NCI" ng-change="ChangeNCI(NCI)">
+                                        <option value="">Select NCI</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4" ng-show="showNCIAmount">
+                                    <label>
+                                       NCI Amount  :
+                                    </label>
+                                    <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter NCI Amount" ng-model="NCIAmount" >
+                                </div>
+                                
+
+
+                                <div class="col-md-12" ng-show="AddDetails=='1'">
+                                    <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="Add()">
+                                        ADD
+                                    </button>
+                                </div>
+                                <div class="col-md-12" ng-show="UpdateDetails=='1'">
+                                    <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="UPDATE()">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container " ng-show="SalaryData.length>0">
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Employee Salary Details</h2>
+            </div>
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th>S.No</th>
+                            <th class="text-center">Employee Name </th>
+                            <th class="text-center">Current Basic Amount</th>
+                            <th class="text-center" ng-show="showIR">Interim Relief</th>
+                            <th class="text-center" ng-show="showCCA">CCA </th>
+                            <th class="text-center">PP </th>
+                            <th class="text-center">FPI </th>
+                            <th class="text-center">TG Increment </th>
+                            <th class="text-center" ng-show="showCE">Conveyance Allowance </th>
+                            <th class="text-center">Medical </th>
+                            <th class="text-center">NCI </th>
+                            <th class="text-center">NCI Amount </th>
+                            <th class="text-center">Action</th>
+                            <th class="text-center">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="" ng-repeat="data in SalaryData">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{data.EmployeeName}}</td>
+                            <td class="text-center">{{data.CurrentBasicAmount}}</td>
+                            <td class="text-center" ng-show="showIR">
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" name="applicationForm.InterimRelief" ng-model="data.InterimRelief">
+                                    <option value="">Select Interim Relief</option>
+                                    <option value="Y">Yes</option>
+                                    <option value="N">No</option>
+                                </select>
+                            </td>
+                            <td class="text-center" ng-show="showCCA">{{data.CCA}}</td>
+                            <td class="text-center">{{data.PP}}</td>
+                            <td class="text-center">{{data.FPI}}</td>
+                            <td class="text-center">{{data.TG_Increment}}</td>
+                            <td class="text-center" ng-show="showCE">{{data.ConveyanceAllowance}}</td>
+                            <td class="text-center">{{data.Medical}}</td>
+                            <td class="text-center">{{data.NCI}}</td>
+ 
+                            <td class="text-center">{{data.NCIAmount}}</td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-click="EditSalary(data)">
+                                    Edit
+                                </button>
+
+                            </td>
+                            <td style="text-align:center">
+                                <button class="btn-xs btn btn-success" title="Click here to Inactive" ng-click="ChangeStatus(data.EmployeeSalaryDetailsId,data.DepartmentId,data.EmployeeId,0)" ng-if="data.Active==1">Active</button>
+                                <button class="btn-xs btn btn-danger" title="Click here to Active" ng-click="ChangeStatus(data.EmployeeSalaryDetailsId,data.DepartmentId,data.EmployeeId,1)" ng-if="data.Active==0">InActive</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="container" ng-show="Noreports">
+        <div class="col-md-12">
+            <div class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No data Found</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>  

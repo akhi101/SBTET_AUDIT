@@ -1,0 +1,122 @@
+﻿<style>
+    .btn-css{
+        margin-top:25px;
+        padding:5px 12px;
+    }
+    .editbtn{
+         width:42px;
+        margin :0px 10px 0px 10px;
+    }
+    .deleteBtn{
+        width:42px;
+        margin :0px 10px 0px 10px;
+    }
+    .mybtn{
+            width: 62px;
+    }
+</style>   
+ <div ng-controller="MasterBranchController">
+        <section class="content">
+
+            <div class="container ">
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/MasterSettings" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <!--<div class="col-md-12">
+                        <div class="row ">
+                            <div class="cl-details">
+                                <h2>Admin Branch</h2>
+                            </div>
+                        </div>-->
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Name</label>
+                                            <input type="text" style="resize:none" class="form-control" ng-model="Branchname" name="Branch" autocomplete="off" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Branch Code</label>
+                                            <input type="text" style="resize:none" class="form-control" ng-model="BranchCode" name="Branch" autocomplete="off" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 pull-left">
+                                        <button type="submit" class="btn pull-left btn-success btn-css" ng-click="submit()" ng-if="AddData">
+                                            ADD
+                                        </button>
+                                        <button type="submit" class="btn pull-left btn-success btn-css" ng-click="update()" ng-if="UpdateData">
+                                            Update
+                                        </button>
+                                    </div>
+
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            <div class="container ">
+                <div style="width:100%;text-align:center;">
+                    <!-- ngIf: !Semisters  -->
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <!-- ngIf: loading -->
+                </div>
+                <!--<div class="col-md-12 ng-hide" ng-show="result">-->
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Branch List</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table class="table table-bordered table-hover table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th>SNO</th>
+                                    <th>Branch Name</th>
+                                    <th>Branch Code</th>
+                                    <th>Status</th>
+                                    <th width="15%" class="text-center">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color:#fff!important;" ng-repeat="Y in GetMasterBranches">
+                                    <!--<td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="isAllchecked" ng-change="selectEntity(x)"></td>-->
+                                    <td class="text-left">{{$index + 1}}</td>
+                                    <td class="text-left">{{Y.BranchName}}</td>
+                                    <td class="text-left">{{Y.BranchCode}}</td>
+                                    <td class="text-left">
+                                        <span ng-if="Y.ActiveFlag == true"><button ng-click="Status(Y.BranchID,0)" class="btn-success mybtn btn btn-xs">Active</button></span>
+                                        <span ng-if="Y.ActiveFlag == false"><button ng-click="Status(Y.BranchID,1)" class="btn-danger mybtn btn btn-xs">Is Active</button></span>
+                                    </td>
+                                    <td>
+                                        <button class="btn-xs btn btn-success editbtn col-md-2" ng-click="Edit(Y.BranchID)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button class="btn-xs btn btn-red deleteBtn col-md-2" ng-click="Delete(Y.BranchID)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                    <div class="col-md-12">
+                        <div ng-if="Noreports" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+                </div>
+            <div class="sm-spacer"></div>
+            <div class="sm-spacer"></div>
+        </section>
+    </div>

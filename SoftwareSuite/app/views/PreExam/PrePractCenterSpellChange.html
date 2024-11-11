@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Practical Center Spell Change </title>
+</head>
+<body>
+    <div ng-controller="PrePractCenterSpellChangeController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Practical Center Spell Change </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Pre Exam</li>
+                        <li>Reports</li>
+                        <li>Practical Center Spell Change</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <div class="form-group">
+                                    <label for="sel1"> Select Zone Type </label>
+                                    <select class="form-control" ng-model="PrePractCenterSpellChange.ZoneType" id="ZoneType">
+                                        <option value=""> --Select ZoneType -- </option>
+                                        <option value="2"> General Practical </option>
+                                        <option value="3"> Vocational Practical </option>
+                                        <option value="4"> Birdge Vocational Practical </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> District: </label>
+                                    <select class="form-control" ng-model="PrePractCenterSpellChange.DistrictID" id="DistrictID" ng-change="GetPracticalCenterList(PrePractCenterSpellChange.DistrictID)">
+                                        <option value="">--Select District--</option>
+                                        <option ng-selected="PrePractCenterSpellChange.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1"> Practical Center: </label>
+                                    <select class="form-control" ng-model="PrePractCenterSpellChange.PrePractCntrID" id="PrePractCntrID"  ng-change="FillPreExamSpellForPracticalCenterChange(PrePractCenterSpellChange.PrePractCntrID)">
+                                        <option value="">--Select Practical Center </option>
+                                        <option ng-selected="PrePractCenterSpellChange.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PracticalCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <label for="sel1"> Old Spell No: </label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="PrePractCenterSpellChange.PreExmSpellNo" id="PreExmSpellNo" ng-disabled="true"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                     <label for="sel1"> New Spell: </label>
+                                    <select class="form-control" ng-model="PrePractCenterSpellChange.PreExmSplPrID" id="PreExmSplPrID">
+                                        <option value=""> --Select Spell-- </option>
+                                        <option ng-selected="PrePractCenterSpellChange.PreExmSplPrID == option.PrePractCntrID" ng-repeat="option in PracticalSpellList" value="{{option.PreExmSplPrID}}">{{option.SpellNo}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-md-5 col-md-offset-1 text-right">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePrePractCenterSpellChange()">Save</button>
+                                <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

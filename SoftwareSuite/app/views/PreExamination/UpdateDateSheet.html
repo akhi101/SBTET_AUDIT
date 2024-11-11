@@ -1,0 +1,705 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #fff!important;
+    cursor: default;
+    background-color: #35a5f1!important;
+    border: 1px solid #d8d8d8!important;
+    border-bottom-color: transparent;
+}
+     
+element.style {
+}
+.cl-details h2 {
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    background: #5ca0d3;
+    padding: 6px 9px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.myBtn1{
+margin-top: 23px;
+    font-size: 12px;
+    padding: 2px;
+    width: 150px;
+    border-radius:2px;
+}
+/**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+<div ng-controller="UpdateDateSheetController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Update Date Sheet</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/PreExamination">PreExamination</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/ExamSessionSettings">Update Date Sheet</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="sm-spacer"></div>
+
+            <div class="">
+                <!--<button class="btn pull-left btn-info btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+                   Branch Wise
+                </button>
+                <button class="btn pull-left btn-info btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+                    Branch Wise
+                </button>
+                <button class="btn pull-left btn-info btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+                    Branch Wise
+                </button>-->
+               
+                
+
+                <div id="exTab2" class="container">
+                    <ul class="nav nav-tabs">
+                        <li class="myBtn active" ng-click="ClearData()">
+                            <a href="#1"  data-toggle="tab">Branch Wise Time table</a>
+                        </li>
+                        <li ng-click="ClearData()">
+                            <a href="#2"   data-toggle="tab">PCode wise Time table</a>
+                        </li>
+                        <li ng-click="ClearData()">
+                            <a href="#3"  data-toggle="tab">Date Wise Time Table</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content ">
+                        <div class="tab-pane active" id="1">
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <div class="studWishinputs">
+                                       
+                                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                            <div class="row">
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Academic Year  :
+                                                    </label>
+                                                    <select class="form-control" id="Academic" ng-model="selAcademicYear" ng-change="GetExamYearMonth(selAcademicYear)"
+                                                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                                                        <option value="" selected>Select Academic Year</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Exam Month/Year :
+                                                    </label>
+                                                    <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                                            ng-options="monYer.Id as monYer.ExamYearMonth for monYer in MonthAndYear">
+                                                        <option value="" selected>Select Month/Year of Exam</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Student Type :
+                                                    </label>
+                                                    <select class="form-control" ng-model="SelStudentType" name="StudentType"
+                                                            ng-options="Student.id as Student.type for Student in StudentType ">
+                                                        <option value="" selected>Select Exam Type</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Scheme :
+                                                    </label>
+                                                    <select class="form-control" id="ExamYear" ng-model="selscheme" ng-change="loadSemExamTypes(selscheme)"
+                                                            ng-options="scheme.schemeid as scheme.scheme for scheme in schemeinfo ">
+                                                        <option value="" selected>Select Scheme</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Sem & year :
+                                                    </label>
+                                                    <select class="form-control" ng-model="selsem" name="SemId"
+                                                            ng-options="sems.semid as sems.semester for sems in seminfo">
+                                                        <option value="" selected>Select sem</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="ExamType">
+                                                        Exam :
+                                                    </label>
+                                                    <select class="form-control" id="ExamType" ng-model="examtype"
+                                                            ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                                        <option value="" selected>Select Exam</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Branch :
+                                                    </label>
+                                                    <select class="form-control" ng-model="selbranch" name="Branch"
+                                                            ng-options="branch.BranchId as branch.Branch for branch in Branchinfo">
+                                                        <option value="" selected>Select Branch</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 pull-left">
+                                                    <button class="btn pull-left btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetails()">
+                                                        Get Data
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container " ng-show="ReportFound">
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>BranchWise Date Sheet</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded custom-table-wdith" style="width: max-content;">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>S.No</th>
+                                                    <th class="text-center">Year</th>
+                                                    <th class="text-center">Student Type</th>
+                                                    <th class="text-center">Exam Month/Year</th>
+                                                    <th class="text-center">Branch</th>
+                                                    <th class="text-center">Pcode</th>
+                                                    <th class="text-center">SubjectCode</th>
+                                                    <th class="text-center">SubjectName</th>
+                                                    <th class="text-center">Scheme</th>
+                                                    <th class="text-center">Sem & year</th>
+                                                    <th class="text-center">ExamDate</th>
+                                                    <th class="text-center">ExamTime</th>
+                                                    <th class="text-center">Time Slot</th>
+                                                    <th class="text-center">Remarks</th>
+                                                    <th class="text-center">Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background-color: #fff!important;" ng-repeat="data in GetMasterschemeSem">
+                                                    <td class="text-left">{{$index + 1}}</td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.AcademicYear}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.StudentType}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.ExamMonthYear}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.Branch}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.Pcode}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="15" ng-model="data.SubjectCode" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">{{data.SubjectName}}</td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        {{data.Scheme}}
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        {{data.Semester}}
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                            <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="End Date" autocomplete="off" name="EndDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.ExamDate" is-open="showFlag1" />
+                                                            <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                                <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </p>
+                                                        <!--<p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                            <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Exam Date" autocomplete="off" name="ExamDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.ExamDate" is-open="showFlag2" />
+                                                            <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                                <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </p>-->
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="50" ng-model="data.ExamTime" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="5" ng-model="data.ExamSession" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="200" ng-model="data.Remarks" />
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                                            Update
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="container" ng-show="NoData">
+                                <div class="col-md-12">
+                                    <div class="no-results">
+                                        <img src="../../contents/img/Folder-Icon.svg" />
+                                        <h2>No data Found</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="2">
+                          
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <div class="studWishinputs">
+                                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                            <div class="row">
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Academic Year  :
+                                                    </label>
+                                                    <select class="form-control" id="Academic" ng-model="selAcademicYear" ng-change="GetExamYearMonth(selAcademicYear)"
+                                                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                                                        <option value="" selected>Select Academic Year</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Exam Month/Year :
+                                                    </label>
+                                                    <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                                            ng-options="monYer.Id as monYer.ExamYearMonth for monYer in MonthAndYear">
+                                                        <option value="" selected>Select Month/Year of Exam</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Student Type :
+                                                    </label>
+                                                    <select class="form-control" ng-model="SelStudentType" name="StudentType"
+                                                            ng-options="Student.id as Student.type for Student in StudentType ">
+                                                        <option value="" selected>Select Exam Type</option>
+                                                    </select>
+                                                </div>
+                                             
+                                                <div class="col-md-3 form-group">
+                                                    <label for="ExamType">
+                                                        Exam :
+                                                    </label>
+                                                    <select class="form-control" id="ExamType" ng-model="examtype"
+                                                            ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                                        <option value="" selected>Select Exam</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="ExamType">
+                                                        Enter PCode :
+                                                    </label>
+                                                   <input class="form-control" placeholder="Enter PCode" name="PCode" ng-model="PCode"/>
+                                                </div>
+                                                <div class="col-md-3 pull-left">
+                                                    <button class="btn pull-left btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetailsByPCode()">
+                                                        Get Data
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container " ng-show="ReportFound1">
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>PCode Wise Date Sheet</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded custom-table-wdith" style="width: max-content;">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>S.No</th>
+                                                    <th class="text-center">Year</th>
+                                                    <th class="text-center">Student Type</th>
+                                                    <th class="text-center">Exam Month/Year</th>
+                                                    <th class="text-center">Branch</th>
+                                                    <th class="text-center">Pcode</th>
+                                                    <th class="text-center">SubjectCode</th>
+                                                    <th class="text-center">SubjectName</th>
+                                                    <th class="text-center">Scheme</th>
+                                                    <th class="text-center">Sem & year</th>
+                                                    <th class="text-center">ExamDate</th>
+                                                    <th class="text-center">ExamTime</th>
+                                                    <th class="text-center">Time Slot</th>
+                                                    <th class="text-center">Remarks</th>
+                                                    <th class="text-center">Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background-color: #fff!important;" ng-repeat="data in GetMasterschemeSem">
+                                                    <td class="text-left">{{$index + 1}}</td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.AcademicYear}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.StudentType}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.ExamMonthYear}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.Branch}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.Pcode}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="15" ng-model="data.SubjectCode" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">{{data.SubjectName}}</td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        {{data.Scheme}}
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        {{data.Semester}}
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                            <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Exam Date" autocomplete="off" name="ExamDate{{$index + 1}}" datetime-picker="dd-MM-yyyy" id="setToDate{{$index + 1}} " ng-model="data.ExamDate" is-open="showFlag2" />
+                                                            <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                                <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="50" ng-model="data.ExamTime" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="5" ng-model="data.ExamSession" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="200" ng-model="data.Remarks" />
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                                            Update
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="container" ng-show="Noreports1">
+                                <div class="col-md-12">
+                                    <div class="no-results">
+                                        <img src="../../contents/img/Folder-Icon.svg" />
+                                        <h2>No data Found</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="3">
+                          
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <div class="studWishinputs">
+                                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                            <div class="row">
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Academic Year  :
+                                                    </label>
+                                                    <select class="form-control" id="Academic" ng-model="selAcademicYear" ng-change="GetExamYearMonth(selAcademicYear)"
+                                                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                                                        <option value="" selected>Select Academic Year</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Exam Month/Year :
+                                                    </label>
+                                                    <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                                            ng-options="monYer.Id as monYer.ExamYearMonth for monYer in MonthAndYear">
+                                                        <option value="" selected>Select Month/Year of Exam</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label for="sel1">
+                                                        Student Type :
+                                                    </label>
+                                                    <select class="form-control" ng-model="SelStudentType" name="StudentType"
+                                                            ng-options="Student.id as Student.type for Student in StudentType ">
+                                                        <option value="" selected>Select Exam Type</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3 form-group">
+                                                    <label for="ExamType">
+                                                        Exam :
+                                                    </label>
+                                                    <select class="form-control" id="ExamType" ng-model="examtype"
+                                                            ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                                        <option value="" selected>Select Exam</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Scheme :
+                                                    </label>
+                                                    <select class="form-control" id="ExamYear" ng-model="selscheme" ng-change="GetDates(selscheme)"
+                                                            ng-options="scheme.schemeid as scheme.scheme for scheme in schemeinfo ">
+                                                        <option value="" selected>Select Scheme</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Exam date :
+                                                    </label>
+                                                    <select class="form-control" id="ExamDate" ng-model="ExamDate"
+                                                            ng-options="data.ExamDate as data.ExamDate for data in ExamDates ">
+                                                        <option value="" selected>Select Date</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label class="font-weight-bold">
+                                                        Exam Session :
+                                                    </label>
+                                                    <select class="form-control" id="ExamSession" ng-model="ExamSession"
+                                                            ng-options="data.ExamSession as data.ExamSession for data in ExamSessions ">
+                                                        <option value="" selected>Select Date</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3 pull-left">
+                                                    <button class="btn pull-left btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="GetTimeTableDetailsByDate()">
+                                                        Get Data
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container " ng-show="ReportFound2">
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>Date Wise Date Sheet</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded custom-table-wdith" style="width: max-content;">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>S.No</th>
+                                                    <th class="text-center">Year</th>
+                                                    <th class="text-center">Student Type</th>
+                                                    <th class="text-center">Exam Month/Year</th>
+                                                    <th class="text-center">Branch</th>
+                                                    <th class="text-center">Pcode</th>
+                                                    <th class="text-center">SubjectCode</th>
+                                                    <th class="text-center">SubjectName</th>
+                                                    <th class="text-center">Scheme</th>
+                                                    <th class="text-center">Sem & year</th>
+                                                    <th class="text-center">ExamDate</th>
+                                                    <th class="text-center">ExamTime</th>
+                                                    <th class="text-center">Time Slot</th>
+                                                    <th class="text-center">Remarks</th>
+                                                    <th class="text-center">Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background-color: #fff!important;" ng-repeat="data in GetMasterschemeSem">
+                                                    <td class="text-left">{{$index + 1}}</td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.AcademicYear}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.StudentType}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.ExamMonthYear}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.Branch}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;"> {{data.Pcode}} </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="15" ng-model="data.SubjectCode" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">{{data.SubjectName}}</td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        {{data.Scheme}}
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        {{data.Semester}}
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                            <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Exam Date" autocomplete="off" name="ExamDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.ExamDate" is-open="showFlag2" />
+                                                            <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                                <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="50" ng-model="data.ExamTime" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="5" ng-model="data.ExamSession" />
+                                                    </td>
+                                                    <td class="text-center pointer" style="padding: 3px;">
+                                                        <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="200" ng-model="data.Remarks" />
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                                            Update
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="container" ng-show="Noreports2">
+                                <div class="col-md-12">
+                                    <div class="no-results">
+                                        <img src="../../contents/img/Folder-Icon.svg" />
+                                        <h2>No data Found</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              
+
+            </div>
+            <div class="sm-spacer"></div>
+            
+            <div class="col-md-12" >
+                <div class="cl-details">
+                    <h2>Download Updated DateSheet</h2>
+                </div>
+            </div>
+           
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">
+                                        Academic Year  :
+                                    </label>
+                                    <select class="form-control" id="Academic" ng-model="selAcademicYear1" ng-change="GetExamYearMonth(selAcademicYear1)"
+                                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                                        <option value="" selected>Select Academic Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Month/Year :
+                                    </label>
+                                    <select class="form-control" ng-model="monthyear1" id="ExamYear"
+                                            ng-options="monYer.Id as monYer.ExamYearMonth for monYer in MonthAndYear">
+                                        <option value="" selected>Select Month/Year of Exam</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Student Type :
+                                    </label>
+                                    <select class="form-control" ng-model="SelStudentType1" name="StudentType"
+                                            ng-options="Student.id as Student.type for Student in StudentType ">
+                                        <option value="" selected>Select Exam Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">
+                                        Scheme :
+                                    </label>
+                                    <select class="form-control" id="ExamYear" ng-model="selscheme1" ng-change="loadSemExamTypes(selscheme)"
+                                            ng-options="scheme.schemeid as scheme.scheme for scheme in schemeinfo ">
+                                        <option value="" selected>Select Scheme</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label for="ExamType">
+                                        Exam :
+                                    </label>
+                                    <select class="form-control" id="ExamType" ng-model="examtype1"
+                                            ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                        <option value="" selected>Select Exam</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 pull-left">
+                                    <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="getpdfTimeTableData()">
+                                        Export To PDF <span class="fa fa-file-pdf-o  heading_icon btn_icons"></span>
+                                    </button>
+
+                                </div>
+                                <div class="col-md-2 pull-left">
+
+                                    <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="exportTimetableToExcel()">
+                                        Export To Excel <span class="fa fa-file-excel-o  heading_icon btn_icons"></span>
+                                    </button>
+
+                                </div>
+                                <div class="col-md-2 pull-left">
+                                    <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="exportTimetableEdepToExcel()">
+                                        Download EDEP <span class="fa fa-file-excel-o  heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-2 pull-left">
+                                    <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="PublishTimetable()">
+                                        Publish Timetable <span class="fa fa-file-excel-o  heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          
+            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                <img src="../../../contents/img/loading.gif" width="100" />
+                <div ng-show="gentmetbl"><p>Time Table Generation is in process, please wait .....</p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-show="ResultNotFound" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data Found</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--id	SubId	Scheme	Branch	Pcode	SubjectCode	SubjectName	IsElective	subtype	Semid	Schemeid	Branchid	BoardQuestionPaper	ExamDate	ExamTime	ExamSession	SessionId	ExamType	Semester	BranchName	Remarks	StudentType	AcademicYear	ExamMonthYear	ElectiveSet		ExamMonthYearId	AcademicYearId	StudentTypeId	ExamTypeId	YearCourse-->
+     
+     
+    </section>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

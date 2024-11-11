@@ -1,0 +1,134 @@
+<style>
+    .gr-button {
+        float: none !important;
+    }
+</style>
+<div class="header" ng-include="'app/views/SBPHeader.html'"> </div>
+<div class="row navbar_section">
+    <nav class="navbar navbar-inverse navbar_inverse_section">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+
+            </div>
+            <div class="container navbar_container_section">
+                <div class="row">
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li ng-class="{'active':homeDashBoard}">
+                                <a href="#!/Dashboard"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                            </li>
+                            <!-- <li>
+                                <a href="#!/Dashboard/Assessment">
+                                    <b class="main_header_main_menu">
+                                        Assessment
+
+                                    </b>
+                                </a>
+                            </li>
+                            <li ng-if="!access3">
+                                <a href="#!/Dashboard/MarksSummary">
+                                    <b  class="main_header_main_menu">
+                                        Reports
+
+                                    </b>
+                                </a>
+                            </li>
+                            <li ng-show="access1">
+                                <a href="#!/Dashboard/SearchPin">
+                                    <b class="main_header_main_menu">
+                                        Search Pin
+
+                                    </b>
+                                </a>
+                            </li> -->
+                            <!--temporary field open-->
+
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right log-navbar">
+                            <li>
+                                <a href="#">
+                                    Welcome <span id="college_name1">{{college_name1}}</span>
+                                    {{userName}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                    <i class="fa fa-sign-out fa-fw"></i>
+                                    Logout
+                                </a>
+                            </li>
+                            <li>
+                                <a style="font-size:small" href="#" class="main_header_main_menu" ng-click="ChangePassword()">
+                                    <i class="fa fa-sign-out fa-fw"></i> Change
+                                    Password <span><b></b></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div ng-controller="TicketsReportController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/Tickets" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+
+
+                <div class="row base-row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>From Date:</label>
+                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                <input type="text" class="form-control" placeholder="Select From Date" title="Click on Calendar icon to Select From Date" disabled autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="setFromDate" ng-model="setFromDate" is-open="showFlag12" ng-change="Todate()" required />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-click="showFlag12 = true"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>End Date:</label>
+                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                <input type="text" class="form-control" placeholder="Select End Date" title="Click on Calendar icon to Select To Date" disabled autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="setToDate " ng-model="setToDate" is-open="showFlag3" required ng-change="Setdate()" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-click="showFlag3 = true"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group text-center">
+                            <button class="btn btn-sm btn-primary  text-center  gr-button btn_top" ng-click="GetReport()">
+                                Get Report
+                                <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div style="width: 100%; text-align: center;">
+            <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>
+

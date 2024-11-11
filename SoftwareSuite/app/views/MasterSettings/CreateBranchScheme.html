@@ -1,0 +1,107 @@
+﻿<style>
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+    border: 1px solid #ddd !important;
+    color: #ffffff;
+    font-size: 12px !important;
+    background-color: #1976D2;
+}
+</style>
+<div ng-controller="CreateBranchSchemeController">
+    <div class="breadcrumb-header">
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Scheme Branch </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettingsDashboard">MasterSettings Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/Roles">Branch Scheme</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="container">
+        <div class="col-md-12">
+            <div class="base-row">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Select Scheme</label>
+                            <select class="form-control" ng-model="Scheme" name="scheme">
+                                <option value="" selected>Select Scheme</option>
+                                <option ng-repeat="data in GetSchemes" value="{{data}}">
+                                    {{data.Scheme}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Select Branch </label>
+                            <select class="form-control" ng-model="Branch" name="branch">
+                                <option value="" selected>Select Branch</option>
+                                <option ng-repeat="data in GetBranchs" value="{{data}}">
+                                    {{data.BranchName}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" style="margin-top:23px;" class="btn pull-left btn-success btn-css" ng-click="Save()">
+                            ADD
+                        </button>
+                        <button type="submit" class="btn pull-left btn-success btn-css" ng-click="update()" ng-if="Update">
+                            Update
+                        </button>
+                    </div>
+                </div>
+               
+            </div>
+                <!--<div class="col-md-4 pull-left">
+
+                </div>-->
+
+            </div>
+        <div class="sm-spacer"></div>
+       
+            <div class="col-md-12">
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered table-hover table-striped table-rounded">
+
+                        <thead>
+                            <tr>
+                                <th style="font-size:bold;">S.No</th>
+                                <th>Scheme </th>
+                                <th>Branch Code</th>
+                                <th>Branch Name</th>
+                                <th width="5%" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color:#fff!important;" ng-repeat="X in SubjectsLists">
+                                <td>{{$index+1}}</td>
+                                <td>{{X.Schemecode}}</td>
+                                <td>{{X.BranchCode}}</td>
+                                <td>{{X.BranchName}}</td>                           
+                                <td>
+                                    <button class="btn-xs btn btn-success editbtn " ng-if="X.IsActive==1" ng-click="Status(X.id,X.IsActive)">Active</button>
+                                    <button class="btn-xs btn btn-red deleteBtn"  ng-if="X.IsActive==0" ng-click="Status(X.id,X.IsActive)">InActive</button>
+                                    .
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+    </div>
+    <div class="sm-spaer"></div>

@@ -1,0 +1,363 @@
+﻿<style>
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+    #checkboxesScheme {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesScheme label {
+            display: block;
+        }
+
+            #checkboxesScheme label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesHandicaped {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesHandicaped label {
+            display: block;
+        }
+
+            #checkboxesHandicaped label:hover {
+                background-color: #1e90ff;
+            }
+
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCollegeTypes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCollegeTypes label {
+            display: block;
+        }
+
+            #checkboxesCollegeTypes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAcademicYear {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAcademicYear label {
+            display: block;
+        }
+
+            #checkboxesAcademicYear label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAdmissionType {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAdmissionType label {
+            display: block;
+        }
+
+            #checkboxesAdmissionType label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCollege {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCollege label {
+            display: block;
+        }
+
+            #checkboxesCollege label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem label {
+        display: block;
+    }
+
+        #checkboxessem label:hover {
+            background-color: #1e90ff;
+        }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+</style>
+<div ng-controller="ResultsReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Results Report</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/PostExam">Post Exam </a></li>
+                        <li><a href="#!/Dashboard/PostExam/ResultsReport"> Results Report</a></li>
+                    </ol>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam" class="backA"> <button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12 ">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ReleaseForm">
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Scheme :
+                                </label>
+
+                                <select class="form-control" id="ExamYear" ng-model="Scheme" ng-change="ChangeScheme()"
+                                        ng-options="scheme.scheme as scheme.scheme for scheme in schemeinfo " disabled>
+                                    <option value="" selected>Select Scheme</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group" ng-hide="UserTypeId==2|| UserTypeId==3">
+                                <label for="sel1">
+                                    College:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showCollegeCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeCollegeCheckbox()">Select College</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesCollege" style="max-height: 10em;overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllCollege()" ng-model="isAllSelectedCollege" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="data in GetCollegeList">
+                                            <input type="checkbox" ng-model="data.selected" ng-change="optionToggledCollege(data.selected)"><span class="checkmark"></span>{{data.CollegeCode}} - {{data.CollegeName}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+
+                           
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Semester:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showsemCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closesemCheckbox()">Select Sem</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxessem" style="max-height: 10em;overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllsem()" ng-model="isAllSelectedsem" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="sem in GetSemesters">
+                                            <input type="checkbox" ng-model="sem.selected" ng-change="optionToggledsem(sem.selected)"><span class="checkmark"></span>{{sem.Sem}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                           
+                            <div class="col-md-3 form-group"  ng-hide="UserTypeId==3">
+                                <label for="sel1">
+                                    Branch:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showBranchCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeBranchCheckbox()">Select Branch</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesBranch" style="max-height: 10em;overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllBranch()" ng-model="isAllSelectedBranch" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="Branch in GetBranchs">
+                                            <input type="checkbox" ng-model="Branch.selected" ng-change="optionToggledBranch(Branch.selected)"><span class="checkmark"></span>{{Branch.Branch}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-2 pull-right">
+                                <div class="gr-btn">
+                                    <button type="submit" class="btn  btn-primary " ng-click="ReleaseForm.$valid && Submit()">Get Report</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer">
+    </div>
+</div>

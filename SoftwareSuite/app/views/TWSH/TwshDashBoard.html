@@ -1,0 +1,164 @@
+﻿<!-- <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> -->
+<style>
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+        color: #fff;
+        background-color: #e7e7e7;
+    }
+    #ui-datepicker-div {
+    display: none !important;
+}
+</style>
+<link href="./../../../contents/css/twshStyles.css" rel="stylesheet" />
+<div ng-controller="TwshDashBoardController">
+    <div class="twshHeader">
+        <div class="top-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="time">
+                            <p id="example"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="logo-image" style="padding: 6px !important;">
+                        <img src="../../contents/img/big-logo.png" style="height:80px!important;" class="img-responsive" />
+                        <h2>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</h2>
+                        <h3 class="text-center head2">TYPEWRITING &amp; SHORTHAND</h3>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="o-info">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>+918031404549</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>sbtet-helpdesk@telangana.gov.in</a></li>
+
+                        </ul>
+                    </div>
+                    <!--<div class="s-icons">
+                        <p>
+                            CONNECT US WITH: <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                        </p>
+
+                    </div>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="menus">
+
+            <nav class="stroke navbar navbar-default mega-nav">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#MainMenu" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="MainMenu">
+                        <ul class="nav navbar-nav menu-list">
+                            <li ui-sref-active="active" ui-sref="{{module.ModuleRouteName}}" ng-repeat="module in modules" ng-model="modules"><a ui-sref-active="active" ui-sref="{{module.ModuleRouteName}}">{{module.ModuleName}}</a></li>
+                            <!--  <li ui-sref-active="active" ui-sref="TWSH.SmsService"><a ui-sref-active="active" ui-sref="TWSH.SmsService">SmsService</a></li>-->
+                            <!-- <li ng-click="Logout()" ng-if="isLogin" class="pull-right"><a class="pull-right">Logout</a></li> -->
+
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right log-navbar">
+                            <li ng-if="isLogin" class="non-stroke"><a>{{UserName}}</a></li>
+                            <li ng-click="Logout()" ng-if="isLogin" class="pull-right"><a>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+    </div>
+    <div class="main" ng-if=" userTypeid == '3'" style="margin: unset;">
+        <marquee >
+
+            <img class="gifImg" width="40" src="../../contents/img/gif.gif" /> <b style="letter-spacing:1px;">Please pay Certificate fee of passed candidates of your Institution @Rs.600/- per candidate through D.D. in favour of the Secretary, SBTET, Telangana and collect the Original  TWSH-Jan/Feb 2021 Certificates from SBTET</b>
+
+        </marquee>
+    </div>
+    <div class="main" ng-if=" userTypeid != '3'">
+       
+    </div>
+
+    <ui-view>
+
+
+    </ui-view>
+    <div class="lg-spacer"></div>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copy">
+                        <p>2019 © State Board of Technical Education and Training, Telangana</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //Hover Menu in Header
+            $('ul.nav li.dropdown').hover(function () {
+                $(this).find('.mega-dropdown-menu').stop(true, true).delay(200).fadeIn(200);
+                $('.darkness').stop(true, true).fadeIn();
+            }, function () {
+                $(this).find('.mega-dropdown-menu').stop(true, true).delay(200).fadeOut(200);
+                $('.darkness').stop(true, true).delay(200).fadeOut();
+            });
+        });
+    </script>
+    <script>
+        setInterval(function () {
+            var date = new Date();
+            var format = "DD-MMM-YYYY DDD";
+            dateConvert(date, format)
+        }, 1);
+
+        function dateConvert(dateobj, format) {
+            var year = dateobj.getFullYear();
+            var month = ("0" + (dateobj.getMonth() + 1)).slice(-2);
+            var date = ("0" + dateobj.getDate()).slice(-2);
+            var hours = ("0" + dateobj.getHours()).slice(-2);
+            var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+            var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+            var day = dateobj.getDay();
+            var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+            var converted_date = "";
+
+            switch (format) {
+                case "DD-MMM-YYYY DDD":
+                    converted_date = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;;
+                    break;
+                case "YYYY-MM-DD":
+                    converted_date = year + "-" + month + "-" + date;
+                    break;
+                case "YYYY-MMM-DD DDD":
+                    converted_date = year + "-" + months[parseInt(month) - 1] + "-" + date
+                        + " " + hours + ":" + minutes + ":" + seconds;
+                    break;
+            }
+            //return converted_date;
+            // to show it I used innerHTMl in a <p> tag
+            if (document.getElementById("example") != null) {
+                document.getElementById("example").innerHTML = "Today's Date is :  " + converted_date + "  GMT+0530 (India Standard Time)";
+            }
+        }
+
+    </script>
+</div>
+

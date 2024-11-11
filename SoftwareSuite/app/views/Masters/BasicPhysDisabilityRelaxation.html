@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SystemUserGroup">
+    <title>Physical Disablility Relaxation</title>
+</head>
+<body>
+    <div ng-controller="BasicPhysDisabilityRelaxationController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Physical Disablility Relaxation</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Physical Disablility Relaxation</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>PhysDisbID :</label>
+                            <input type="text" class="form-control" ng-model="BasicPhysDisabilityRelaxation.PhysDisbID" id="PhysDisbIDD">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <div class="form-group">
+                                        <label for="sel1">Physical Disablility :</label>
+                                        <select class="form-control" ng-model="BasicPhysDisabilityRelaxation.PhysDisbID" id="PhysDisbID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="BasicPhysDisabilityRelaxation.PhysDisbID == option.PhysDisbID" ng-repeat="option in BasicPhysDisabilityList" value="{{option.PhysDisbID}}">{{option.PhysDisbName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <div id="exTab1" style="margin-top:0px;">
+                                            <table class="table table-bordered table-hover table-condensed">
+                                                <thead>
+                                                    <!--<tr>
+                    <th>Check All <input type="checkbox" id="CheckAllMenues" ng-model="SystemUserGroup.CheckAllMenues" /></th>
+                </tr> -->
+                                                    <tr style="font-weight:bold">
+                                                        <td style="text-align:center; width:100px;">#</td>
+                                                        <td>Relaxation</td>
+                                                    </tr>
+                                                </thead>
+                                                <tr ng-repeat="doc in Relaxationdata | filter:search | filter:new_search">
+                                                    <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.checkRelaxation"></td>
+                                                    <td>{{doc.RelaxDescription}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <button type="button"  class="btn btn-sm btn-detail" ng-click="SaveBasicPhysDisabilityRelaxation()">Save</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+  <!--      <div>
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="heading_icon"></span><b>Physical Disablility Relaxation</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="col-md-12">
+                                    <div class="form-group" ng-show="false">
+                                        <label class=" control-label col-lg-2">PhysDisbID :</label>
+                                        <div class="col-lg-1">
+                                            <input type="text" class="form-control" ng-model="BasicPhysDisabilityRelaxation.PhysDisbID" id="PhysDisbIDD">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <label for="sel1">Physical Disablility :</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-8 text-left">
+                                        <div class="form-group">
+                                            <select class="form-control" ng-model="BasicPhysDisabilityRelaxation.PhysDisbID" id="PhysDisbID">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="BasicPhysDisabilityRelaxation.PhysDisbID == option.PhysDisbID" ng-repeat="option in BasicPhysDisabilityList" value="{{option.PhysDisbID}}">{{option.PhysDisbName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top:0px;">
+                                    <div id="exTab1" style="margin-top:0px;">
+                                        <table class="table table-bordered table-hover table-condensed">
+                                            <thead>
+                                                <!--<tr>
+                                                <th>Check All <input type="checkbox" id="CheckAllMenues" ng-model="SystemUserGroup.CheckAllMenues" /></th>
+                                            </tr> -->
+                                               <!-- <tr style="font-weight:bold">
+                                                    <td style="text-align:center; width:100px;">#</td>
+                                                    <td>Relaxation</td>
+                                                </tr>
+                                            </thead>
+                                            <tr ng-repeat="doc in Relaxationdata | filter:search | filter:new_search">
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.checkRelaxation"></td>
+                                                <td>{{doc.RelaxDescription}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicPhysDisabilityRelaxation()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                            <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

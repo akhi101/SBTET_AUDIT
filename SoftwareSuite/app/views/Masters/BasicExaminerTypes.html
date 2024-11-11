@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title> Examiner Type </title>
+</head>
+<body>
+    <div ng-controller="BasicExaminerTypesController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Examiner Type</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Examiner Type</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>Examiner Type ID :</label>
+                            <input type="text" class="form-control" ng-model="BasicExaminerTypes.ExaminerTypID" id="ExaminerTypID">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Name:</label>
+                                        <input type="text" class="form-control" no-Special-Char id="ExmTypName" ng-model="BasicExaminerTypes.ExmTypName" maxlength="40" required="" placeholder="Enter Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Code:</label>
+                                        <input type="text" class="form-control" no-Special-Char id="ExmTypCode" ng-model="BasicExaminerTypes.ExmTypCode" maxlength="2" required="" placeholder="Short Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="ShortName">Evaluation Type:</label>
+                                        <select class="form-control" ng-model="BasicExaminerTypes.EvalTypID" id="EvalTypID">
+                                            <option value="">--Select Eval Type --</option>
+                                            <option ng-selected="BasicExaminerTypes.EvalTypID == option.EvalTypID" ng-repeat="option in BasicEvalTypeList" value="{{option.EvalTypID}}">{{option.EvalTypName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicExaminerTypes()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicExaminerTypes()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+        <!--<div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="heading_icon"></span><b> Examiner Type </b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="col-md-12">
+                                    <div class="form-group" ng-show="false">
+                                        <label class=" control-label col-lg-2">ExaminerTypID :</label>
+                                        <div class="col-lg-1">
+                                            <input type="text" class="form-control" ng-model="BasicExaminerTypes.ExaminerTypID" id="ExaminerTypID">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Name:</label>
+                                            <input type="text" class="form-control" no-Special-Char id="ExmTypName" ng-model="BasicExaminerTypes.ExmTypName" maxlength="40" required="" placeholder="Enter Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Code:</label>
+                                            <input type="text" class="form-control" no-Special-Char id="ExmTypCode" ng-model="BasicExaminerTypes.ExmTypCode" maxlength="2" required="" placeholder="Short Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicExaminerTypes()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicExaminerTypes()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

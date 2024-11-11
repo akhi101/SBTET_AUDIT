@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> College Management Link Report </title>
+</head>
+<body>
+    <div ng-controller="CollegeManagementLinkReportController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>College Management Link Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>Report</li>
+                        <li>College Management Link Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="ShortName">District:</label>
+                            <select class="form-control" ng-model="BasicCollege.DistrictID" id="DistrictID">
+                                <option value="0">ALL</option>
+                                <option ng-selected="BasicCollege.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictsList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="ShortName">Managment:</label>
+                            <select class="form-control" ng-model="BasicCollege.MngtTypID" id="MngtTypID">
+                                <option value="0">ALL</option>
+                                <option ng-selected="BasicCollege.MngtTypID == option.MngtTypID" ng-repeat="option in BasicManagementTypeList" value="{{option.MngtTypID}}">{{option.MngtTypName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-top: 22px;" class="col-md-3">
+                        <button type="button" class="btn btn-sm btn-detail" ng-click="PrintCollegeManagementLinkReport()">Print</button>
+                        <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Cancel</button>
+                    </div> <br /><br />
+                </form> <br /><br />
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+      <!--  <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b> College Management Link Report </b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4" style="margin-left:350px;">
+                                            <div class="form-group">
+                                                <label for="ShortName">District:</label>
+                                                <select class="form-control" ng-model="BasicCollege.DistrictID" id="DistrictID">
+                                                    <option value="0">ALL</option>
+                                                    <option ng-selected="BasicCollege.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictsList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" class="btn form_btn_align save_btn" ng-click="PrintCollegeManagementLinkReport()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

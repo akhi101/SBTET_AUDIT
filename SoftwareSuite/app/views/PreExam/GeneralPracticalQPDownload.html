@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Enviroment Ethics Qp Papers Download  </title>
+</head>
+<body>
+    <div ng-controller="GeneralPracticalQPDownloadController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> General Practical Qp Papers Download </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>PreExam</li>
+                        <li> General Practical Qp Papers Download </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-4">
+                            <div class="col-md-10">
+                                <select class="form-control" ng-model="GeneralPracticalQP.ExmSubID" id="ExmSubID">
+                                    <option value="0"> -- Select Subject --</option>
+                                    <option ng-selected="GeneralPracticalQP.ExmSubID == option.ExmSubID" ng-repeat="option in GenPractSubList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" class="btn btn-detail btn-sm" ng-click="GetGenPractQPDownload()" value="Submit">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+            </div>
+        </div>
+        <form id="TheForm" method="post" action="http://119.226.159.202:443/TsbiePracticals/loginws.htm" target="my-display">
+            <input type="hidden" id="username" name="username" value="{{username}}" />
+            <input type="hidden" id="enteredPassword" name="enteredPassword" value="{{enteredPassword}}" />
+            <input type="hidden" id="college_code" name="college_code" value="{{GenPractSubList[0].ColCode}}" />
+            <input type="hidden" id="pwd" name="pwd" value="{{pwd}}" />
+            <input type="hidden" id="group_id" name="group_id" value="1" />
+            <input type="hidden" id="subject_id" name="subject_id" value="{{GeneralPracticalQP.ExmSubID}}" />
+        </form>
+        <embed id="my-display" name="my-display" src="about:blank" width="100%" height="600px"/>
+    </div>
+</body>
+</html>

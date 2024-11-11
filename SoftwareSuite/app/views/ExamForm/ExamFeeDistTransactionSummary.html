@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+        .intro {
+            max-width: 1280px;
+            margin: 1em auto;
+        }
+        .table-scroll {
+            position: relative;
+            max-width: 100%;
+            width: 100%;
+            margin: auto;
+            display: table;
+        }
+        .table-wrap {
+            width: 100%;
+            display: block;
+            height: 450px;
+            overflow: auto;
+            position: relative;
+            z-index: 1;
+        }
+        .table-scroll table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font-size: 12px;
+        }
+        .table-scroll th, .table-scroll td {
+            padding: 2px 3px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .faux-table table {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            pointer-events: none;
+        }
+            .faux-table table + table {
+                top: auto;
+                bottom: 0;
+            }
+
+            .faux-table table tbody, .faux-table tfoot {
+                visibility: hidden;
+                border-color: transparent;
+            }
+
+            .faux-table table + table thead {
+                visibility: hidden;
+                border-color: transparent;
+            }
+
+            .faux-table table + table tfoot {
+                visibility: visible;
+                border-color: #000;
+            }
+        .faux-table {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: scroll;
+        }
+
+            .faux-table thead, .faux-table tfoot, .faux-table thead th, .faux-table tfoot th, .faux-table tfoot td {
+                position: relative;
+                z-index: 2;
+            }
+    </style>
+</head>
+<body>
+    <div ng-controller="ExamFeeDistTransactionSummaryController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Fee Transaction Summary</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Reports</li>
+                        <li>Exam Fee Transaction Summary</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select class="form-control input-sm" id="SelectYear" ng-model="AcdYrID">
+                                <option value="">Select Academic Year</option>
+                                <option ng-selected="AcdYrID == option.AcdYrID" ng-repeat="option in AcdYrList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select class="form-control input-sm" id="DistrictID">
+                                <option value="0">All</option>
+                                <option ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="row" ng-show="adminUserMgmtType">
+                    <div class="col-md-12">
+                        <div style="font-size: 12px;" class="form-group">
+                            <label for="sel1">Select Management Type :</label>
+                            <div ng-repeat="option in BasicManagementTypeList">
+                                <div class="col-md-2">
+                                    <input id="chkCustomer_{{option.MngtTypID}}" type="checkbox" ng-change="getcheckvalue(option.Selected)" ng-model="option.Selected" ng-disabled="ifcoluser" />
+                                    {{option.MngtTypName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>
+                                <button type="button" ng-click="GeneratePDF()" class="btn btn-reset btn-sm print-hide"  >Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>-->
+                <!--<div id="table-scroll" class="table-scroll" ng-show="ShowTransactionSummary">
+                    <div id="faux-table2" class="faux-table" aria="hidden"></div>
+                    <div class="table-wrap">
+                        <table id="main-table2" class="main-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" bgcolor="#B3B3FF">&nbsp; </th>
+                                    <th scope="col" bgcolor="#B3B3FF">&nbsp; </th>
+                                    <th scope="col" bgcolor="#B3B3FF"> &nbsp;</th>
+                                    <th scope="col" bgcolor="#ECD9C6" colspan="2" class="text-center">I Year </th>
+                                    <th scope="col" bgcolor="#FFB3B3" colspan="2" class="text-center">II Year - Regular</th>
+                                    <th scope="col" bgcolor="#FFBF80" colspan="2" class="text-center">II Year - Private</th>
+                                    <th scope="col" bgcolor="#994D00"> &nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col" bgcolor="#B3B3FF" class="text-center">Sr.No.</th>
+                                    <th scope="col" bgcolor="#B3B3FF" class="text-center">College Code</th>
+                                    <th scope="col" bgcolor="#B3B3FF" class="text-center">College Name</th>
+                                    <th scope="col" bgcolor="#F2E6D9" class="text-center">No. of Candidates</th>
+                                    <th scope="col" bgcolor="#F2E6D9" class="text-center">Amount Paid To TSBIE</th>
+                                    <th scope="col" bgcolor="#FFCCCC" class="text-center">No. of Candidates</th>
+                                    <th scope="col" bgcolor="#FFCCCC" class="text-center">Amount Paid To TSBIE</th>
+                                    <th scope="col" bgcolor="#FFCC99" class="text-center">No. of Candidates</th>
+                                    <th scope="col" bgcolor="#FFCC99" class="text-center">Amount Paid To TSBIE</th>
+                                    <th scope="col" bgcolor="#994D00" class="text-center" style="color:yellow">College Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in DrillDownList">
+                                    <td width="3%" bgcolor="#E6E6FF" align="center">{{$index + 1}}</td>
+                                    <td width="5%" bgcolor="#E6E6FF" align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalDetail" ng-click='GetCandidates(x)'><b> {{ x.ColCode }} </b></a></td>
+                                    <td width="8%" bgcolor="#E6E6FF" align="left">{{ x.ColName }}</td>
+                                    <td width="6%" bgcolor="#F9F2EC" align="center">{{ x.FirstYearRegularPaid }} </td>
+                                    <td width="6%" bgcolor="#F9F2EC" align="center">{{ x.FirstYearRegularAmount }} </td>
+                                    <td width="6%" bgcolor="#FFE6E6" align="center">{{ x.SecondYearRegularPaid }} </td>
+                                    <td width="6%" bgcolor="#FFE6E6" align="center">{{ x.SecondYearRegularAmount }}</td>
+                                    <td width="6%" bgcolor="#FFD9B3" align="center">{{ x.SecondYearPrivatePaid }}</td>
+                                    <td width="6%" bgcolor="#FFD9B3" align="center">{{ x.SecondYearPrivateAmount }}</td>
+                                    <td width="6%" bgcolor="#FF9933" align="center" style="color:yellow"> {{ x.CollegeTotal }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td align="right" bgcolor="#B3B3FF" colspan="3"><b>Total</b></td>
+                                    <td align="center" bgcolor="#F2E6D9"><b>{{DrillDownList.TotalFirstYearRegularPaid}}</b></td>
+                                    <td align="center" bgcolor="#F2E6D9"><b>{{DrillDownList.TotalFirstYearRegularAmount}}</b></td>
+                                    <td align="center" bgcolor="#FFB3B3"><b>{{DrillDownList.TotalSecondYearRegularPaid}}</b></td>
+                                    <td align="center" bgcolor="#FFB3B3"><b>{{DrillDownList.TotalSecondYearRegularAmount}}</b></td>
+                                    <td align="center" bgcolor="#FFBF80"><b>{{DrillDownList.TotalSecondYearPrivatePaid}}</b></td>
+                                    <td align="center" bgcolor="#FFBF80"><b>{{DrillDownList.TotalSecondYearPrivateAmount}}</b></td>
+                                    <td align="center" bgcolor="#994D00" style="color:yellow"><b>{{DrillDownList.GrandTotal}}</b></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <!--<script type="text/javascript">
+        (function () {
+            var fauxTable = document.getElementById("faux-table2");
+            var mainTable = document.getElementById("main-table2");
+            var clonedElement = mainTable.cloneNode(true);
+            var clonedElement2 = mainTable.cloneNode(true);
+            clonedElement.id = "";
+            clonedElement2.id = "";
+            fauxTable.appendChild(clonedElement);
+            fauxTable.appendChild(clonedElement2);
+        })();
+    </script>-->
+</body>
+</html>

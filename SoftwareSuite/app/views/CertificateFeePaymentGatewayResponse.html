@@ -1,0 +1,212 @@
+﻿ <title></title>
+    <meta charset="utf-8" />
+    <style>
+        #sbtet_head {
+            display: none;
+        }
+
+        @media print {
+            #sbtet_head {
+                display: none;
+            }
+
+            .header-top-section {
+                display: none;
+            }
+
+            .top-header {
+                display: none;
+            }
+
+            .o-info {
+                display: none;
+            }
+
+            .footer_section {
+                width: 100%;
+                display: none;
+            }
+
+            #helpDesk {
+                display: none;
+            }
+
+            .print_btn {
+                display: none;
+            }
+
+            .logo_name {
+                font-size: 20px !important;
+            }
+
+            .wrapper {
+                display: none;
+            }
+        }
+    </style>
+
+    <div ng-controller="CertificateFeePaymentGatewayResponseController">
+
+        <div class="spacer"></div>
+        <div class="sm-spacer"></div>
+        <div class="container base-row" id="idtoDivPrint">
+            <!--id="sbtet_head"-->
+            <div id="sbtet_head">
+                <div class="col-lg-12">
+                    <div class="row head_section">
+                        <div class="col-lg-2 col-md-12">
+                            <div class="logo-img">
+                                <img src="../../contents/img/big-logo.png" />
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-12">
+                            <div class="logo-name">
+                                <h2>
+                                    STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                </h2>
+                                <h2 class="hidden">
+                                    <p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br />
+                                    <p style="text-align: center">TELANGANA</p>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width:100%;text-align:center;" ng-show="LoadpaymentImg">
+                <div class="sm-spacer"></div>
+                <img src="../../contents/img/paymentloading.gif" ng-show="LoadpaymentImg" width="100" />
+                <h5 ng-show="LoadpaymentImg"><b>Please don't refresh the page</b></h5>
+                <div class="sm-spacer"></div>
+
+            </div>
+            <div ng-if="paymentResponseFound">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h3 class="payment_head">Payment Receipt Summary</h3>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div id="tblParent">
+                        <div class="table-responsive table-custom-tables-tb">
+                            <table class="table table-bordered table-hover table-striped table-rounded">
+                                <thead class="tablehead">
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Details</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="">
+                                    <tr ng-if="refno !== undefined">
+                                        <td style="text-align: left;">Reference Number</td>
+                                        <td>{{refno}}</td>
+                                    </tr>
+                                    <tr ng-show="applicatioNo != undefined">
+                                        <td style="text-align: left;">Application Number</td>
+                                        <td>{{applicatioNo}}</td>
+                                    </tr>
+
+                                    <tr ng-if="transactionno !== undefined">
+                                        <td style="text-align: left;">Bank Transaction Number </td>
+                                        <td>{{transactionno}}-{{Paymentmode}}</td>
+                                    </tr>
+                                    <tr ng-if="Status !== undefined && success">
+                                        <td style="text-align: left;">Payment Status</td>
+                                        <td style="font-weight: bold;color: #7cb82f;">{{Status}}</td>
+                                    </tr>
+
+                                    <tr ng-if="Status !== undefined && !success">
+                                        <td style="text-align: left;">Payment Status</td>
+                                        <td style="font-weight: bold;color: red;">{{Status}}</td>
+                                    </tr>
+                                    <tr ng-if="pins !== undefined && pins != '' ">
+                                        <td style="text-align: left;">PIN </td>
+                                        <td>{{pins}}</td>
+                                    </tr>
+                                    <tr ng-if="pins === undefined || pins == '' ">
+                                        <td style="padding-right: 170px; ">PIN </td>
+                                        <td>No Pins have been paid</td>
+                                    </tr>
+                                    <tr ng-if="Sem !== undefined">
+                                        <td style="text-align: left;">Paid Semesters </td>
+                                        <td>{{Sem}}</td>
+                                    </tr>
+                                    <tr ng-if="certname !== undefined">
+                                        <td style="text-align: left;">Certificate </td>
+                                        <td>{{certname}}</td>
+                                    </tr>
+                                    <tr ng-if="amount !== undefined">
+                                        <td style="text-align: left;">Fee Amount </td>
+                                        <td>{{amount}}</td>
+                                    </tr>
+                                    <tr ng-if="date !== undefined">
+                                        <td style="text-align: left;">Date </td>
+                                        <td>{{date}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <h3 ng-show="BacklogData.length > 0">BACKLOG LIST</h3>
+                        <div id="preExamReports" class="table-responsive table-custom-tables-tb" ng-show="BacklogData.length > 0">
+                            <table class="table table-bordered  table-striped table-rounded">
+                                <thead>
+                                    <tr>
+                                        <th style="width:1%" class="textBold">S.No</th>
+                                        <th colspan="4" class="textBold">Subject Code</th>
+                                        <th colspan="4" class="textBold">Subject Name</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in BacklogData">
+                                        <td style="width:1%" class="textBold">{{$index+1}}</td>
+                                        <td class="textBold" colspan="4">{{data.SubjectCode}}</td>
+                                        <td class="" colspan="4">{{data.SubjectName}}</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="container print_btn">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;">
+                                <button type="button" style="background-color:#2a8fcf!important;float:left!important;" ng-click="back()">Back</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;margin-right: 40px;">
+                                <button type="button" ng-click="printMarksEntered()">Print</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spacer"></div>
+        <div class="container" id="helpDesk">
+
+            <p class="text-center">
+                For any clarifications please call to helpdesk <b>040-23222192</b> during office working hours
+                (or)<br> mail
+                to <b>sbtet-helpdesk@telangana.gov.in</b> Secretary, SBTET.
+            </p>
+
+        </div>
+    </div>
+
+
+
+
+
+

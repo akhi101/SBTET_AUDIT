@@ -1,0 +1,896 @@
+﻿
+<script type="text/javascript">
+    setInterval(function () {
+        var date = new Date();
+        var format = "DD-MMM-YYYY DDD";
+        dateConvert(date, format)
+    }, 1);
+
+    function dateConvert(dateobj, format) {
+        var year = dateobj.getFullYear();
+        var month = ("0" + (dateobj.getMonth() + 1)).slice(-2);
+        var date = ("0" + dateobj.getDate()).slice(-2);
+        var hours = ("0" + dateobj.getHours()).slice(-2);
+        var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+        var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+        var day = dateobj.getDay();
+        var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+        var converted_date = "";
+
+        switch (format) {
+            case "DD-MMM-YYYY DDD":
+                converted_date = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;;
+                break;
+            case "YYYY-MM-DD":
+                converted_date = year + "-" + month + "-" + date;
+                break;
+            case "YYYY-MMM-DD DDD":
+                converted_date = year + "-" + months[parseInt(month) - 1] + "-" + date
+                    + " " + hours + ":" + minutes + ":" + seconds;
+                break;
+        }
+        //return converted_date;
+        // to show it I used innerHTMl in a <p> tag
+        if (document.getElementById("currenttime") != null) {
+            document.getElementById("currenttime").innerHTML = "" + converted_date + "  GMT+0530 (India Standard Time)";
+        }
+    }
+</script>
+
+
+<div ng-controller="StudentConsolidatedController">
+    <style>
+        /* .clr_red{
+            color:red;
+        }
+        .clr_green{
+            color:forestgreen;
+        }
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+            page-break-after: auto;
+        }
+
+        .print:last-child {
+            page-break-after: auto;
+        }
+
+        .status_css {
+            color: red !important;
+        }
+
+        #currenttime {
+            display: none;
+        }
+
+        .image {
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+        .table-bordered > thead > tr > th {
+            position: sticky;
+            top: 0px;
+            z-index: 9998;
+            background: #f0f2f7;
+        }*/
+        /*
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }*/
+        .myImg {
+            display: none;
+        }
+
+        @media print {
+            .myImg {
+                display: block !important;
+                /* width: 60%; */
+                opacity: 0.2 !important;
+                z-index: 1000 !important;
+                position: absolute !important;
+                top: 25% !important;
+                left: 10% !important;
+                background-image: url(/contents/img/sbtet-logo.svg) !important;
+                position: fixed !important;
+                /* background-image: url(red.png); */
+                background-repeat: no-repeat !important;
+                background-position: top center !important;
+                width: 80% !important;
+                height: 80% !important;
+            }
+
+            /* .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+                float: left;
+            }
+
+            .col-md-12 {
+                width: 100%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-11 {
+                width: 91.66666666666666%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-10 {
+                width: 83.33333333333334%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-9 {
+                width: 75%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-8 {
+                width: 66.66666666666666%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-7 {
+                width: 58.333333333333336%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-6 {
+                width: 50%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-5 {
+                width: 41.66666666666667%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-4 {
+                width: 33.33333333333333%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-3 {
+                width: 25%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-2 {
+                width: 16.666666666666664%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }
+
+            .col-md-1 {
+                width: 8.333333333333332%;
+                padding: 0px !important;
+                margin: 0px !important;
+            }*/
+            /*
+            body * {
+                visibility: hidden;
+            }
+
+            .table-bordered > thead > tr > th {
+                position: unset;
+            }
+
+            #currenttime {
+                display: block !important;
+            }
+
+            .logo-name h2 {
+                text-align: left;
+                margin-left: 130px;
+                margin-top: -20px;
+                font-size: 25px !important;
+                line-height: 36px;
+            }
+
+            #idtoDivPrintAdmin {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+                page-break-after: auto;
+            }
+
+            .mya {
+                text-decoration: none !important;
+            }*/
+            #mainfooter {
+                display: none;
+            }
+
+            .header {
+                display: none;
+            }
+
+            .header {
+                display: none;
+            }
+
+            .header_area {
+                display: none;
+            }
+
+            .breadcrumb-header {
+                display: none;
+            }
+
+            .alert-info {
+                display: none;
+            }
+
+            .ptr-button {
+                display: none;
+            }
+
+            .fd-form {
+                display: none;
+            }
+
+            .logo-img img {
+                /* float: right; */
+                /* margin-right: 0; */
+                /* cursor: pointer; */
+                height: 75px;
+                width: 75px;
+                /* display: block; */
+                position: absolute;
+                left: 50px;
+                top: 25px;
+            }
+
+            .clearfix {
+                display: none;
+            }
+
+            .scroll-top-wrapper {
+                display: none !important;
+            }
+
+            html, body {
+                border: 1px solid white;
+                height: 99%;
+                page-break-after: avoid;
+                page-break-before: avoid;
+            }
+
+            .content {
+                display: block;
+                position: absolute;
+                page-break-after: avoid;
+                page-break-before: avoid;
+            }
+
+            .container {
+                max-width: auto !important;
+            }
+
+
+            .display-inline {
+                display: inline-block;
+            }
+        }
+    </style>
+    <div class="breadcrumb-header" id="studentresult1">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Diploma Results</h5>
+                <!--<ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#/Dashboard/Diploma">Results </a></li>
+                        <li><a href="#/Dashboard/Diploma/StudentConsolidatedResult">Diploma Consolidated Results</a></li>
+                    </ol>
+
+                </ol>-->
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <!--<div class="container">
+    <div class="col-md-12">
+        <a href="#/Dashboard/Diploma" class="backA"> <button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+    </div>-->
+
+    <section class="content">
+        <div class="container">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row" ng-init="createCaptcha()">
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                Scheme :
+                            </label>
+
+                            <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="ChangeScheme()"
+                                    ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                <option value="" selected>Select Scheme</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                PIN :
+                            </label>
+                            <input class="form-control" type="text" ng-model="Pin" ng-keypress="keyLogin($event)" />
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="sel1">
+                                Enter Captcha :
+                            </label>
+                            <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="ConCaptcha" />
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="gr-btn">
+                                <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2"></div>
+                        <div id="captcha" class="col-md-2"><canvas id="captcha" width="120" height="30"></canvas></div>
+                        <div class="col-md-1" style="padding-top:15px;margin-left: -80px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 100%; text-align: center;">
+                <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+            </div>
+
+            <div class="row" ng-show="ResultFound">
+
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="down-foramt">
+                            <div class="col-md-4 hidden">
+                                <label for="sel1">
+                                    Download Format :
+                                </label>
+                            </div>
+                            <div class="col-md-5 form-group hidden">
+
+                                <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="ExamYear" ng-model="EquivalancyCertificate.TenExYr">
+                                    <option value="0" selected="selected">Select Format</option>
+                                    <!-- ngRepeat: Exam_Year in Exam_Years -->
+                                    <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2019">2019</option><!-- end ngRepeat: Exam_Year in Exam_Years -->
+                                    <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2018">2018</option><!-- end ngRepeat: Exam_Year in Exam_Years -->
+
+
+
+                                </select>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-md-2 pull-right" ng-show="ResultFound">
+                    <div class="pt-btn">
+                        <button type="button" class="btn btn-sm btn-primary ptr-button" ng-click="PrintStudentResult()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row print" ng-show="ResultFound" id="idtoDivPrintAdmin">
+                <!--<div class="col-md-12 hidden">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Pin</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Scheme</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{studentInfo.Pin}}</td>
+                                    <td>{{studentInfo.StudentName}}</td>
+                                    <td>{{studentInfo.BranchCode}}</td>
+                                    <td>{{studentInfo.Scheme}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>0
+                    </div>
+                </div>
+
+                <div class="col-md-12 hidden">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>College Code</th>
+                                    <th>College Name</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$studentInfo.CollegeCode}}</td>
+                                    <td>{{$studentInfo.CollegeName}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>-->
+
+
+
+
+
+
+
+
+                <div ng-if="showData == 1" class="col-md-12">
+                    <!-- <img src="../../../contents/img/sbtet-logo.svg" alt="Notebook" class="myImg">-->
+                    <div alt="Notebook" class="myImg"></div>
+                    <!--   <div class="col-lg-12">-->
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4">
+                            <div class="logo-img">
+                                <img src="../../../contents/img/big-logo.png" />
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-12">
+                            <div class="logo-name">
+                                <h2 style="text-align: center">
+                                    STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                </h2>
+                                <!--<h2><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br /><p style="text-align: center">TELANGANA</p></h2>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--</div>-->
+                    <div class="col-lg-12">
+
+                        <div class="card-title">
+                            <h2>Results History  Marks Card </h2>
+                        </div>
+
+                        <div class="table-responsive customtable" ng-show="ResultFound">
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Pin</th>
+                                        <th>Name</th>
+                                        <th>Branch</th>
+                                        <th>Scheme</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{studentInfo.Pin}}</td>
+                                        <td>{{studentInfo.StudentName}}</td>
+                                        <td>{{studentInfo.BranchCode}}</td>
+                                        <td>{{studentInfo.Scheme}}</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <table class="table table-bordered " ng-if="!co9Data">
+                                <thead>
+                                    <tr>
+                                        <th>SUBJECT CODE</th>
+                                        <th>SUBJECT NAME</th>
+                                        <th>MAX CREDITS</th>
+                                        <th>MID SEM1 <br />(20)</th>
+                                        <th>MID SEM2 <br />(20)</th>
+                                        <th>INTERNAL <br />(20)</th>
+                                        <th>END SEM <br />(40)</th>
+                                        <th>SUBJECT TOTAL<br /> (100)</th>
+                                        <th>GRADE</th>
+                                        <th>GRADE POINTS</th>
+                                        <th>CREDITS EARNED</th>
+                                        <th>TOTAL GRADE POINTS</th>
+                                        <th>R/S</th>
+                                        <th>EXAM MONTH YEAR</th>
+                                        <th>EXAM STATUS</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr ng-repeat-start="(key, val) in newresultDisplayInfo">
+
+                                        <td colspan="15">{{val.Semester}}</td>
+                                    </tr>
+                                    <tr ng-repeat="data in val.Subjects">
+
+                                        <td>{{data.Subject_Code}}</td>
+                                        <td>{{data.SubjectName}}</td>
+                                        <td>{{data.MaxCredits}}</td>
+                                        <td>{{data.Mid1Marks}}</td>
+                                        <td>{{data.Mid2Marks}}</td>
+                                        <td>{{data.InternalMarks}}</td>
+                                        <td>{{data.EndExamMarks}}</td>
+                                        <td>{{data.SubjectTotal}}</td>
+                                        <td>{{data.HybridGrade}}</td>
+                                        <td>{{data.GradePoint}}</td>
+                                        <td>{{data.CreditsGained}}</td>
+                                        <td>{{data.TotalGradePoints}}</td>
+                                        <td>{{data.WholeOrSupply =='W'?'R':'S'}}</td>
+                                        <td>{{data.ExamMonthYear}}</td>
+                                        <td>{{data.ExamStatus}}</td>
+
+                                    </tr>
+                                    <tr ng-repeat="data3 in val.courseinfo">
+                                        <td colspan="2">Semester Total</td>
+                                        <td>{{data3.courseMaxCerdits}}</td>
+                                        <td colspan="7"></td>
+                                        <td>{{data3.courseCerditsGained}}</td>
+                                        <td>{{data3.courseTotalGradePoints}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+
+                                    </tr>
+                                    <tr ng-repeat-end ng-repeat="data2 in val.Sgpainfo">
+                                        <td colspan="11">Semester Grade Point Average(SGPA) ({{data2.TotalGradePoints+'/'+data2.Credits}})</td>
+                                        <td>{{data2.SGPA}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2">Course Total</td>
+                                        <td>{{courseMaxCerdits}}</td>
+                                        <td colspan="7"></td>
+                                        <td>{{courseCerditsGained}}</td>
+                                        <td>{{courseTotalGradePoints}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="11">Cummulative Grade Point Average(CGPA) ({{TotalData.CgpaTotalGained+'/'+TotalData.CgpaTotalCredits}})</td>
+
+                                        <td>{{TotalData.CGPA}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered " ng-if="co9Data">
+                                <thead>
+                                    <tr>
+                                        <th>SUBJECT CODE</th>
+                                        <th>SUBJECT NAME</th>
+                                        <!--<th>MAX CREDITS</th>
+                                        <th>MID SEM1 <br />(20)</th>
+                                        <th>MID SEM2 <br />(20)</th>-->
+                                        <th>INTERNAL <br /></th>
+                                        <th>END SEM <br /></th>
+                                        <th>SUBJECT TOTAL<br /> </th>
+                                        <th>Exam Month/Year</th>
+                                        <!--<th>GRADE</th>
+                                        <th>GRADE POINTS</th>
+                                        <th>CREDITS EARNED</th>-->
+                                        <!--<th>TOTAL GRADE POINTS</th>-->
+                                        <!--<th>R/S</th>
+                                        <th>EXAM MONTH YEAR</th>-->
+                                        <th>EXAM STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="(key, val) in newresultDisplayInfo1">
+                                        <td colspan="6">{{val.Semester}}</td>
+
+
+                                    </tr>
+
+
+                                    <tr ng-repeat="data in val.Subjects">
+                                        <td>{{data.SubjectCode}}</td>
+                                        <td>{{data.SubjectName}}</td>
+                                        <!--<td>{{data.MaxCredits}}</td>
+                                        <td>{{data.Mid1Marks}}</td>
+                                        <td>{{data.Mid2Marks}}</td>-->
+                                        {d
+                                        <td>{{data.Internal}}</td>
+                                        da
+                                        <td>{{data.EndExam}}</td>
+                                        <td>{{data.SubjectTotal}}</td>
+
+                                        <td>{{data.ExamMonthYear}}</td>
+
+
+
+
+
+
+
+
+
+                                        <!--<td>{{data.HybridGrade}}</td>
+                                        <td>{{data.GradePoint}}</td>
+                                        <td>{{data.CreditsGained}}</td>-->
+                                        <!--<td>{{data.TotalMarks}}</td>-->
+                                        <!--<td>{{data.WholeOrSupply =='W'?'R':'S'}}</td>
+                                        <td>{{data.ExamMonthYear}}</td>-->
+                                        <td>{{data.Remarks}}</td>
+
+
+                                        <
+
+
+                                    </tr>
+
+
+                                    <tr ng-repeat-end="(key, val) in newresultDisplayInfo1">
+
+                                        <td colspan="4">
+                                            Semester Total
+                                        </td>
+
+                                        <td>{{val.TotalMarks}}</td>
+
+                                        <td colspan="2"></td>
+
+                                        <!--<td>{{val.Result}}</td>-->
+                                        <!--<td>{{data3.courseTotalGradePoints}}</td>-->
+                                        <!--<td></td>
+                                        <td></td>
+                                        <td></td>-->
+                                    </tr>
+                                    <!-- <tr ng-repeat="data3 in val.courseinfo">
+                                        <td colspan="2">Course Total</td>
+                                        <td>{{data3.courseMaxCerdits}}</td>
+                                        <td colspan="7"></td>
+                                        <td>{{data3.courseCerditsGained}}</td>
+                                        <td>{{data3.courseTotalGradePoints}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+
+                                    </tr> -->
+                                    <!--<tr ng-repeat-end ng-repeat="data2 in val.Sgpainfo">
+                                        <td colspan="5">Semester Grade Point Average(SGPA) ({{data2.TotalGradePoints+'/'+data2.Credits}})</td>
+                                        <td>{{data2.SGPA}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2">Course Total</td>
+                                        <td>{{CgpaTotalCredits}}</td>
+                                        <td colspan="4"></td>
+                                        <td>{{CreditsGained}}</td>
+                                        <td>{{totalearnedCourseCredits}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">Cummulative Grade Point Average(CGPA) ({{TotalData.CgpaTotalGained+'/'+TotalData.CgpaTotalCredits}})</td>
+
+                                        <td>{{TotalData.CGPA}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>-->
+                                </tbody>
+
+                            </table>
+
+                            <!--<table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Total Credits</th>
+                                        <th>Credits Gained</th>
+                                        <th>CGPA Total Gained</th>
+                                        <th>CGPA Total Credits</th>
+                                        <th>CGPA({{TotalData.CgpaTotalGained+'/'+TotalData.CgpaTotalCredits}})</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{TotalData.TotalMaxCredits}}</td>
+                                        <td>{{TotalData.CreditsGained}}</td>
+                                        <td>{{TotalData.CgpaTotalGained}}</td>
+                                        <td>{{TotalData.CgpaTotalCredits}}</td>
+                                        <td>{{TotalData.CGPA}}</td>
+                                    </tr>
+                            </table>-->
+
+                            <label><strong>Abbrevations</strong></label>
+
+                            st
+
+
+
+                            <div class="col-md-12">
+                                <div class="col-md-3 display-inline">
+
+                                    <label>
+                                        <strong>
+                                            R - RegularExam
+                                        </strong>
+                                    </label>
+
+                                </div>
+                                <div class="col-md-3 display-inline">
+                                    <label><strong>S - Supplementary Exam</strong></label>
+                                </div>
+                                <div class="col-md-3 display-inline">
+                                    <label><strong>P - Pass</strong></label>
+                                </div>
+                                <div class="col-md-3 display-inline">
+                                    <label><strong>F - Fail</strong></label>
+                                </div>
+                                <!--<div class="col-md-3">
+                                    <label><strong>W - WithHeld</strong></label>
+                                </div>-->
+                                <div class="col-md-3 display-inline">
+                                    <label><strong>MP - MalPractice</strong></label>
+                                </div>
+                                <div class="col-md-3 display-inline">
+                                    <label><strong>W - Wanting</strong></label>
+                                </div>
+                                <div class="col-md-3 display-inline">
+                                    <label><strong>UE - Under Evaluation</strong></label>
+                                </div>
+                            </div>
+
+                            <!--for old students marks display-->
+
+
+                            <p id="currenttime"></p>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-show="ResultNotFound" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="sm-spacer"></div>
+        </div>
+    </section>
+
+
+    <div id="popupContainer" class="panel">
+        <div class="modal fade" id="exampleModalStud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document" style="width:100%;">
+                <div class="modal-content" style="width:100%;">
+
+
+                    <div class="popup_title">
+                        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> </button>
+                        <h4> <i class="fa fa-info-circle" aria-hidden="true"></i> Grade Info </h4>
+                    </div>
+                    <!--<h5 class="modal-title" id="exampleModalLabel">Grade Info : </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>-->
+
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="customtable scrollbox-content">
+                                <table class="table table-responsive table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject_Code</th>
+                                            <th>SubjectName</th>
+                                            <th>A+</th>
+                                            <th>A</th>
+                                            <th>B+</th>
+                                            <th>B</th>
+                                            <th>C+</th>
+                                            <th>C</th>
+                                            <th>D</th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="subject in BranchSubjectGradeInfo">
+                                        <td>{{subject.Subject_Code}}</td>
+                                        <td>{{subject.SubjectName}}</td>
+                                        <td>{{subject.APlusGrade}}</td>
+                                        <td>{{subject.AGrade}}</td>
+                                        <td>{{subject.BPlusGrade}}</td>
+                                        <td>{{subject.BGrade}}</td>
+                                        <td>{{subject.CPlusGrade}}</td>
+                                        <td>{{subject.CGrade}}</td>
+                                        <td>{{subject.DGrade}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-raised waves-effect cancel-but text-uppercase" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+

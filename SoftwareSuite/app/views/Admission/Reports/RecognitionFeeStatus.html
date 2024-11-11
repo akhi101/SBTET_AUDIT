@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title> First Year Recognition Fee paid</title>
+    <style type="text/css">
+        .control {
+            padding-left: 10px;
+            min-height: 680px !important;
+        }
+
+        .content-container-fluid > :first-child.row {
+            width: 100% !important;
+        }
+
+        .cols-sample-area {
+            min-width: 800px !important;
+            min-height: 706px !important;
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="RecognitionFeeStatusController">
+        <!-- New Style Start-->
+        <div class="container">
+                <div class="row ctitle">
+                        <div class="col-md-5">
+                            <span><strong>First Year Recognition Fee Status</strong></span>
+                        </div>
+                        <div class="col-md-7 text-right">
+                                <ol class="breadcrumb">
+                                        <li>You are in </li>
+                                        <li>Home</li>
+                                        <li>Reports</li>
+                                        <li>First Year Recognition Fee Status</li>
+                                    </ol>
+                        </div>
+                    </div>
+            <div class="base-row">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                            <option value="" selected>Select stream</option>
+                            <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id="BranchID" ng-model="BranchID">
+                            <option value="" selected>Select Branch</option>
+                            <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 fgap">
+                        <span class="rspan">Report Type:</span>
+                        <div class="maxl">
+                            <form>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="ReportType" checked value="P">
+                                    <span>Fee Paid </span>
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" ng-model="ReportType" value="N">
+                                    <span>Not Fee Paid </span>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" ng-click="Print()" class="btn btn-detail btn-sm">Show Detail</button>
+                        <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                    </div>
+                </div>
+           
+            
+            <div style="margin-top:20px; margin-left:7px;">
+                <div ng-controller="ReportViewerController">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <!--<div id="container" ej-reportviewer=ej-reportviewer e-reportserviceurl="samplevalue" e-reportpath="path" e-processingmode="mode"></div>-->
+                                        <div id="container" ej-reportviewer=ej-reportviewer></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

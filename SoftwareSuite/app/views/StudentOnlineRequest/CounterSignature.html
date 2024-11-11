@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--title>Name Correction in Marks Memo</title>-->
+    <title>Counter Signature</title>
+</head>
+<body>
+    <div ng-controller="CounterSignatureController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Counter Signature on Transfer Certificate</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Counter Signature on Transfer Certificate</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <!--<p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+        <p>CANDIDATES ARE ALLOWED FOR ONLY ONE SERVICE FOR ONE SUBJECT EITHER RE-VERIFICATION OR RE-COUNTING OF VALUED ANSWER SCRIPTS</p>
+        <p>Candidates are allowed for only one service for one subject either re-verification or re-counting of valued answer scripts</p>
+        <hr />-->
+                    <p style="font-size:18px; font-weight:100; margin-top:50px;">For any queries please mail to : </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter HallTicket No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="HTNO" placeholder="Enter Hall Ticket No." ng-model="CounterSignature.HTNO" maxlength="15">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillCounterSignByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-hide="HideInfo">
+                        <!--New Code Start-->
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2"><h3 class="ch3">Student Details <hr></h3></div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <table class="table table-striped table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td><p class="cp"><strong>Candidate Name :</strong></p></td>
+                                            <td>{{CounterSignature.StudName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Father's Name :</strong></p></td>
+                                            <td>{{CounterSignature.FatherName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>College Name :</strong></p></td>
+                                            <td>{{CounterSignature.ColName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>College Code :</strong></p></td>
+                                            <td>{{CounterSignature.ColCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong><font color="red">*</font> Enter State in which he/she wants to take admission :</strong></p></td>
+                                            <td> <input type="text" class="form-control" id="State" ng-model="CounterSignature.State" maxlength="15"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong><font color="red">*</font> Enter Mobile Number :</strong></p></td>
+                                            <td><input type="text" class="form-control" id="MobileNo" ng-model="CounterSignature.MobileNo" maxlength="10" input-Number-Only onpaste="return false;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong><font color="red">*</font> Address :</strong></p></td>
+                                            <td><textarea rows="4" style="width: 100%;" id="Address" ng-maxlength="50" ng-model="CounterSignature.Address"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong><font color="red">*</font> Address For Sending Certificate :</strong></p></td>
+                                            <td><textarea rows="4" style="width: 100%;" id="Address" ng-maxlength="50" ng-model="CounterSignature.AddressSending"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <p class="cp"><strong><font color="red">*</font> Transfer Certificate(Front Side) :</strong></p></td>
+                                            <td><input type="file" class="form-control btn-primary" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)"><br /><span style="font-size:10px;"> (All Document file size must be less then 200KB, and should be in PDF format)</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <p class="cp"><strong><font color="red">*</font> Transfer Certificate(Back Side) :</strong></p></td>
+                                            <td> <input type="file" class="form-control btn-primary" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)"><br /><span style="font-size:10px;"> (All Document file size must be less then 200KB, and should be in PDF format)</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <p style="color:red;" class="cp"><strong>Fee (in Rupees) :</strong></p></td>
+                                            <td style="color:red;"><strong>Rs.  {{CounterSignature.FeeAmount}}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--New Code End-->
+                        <!-- <div class="row">
+
+                 <div class="col-md-6">
+                     <div class="form-group">
+                         <label for=""> Candidate Name : </label>
+                         <input type="text" class="form-control" id="" ng-model="CounterSignature.StudName" ng-readonly="true" disabled="disabled">
+                     </div>
+                 </div>
+                 <div class="col-md-6">
+                     <div class="form-group">
+                         <label for="">Father Name : </label>
+                         <input type="text" class="form-control" id="" ng-model="CounterSignature.FatherName" ng-readonly="true" disabled="disabled">
+                     </div>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-md-6">
+                     <div class="row">
+                         <div class="col-md-12 form-group">
+                             <label for="">College Name : </label>
+                             <input type="text" class="form-control" id="ColName" ng-model="CounterSignature.ColName" ng-readonly="true" disabled="disabled">
+                         </div>
+
+                         <div class="col-md-6 form-group">
+                             <label for=""> College Code : </label>
+                             <input type="text" class="form-control" id="" ng-model="CounterSignature.ColCode" ng-readonly="true" disabled="disabled">
+                         </div>
+                         <div class="col-md-6 form-group">
+                             <!--<font color="red">*</font>-->
+                        <!--<label for="">Select State in which he/she wants to take admission: </label>
+                               <!-- <input type="text" class="form-control" id="State" ng-model="CounterSignature.State">
+                                <!--<select class="form-control" id="StateID" ng-model="CounterSignature.StateID">
+                <option value="">Select State</option>
+                <option ng-selected="CounterSignature.StateID==option.StateID" ng-repeat="option in StateList" value="{{option.StateID}}">{{option.StateName}}</option>
+            </select>-->
+                        <!-- </div>
+                        <div class="col-md-6 form-group">
+                            <font color="red">*</font><label for=""> Mobile Number : </label>
+                            <input type="text" class="form-control" id="MobileNo" ng-model="CounterSignature.MobileNo" maxlength="10" input-Number-Only onpaste="return false;">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label for=""> Fee (in rupees) : </label>
+                            <input type="text" class="form-control" id="" ng-model="CounterSignature.FeeAmount" ng-readonly="true" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <font color="red">*</font><label for=""> Address : </label>
+                            <textarea rows="4" id="Address" ng-model="CounterSignature.Address" style="width: 100%;"></textarea>
+                        </div>
+                        <div style="margin-top:10px;" class="col-md-6 form-group">
+                            <font color="red">*</font><label for=""> Transfer Certificate(Front Side) : </label>
+                            <input type="file" class="form-control btn-primary" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)">
+                        </div>
+                        <div style="margin-top:10px;" class="col-md-6 form-group">
+                            <font color="red">*</font><label for=""> Transfer Certificate(Back Side) : </label>
+                            <input type="file" class="form-control btn-primary" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)">
+                        </div>
+                        <div style="/* margin-top: 20px; */margin-bottom:20px;" class="col-md-11 col-md-offset-1"><span style="font-size:10px;"> (All Document file size must be less then 200KB, and should be in PDF format)</span></div>
+
+                    </div>
+                </div>
+
+            </div>-->
+                        <div class="row">
+                            <div class="col-md-12"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box-content">
+                                    <div id="ReverifEntry" ng-init="chkinit()" ej-grid e-datasource="ReverifdataEntryData" e-recorddoubleclick="doubleclick"
+                                         e-recordclick="recordClick" e-allowselection="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row"></div><br />
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="RollEditDisable" ng-click="SaveCounterSignature()" class="btn btn-detail btn-sm">Submit</button>
+                                <!--<button type="button" ng-disabled="!RollPaymentDisable" ng-click="SaveCounterSignaturePayment()" class="btn btn-reset btn-sm">Payment</button>-->
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

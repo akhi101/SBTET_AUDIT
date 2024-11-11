@@ -1,0 +1,114 @@
+﻿<style>
+    .table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .table-bordered > thead > tr > th {
+        top: 0px;
+        position: sticky;
+    }
+</style>
+<div ng-controller="GenerateTwshNrController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Generate TWSH NR</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/GenerateTwshNr">Generate TWSH NR</a></li>
+                </ol>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <!--<div class="col-md-12">
+            <div class="sm-spacer"></div>
+            <div class="base-row row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class="form-control " ng-model="ShiftId" name="StudentType" ng-change="changeUser()" required>
+                            <option value="" selected="selected">Select Shift</option>
+                            <option value="{{data.Id}}" ng-repeat="data in Shifts" class="">
+                                {{data.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-success" ng-click="submit()">Submit</button>
+                </div>
+            </div>
+        </div>-->
+        <div class="col-md-12">
+            <div class="pull-right" ng-show="Data">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2> Generate TWSH NR</h2>
+
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table-striped table-rounded table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            
+                            <th style="width: 5%;">S.No</th>
+                            <th class="">ApplicationNumber</th>
+                            <th class="">StudentName</th>
+                            <th class="" style="">Hallticket</th>
+                            <th class="">GradeName</th>
+                            <th class="">ExaminationCenter</th>
+                            <th class="">Paper</th>
+                            <th class="">ExamBatch</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getSyllabusReport" ng-click="openDetails(x)" class="ng-scope">
+                            <td class="">{{$index+1}}</td>                          
+                            <td class="">{{data.ApplicationNumber}}</td>
+                            <td class="">{{data.StudentName}}</td>
+                            <td class="">{{data.Hallticket}}</td>
+                            <td class="">{{data.GradeCode}} - {{data.GradeName}}</td>
+                            <td class="">{{data.ExaminationCentreCode}} - {{data.ExaminationCenterName}}</td>
+                            <td class="">{{data.Paper}}</td>
+                            <td class="">{{data.ExamBatch}}</td>
+              
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="sm-spacer"></div>
+        </div>
+        <div class="col-md-12">
+            <div style="text-align:center;">
+                <img src="../../../contents/img/loading2.gif" height="100" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="NoData" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+
+</div>

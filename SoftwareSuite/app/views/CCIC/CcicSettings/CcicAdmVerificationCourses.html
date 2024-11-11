@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<style>
+    span {
+        color: white !important;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Verification Report</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        span {
+            color: red;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="CcicAdmVerificationCoursesController">
+
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <ui-view>
+                    <div class="breadcrumb-header">
+                        <!-- breadcrumb Open -->
+                        <div class="container containercontent">
+                            <section class="content-header">
+                                <h5>Verification Report View </h5>
+                                <ol class="breadcrumb">
+                                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> CcicDashboard</a></li>
+                                    <li><a href="#!/CcicDashboard/Academic">Academic</a></li>
+                                </ol>
+                            </section>
+                        </div>
+                    </div>
+                    <section class="content">
+                        <div class="container containercontent">
+
+                            <button class="btn bck_btn"><a href="#!/CcicDashboard/Academic/Verification" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+
+                            <div class="col-md-12"
+                                <div class="row base-row">
+
+                                    <div class="col-md-12">
+                                        <div id="VerificationReportTable">
+
+                                            <form class="form-inline" ng-if="VerificationReportCoursesTable.length>0">
+                                                <div class="form-group">
+                                                    <label>Search</label>
+                                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                                </div>
+                                            </form>
+                                            <label class="notifylabel" ng-if="VerificationReportCoursesTable.length>0" for="sel1" style="color: red;"> Click on Link to Get Student Details</label>
+
+
+                                            <div class="table-responsive table-custom-tables-tb" id="VerificationDetails">
+                                                <table class="table table-bordered  table-rounded">
+                                                    <thead>
+                                                        <tr class="cb-1">
+                                                            <th>CourseCode</th>
+                                                            <th>Intake</th>
+                                                            <th>Enrolled</th>
+                                                            <th>Submitted</th>
+                                                            <th>Approved</th>
+                                                            <th>Pending</th>
+                                                            <th>Recommended</th>
+                                                            <th>Revised</th>
+                                                            <th>Rejected</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="Data in VerificationReportCoursesTable|orderBy:sortKey:reverse|filter:search">
+
+                                                            <td>{{Data.CourseCode}}</td>
+                                                            <td>{{Data.Intake}}</td>
+                                                            <td>{{Data.Enrolled}}</td>
+                                                            <td>{{Data.Submitted}}</td>
+                                                            <td>{{Data.Approved}}</td>
+                                                            <td ng-show="PendingNoLink">{{Data.Pending}}</td>
+                                                            <td ng-if="PendingLink"><b><a class="Verify" ng-click="ShowDetails(Data.AcademicYearID,Data.Batch,Data.InstitutionID,Data.CourseID,4)">{{Data.Pending == null ?'--':Data.Pending}}</a></b></td>
+
+                                                            <td ng-show="RecommendedNoLink">{{Data.Recommended}}</td>
+                                                            <td ng-if="RecommendedLink"><b><a class="Verify" ng-click="ShowDetails(Data.AcademicYearID,Data.Batch,Data.InstitutionID,Data.CourseID,6)">{{Data.Recommended == null ?'--':Data.Recommended}}</a></b></td>
+                                                            <td>{{Data.Revised}}</td>
+                                                            <td>{{Data.Rejected}}</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-12 footer_section" ng-include="'app/views/CCIC/CCICFooter.html'"></div>
+
+</body>
+</html>

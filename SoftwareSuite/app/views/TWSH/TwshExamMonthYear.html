@@ -1,0 +1,117 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+</style>
+<div ng-controller="TwshExamMonthYearController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Exam Month Year</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!"><i class="fa fa-dashboard"></i> </a></li>
+                    <li><a href="#!"></a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="alert alert-info">
+            <form name="dataForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">
+                                Academic Year :
+                            </label>
+                            <select class="form-control" ng-model="year" ng-change="GetExamYearMonth()">
+                                <option value="" selected>Select Academic Year</option>
+                                <option ng-repeat="yr in Acayears" value="{{yr.AcademicID}}">
+                                    {{yr.AcademicYear}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="sel1">
+                            Exam Month Year:
+                        </label>
+                        <input class="form-control" type="text" placeholder="Enter Exam Month Year" ng-model="ExamMonthYear" required />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="gr-btn">
+                            <button type="submit" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="Submit()">Add Month/ year<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12" ng-if="getData.length>0" style="padding:0px!important">
+            <div class="cl-details">
+                <h2>Exam Month Year's list</h2>
+            </div>
+        </div>
+        <div class="row" ng-if="getData.length>0">
+
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb col-md-12">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center" style="width: 2%;">S.No</th>
+                            <th class="text-center">Academic Year</th>
+                            <th class="text-center">Exam Month Year</th>
+                            <th class="text-center">Sequence</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getData" ng-click="openDetails(x)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{data.AcademicStartYear}}</td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.ExamMonthYear" /></td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.SequenceId" /></td>
+                         
+
+                            <td class="text-center">
+                                <button class="btn btn-success btn-xs" style="width: 70px;" ng-show="data.Active == true" ng-click="setExamCentreStatus(data.Id,data.Active)">Active</button>
+                                <button class="btn btn-danger btn-xs" style="width: 70px;" ng-show="data.Active == false" ng-click="setExamCentreStatus(data.Id,data.Active)">InActive</button>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                    Update
+                                </button>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <!--<div class="loadingImg">
+                   <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+                </div>-->
+
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+</div>

@@ -1,0 +1,537 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+
+
+    element.style {
+        margin-top: 23px;
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+    }
+
+  
+    .myBtn1 {
+/*        margin-top: 23px;
+*/        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+
+    pull-left {
+        float: left !important;
+    }
+
+
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------------------------------------*/
+
+
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxessem label {
+            display: block;
+        }
+
+            #checkboxessem label:hover {
+                background-color: #1e90ff;
+            }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .image {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+
+        .logo-name h2 {
+            text-align: left;
+            margin-left: 130px;
+            margin-top: -20px;
+            font-size: 25px !important;
+            line-height: 36px;
+        }
+
+        #idtoDivPrintAdmin {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        #goto-top-arrow {
+            display: block;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+    }
+
+    .clr_red {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#example1').datepicker({
+            minViewMode: 'years',
+            autoclose: true,
+            format: 'yyyy'
+        });
+        $('#example2').datepicker({
+            minViewMode: 1,
+            autoclose: true,
+            format: 'yyyy-mm'
+        });
+        $('.tabledate').datepicker({
+            //minViewMode: 1,
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+        //$('#example4').datepicker({
+        //    //minViewMode: 1,
+        //    autoclose: true,
+        //    //format: 'dd-mm-yyyy'
+        //});
+    });
+</script>
+<div ng-controller="CcicGenerateDatesheetController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Date Sheet Generation</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> CcicDashboard</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination">PreExamination</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="alert alert-info">
+            <form name="dataForm">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold"> Academic Year :</label>
+                            <select class="form-control " ng-model="academicYear" name="AcademicYear" required ng-change="GetExamMonthYearData(academicYear)">
+                                <option value="" selected="selected">Select Year</option>
+                                <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                    {{data.AcademicYear}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Month/Year :
+                        </label>
+                        <select class="form-control" ng-model="monthyear" id="ExamYear" ng-change="verifyTimeTableGeneration(monthyear)"
+                                ng-options="monYer.ExamMonthYearID as monYer.ExamMonthYearName for monYer in GetExamMonthYear">
+                            <option value="" selected>Select Month/Year of Exam</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label class="font-weight-bold">Start date:</label> <input autocomplete="off" class="form-control" type="date" ng-model="StartDate" ng-change="loadHolidaydates()" placeholder="Select Start Date">
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label> Holidays </label>
+                            <div class="multiselect">
+                                <div class="selectBox" ng-click="showCheckboxes()">
+                                    <select class="form-control ">
+                                        <option ng-blur="closeCheckbox()">Select Holidays</option>
+                                    </select>
+                                    <div class="overSelect"></div>
+                                </div>
+                                <div id="checkboxes" style="max-height: 8em;overflow-y: scroll;">
+                                    <label class="contain">
+                                        <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" /><span class="checkmark"></span>Select All
+                                    </label>
+                                    <label class="contain" ng-repeat="data in HolidaysDates">
+                                        <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)"><span class="checkmark"></span><span ng-class="{'clr_red':data.Day=='Sunday'}">{{data.Dates|date: "dd-MM-yyyy"}}</span>
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3 form-group">
+                        <label for="ExamType">
+                            No of Exam slots per day :
+                        </label>
+                        <select class="form-control" id="NoofSlots" ng-model="NoofSlots" ng-change="addSlots(NoofSlots)"
+                                ng-options="Bac.id as Bac.lbl for Bac in maxsoltsarr">
+                            <option value="" selected>Select No of Slots</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="col-md-12" ng-show="slotarr.length>0">
+                        <h4>Time Slots</h4>
+                        <table class="table" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <th style="width:10%">Time Slot</th>
+                                <th style="width:30%">Start time</th>
+                                <th style="width:30%">End Time</th>
+                                <th style="width:20%">Order</th>
+                                <th style="width:20%"></th>
+                            </tr>
+                            <tbody ng-repeat="eh in slotarr">
+                                <tr>
+                                    <td>
+
+                                        <!--<input autocomplete="off" id="TimeSlot{{$index}}" placeholder="AN/FN/F1" style="width:100%;" class="form-control" type="text" ng-model="Timeslot" onchange="angular.element(this).scope().changeTimeslot(this, angular.element(this).scope().$index);" />-->
+                                        <select ng-model="Timeslot" class="form-control" id="TimeSlot{{$index}}" style="width:100%;" onchange="angular.element(this).scope().changeTimeslot(this, angular.element(this).scope().$index);">
+                                            <option value="" selected>select AN/FN</option>
+                                            <option ng-repeat="lst in timeslotlist" style="max-height: 12em;overflow-y: scroll;" value="{{lst.val}}">
+                                                {{lst.val}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <select ng-model="Sthh" id="Sthh{{$index}}" style="width: 49px;height:28px; max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;" onchange="angular.element(this).scope().Fromhh(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>HH</option>
+                                                <option ng-repeat="harr in hoursarr" style="max-height: 12em;overflow-y: scroll;" value="{{harr.Harr}}">
+                                                    {{harr.Harr}}
+                                                </option>
+                                            </select><b style="margin:auto">:</b>
+                                            <select ng-model="Stmm" id="Stmm{{$index}}" style="width: 49px;height:28px;max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;" onchange="angular.element(this).scope().Frommm(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>MM</option>
+                                                <option ng-repeat="marr in mintuesarr" style="max-height: 12em;overflow-y: scroll;" value="{{marr.Marr}}">
+                                                    {{marr.Marr}}
+                                                </option>
+                                            </select>
+                                            <select ng-model="Stamorpm" id="Stamorpm{{$index}}" style="width: 49px;height:28px; text-align: center;margin:4px;" onchange="angular.element(this).scope().Fromamorpm(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>AM/PM</option>
+                                                <option value="AM" selected>AM</option>
+                                                <option value="PM" selected>PM</option>
+                                                <option value="NOON" selected>NOON</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <select ng-model="Edhh" id="Edhh{{$index}}" style="width: 49px;height:28px; max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;" onchange="angular.element(this).scope().Tohh(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>HH</option>
+                                                <option ng-repeat="harr in hoursarr" style="max-height: 12em;overflow-y: scroll;" value="{{harr.Harr}}">
+                                                    {{harr.Harr}}
+                                                </option>
+                                            </select><b style="margin:auto">:</b>
+                                            <select ng-model="Edmm" id="Edmm{{$index}}" style="width: 49px;height:28px;max-height: 12em;overflow-y: scroll; text-align: center;margin:4px;" onchange="angular.element(this).scope().Tomm(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>MM</option>
+                                                <option ng-repeat="marr in mintuesarr" style="max-height: 12em;overflow-y: scroll;" value="{{marr.Marr}}">
+                                                    {{marr.Marr}}
+                                                </option>
+                                            </select>
+                                            <select ng-model="Edamorpm" id="Edamorpm{{$index}}" style="width: 49px;height:28px; text-align: center;margin:4px;" onchange="angular.element(this).scope().Toamorpm(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>AM/PM</option>
+                                                <option value="AM" selected>AM</option>
+                                                <option value="PM" selected>PM</option>
+                                                <option value="NOON" selected>NOON</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <select ng-model="SlotOrder" class="form-control" id="order{{$index}}" onchange="angular.element(this).scope().changSequenceId(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>Select Order</option>
+                                                <option ng-repeat="Bac in maxsoltsarr" value="{{Bac.id}}">
+                                                    {{Bac.lbl}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td><input type="button" ng-click="Removeslot($index)" value="Remove" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-2 pull-right">
+                        <button class="btn pull-left myBtn1 btn-primary btn-css text-uppercase" style="margin-top: 23px;" ng-click="generateTimeTable()">
+                            Generate Date Sheet
+                            <span class="heading_icon btn_icons"></span>
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2 pull-right" ng-show="pdfbutton">
+            <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="getpdfTimeTableData()">
+                Download PDF
+                <span class="fa fa-file-pdf-o  heading_icon btn_icons"></span>
+            </button>
+
+        </div>
+        <div class="col-md-2 pull-right" ng-show="excelbutton">
+
+            <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="getTimeTableExcel()">
+                Download Excel
+                <span class="fa fa-file-excel-o  heading_icon btn_icons"></span>
+            </button>
+
+        </div>
+
+        <div class="col-md-12" ng-if="Loading">
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/Loading1.gif" width="100" />
+                <h4><b>Generating Date Sheet, Please wait...</b></h4>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-if="Loading1">
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" width="100" />
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12" style="padding:0px!important">
+            <div class="cl-details" ng-show="">
+                <h2>Exam Month Year's list</h2>
+            </div>
+        </div>
+        <div class="row">
+
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb col-md-12">
+                <table class="table table-bordered  table-striped table-rounded" ng-show="">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center" style="width: 2%;">S.No</th>
+                            <th class="text-center">Exam Month Year</th>
+                            <th class="text-center">Sequence</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getData" ng-click="openDetails(x)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.ExamYearMonth" /></td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.SequenceId" /></td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                    Update
+                                </button>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <!--<div class="loadingImg">
+               <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+            </div>-->
+
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+</div>

@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exam Forms Correction Approval</title>
+</head>
+<body>
+    <div ng-controller="ExamFormsCorrectionApprovalController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Forms Correction Approval</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Forms Correction Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">PRN No. :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.PRNNo" id="PRNNo" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.CourseName" id="CourseName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Year :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.ExmName" id="ExmName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Branch :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.BranchName" id="BranchName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-hide="true">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.CourseID" id="CourseID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.ExamID" id="ExamID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.BranchID" id="BranchID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.CollegeID" id="CollegeID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.PreStudRegID" id="PreStudRegID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.ExamFeesID" id="ExamFeesID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.StudCatID" id="StudCatID">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Personal Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Student Name:</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.StudName" id="StudName" placeholder="Student Name" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" ng-disabled="true">
+                                    <label for="email">Gender :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-disabled="true" name="optradio" ng-model="ExamFormsCorrectionApproval.Gender" checked value="M">Male
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-disabled="true" name="optradio" ng-model="ExamFormsCorrectionApproval.Gender" value="F">Female
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-disabled="true" name="optradio" ng-model="ExamFormsCorrectionApproval.Gender" value="O">Other
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Main Group :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MainGrpName" id="MainGrpName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> New Main Group :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MainGrpNameNew" id="MainGrpNameNew" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2" ng-show="CorrMainGrpAppFlagShow">
+                                <div class="form-group">
+                                    <label for="email"> Group Status :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrMainGrpAppFlag" checked value="A">Approval
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrMainGrpAppFlag" value="R">Reject
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Medium :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MediumName" id="MediumName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> New Medium :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MediumNameNew" id="MediumNameNew" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2"  ng-show="CorrMedAppFlagShow">
+                                <div class="form-group">
+                                    <label for="email"> Medium Status :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrMedAppFlag" checked value="A">Approval
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrMedAppFlag" value="R">Reject
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="true">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MainGrpID" id="MainGrpID">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MainGrpIDNew" id="MainGrpIDNew">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MediumID" id="MediumID">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.MediumIDNew" id="MediumIDNew">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.SecondLangID" id="SecondLangID">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.SecondLangIDNew" id="SecondLangIDNew">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.StudCatID" id="StudCatID">
+                            <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.StudCatIDNew" id="StudCatIDNew">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> 2nd Language :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.SubName" id="SubName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> New 2nd Language :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.SubNameNew" id="SubNameNew" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2" ng-show="CorrSecLangAppFlagShow">
+                                <div class="form-group">
+                                    <label for="email"> 2nd Lang. Status :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrSecLangAppFlag" checked value="A">Approval
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrSecLangAppFlag" value="R">Reject
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rows">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Category :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.StudCatName" id="StudCatName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> New Category :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.StudCatNameNew" id="StudCatNameNew" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2" ng-show="CorrStudCatAppFlagShow">
+                                <div class="form-group">
+                                    <label for="email"> Category Status :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrStudCatAppFlag" checked value="A">Approval
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrStudCatAppFlag" value="R">Reject
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Fee Amount :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Bridge Fee Amount :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.BridgeCourseFees" id="BridgeCourseFees" placeholder="Bridge Fee Amount" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="email"> Request Status :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.Status" ng-change="GetReqchange(ExamFormsCorrectionApproval.Status)" checked value="A">Approval
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.Status" ng-change="GetReqchange(ExamFormsCorrectionApproval.Status)" value="R">Reject
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Remark :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionApproval.Remark" id="Remark" placeholder="Remark">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <h3 class="ch3">
+                                Subject Details
+                                <form  ng-show="CorrSubAppFlagShow">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrSubAppFlag" checked value="A">Approval
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="ExamFormsCorrectionApproval.CorrSubAppFlag" value="R">Reject
+                                    </label>
+                                </form><hr>
+                            </h3>
+                        </div>
+                        <table id="filtereddata" class="table">
+                            <tr>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                            </tr>
+                            <tr ng-repeat="x in Subjectdata">
+                                <td>{{ x.ExmSubCode }}</td>
+                                <td>{{ x.ExmSubName }}</td>
+                            </tr>
+                        </table>
+                        <div class="col-md-12">
+                            <h3 class="ch3">
+                                New Subject Details
+                                <hr>
+                            </h3>
+                        </div>
+                        <table id="filtereddata" class="table">
+                            <tr>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                            </tr>
+                            <tr ng-repeat="x in SubjectdataNew">
+                                <td>{{ x.ExmSubCode }}</td>
+                                <td>{{ x.ExmSubName }}</td>
+                            </tr>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveExamFormsCorrectionApproval()">Save</button>
+                                <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

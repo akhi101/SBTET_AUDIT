@@ -1,0 +1,709 @@
+﻿<style>
+    .table > thead > tr > th {
+        background-color: #fff;
+        color: #788598 !important;
+    }
+
+    .textBold {
+        font-weight: bold !important;
+    }
+
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+    .loader {
+        border: 4px solid #5cb85c;
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 4s linear infinite; /* Safari */
+        animation: spin 1s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+    .modal-content {
+        margin-top: 200px;
+    }
+    .btn-margin {
+        margin-top: 20px;
+    }
+</style>
+<!-- <marquee>
+    <ul>
+        <li  style="list-style-type: none;" >
+           <b style="letter-spacing:1px;">C05,C08 Schemes students data will be enabled shortly.</b>
+        </li>
+    </ul>
+</marquee> -->
+<div ng-controller="MersidiseCertificateController" ng-init="createCaptcha()">
+
+    <div class="container">
+        <!--<div class="sm-spacer"></div>
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-success btn-sm" ng-click="PinData()">Pin With Data</button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-danger btn-sm" ng-click="PinNoData()">Pin Without Data</button>
+            </div>
+        </div>-->
+        <div class="sm-spacer"></div>
+        <div class="card" ng-show="firstCard">
+            <form name="OnlineForm">
+                <!--<div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-info  pull-left" style="margin-bottom:20px;" ng-click="Back()">Back</button>
+                    </div>
+                </div>-->
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2>Mercy Application June-2023</h2>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">PIN :</label>
+                            <div id=''>
+                                <input type='text' class="form-control" placeholder="Enter Pin Number" ng-model="PinNo" autocomplete="off" name="PinData" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">First Name :</label>
+                            <div id=''>
+                                <input type='text' class="form-control" placeholder="Enter Name" maxlength="100" ng-model="FirstName" autocomplete="off" name="FirstName" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">Last Name :</label>
+                            <div id=''>
+                                <input type='text' class="form-control" placeholder="Enter Name" maxlength="100" ng-model="LastName" autocomplete="off" name="LastName" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">Father Name :</label>
+                            <div id=''>
+                                <input type='text' class="form-control" placeholder="Enter Father Name" maxlength="100" ng-model="FatherName" autocomplete="off" name="FatherName" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">College Name :</label>
+                            <div id=''>
+                                <select class="form-control" ng-model="Collegedata" placeholder="Select College" required>
+                                    <option value="" selected>Select College</option>
+                                    <option value="{{data}}" ng-repeat="data in GetCollegelist">{{data.CollegeCode}}-{{data.CollegeName}}</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">Branch Name :</label>
+                            <div id=''>
+
+                                <select class="form-control" ng-model="CourseName" placeholder="Select Branch" required>
+                                    <option value="" selected>Select Branch</option>
+                                    <option value="{{data.BranchName}}" ng-repeat="data in getBranchs">{{data.BranchName}}</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-4">
+        <div class="form-group ">
+            <label for="" class="font-weight-bold">Year Of Passing :</label>
+            <div id=''>
+                <input type='text' class="form-control" placeholder="Enter Course Name" ng-model="YearOfPassing" autocomplete="off" name="FatherName" required />
+            </div>
+        </div>
+    </div>-->
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">Course Type :</label>
+                            <select class="form-control" ng-model="CourseType" required>
+                                <option value="" selected>Select Course Type</option>
+                                <option value="{{data.Name}}" ng-repeat="data in CourseTypes">{{data.Name}}</option>
+                            </select>
+
+                        </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">Scheme :</label>
+                                <select class="form-control" ng-model="Scheme" required>
+                                    <option value="" selected>Select Scheme</option>
+                                    <option value="{{data.Name}}" ng-repeat="data in Schemes">{{data.Name}}</option>
+                                </select>
+
+                            </div>
+                            <!-- <div class="form-group ">
+                <label for="" class="font-weight-bold">Scheme :</label>
+                <div id=''>
+                    <input type='text' class="form-control" placeholder="Enter Scheme" maxlength="20" ng-model="Scheme" autocomplete="off" name="Scheme" required />
+                </div>
+            </div> -->
+                        </div>
+                        <!--<div class="col-md-4">
+            <div class="form-group ">
+                <label for="" class="font-weight-bold">Purpose :</label>
+                <select class="form-control" ng-model="Purpose" required>
+                    <option value="" selected>Select Purpose</option>
+                    <option value="Certificate">Certificate</option>
+                </select>
+
+            </div>
+        </div>-->
+
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">Email Id(Optional) :</label>
+                                <div id=''>
+                                    <input type='text' class="form-control" placeholder="Email" maxlength="50" ng-model="Email" autocomplete="off" name="Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">Identity :</label>
+                                <select class="form-control" ng-model="AddressProofType" required>
+                                    <option value="" selected>Select Identity proof</option>
+                                    <option value="Pan Card">PAN Card</option>
+                                    <option value="Driving Liscence">Driving License</option>
+                                    <option value="Passport">Passport</option>
+                                    <option value="Voter ID">Voter ID</option>
+                                    <option value="Aadhar Card">Aadhar Card</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">ID Number :</label>
+                                <div id=''>
+                                    <input type='text' maxlength="20" class="form-control" placeholder="Enter ID Number" ng-model="IdNumber" autocomplete="off" name="IdNumber" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">House No.& Street (or) Village :</label>
+                                <div id=''>
+                                    <input type='text' class="form-control" placeholder="Enter House No.& Street (or) Village" maxlength="100" ng-model="Village" autocomplete="off" name="Village" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">Village Post Office (or) Town :</label>
+                                <div id=''>
+                                    <input type='text' class="form-control" placeholder="Enter Village Post Office (or) Town" maxlength="50" ng-model="Town" autocomplete="off" name="Town" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">Mandal :</label>
+                                <div id=''>
+                                    <input type='text' class="form-control" placeholder="Mandal" ng-model="Mandal" autocomplete="off" maxlength="50" name="Mandal" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">District :</label>
+                                <div id=''>
+                                    <input type='text' class="form-control" placeholder="District" ng-model="District" autocomplete="off" maxlength="50" name="District" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">State :</label>
+                                <div id=''>
+                                    <input type='text' class="form-control" placeholder="State" ng-model="State" autocomplete="off" maxlength="50" name="State" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="" class="font-weight-bold">Number of Backlogs :</label>
+                                <select class="form-control" ng-model="NoOfBacklogs" required>
+                                    <option value="" selected>Select Backlogs</option>
+                                    <option value="{{data.Id}}" ng-repeat="data in BacklogList">{{data.Id}}</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group required custom-img">
+                                <label class="font-weight-bold">Update Photo with a sign(size less than 500KB) :</label>
+                                <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                <img ng-src="{{userPhoto}}" class="img img-responsive" id="stdPhotoImg" />
+                                <input type="file" id="stdPhotoFile" ng-model="userPhoto" onchange="angular.element(this).scope().uploadUserPhoto()" class="upld-file" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="cl-details">
+                                <h2> Enter Backlog Subjects</h2>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="NoOfBacklogs>=0">
+                            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th class="textBold">S.No</th>
+                                            <th class="textBold" colspan="4">Subject Code</th>
+                                            <th class="textBold" colspan="4">Subject Name</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=1">
+                                            <td class="textBold">1</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode1" name="SubCode1" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject1" name="Subject1" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=2">
+
+                                            <td class="textBold">2</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode2" name="SubCode2" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject2" name="Subject2" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=3">
+                                            <td class="textBold">3</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode3" name="SubCode3" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject3" name="Subject3" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=4">
+                                            <td class="textBold">4</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode4" name="SubCode4" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject4" name="Subject4" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=5">
+                                            <td class="textBold">5</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode5" name="SubCode5" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject5" name="Subject5" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=6">
+                                            <td class="textBold">6</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode6" name="SubCode6" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject6" name="Subject6" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=7">
+                                            <td class="textBold">7</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode7" name="SubCode7" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject7" name="Subject7" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=8">
+                                            <td class="textBold">8</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode8" name="SubCode8" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject8" name="Subject8" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=9">
+                                            <td class="textBold">9</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode9" name="SubCode9" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject9" name="Subject9" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=10">
+                                            <td class="textBold">10</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode10" name="SubCode10" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject10" name="Subject10" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=11">
+                                            <td class="textBold">11</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode11" name="SubCode11" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject11" name="Subject11" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=12">
+                                            <td class="textBold">12</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode12" name="SubCode12" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject12" name="Subject12" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=13">
+                                            <td class="textBold">13</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode13" name="SubCode13" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject13" name="Subject13" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=14">
+                                            <td class="textBold">14</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode14" name="SubCode14" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject14" name="Subject14" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=15">
+                                            <td class="textBold">15</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode15" name="SubCode15" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject15" name="Subject15" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=16">
+                                            <td class="textBold">16</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode16" name="SubCode16" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject16" name="Subject16" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=17">
+                                            <td class="textBold">17</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode17" name="SubCode17" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject17" name="Subject17" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=18">
+                                            <td class="textBold">18</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode18" name="SubCode18" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject18" name="Subject18" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=19">
+                                            <td class="textBold">19</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode19" name="SubCode19" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject19" name="Subject19" /></td>
+
+                                        </tr>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-show="NoOfBacklogs>=20">
+                                            <td class="textBold">20</td>
+                                            <td class="textBold" colspan="4"><input class="form-control" type="text" ng-model="SubCode20" name="SubCode20" /></td>
+                                            <td class="" colspan="4"><input class="form-control" type="text" ng-model="Subject20" name="Subject20" /></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="form-group ">
+                                    <label for="" class="font-weight-bold">Mobile Number :</label>
+                                    <div id=''>
+                                        <input type='text' maxlength="10" class="form-control" placeholder="Mobile Number" ng-model="MobileNumber" autocomplete="off" name="MobileNumber" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 btn-margin" ng-show="NoOtp  && !phonenoupdated">
+                                <button class="btn btn-success btn-xs" ng-click="SendOtp()">click here to verify</button>
+                            </div>
+                            <div class="col-md-2 btn-margin" ng-show="Otp && !phonenoupdated">
+                                <input type="text" ng-model="OTPdata" placeholder="Enter OTP">
+                                <a ng-click="ReSendOtp()" ng-hide="limitexceeded" class="pull-right">Resend OTP</a>
+                            </div>
+                            <div class="col-md-2 btn-margin" ng-show="Otp && !phonenoupdated">
+                                <span ng-show="!loader"><button class="btn btn-success btn-xs" ng-click="updatephonenumber()">Verify</button></span>
+                                <span ng-show="loader"><div class="loader"> </div></span>
+                                
+                            </div>
+                            <div class="col-md-2 btn-margin" ng-show="Otp && phonenoupdated && Verified">
+                                <div class="cls_verified text-success" ng-show="Verified">
+                                    <b><i class="fa fa-check" aria-hidden="true"></i> Verified</b></div>
+                            </div>
+                            <div class="col-md-5">
+                                <button class="btn btn-info pull-right" style="margin-top:23px;" ng-click="OnlineForm.$valid && Preview()">Preview</button>
+                            </div>
+                        </div>
+                        <!--<div class="col-md-6">
+            <button class="btn btn-info" style="margin-top:23px;" ng-click="AddData()">Submit</button>
+        </div>-->
+                    </div>
+</form>
+        </div>
+        <div class="card" ng-show="ThirdCard">
+            <div class="col-md-12">
+                <button class="btn btn-info pull-left" style="margin-bottom:20px;" ng-click="Back1()">Back</button>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">PIN  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{PinNo}}</div>
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px"> Name  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FirstName}} {{LastName}}</div>
+
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Father Name  </label></div>
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FatherName}}</div>
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">College Code  </label></div>
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Collegepreviewdata.CollegeCode}}</div>
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">College Name  </label></div>
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Collegepreviewdata.CollegeName}}</div>
+
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Branch Name  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CourseName}}</div>
+            </div>
+            <div class="col-md-6">
+                <!--<div class="col-md-3"><label style="margin:5px 10px 5px 10px">Photo  </label></div>-->
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">
+                    :
+                    <img ng-src="{{userPhoto}}" style="border: 2px solid #ddd;" height="175" width="170" accept="image/jpeg,image/jpg" />
+                </div>
+            </div>
+            <!--<div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">First Name  </label></div>
+
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FirstName}}</div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Last Name  </label></div>
+
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{LastName}}</div>
+    </div>-->
+            <!--<div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Gender  </label></div>
+
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Gender}}</div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Father Name  </label></div>
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FatherName}}</div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Ciollege Name  </label></div>
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CollegeName}}</div>
+    </div>-->
+            <!--<div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Course Name  </label></div>
+
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CourseName}}</div>
+    </div>-->
+            <!--<div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Year of passing  </label></div>
+
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{YearOfPassing}}</div>
+    </div>-->
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">CourseType  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CourseType}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Scheme  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Scheme}}</div>
+            </div>
+            <!--<div class="col-md-6">
+        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Purpose  </label></div>
+
+        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Purpose}}</div>
+    </div>-->
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Mobile  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{MobileNumber}}</div>
+            </div>
+            <div class="col-md-6  textBold" ng-if="Email!== undefined">
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Email  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Email}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Identity Proof  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{AddressProofType}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">ID Number  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{IdNumber}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Village  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Village}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Town  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Town}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Mandal  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Mandal}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">District  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{District}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">State  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{State}}</div>
+            </div>
+            <div class="col-md-6" ng-if="Purpose !=undefined">
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Certificate Amount  </label></div>
+
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: 3000</div>
+            </div>
+            <div class="col-md-12" ng-show="array.length > 0">
+                <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th style="width:1%" class="textBold">S.No</th>
+                                <th colspan="4" class="textBold">Subject Code</th>
+                                <th colspan="4" class="textBold">Subject Name</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in array">
+                                <td style="width:1%" class="textBold">{{$index+1}}</td>
+                                <td class="textBold" colspan="4">{{data.SubjectCode}}</td>
+                                <td class="" colspan="4">{{data.SubjectName}}</td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-md-12">
+                <button class="btn btn-success pull-right" ng-click="next()">Next</button>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="card" ng-show="SecondCard">
+            <div class="col-md-12">
+                <button class="btn btn-info  pull-left" style="margin-bottom:20px;" ng-click="Back2()">Back</button>
+            </div>
+            <div class="col-md-12 row ">
+                <div class="cl-details">
+                    <h2>Certificate Upload (Please upload the SSC/equivalent and all Semester wise latest Diploma Marks memos seperately.)(in jpg format)</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"><button ng-click="addUser()" style="margin-bottom:10px;" class="btn btn-sm  btn-success">Add</button></div>
+            </div>
+            <section ng-repeat="user in studentfilearr ">
+                <section class="users-container-inputs">
+                    <div class="row" id="userfile{{$index}}">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control" type="file" id="studentFile{{$index}}" accept="image/*" ng-model="studentFile" onchange="angular.element(this).scope().uploadfiles(this,angular.element(this).scope().$index)" class="upld-file">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <span>
+                                <button class="btn btn-sm btn-danger" ng-click="removeUser($index)" ng-disabled="DeleteDisable">Delete</button>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </section>
+            <div class="col-md-12">
+                <div class="card">
+                    <h5 style="font-size: 20px;font-weight: 500;">Terms and Conditions </h5>
+                    <p ng-show="array.length > 0"> <span style='color:blue'>&#8594;</span>	Before remitting the fee, the candidate shall ensure the eligibility status, since fee once paid is not refundable.   </p>
+                    <p><span style='color:blue'>&#8594;</span>A Full time/Part time/CCC Candidates are eligible, who at least appeared onetime End Examination during Course work/ Contact session only (CCC) in each year/semester. </p>
+                    <p><span style='color:blue'>&#8594;</span>Part time/CCC candidate registered and abstains to contact session will Not be allowed to appear End Examination (Not eligible for Examination).</p>
+                    <p><span style='color:blue'>&#8594;</span>The candidates of C-09 (3Years) Pin Start with 09, 10,11, 12 & C-09 (3 ½) Years Pin Start with 09,10,11, ER-91 (1991 to 2018), C-00 (CCC) Schemes, and Diploma part time Courses in all branches are eligible to write special mercy chance.</p>
+                    <p><span style='color:blue'>&#8594;</span>The candidate has to obtain the Hall Ticket from the concerned Head of Section/Principal before appearing for the examination.</p>
+                    <p><span style='color:blue'>&#8594;</span>	The Candidates of para 4 results will be declared subject to government order from higher education.</p>
+                </div>
+                <div class="col-md-1"><input type="checkbox" ng-checked="nodatanoteApply" ng-model="nodatanoteApply" /></div>
+                <div class="col-md-8" style="margin-top: 5px;font-weight: 600;">
+                    I Agree with the  above terms and conditions
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-info btn-sm pull-right" ng-disabled="!nodatanoteApply" ng-click="AddData()">Submit and Proceed to pay amount</button>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <div ng-if="NoData" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+            <div ng-if="NoDataFound" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>{{Response}}</h2>
+            </div>
+
+
+        </div>
+
+
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

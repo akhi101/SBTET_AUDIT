@@ -1,0 +1,201 @@
+﻿<style>
+    .selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+}
+#checkboxes1 {
+  display: none;
+  border: 1px #dadada solid;
+}
+#capacity1{
+    display: none;
+  border: 1px #dadada solid;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+#checkboxes1 label {
+  display: block;
+}
+
+#checkboxes1 label:hover {
+  background-color: #1e90ff;
+}
+.contain {
+     display: block;
+    position: relative;
+    padding-left: 35px;
+    /* margin-bottom: 12px; */
+    /* padding-top: 5px; */
+    cursor: pointer;
+    margin: 5px!important;
+      font-size: 15px!important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.contain input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+  border: 1px solid #cac6c6;
+}
+
+/* On mouse-over, add a grey background color */
+.contain:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.contain input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.contain input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+    .clrRed{
+        color:red;
+    }
+</style>
+<div ng-controller="CreateSeatingPlanController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="card">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Examination Date</label>
+                    <input class="form-control" type="date" dateformat='MM/dd/yyyy' id='datetimepicker'   ng-model="date" min="{{today}}" onchange="angular.element(this).scope().uploadfiles(this,angular.element(this).scope().$index)" class="upld-file">
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <!--<label for="ExamType">
+                    Examination Hall(Capacity) :
+                </label>-->
+                <!--<select class="form-control"  name="semister" required ng-model="ExamHall" ng-change="ChangeData(ExamHall)">
+                    <option value="" selected>Select Examination Hall</option>
+                    <option ng-repeat="data in getCapacity" value="{{data}}">
+                        {{data.Name}} ({{data.capacity}})
+                    </option>
+                </select>-->
+                <div class="form-group">
+                    <label>Examination Hall</label>
+                    <div class="multiselect">
+                        <div class="selectBox" ng-click="showCheckboxes1()">
+                            <select class="form-control ">
+                                <option ng-blur="closeCheckbox1()">Select Examination Hall</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div id="checkboxes1">
+                            <label class="contain">
+                                <input type="checkbox" ng-click="toggleAll1()" ng-model="isAllSelect" /><span class="checkmark"></span>Select All
+                            </label>
+                            <label class="contain" ng-repeat="data in getCapacity">
+                                <input type="checkbox" ng-model="data.selected" ng-change="optionToggled1(data.selected)"><span class="checkmark"></span>{{data.Name}} - {{data.capacity}}
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Select Branch</label>
+                    <div class="multiselect">
+                        <div class="selectBox" ng-click="showCheckboxes()">
+                            <select class="form-control ">
+                                <option ng-blur="closeCheckbox()">Select an option</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div id="checkboxes">
+                            <label class="contain">
+                                <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" /><span class="checkmark"></span>Select All
+                            </label>
+                            <label class="contain" ng-repeat="data in Branchs">
+                                <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)"><span class="checkmark"></span>{{data.Name}}
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Capacity </label>
+                    <input class="form-control" type="text" id="studentFile" ng-model="capacity">
+                    <span ng-if="capacity >= RequiredCapacity" class="clrRed">Branch capacity must be less than Exam hall Capacity</span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Number of Students per Row </label>
+                    <input class="form-control" type="text" id="studentFile" ng-model="capacity">
+                    
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-success pull-right" ng-disabled="btnDisable">Generate seating Plan</button>
+                </div>
+            </div>
+    </div>
+</div>

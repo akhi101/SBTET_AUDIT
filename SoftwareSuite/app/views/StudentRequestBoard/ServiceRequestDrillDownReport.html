@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table {
+            font-size: 11px;
+        }
+        .mylink {
+            color: #1664d9;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="ServiceRequestDrillDownReportController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Student Applications</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Student Applications</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div style="margin-top: 6px;" class="col-md-2 col-md-offset-4 text-right">
+                                <div class="form-group">
+                                    <label for="">Academic Year :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select class="form-control input-sm" id="SelectYear" ng-model="AcademicYearList.AcdYrID" ng-change="FillRequests(AcademicYearList.AcdYrID)">
+                                        <option value="">Select Year</option>
+                                        <option ng-repeat="option in AcademicYearList" ng-selected="{{ option.Selected == true }}" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divSup" ng-hide="DivSupHide">
+                                    <table id="supTable" class="table table-striped table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Sl. No.</th>
+                                                <th>Service Name</th>
+                                                <th>Total No. of Applications</th>
+                                                <th>Pending</th>
+                                                <th>Approved</th>
+                                                <th>Rejected</th>
+                                                <th>Reapplied Applications</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{ x.ServiceName }}</td>
+                                                <td>{{ x.Total }}</td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,2)'> {{ x.PendingAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,3)'> {{ x.ApprovedAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,4)'> {{ x.RejectedAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,5)'> {{ x.ReappliedApplications }} </a>  </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="divSup" ng-hide="DivAPHide">
+                                    <table id="supTable" class="table table-striped table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Sl. No.</th>
+                                                <th>Service Name</th>
+                                                <th>Total No. of Applications</th>
+                                                <th>Pending</th>
+                                                <th>Approved</th>
+                                                <th>Rejected</th>
+                                                <th>Reapplied Applications</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{ x.ServiceName }}</td>
+                                                <td>{{ x.Total }}</td>
+                                                <!--<td><a href="#" ng-click='GetTotalRecord(x,1)'> {{ x.Total }} </a>  </td>-->
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,2)'> {{ x.PendingAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,3)'> {{ x.ApprovedAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,4)'> {{ x.RejectedAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,5)'> {{ x.ReappliedApplications }} </a>  </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="divDS" ng-hide="DivDSHide">
+                                    <table id="dsTable" class="table table-striped table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>Sl. No.</th>
+                                                <th>Service Name</th>
+                                                <th>Total No. of Applications</th>
+                                                <th>Pending at Supt.</th>
+                                                <th>Approved at Supt</th>
+                                                <th>Rejected at Supt</th>
+                                                <th>Reapplied Applications</th>
+                                                <th>Applications Approved</th>
+                                                <th>Digitally Signed</th>
+                                                <th>Pending Digital Signature</th>
+                                                <th>Applications Rejected</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{ x.ServiceName }}</td>
+                                                <td>{{ x.Total }}</td>
+                                                <!--<td><a href="#" ng-click='GetTotalRecord(x,1)'> {{ x.Total }} </a>  </td>-->
+                                                <td>{{ x.PendingAtSupt }}</td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,3)'> {{ x.ApprovedAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,4)'> {{ x.RejectedAtSupt }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,5)'> {{ x.ReappliedApplications }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,6)'> {{ x.ApplicationsApproved }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,7)'> {{ x.DigitallySigned }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,8)'> {{ x.PendingDigitalSignature }} </a>  </td>
+                                                <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,9)'> {{ x.TotalNoofApplicationsRejected }} </a>  </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="divJS" ng-hide="DivJSHide">
+                                    <table id="alldata" class="table table-striped table-responsive">
+                                        <tr>
+                                            <th>Sl. No.</th>
+                                            <th>Service Name</th>
+                                            <th>Total No. of Applications</th>
+                                            <th>Pending at Supt.</th>
+                                            <th>Approved at Supt</th>
+                                            <th>Rejected at Supt</th>
+
+                                            <th>Pending at DS</th>
+                                            <th>Approved at DS</th>
+                                            <th>Rejected at DS</th>
+
+                                            <th>Reapplied Applications</th>
+                                            <th>Applications Approved</th>
+                                            <th>Digitally Signed</th>
+                                            <th>Pending Digital Signature</th>
+                                            <th>Applications Rejected</th>
+                                        </tr>
+                                        <tr ng-repeat="x in DrillDownList">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{ x.ServiceName }}</td>
+                                            <td>{{ x.Total }}</td>
+                                            <td>{{ x.PendingAtSupt }}</td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,3)'> {{ x.ApprovedAtSupt }} </a></td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,4)'> {{ x.RejectedAtSupt }} </a></td>
+                                            <td>{{ x.PendingAtDS }}</td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,10)'> {{ x.ApprovedAtDS }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,11)'> {{ x.RejectedAtDS }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,5)'> {{ x.ReappliedApplications }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,6)'> {{ x.ApplicationsApproved }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,7)'> {{ x.DigitallySigned }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,8)'> {{ x.PendingDigitalSignature }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,9)'> {{ x.TotalNoofApplicationsRejected }} </a>  </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="divERTW" ng-hide="DivERTWHide">
+                                    <table id="alldata" class="table table-striped table-responsive">
+                                        <tr>
+                                            <th>Sl. No.</th>
+                                            <th>Service Name</th>
+                                            <th>Total No. of Applications</th>
+                                            <th>Pending at Supt.</th>
+                                            <th>Approved at Supt</th>
+                                            <th>Rejected at Supt</th>
+                                            <th>Reapplied Applications</th>
+                                            <th>Applications Approved</th>
+                                            <th>Digitally Signed</th>
+                                            <th>Pending Digital Signature</th>
+                                            <th>Applications Rejected</th>
+                                        </tr>
+                                        <tr ng-repeat="x in DrillDownList">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{ x.ServiceName }}</td>
+                                            <td>{{ x.Total }}</td>
+                                            <td>{{ x.PendingAtSupt }}</td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,3)'> {{ x.ApprovedAtSupt }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,4)'> {{ x.RejectedAtSupt }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,5)'> {{ x.ReappliedApplications }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,6)'> {{ x.ApplicationsApproved }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,7)'> {{ x.DigitallySigned }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,8)'> {{ x.PendingDigitalSignature }} </a>  </td>
+                                            <td><a class="mylink" href="#" ng-click='GetTotalRecord(x,9)'> {{ x.TotalNoofApplicationsRejected }} </a>  </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="divCOE" ng-hide="DivCoEHide">
+                                    <table id="alldata" class="table table-striped table-responsive">
+                                        <tr>
+                                            <th>Sl. No.</th>
+                                            <th>Service Name</th>
+                                            <th>Total No. of Applications</th>
+                                            <th>Pending at Supt.</th>
+                                            <th>Approved at Supt</th>
+                                            <th>Rejected at Supt</th>
+                                            <th>Reapplied Applications</th>
+                                            <th>Applications Approved</th>
+                                            <th>Digitally Signed</th>
+                                            <th>Pending Digital Signature</th>
+                                            <th>Applications Rejected</th>
+                                        </tr>
+                                        <tr ng-repeat="x in DrillDownList">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{ x.ServiceName }}</td>
+                                            <td>{{ x.Total }}</td>
+                                            <td>{{ x.PendingAtSupt }}</td>
+                                            <td>{{ x.ApprovedAtSupt }}</td>
+                                            <td>{{ x.RejectedAtSupt }}</td>
+                                            <td>{{ x.ReappliedApplications }}</td>
+                                            <td>{{ x.ApplicationsApproved }}</td>
+                                            <td>{{ x.DigitallySigned }}</td>
+                                            <td>{{ x.PendingDigitalSignature }}</td>
+                                            <td>{{ x.TotalNoofApplicationsRejected }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

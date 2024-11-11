@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Exam Subject </title>
+</head>
+<body>
+    <div ng-controller="BasicExamSubjectController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Examination Subject</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Examination Subject</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="ShortName">Stream:</label>
+                                        <select class="form-control" ng-model="BasicExamSubject.CourseID" id="CourseID" ng-change="GetExamList(BasicExamSubject.CourseID)">
+                                            <option value="">--Select stream --</option>
+                                            <option ng-selected="BasicExamSubject.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="SelectExam"> Exam :</label>
+                                        <select class="form-control" ng-model="BasicExamSubject.ExamID" id="ExamID" ng-disabled="DisableExamAndSubject">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="BasicExamSubject.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="SelectSubject"> Subject :</label>
+                                        <select class="form-control" ng-model="BasicExamSubject.SubjectID" id="ExamID" ng-disabled="DisableExamAndSubject">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="BasicExamSubject.SubjectID == option.SubjectID" ng-repeat="option in BasicSubjectList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <input type="checkbox" ng-model="BasicExamSubject.OrdinanceFlag" id="OrdinanceFlag" required=""> Ordinance
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <input type="checkbox" ng-model="BasicExamSubject.RevaluationFlag" id="RevaluationFlag" required=""> Revaluation
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="Name"> Exam Subject :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamSubject.ExmSubName" id="ExmSubName" no-Special-Char maxlength="100" required="" placeholder="Name of Exam Subject">
+                                    </div> 
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="MaximumMarksofSubject">Maximum Mark's of Subject :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamSubject.MaxMarks" no-Special-Char id="MaxMarks" input-Number-Only required="" placeholder="Max. Mark's of Subject">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="PassMarksofSubject">Pass Mark's of Subject :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamSubject.PassMarks" no-Special-Char id="PassMarks" input-Number-Only required="" placeholder="Pass. Mark's of Subject">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-1">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExamSubject.CodeFlag" id="CodeFlag" required=""> Code
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExamSubject.IncludeInExamTotalFlag" id="IncludeInExamTotalFlag" required=""> Include In Exam Total
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="Name"> Exam Subject Code:</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamSubject.ExmSubCode" no-Special-Char id="ExmSubCode" maxlength="2" required="" placeholder="Code of Exam Subject">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Select Min. grade of Subject">Grade:</label>
+                                        <select class="form-control" ng-model="BasicExamSubject.EvalGrdID" id="EvalGrdID">
+                                            <option value="0">--Select--</option>
+                                            <option ng-selected="BasicExamSubject.EvalGrdID == option.EvalGrdID" ng-repeat="option in BasicEvalGradeList" value="{{option.EvalGrdID}}">{{option.EvalGrdName}}</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="TotalCreaditsofSubject">Total Creadit's :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamSubject.TotalCredits" no-Special-Char id="TotalCredits" required="" input-Number-Only placeholder="Total Creadit's of Subject">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExamSubject.Scalingapplicableflag" id="Scalingapplicableflag" required=""> Scaling Applicable
+                                       
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExamSubject.MarkGradeConversionFlag" id="MarkGradeConversionFlag" required=""> Mark to GradeConversion
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <div class="form-group">
+                                        <label for="PrintSeqNo">Print Seq. No. :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExamSubject.SubjectPrintSequenceNo" no-Special-Char id="SubjectPrintSequenceNo" input-Number-Only required="" placeholder="Print Sequence no">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail"  ng-click="SaveBasicExamSubject()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger"  ng-click="DeleteBasicExamSubject()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+
+
+
+
+
+       <!-- <div>
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="heading_icon"></span><b> Exam Subject </b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="ShortName">Stream:</label>
+                                                <select class="form-control" ng-model="BasicExamSubject.CourseID" id="CourseID" ng-change="GetExamList(BasicExamSubject.CourseID)">
+                                                    <option value="">--Select stream --</option>
+                                                    <option ng-selected="BasicExamSubject.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="SelectExam"> Exam :</label>
+                                            <select class="form-control" ng-model="BasicExamSubject.ExamID" id="ExamID" ng-disabled="DisableExamAndSubject">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="BasicExamSubject.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="SelectSubject"> Subject :</label>
+                                            <select class="form-control" ng-model="BasicExamSubject.SubjectID" id="ExamID" ng-disabled="DisableExamAndSubject">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="BasicExamSubject.SubjectID == option.SubjectID" ng-repeat="option in BasicSubjectList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="PrintSeqNo">Print Seq. No. :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamSubject.SubjectPrintSequenceNo" no-Special-Char id="SubjectPrintSequenceNo" input-Number-Only required="" placeholder="Print Sequence no">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamSubject.OrdinanceFlag" id="OrdinanceFlag" required=""> Ordinance
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamSubject.RevaluationFlag" id="RevaluationFlag" required=""> Revaluation
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Name"> Exam Subject :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamSubject.ExmSubName" id="ExmSubName" no-Special-Char maxlength="100" required="" placeholder="Name of Exam Subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="MaximumMarksofSubject">Maximum Mark's of Subject :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamSubject.MaxMarks" no-Special-Char id="MaxMarks" input-Number-Only required="" placeholder="Max. Mark's of Subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="PassMarksofSubject">Pass Mark's of Subject :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamSubject.PassMarks" no-Special-Char id="PassMarks" input-Number-Only required="" placeholder="Pass. Mark's of Subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamSubject.CodeFlag" id="CodeFlag" required=""> Code
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamSubject.IncludeInExamTotalFlag" id="IncludeInExamTotalFlag" required=""> Include In Exam Total
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Name"> Exam Subject Code:</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamSubject.ExmSubCode" no-Special-Char id="ExmSubCode" maxlength="2" required="" placeholder="Code of Exam Subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Select Min. grade of Subject">Grade:</label>
+                                            <select class="form-control" ng-model="BasicExamSubject.EvalGrdID" id="EvalGrdID">
+                                                <option value="0">--Select--</option>
+                                                <option ng-selected="BasicExamSubject.EvalGrdID == option.EvalGrdID" ng-repeat="option in BasicEvalGradeList" value="{{option.EvalGrdID}}">{{option.EvalGrdName}}</option>
+                                            </select>
+                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="TotalCreaditsofSubject">Total Creadit's :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExamSubject.TotalCredits" no-Special-Char id="TotalCredits" required="" input-Number-Only placeholder="Total Creadit's of Subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamSubject.MarkGradeConversionFlag" id="MarkGradeConversionFlag" required=""> Mark to GradeConversion
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExamSubject.Scalingapplicableflag" id="Scalingapplicableflag" required=""> Scaling Applicable
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicExamSubject()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicExamSubject()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

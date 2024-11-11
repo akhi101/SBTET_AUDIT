@@ -1,0 +1,142 @@
+﻿<div class="container">
+    <div class="row ctitle no-print">
+        <div class="col-md-5">
+            <span><strong>Theory Exam Attendance</strong></span>
+        </div>
+        <div class="col-md-7 text-right no-print">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Theory Exam Attendance</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="TheoryExamAttendanceController" ng-init="init()">
+        <div class="col-md-12">
+            <div class="row print-only head-border">
+                <div class="col-md-12 text-center" style="font-weight:bold;">
+                    <h3>State Board of Technical Education and Training, Telangana</h3>
+                    <h4>IPE MARCH - {{CurrYear}}</h4>
+                    <h4>{{ExmSubName}}</h4>
+                    <h4>{{collegeInfo[0].ColCode}} - {{collegeInfo[0].ColShrtName}}</h4>
+                    <h4>{{collegeInfo[0].DistCode}} - {{collegeInfo[0].DistName}}</h4>
+                </div>
+            </div>
+            <form name="otherMarkEnrtyDetailForm">
+                <div class="row">
+                    <div class="col-md-2" ng-class="ColClass">
+                        <sa-select ng-hide="CollegeHide" ng-model="otherMarkEnrtyDetail.DistrictID" object="otherMarkEnrtyDetail.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District"> </sa-select>
+                    </div>
+                    <div class="col-md-2" ng-hide="CollegeHide">
+                        <sa-select ng-model="otherMarkEnrtyDetail.CollegeID" object="otherMarkEnrtyDetail.CollegeID" options="basiccolleges" displaycolumn="ColName" valuecolumn="CollegeID" objectname="CollegeID" objecttext="College" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="otherMarkEnrtyDetail.CourseID" object="otherMarkEnrtyDetail.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2" ng-hide="true">
+                        <sa-select ng-model="otherMarkEnrtyDetail.ExamID" object="otherMarkEnrtyDetail.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" style="pointer-events:none;cursor: not-allowed;"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="otherMarkEnrtyDetail.ExmSubID" object="otherMarkEnrtyDetail.ExmSubID" options="examTimeTableSubjects" displaycolumn="ExmSubName" valuecolumn="ExmSubID" objectname="ExmSubID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+                </div>
+                <div class="row no-print">
+                    <div class="col-md-7 col-md-offset-2" style="margin-top:22px;text-align: center;">
+                        <input type="button" ng-click="showStudentDetail()" class="btn btn-detail btn-sm" value="Show Details" />
+                        <input type="button" ui-sref="PreExam" class="btn btn-reset btn-sm" value="Cancel" />
+                        <input type="button" onclick="javascript: window.print();" class="btn btn-detail btn-sm" value="Print" />
+                    </div>
+                </div>
+            </form>
+            <br />
+            <form name="otherMarkDetailForm">
+                <div class="row examiner-drop">
+                    <!--<div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-style="myDisable" id="ExaminerDropdown" ng-model="otherMarkEnrtyDetail.ExaminerID" object="otherMarkEnrtyDetail.ExaminerID" options="ExaminerDetails" displaycolumn="ExaminerName" valuecolumn="ExaminerID" objectname="ExaminerID" objecttext="Examiner" compulsory="true"> </sa-select>
+                    </div>-->
+                    <div class="col-md-4">
+                        <label style="font-weight:bold;font-size:14px !important;">Entry Time: </label><br class="no-print" /><label style="color:red;font-weight:bold;font-size:14px !important;" ng-show="ShowSchInfo">{{ScheduleDetails[0].StartDateTime | date : "dd-MM-yyyy hh:mm a"}} to {{ScheduleDetails[0].EndDateTime | date : "dd-MM-yyyy hh:mm a"}}</label>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <label style="font-weight:bold;font-size:14px !important;">MF Number:<br class="no-print" /> <label ng-show="ShowMFInfo" style="font-weight:bold;font-size:14px !important;">{{MFNoDetails[0].MFNo}}</label></label>
+                    </div>-->
+                </div>
+            </form>
+            <div class="row print-only">
+                <div class="col-md-10">
+                    <label style="font-weight:bold;font-size:14px !important;">Submitted On: <label ng-if="studentDetailList[0].ChkListFlag == 'V'" style="font-weight:bold;font-size:14px !important;">{{studentDetailList[0].UpdateDate | date : "dd-MM-yyyy hh:mm a "}}</label></label>
+                </div>
+            </div>
+            <br />
+            <div style="width:100%;text-align:center;">
+                <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+            <form name="otherMarkEnrtyStudentDetailForm">
+                <div class="row" ng-show="studentDetailList.length>0">
+                    <div class="col-md-12 note">
+                        <label style="font-weight:bold;font-size:14px !important;">Note:</label><b> A</b> - Absent, <b>M</b> - Malpractice, <b>N</b> - Not Applicable.
+                    </div>
+                </div>
+                <div class="row" ng-show="studentDetailList.length>0">
+                    <hr />
+                    <div class="col-md-12">
+                        <table class="table table-striped table-responsive rspan print-tab">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align: top !important;">Sl No.</th>
+                                    <th style="vertical-align: top !important;">Name</th>
+                                    <th style="vertical-align: top !important;">Roll No</th>
+                                    <th style="vertical-align: top !important;">Present</th>
+                                    <th style="vertical-align: top !important;">Absent</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="studentDetail in studentDetailList">
+                                    <td class="num-col">{{$index + 1}}</td>
+                                    <td><input type="text" onpaste="return false" autocomplete="off" class="print-stud no-border" style="width: 100%;" ng-disabled="!studentDetail.HideDetailsStudName" ng-model="studentDetail.StudName" object="studentDetail.StudName" id="StudName_{{$index}}" ng-change="StudNameChange($index)" /></td>
+                                    <td><input type="text" onpaste="return false" autocomplete="off" class="print-ht no-border" ng-disabled="!studentDetail.HideDetailsHTNO" ng-blur="CheckHTNo($index)" ng-model="studentDetail.HTNO" object="studentDetail.HTNO" id="HTNO_{{$index}}" compulsory="true" ng-change="HTNOChange($index)" /></td>
+                                    <td>
+                                        <input type="radio" id="Present" ng-change="getsaved(studentDetail)" ng-disabled="studentDetail.DisableChecklistflag" ng-model="studentDetail.StatusFlag" object="studentDetail.StatusFlag" ng-true-value="'YES'" tabindex="1" />
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="Absent" ng-change="getsaved(studentDetail)" ng-disabled="studentDetail.DisableChecklistflag" ng-model="studentDetail.StatusFlag" object="studentDetail.StatusFlag" value="A" tabindex="1" />
+                                    </td>
+                                    <!--<td>
+                                        <input ng-disabled="true" type="text" class="no-border" style="text-align: center;" ng-model="studentDetail.TotalMarks" object="studentDetail.TotalMarks" id="TotalMarks" />
+                                        <label class="no-print" ng-if="studentDetail.AddFlag == 'Y'" style="font-weight:bold;font-size:14px !important;color:black;">*</label>
+                                    </td>
+                                    <td class="print-only no-border">
+                                        <label ng-if="studentDetail.AddFlag == 'Y'" style="font-weight:bold;font-size:14px !important;color:black;">*</label>
+                                    </td>
+                                    <td class="no-print">
+                                        <input type="button" ng-hide="studentDetail.HideDetailsDelete" ng-click="DeleteRow($index)" class="btn btn-detail btn-sm" value="Delete" />
+                                    </td>
+                                    <td width="1px;" class="no-print" ng-hide="true" ng-if="$index == StudListLength-1" ng-init="ValidateMarks()"></td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="studentDetailList.length>0">
+                    <div class="col-md-12 text-center">
+                        <label><b>{{studentDetailList.length - PendingCount}}</b> student marks awarded out of <b>{{studentDetailList.length}}</b> students.</label>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="SaveLoadImg" width="100" />
+                </div>
+                <div class="row" ng-show="studentDetailList.length>0">
+                    <div class="col-md-12 text-center" ng-hide="HideDetails">
+                        <input type="button" ng-disabled="SaveDisable" ng-click="AddNewRow()" class="btn btn-detail btn-sm" value="Add New" />
+                        <input type="button" ng-disabled="SaveDisable" ng-click="postOtherMarkEnrtyDetail()" class="btn btn-detail btn-sm" value="Save" />
+                        <input type="button" ui-sref="PreExam" class="btn btn-reset btn-sm" value="Cancel" />
+                        <input type="button" ng-disabled="SubmitDisable" ng-click="submitOtherMarkEnrtyDetail()" class="btn btn-detail btn-sm" value="Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

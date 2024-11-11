@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Exam Fee Pay</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <div ng-controller="ExamFeesPaidListController">
+        <section id="main-content">
+            <!-- New Style Start-->
+            <div class="container">
+                <div class="row ctitle">
+                    <div class="col-md-5">
+                        <span><strong>Exam Fee Pay</strong></span>
+                    </div>
+                    <div class="col-md-7 text-right">
+                        <ol class="breadcrumb">
+                            <li>You are in </li>
+                            <li>Home</li>
+                            <li>Examination</li>
+                            <li>Exam Fee Pay</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="row base-row">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div class="row" ng-hide="{{ForBoardDisable}}">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1">District :</label>
+                                        <select class="form-control input-sm" id="DistrictID" ng-model="ExamFeesPaidList.DistrictID" ng-change="FillMandal(ExamFeesPaidList.DistrictID)">
+                                            <option ng-selected="ExamFeesPaidList.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Mandal :</label>
+                                        <select class="form-control input-sm" id="MandalID" ng-model="ExamFeesPaidList.MandalID" ng-change="FillCollege(ExamFeesPaidList.MandalID)" ng-disabled="MandalDisable">
+                                            <option ng-selected="ExamFeesPaidList.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">College :</label>
+                                        <select class="form-control input-sm" id="CollegeID" ng-model="ExamFeesPaidList.CollegeID" ng-change="FillCollData(ExamFeesPaidList.CollegeID)" ng-disabled="CollegeDisable">
+                                            <option ng-selected="ExamFeesPaidList.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Stream :</label>
+                                        <select class="form-control" ng-model="ExamFeesPaidList.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFeesPaidList.CourseID)">
+                                            <option ng-selected="ExamFeesPaidList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sel1">Year :</label>
+                                        <select class="form-control" ng-model="ExamFeesPaidList.ExamID" id="ExamID">
+                                            <option ng-selected="ExamFeesPaidList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sel1">UpTo College Transfer Date :</label>
+                                        <select class="form-control" ng-model="ExamFeesPaidList.CollegeTransferDates" id="CollegeTransferDates">
+                                            <option ng-selected="ExamFeesPaidList.CollegeTransferDates == option.CollegeTransferDates" ng-repeat="option in CollegeTransferList" value="{{option.CollegeTransferDates}}">{{option.CollegeTransferDates}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="margin-top:24px;" class="col-md-1">
+                                    <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">Show</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="Examfees" ng-init="chkinit()" ej-grid e-datasource="ExamfeesData"
+                                         e-editsettings-allowediting="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2  col-md-offset-3">
+                                    <label for="adno"> Total Candidates : </label>
+                                    <input type="text" class="form-control" id="TotalCondidate" ng-Model="ExamFeesPaidList.TotalCondidate" ng-readonly="true">
+                                </div>
+                                <div class="col-md-2 ">
+                                    <label for="adno"> Total Fee Amount(Rs./-): </label>
+                                    <input type="text" class="form-control" id="TotalFeeAmount" ng-Model="ExamFeesPaidList.TotalFeeAmount" ng-readonly="true">
+                                </div>
+                                <div class="col-md-2">
+                                    <div style="padding-top:24px;" class="col-md-2 ">
+                                        <button type="button" ng-click="SaveExamFeesPaid()" class="btn btn-sm btn-primary">Pay Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successful.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+

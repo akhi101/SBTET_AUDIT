@@ -1,0 +1,277 @@
+<style>
+    input[type=checkbox] {
+        margin: 4px 0 0;
+        width: 20px;
+        margin: 0px 10px !important;
+        padding: 0px 10px;
+        height: 20px;
+    }
+
+    .modal-content {
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: 0;
+    }
+
+    .modal-dialog {
+        width: 600px;
+        margin: 30px auto;
+    }
+
+    .modal-header {
+        padding: 15px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .modal-body {
+        position: relative;
+        padding: 15px;
+    }
+
+    .modal-footer {
+        padding: 15px;
+        text-align: right;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .close {
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        filter: alpha(opacity=20);
+        opacity: .2;
+    }
+
+    .fl-right {
+        /* float: right; */
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+        position: relative;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+        font-size: 15px !important;
+        color: #4747e3;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #0a8bfb;
+        border-color: #0886f3;
+    }
+</style>
+<div class="modal-content">
+
+    <div class="modal-header">
+        <h2 class="modal-title" style="text-align:center" id="exampleModalLabel">Details</h2>
+        <button type="button" class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+
+            <!--<span1  aria-hidden="true">&times;</span1>-->
+
+
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form>
+            <strong class="course-label" style="font-size:20px">Task Date:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.TaskDate | date:'dd-MM-yyyy'}}
+            </span>
+            <hr>
+
+
+            <strong class="course-label" style="font-size:20px">User:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.UserName}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px">Project Name:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.ProjectName}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px">Task Type:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.TaskType}}
+            </span>
+            <hr>
+
+
+
+            <strong class="course-label" style="font-size:20px">Task Description:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.TaskDescription}}
+            </span>
+            <hr>
+
+            <strong ng-show="TaskRemarks!=''" class="course-label" style="font-size:20px">Remarks:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+
+                {{EditData.TaskRemarks}}
+            </span>
+            <hr ng-show="TaskRemarks!=''">
+
+            <strong class="course-label" style="font-size:20px">File Name:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.FileNmae}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px" ng-show="IssueFile">Issue File Download:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="IssueFile">
+                <button ng-click="DownloadFile()" title="Click here to Download" class="btn btn-xs download_btn"> <i class="fa fa-download" aria-hidden="true"></i></button>
+            </span>
+            <hr ng-show="IssueFile">
+
+            <strong class="course-label" style="font-size:20px" ng-show="saremarkslabel">System Analyst Remarks:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="saremarkslabel">
+                {{EditData.SystemAnalystRemarks}}
+            </span>
+            <hr ng-show="saremarkslabel">
+
+
+            <strong class="course-label" style="font-size:20px" ng-show="sadatelabel">SystemAnalyst Forwarded DateTime:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="sadatelabel">
+                {{EditData.SystemAnalystForwardedDateTime | date:'dd-MM-yyyy HH:MM'}}
+
+            </span>
+            <hr ng-show="sadatelabel">
+
+            <strong class="course-label" style="font-size:20px" ng-show="worklabel">WorkAssigned To:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="worklabel">
+                {{EditData.WorkAssignedTo}}
+            </span>
+            <hr ng-show="worklabel">
+
+
+            <strong class="course-label" style="font-size:20px" ng-show="filenamelabel">WorkAssigned On DateTime:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="filenamelabel">
+                {{EditData.WorkAssignedDateTime  | date:'dd-MM-yyyy HH:MM'}}
+            </span>
+            <hr ng-show="filenamelabel">
+
+            <strong class="course-label" style="font-size:20px" ng-show="completelabel">Status:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="worklabel">
+                {{EditData.CompletionStatus}}
+            </span>
+            <hr ng-show="completelabel">
+
+            <strong class="course-label" style="font-size:20px" ng-show="completelabel">Status Remarks:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="worklabel">
+                {{EditData.StatusRemarks}}
+            </span>
+            <hr ng-show="completelabel">
+
+            <strong class="course-label" style="font-size:20px" ng-show="statusupddatelabel">Status Updated On DateTime:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="filenamelabel">
+                {{EditData.StatusUpdatedDateTime  | date:'dd-MM-yyyy HH:MM'}}
+            </span>
+            <hr ng-show="statusupddatelabel">
+
+            <strong class="course-label" style="font-size:20px" ng-show="ResolvedFile">Resolved File Download:</strong>
+            <span class="text-muted word-break" style="font-size:20px" ng-show="ResolvedFile">
+                <button ng-click="DownloadFile1()" title="Click here to Download" class="btn btn-xs download_btn"> <i class="fa fa-download" aria-hidden="true"></i></button>
+            </span>
+            <hr ng-show="ResolvedFile">
+
+
+
+            <div class="form-group" ng-show="AssignedToTextBox">
+                <label class="font-weight-bold" style="font-size:20px !important">Task Assigned To :</label>
+                <!--<input type="text" class="form-group" maxlength="100" ng-model="TaskAssigned">-->
+                <div class="form-group">
+                    <textarea style="font-size:18px" type="text" rows="1" maxlength="500" class="form-control" placeholder="Enter Task Assigned To" ng-model="TaskAssigned" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="TaskFile">
+                <label style="font-size:20px !important">Upload Updated File : </label>
+                <div class="form-group">
+                    <input id="Circular" type="file" placeholder="" onchange="angular.element(this).scope().uploadfiles()" ng-model="EditData.TaskFilePath" />
+                    <!--<label ng-show="imgLabel">{{EditData.FileNmae}}</label>-->
+                </div>
+            </div>
+            <hr ng-show="TaskFile">
+
+            <div class="form-group" ng-show="CompletionStatus">
+                <label style="font-size:20px !important" class="font-weight-bold">Status :</label>
+                <div class="form-group">
+                    <textarea style="font-size:18px" type="text" rows="1" maxlength="400" class="form-control" placeholder="Enter Status" ng-model="TaskCompletionStatus" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="RemarksStatus">
+                <label style="font-size:20px !important" class="font-weight-bold">Remarks :</label>
+                <div class="form-group">
+                    <textarea style="font-size:18px" type="text" rows="1" maxlength="500" class="form-control" placeholder="Enter Status Remarks" ng-model="StatusRemarks" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="RemarksText">
+
+                <label style="font-size:20px !important" class="font-weight-bold">Remarks</label>
+                <div class="form-group">
+                    <textarea style="font-size:18px" type="text" rows="5" maxlength="500" class="form-control" placeholder="Enter Remarks" ng-model="Remarks" required></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row padRow">
+            <div class="col-md-2 pull-right" ng-show="CloseButton">
+                <button class="btn  btn-danger btn-css" ng-click="Close()">
+                    Cancel
+                </button>
+            </div>
+            <div class="col-md-2  pull-right" ng-show="RejectButton">
+                <button class="btn btn-danger btn-css" ng-click="Reject(EditData,Remarks)">
+                    Reject
+                </button>
+            </div>
+
+            <div class="col-md-2 pull-right" ng-show="ReviseButton">
+
+                <button class="btn  btn-warning btn-css" ng-click="Revise(EditData,Remarks)">
+                    Revise
+                </button>
+            </div>
+            <div class="col-md-2 pull-right" ng-show="ApproveButton">
+                <button class="btn  btn-success btn-css" ng-click="Approve(EditData,Remarks)">
+                    Approve
+                </button>
+            </div>
+
+            <div class="col-md-2 pull-right" ng-show="DataType=='2' || DataType=='3' || DataType=='4'">
+                <button class="btn  btn-danger btn-css" ng-click="Close()">
+                    Cancel
+                </button>
+            </div>
+            <div class="col-md-2 pull-right" ng-show="UpdateButton">
+                <button class="btn  btn-primary btn-css" ng-click="updateWorkAssignedTo(EditData,TaskAssigned)">
+                    Update
+                </button>
+            </div>
+
+            <div class="col-md-2 pull-right" ng-show="updateButton">
+                <button class="btn  btn-primary btn-css" ng-click="updateFileStatus(EditData,TaskCompletionStatus,StatusRemarks)">
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

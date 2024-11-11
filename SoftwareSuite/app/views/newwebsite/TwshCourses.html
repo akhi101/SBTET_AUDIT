@@ -1,0 +1,82 @@
+﻿<style>
+    .loadImg1 {
+        height: 380px;
+        width: 570px;
+        /*position:relative;
+                top:100px;*/
+    }
+</style>
+<div ng-controller="TwshCoursesController">
+    <div class="pages-links">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Courses</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="">
+        <div class="white">
+
+            <div class="inner-body">
+
+                <div class="container" >
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="inner-heading">
+                                <h3>Typewriting & Shorthand Courses</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-show="data">
+                            <div class="form-group">
+                                <label>Search</label>
+                                <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" ng-show="data">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="6%" ng-click="sort('Id')">S.No <i class="fa fa-fw fa-sort"></i></th>
+                                            <th ng-click="sort('GradeCode')">Grade <i class="fa fa-fw fa-sort"></i></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in TwshCourses |limitTo: 100 |orderBy:sortKey:reverse|filter:search">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.GradeCode}} - {{data.GradeName}}</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12" ng-if="loading">
+                            <!--<div class="col-md-12 no-results">-->
+                            <!--<h2>No Data</h2>-->
+                            <center><img class="loadImg1" src="../../../contents/img/websiteloading.gif"></center>
+                            <!--</div>-->
+                        </div>
+                        <div class="col-md-12" ng-if="error">
+                            <div class="col-md-12 no-results">
+                                <h2>No Data</h2>
+                                <img src="../../contents/img/Folder-Icon.svg" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

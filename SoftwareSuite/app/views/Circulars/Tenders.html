@@ -1,0 +1,361 @@
+﻿<style>
+    .download_btn, .download_btn:hover {
+        background-color: #fff;
+        width: 35px;
+        font-size: 18px;
+        border: 2px solid #d9edf7;
+        color: #35a5f1 !important;
+    }
+
+    .btn_delete, .btn_delete:hover {
+        background-color: #fff;
+        width: 35px;
+        font-size: 18px;
+        border: 1px solid #ffafaf;
+        color: red !important;
+    }
+    /*.download_btn:hover {
+        color: #fff;
+        text-decoration: none;
+        background-color: #d9edf7;
+    }*/
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #000;
+        font-size: 14px !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        /*color: #000;*/
+        font-size: 14px !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer;
+    }
+
+    .table-hover > tbody > tr {
+        background-color: #fff !important;
+        cursor: pointer;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+    table > thead > tr > th {
+  position:sticky;
+  top:0px;
+}
+</style>
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 1px solid #d8d8d8 !important;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
+    element.style {
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .myBtn1 {
+        margin-top: 23px;
+        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+    /**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+<div ng-controller="TendersController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Tenders</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/Tenders">Tenders</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/MasterSettings" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Add Tender</h2>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="circularForm">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <label for="datetimepicker1" class="font-weight-bold">Start Date : </label>
+                                <div class='input-group date'>
+                                    <input type='date' class="form-control"  id='datetimepicker1' ng-model="StartDate" ng-change="SetEndDate(StartDate)" name="StartDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label for="datetimepicker2" class="font-weight-bold">End Date : </label>
+                                <div class='input-group date'>
+                                    <input type='date' class="form-control" id='datetimepicker2' ng-model="EndDate"  name="EndDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label>Upload File </label>
+                                <div class="form-group">
+                                    <input id="Circular" type="file" placeholder="" maxlength="500" onchange="angular.element(this).scope().uploadpdffiles()" ng-model="Circularfile" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="font-weight-bold">Tender Description</label>
+                                <div class="form-group">
+                                    <textarea type="text" rows="5" maxlength="500" class="form-control" placeholder="Enter Description" ng-model="Description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pull-right">
+                                <button type="submit" style="margin-top: 24px;" class="btn btn-success pull-right" ng-click="SaveData()">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="sm-spacer"></div>
+        </div>
+        <div class="col-md-12" ng-if="data">
+            <div class="cl-details">
+                <h2> Tenders List</h2>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive table-custom-tables-tb scrollbox" ng-if="data">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th width="7%">S.No</th>
+                            <th >Start Date</th> 
+                            <th >End Date</th> 
+                            <th>Tender Description</th>
+                            <th width="16%">Created Date</th>
+                            <th width="10%" class="text-center">Download</th>
+                            <th width="10%" class="text-center">Delete</th>
+                            <th width="10%" class="text-center">Action</th>
+                            <th width="10%" class="text-center">Switch</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in Circulars">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <input type="text" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}"  placeholder="MM-DD-yyyy" autocomplete="off" name="ExamDate{{$index + 1}}" ng-model="data.TenderDate" />
+                            </td>
+                            <td>
+                                <input type="text" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" placeholder="MM-DD-yyyy" autocomplete="off" name="ExamDate{{$index + 1}}" ng-model="data.EndDate" />
+                            </td>
+                            <td>
+                                <textarea autocomplete="off" style="width: min-content;" rows="3" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="500" ng-model="data.Title"></textarea>
+                            </td>
+                            <td>{{data.logdate|date:"dd-MM-yyyy"}}</td>
+                            <td class="text-center">
+                                <a href="{{data.Url}}" download ng-show="edit{{$index + 1}}"><button title="Click here to Download" class="btn btn-xs download_btn"> <i class="fa fa-download" aria-hidden="true"></i></button></a>
+                                <div class="col-md-3">
+                                    <!--<label>Upload File (Pdf)</label>-->
+
+                                    <div class="form-group" ng-show="!edit{{$index + 1}}">
+                                        <input type="file" id="studentFile{{$index+1}}"  ng-blur="ChangeFile()"  ng-model="data.Url" onchange="angular.element(this).scope().uploadfiles(this, angular.element(this).scope().$index);" class="upld-file">
+                                        <label ng-show="imgLabel">{{data.FileNmae}}  </label>
+                                         <!--   <input id="WesCert{{$index}}" class="tableinpt enabletable{{$index + 1}}" type="file" placeholder="" onchange="angular.element(this).scope().uploadpdffiles()(this, angular.element(this).scope().$index)"   accept="pdf" ng-model="data.Url" />-->
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <a><button title="Click here to Delete" ng-click="deleteItem(data.Id,data.Usertype)" class="btn btn-xs btn_delete"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 50px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 50px;margin-bottom:5px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1,data.Title)">
+                                    Update
+                                </button>
+                                <button class="btn-xs btn btn-danger" style="width: 50px;" ng-show="!edit{{$index + 1}}" ng-click="Cancelsemesterdat(data,$index+1)">
+                                    Cancel
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-success  " style="width: 55px;margin-bottom:5px;" title="Click here to InActive" ng-click="Status(data.Id,0)" ng-show="data.IsActive==1">
+                                    <!-- <i class="fa fa-pencil" aria-hidden="true"></i>-->Active
+                                </button>
+
+
+                                <button class="btn-xs btn btn-red  " style="width: 55px;" ng-click="Status(data.Id,1)" title="Click here to Activate" ng-show="data.IsActive==0">
+                                    <!-- <i class="fa fa-trash-o" aria-hidden="true"></i>-->InActive
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+
+        </div>
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="error">
+            <div class="col-md-12 no-results">
+                <h2>No Data</h2>
+                <img src="../../contents/img/Folder-Icon.svg" />
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

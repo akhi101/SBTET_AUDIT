@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <style>
+        table {
+            font-size: 10px;
+        }
+    </style>
+    <title>Student Service Requests</title>
+</head>
+<body>
+    <div ng-controller="TCAdmissionReportController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>TC Admission Students Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>TC Admission Students Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <table id="supTable" class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>SSC Exam No</th>
+                                <th>Student Name</th>
+                                <th>Father Name</th>
+                                <th>Previous Admission</th>
+                                <th>New Admission</th>
+                                <th>Previous College</th>
+                                <th>New College</th>
+                                <th>Prev Medium/Group/SL</th>
+                                <th>New Medium/Group/SL</th>
+                                <th>Status</th>
+                                <th>DIEO Updated Date</th>
+                                <th>Done By</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in TCAdmissionData">
+                                <td>{{$index + 1}}</td>
+                                <td>{{x.SSCHallTicket}}</td>
+                                <td>{{x.StudName}}</td>
+                                <td>{{x.FatherName}}</td>
+                                <td>{{x.OldAdmNo}}</td>
+                                <td>{{x.NewAdmNo}}</td>
+                                <td>{{x.OldColName}}</td>
+                                <td>{{x.NewColName}}</td>
+                                <td>{{x.OldGrpInfo}}</td>
+                                <td>{{x.NewGrpInfo}}</td>
+                                <td>{{x.Status}}</td>
+                                <td>
+                                    <p ng-if="x.UpdatedDate == '0001-01-01T00:00:00'">
+                                    </p>
+                                    <p ng-if="x.UpdatedDate != '0001-01-01T00:00:00'">
+                                        {{x.UpdatedDate | date : "dd-MM-y"}}
+                                    </p>
+                                </td>
+                                <td>{{x.ApprovedBy}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+</body>
+</html>
+

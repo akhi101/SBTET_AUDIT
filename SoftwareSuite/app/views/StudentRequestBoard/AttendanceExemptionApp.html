@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Exemption</title>
+</head>
+<body>
+    <div ng-controller="AttendanceExemptionAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Attendance Exemption</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Attendance Exemption</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Application Acknowledgement No. : {{AttendanceExemptionApp.FormNo}}, Applied Date : {{AttendanceExemptionApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="AttendanceExemptionApp.StudName" ng-readonly="true"> <!--disabled="disabled"-->
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="AttendanceExemptionApp.FatherName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Mother Name :</label>
+                                    <input type="text" class="form-control" id="MName" ng-model="AttendanceExemptionApp.MotherName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Address :</label>
+                                    <textarea style="width:100%; font-size:12px;" rows="2" id="ColName" ng-model="AttendanceExemptionApp.Address" ng-disabled="true"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Form No. : </label>
+                                        <input type="text" class="form-control" id="FormNo" ng-model="AttendanceExemptionApp.FormNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Hall Ticket No : </label>
+                                        <input type="text" class="form-control" id="HTNO" ng-model="AttendanceExemptionApp.RollNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Month Of Pass : </label>
+                                        <input type="text" class="form-control" id="PassingMonth" ng-model="AttendanceExemptionApp.PassingMonth" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Year Of Pass : </label>
+                                        <input type="text" class="form-control" id="PassingYear" ng-model="AttendanceExemptionApp.PassingYear" ng-readonly="true">
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Request to Appear :</label>
+                                        <input type="text" class="form-control" id="StudYear" ng-model="AttendanceExemptionApp.StudYear" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group" ng-hide="NewStudDetailsHide">
+                                        <label for=""> Medium : </label>
+                                        <input type="text" class="form-control" id="NewStudMedium" ng-model="AttendanceExemptionApp.NewMediumName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group" ng-hide="NewStudDetailsHide">
+                                        <label for=""> DistrictName :</label>
+                                        <input type="text" class="form-control" id="NewDistName" ng-model="AttendanceExemptionApp.NewDistName" ng-readonly="true">
+                                    </div>
+
+                                    <div class="col-md-6 form-group" ng-hide="NewStudDetailsHide">
+                                        <label for=""> Second Language : </label>
+                                        <input type="text" class="form-control" id="NewSecondLangName" ng-model="AttendanceExemptionApp.NewSecondLangName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number : </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="AttendanceExemptionApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee(in rupees) :</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="AttendanceExemptionApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Gender : </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="AttendanceExemptionApp.Gender" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Type : </label>
+                                        <input type="text" class="form-control" id="" ng-model="AttendanceExemptionApp.Type" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="NewStudDetailsHide">
+                                        <label for=""> Board Name :</label>
+                                        <input type="text" class="form-control" id="BoardName" ng-model="AttendanceExemptionApp.BoardName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="NewStudDetailsHide">
+                                        <label for=""> Group : </label>
+                                        <input type="text" class="form-control" id="NewStudGroupName" ng-model="AttendanceExemptionApp.FullGroupName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="SecondYearStudDetailsHide">
+                                        <label for="">New Group Name. : </label>
+                                        <input type="text" class="form-control" id="NewGroupName" ng-model="AttendanceExemptionApp.FullGroupName" ng-readonly="true">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="SecondYearStudDetailsHide">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Old DistrictName :</label>
+                                        <input type="text" class="form-control" id="OldDistName" ng-model="AttendanceExemptionApp.OldDistName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> New DistrictName :</label>
+                                        <input type="text" class="form-control" id="NewDistName" ng-model="AttendanceExemptionApp.NewDistName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Old Group Name. : </label>
+                                        <input type="text" class="form-control" id="OldGroupName" ng-model="AttendanceExemptionApp.OldGroupName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Second Language : </label>
+                                        <input type="text" class="form-control" id="NewStudSecondLang" ng-model="AttendanceExemptionApp.NewSecondLangName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="SecondYearStudDetailsHide">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Old Medium : </label>
+                                        <input type="text" class="form-control" id="OldMediumName" ng-model="AttendanceExemptionApp.OldMediumName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="">New Medium : </label>
+                                        <input type="text" class="form-control" id="NewMediumName" ng-model="AttendanceExemptionApp.NewMediumName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:5px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""><b>Subjects : </b></label><br />
+                                    <label for="" class="text-blue"><b>1st Language               :</b></label>&nbsp;&nbsp;&nbsp;<label for="">English1 Paper I&II</label>&nbsp;&nbsp;&nbsp;
+                                    <label for="" class="text-blue"><b>2ns Language      :</b></label>&nbsp;&nbsp;&nbsp;<label for="">English Paper I&II</label><br />
+                                    <label for="" class="text-blue"><b>Optional Subject 1:</b></label>&nbsp;&nbsp;&nbsp;<label for="">Commerce Paper I&II</label><br />
+                                    <label for="" class="text-blue"><b>Optional Subject 2:</b></label>&nbsp;&nbsp;&nbsp;<label for="">Civics Paper I&II</label><br />
+                                    <label for="" class="text-blue"><b>Optional Subject 3:</b></label>&nbsp;&nbsp;&nbsp;<label for="">Economics Paper I&II</label><br />
+                                    <label for="" class="text-blue"><b>Optional Subject 4:</b></label>&nbsp;&nbsp;&nbsp;<label for="">MAths Paper I&II</label>
+                                </div>
+                            </div>
+                        </div>
+
+                                    <div class="row" ng-hide="SecondCompletYearStudDetailsHide">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <div class="row">
+                                                <div class="col-md-6 form-group" ng-hide="AdditionalLanguageHide1">
+                                                    <label for=""> Additional Language Paper1 :</label>
+                                                    <input type="text" class="form-control" id="AdditionalLang1" ng-model="AttendanceExemptionApp.AdditionalLang1" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="AdditionalLanguageHide2">
+                                                    <label for=""> Additional Language Paper2 :</label>
+                                                    <input type="text" class="form-control" id="AdditionalLang2" ng-model="AttendanceExemptionApp.AdditionalLang2" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="AdditionalSubjectMaths1AB">
+                                                    <label for="">Additional Subject Maths1A : </label>
+                                                    <input type="text" class="form-control" id="Maths1A" ng-model="AttendanceExemptionApp.Maths1A" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="AdditionalSubjectMaths1AB">
+                                                    <label for="">Additional Subject Maths1B : </label>
+                                                    <input type="text" class="form-control" id="Maths1B" ng-model="AttendanceExemptionApp.Maths1B" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="AdditionalSubjectMaths2AB">
+                                                    <label for="">Additional Subject Maths2A : </label>
+                                                    <input type="text" class="form-control" id="Maths2A" ng-model="AttendanceExemptionApp.Maths2A" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="AdditionalSubjectMaths2AB">
+                                                    <label for="">Additional Subject Maths2B : </label>
+                                                    <input type="text" class="form-control" id="Maths2B" ng-model="AttendanceExemptionApp.Maths2B" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="BridgeCourseMaths1and2">
+                                                    <label for="">Bridge Course Maths1 : </label>
+                                                    <input type="text" class="form-control" id="BridgeMaths1" ng-model="AttendanceExemptionApp.BridgeMaths1" ng-readonly="true">
+                                                </div>
+                                                <div class="col-md-6 form-group" ng-hide="BridgeCourseMaths1and2">
+                                                    <label for="">Bridge Course Maths2 : </label>
+                                                    <input type="text" class="form-control" id="BridgeMaths2" ng-model="AttendanceExemptionApp.BridgeMaths2" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-hide="Status1Hide">
+                                        <div class="col-md-4 col-md-offset-2">
+                                            <div class="form-group">
+                                                <label for=""><font color="red" ng-hide="Star1Hide">*&nbsp;</font>Accept / Reject at Level 1 :</label><!--ng-disabled="Approver1RemarkRO"-->
+                                                <select class="form-control" id="ReqStatus" ng-model="AttendanceExemptionApp.ReqStatus" ng-disabled="Approver1RemarkRO" ng-change="ChangeTextArea(AttendanceExemptionApp.ReqStatus,'ReqStatus')">
+                                                    <option value="0">Select Status</option>
+                                                    <option value="A">May be Approved</option>
+                                                    <option value="R">May be Rejected</option>
+                                                </select>
+                                                <span class="status" for="" ng-show="Level1">
+                                                    Level 1 Status Approved/Rejected Date : {{AttendanceExemptionApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{AttendanceExemptionApp.ReqStatusIPAddress}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!--ng-hide="Approver1RemarkText"-->
+                                            <div class="form-group">
+                                                <label for=""><font color="red" ng-hide="Star1Hide">*&nbsp;</font>Process Remark at Level 1 :</label>
+                                                <textarea style="width:100%;" rows="2" id="ProcessRemark" ng-disabled="Approver1RemarkRO" ng-model="AttendanceExemptionApp.ProcessRemark"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-hide="Status2Hide">
+                                        <div class="col-md-4  col-md-offset-2">
+                                            <!--ng-hide="Approver2RemarkValues"-->
+                                            <div class="form-group">
+                                                <label for=""><font color="red" ng-hide="Star2Hide">*&nbsp;</font>Accept / Reject at Level 2 :</label>
+                                                <select class="form-control" id="ReqStatus" ng-model="AttendanceExemptionApp.ReqStatus1" ng-disabled="Approver2RemarkRO" ng-change="ChangeTextArea(AttendanceExemptionApp.ReqStatus1,'ReqStatus1')">
+                                                    <option value="0">Select Status</option>
+                                                    <option value="A">May be Approved</option>
+                                                    <option value="R">May be Rejected</option>
+                                                </select>
+                                                <span class="status" for="" ng-show="Level2">
+                                                    Level 2 Status Approved/Rejected Date : {{AttendanceExemptionApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{AttendanceExemptionApp.ReqStatus1IPAddress}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for=""><font color="red" ng-hide="Star2Hide">*&nbsp;</font>Process Remark at Level 2 :</label>
+                                                <textarea style="width:100%;" rows="2" id="ProcessRemark1" ng-disabled="Approver2RemarkRO" ng-model="AttendanceExemptionApp.ProcessRemark1"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-hide="Status3Hide">
+                                        <div class="col-md-4  col-md-offset-2">
+                                            <!--ng-hide="Approver2RemarkValues"-->
+                                            <div class="form-group">
+                                                <label for=""><font color="red" ng-hide="Star3Hide">*&nbsp;</font>Accept / Reject at Level 3 :</label>
+                                                <select class="form-control" id="ReqStatus" ng-model="AttendanceExemptionApp.ReqStatus2" ng-disabled="Approver3RemarkRO" ng-change="ChangeTextArea(AttendanceExemptionApp.ReqStatus2,'ReqStatus2')">
+                                                    <option value="0">Select Status</option>
+                                                    <option value="A">Approved</option>
+                                                    <option value="R">Rejected</option>
+                                                </select>
+                                                <span class="status" for="" ng-show="Level2">
+                                                    Level 3 Status Approved/Rejected Date : {{AttendanceExemptionApp.ProcessDate2 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{AttendanceExemptionApp.ReqStatus2IPAddress}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for=""><font color="red" ng-hide="Star3Hide">*&nbsp;</font>Process Remark at Level 3 :</label>
+                                                <textarea style="width:100%;" rows="2" id="ProcessRemark2" ng-disabled="Approver3RemarkRO" ng-model="AttendanceExemptionApp.ProcessRemark2"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2"><hr /></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-offset-2 ">
+                                            <p><strong>View Student Certificates</strong> </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc1Photo}}">Student Photo</a>
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc2SSCMarkMemo}}" id="UploadSSCMarksMemo" ng-hide="SSCMarksAndTCPrivateCertHide">10<sup>th</sup> Marks Memo</a>
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc3TCPrivateCert}}" id="UploadPrivateTC" ng-hide="SSCMarksAndTCPrivateCertHide">TC/Private Certificate</a>
+
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc4EligibilityCertif}}" id="UploadEligibilityCert" ng-hide="ForeignCertHide">Eligibility Certificate</a>
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc5MigrationCert}}" id="UploadMigrationCert" ng-hide="ForeignCertHide">Migration Certificate</a>
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc6InterTC}}" id="UploadInterTC" ng-hide="InterTCandMarksMemoCertHide">Inter TC</a>
+                                            <a class="btn btn-sm btn-primary" target="_blank" href="{{AttendanceExemptionApp.UploadDoc7InterMarksMemo}}" id="UploadInterMarksMemo" ng-hide="InterTCandMarksMemoCertHide">Inter MarksMemo</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12"><hr></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <!--ng-disabled="digisign"-->
+                                            <button type="button" ng-disabled="RollEditDisable" ng-hide="SubmitHide" ng-click="SaveAttendanceExemptionApp()" class="btn btn-detail btn-sm">Submit</button>
+                                            <button type="button" class="btn btn-reset btn-sm" ng-hide="DigitalSignHide" ng-click="PrintAttendanceExemptionApp()">Digital Sign</button>
+                                            <!--<button type="button" ng-disabled="RollEditDisable" ng-show="ShowSubmit" ng-click="SaveMediumChangeApp()" class="btn btn-detail btn-sm">Submit</button>-->
+                                            <!--<button type="button" ng-show="ShowPrint" ng-disabled="DigitalSign" ng-click="PrintMediumChangeApp()" class="btn btn-reset btn-sm">Digital Sign</button>-->
+                                            <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- New Style End-->
+
+                    </div>
+    </div>
+</body>
+</html>

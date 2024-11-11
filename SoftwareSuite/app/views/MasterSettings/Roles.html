@@ -1,0 +1,117 @@
+﻿<style>
+    .btn-css {
+        margin-top: 25px;
+        padding: 5px 12px;
+    }
+     .editbtn{
+        width:42px;
+        margin :0px 10px 0px 10px;
+    }
+    .deleteBtn{
+        width:42px;
+        margin :0px 10px 0px 10px;
+    }
+    .cl-details h2 {
+   
+    margin-bottom: -1px;
+}
+    </style>
+
+<div ng-controller="RolesController">
+    <div class="breadcrumb-header">
+  
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Roll Type</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettingsDashboard">MasterSettings Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/Roles">Roles</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+    <div class="container">
+        <form name="RoleForm">
+            <div class="col-md-12">
+                <div class="base-row row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Enter RoleType</label>
+                            <input type="text" style="resize:none" autocomplete="off" class="form-control" ng-model="RoleType" name="RoleType" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Enter Puropse</label>
+                            <input type="text" style="resize:none" autocomplete="off" class="form-control" ng-model="Puropse" name="Puropse" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 pull-left">
+                        <button type="submit" class="btn pull-left btn-success btn-css" ng-click="RoleForm.$valid && Save()" ng-if="Add">
+                            ADD
+                        </button>
+                        <button type="submit" class="btn pull-left btn-success btn-css" ng-click="RoleForm.$valid && update()" ng-if="Update">
+                            Update
+                        </button>
+                    </div>
+                    <!--<div class="col-md-4 pull-left">
+
+                </div>-->
+
+                </div>
+            </div>
+        </form>
+        </div>
+    <div class="container">
+        <div class=" row">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2>Roles List</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+               
+        <div class="container">
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered table-hover table-striped table-rounded">
+            
+                            <thead>
+                                <tr>
+                                    <th style="font-size:bold;">S.no</th>
+                                    <th>RoleName</th>
+                                    <th>Purpose</th>
+                                    <th width="15%" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color:#fff!important;" ng-repeat="X in SetRoleType">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{X.UserDescription}}</td>
+                                    <td>{{X.Purpose}}</td> 
+                                    <td>
+                                        <button class="btn-xs btn btn-success editbtn col-md-2" ng-click="Edit(X.Id)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        <button class="btn-xs btn btn-red deleteBtn col-md-2" ng-click="delete(X.Id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+
+                </div>
+           </div>
+        </div>
+
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+    
+
+
+        </div>

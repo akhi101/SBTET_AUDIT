@@ -1,0 +1,93 @@
+﻿<style>
+    .table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+<div ng-controller="PrincipalTransferReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Branch Wise Transfer reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic"> Academic Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic/StudentTransferReport">College Wise Transfer Reports</a></li>
+                    <li><a href="#!/Dashboard/Academic/StudentTransferReport/PrinicpalTransferReport">Branch Wise Transfer Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12" ng-show="userType != 2">
+                <a href="#!/Dashboard/Academic/StudentTransferReport" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="col-md-12" ng-show="userType == 2">
+                <a href="#!/Dashboard/Academic" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right" ng-show="result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12"  ng-show="result">
+                <div class="cl-details">
+                    <h2>Branch Wise Transfer reports</h2>
+                </div>
+                <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S.No</th>
+                                <th>New College Name</th>
+                                <th>Old College Name</th>
+                                <th>Scheme</th>
+                                <th> Branch</th>
+                                <!--<th>Old Branch</th>-->                     
+                                <th>Semester</th>
+                                <th class="text-center">Transfered Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            <tr ng-repeat="x in CollegeTransferedList track by $index" ng-click="openReport(x.NewCollegeCode,x.NewBranch,x.Scheme,x.Semester)">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.NewCollegeName}} </td> 
+                                <td>{{x.OldCollegeName}} </td>
+                                <td>{{x.Scheme}} </td>                          
+                                <td>{{x.NewBranch}} </td>
+                              <!--  <td>{{x.OldBranch}} </td>-->
+                                <td>{{x.Semester}} </td>
+                                <td class="text-center">{{x.Transfer_student}} </td>
+ 
+                            </tr>
+                           
+                            <tr style="font-weight:bold!important;">
+                                <td colspan="6" class="text-center">Total</td>
+                                <td class="text-center">{{Transfer_student}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

@@ -1,0 +1,142 @@
+﻿<style>
+     input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+           .table-bordered > thead > tr > th {
+     position: sticky;
+    top: 0px;
+}
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+    border: 1px solid #ddd !important;
+    color: #ffffff!important;
+    background-color: #1976d2!important;
+    font-size: 12px !important;
+}
+</style>
+<div ng-controller="AlphaSelectionController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Alpha Selection</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/AlphaSelection">Alpha Selection</a></li>
+                </ol>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+          
+            <div class="base-row row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class="form-control" ng-model="Scheme" name="Scheme" ng-change="ChangeScheme()" required="">
+                            <option value="" selected="selected">Select Scheme</option>
+                            <!-- ngRepeat: data in Shifts -->
+                            <option value="{{data.SchemeID}}" ng-repeat="data in GetSchemes" class="ng-binding ng-scope">
+                               {{data.Scheme}}
+                            </option><!-- end ngRepeat: data in Shifts -->
+                           
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class="form-control" ng-model="Semester" name="Semester"  required="">
+                            <option value="" selected="selected">Select Semester</option>
+                            <!-- ngRepeat: data in Shifts -->
+                            <option value="{{data.semid}}" ng-repeat="data in GetSemesters" class="ng-binding ng-scope">
+                                {{data.sem}}
+                            </option><!-- end ngRepeat: data in Shifts -->
+
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <button class="btn btn-success" ng-click="Submit()">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Data">
+            <button class="btn btn-success pull-right btn-sm" style="margin-bottom:10px;" ng-click="Save()">Save</button>
+        </div>
+        <div class="col-md-12" ng-show="Data">
+            <div class="cl-details">
+                <h2> Alpha Selection</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Data">
+            <div id="tblParent" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered table-hover table-striped table-rounded ">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%;"><input name='allItemsSelected' type="checkbox" ng-model="allItemsSelected" ng-checked="checkedStatus" ng-click="selectAll(allItemsSelected)"></th>
+                            <th>Pin</th>
+                            <th>Name</th>
+                            <th class="text-center">Is Alpha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in GetAlphaStudentsList" ng-click="OpenDetails(data.CollegeCode)">
+                            <td style="text-align: center"><input type="checkbox" ng-model="IsAlpla" ng-checked="data.IsAlpla" ng-change="selectEntity(data,IsAlpla)"></td>
+                            <td>{{data.pin== null ?'-':data.pin}}</td>
+                            <td>{{data.name == null ?'-':data.name}}</td>
+                            <td class="text-center">
+                                <b class="clr_green" ng-show="data.IsAlpla==1">Yes</b>
+                                <b class="clr_red" ng-show="data.IsAlpla== 0">No</b>
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+
+                </table>
+
+            </div>
+        </div> 
+        <div class="col-md-12" ng-show="Data">
+            <button class="btn btn-success pull-right btn-sm" style="margin-top:10px" ng-click="Save()">Save</button>
+        </div>
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="NoData" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

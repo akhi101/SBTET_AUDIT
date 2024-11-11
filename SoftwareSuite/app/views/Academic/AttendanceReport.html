@@ -1,0 +1,66 @@
+﻿<div ng-controller="AttendanceReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Attendance Report</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                        <li><a href="#!/Dashboard/Academic/AttendanceReport">Attendance Report</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>Attendance Report  </h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm">
+                        <div class="row">
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="AcademicYear" name="StudentType" required
+                                        ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears" ng-change="ChangeData()">
+                                    <option value="" selected>Select Academic Year</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Semester :
+                                </label>
+                                <select class="form-control" ng-model="Semester" name="Semester" required>
+                                    <option value="" selected>Select Semester</option>
+                                    <option ng-repeat="data in ActiveSemesters" value="{{data.semid}}">
+                                        {{data.sem}}
+                                    </option>
+                                    <!--ng-options="Student.type for Student in StudentType">-->
+                                </select>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="gr-btn">
+                                    <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="Submit()">Get Details</button>
+                                    <!--  <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="UpdateExpenditure()" ng-show="UpdateTrue">Update Expenditure</button>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

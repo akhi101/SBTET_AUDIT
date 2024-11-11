@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<style>
+    .alert-success {
+        color: #3c763d !important;
+        background-color: #dff0d8 !important;
+        border-color: #d6e9c6 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #78987c !important;
+        font-size: 14px !important;
+    }
+
+    .table > thead > tr > th {
+        border: 1px solid #ddd !important;
+    }
+
+    .table > tbody > tr > td {
+        border: 1px solid #ddd !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer !important;
+    }
+
+    .sm-spacer {
+        height: 70px;
+    }
+
+    .ExportToExcel1 {
+        color: #31c420;
+    }
+
+    .studWishinputs label {
+        color: #63aacf !important;
+    }
+</style>
+
+<div ng-controller="StudentReadmissionController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+
+                <h5>Student ReAdimission</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard"> Assessment Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard/StudentReadmission">Student Readmission</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container ">
+
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <form name="Readmissionform">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label">
+                                            Student Pin :
+                                        </label>
+                                        <div class='form-group' >
+                                            <input type='text' placeholder="Enter Pin" class="form-control" ng-model="pinNumber"  required/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" type="submit" ng-click="studentdata()">
+                                            Get Detailes
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </form>
+            <div>
+                <div>
+</section>
+
+        
+        <div class="container">
+          
+        <div class="col-md-12"  ng-if="Table">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Student Readmission</h2>
+                    </div>
+                   
+                    <div class="table-responsive table-custom-tables-tb scrollbox">
+                        <table class="table table-bordered table-hover table-striped table-rounded  scrollbox-content">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th>S.No</th>
+                                    <th>Pin </th>
+                                    <th>StudentName</th>
+                                    <th>FatherName </th>
+                                    <th>Collegecode </th>
+                                    <th>BranchCode </th>
+                                    <th>Scheam </th>
+                                    <th>Semeister </th>
+                                    <th>Remark </th>
+                                    <th  style="width: 10%;text-align: center">Detained Scheam </th>
+                                    <th style="width: 10%;text-align: center">Readmit Scheam </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="X  in StudentDetailes">
+                                    <td width="7%">{{$index+1}}</td>
+                                    <td>
+                                        {{X.PIN}}
+                                    </td>
+                                    <td>
+                                        {{X.Name}}
+                                    </td>
+                                    <td>
+                                        {{X.FatherName}}
+                                    </td>
+                                    <td>
+                                        {{X.CollegeCode}}
+                                    </td>
+                                    <td>
+                                        {{X.BranchCode}}
+                                    </td>
+                                   
+                                    <td>
+                                        {{X.Scheme}}
+                                    </td>
+                                    <td>
+                                        {{X.semester}}
+                                    </td>
+                                    <td>
+                                        {{X.Remarks}}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{X.DetainedScheme }}
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{X.ReadmittingScheme }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div ng-if="studentsNotFound" class="no-results">
+                                <img src="../../contents/img/Folder-Icon.svg" />
+                                <h2>No Students found </h2>
+                            </div>
+                        </div>
+                    </div>
+ 
+    </div >
+</div >
+           
+            
+    </div>
+    </div>
+    </div>

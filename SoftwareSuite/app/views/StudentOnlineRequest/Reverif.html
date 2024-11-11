@@ -1,0 +1,177 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Re-verification Subject</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <script type="text/x-jsrender" id="headerTemplate">
+        <input type="checkbox" hidden="true" id="headchk" />
+    </script>
+    <div ng-controller="ReverifController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Reverification of valued answer Scripts</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Request</li>
+                        <!--<li>Re-verification Subject</li>-->
+                        <li>Reverification of valued answer Scripts</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p>CANDIDATES ARE ALLOWED FOR ONLY ONE SERVICE FOR ONE SUBJECT EITHER RE-VERIFICATION OR RE-COUNTING OF VALUED ANSWER SCRIPTS</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100; margin-top:50px;">For any Queries please mail to :</p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Hall Ticket No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Your Enter Hall Ticket No." id="HTNO" ng-model="Reverif.HTNO" maxlength="15">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button"  ng-click="FillDataByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide"  ng-hide="HideInfo">
+                        <!--ng-show="showDetails"-->
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="Reverif.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Father Name:</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="Reverif.FatherName" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for="">College Name: </label>
+                                        <input type="text" class="form-control" id="ColName" ng-model="Reverif.ColName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""><font color="red">*</font> Email ID: </label>
+                                        <input type="text" class="form-control" id="Email" ng-model="Reverif.Email">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Mobile Number: </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="Reverif.MobileNo" maxlength="10" input-Number-Only onpaste="return false;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for=""> Fee (in rupees) :</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="Reverif.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Course Name: </label>
+                                        <input type="text" class="form-control" id="CourseName" ng-model="Reverif.CourseName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Exam Name: </label>
+                                        <input type="text" class="form-control" id="ExmName" ng-model="Reverif.ExmName" ng-readonly="true">
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""><font color="red">*</font> Address :</label>
+                                        <textarea rows="4" id="Address" ng-model="Reverif.Address" style="width: 100%;"></textarea>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Branch Name: </label>
+                                        <input type="text" class="form-control" id="BranchName" ng-model="Reverif.BranchName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Group Name: </label>
+                                        <input type="text" class="form-control" id="MainGrpName" ng-model="Reverif.MainGrpName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Medium Name: </label>
+                                        <input type="text" class="form-control" id="MediumName" ng-model="Reverif.MediumName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Second Language: </label>
+                                        <input type="text" class="form-control" id="SubName" ng-model="Reverif.SubName" ng-readonly="true">
+                                    </div>
+                                    <!--<div style="margin-top:10px;" class="col-md-6 form-group">
+        <label for=""> Upload 1 :</label>
+        <input type="file" class="form-control btn-primary" name="UploadDoc1" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+    </div>
+    <div style="margin-top:10px;" class="col-md-6 form-group">
+        <label for=""> Upload 2 :</label>
+        <input type="file" class="form-control  btn-primary" name="UploadDoc2" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+    </div>-->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box-content">
+                                    <!--<div id="ReverifEntry" ng-init="chkinit()" ej-grid e-datasource="ReverifdataEntryData" e-recorddoubleclick="doubleclick"
+         e-recordclick="recordClick" e-allowselection="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>-->
+                                    <div id="ReCountingEntry" ng-init="chkinit()" ej-grid e-datasource="ReCountingdataEntryData" e-recorddoubleclick="doubleclick"
+                                         e-recordclick="recordClick" e-allowselection="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <!--ng-disabled="RollEditDisable"-->
+                                <!--<button type="button" ng-click="SaveReverif()" class="btn btn-detail btn-sm">Submit</button>
+    <button type="button" ng-disabled="RollPaymentDisable" ng-click="SaveReverifPayment()" class="btn btn-reset btn-sm">Payment</button>
+    <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Exit</button>-->
+                                <button type="button" ng-click="SaveReCounting()" class="btn btn-detail btn-sm">Submit</button>
+                                <!--<button type="button" ng-disabled="RollPaymentDisable" ng-click="SaveReCountingPayment()" class="btn btn-reset btn-sm">Payment</button>-->
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

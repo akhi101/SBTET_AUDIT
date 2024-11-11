@@ -1,0 +1,215 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Courses Responsive flexbox</title>
+</head>
+
+
+<body>
+
+    <style>
+
+        body {
+            background: #eee5e9;
+        }
+
+        .fnt {
+            font-family: sans-serif;
+        }
+
+        p {
+            padding: unset;
+        }
+
+        .container {
+            width: 100%;
+            padding-left: 30px;
+            margin: 50px auto;
+        }
+
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 12px !important;
+        }
+
+
+        .heading {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 50px;
+        }
+
+
+        .grid {
+            margin: 80px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 30px;
+            align-items: center;
+        }
+
+
+
+            .grid > article {
+                background: #eee5e9;
+                border: unset;
+                box-shadow: 2px 2px 6px 0px rgb(0,0,0,0.3);
+                border-radius: 20px;
+                text-align: center;
+                width: 250px;
+                height: 300px;
+                transition: transform .3s;
+            }
+
+                .grid > article:hover {
+                    transform: translateY(5px);
+                    box-shadow: 2px 2px 26px 0px rgba(0,0,0,0.3);
+                }
+
+                .grid > article img {
+                    width: 100%;
+                    height: 150px;
+                    border-top-left-radius: 20px;
+                    border-top-right-radius: 20px;
+                }
+
+
+        .text {
+            padding: 0 10px 10px;
+            height: 70px;
+            
+        }
+
+            .text h3 {
+                text-transform: uppercase;
+            }
+
+        #button1 {
+            background: #000080;
+            border-radius: 10px;
+            border: none;
+            margin: 5px;
+            color: #fff;
+            padding: 10px 15px;
+            width: 70%;
+            height: 20%;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        #button2 {
+            background: green;
+            border-radius: 10px;
+            margin: 5px;
+            border: none;
+            color: #fff;
+            padding: 10px 15px;
+            width: 50%;
+            height: 20%;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+
+        .card-footer {
+            padding: 10px;
+            color: #fff;
+        }
+
+
+
+
+
+
+        @media(max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2,1fr)
+            }
+        }
+
+        @media(max-width: 500px) {
+            .grid {
+                grid-template-columns: repeat(1,1fr)
+            }
+
+                .grid > article {
+                    text-align: center;
+                }
+        }
+    </style>
+
+
+    <div class="container" ng-controller="CcicCoursesCardsController">
+
+        <div class="heading">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+            <h2>Courses List</h2>
+        </div>
+
+
+      
+
+
+        <main class="grid">
+
+            <article ng-repeat="course in Courseslist | filter:search">
+
+                <div class="card-header">
+                    <div class="image">
+                        <img ng-src="{{course.CourseImg}}" />
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+                    <div class="text">
+                        <h4 class="fnt">
+           
+                            {{course.CourseName}}
+                            <br />
+                            ({{course.CourseCode}})
+
+                        </h4>
+                    </div>
+                </div>
+
+
+
+                <div class="card-footer" style="display:inline-flex">
+
+                    <button id="button1" class="btn-sm" ng-click="ShowCourseDetails(course.CourseID)">Read More</button>
+
+                    <button id="button2" class="btn-sm" ng-click="ShowInstitutions(course.CourseID)">Enroll</button>
+
+
+                </div>
+
+            </article>
+        </main>
+
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

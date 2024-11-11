@@ -1,0 +1,61 @@
+﻿<div class="container" >
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Examiner Appointment Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Report</li>
+                <li>Examiner Appointment Report</li>
+            </ol>
+        </div>
+    </div>
+   
+    <div class="row base-row" ng-controller="preExaminerAppointmentReportController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="preExaminerAppointmentsForm" ng-submit="getExaminerAappointmentReport()">
+                <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="preExaminerAppointments.SubType" object="studentCount.ReportType" options="reportTypes" displaycolumn="ReportTypeName" valuecolumn="SubType" objectname="SubType" objecttext="Subject Type" compulsory="true"></sa-select>
+                    </div>-->
+                    <div class="col-md-2">
+                        <sa-select ng-model="preExaminerAppointments.ZoneType" object="preExaminerAppointments.ZoneType" options="ZoneTypes" displaycolumn="ZoneTypeName" valuecolumn="ZoneType" objectname="ZoneType" objecttext="Zone Type" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2 ">
+                        <sa-select ng-model="preExaminerAppointments.CourseID" object="preExaminerAppointments.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="preExaminerAppointments.ExamID" object="preExaminerAppointments.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="preExaminerAppointments.DistrictID" object="preExaminerAppointments.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District" compulsory="true"> </sa-select>
+                    </div>
+                    <!--<div class="col-md-2  col-md-offset-2">
+                        <sa-select ng-model="preExaminerAppointments.CampusID" object="preExaminerAppointments.CampusID" options="basicCampusList" displaycolumn="CampusName" valuecolumn="CampusID" objectname="CampusID" objecttext="Campus" ng-show="campshow"> </sa-select>
+                        <sa-select ng-model="preExaminerAppointments.PrePractCntrID" object="examinerAppointmentDetail.PrePractCntrID" options="basicCampusList" displaycolumn="ColName" valuecolumn="PrePractCntrID" objectname="PrePractCntrID" objecttext="Center" ng-hide="campshow"> </sa-select>
+                    </div>-->
+                    <div class="col-md-2">
+                        <sa-select ng-model="preExaminerAppointments.CollegeID" object="preExaminerAppointments.CollegeID" options="basicColleges" displaycolumn="ColName" valuecolumn="CollegeID" objectname="CollegeID" objecttext="College"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-date ng-model="preExaminerAppointments.FromDate" object="preExaminerAppointments.FromDate" icontype="chevron-circle-right" objectname="FromDate" objecttext="From Date" length="100" ispascal="true" compulsory="true"> </sa-date>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <sa-date ng-model="preExaminerAppointments.ToDate" object="preExaminerAppointments.ToDate" icontype="chevron-circle-right" objectname="ToDate" objecttext="Up To Date" length="100" ispascal="true" compulsory="true"> </sa-date>
+                    </div>-->
+                    <div style="margin-top:22px;" class="col-md-5  col-md-offset-5">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button type="button" ng-click="PrintTextReport()" class="btn btn-detail btn-sm">Print Text Report</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

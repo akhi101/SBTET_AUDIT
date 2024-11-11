@@ -1,0 +1,179 @@
+﻿
+<style>
+
+    .modal-content {
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: 0;
+    }
+
+
+    .modal-header.popup-modal-header {
+        padding: 2px 15px;
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #2196F3;
+    }
+
+
+
+
+    .popup-modal-header .modal-title {
+        margin: 0;
+        text-align: center;
+        line-height: 2.428571;
+        color: #fff;
+    }
+
+    .center-block {
+        display: block;
+    }
+    
+
+
+
+
+    .btn-modal-close {
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 1;
+    }
+
+
+   
+
+    
+
+    .modal-body {
+        padding: 10px;
+    }
+
+    .modal-footer {
+        padding: 15px;
+        text-align: right;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    th, td, p, input {
+        font: 14px Verdana;
+    }
+
+    table, th, td {
+        border: solid 1px #000;
+        border-collapse: collapse;
+        padding: 5px 5px;
+        text-align: center;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .th {
+        background-color: red;
+    }
+
+
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+
+
+
+<div class="modal-dialog-centered">
+    <div class="modal-content">
+        <style class="ng-scope">
+            .modal-fit .modal-content {
+                height: max-content !important;
+                overflow: unset !important;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        </style>
+
+
+
+        <div class="modal-header popup-modal-header ng-scope">
+            <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">x</button>
+            <h4 class="modal-title center-block">Institutions Offered</h4>
+
+
+        </div>
+
+
+
+        <div class="col-md-12 ng-scope">
+            <div class="notifylabel pull-right" for="sel1" style="color: red;">Click on row to register course</div>
+        </div>
+
+
+        <div class="modal-body ng-scope">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table id="tblParent" class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+
+
+                        <tr class="cb-2">
+
+                            <th style="text-align:center">District Name</th>
+                            <th>Institution Code</th>
+
+                            <th>Institution Name</th>
+
+                            <th style="text-align:center">Institution Address</th>
+                            <th>Institution WebSite</th>
+
+
+                        </tr>
+                    </thead>
+
+
+
+                    <tbody>
+
+
+
+
+                        <tr class="" ng-click="ShowReg(institution.InstitutionID)" ng-repeat="institution in InstitutionListByCourse | filter:search">
+                            <td>{{institution.DistrictName}}</td>
+                            <td>{{institution.InstitutionCode}}</td>
+                            <td>{{institution.InstitutionName}}</td>
+                            <td>{{institution.InstitutionAddress}}</td>
+                            <td>{{institution.InstitutionWebSite}}</td>
+
+
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+        <div class="modal-footer ng-scope">
+            <button type="button" class="btn btn-default" ng-click="closeModal()">Cancel</button>
+        </div>
+    </div>
+   
+
+
+</div>
+
+

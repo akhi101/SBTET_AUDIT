@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="DrillDownAdmissionPaymentController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Admission Payment</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Reports</li>
+                        <li>Admission Payment</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Academic Year :</label>
+                            <select class="form-control input-sm" id="AcdYrID" ng-model="DrillDownAdmissionPayment.AcdYrID">
+                                <option ng-selected="DrillDownAdmissionPayment.AcdYrID == option.AcdYrID" ng-repeat="option in AcdYrList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" ng-show="adminuser">
+                        <div class="form-group">
+                            <label for="sel1">District :</label>
+                            <select class="form-control input-sm" id="DistrictID" ng-model="DrillDownAdmissionPayment.DistrictID">
+                                <option value="" selected>All</option>
+                                <option ng-selected="DrillDownAdmissionPayment.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Stream :</label>
+                            <select class="form-control" id="CourseID" ng-model="DrillDownAdmissionPayment.CourseID" ng-change="FillCoursePart(DrillDownAdmissionPayment.CourseID)">
+                                <option ng-selected="DrillDownAdmissionPayment.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Group (Part III) :</label>
+                            <select class="form-control" id="MainGrpID" ng-model="DrillDownAdmissionPayment.MainGrpID" ng-change="FillMedium(DrillDownAdmissionPayment.MainGrpID)">
+                                <option value="" selected>All</option>
+                                <option ng-selected="DrillDownAdmissionPayment.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="MediumID">Medium :</label>
+                            <select class="form-control" id="MediumID" ng-model="DrillDownAdmissionPayment.MediumID">
+                                <option value="" selected>All</option>
+                                <option ng-selected="DrillDownAdmissionPayment.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="SubCastID">Caste/Community :</label>
+                            <select class="form-control" id="CasteID" ng-model="DrillDownAdmissionPayment.CasteID">
+                                <option value="" selected>All</option>
+                                <option ng-selected="DrillDownAdmissionPayment.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="email">Payment Upto Date :</label>
+                            <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="PaymentDate" ng-model="DrillDownAdmissionPayment.PaymentDate" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="adminuser==true">
+                    <div class="col-md-12">
+                        <div style="font-size: 12px;" class="form-group">
+                            <label for="sel1">Select Management Type :</label>
+                            <div ng-repeat="option in BasicManagementTypeList">
+                                <div class="col-md-3">
+                                    <input id="chkCustomer_{{option.MngtTypID}}" type="checkbox" ng-change="getcheckvalue(option.Selected)" ng-model="option.Selected" ng-disabled="ifcoluser" />
+                                    {{option.MngtTypName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="adminuser">
+                    <table style="font-size:12px;" id="alldata" class="table">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>College Code</th>
+                            <th>College Name</th>
+                            <th>Total Admission</th>
+                            <th>Total Amount</th>
+                        </tr>
+                        <tr ng-repeat="x in DrillDownList">
+                            <td>{{ x.Srno }}</td>
+                            <td>{{ x.ColCode }}</td>
+                            <td>{{ x.ColName }}</td>
+                            <td>{{ x.TotalAdmission }}</td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalAmount(x)'> {{ x.TotalAmount }} </a></td>
+                        </tr>
+                    </table>
+                    <br /><br /><br />
+                    <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                    <br /><br /><br />
+                </div>
+                <div class="col-md-12" ng-hide="adminuser">
+                    <table style="font-size:12px;" id="alldata" class="table">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>College Code</th>
+                            <th>College Name</th>
+                            <th>Total Admission</th>
+                            <th>Total Amount</th>
+                        </tr>
+                        <tr ng-repeat="x in colPageAdmissionListForfirst">
+                            <td>{{ x.Srno }}</td>
+                            <td>{{ x.ColCode }}</td>
+                            <td>{{ x.ColName }}</td>
+                            <td>{{ x.TotalAdmission }}</td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalAmount(x)'> {{ x.TotalAmount }} </a></td>
+                            
+                        </tr>
+                    </table>
+                    <br /><br /><br />
+                    <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Payement Data</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">Academic Year:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="AcdYrName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">District:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="CollegeDistName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Management Type :</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="MngtTypName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">Stream:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="CourseName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="adno">Group:</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="MainGrpName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Medium :</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="MediumName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Caste :</label>
+                                                <input type="text" class="form-control" id="adno" ng-Model="CasteName" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="filtereddata" class="table">
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>Transaction No.</th>
+                                        <th>Payement Date</th>
+                                        <th>Total Adission</th>
+                                        <th>Total Amount</th>
+                                    </tr>
+                                    <tr ng-repeat="x in colPageAdmissionList">
+                                        <td>{{ x.Srno }}</td>
+                                        <td>{{ x.MerchTxnRef }}</td>
+                                        <td>{{ x.Tdate }}</td>
+                                        <td>{{ x.TotalAdmission }}</td>
+                                        <td>{{ x.TotalAmount }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

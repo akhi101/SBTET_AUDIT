@@ -1,0 +1,149 @@
+﻿<style>
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+
+    .padRow {
+        padding: 5px;
+    }
+
+
+    .font_bold {
+        font-weight: bold;
+    }
+    .modal-dialog {
+        width:60%;
+    }
+</style>
+
+<!--<div class="modal-header ">
+
+</div>-->
+<div class="modal-body">
+    <div class="col-md-12 ">
+        <div class="cl-details">
+            <h2>Duplicate Certificate Student Details</h2>
+        </div>
+    </div>
+    <div class="col-md-12 ">
+        <div class="card">
+            <div class="col-md-12">
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Name</div>
+                    <div class="col-md-6">: {{StudentDetails.Name}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Pin</div>
+                    <div class="col-md-6">: {{StudentDetails.Pin}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Scheme</div>
+                    <div class="col-md-6">: {{Scheme}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Branch</div>
+                    <div class="col-md-6">: {{StudentDetails.BranchName}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">College Code</div>
+                    <div class="col-md-6">: {{StudentDetails.CollegeCode}} - {{StudentDetails.CollegeName}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Phone</div>
+                    <div class="col-md-6">: {{StudentDetails.Mobile == null ? '-':StudentDetails.Mobile}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Aadhaar Number</div>
+                    <div class="col-md-6">: {{StudentDetails.AadharNo}}</div>
+                </div>
+                <div class="row padRow" ng-if="StudentDetails.OdcNo">
+                    <div class="col-md-6 font_bold">ODC Number</div>
+                    <div class="col-md-6">: {{StudentDetails.OdcNo}}</div>
+                </div>
+                <div class="row padRow" ng-if="StudentDetails.OdcReason">
+                    <div class="col-md-6 font_bold">ODC Reason</div>
+                    <div class="col-md-6">: {{StudentDetails.OdcReason}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Applied Date</div>
+                    <div class="col-md-6">: {{StudentDetails.LogDate|date:'dd-MMM-yyyy HH:mm:ss'}}</div>
+                </div>
+                <div class="row padRow" ng-if="StudentDetails.PoliceFir">
+                    <div class="col-md-6 font_bold">Police FIR Copy</div>
+                    <div class="col-md-6">: <a ng-href="{{StudentDetails.PoliceFir}}" target="_blank">Police FIR Document</a></div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Principal Covering Letter</div>
+                    <div class="col-md-6">: <a ng-href="{{StudentDetails.PrincipalCoveringletter}}" target="_blank">Principal Covering Letter</a></div>
+                </div>
+                <div class="row padRow" ng-if="StudentDetails.MegistrateAffidavit">
+                    <div class="col-md-6 font_bold" >Affidavit Assested by Special Metropolitan Magistrate</div>
+                    <div class="col-md-4"><a ng-href="{{StudentDetails.MegistrateAffidavit}}" ng-show="!Update" target="_blank">Affidavit Assested by Special Metropolitan Magistrate</a>
+                        <input class="" id="Affidavite" type="file" placeholder=""  ng-show="Update" maxlength="10" onchange="angular.element(this).scope().uploadpdffiles()" accept="image/*" ng-model="Affidavite" /></div>
+               <div class="col-md-2"><button class="btn btn-sm btn-success"  ng-click="EditAffidiate()" ng-show="!Update">Edit</button>
+                   <button class="btn btn-sm btn-success" ng-click="UpdateAffidiate()" ng-show="Update">Update</button></div>
+                 </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Aadhaar Copy</div>
+                    <div class="col-md-6">: <a ng-href="{{StudentDetails.Aadhar}}" target="_blank">Aadhaar Copy</a></div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Damaged ODC and Other Marks Memos</div>
+                    <div class="col-md-6">: <div ng-repeat="data in array"><a ng-href={{data.link}} target="_blank ng-click="opendoc(data.link)">Document {{$index+1}}</a></div></div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <button class="btn btn-danger" style="margin-top:21px" ng-click="closeModal()">Close</button>
+                </div>
+                <div class="col-md-6" ng-show="Data && ApproveType =='0'">
+                    <button class="btn btn-success pull-right" style="margin-top:21px" ng-click="Verify()"> Verify & Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

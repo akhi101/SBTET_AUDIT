@@ -1,0 +1,79 @@
+﻿<div ng-controller="TwshQualifiedListController">
+    <div class="container">
+        <div class="col-md-12 pull-left mtp-50" ng-if="userType == '2'|| userType == '3'">
+            <div class="back-btn" style="margin-bottom:0px;">
+                <a href="#!/Twsh/TwshQualifiedCount" style="color:#fff!important;border-bottom:none"><button type="button" style="background: #1976d2;">Back</button></a>
+            </div>
+        </div>
+        <div class="col-md-12 " ng-if="userType == '2'|| userType == '3'">
+            <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                UnAuthorized Access
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-if="userType == '1'">
+       <!-- -->
+        <div class="row" >
+            <div class="col-md-12 pull-left mtp-50">
+                <div class="back-btn" style="margin-bottom:0px;">
+                    <a href="#!/Twsh/TwshQualifiedCount" style="color:#fff!important;border-bottom:none"><button type="button" style="background: #1976d2;">Back</button></a>
+                </div>
+            </div>
+            <div class="col-md-12 ">
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                    {{StatusMessage}}
+                </div>
+            </div>
+
+            <div class="col-md-12" >
+            <div class="pull-right" style="color:red">Click on the row to View & Print Certificate</div></div>
+            <div class="col-md-12 " ng-show="data">
+                <div class="cl-details">
+                    <h2>TWSH Qualified List</h2>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb ">
+                    <table class="table table-bordered  table-striped table-rounded ">
+                        <thead>
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th style="width: 2%" ng-click="sort('Sno')">S.No</th>
+                               <!-- <th class="text-center" ng-click="sort('Scheme')">HallTicket Number</th>-->
+                                <th class="text-center" ng-click="sort('Scheme')">Registration No</th>
+                                <th class="text-center"  ng-click="sort('Semester')">Name</th>
+                                <th class="text-center"  ng-click="sort('Branch')">Month & Year of Pass </th>
+                                <th class="text-center"  ng-click="sort('On Roll')">Phone Number</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Print</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in QualifiedList" style="background-color:#fff!important;" ng-click="OpenData(data.RegistrationNo)">
+                                <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                                <td>{{$index+1}}</td>
+                               <!-- <td class="text-center">{{data.HallTicketNumber}}</td>-->
+                                <td class="text-center">{{data.RegistrationNo}}</td>
+                                <td class="text-center">{{data.Name}}</td>
+                                <td class="text-center">{{data.YearofMonth}} - {{data.YearofPass}}</td>
+                               <td class="pointer text-center">{{data.StudentPhoneNumber}}</td>
+                                <td class="pointer text-center">
+                                <button class="btn btn-xs btn-success" ng-if="data.printed == 1">Printed</button>
+                                    <button class="btn btn-xs btn-danger" ng-if="data.printed == 0">Need to Print</button>
+                                </td>
+                                
+                            </tr>
+                            <!--<tr class="alert-success">
+                                <td colspan="2">Total</td>
+                                <td class="text-center">{{Applied|number}}</td>
+                                <td class="text-center">{{FeePaid}}</td>
+                                <td class="pointer text-center">{{FeeNotPaid}}</td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

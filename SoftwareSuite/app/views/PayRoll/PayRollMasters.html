@@ -1,0 +1,275 @@
+﻿<style>
+
+    .circle {
+        width: 131px;
+        height: 131px;
+        border-radius: 50%;
+        background: #fff;
+        background-color: #ffd861;
+        border: 2px solid var(--bg-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease-out;
+    }
+
+        .circle:after {
+            content: "";
+            width: 118px;
+            height: 118px;
+            display: block;
+            position: absolute;
+            background-color: #ffd861;
+            background: var(--bg-color);
+            border-radius: 50%;
+            top: 3px;
+            left: 4px;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .circle img {
+            z-index: 10000;
+            transform: translateZ(0);
+        }
+
+    .overlay {
+        width: 118px;
+        position: absolute;
+        height: 118px;
+        border-radius: 50%;
+        background: #ffeeba;
+        top: 10px;
+        left: 50px;
+        z-index: 0;
+        transition: transform 0.3s ease-out;
+    }
+        /*---------------------* Green color card *-------------------------*/
+        .overlay.bg-green-clr {
+            background: #e2fced;
+            transition: transform 0.3s ease-out;
+        }
+
+    .bg-green-clr {
+        background-color: #B8F9D3;
+    }
+
+    .card:hover .circle.bg-green-clr {
+        border-color: #B8F9D3;
+        background: #B8F9D3;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    }
+
+    .card:hover .overlay.bg-green-clr {
+        transform: scale(4) translateZ(0);
+    }
+    /*-------------------* Voilet color card end *------------------------*/
+    /*---------------------* Voilet color card *-------------------------*/
+    .bg-voilet-clr {
+        background-color: #CEB2FC;
+    }
+
+    .overlay.bg-voilet-clr {
+        background: #F0E7FF;
+        transition: transform 0.3s ease-out;
+    }
+
+    .card:hover .circle.bg-voilet-clr {
+        border-color: #CEB2FC;
+        background: #CEB2FC;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    }
+
+    .card:hover .overlay.bg-voilet-clr {
+        transform: scale(4) translateZ(0);
+    }
+    /*--------------------* Voilet color card end*-----------------------*/
+    /*---------------------* blue color card *-------------------------*/
+    .bg-blue-clr {
+        background-color: #DCE9FF;
+    }
+
+    .overlay.bg-blue-clr {
+        background: #f1f7ff;
+        transition: transform 0.3s ease-out;
+    }
+
+    .card:hover .circle.bg-blue-clr {
+        border-color: #DCE9FF;
+        background: #DCE9FF;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    }
+
+    .card:hover .overlay.bg-blue-clr {
+        transform: scale(4) translateZ(0);
+    }
+    /*--------------------* blue color card end*-----------------------*/
+    .spacer {
+        height: 70px;
+    }
+
+    .overlayCss {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgb(241, 241, 241);
+        z-index: 2;
+        cursor: pointer;
+    }
+
+    .textCss {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 50px;
+        color: white;
+        transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+    }
+
+    tr.clr_bg {
+        background-color: #024e85;
+        color: #fff;
+    }
+</style>
+<div ng-controller="PayRollMastersController">
+    <div class="wrapper">
+        <div class="header" ng-include="'app/views/SBPHeader.html'">
+        </div>
+        <div class="container hidden">
+            <div class="main-header ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="logo-img">
+                                <img src="../../contents/img/big-logo.png" class="img-responsive" />
+                                <h2>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</h2>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o-info">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>040-23222192</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>sbtet-helpdesk@telangana.gov.in</a></li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <header class="main-header"></header>
+        <nav class="navbar navbar-inverse" style="margin-bottom:0px">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- <a class="navbar-brand" href="#!/Dashboard">Dashboard</a> -->
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="active"><a href="#"><i class="fa fa-user" aria-hidden="true"></i> {{userName}}</a></li>
+                        <li><a href="#" ng-click="ChangePassword()"><i class="fa fa-repeat" aria-hidden="true"></i> Change Password</a></li>
+                        <li><a href="" ng-click="logOut()"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a></li>
+                    </ul>
+                </div>
+                <!-- /.nav-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+    </div>
+
+    <ui-view>
+        <section class="content">
+            <div class="container">
+
+                <div class="row widgets-container">
+                    <div class="col-lg-3 col-xs-6" ng-repeat="item in PreExamModules track by $index">
+                        <a href="#" class="grow" ui-sref=".{{item.ModuleRouteName}}" ng-click="OpenSubModule(item)">
+                            <div class="{{item.ModuleImageClass}}">
+                                <div class="inner">
+                                    <div class="icon" ng-show="item.ModuleRouteName=='SetDates'">
+                                        <img src="../../contents/img/calender.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='SetExamCenters'">
+                                        <img src="../../contents/img/Examcenter.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='PreExamFeePayment'">
+                                        <img src="../../contents/img/Bulkpay.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='NrDownload'">
+                                        <img src="../../contents/img/nrReports.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='PreExamReports'">
+                                        <img src="../../contents/img/results.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='AdminPreExamReports'">
+                                        <img src="../../contents/img/results.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='Search'">
+                                        <img src="../../contents/img/Assess.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='SmsService'">
+                                        <img src="../../contents/img/admissionnew.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='Condonation'">
+                                        <img src="../../contents/img/Condonation.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='Hallticket'">
+                                        <img src="../../contents/img/HallTicket.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='DiplomaFeePayment'">
+                                        <img src="../../contents/img/rupee.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='PaymentStatus'">
+                                        <img src="../../../contents/img/TRanscaton.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='TransactionReport'">
+                                        <img src="../../contents/img/transaction.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='NrExcelReport'">
+                                        <img src="../../contents/img/nrExcel.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.Module=='StudentOnlineRequest'">
+                                        <img src="../../contents/img/certificate.png" width="60px" height="60" />
+                                    </div>
+                                    <h3>{{item.SysModName}}</h3>
+                                    <div class="icon1">
+                                        <img src="../../contents/img/transprent.png" width="100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+            </div>
+            <div class="container">
+
+            </div>
+            <div class="spacer"></div>
+        </section>
+
+    </ui-view>
+
+</div>

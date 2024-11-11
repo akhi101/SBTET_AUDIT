@@ -1,0 +1,246 @@
+﻿<style>
+    .contentBold{
+        font-weight:bold!important;
+    }
+</style>
+<div ng-controller="ReleaseAadhaarController">
+        <div class="breadcrumb-header">
+                <!-- breadcrumb Open -->
+                <div class="container">
+                    <section class="content-header">
+                        <h5>Release Aadhaar</h5>
+                        <ol class="breadcrumb">
+                            <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                            <li><a href="#!/Dashboard/AdmissionDashboard/ReleaseAadhaar">Release Aadhaar</a></li>
+                            <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                        </ol>
+                    </section>
+                </div>
+                <!-- breadcrumb Close -->
+            </div>
+        <section class="">
+            <div class="container">
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div id="exTab2" class="container">
+                    <ul class="nav nav-tabs">
+                        <li class="myBtn active" ng-click="ClearData()">
+                            <a href="#1" data-toggle="tab">Release Aadhaar</a>
+                        </li>
+                        <li ng-click="ClearData()">
+                            <a href="#2" data-toggle="tab">Release Attendee Id</a>
+                        </li>
+                        <li ng-click="ClearData()">
+                            <a href="#3" data-toggle="tab">Update Aadhaar</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content ">
+                        <div class="tab-pane active" id="1">
+
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <div class="studWishinputs">
+                                        <form novalidate>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="label" style="color:#31708f!important">Enter Student Pin</label>
+                                                        <input type="text" class="form-control" name="pin" ng-model="studentPin" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="ReleaseAadhar()">
+                                                            Release Aadhar
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="col-md-12">
+                                <div class="alert alert-info" ng-if="result">
+                                    {{response}}
+                                </div>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                            </div>
+                            <div class="col-md-12">
+                                <div ng-if="Noresult" class="no-results">
+                                    <img src="../../contents/img/Folder-Icon.svg" />
+                                    <h2>{{failResponse}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="2">
+
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <div class="studWishinputs">
+                                        <form novalidate>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="label" style="color:#31708f!important">Enter Student Pin </label>
+                                                        <input type="text" class="form-control" name="pin" ng-model="studentPin" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="ReleaseAttendeeId()">
+                                                            Release Attendee Id
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="col-md-12">
+                                <div class="alert alert-info" ng-if="result">
+                                    {{response}}
+                                </div>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                            </div>
+                            <div class="col-md-12">
+                                <div ng-if="Noresult" class="no-results">
+                                    <img src="../../contents/img/Folder-Icon.svg" />
+                                    <h2>{{failResponse}}</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="3">
+
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <div class="studWishinputs">
+                                        <form novalidate>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="label" style="color:#31708f!important"> Polycet Hallticket Number:</label>
+                                                        <input type="text" class="form-control" name="pin" ng-model="PolycetHtNumber" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="getAadharUpdationDetails()">
+                                                            Get Details
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row class_bord" ng-show="StudentData.length>0">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-2 pad_cls">
+                                                                <strong class="course-label">College Code</strong>
+
+                                                            </div>
+                                                            <div class="col-md-10 pad_cls">
+                                                                <span class="text-muted word-break fl-right1">
+                                                                    : {{StudentData[0].CollegeCode}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-2 pad_cls">
+                                                                <strong class="course-label"> Student Name</strong>
+
+                                                            </div>
+                                                            <div class="col-md-10 pad_cls">
+                                                                <span class="text-muted word-break fl-right1">
+                                                                    : {{StudentData[0].Name}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-2 pad_cls">
+                                                                <strong class="course-label"> Father Name</strong>
+
+                                                            </div>
+                                                            <div class="col-md-10 pad_cls">
+                                                                <span class="text-muted word-break fl-right1">
+                                                                    : {{StudentData[0].FatherName}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-2 pad_cls">
+                                                                <strong class="course-label"> Aadhaar Number</strong>
+
+                                                            </div>
+                                                            <div class="col-md-10 pad_cls">
+                                                                <span class="text-muted word-break fl-right1">
+                                                                    : {{StudentData[0].AadharNo}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="label" style="color:#31708f!important">Enter Correct Aadhaar Number:</label>
+                                                                <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="12" minlength="12" name="pin" ng-model="CorreectedAadhaarNumber" />
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                    <div class="col-md-12" ng-show="StudentData.length>0">
+                                                        <div class="">
+                                                            <button type="submit" style="margin-right:35px" class="btn  btn-success btn_top_margin  pull-right" ng-click="updateaadharnumber()">Update<span class="fa  heading_icon btn_icons"></span></button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="col-md-12">
+                                <div class="alert alert-info" ng-if="result">
+                                    {{response}}
+                                </div>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                            </div>
+                            <div class="col-md-12">
+                                <div ng-if="Noresult" class="no-results">
+                                    <img src="../../contents/img/Folder-Icon.svg" />
+                                    <h2>{{failResponse}}</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                        </div>
+</section>
+</div>

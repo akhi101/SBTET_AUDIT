@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Change</title>
+</head>
+<body>
+    <div ng-controller="GroupChangeController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Group Change</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Student Admission</li>
+                        <li>Group Change</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="adno">Enroll No.:</label>
+                            <input type="text" class="form-control" id="adno" ng-Model="GroupChange.AdmNo" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">SSC Hall Ticket:</label>
+                            <input type="text" class="form-control" id="adno" ng-Model="GroupChange.SSCHallTicket" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Candidate's  Name:</label>
+                            <input type="text" class="form-control" id="cname" ng-Model="GroupChange.StudName" maxlength="100" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Father's Name:</label>
+                            <input type="text" class="form-control" id="fname" ng-Model="GroupChange.FatherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="form-group">
+                            <label for="adno">Old Course:</label>
+                            <select class="form-control input-sm" id="CourseID" ng-model="GroupChange.CourseID" ng-disabled="true">
+                                <option ng-selected="GroupChange.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.MainGrpID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">New Course :</label>
+                            <select class="form-control input-sm" id="CourseIDNew" ng-model="GroupChange.CourseIDNew" ng-change="FillCoursePart(GroupChange.CourseIDNew)">
+                                <option ng-selected="GroupChange.CourseIDNew == option.CourseID" ng-repeat="option in CourseListNew" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-3">
+                        <div class="form-group">
+                            <label for="adno">Old Group:</label>
+                            <select class="form-control input-sm" id="MainGrpID" ng-model="GroupChange.MainGrpID" ng-disabled="true">
+                                <option ng-selected="GroupChange.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">New Group :</label>
+                            <select class="form-control input-sm" id="MainGrpIDNew" ng-model="GroupChange.MainGrpIDNew" ng-change="FillBranchByGroup(GroupChange.MainGrpIDNew)">
+                                <option ng-selected="GroupChange.MainGrpIDNew == option.MainGrpID" ng-repeat="option in MainGroupListNew" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Branch :</label>
+                            <input type="text" class="form-control" id="BranchName" ng-Model="GroupChange.BranchName" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="form-group">
+                            <label for="adno">Old Second Language:</label>
+                            <select class="form-control input-sm" id="SecondLangID" ng-model="GroupChange.SecondLangID" ng-disabled="true">
+                                <option ng-selected="GroupChange.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Second Language (Part II) :</label>
+                            <select class="form-control input-sm" id="SecondLangIDNew" ng-model="GroupChange.SecondLangIDNew" ng-change="ChangeSecondLanguage(GroupChange.SecondLangIDNew)">
+                                <option ng-selected="GroupChange.SecondLangIDNew == option.SecondLangID" ng-repeat="option in SecondLangListNew" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="form-group">
+                            <label for="adno">Old Medium:</label>
+                            <select class="form-control input-sm" id="MediumID" ng-model="GroupChange.MediumID" ng-disabled="true">
+                                <option ng-selected="GroupChange.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="MediumID">Medium :</label>
+                            <select class="form-control input-sm" id="MediumIDNew" ng-model="GroupChange.MediumIDNew">
+                                <option ng-selected="GroupChange.MediumIDNew == option.MediumID" ng-repeat="option in MediumListNew" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide="true">
+                        <input type="text" class="form-control" id="CourseID" ng-Model="GroupChange.CourseID">
+                        <input type="text" class="form-control" id="BranchID" ng-Model="GroupChange.BranchID">
+                        <input type="text" class="form-control" id="ExamIDNew" ng-Model="GroupChange.ExamIDNew">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <button type="button" ng-click="SaveGroupChange()" class="btn btn-detail btn-sm">Submit</button>
+                        <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

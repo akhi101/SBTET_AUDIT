@@ -1,0 +1,180 @@
+﻿<div ng-controller="TheoryController">
+    <header>
+        <div class="header" ng-include="'app/views/SBPHeader.html'"> </div>
+        <div class="row navbar_section">
+            <nav class="navbar navbar-inverse navbar_inverse_section">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"></a>
+                    </div>
+                    <div class="container navbar_container_section">
+                        <div class="row">
+                            <div class="collapse navbar-collapse" id="myNavbar">
+                                <ul class="nav navbar-nav">
+                                    <li ng-class="{'active':homeDashBoard}">
+                                        <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                                    </li>
+                                    <!--temporary field open-->
+                                    <li ng-class="{'active':exam == examName}" ng-repeat = "exam in exams">
+                                        <a ng-click = "getExamStatus(exam)">
+                                            <b class = "main_header_main_menu">
+                                                {{exam.examname}}
+                                            </b>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <ul class="nav navbar-nav navbar-right log-navbar">
+                                    <li>
+                                        <a href="#">
+                                            Welcome <span id="college_name1">{{college_name1}}</span>
+                                            {{userName}}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                            <i class="fa fa-sign-out fa-fw"></i>
+                                            Logout
+                                        </a>
+                                    </li>
+                                    <li ng-show="CollegeID!=0">
+                                        <a style="font-size:small" href="#" class="main_header_main_menu" ng-click="ChangePassword()">
+                                            <i class="fa fa-sign-out fa-fw"></i> Change
+                                            Password <span><b></b></span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+    </header>
+
+    <div class="clearfix"></div>
+    <div>
+        <div class="">
+            <ui-view>
+                <div class="breadcrumb-header">
+                    <!-- breadcrumb Open -->
+                    <div class="container">
+                        <section class="content-header">
+                            <h5>Branch Name : {{branch}}</h5>
+                            <ol class="breadcrumb">
+                                <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                                <li><a href="#!/Admission">Admission</a></li>
+                                <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                            </ol>
+                        </section>
+                    </div>
+                    <!-- breadcrumb Close -->
+                </div>
+                <section class="content">
+                    <div class="container ">
+                        <div class="row base-row">
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect">Academic Year :</label>
+                                    </div>
+                                    {{AcademicYearsActiveResponse.AcademicYear}}
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect">Select Scheme :</label>
+                                    </div>
+                                    {{loadedScheme.Scheme}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect">Select Semester :</label>
+                                    </div>
+                                    {{selectedsem.sem}}
+                                </div>
+                            </div>
+
+                            <!--subject Details -->
+                            <div ng-if="examName.examname == 'Internals'" ng-show="subjectDetailsView">
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>Subject Entry</h2>
+                                    </div>
+                                    <div style="width:100%;text-align:center;">
+                                        <img src="../../contents/img/loading2.gif" ng-show="LoadImgForSubject" width="100" />
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in getSemSubjectsResponse" ng-click="selectSubjectDetails(x)">
+                                                    <td>{{x.Subject_Code}} </td>
+                                                    <td>{{x.SubjectName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div ng-if="examName.examname == 'Rubrics'" ng-show="subjectDetailsView">
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>Subject Entry</h2>
+                                    </div>
+                                    <div style="width:100%;text-align:center;">
+                                        <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in getSemSubjectsResponse" ng-click="selectSubjectDetails(x)">
+                                                    <td>{{x.Subject_Code}} </td>
+                                                    <td>{{x.SubjectName}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </ui-view>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+</div>

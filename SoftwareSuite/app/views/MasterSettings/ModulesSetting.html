@@ -1,0 +1,258 @@
+﻿<div ng-controller="ModulesSettingController">
+    <div class="breadcrumb-header">
+        <div class="container">
+            <section class="content-header">
+                <h5>Module Settings </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/ModulesSetting">Module Settings</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <a href="#!/Dashboard/MasterSettings" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#1" data-toggle="tab">Add Module</a>
+                </li>
+                <li>
+                    <a href="#2" data-toggle="tab">Add User Module</a>
+                </li>
+                <li>
+                    <a href="#3" data-toggle="tab">View Modules</a>
+                </li>
+            </ul>
+
+            <div class="tab-content " >
+                <div class="tab-pane active" id="1">
+
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Add Module</h2>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="base-row" style="padding:15px!important;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Card Name :</label>
+                                        <input type="text" placeholder="Enter Card Name" class="form-control" ng-model="CardName" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label class="font-weight-bold"> Card Colour :</label>
+                                        <select class="form-control " ng-model="CardColor" name="StudentType" required>
+                                            <option value="" selected="selected">Select Colour</option>
+                                            <option value="{{data.Id}}" ng-repeat="data in moduleColours" class="">
+                                                {{data.Colour}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Card Route Name :</label>
+                                        <input type="text" placeholder="Enter Card Route Name" class="form-control" ng-model="RouteName" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddModule()">
+                                            Save
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="AddUserModule" class="table-responsive table-custom-tables-tb ">
+                            <table class="table table-bordered  table-striped table-rounded">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th style="width: 5%;">S.No</th>
+                                        <th class="" >Module Name</th>
+                                        <th class="">Module Route Name</th>
+                                        <th class="" style="">Colour</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getAllModules" class="ng-scope">
+                                        <td class="">{{$index+1}}</td>
+                                        <td class="">{{data.ModuleName}}</td>
+                                        <td class="">{{data.ModuleRouteName}}</td>
+                                        <td class="">{{data.Colour}}</td>                                   
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sm-spacer"></div>
+                       
+                    </div>
+                </div>
+                <div class="tab-pane" id="2">
+
+
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2>Add User Module </h2>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="base-row" style="padding:15px!important;">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> User Type :</label>
+                                        <select class="form-control " ng-model="userTypesId" name="StudentType" ng-change="changeUser(userTypeId)" required>
+                                            <option value="" selected="selected">Select Usertype</option>
+                                            <option value="{{data.Id}}" ng-repeat="data in userTypes" class="">
+                                                {{data.UserType}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label class="font-weight-bold"> Module :</label>
+                                        <select class="form-control " ng-model="ModuleId" name="StudentType" required>
+                                            <option value="" selected="selected">Select Module</option>
+                                            <option value="{{data.Id}}" ng-repeat="data in GetModules" class="">
+                                                {{data.ModuleName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddUserModule()">
+                                            Save
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="AddModule" class="table-responsive table-custom-tables-tb ">
+                            <table class="table table-bordered  table-striped table-rounded">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th style="width: 5%;">S.No</th>
+                                        <th class="">Role</th>
+                                        <th class="">Module Name</th>
+                                        <th class="" style="">Module Route Name</th>
+                                        <th class="" style="width: 20%;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getAllUserModules" class="ng-scope">
+                                        <td class="">{{$index+1}}</td>
+                                        <td>{{data.Role}}</td>
+                                        <td>{{data.ModuleName}}</td>
+                                        <td>{{data.ModuleRouteName}}</td>
+                                        <td class="" style="width: 40%;" ng-click="InactiveUserModule(data.Id,data.IsActive,data.RoleId)">
+                                            <button class="btn btn-success btn-xs" ng-show="data.IsActive == true" title="Click To Active">Active</button>
+                                            <button class="btn btn-danger btn-xs" ng-show="data.IsActive == false" title="Click To InActive">InActive</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                           
+                        </div>
+                        <div class="sm-spacer"></div>
+                        <div class="sm-spacer"></div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="3">
+                    <div class="col-md-12">
+                        <form>
+                            <div class="base-row" style="padding:15px!important;">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold"> User Type :</label>
+                                            <select class="form-control" ng-model="userTypesId" name="StudentType" ng-change="changeUser(userTypeId)" required>
+                                                <option value="" selected="selected">Select Usertype</option>
+                                                <option value="{{data.Id}}" ng-repeat="data in userTypes" class="">
+                                                    {{data.UserType}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="getModules()">
+                                                Get Modules
+                                                <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-12" ng-show="result">
+                        <div class="notifylabel pull-right" for="sel1" style="color: red;">Click on row to view details</div>
+                    </div>
+                    <div class="col-md-12" ng-show="result">
+
+                        <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                            <table class="table table-bordered  table-striped table-rounded">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th style="width: 5%;">S.No</th>
+                                        <th class="" ng-click="sort('Semester')">Module Name</th>
+                                        <th class="" style="">Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in modules" ng-click="openDetails(x)" class="ng-scope">
+                                        <td class="" ng-click="OpenSubmodules(data.Id)">{{$index+1}}</td>
+                                        <td class="" ng-click="OpenSubmodules(data.Id)">{{data.ModuleName}}</td>
+
+                                        <td class="" style="width: 40%;" >
+                                            <button class="btn btn-success btn-xs" ng-show="data.IsActive == true" ng-click="Switchmodule(data.Id,data.IsActive)">Active</button>
+                                            <button class="btn btn-danger btn-xs" ng-show="data.IsActive == false" ng-click="Switchmodule(data.Id,data.IsActive)">InActive</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sm-spacer"></div>                    
+                        <div class="sm-spacer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+  
+</div>

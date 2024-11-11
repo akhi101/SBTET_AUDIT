@@ -1,0 +1,153 @@
+﻿<style>
+    .modal-fit-att .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .modal-xlg {
+        width: 1250px;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .status_css {
+        color: red !important;
+        text-decoration: underline !important;
+    }
+
+
+
+    .spacer {
+        height: 50px !important;
+    }
+
+    .padRow {
+        padding: 5px;
+    }
+
+
+    .font_bold {
+        font-weight: bold;
+    }
+</style>
+
+<!--<div class="modal-header ">
+
+</div>-->
+<div class="modal-body">
+    <div class="col-md-12 ng-scope">
+        <div class="cl-details">
+            <h2>STUDENT SSC DATA</h2>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="alert alert-info">
+            <form name="sscdetailsForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>SSC Hallticket Number</label>
+                            <input type="text" ng-model="sscHallticket" autocomplete="off" name="hallticket" placeholder="Hallticket No" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Passedout Year</label>
+                            <input type="text" ng-model="passedoutYear" maxlength="4" placeholder=" YYYY eg.(1990)" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label for="date-picker-example">Examination Pass Type</label>
+                            <select class="form-control" ng-model="sscType">
+                                <option value="">Select Pass Type</option>
+                                <option value="R">Regular</option>
+                                <option value="A">Supplmentary</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="submit-btn " style="margin:0px;">
+                            <button type="submit" ng-click="getsscDetails(sscHallticket,passedoutYear,sscType)">GetDetails</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+        <img src="../../../contents/img/loading.gif" width="100" />
+    </div>
+    <div class="row print" id="idtoDivPrintAdmin" ng-show="ResultFound">
+        <div class="col-md-12 ">
+            <div class="cl-details">
+                <h2>SSC  DETAILS</h2>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Hallticket No</div>
+                <div class="col-md-10">: {{StuSSCdata.ROLLNO}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Name Of the Candidate</div>
+                <div class="col-md-10">: {{StuSSCdata.NAME}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Gender</div>
+                <div class="col-md-10">: {{StuSSCdata.SEX}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Father name</div>
+                <div class="col-md-10">: {{StuSSCdata.FNAME}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Mother name</div>
+                <div class="col-md-10">: {{StuSSCdata.MNAME}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Date Of Birth</div>
+                <div class="col-md-10">: {{StuSSCdata.DOB}}-({{StuSSCdata.DOB_WORDS}})</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Result</div>
+                <div class="col-md-10">: {{StuSSCdata.RESULT}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Class Obtained</div>
+                <div class="col-md-10">: {{StuSSCdata.DIVISION}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">District</div>
+                <div class="col-md-10">: {{StuSSCdata.RDT_NAME}}</div>
+            </div>
+            <div class="row padRow">
+                <div class="col-md-2 font_bold">Medium</div>
+                <div class="col-md-10">: {{StuSSCdata.MED}}</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div ng-show="ResultNotFound" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+

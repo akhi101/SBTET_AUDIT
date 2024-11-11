@@ -1,0 +1,159 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+</style>
+<div ng-controller="ExaminationHallDetailsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Examination Hall Management</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PreExamination">Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/ExamHallDetails">Examination Hall Management </a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <!-- breadcrumb Close -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="col-md-6" >
+                        <button class="btn pull-left btn-primary btn-css text-uppercase" style="margin-top: 10px;margin-bottom: 10px;" ng-click="genseating()">
+                           Generate  Seating Plan
+                        </button>
+                    </div>
+                    <div class="col-md-6" ng-show="!Adddata">
+                        <button class="btn pull-right btn-default btn-css text-uppercase" style="margin-top: 10px;margin-bottom: 10px;" ng-click="addData()">
+                            ADD Exam Hall
+                        </button>
+                    </div>
+                </div>
+                <div ng-show="Adddata">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label for="sel1">
+                                                Examination Hall Name :
+                                            </label>
+                                            <input class="form-control" type="text" id="ExaminationHall" maxlength="100" placeholder="Enter Exam Hall Name" ng-model="ExaminationHall">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="sel1">
+                                                Number of columns in Hall :
+                                            </label>
+                                            <!--<input class="form-control" type="text" maxlength="3" id="HallColumns" placeholder="Enter number of columns in Exam Hall" ng-model="HallColumns">-->
+                                            <select class="form-control" id="column" ng-model="HallColumns"
+                                                    ng-options="col.Id as col.Id for col in maxcolumns">
+                                                <option value="" selected>Select number of columns in Exam Hall</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="sel1">
+                                                Number of Rows in Hall :
+                                            </label>
+                                            <select class="form-control" id="Row" ng-model="HallRows"
+                                                    ng-options="row.Id as row.Id for row in maxrows">
+                                                <option value="" selected>Select number of rows in Exam Hall</option>
+                                            </select>
+                                            <!--<input class="form-control" type="text" id="HallRows" maxlength="3" placeholder="Enter Number of Rows in Exam Hall" ng-model="HallRows">-->
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="Submit()">
+                                                ADD HALL
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row"  ng-show="ReportFound">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Examination Halls Data</h2>
+                    </div>
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table class="table table-bordered table-hover table-striped table-rounded custom-table-wdith">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th>S.No</th>
+                                    <th class="text-center">ExamHall Name</th>
+                                    <th class="text-center">Columns</th>
+                                    <th class="text-center">Rows</th>                                  
+                                    <th class="text-center">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #fff!important;" ng-repeat="Hall in GetMasterHallData">
+                                    <td class="text-left">{{$index + 1}}</td>
+                                    <td class="text-center pointer" style="padding: 3px;">
+                                        <input autocomplete="off" maxlength="100" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="Hall.ExamHall" />
+                                    </td>
+                                    <td class="text-center pointer" style="padding: 3px;">
+                                        <!--<input autocomplete="off"  maxlength="3" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="Hall.Columns" />-->
+                                         <select class="form-control tableinpt enabletable{{$index + 1}}" id="columns" ng-model="Hall.Columns"
+                                            ng-options="col.Id as col.Id for col in maxcolumns">
+                                            <option value="" selected>Select no of Columns</option>
+                                        </select>
+                                    </td>
+
+                                    <td class="text-center pointer" style="padding: 3px;">
+                                        <!--<input autocomplete="off" maxlength="3" class="form-control tableinpt enabletable{{$index + 1}}" type="text" " ng-model="Hall.Rows" />-->
+                                        <select class="form-control tableinpt enabletable{{$index + 1}}" id="Rows" ng-model="Hall.Rows"
+                                                ng-options="row.Id as row.Id for row in maxrows">
+                                            <option value="" selected>Select no of rows</option>
+                                        </select>
+                                    </td>
+
+
+                                    <td class="text-center">
+                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(Hall,$index+1)">
+                                            Edit
+                                        </button>
+                                        <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(Hall,$index+1)">
+                                            Update
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="container" ng-show="Noreports">
+            <div class="col-md-12">
+                <div class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No data Found</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

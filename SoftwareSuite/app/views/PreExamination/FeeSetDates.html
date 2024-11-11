@@ -1,0 +1,499 @@
+﻿ <style>
+    .table > thead:first-child > tr:first-child > th {
+        border-top: 0;
+        background-color: #98abb9;
+        color: #fff;
+    }
+
+    .table > thead:first-child > tr:first-child > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+<div ng-controller="FeeSetDatesController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Fee Payment Dates</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PreExamination"> Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/SetDates">Set Fee Payment Dates</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-6">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-success pull-right" ng-click="OpenSignaturePopup()">Upload COE Signature</button>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="rdo-grp">
+                                <input id="rdo1" type="radio" name="radio1" value="1" ng-model="yesBtn" ng-click="clickRadio(yesBtn)" />
+                                <label for="rdo1"><span></span><span>Fee Payment With Timeteble</span></label>
+                                <input id="rdo2" type="radio" name="radio1" value="0" ng-model="noBtn" ng-click="clickRadio(noBtn)" />
+                                <label for="rdo2"><span></span><span>Fee Payment Without Timetable</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-7 " style="border-left:1px solid #000;height:30px;">
+                            <div class="rdo-grp">
+                                <input id="rdo3" type="radio" name="radio2" value="1" ng-model="yesBtn1" ng-click="clickRadio1(yesBtn1)" />
+                                <label for="rdo3"><span></span><span>Fee Payment With Presumptive Attendance</span></label>
+                                <input id="rdo4" type="radio" name="radio2" value="0" ng-model="noBtn1" ng-click="clickRadio1(noBtn1)" />
+                                <label for="rdo4"><span></span><span>Fee Payment Without Presumptive Attendance</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                 
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <form name="SetDatesForm" ng-submit="submit(CurrentMonthYear)" novalidate>
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="">
+                            <div class="">
+                              
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">
+                                            Academic Year :
+                                        </label>
+                                        <div id='year'>
+                                            <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold"> Exam Type:</label>
+                                        <div class="">
+                                            <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changeStuentType(Student.id)" required>
+                                                <option value="" selected>Select Exam Type</option>
+                                                <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                    {{Student.type}}
+                                                </option>
+                                                <!--ng-options="Student.type for Student in StudentType">-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" ng-show="studentTypeId == 1">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Semester:</label>
+                                        <div class="">
+                                            <select class="form-control" name="semister" required ng-model="sem" ng-change="changeSem(sem)">
+                                                <option value="" selected>Select Semester</option>
+                                                <option ng-repeat="sem in ActiveSemesters" value="{{sem}}">
+                                                    {{sem.semester}}
+                                                </option>
+                                            </select>
+                                            <!--<select class="form-control input-sm" id="stdGender" value="{{x}}" ng-model="x" ng-change="changeSem(x)" ng-disabled="PreDisable" name="Gender"
+                        ng-options="x.semid as x.semester for x in ActiveSemesters">
+                    <option value="" selected>Choose</option>
+                </select>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 " ng-show="studentTypeId == 2">
+                                    <div class="form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" name="semister" required ng-model="current_schemeid" ng-change="changeScheme()">
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="data in getSchemes" value="{{data.SchemeID}}">
+                                                {{data.Scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" ng-show="studentTypeId == 2">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Semester:</label>
+                                        <div class="">
+                                            <select class="form-control" name="semister" required ng-model="sem" ng-change="changeSemester(sem)">
+                                                <option value="" selected>Select Semester</option>
+                                                <option ng-repeat="sem in ActiveSemesters" value="{{sem}}">
+                                                    {{sem.sem}}
+                                                </option>
+                                            </select>
+                                            <!--<select class="form-control input-sm" id="stdGender" value="{{x}}" ng-model="x" ng-change="changeSem(x)" ng-disabled="PreDisable" name="Gender"
+                        ng-options="x.semid as x.semester for x in ActiveSemesters">
+                    <option value="" selected>Choose</option>
+                </select>-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="" ng-show="studentTypeId == 1">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ExamType">
+                                            Month & Year :
+                                        </label>
+                                        <select class="form-control" name="monthYear" ng-model="CurrentMonthYear" required>
+                                            <option value="" selected>Select Year Month</option>
+                                            <option ng-repeat="data in getExamYearMonth" value="{{data.Id}}">
+                                                {{data.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Semester:</label>
+                                        <div class="">
+                                            <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="current_semid" ng-change="LoadExamType(current_schemeid)">
+                                                <option value="" selected>Select Semester</option>
+                                                <option ng-repeat="sem in ActiveSemesters" value="{{sem.semid}}">
+                                                    {{sem.semester}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="col-md-4">
+                                    <label for="datetimepicker1" class="font-weight-bold">Start Date :</label>
+                                    <div class='input-group date'>
+                                        <input type='date' class="form-control" id='datetimepicker1' ng-model="StartDate" min="{{today}}" ng-change="SetEndDate(StartDate)" name="StartDate" required />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <span ng-show="SetDatesForm.StartDate.$dirty && SetDatesForm.StartDate.$invalid">
+                                        <span ng-show="hasError('StartDate', 'required')">Start Date no is required</span>
+                                    </span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker2" class="font-weight-bold">Last Date without fine :</label>
+                                        <div class='input-group'>
+                                            <input type="date" class="form-control" id='datetimepicker2' dateformat="dd-MMM-yyyy" ng-model="EndDate" min="{{enD}}" ng-disabled="endDisable" name="EndDate" ng-change="SetFineDate(EndDate)" required />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <span ng-show="SetDatesForm.EndDate.$dirty && SetDatesForm.EndDate.$invalid">
+                                            <span ng-show="hasError('EndDate', 'required')">Last Date without fine is required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Last Date with Fine :</label>
+                                        <div class='input-group'>
+                                            <input type="date" class="form-control" id='datetimepicker3' ng-model="FineDate" min="{{fine}}" ng-disabled="fineDisable" ng-change="SetTatkalDate(FineDate)" name="FineDate" required />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <span ng-show="SetDatesForm.FineDate.$dirty && SetDatesForm.FineDate.$invalid">
+                                            <span ng-show="hasError('FineDate', 'required')">Fine Date no is required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Tatkal Date :</label>
+                                        <div class='input-group'>
+                                            <input type="date" class="form-control" id='datetimepicker4' ng-model="TatkalDate" min="{{tatkal}}" ng-disabled="tatkalDisable" ng-change="SetTatkalDateFormat(TatkalDate)" name="FineDate" required />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <span ng-show="SetDatesForm.FineDate.$dirty && SetDatesForm.FineDate.$invalid">
+                                            <span ng-show="hasError('FineDate', 'required')">Fine Date no is required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Fee Amount :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="feeAmount" autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Late Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="lateFee" autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Tatkal Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="tatkalFee" autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Premium Tatkal Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="PremiumTatkalFee" autocomplete="off" name="PremiumTatkalFee" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Condonational Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="condonationalFee" autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Certificate Fee(CF) :</label>
+                                        <div id='CertificateFee'>
+                                            <input type='text' class="form-control" ng-model="certificateFee" autocomplete="off" name="CertificateFee" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Presemptive Attended Days(PAD) :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="attendedDays" autocomplete="off" name="attendedDays" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Total Attended Days(TAD) :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="maxWorkingDays" autocomplete="off" name="maxWorkingDays" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Condonation Percentage(%) :</label>
+                                        <div id='condonation'>
+                                            <input type='text' maxlength="2" class="form-control" ng-model="CondonationPercent" autocomplete="off" name="CondonationPercent" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Detend Percentage(%) :</label>
+                                        <div id='detend'>
+                                            <input type='text' maxlength="2" class="form-control" ng-model="DetendPercent" autocomplete="off" name="DetendPercent" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  ng-show="studentTypeId == 2">
+                               
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ExamType">
+                                            Month & Year :
+                                        </label>
+                                        <select class="form-control" name="monthYear" ng-model="CurrentMonthYear1" required>
+                                            <option value="" selected>Select Year Month</option>
+                                            <option ng-repeat="data in getExamYearMonth" value="{{data.Id}}">
+                                                {{data.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="datetimepicker1" class="font-weight-bold">Start Date :</label>
+                                    <div class='input-group date'>
+                                        <input type='date' class="form-control" id='datetimepicker1' ng-model="StartDate" min="{{today}}" ng-change="SetEndDate(StartDate)" name="StartDate" required />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <span ng-show="SetDatesForm.StartDate.$dirty && SetDatesForm.StartDate.$invalid">
+                                        <span ng-show="hasError('StartDate', 'required')">Start Date no is required</span>
+                                    </span>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker2" class="font-weight-bold">Last Date without fine :</label>
+                                        <div class='input-group'>
+                                            <input type='date' class="form-control" id='datetimepicker2' ng-model="EndDate1" min="{{enD}}" ng-disabled="endDisable" name="EndDate" ng-change="SetFineDates(EndDate1)" required />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <span ng-show="SetDatesForm.EndDate1.$dirty && SetDatesForm.EndDate1.$invalid">
+                                            <span ng-show="hasError('EndDate1', 'required')">Last Date without fine is required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Last Date with Fine :</label>
+                                        <div class='input-group'>
+                                            <input type='date' class="form-control" id='datetimepicker3' ng-model="FineDate1" min="{{fine}}" ng-disabled="fineDisable" ng-change="SetTatkalDates(FineDate1)" name="FineDate" required />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <span ng-show="SetDatesForm.FineDate.$dirty && SetDatesForm.FineDate.$invalid">
+                                            <span ng-show="hasError('FineDate', 'required')">Fine Date no is required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Tatkal Date :</label>
+                                        <div class='input-group'>
+                                            <input type="date" class="form-control" id='datetimepicker4' ng-model="TatkalDate1" min="{{tatkal}}" ng-disabled="tatkalDisable" ng-change="SetTatkalDateFormats(TatkalDate1)" name="FineDate" required />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <span ng-show="SetDatesForm.FineDate.$dirty && SetDatesForm.FineDate.$invalid">
+                                            <span ng-show="hasError('FineDate', 'required')">Fine Date no is required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Fee Amount :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="feeAmount1" autocomplete="off" name="Fineamount1" required />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="datetimepicker3" class="font-weight-bold">Late Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="lateFee1" autocomplete="off" name="Fineamount1" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Tatkal Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="tatkalFee1" autocomplete="off" name="Fineamount" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="datetimepicker3" class="font-weight-bold">Premium Tatkal Fee :</label>
+                                        <div id='Fineamount'>
+                                            <input type='text' class="form-control" ng-model="PremiumTatkalFee" autocomplete="off" name="PremiumTatkalFee" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-detail">
+                                    Set Dates
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+
+
+
+
+
+            </div>
+            <div class="" ng-show="result">
+                
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Fee Payment Dates</h2>
+
+                    </div>
+                </div>
+                <div  class="col-md-12 scrollbox">
+                    <table class="table   table-fixed table-bordered  table-responsive scrollbox-content">
+                        <thead>
+                            <tr>
+                                <th style="width: 2%">S No.</th>
+                                <th style="">Semester</th>
+                                <th style="">Student Type</th>
+                                <th style="">Scheme</th>
+                                <th style="">Exam Year Month</th>
+                                <th style="width:22%">From Date </th>
+                                <th style="width:22%">Last Date Without Fine</th>
+                                <th style="width:22%">Last Date With Fine </th>
+                                <th style="width:22%">Tatkal Last Date</th>
+                                <th style="">Fee </th>
+                                <th style="">Late Date Fee </th>
+                                <th style="">Tatkal Fee</th>
+                                <th style="">Premium Tatkal Fee</th>
+                                <th style="">Condonation Fee </th>
+                                <th style="">CF </th>
+                                <th style="">PAD </th>
+                                <th style="">TAD </th>
+                                <th style="">Condonation(%) </th>
+                                <th style="">Detention(%) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="dates in FeeDates">
+                                <td style="width: 2%">{{$index+1}} </td>
+                                <td>{{dates.Semester==null ||dates.Semester==undefined ? '-' :dates.Semester}}</td>
+                                <td>{{dates.StudentType==null ||dates.StudentType==undefined ? '-' :dates.StudentType}}</td>
+                                <td>{{dates.Scheme==null ||dates.Scheme==undefined ? '-' :dates.Scheme}}</td>
+                                <td>{{dates.ExamYearMonth==null ||dates.ExamYearMonth==undefined ? '-' :dates.ExamYearMonth}}</td>
+                                <td>{{dates.FromDate==null ||dates.FromDate==undefined ? '-' :dates.FromDate | date :  "dd-MMM-yyyy HH:mm"}}</td>
+                                <td>{{dates.ToDate==null ||dates.ToDate==undefined ?'-' :dates.ToDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                                <td>{{dates.FineDate==null ||dates.FineDate==undefined ? '-' :dates.FineDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                                <td>{{dates.TatkalDate==null ||dates.TatkalDate==undefined ? '-' :dates.TatkalDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                                <td>{{dates.Fee==null ||dates.Fee==undefined ? '-' :dates.Fee}}</td>
+                                <td>{{dates.LateFee==null ||dates.LateFee==undefined ? '-' :dates.LateFee}}</td>
+                                <td>{{dates.TatkalFee==null ||dates.TatkalFee==undefined ? '-' :dates.TatkalFee}}</td>
+                                <td>{{dates.PremiumTatkalFee==null ||dates.PremiumTatkalFee==undefined || dates.PremiumTatkalFee== 0 ? '-' :dates.PremiumTatkalFee}}</td>
+                                <td>{{dates.CondonationFee==null ||dates.CondonationFee==undefined ? '-' :dates.CondonationFee}}</td>
+                                <td>{{dates.CertificateFee==null ||dates.CertificateFee==undefined ? '-' :dates.CertificateFee}}</td>
+                                <td>{{dates.PresemptiveAttendedDays==null ||dates.PresemptiveAttendedDays==undefined ? '-' :dates.PresemptiveAttendedDays}}</td>
+                                <td>{{dates.MaxWorkingDays==null ||dates.MaxWorkingDays==undefined ? '-' :dates.MaxWorkingDays}}</td>
+                                <td>{{dates.CondonationP==null ||dates.CondonationP==undefined ? '-' :dates.CondonationP}}</td>
+                                <td>{{dates.DetentionP==null ||dates.DetentionP==undefined ? '-' :dates.DetentionP}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

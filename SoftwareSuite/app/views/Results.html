@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Results</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+        .print-cnt {
+            display: none;
+        }
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .print-cnt {
+                display: block;
+            }
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        function PrintDashboard() {
+            printElement(document.getElementById("idtoDivPrintAdmin"));
+        }
+        function PrintInfo() {
+            printElement(document.getElementById("PrintCollegeDataDiv"));
+        }
+        function PrintArea() {
+            printElement(document.getElementById("printableArea"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+        $("[id$=ExportToExcel]").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=idtoDivPrintAdmin]').html()));
+            e.preventDefault();
+        });
+    </script>
+</head>
+<body>
+    <div ng-controller="ResultsController">
+        <header>
+
+
+            <div class="header" ng-include="'app/views/SBPHeader.html'">
+
+            </div>
+
+            <div class="container hidden">
+                <div class="main-header ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="logo-img">
+                                    <img src="../../contents/img/big-logo.png" class="img-responsive" />
+                                    <h2>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</h2>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="o-info">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>040-23222192</a></li>
+                                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>sbtet-helpdesk@telangana.gov.in</a></li>
+
+                                    </ul>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>
+                                       
+                                        <!-- <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Results
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in programsList">
+                                                <a ng-if="item.IsActive" ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                            </li>
+                                            </ul>
+                                        </li> -->
+                                      
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li style="font-size:13px; color:#fff; padding:16px;">Welcome <span id="college_name1">{{college_name1}}</span> | {{userName}} |</li>
+                                        <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b></b></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <ui-view>
+                   
+                    <section class="content">
+                        <div class="container ">
+                            <!-- Small boxes (Stat box) -->
+                            <div class="row widgets-container">
+                                <div class="col-lg-3 col-xs-6" ng-repeat="item in ResultModules track by $index">
+                                    <a href="#" class="grow" ui-sref=".{{item.ModuleRouteName}}" ng-click="OpenSubModule(item)" >
+                                        <div class="{{item.ModuleImageClass}}">
+                                            <div class="inner">
+                                                <div class="icon" ng-show="item.SysModName=='Branch Results'">
+                                                    <img src="../../contents/img/admissionnew.png" width="60px" height="60px" />
+                                                </div>
+                                                <div class="icon" ng-show="item.SysModName=='Student Results'">
+                                                    <img src="../../contents/img/student.png" width="60px" height="60px" />
+                                                </div>
+                                              
+                                                <h3>{{item.SysModName}}</h3>
+                                                <div class="icon1">
+                                                    <img src="../../contents/img/transprent.png" width="100" height="auto" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+    </div>
+    <script>
+        //function printDiv(divName) {
+        //    var printContents = document.getElementById(divName).innerHTML;
+        //    var originalContents = document.body.innerHTML;
+        //    document.body.innerHTML = printContents;
+        //    window.print();
+        //    document.body.innerHTML = originalContents;
+        //}
+
+        //function printMainDashBoard() {
+        //    alert("ok");
+        //    alert($Scope.adminuser);
+        //    var divName = "";
+        //    if ($Scope.adminuser == true) {
+        //        alert($Scope.adminuser);
+        //        divName = "idtoDivPrintAdmin";
+        //    }
+        //    else {
+        //        divName = "DivIdToPrint";
+        //    }
+        //    var divToPrint = document.getElementById(divName);
+
+        //    var newWin = window.open('', 'Print-Window');
+
+        //    newWin.document.open();
+
+        //    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+        //    newWin.document.close();
+
+        //    setTimeout(function () { newWin.close(); }, 10);
+
+        //}
+
+    </script>
+</body>
+</html>
+
+
+
+
+

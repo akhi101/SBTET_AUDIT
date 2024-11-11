@@ -1,0 +1,159 @@
+﻿<style>
+    .loadImg1 {
+        height: 380px;
+        width: 570px;
+        /*position:relative;
+                top:100px;*/
+    }
+    .staff_Profile{
+        height:75px;
+        width:75px;
+        border-radius:75%;
+    }
+    table > thead > tr > th {
+    position:sticky;
+    top:0px;
+}
+</style>
+<div ng-controller="staffController">
+    <div class="pages-links">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a ui-sref="index">Home</a></li>
+
+                        <li class="breadcrumb-item active" aria-current="page">Staff Info</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--table start-->
+    <!---table end  -->
+
+    <div class="clearfix"></div>
+    <div class="inner-body">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="inner-heading">
+                        <h3>Staff Info</h3>
+                    </div>
+                </div>
+                <div class="col-md-3" ng-show="data">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+                    </div>
+                </div>
+                <div class="col-sm-12" ng-show="data">
+                    <div class="table-responsive scrollbox">
+                        <table class="table table-bordered table-hover scrollbox-content">
+                            <thead>
+                                <tr>
+                                    <th width="3%">S.No</th>
+                                    <th width="10%">Photo</th>
+                                    <th data-priority="1">Name</th>
+                                    <th width="10%">Designation</th>
+                                    <th width="10%">Subject</th>
+                                    <th width="10%">Section</th>
+                                    <th width="10%">Email</th>
+                                    <th data-priority="2">Mobile Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in StaffList |limitTo: 100 |orderBy:sortKey:reverse|filter:search">
+                                    <td>{{$index+1}}</td>
+                                    <td><img class="img-responsive staff_Profile"  ng-src="{{data.Photo}}"> </td>
+                                    <td>{{data.Name}}</td>
+                                    <td>{{data.Designation}}</td>
+                                    <td>{{data.Subject}}</td>
+                                    <td>{{data.Section}}</td>
+                                    <td>{{data.email}}</td>
+                                    <td>
+                                       {{data.MobileNumber}}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12" ng-if="loading">
+                    <!--<div class="col-md-12 no-results">-->
+                    <!--<h2>No Data</h2>-->
+                    <center><img class="loadImg1" src="../../../contents/img/websiteloading.gif"></center>
+                    <!--</div>-->
+                </div>
+                <div class="col-md-12" ng-if="error">
+                    <div class="col-md-12 no-results">
+                        <h2>No Data</h2>
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--<div ng-controller="StaffController">
+    <div class="pages-links">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item "><a href="disclaimer.html">More</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Staff</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="inner-body">
+        <div class="container">
+          
+            <div class="wpb_wrapper">
+                <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                    <div class="wpb_column vc_column_container col-md-2">
+                        <div class="vc_column-inner">
+                            <div class="wpb_wrapper">
+                                <div class="wpb_single_image wpb_content_element vc_align_center">
+
+                                    <figure class="wpb_wrapper vc_figure">
+                                        <div class="vc_single_image-wrapper   vc_box_border_grey"><img width="180" height="180" src="https://www.sbtet.telangana.gov.in/wp-content/uploads/2018/11/mittal-150x150.jpg" class="vc_single_image-img attachment-thumbnail" alt="" data-dt-location="https://www.sbtet.telangana.gov.in/?attachment_id=41"></div>
+                                    </figure>
+                                </div>
+
+                                <div class="wpb_text_column wpb_content_element ">
+                                    <div class="wpb_wrapper">
+                                        <p style="text-align: center;" data-wahfont="15"><strong>SRI. NAVIN MITTAL IAS</strong></p>
+                                        <p style="text-align: center;" data-wahfont="15">CHAIRMAN</p>
+                                        <hr>
+                                        <p style="text-align: center;" data-wahfont="15">
+                                            040-24615669<br>
+                                            chairmantsbtet@gmail.com
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><div class="wpb_column vc_column_container vc_col-sm-3"><div class="vc_column-inner"><div class="wpb_wrapper"></div></div></div><div class="wpb_column vc_column_container vc_col-sm-3"><div class="vc_column-inner"><div class="wpb_wrapper"></div></div></div><div class="wpb_column vc_column_container vc_col-sm-3"><div class="vc_column-inner"><div class="wpb_wrapper"></div></div></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+</div>-->

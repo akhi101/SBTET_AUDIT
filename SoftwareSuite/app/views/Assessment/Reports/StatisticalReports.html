@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<style>
+    .alert-success {
+        color: #3c763d !important;
+        background-color: #dff0d8 !important;
+        border-color: #d6e9c6 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #78987c !important;
+        font-size: 14px !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer !important;
+    }
+     .table > thead > tr >th {
+      position:sticky;
+      top:0px;
+    }
+    .sm-spacer {
+        height: 70px;
+    }
+    .studWishinputs label {
+   
+    color: #63aacf;
+}
+</style>
+<div ng-controller="StatisticalReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Statistical Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard"> Assessment Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard/StasticalReports">Statistical Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+        <section class="">
+                <div class="container ">
+                    <div class="col-md-12">
+                        <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <form novalidate>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="label"> Semester:</label>
+                                                <select class="form-control" ng-model="selectedSem" ng-change="examType(Studentexam)" required>
+                                                    <option value="" selected>Select Exam Type</option>
+                                                    <option ng-repeat="sem in Semisters" value="{{sem.semid}}">
+                                                        {{sem.semester}}
+                                                    </option>
+                                                    <!--">-->
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="getReport()">
+                                                    Get Report
+                                                    <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+</div>
+                    </div>
+                <div class="container " >
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="!Semisters " width="100" />
+                    </div>
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right" ng-show="result">
+                            <a class="ExportToExcel1 pointer"
+                               id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="result">
+                        <div class="cl-details">
+                            <h2>Statistical Reports</h2>
+                        </div>
+    
+                        <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                            <table  class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th>S no</th>
+                                        <th>Pin Number</th>
+                                        <th>Attendee Id</th>
+                                        <th>Percentage</th>
+                                        <th>Status</th>
+    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in StatisticalReports" ng-click="selectSubjectDetails(x)">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{x.Pin}} </td>
+                                        <td>{{x.AttendeeId == null ? '-':x.AttendeeId}}</td>
+                                        <td>{{x.Percentage}}</td>
+                                        <td>{{x.Status}}</td>
+    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="Noresult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+                    </div>
+            <div class="sm-spacer"></div>
+    </section>
+</div>

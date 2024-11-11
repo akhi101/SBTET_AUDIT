@@ -1,0 +1,134 @@
+﻿<style>
+       .table > thead > tr >th {
+      position:sticky;
+      top:0px;
+    }
+</style>
+<div ng-controller="StudentTransferReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>College Wise Transfer Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic"> Academic Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic/StudentTransferReport">College Wise Transfer Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12">
+                <a href="#!/Dashboard/AdmissionDashboard" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="col-md-12">
+                <form name="SetDatesForm" ng-submit="submit(CurrentMonthYear)" novalidate>
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Academic Year:</label>
+
+                                    <select class="form-control" ng-model="AcademicYear" name="StudentType"  required>
+                                        <option value="" selected>Select Academic year </option>
+                                        <option ng-repeat="data in getAcademicYears" value="{{data.AcademicID}}">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn  btn-info  btn_top pull-left" style="margin-top: 24px!important;" ng-click="SetDatesForm.$valid && GetDetails()">
+                                    Get Report
+                                </button>
+                                </div>
+                            </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-12" ng-if="loading">
+                <div class="sm-spacer"></div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                </div>
+            </div>
+                                <div class="col-md-6">
+                                    <div class="pull-left" ng-show="result">
+                                        <a class="ExportToExcel1 pointer"
+                                           id="ExportToExcel1" ng-click="DownloadExcel('#TransferReport')">
+                                            <i class="fa fa-file-excel-o"></i>
+                                            Export to Excel
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="pull-right" ng-show="result">
+                                        <a class="ExportToExcel1 pointer"
+                                           id="ExportToExcel1" ng-click="DownloadtoExcel()">
+                                            <i class="fa fa-file-excel-o"></i>
+                                            Download Overall Excel
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" ng-show="result">
+                                    <div class="cl-details">
+                                        <h2> College Wise Transfer Reports</h2>
+                                    </div>
+                                    <div id="TransferReport" class="table-responsive table-custom-tables-tb scrollbox">
+                                        <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>S.No</th>
+                                                    <th>New College Name</th>
+                                                    <th>Old College Name</th>
+                                                    <th>Scheme</th>
+                                                    <!--<th>Old Branch</th>-->
+                                                    <th>Branch</th>
+                                                    <th>Current Semester</th>
+                                                    <th class="text-center">Students Transfered</th>
+                                                </tr>
+                                            </thead>
+                                            <!--NewBranch: "EC"
+                                        NewCollegeCode: "001"
+                                        NewCollegeName: "GOVT POLYTECHNIC,MASAB TANK ( 001 ) "
+                                        OldBranch: "CM"
+                                        OldCollegeName: "BRA GMR POLYTECHNIC FOR WOMEN,KARIMNAGAR ( 087 ) "
+                                        Scheme: "C18"
+                                        Semester: "2SEM"-->
+                                            <tbody>
+                                                <tr ng-repeat="x in CollegeTransferedList track by $index" ng-click="openReport(x.NewCollegeCode)">
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{x.NewCollegeName}} </td>
+                                                    <td>{{x.OldCollegeName}} </td>
+                                                    <td>{{x.Scheme}}</td>
+                                                    <!--<td>{{x.OldBranch}} </td>-->
+                                                    <td>{{x.NewBranch}} </td>
+                                                    <td>{{x.Semester}} </td>
+                                                    <td class="text-center">{{x.Transfer_student}}</td>
+                                                </tr>
+                                                <tr style="font-weight:bold!important;">
+                                                    <td colspan="5">Total</td>
+                                                    <td class="text-center">{{TransferedCount}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="spacer"></div>
+                                <div class="col-md-12">
+                                    <div ng-if="Noresult" class="no-results">
+                                        <img src="../../contents/img/Folder-Icon.svg" />
+                                        <h2>No Result Found</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sm-spacer"></div>
+</section>
+</div>

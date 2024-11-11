@@ -1,0 +1,90 @@
+﻿<style>
+    .sm-spacer {
+        height: 50px;
+    }
+      .table-custom-tables-tb .table-bordered > thead > tr > th {
+   position:sticky;
+   top:0px;
+   
+}
+</style>
+<div ng-controller="CategoryDetailsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Category Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard"> Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdminCategoryReports"> Category Reports</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdminCategoryReports/CategoryReports/CategoryDetails"> Category Details</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12" >
+                <a href="#!/Dashboard/AdmissionDashboard/AdminCategoryReports/CategoryReports" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+           
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right" ng-show="result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="result">
+                <div class="cl-details">
+                    <h2> Student Category Reports</h2>
+                </div>
+
+                <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S.No</th>
+                                <th>Pin</th>
+                                <th>Student Name</th>
+                                <th>Father Name</th>
+                                <th>Date Of Birth</th>
+                                <th>Category</th>
+                                <th>Contact Number</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in CategoryDetails" ng-click="openReport(x.CollegeCode)">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.Pin == null ? '-' : x.Pin}} </td>
+                                <td>{{x.Name == null ? '-' : x.Name}} </td>
+                                <td>{{x.FatherName == null ? '-' : x.FatherName}} </td>
+                                <td>{{x.DateOfBirth == null ? '-' : x.DateOfBirth}} </td>
+                                <td>{{x.Category == null ? '-' : x.Category}}</td>
+                                <td>{{x.phonenumber == null ? '-' : x.phonenumber}}</td>
+                                
+                            </tr>
+                         
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

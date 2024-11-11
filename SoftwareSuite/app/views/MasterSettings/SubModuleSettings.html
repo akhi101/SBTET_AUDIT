@@ -1,0 +1,264 @@
+﻿<div ng-controller="SubModuleSettingsController">
+    <div class="breadcrumb-header">
+        <div class="container">
+            <section class="content-header">
+                <h5>Sub Module Settings </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/ModulesSetting">Module Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/ModulesSetting/">Sub Module Settings</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/MasterSettings/ModulesSetting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+
+            <div id="exTab2" class="container">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#1" data-toggle="tab">Add SubModule</a>
+                    </li>
+                    <li>
+                        <a href="#2" data-toggle="tab">Add User SubModule</a>
+                    </li>
+                    <li>
+                        <a href="#3" data-toggle="tab">View SubModule</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" >
+                    <div class="tab-pane active" id="1">
+                        <div class="col-md-12">
+                            <div class="cl-details">
+                                <h2>Add User SubModule </h2>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="base-row" style="padding:15px!important;">
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold"> Module :</label>
+                                            <select class="form-control " ng-model="ModuleId" name="StudentType" required>
+                                                <option value="" selected="selected">Select Module</option>
+                                                <option value="{{data.Id}}" ng-repeat="data in GetModules" class="">
+                                                    {{data.ModuleName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold"> Card Colour :</label>
+                                            <select class="form-control " ng-model="ColourId" name="StudentType" required>
+                                                <option value="" selected="selected">Select Colour</option>
+                                                <option value="{{data.Id}}" ng-repeat="data in moduleColours" class="">
+                                                    {{data.Colour}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold"> SubModule Name :</label>
+                                            <input type="text" class="form-control" ng-model="SubModule" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold"> SubModule Route Name :</label>
+                                            <input type="text" class="form-control" ng-model="SubModuleRouteName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddSubModule()">
+                                                Save
+                                                <span class="fa fa-arrow-up heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+
+                                            <th style="width: 5%;">S.No</th>
+                                            <!--<th ng-click="sort('Scheme')">User</th>-->
+                                            <th class="" ng-click="sort('Semester')">Module Name</th>
+                                            <th class="" style="">Colour</th>
+                                            <th class="" style="">SubModule name</th>
+                                            <th class="" style="">SubModule Route Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getAllSubModules" ng-click="openDetails(x)" class="ng-scope">
+                                            <td class="">{{$index+1}}</td>
+                                            <td class="">{{data.ModuleName}}</td>
+                                            <td class="">{{data.Colour}}</td>
+                                            <td class="">{{data.SubModuleName}}</td>
+                                            <td class="">{{data.SubModuleRouteName}}</td>
+                                        </tr><!-- end ngRepeat: x in getReports -->
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer"></div>
+                            <div class="sm-spacer"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane " id="2">
+                        <div class="col-md-12">
+                            <div class="cl-details">
+                                <h2>Add User SubModule </h2>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="base-row" style="padding:15px!important;">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold"> User Type :</label>
+                                            <select class="form-control " ng-model="userTypeId" name="StudentType" ng-change="changeUser(userTypeId)" required>
+                                                <option value="" selected="selected">Select Usertype</option>
+                                                <option value="{{data.Id}}" ng-repeat="data in userTypes" class="">
+                                                    {{data.UserType}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold"> Module :</label>
+                                            <select class="form-control " ng-model="ModuleId" name="StudentType" required ng-change="ChangeModules(ModuleId)">
+                                                <option value="" selected="selected">Select Module</option>
+                                                <option value="{{data.Id}}" ng-repeat="data in GetModules" class="">
+                                                    {{data.ModuleName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="font-weight-bold"> SubModule :</label>
+                                            <select class="form-control " ng-model="SubModuleId" name="StudentType" required>
+                                                <option value="" selected="selected">Select SubModule</option>
+                                                <option value="{{data.Id}}" ng-repeat="data in GetSubModulesByModule" class="">
+                                                    {{data.SubModuleName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddUserSubModule(userTypeId,ModuleId,SubModuleId)">
+                                                Save
+                                                <span class="fa fa-arrow-up heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 5%;">S.No</th>
+                                            <!--<th ng-click="sort('Scheme')">User</th>-->
+                                            <th class="" ng-click="sort('Semester')">Role</th>
+                                            <th class="" style="">Module Name</th>
+                                            <th class="" style="">SubModule Name</th>
+                                            <th class="" style="width:20%">IsActive</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getAllUserSubModules" ng-click="openDetails(x)" class="ng-scope">
+                                            <td class="">{{$index+1}}</td>
+                                            <td class="">{{data.Role}}</td>
+                                            <td class="">{{data.ModuleName}}</td>
+                                            <td class="">{{data.SubModuleName}}</td>
+                                            <td class="" style="width: 40%;" >
+                                                <button class="btn btn-success btn-xs" ng-show="data.IsActive ==true" ng-click="SubModuleInactive(data.Id,data.IsActive,data.RoleId)">Active</button>
+                                                <button class="btn btn-danger btn-xs" ng-show="data.IsActive ==false" ng-click="SubModuleInactive(data.Id,data.IsActive,data.RoleId)">InActive</button>
+                                            </td>
+                                        </tr><!-- end ngRepeat: x in getReports -->
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer"></div>
+                            <div class="sm-spacer"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="3">
+                        <div class="col-md-12">
+                            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+
+                                            <th style="width: 5%;">S.No</th>
+                                            <!--<th ng-click="sort('Scheme')">User</th>-->
+                                            <th class="" ng-click="sort('Semester')">Module Name</th>
+                                            <!--<th class="" style="">Module Route Name</th>
+                        <th class="" style="">Module Class</th>-->
+                                            <th class="" style="">Status</th>
+
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in SubModules" ng-click="openDetails(x)" class="ng-scope">
+                                            <td class=" ">{{$index+1}}</td>
+                                            <td class=" ">{{data.SubModuleName}}</td>
+                                            <!--<td class="" >{{data.SubModuleRouteName}}</td>
+                        <td class=""> {{data.Class}}</td>-->
+                                            <td class="" style="width: 40%;" ng-click="SwitchSubmodule(data.id,data.IsActive)">
+                                                <button class="btn btn-success btn-xs" ng-show="data.IsActive ==true">Active</button>
+                                                <button class="btn btn-danger btn-xs" ng-show="data.IsActive ==false">InActive</button>
+                                            </td>
+                                        </tr><!-- end ngRepeat: x in getReports -->
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer">
+                                </div>
+                                <div class="sm-spacer"></div>
+                              
+                            </div>
+                        </div>
+                </div>
+              
+                    </div>
+                </div>
+
+            </div>
