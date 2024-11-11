@@ -1,6 +1,13 @@
 ﻿define(['app'], function (app) {
-    app.controller("StudentConsolidatedController", function ($scope, $http, $localStorage, $window, $state, AppSettings, StudentResultService, Excel, $timeout) {
+    app.controller("StudentConsolidatedController", function ($scope, $http, $localStorage, $window, $state, AppSettings, StudentResultService, PreExaminationService , Excel, $timeout) {
 
+
+        const $ctrl = this;
+        $ctrl.$onInit = () => {
+            //$state.reload();
+            $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
+            $scope.GetCaptchaData()
+        }
         // get month and year of examination
         $scope.MonthAndYear = [
             { "Id": 1, "ExamYearMonth": "Oct - Nov 2018" },
@@ -13,6 +20,23 @@
             console.log($scope.scheme.schemeid);
         }
 
+
+        $scope.GetCaptchaData = function () {
+            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            captcha.then(function (response) {
+                try {
+                    var res = JSON.parse(response);
+                    $scope.GetCatcha = res[0].Text;
+                    $scope.CaptchaImage = res[0].Image;
+
+                } catch (err) {
+                    $scope.GetCatcha = ''
+                }
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
 
         //get schemes data for dropdown
         var SCHEMESEMINFO = StudentResultService.GetSchemeDataForResults();
@@ -132,6 +156,53 @@
             }
         }
 
+        $scope.ValidateCaptchaText = function (PinNumber, StudtypeId) {
+
+
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.Pin);
+            captcha.then(function (res) {
+                var response = JSON.parse(res)
+                //var Data = JSON.parse(response[0])
+                //var response = Data;
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.LoadImg = false;
+                    $scope.DetailsNotFound = false;
+                    $scope.DetailsFound = true;
+                    $scope.Submit()
+                    //  var resp = Data;
+
+
+                } else {
+                    alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.Login.CaptchaText = "";
+                    $scope.loginbutton = false;
+
+                }
+
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
         $scope.Submit = function () {
             if ($scope.scheme == "" || $scope.scheme == undefined || $scope.scheme == null) {
                 alert("select Scheme.");
@@ -142,20 +213,20 @@
                 alert("Enter Pin");
                 return;
             }
-            if ($scope.ConCaptcha == undefined || $scope.ConCaptcha == "") {
-                alert("Enter Captcha");
-                return;
-            };
+            //if ($scope.ConCaptcha == undefined || $scope.ConCaptcha == "") {
+            //    alert("Enter Captcha");
+            //    return;
+            //};
 
 
-            if ($scope.ConCaptcha == $scope.newCapchaCode) {
-                // alert("Valid Captcha");
-            } else {
-                alert("Invalid Captcha. try Again");
-                $scope.ConCaptcha = "";
-                $scope.createCaptcha();
-                return;
-            }
+            //if ($scope.ConCaptcha == $scope.newCapchaCode) {
+            //    // alert("Valid Captcha");
+            //} else {
+            //    alert("Invalid Captcha. try Again");
+            //    $scope.ConCaptcha = "";
+            //    $scope.createCaptcha();
+            //    return;
+            //}
 
 
             $scope.showData = 0

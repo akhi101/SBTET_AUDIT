@@ -679,6 +679,17 @@
             return promise;
         }
 
+        this.ValidateCaptchaText = function (SessionId, Captcha, Pin) {
+            var paramObject = {
+                "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin
+            };
+            return DataAccessService.postData('api/AdminService/ValidateCaptchaText', paramObject);
+        };
+
+        this.GetCaptchaString = function (SessionId) {
+            var paramObject = { "SessionId": SessionId };
+            return DataAccessService.getDataWithPara('api/AdminService/GetCaptchaString', paramObject);
+        };
 
         this.GenerateOtpForMobileNoUpdate = function (Pin, Phone) {
             var param = { "Pin": Pin, "Phone": Phone }
