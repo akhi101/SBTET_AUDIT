@@ -17,6 +17,91 @@
         $scope.PaymentStudent = [];
 
 
+        const $ctrl = this;
+        $ctrl.$onInit = () => {
+            //$state.reload();
+            $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
+            $scope.GetCaptchaData()
+        }
+
+
+
+        $scope.GetCaptchaData = function () {
+            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            captcha.then(function (response) {
+                try {
+                    var res = JSON.parse(response);
+                    $scope.GetCatcha = res[0].Text;
+                    $scope.CaptchaImage = res[0].Image;
+
+                } catch (err) {
+                    $scope.GetCatcha = ''
+                }
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+        $scope.ValidateCaptchaText = function (Pin, Studtype) {
+            if (Studtype == "" || Studtype == undefined || Studtype == null) {
+                alert("select Fee Type");
+                return;
+            }
+
+            if (Pin == "" || Pin == undefined || Pin == null) {
+                alert("Enter Pin");
+                return;
+            }
+            if ($scope.Studentpin == undefined || $scope.Studentpin == "") {
+                alert("Enter Student Pin");
+                $scope.loginbutton = false;
+                return;
+            };
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.Studentpin);
+            captcha.then(function (res) {
+                var response = JSON.parse(res)
+                //var Data = JSON.parse(response[0])
+                //var response = Data;
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.LoadImg = false;
+                    $scope.DetailsNotFound = false;
+                    $scope.DetailsFound = true;
+                    $scope.getStudentDetails(Pin, Studtype)
+                    //  var resp = Data;
+
+
+                } else {
+                    alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.Login.CaptchaText = "";
+                    $scope.loginbutton = false;
+
+                }
+
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
         /// recaptcha
 
         $scope.createCaptcha = function () {
@@ -509,29 +594,29 @@
         }
 
         $scope.getStudentDetails = function (Pin, Studtype) {
-            if (Studtype == "" || Studtype == undefined || Studtype == null) {
-                alert("select Fee Type");
-                return;
-            }
+            //if (Studtype == "" || Studtype == undefined || Studtype == null) {
+            //    alert("select Fee Type");
+            //    return;
+            //}
 
-            if (Pin == "" || Pin == undefined || Pin == null) {
-                alert("Enter Pin");
-                return;
-            }
-            if ($scope.feeCaptcha == undefined || $scope.feeCaptcha == "") {
-                alert("Enter Captcha");
-                return;
-            };
+            //if (Pin == "" || Pin == undefined || Pin == null) {
+            //    alert("Enter Pin");
+            //    return;
+            //}
+            //if ($scope.feeCaptcha == undefined || $scope.feeCaptcha == "") {
+            //    alert("Enter Captcha");
+            //    return;
+            //};
 
 
-            if ($scope.feeCaptcha == $scope.newCapchaCode) {
-                // alert("Valid Captcha");
-            } else {
-                alert("Invalid Captcha. try Again");
-                $scope.feeCaptcha = "";
-                $scope.createCaptcha();
-                return;
-            }
+            //if ($scope.feeCaptcha == $scope.newCapchaCode) {
+
+            //} else {
+            //    alert("Invalid Captcha. try Again");
+            //    $scope.feeCaptcha = "";
+            //    $scope.createCaptcha();
+            //    return;
+            //}
 
             $scope.Studtype = Studtype;
             if (Studtype == "1") {
@@ -550,8 +635,8 @@
                     if ($scope.SystemUserTypeId == 1) {
                         var studentDetails = PreExaminationService.GetStudentFeePaymentDetailsforAdmin(Pin, StudtypeId, $scope.SystemUserTypeId);
                         studentDetails.then(function (res) {
-                            $scope.feeCaptcha = "";
-                            $scope.createCaptcha();
+                            //$scope.feeCaptcha = "";
+                            //$scope.createCaptcha();
                             $scope.LoadImg = false;
                             $scope.DetailsNotFound = false;
                             $scope.DetailsFound = true;
@@ -616,8 +701,8 @@
 
                         var studentDetails = PreExaminationService.GetStudentFeePaymentDetails(Pin, StudtypeId, $scope.ExamMonthYear);
                         studentDetails.then(function (res) {
-                            $scope.feeCaptcha = "";
-                            $scope.createCaptcha();
+                            //$scope.feeCaptcha = "";
+                            //$scope.createCaptcha();
                             $scope.LoadImg = false;
                             $scope.DetailsNotFound = false;
                             $scope.DetailsFound = true;
@@ -701,8 +786,8 @@
                     var StudtypeId = parseInt(Studtype);
                     var studentDetails = PreExaminationService.GetStudentFeePaymentDetails(Pin, StudtypeId, $scope.ExamMonthYear);
                     studentDetails.then(function (resp) {
-                        $scope.feeCaptcha = "";
-                        $scope.createCaptcha();
+                        //$scope.feeCaptcha = "";
+                        //$scope.createCaptcha();
 
 
                         $scope.LoadImg = false;
@@ -815,8 +900,8 @@
                 var StudtypeId = parseInt(Studtype);
                 var getData = PreExaminationService.getDataByPin(StudtypeId, Pin);
                 getData.then(function (res) {
-                    $scope.feeCaptcha = "";
-                    $scope.createCaptcha();
+                    //$scope.feeCaptcha = "";
+                    //$scope.createCaptcha();
                     if (res.Table) {
                         if (res.Table[0].ResponceCode == '200') {
                             $scope.getUserData = res.Table1[0];

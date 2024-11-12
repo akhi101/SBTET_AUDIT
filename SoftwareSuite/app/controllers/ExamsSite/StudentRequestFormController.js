@@ -12,6 +12,95 @@
         //{ "Id": "4", "Name": "NC" },
         //    ]
 
+
+
+        const $ctrl = this;
+        $ctrl.$onInit = () => {
+            $scope.NoOtp = true;
+            $scope.Otp = false;
+            $scope.limitexceeded = false;
+            $scope.phonenoupdated = false;
+            $scope.result = false;
+
+            //$state.reload();
+            $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
+            $scope.GetCaptchaData()
+        }
+
+
+        $scope.GetCaptchaData = function () {
+            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            captcha.then(function (response) {
+                try {
+                    var res = JSON.parse(response);
+                    $scope.GetCatcha = res[0].Text;
+                    $scope.CaptchaImage = res[0].Image;
+
+                } catch (err) {
+                    $scope.GetCatcha = ''
+                }
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+        $scope.ValidateCaptchaText = function (PinNumber) {
+
+            if ($scope.CertificateType == null || $scope.CertificateType == "" || $scope.CertificateType == undefined) {
+                alert("select Certificate Type");
+                return;
+            }
+
+            if (PinNumber == null || PinNumber == "" || PinNumber == undefined) {
+                alert("Enter PIN.");
+                return;
+            }
+
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.PinNumber);
+            captcha.then(function (res) {
+                var response = JSON.parse(res)
+                //var Data = JSON.parse(response[0])
+                //var response = Data;
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.LoadImg = false;
+                    $scope.DetailsNotFound = false;
+                    $scope.DetailsFound = true;
+                    $scope.save(PinNumber);
+                    //  var resp = Data;
+
+
+                } else {
+                    alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.Login.CaptchaText = "";
+                    $scope.loginbutton = false;
+
+                }
+
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
         var eKey = SystemUserService.GetEKey();
         eKey.then(function (res) {
             $scope.EKey = res;
@@ -132,7 +221,7 @@
 
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -153,7 +242,7 @@
             ctx.strokeText(captcha.join(""), 0, 30);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv);
+            //document.getElementById("captcha").appendChild(canv);
         }
 
 
@@ -174,14 +263,7 @@
         }
 
 
-        const $ctrl = this;
-        $ctrl.$onInit = () => {
-            $scope.NoOtp = true;
-            $scope.Otp = false;
-            $scope.limitexceeded = false;
-            $scope.phonenoupdated = false;
-            $scope.result = false;
-        }
+
 
         $scope.array = []
 
@@ -856,29 +938,29 @@
             $scope.MarksData =[]
             $scope.Verified = false;
 
-            if ($scope.Certificate== null || $scope.Certificate== "" || $scope.Certificate== undefined) {
-                alert("select Certificate Type");
-                return;
-            }
+            //if ($scope.Certificate== null || $scope.Certificate== "" || $scope.Certificate== undefined) {
+            //    alert("select Certificate Type");
+            //    return;
+            //}
 
-            if (PinNumber == null || PinNumber == "" || PinNumber == undefined) {
-                alert("Enter PIN.");
-                return;
-            }
-            if ($scope.stsercaptcha == undefined || $scope.stsercaptcha == "") {
-                alert("enter captcha");
-                return;
-            };
+            //if (PinNumber == null || PinNumber == "" || PinNumber == undefined) {
+            //    alert("Enter PIN.");
+            //    return;
+            //}
+            //if ($scope.stsercaptcha == undefined || $scope.stsercaptcha == "") {
+            //    alert("enter captcha");
+            //    return;
+            //};
 
 
-            if ($scope.stsercaptcha == $scope.newCapchaCode) {
-                // alert("valid captcha");
-            } else {
-                alert("invalid captcha. try again");
-                $scope.stsercaptcha = "";
-                $scope.createCaptcha();
-                return;
-            }
+            //if ($scope.stsercaptcha == $scope.newCapchaCode) {
+
+            //} else {
+            //    alert("invalid captcha. try again");
+            //    $scope.stsercaptcha = "";
+            //    $scope.createCaptcha();
+            //    return;
+            //}
             $scope.cleardata();
             $scope.PinNumber = PinNumber
             if ($scope.PinNumber.length > 9 && $scope.PinNumber.length < 16) {
@@ -1064,8 +1146,8 @@
 
 
                 getData.then(function (response) {
-                    $scope.stsercaptcha = "";
-                    $scope.createCaptcha();
+                    //$scope.stsercaptcha = "";
+                    //$scope.createCaptcha();
                     var response = JSON.parse(response);
                     if (response.Table[0].ResponceCode == '400') {
                         $scope.Error = true;

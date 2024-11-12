@@ -5,11 +5,98 @@
         $scope.result = false;
         $scope.ExamMonthYear = '';
 
+        const $ctrl = this;
+        $ctrl.$onInit = () => {
+            //$state.reload();
+            $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
+            $scope.GetCaptchaData()
+        }
+
+        $scope.GetCaptchaData = function () {
+            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            captcha.then(function (response) {
+                try {
+                    var res = JSON.parse(response);
+                    $scope.GetCatcha = res[0].Text;
+                    $scope.CaptchaImage = res[0].Image;
+
+                } catch (err) {
+                    $scope.GetCatcha = ''
+                }
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+        $scope.ValidateCaptchaText = function () {
+
+            if ($scope.pinNumber == "" || $scope.pinNumber == undefined || $scope.pinNumber == null) {
+                alert("Enter Pin");
+                return;
+            }
+            if ($scope.Student == "" || $scope.Student == undefined || $scope.Student == null) {
+                alert("Select Student Type.");
+                return;
+            }
+            if ($scope.ExamMonthYear == "" || $scope.ExamMonthYear == undefined || $scope.ExamMonthYear == null) {
+                alert("Select Exam Month Year");
+                return;
+            }
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.pinNumber);
+            captcha.then(function (res) {
+                var response = JSON.parse(res)
+                //var Data = JSON.parse(response[0])
+                //var response = Data;
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.LoadImg = false;
+                    $scope.DetailsNotFound = false;
+                    $scope.DetailsFound = true;
+                    $scope.getHallTkt()
+                    //  var resp = Data;
+
+
+                } else {
+                    alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.Login.CaptchaText = "";
+                    $scope.loginbutton = false;
+
+                }
+
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+
+
+
+
         /// recaptcha
       
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -42,7 +129,7 @@
             //   document.getElementById("attr").appendChild(iattr);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+            //document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
             // document.getElementById("captcha").appendChild(attr); // adds the canvas to the body element
         }
 
@@ -170,10 +257,10 @@
             //    if (d[2].length === 4) {
             //        $scope.CandidateDob = d[0] + "-" + d[1] + "-" + d[2];
             //    }
-            if ($scope.Student == "" || $scope.Student == undefined || $scope.Student == null) {
-                alert("Select Student Type.");
-                return;
-            }
+            //if ($scope.Student == "" || $scope.Student == undefined || $scope.Student == null) {
+            //    alert("Select Student Type.");
+            //    return;
+            //}
             if ($scope.pinNumber == "" || $scope.pinNumber == undefined || $scope.pinNumber == null) {
                 alert("Enter Pin");
                 return;
@@ -182,26 +269,26 @@
                 alert("Select Student Type.");
                 return;
             }
-            if ($scope.hallCaptcha == undefined || $scope.hallCaptcha == "") {
-                alert("Enter Captcha");
-                return;
-            };
+            //if ($scope.hallCaptcha == undefined || $scope.hallCaptcha == "") {
+            //    alert("Enter Captcha");
+            //    return;
+            //};
 
 
-            if ($scope.hallCaptcha == $scope.newCapchaCode) {
-                // alert("Valid Captcha");
-            } else {
-                alert("Invalid Captcha. try Again");
-                $scope.hallCaptcha = "";
-                $scope.createCaptcha();
-                return;
-            }
+            //if ($scope.hallCaptcha == $scope.newCapchaCode) {
+
+            //} else {
+            //    alert("Invalid Captcha. try Again");
+            //    $scope.hallCaptcha = "";
+            //    $scope.createCaptcha();
+            //    return;
+            //}
 
             $scope.dob = '123';
             var getHallticket = PreExaminationService.getHallticket($scope.pinNumber, $scope.dob, $scope.Student.id, $scope.ExamMonthYear);
             getHallticket.then(function (resp) {
-                $scope.hallCaptcha = "";
-                $scope.createCaptcha();
+                //$scope.hallCaptcha = "";
+                //$scope.createCaptcha();
                 var resp = JSON.parse(resp);
                 if (resp.Table !== undefined) {
                     if ($scope.Student.id == 1) {
