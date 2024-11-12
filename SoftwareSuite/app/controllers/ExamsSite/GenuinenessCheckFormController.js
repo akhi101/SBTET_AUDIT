@@ -28,15 +28,87 @@
         $scope.date = new Date();
         const $ctrl = this;
         $ctrl.$onInit = () => {
-            $scope.createCaptcha()
+            //$scope.createCaptcha()
+
+            //$state.reload();
+            $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
+            $scope.GetCaptchaData()
         }
 
+
+        $scope.GetCaptchaData = function () {
+            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            captcha.then(function (response) {
+                try {
+                    var res = JSON.parse(response);
+                    $scope.GetCatcha = res[0].Text;
+                    $scope.CaptchaImage = res[0].Image;
+
+                } catch (err) {
+                    $scope.GetCatcha = ''
+                }
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+        $scope.ValidateCaptchaText = function (PinNumber) {
+
+            if (PinNumber == undefined || PinNumber == "") {
+                alert("Enter Pin Number");
+                $scope.loginbutton = false;
+                return;
+            };
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.PinNumber);
+            captcha.then(function (res) {
+                var response = JSON.parse(res)
+                //var Data = JSON.parse(response[0])
+                //var response = Data;
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.LoadImg = false;
+                    $scope.DetailsNotFound = false;
+                    $scope.DetailsFound = true;
+                    $scope.save(PinNumber);
+                    //  var resp = Data;
+
+
+                } else {
+                    alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.Login.CaptchaText = "";
+                    $scope.loginbutton = false;
+
+                }
+
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
 
         /// recaptcha
         $scope.loader = false;
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -57,7 +129,7 @@
             ctx.strokeText(captcha.join(""), 0, 30);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv);
+            //document.getElementById("captcha").appendChild(canv);
         }
 
 
@@ -168,20 +240,20 @@
             //    return;
             //}
             //$('#ViewAadhar').attr('src', '');
-            if ($scope.stserCaptcha == undefined || $scope.stserCaptcha == "") {
-                alert("Enter Captcha");
-                return;
-            };
+            //if ($scope.stserCaptcha == undefined || $scope.stserCaptcha == "") {
+            //    alert("Enter Captcha");
+            //    return;
+            //};
 
 
-            if ($scope.stserCaptcha == $scope.newCapchaCode) {
-                // alert("Valid Captcha");
-            } else {
-                alert("Invalid Captcha. try Again");
-                $scope.stserCaptcha = "";
-                $scope.createCaptcha();
-                return;
-            }
+            //if ($scope.stserCaptcha == $scope.newCapchaCode) {
+
+            //} else {
+            //    alert("Invalid Captcha. try Again");
+            //    $scope.stserCaptcha = "";
+            //    $scope.createCaptcha();
+            //    return;
+            //}
             $scope.cleardata();
             //  16001 - m - 010
 
@@ -190,8 +262,8 @@
                 var getData = PreExaminationService.getGenuinenessCheckDetailsByPin($scope.PinNumber)
                 getData.then(function (response) {
                     var response = JSON.parse(response);
-                    $scope.stserCaptcha = "";
-                    $scope.createCaptcha();
+                    //$scope.stserCaptcha = "";
+                    //$scope.createCaptcha();
                     if (response.Table[0].ResponceCode == '400') {
                         $scope.Error = true;
                         $scope.NoData = false;

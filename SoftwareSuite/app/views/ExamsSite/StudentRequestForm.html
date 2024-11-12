@@ -144,7 +144,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <form name="StudentRequestForm" ng-show="serviceform">
+            <form name="StudentRequestForm" ng-show="serviceform" novalidate>
                 <div class="base-row" style="padding:15px!important;">
                     <div class="">
                         <div class="row">
@@ -157,65 +157,87 @@
                                         <option value="" selected>Select Service</option>
                                     </select>
                                     <!--<select class="form-control" ng-disabled="Service" ng-model="CertificateType" ng-change="changeCertificate()" name="CertificateType">
-                                        <option value="" selected>Select Service</option>
-                                        <option ng-repeat="data in CertificateTypes" value="{{data}}">
-                                            {{data.Name}}
-                                        </option>
-                                    </select>-->
+                <option value="" selected>Select Service</option>
+                <option ng-repeat="data in CertificateTypes" value="{{data}}">
+                    {{data.Name}}
+                </option>
+            </select>-->
                                 </div>
                             </div>
                             <!--<div class="col-md-3" ng-show="Certificate ==9">
+    <div class="form-group ">
+        <label class="font-weight-bold">Select Certificate :</label>
+        <select ng-model="BonafideType" class="form-control" placeholder="Select Certificate" >
+            <option value="" selected>Select Certificate</option>
+            <option value="{{data.ServiceType}}" ng-repeat="data in BonafideTypes">{{data.Name}}</option>
+        </select>
+    </div>
+    </div>-->
+                            <div class="col-md-2">
                                 <div class="form-group ">
-                                    <label class="font-weight-bold">Select Certificate :</label>
-                                    <select ng-model="BonafideType" class="form-control" placeholder="Select Certificate" >
-                                        <option value="" selected>Select Certificate</option>
-                                        <option value="{{data.ServiceType}}" ng-repeat="data in BonafideTypes">{{data.Name}}</option>
-                                    </select>
-                                </div>
-                                </div>-->
-                                <div class="col-md-3">
-                                    <div class="form-group ">
-                                        <label class="font-weight-bold">PIN :</label>
-                                        <div id="PinNumber">
-                                            <input type='text' class="form-control" ng-model="PinNumber" autocomplete="off" name="PinNumber" required />
-                                        </div>
+                                    <label class="font-weight-bold">PIN :</label>
+                                    <div id="PinNumber">
+                                        <input type='text' class="form-control" ng-model="PinNumber" autocomplete="off" name="PinNumber" required />
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label for="sel1">
-                                        Enter Captcha :
-                                    </label>
-                                    <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
-                                    box-sizing: border-box;" id="cpatchaTextBox" ng-model="stsercaptcha" />
+                            </div>
 
 
+                            <div class="form-group col-md-2">
+                                <label for="sel1">
+                                    Enter Captcha :
+                                </label>
+                                <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+                box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="CaptchaText" />
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="col-md-4" style="padding:0px;top:7px">
+                                    <label></label>
+                                    <img class="refresh_captcha" data-ng-src="data:image/png;base64,{{CaptchaImage}}" width="150" height="33" />
                                 </div>
+                                <div class="col-md-8" style="left:15px;top:32px">
+                                    <a class="pull-right" title="Click to Refresh Captcha" ng-click="GetCaptchaData()">
+                                        <!--<img class="refresh_img" src="/assets/img/reload.png" />--> <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
 
-                                <!--<div class="col-md-12 ">
+                            <div class="col-md-2" style="top:5px">
+                                <div class="">
+                                    <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="ValidateCaptchaText(PinNumber)">
+                                        Get Details
+                                    </button>
+                                </div>
+                            </div>
+                            <!--<div class="form-group col-md-3">
+        <label for="sel1">
+            Enter Captcha :
+        </label>
+        <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+        box-sizing: border-box;" id="cpatchaTextBox" ng-model="stsercaptcha" />
+
 
     </div>-->
-                                <!--<div class="col-md-12 ">
+                            <!--<div class="col-md-12 ">
+
+    </div>-->
+                            <!--<div class="col-md-12 ">
         <div class="">
             <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
                 Get Details
             </button>
         </div>
     </div>-->
-                            </div>
+                        </div>
 
-                        <div class="row">
-                            <div class="col-md-8" ng-show="Certificate ==9"></div>
+                        <!--<div class="row">-->
+                            <!--<div class="col-md-8" ng-show="Certificate ==9"></div>
                             <div class="col-md-6" ng-show="Certificate !=9"></div>
                             <div id="captcha" class="col-md-2"><canvas id="captcha" width="120" height="40"></canvas></div>
-                            <div class="col-md-1" style="padding-top:15px;margin-left: -80px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
-                            <div class="col-md-1">
-                                <div class="">
-                                    <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
-                                        Get Details
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="col-md-1" style="padding-top:15px;margin-left: -80px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>-->
+
+                        <!--</div>-->
                     </div>
                 </div>
             </form>

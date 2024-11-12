@@ -121,7 +121,7 @@
 
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -142,7 +142,7 @@
             ctx.strokeText(captcha.join(""), 0, 30);
             //storing captcha so that can validate you can save it somewhere else according to your specific requirements
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+            //document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
         }
 
 
@@ -156,8 +156,16 @@
             }
         }
 
-        $scope.ValidateCaptchaText = function (PinNumber, StudtypeId) {
+        $scope.ValidateCaptchaText = function () {
+            if ($scope.scheme == "" || $scope.scheme == undefined || $scope.scheme == null) {
+                alert("select Scheme.");
+                return;
+            }
 
+            if ($scope.Pin == "" || $scope.Pin == undefined || $scope.Pin == null) {
+                alert("Enter Pin");
+                return;
+            }
 
             if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
                 $scope.CaptchaText = "";
@@ -204,15 +212,15 @@
 
 
         $scope.Submit = function () {
-            if ($scope.scheme == "" || $scope.scheme == undefined || $scope.scheme == null) {
-                alert("select Scheme.");
-                return;
-            }
+            //if ($scope.scheme == "" || $scope.scheme == undefined || $scope.scheme == null) {
+            //    alert("select Scheme.");
+            //    return;
+            //}
 
-            if ($scope.Pin == "" || $scope.Pin == undefined || $scope.Pin == null) {
-                alert("Enter Pin");
-                return;
-            }
+            //if ($scope.Pin == "" || $scope.Pin == undefined || $scope.Pin == null) {
+            //    alert("Enter Pin");
+            //    return;
+            //}
             //if ($scope.ConCaptcha == undefined || $scope.ConCaptcha == "") {
             //    alert("Enter Captcha");
             //    return;
@@ -239,8 +247,8 @@
             if ($scope.scheme.schemeid == 8) {
                 var resultdata = StudentResultService.GetC09ConsolidatedResult($scope.Pin);
                 resultdata.then(function (data) {
-                    $scope.ConCaptcha = "";
-                    $scope.createCaptcha();
+                    //$scope.ConCaptcha = "";
+                    //$scope.createCaptcha();
                     $scope.co9Data = true;
                     var data = JSON.parse(data)
                     data.Table3 = data.Table3;
@@ -490,8 +498,8 @@
                 resultdata.then(function (data) {
                     $scope.co9Data = false;
                     var data = JSON.parse(data)
-                    $scope.ConCaptcha = "";
-                    $scope.createCaptcha();
+                    //$scope.ConCaptcha = "";
+                    //$scope.createCaptcha();
                     if (data.Table.length > 0) {
                         if (data.Table2.length > 0) {
                             $scope.showData = 1;

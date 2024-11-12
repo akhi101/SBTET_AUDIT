@@ -463,22 +463,22 @@
                                                 </div>
                                             </div>
                                             <!--<div class="col-md-3">
-                                                <div class="form-group ">
-                                                    <label>Pin Number</label>
-                                                    <input type="text" class="form-control" name="pinNo" ng-model="PinNo" placeholder="Enter Pin Number" required />
-                                                </div>
-                                            </div>-->
+        <div class="form-group ">
+            <label>Pin Number</label>
+            <input type="text" class="form-control" name="pinNo" ng-model="PinNo" placeholder="Enter Pin Number" required />
+        </div>
+    </div>-->
                                             <!--<div class="col-md-3">
-                                                <div class="form-group required">
-                                                    <label for="date-picker-example">Date Of Birth(dd/mm/yyyy):</label>
-                                                    <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
-                                                        <input type="text" class="form-control" placeholder="DD/MM/YYYY" autocomplete="off" name="applicationForm.CandidateNameDOB" datetime-picker="dd/MM/yyyy" ng-model="dateOfBirth" is-open="showFlag1" required />
-                                                        <span class="input-group-btn">
-                                                            <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>-->
+        <div class="form-group required">
+            <label for="date-picker-example">Date Of Birth(dd/mm/yyyy):</label>
+            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                <input type="text" class="form-control" placeholder="DD/MM/YYYY" autocomplete="off" name="applicationForm.CandidateNameDOB" datetime-picker="dd/MM/yyyy" ng-model="dateOfBirth" is-open="showFlag1" required />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>
+        </div>
+    </div>-->
                                             <div class="col-md-2 form-group">
                                                 <label for="sel1">
                                                     Exam Type:
@@ -504,18 +504,38 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group col-md-3">
+                                            <!--<div class="form-group col-md-3">
+                                    <label for="sel1">
+                                        Enter Captcha :
+                                    </label>
+                                    <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+    box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="hallCaptcha" />
+                                    </label>
+
+                                </div>-->
+
+                                            <div class="form-group col-md-2">
                                                 <label for="sel1">
                                                     Enter Captcha :
                                                 </label>
                                                 <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
-                box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="hallCaptcha" />
-                                                </label>
+                box-sizing: border-box;" ; id="cpatchaTextBox" ng-model="CaptchaText" />
 
                                             </div>
                                             <div class="col-md-2">
+                                                <div class="col-md-4" style="padding:0px;top:7px">
+                                                    <label></label>
+                                                    <img class="refresh_captcha" data-ng-src="data:image/png;base64,{{CaptchaImage}}" width="150" height="33" />
+                                                </div>
+                                                <div class="col-md-8" style="left:15px;top:32px">
+                                                    <a class="pull-right" title="Click to Refresh Captcha" ng-click="GetCaptchaData()">
+                                                        <!--<img class="refresh_img" src="/assets/img/reload.png" />--> <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2" style="top:5px">
                                                 <div class="submit-btn" style="margin-bottom:0px;margin-top:28px">
-                                                    <button type="submit"  ng-disabled="SubmitDisable" ng-click="getHallTkt()">View Hall Ticket</button>
+                                                    <button type="submit" ng-disabled="SubmitDisable" ng-click="ValidateCaptchaText()">View Hall Ticket</button>
                                                 </div>
                                             </div>
 
@@ -525,9 +545,9 @@
                                             <div class="col-md-4" ng-show="Student.id!='1'&&Student.id!='2'"></div>
                                             <div class="col-md-4" ng-show="Student.id=='2'"></div>
                                             <div class="col-md-6" ng-show="Student.id=='1'"></div>
-                                            <div id="captcha" class="col-md-2"><canvas id="captcha" width="120" height="40"></canvas></div>
+                                            <!--<div id="captcha" class="col-md-2"><canvas id="captcha" width="120" height="40"></canvas></div>
                                             <div class="col-md-1" style="padding-top:15px;margin-left: -80px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
-                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3"></div>-->
                                         </div>
                                     </form>
                                 </div>

@@ -6,12 +6,96 @@ define(['app'], function (app) {
         $scope.ResultNotFound = false;
         $scope.LoadImg = false;
 
+        const $ctrl = this;
+        $ctrl.$onInit = () => {
+            //$state.reload();
+            $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
+            $scope.GetCaptchaData()
+        }
+
+        $scope.GetCaptchaData = function () {
+            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            captcha.then(function (response) {
+                try {
+                    var res = JSON.parse(response);
+                    $scope.GetCatcha = res[0].Text;
+                    $scope.CaptchaImage = res[0].Image;
+
+                } catch (err) {
+                    $scope.GetCatcha = ''
+                }
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+        $scope.ValidateCaptchaText = function () {
+
+            if ($scope.Studentpin == undefined || $scope.Studentpin == "") {
+                alert("Enter Student PIN");
+                $scope.loginbutton = false;
+                return;
+            };
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.Studentpin);
+            captcha.then(function (res) {
+                var response = JSON.parse(res)
+                //var Data = JSON.parse(response[0])
+                //var response = Data;
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.LoadImg = false;
+                    $scope.DetailsNotFound = false;
+                    $scope.DetailsFound = true;
+                    $scope.getStudentDetails()
+                    //  var resp = Data;
+
+
+                } else {
+                    alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+
+                    $scope.CaptchaImage = captcha[0].Image;
+                    $scope.Login.CaptchaText = "";
+                    $scope.loginbutton = false;
+
+                }
+
+            }, function (error) {
+                $scope.GetCatcha = ''
+                alert('Unable to load Captcha')
+            });
+        }
+
+
+
+
+
+
+
+
+
+
 
         /// recaptcha
 
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -44,7 +128,7 @@ define(['app'], function (app) {
             //   document.getElementById("attr").appendChild(iattr);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+            //document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
             // document.getElementById("captcha").appendChild(attr); // adds the canvas to the body element
         }
 
@@ -69,20 +153,20 @@ define(['app'], function (app) {
                 alert("Enter Pin");
                 return;
             }
-            if ($scope.attCaptcha == undefined || $scope.attCaptcha == "") {
-                alert("Enter Captcha");
-                return;
-            };
+            //if ($scope.attCaptcha == undefined || $scope.attCaptcha == "") {
+            //    alert("Enter Captcha");
+            //    return;
+            //};
 
 
-            if ($scope.attCaptcha == $scope.newCapchaCode) {
-                // alert("Valid Captcha");
-            } else {
-                alert("Invalid Captcha. try Again");
-                $scope.attCaptcha = "";
-                $scope.createCaptcha();
-                return;
-            }
+            //if ($scope.attCaptcha == $scope.newCapchaCode) {
+
+            //} else {
+            //    alert("Invalid Captcha. try Again");
+            //    $scope.attCaptcha = "";
+            //    $scope.createCaptcha();
+            //    return;
+            //}
 
             $scope.attendancedata = [];
             $scope.months = [];
@@ -106,8 +190,8 @@ define(['app'], function (app) {
             $scope.showbrancwiseattdata = false;
             var getAttendance = PreExaminationService.getAttendanceReport($scope.Studentpin);
             getAttendance.then(function (res) {
-                $scope.attCaptcha = "";
-                $scope.createCaptcha();
+                //$scope.attCaptcha = "";
+                //$scope.createCaptcha();
                 try {
                     var response = JSON.parse(res);
                 } catch (err) {
