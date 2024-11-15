@@ -1,26 +1,34 @@
 ﻿define(['app'], function (app) {
-    app.controller("MersidiseCertificateController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, $uibModal, $timeout, PaymentService, PreExaminationService) {
+    app.controller("MersidiseCertificateController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, $uibModal, $timeout, PaymentService, PreExaminationService, SystemUserService,$crypto) {
         $scope.DeleteDisable = true;
-        const $ctrl = this;
-       
-        $ctrl.$onInit = () => {
-         
-            //$scope.FourthCard = true;
-            $scope.firstCard = true;
-            $scope.SecondCard = false;
-            $scope.ThirdCard = false;
 
-            $scope.secondClick = false;
-            $scope.noteChallan = false;
-            $scope.noteApply = false;
-            $scope.DetailsFound = false;
-            $scope.NoDataFound = false;
-            $scope.data = false;
-            $scope.NoOtp = true;
-            $scope.phonenoupdated = false;
-            $scope.BacklogList = [{ "Id": "1" }, { "Id": "2" }, { "Id": "3" }, { "Id": "4" }, { "Id": "5" }, { "Id": "6" }, { "Id": "7" }, { "Id": "8" }, { "Id": "9" },
-                { "Id": "10" }, { "Id": "11" }, { "Id": "12" }, { "Id": "13" }, { "Id": "14" }, { "Id": "15" }, { "Id": "16" }, { "Id": "17" }, { "Id": "18" }, { "Id": "19" }, { "Id": "20" }  ]
+
+        const $ctrl = this;
+
+        $ctrl.$onInit = () => {
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.StudentSessionEKey = res;
+                //$scope.FourthCard = true;
+                $scope.firstCard = true;
+                $scope.SecondCard = false;
+                $scope.ThirdCard = false;
+
+                $scope.secondClick = false;
+                $scope.noteChallan = false;
+                $scope.noteApply = false;
+                $scope.DetailsFound = false;
+                $scope.NoDataFound = false;
+                $scope.data = false;
+                $scope.NoOtp = true;
+                $scope.phonenoupdated = false;
+
+            });
         }
+                $scope.BacklogList = [{ "Id": "1" }, { "Id": "2" }, { "Id": "3" }, { "Id": "4" }, { "Id": "5" }, { "Id": "6" }, { "Id": "7" }, { "Id": "8" }, { "Id": "9" },
+                { "Id": "10" }, { "Id": "11" }, { "Id": "12" }, { "Id": "13" }, { "Id": "14" }, { "Id": "15" }, { "Id": "16" }, { "Id": "17" }, { "Id": "18" }, { "Id": "19" }, { "Id": "20" }]
+          
+
         $scope.CourseTypes = [{
             "Name": "Full time"
         }, { "Name": " Part time" }, {"Name":"CCC" }]
@@ -31,9 +39,23 @@
        // alert("Mercy Fee Dates Closed")
      //   $state.go('index');
 
+
+
+
+        $scope.inputType = 'password';
+        $scope.eyeIcon = '👁️';
+
+
+
+
+        $scope.toggleAadharVisibility = function () {
+            $scope.inputType = ($scope.inputType === 'password') ? 'text' : 'password';
+            $scope.eyeIcon = ($scope.inputType === 'password') ? '👁️' : '🔒';
+        };
+
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -66,7 +88,7 @@
             //   document.getElementById("attr").appendChild(iattr);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+            //document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
             // document.getElementById("captcha").appendChild(attr); // adds the canvas to the body element
         }
 
@@ -232,6 +254,8 @@
                 $scope.firstCard = false;
                 $scope.SecondCard = false;
                 $scope.ThirdCard = true;
+                $scope.maskedAadhaar = $scope.IdNumber.slice(0, 8).replace(/[0-9]/g, "X") + $scope.IdNumber.slice(-4);
+
 
             } else {
                 alert("Please Verify Mobile Number")
@@ -525,6 +549,7 @@
                 return;
             }
 
+            $scope.EncAadhar = $crypto.encrypt($crypto.encrypt($scope.IdNumber, 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
 
             var req = {
                 "PIN": $scope.PinNo == null || angular.isUndefined($scope.PinNo) ? "" : angular.uppercase($scope.PinNo),
@@ -541,7 +566,7 @@
                 "Scheme": $scope.Scheme == null || angular.isUndefined($scope.Scheme) ? "" : $scope.Scheme,
                 "Purpose": $scope.Purpose == null || angular.isUndefined($scope.Purpose) ? "" : $scope.Purpose,
                 "AddressProof": $scope.AddressProofType == null || angular.isUndefined($scope.AddressProofType) ? "" : $scope.AddressProofType,
-                "IdNumber": $scope.IdNumber == null || angular.isUndefined($scope.IdNumber) ? "" : $scope.IdNumber,
+                "IdNumber": $scope.EncAadhar == null || angular.isUndefined($scope.EncAadhar) ? "" : $scope.EncAadhar,
                 "Village": $scope.Village == null || angular.isUndefined($scope.Village) ? "" : $scope.Village,
                 "Town": $scope.Town == null || angular.isUndefined($scope.Town) ? "" : $scope.Town,
                 "Mandal": $scope.Mandal == null || angular.isUndefined($scope.Mandal) ? "" : $scope.Mandal,
@@ -560,10 +585,70 @@
                 $scope.DetailsFound = false;
             });
 
+
             var AddUserData = PreExaminationService.AddMersyData(req);
             AddUserData.then(function (response) {
-
-                if (response.Table2[0].ResponceCode == '200') {
+                if (response == 'INVALID QUALIFICATION') {
+                    alert('INVALID QUALIFICATION');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID TENTH YEAR') {
+                    alert('INVALID TENTH YEAR');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID EXAM TYPE') {
+                    alert('INVALID EXAM TYPE');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID STUDENT NAME') {
+                    alert('INVALID STUDENT NAME');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID FATHER NAME') {
+                    alert('INVALID FATHER NAME');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID MOTHER NAME') {
+                    alert('INVALID MOTHER NAME');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID TENTH HALL TICKET NUMBER') {
+                    alert('INVALID TENTH HALL TICKET NUMBER');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID GENDER') {
+                    alert('INVALID GENDER');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID DATE OF BIRTH') {
+                    alert('INVALID DATE OF BIRTH');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID STUDENT NAME & FATHER NAME') {
+                    alert('INVALID STUDENT NAME & FATHER NAME');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID STUDENT NAME & MOTHER NAME') {
+                    alert('INVALID STUDENT NAME & MOTHER NAME');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response == 'INVALID STUDENT NAME , MOTHER NAME & FATHER NAME') {
+                    alert('INVALID STUDENT NAME, MOTHER NAME & FATHER NAME');
+                    $scope.loader1 = false;
+                    $scope.tabsbutton = false;
+                }
+                else if (response.Table2[0].ResponceCode == '200') {
                     alert(response.Table2[0].ResponceDescription);
 
                     var getChallannumber = PreExaminationService.MersidyFeePaymentChallanNumber($scope.PinNo,3)

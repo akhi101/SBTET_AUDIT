@@ -51,7 +51,7 @@ define(['app'], function (app) {
 
         }
 
-        
+
 
         $scope.hidePreviousResult = function () {
             $scope.ResultFound = false;
@@ -64,20 +64,20 @@ define(['app'], function (app) {
 
 
             $scope.Submit = function () {
-            if ($scope.academicyear == undefined || $scope.academicyear == null || $scope.academicyear == "") {
+                if ($scope.academicyear == undefined || $scope.academicyear == null || $scope.academicyear == "") {
                     alert("Select Academic Year ");
                     return false;
                 }
 
-            if ($scope.monthyear == undefined || $scope.monthyear == null || $scope.monthyear == "") {
-                alert("Select Exam Month Year");
+                if ($scope.monthyear == undefined || $scope.monthyear == null || $scope.monthyear == "") {
+                    alert("Select Exam Month Year");
                     return false;
                 }
 
-            if ($scope.Pin == undefined || $scope.Pin == null || $scope.Pin == "") {
-                alert("Select Pin");
-                return false;
-            }
+                if ($scope.Pin == undefined || $scope.Pin == null || $scope.Pin == "") {
+                    alert("Select Pin");
+                    return false;
+                }
 
 
 
@@ -85,36 +85,36 @@ define(['app'], function (app) {
                 $scope.ResultNotFound = false;
                 $scope.ResultFound = false;
                 $scope.showData = 0
-            var getdata = CcicStudentResultService.GetStudentResult($scope.academicyear, $scope.monthyear, $scope.Pin);
-            getdata.then(function (response) {
-                try {
-                    var res = JSON.parse(response)
-                }
-                catch { }
-                if (res.Table !== undefined && res.Table.length > 0) {
-                    $scope.showData = 1;
-                    $scope.LoadImg = false;
-                    $scope.ResultFound = true;
-                    $scope.getSubjectsResponse = res.Table;
-                    $scope.getStudentsResponse = res.Table1;
+                var getdata = CcicStudentResultService.GetStudentResult($scope.academicyear, $scope.monthyear, $scope.Pin);
+                getdata.then(function (response) {
+                    try {
+                        var res = JSON.parse(response)
+                    }
+                    catch { }
+                    if (res.Table !== undefined && res.Table.length > 0) {
+                        $scope.showData = 1;
+                        $scope.LoadImg = false;
+                        $scope.ResultFound = true;
+                        $scope.getSubjectsResponse = res.Table;
+                        $scope.getStudentsResponse = res.Table1;
 
-                    $scope.Result = $scope.getStudentsResponse[0].Result;
-                    $scope.SubjectTotal = $scope.getStudentsResponse[0].TotalMarks;
-                    $scope.ExamMonthYear = $scope.getStudentsResponse[0].ExamMonthYear;
-                    $scope.Percentage = $scope.getStudentsResponse[0].Percentage;
-                    $scope.Class = $scope.getStudentsResponse[0].Class;
+                        $scope.Result = $scope.getStudentsResponse[0].Result;
+                        $scope.SubjectTotal = $scope.getStudentsResponse[0].TotalMarks;
+                        $scope.ExamMonthYear = $scope.getStudentsResponse[0].ExamMonthYear;
+                        $scope.Percentage = $scope.getStudentsResponse[0].Percentage;
+                        $scope.Class = $scope.getStudentsResponse[0].Class;
 
-                //    $scope.PIN = $scope.getStudentsResponse[0].PIN;
-                }
-                else {
-                    //alert("no subjects");
-                    //$state.go("Dashboard.AssessmentDashboard.practicals");
-                    $scope.LoadImg = false;
-                    $scope.ResultFound = false;
-                }
-            }, function (error) {
-                alert("some thing went wrong");
-            });
+                        //    $scope.PIN = $scope.getStudentsResponse[0].PIN;
+                    }
+                    else {
+                        //alert("no subjects");
+                        //$state.go("Dashboard.AssessmentDashboard.practicals");
+                        $scope.LoadImg = false;
+                        $scope.ResultFound = false;
+                    }
+                }, function (error) {
+                    alert("some thing went wrong");
+                });
 
 
             }

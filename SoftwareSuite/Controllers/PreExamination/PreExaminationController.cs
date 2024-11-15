@@ -42,6 +42,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 using DocumentFormat.OpenXml.Bibliography;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace SoftwareSuite.Controllers.PreExamination
 {
@@ -8401,11 +8402,235 @@ namespace SoftwareSuite.Controllers.PreExamination
 
         }
 
+        [HttpGet, ActionName("NameCheck")]
+        public string NameCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^[a-zA-Z\\s]*$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("GenderCheck")]
+        public string GenderCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^[MF]$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("MobileNumberCheck")]
+        public string MobileNumberCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^\\d{10}$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("EmailCheck")]
+        public string EmailCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
+        [HttpGet, ActionName("OnlyThreeDigitCheck")]
+        public string OnlyThreeDigitCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^\\d{6}$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
+        [HttpGet, ActionName("DataCheck1")]
+        public string DataCheck1(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^[A-Za-z0-9\\s\\-\\/.,#]+$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("OnlyTwelveDigitCheck")]
+        public string OnlyTwelveDigitCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^\\d{12}$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
         [HttpPost, ActionName("AddMersyData")]
         public HttpResponseMessage AddMersyData([FromBody] CertificateReqAtt CertificateReqAtt)
         {
             try
             {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                string first_Name = NameCheck(CertificateReqAtt.first_Name.ToString());
+                string last_Name = NameCheck(CertificateReqAtt.last_Name.ToString());
+                string Father_Name = NameCheck(CertificateReqAtt.Father_Name.ToString());
+
+                string Gender = GenderCheck(CertificateReqAtt.Gender.ToString());
+                string Mobile = MobileNumberCheck(CertificateReqAtt.Mobile.ToString());
+                string Email = EmailCheck(CertificateReqAtt.Email.ToString());
+
+                string CollegeName = NameCheck(CertificateReqAtt.CollegeName.ToString());
+                string CourseName = NameCheck(CertificateReqAtt.CourseName.ToString());
+                string CollegeCode = OnlyThreeDigitCheck(CertificateReqAtt.CollegeCode.ToString());
+
+
+                string CourseType = NameCheck(CertificateReqAtt.CourseType.ToString());
+                string Scheme = NameCheck(CertificateReqAtt.Scheme.ToString());
+                string Purpose = NameCheck(CertificateReqAtt.Purpose.ToString());
+
+                string Village = DataCheck1(CertificateReqAtt.Village.ToString());
+                string Town = DataCheck1(CertificateReqAtt.Town.ToString());
+                string Mandal = NameCheck(CertificateReqAtt.Mandal.ToString());
+
+                string District = NameCheck(CertificateReqAtt.District.ToString());
+                string States = NameCheck(CertificateReqAtt.States.ToString());
+
                 var fileDat = new List<filelist>();
                 int size = CertificateReqAtt.filedata.Count;
                 var file = string.Empty;
@@ -8420,6 +8645,102 @@ namespace SoftwareSuite.Controllers.PreExamination
                     byte[] imageBytes = Convert.FromBase64String(CertificateReqAtt.filedata[i].file);
                     File.WriteAllBytes(imgPath, imageBytes);
                     file += filename + ',';
+                }
+                string encriptedaadhar = "";
+
+                var res = CertificateReqAtt.IdNumber.Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var aadharencrypt = new HbCrypt();
+                string aadhar = crypt.AesDecrypt(res[0]);
+                string decryptaadhar = aadharencrypt.AesDecrypt(aadhar);
+                encriptedaadhar = aadharencrypt.Encrypt(decryptaadhar);
+
+                string Aadhar = OnlyTwelveDigitCheck(decryptaadhar.ToString());
+
+                if (first_Name == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID FIRST NAME");
+                    return response;
+                }
+                else if (last_Name == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID LAST NAME");
+                    return response;
+                }
+                else if (Father_Name == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID FATHER NAME");
+                    return response;
+                }
+                else if (Gender == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID GENDER");
+                    return response;
+                }
+                else if (Mobile == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID MOBILE NUMBER");
+                    return response;
+                }
+                else if (Email == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID EMAIL");
+                    return response;
+                }
+                else if (CollegeName == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COLLEGE NAME");
+                    return response;
+                }
+                else if (CourseName == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COURSE NAME");
+                    return response;
+                }
+                else if (CollegeCode == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COLLEGE CODE");
+                    return response;
+                }
+                else if (CourseType == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COURSE TYPE");
+                    return response;
+                }
+                else if (Scheme == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID SCHEME");
+                    return response;
+                }
+                else if (Purpose == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID PURPOSE");
+                    return response;
+                }
+                else if (Village == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID VILLAGE");
+                    return response;
+                }
+                else if (Town == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID TOWN");
+                    return response;
+                }
+                else if (Mandal == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID MANDAL NAME");
+                    return response;
+                }
+                else if (District == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID DISTRICT NAME");
+                    return response;
+                }
+                else if (States == "NO")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID STATE NAME");
+                    return response;
                 }
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[24];
@@ -8437,7 +8758,7 @@ namespace SoftwareSuite.Controllers.PreExamination
                 param[11] = new SqlParameter("@Scheme", CertificateReqAtt.Scheme);
                 param[12] = new SqlParameter("@Purpose", CertificateReqAtt.Purpose);
                 param[13] = new SqlParameter("@AddressProof", CertificateReqAtt.AddressProof);
-                param[14] = new SqlParameter("@IdNumber", CertificateReqAtt.IdNumber);
+                param[14] = new SqlParameter("@IdNumber", encriptedaadhar);
                 param[15] = new SqlParameter("@Village", CertificateReqAtt.Village);
                 param[16] = new SqlParameter("@Town", CertificateReqAtt.Town);
                 param[17] = new SqlParameter("@Mandal", CertificateReqAtt.Mandal);
@@ -8449,7 +8770,7 @@ namespace SoftwareSuite.Controllers.PreExamination
                 param[23] = new SqlParameter("@backlogsubjson", CertificateReqAtt.backlogsubjson);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("SP_SET_MercyStudentData", param);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, dt);
+                response = Request.CreateResponse(HttpStatusCode.OK, dt);
                 return response;
             }
             catch (Exception ex)
