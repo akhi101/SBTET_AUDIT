@@ -19,6 +19,7 @@ using System.Timers;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
+using SoftwareSuite.Models.Security;
 
 namespace SoftwareSuite.Controllers.AdminServices
 {
@@ -75,33 +76,52 @@ namespace SoftwareSuite.Controllers.AdminServices
             }
         }
 
-        [HttpGet, ActionName("GetCaptchaString")]
-        public string GetCaptchaString(string SessionId)
+        [HttpPost, ActionName("GetCaptchaString")]
+        public string GetCaptchaString(JsonObject data)
         {
             var dbHandler = new dbHandler();
             try
             {
                 string strCaptchaString = "";
-                //int intZero = '0';
-                //int intNine = '9';
+                int intZero = '0';
+                int intNine = '9';
                 int intA = 'A';
                 int intZ = 'Z';
+                int intsma = 'a';
+                int intsmz = 'z';
                 int intCount = 0;
                 int intRandomNumber = 0;
-                //string strCaptchaString = "";
 
                 Random random = new Random(System.DateTime.Now.Millisecond);
 
-                while (intCount < 5)
+                while (intCount < 6)
                 {
-                    intRandomNumber = random.Next(intA, intZ);
-                    if ((intRandomNumber >= intA) && (intRandomNumber <= intZ))
+                    intRandomNumber = random.Next(intZero, intsmz);
+                    if (((intRandomNumber >= intZero) && (intRandomNumber <= intNine)) || ((intRandomNumber >= intA) && (intRandomNumber <= intZ)) || ((intRandomNumber >= intsma) && (intRandomNumber <= intsmz)))
                     {
                         strCaptchaString = strCaptchaString + (char)intRandomNumber;
                         intCount = intCount + 1;
                     }
                 }
-                SetSessionId(SessionId, strCaptchaString);
+                string decryptsessionid = null;
+                if (data["SessionId"].ToString().Length > 10)
+                {
+                    string encriptedsessionid = "";
+
+                    var res = data["SessionId"].ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                    var crypt = new HbCrypt(res[1]);
+                    var sessionencrypt = new HbCrypt();
+
+                    //long CellNo = Convert.ToInt64(crypt.AesDecrypt(res[1]));
+                    string sessionid = crypt.AesDecrypt(res[0]);
+                    decryptsessionid = sessionencrypt.AesDecrypt(sessionid);
+                }
+                else
+                {
+                    decryptsessionid = data["SessionId"].ToString();
+                }
+
+                SetSessionId(decryptsessionid, strCaptchaString);
                 var skyblue = System.Drawing.ColorTranslator.FromHtml("#1F497D");
                 //var white = System.Drawing.ColorTranslator.FromHtml("linear-gradient(90deg, rgba(237,245,255,1) 0%, rgba(204,223,247,1) 100%)");
                 string str = ConvertTextToImage(strCaptchaString, "sans-serif", 35, Color.White, skyblue, 250, 65).ToString();
@@ -220,15 +240,26 @@ namespace SoftwareSuite.Controllers.AdminServices
             try
             {
 
+                var res = data["SessionId"].ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string sessionid = crypt.AesDecrypt(res[0]);
+                string decryptsessionid = encrypt.AesDecrypt(sessionid);
+
+                var res1 = data["Captcha"].ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt1 = new HbCrypt(res1[1]);
+                var encrypt1 = new HbCrypt();
+                string Captcha = crypt1.AesDecrypt(res1[0]);
+                string decryptCaptcha = encrypt1.AesDecrypt(Captcha);
 
                 var param = new SqlParameter[2];
-                param[0] = new SqlParameter("@SessionId", data["SessionId"]);
-                param[1] = new SqlParameter("@Captcha", data["Captcha"]);
+                param[0] = new SqlParameter("@SessionId", decryptsessionid);
+                param[1] = new SqlParameter("@Captcha", decryptCaptcha);
                 var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
 
                 if (dt.Rows[0]["ResponseCode"].ToString() == "200")
                 {
-                    captcha = GetCaptchaString(data["SessionId"].ToString());
+                    captcha = GetCaptchaString(data);
                     p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
                     p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
                     p1.Captcha = captcha;
@@ -238,7 +269,7 @@ namespace SoftwareSuite.Controllers.AdminServices
                 }
                 else
                 {
-                    captcha = GetCaptchaString(data["SessionId"].ToString());
+                    captcha = GetCaptchaString(data);
                     p1.ResponceCode = "400";
                     p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
                     p1.Captcha = captcha;
@@ -250,7 +281,7 @@ namespace SoftwareSuite.Controllers.AdminServices
             catch (Exception ex)
             {
                 dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
-                captcha = GetCaptchaString(data["SessionId"].ToString());
+                captcha = GetCaptchaString(data);
                 p1.ResponceCode = "400";
                 p1.ResponceDescription = ex.Message;
                 p1.Captcha = captcha;
@@ -269,18 +300,36 @@ namespace SoftwareSuite.Controllers.AdminServices
             var captcha = string.Empty;
             try
             {
-                var PinMatch = ValidatePin(data["Pin"].ToString());
+                var res = data["SessionId"].ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string sessionid = crypt.AesDecrypt(res[0]);
+                string decryptsessionid = encrypt.AesDecrypt(sessionid);
+
+                var res1 = data["Captcha"].ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt1 = new HbCrypt(res1[1]);
+                var encrypt1 = new HbCrypt();
+                string Captcha = crypt1.AesDecrypt(res1[0]);
+                string decryptCaptcha = encrypt1.AesDecrypt(Captcha);
+
+                var res2 = data["Pin"].ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt2 = new HbCrypt(res2[1]);
+                var encrypt2 = new HbCrypt();
+                string Pin = crypt1.AesDecrypt(res2[0]);
+                string decryptPin = encrypt1.AesDecrypt(Pin);
+
+                var PinMatch = ValidatePin(decryptPin.ToString());
                 if (PinMatch == "200")
                 {
 
                     var param = new SqlParameter[2];
-                    param[0] = new SqlParameter("@SessionId", data["SessionId"]);
-                    param[1] = new SqlParameter("@Captcha", data["Captcha"]);
+                    param[0] = new SqlParameter("@SessionId", decryptsessionid);
+                    param[1] = new SqlParameter("@Captcha", decryptCaptcha);
                     var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
 
                     if (dt.Rows[0]["ResponseCode"].ToString() == "200")
                     {
-                        captcha = GetCaptchaString(data["SessionId"].ToString());
+                        captcha = GetCaptchaString(data);
                         p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
                         p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
                         p1.Captcha = captcha;
@@ -289,7 +338,7 @@ namespace SoftwareSuite.Controllers.AdminServices
                     }
                     else
                     {
-                        captcha = GetCaptchaString(data["SessionId"].ToString());
+                        captcha = GetCaptchaString(data);
                         p1.ResponceCode = "400";
                         p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
                         p1.Captcha = captcha;
@@ -309,7 +358,7 @@ namespace SoftwareSuite.Controllers.AdminServices
             catch (Exception ex)
             {
                 dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
-                captcha = GetCaptchaString(data["SessionId"].ToString());
+                captcha = GetCaptchaString(data);
                 p1.ResponceCode = "400";
                 p1.ResponceDescription = ex.Message;
                 p1.Captcha = captcha;

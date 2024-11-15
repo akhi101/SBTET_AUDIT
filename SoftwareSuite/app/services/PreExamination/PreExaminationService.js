@@ -688,7 +688,7 @@
 
         this.GetCaptchaString = function (SessionId) {
             var paramObject = { "SessionId": SessionId };
-            return DataAccessService.getDataWithPara('api/AdminService/GetCaptchaString', paramObject);
+            return DataAccessService.postData('api/AdminService/GetCaptchaString', paramObject);
         };
 
         this.GenerateOtpForMobileNoUpdate = function (Pin, Phone) {
