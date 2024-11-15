@@ -805,7 +805,7 @@
             'index.DiplomaFeePayment': {
                 url: "/DiplomaFeePayment",
                 templateUrl: 'app/views/ExamsSite/DiplomaFeePayment.html',
-                dependencies: ['controllers/ExamsSite/DiplomaFeePaymentController', 'services/PreExamination/PreExaminationService', 'services/Assessment/MarksEntryService', 'services/BillDesk/paymentService', 'directives/saTable']
+                dependencies: ['controllers/ExamsSite/DiplomaFeePaymentController', 'services/PreExamination/PreExaminationService', 'services/Assessment/MarksEntryService', 'services/BillDesk/paymentService', 'directives/saTable', 'services/SystemAdministration/SystemUserService']
             },
 
 
@@ -1036,7 +1036,7 @@
             'index.MercyFee': {
                 url: "/MercyFee",
                 templateUrl: 'app/views/ExamsSite/MersidiseCertificate.html',
-                dependencies: ['controllers/ExamsSite/MersidiseCertificateController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService']
+                dependencies: ['controllers/ExamsSite/MersidiseCertificateController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'services/SystemAdministration/SystemUserService']
             },
 
             'index.TwoYearsCertificateRequest': {

@@ -1,5 +1,5 @@
 ﻿define(['app'], function (app) {
-    app.controller("DiplomaFeePaymentController", function ($scope, $http, $localStorage, $window, $state, PreExaminationService, $uibModal, PaymentService) {
+    app.controller("DiplomaFeePaymentController", function ($scope, $crypto, $http, $localStorage, $window, $state, PreExaminationService, $uibModal, PaymentService, SystemUserService) {
         $scope.secondClick = false;
         $scope.allItemsSelected = true;
         $scope.allItemsSelectedthing = true;
@@ -18,16 +18,26 @@
 
 
         const $ctrl = this;
+
         $ctrl.$onInit = () => {
-            //$state.reload();
+
             $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
-            $scope.GetCaptchaData()
+
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.EKey = res;
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.GetCaptchaData()
+
+            });
+
+
         }
 
 
 
         $scope.GetCaptchaData = function () {
-            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            var captcha = PreExaminationService.GetCaptchaString($scope.EncriptedSession);
             captcha.then(function (response) {
                 try {
                     var res = JSON.parse(response);
@@ -65,8 +75,9 @@
                 $scope.loginbutton = false;
                 return;
             };
-
-            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.Studentpin);
+            var EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Studentpin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.EncriptedSession, EncriptedCaptchaText, Encstdpin);
             captcha.then(function (res) {
                 var response = JSON.parse(res)
                 //var Data = JSON.parse(response[0])
@@ -106,7 +117,7 @@
 
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -127,7 +138,7 @@
             ctx.strokeText(captcha.join(""), 0, 30);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+            //document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
         }
 
         $scope.OpenPage = function () {
