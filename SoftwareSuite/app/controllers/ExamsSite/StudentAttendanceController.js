@@ -1,5 +1,5 @@
 define(['app'], function (app) {
-    app.controller("StudentAttendanceController", function ($scope, $http, $localStorage, $state, $window, $stateParams, AppSettings, $uibModal, PreExaminationService) {
+    app.controller("StudentAttendanceController", function ($scope, $http, $localStorage, $state, $window, $stateParams, AppSettings, $uibModal, PreExaminationService, AdminService) {
         // $scope.buttontext = "Show Full Attendance";
 
         $scope.ResultFound = false;
@@ -147,26 +147,12 @@ define(['app'], function (app) {
 
 
 
-        $scope.getStudentDetails = function () {
+        $scope.ValidateAttendenceCaptcha = function () {
 
             if ($scope.Studentpin == "" || $scope.Studentpin == undefined || $scope.Studentpin == null) {
                 alert("Enter Pin");
                 return;
             }
-            //if ($scope.attCaptcha == undefined || $scope.attCaptcha == "") {
-            //    alert("Enter Captcha");
-            //    return;
-            //};
-
-
-            //if ($scope.attCaptcha == $scope.newCapchaCode) {
-
-            //} else {
-            //    alert("Invalid Captcha. try Again");
-            //    $scope.attCaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
 
             $scope.attendancedata = [];
             $scope.months = [];
@@ -188,119 +174,129 @@ define(['app'], function (app) {
             $scope.days = days
             $scope.LoadImg = true;
             $scope.showbrancwiseattdata = false;
-            var getAttendance = PreExaminationService.getAttendanceReport($scope.Studentpin);
-            getAttendance.then(function (res) {
-                //$scope.attCaptcha = "";
-                //$scope.createCaptcha();
+
+
+
+            var captcha = PreExaminationService.ValidateAttendenceCaptcha($scope.SessionCaptcha, $scope.CaptchaText, $scope.Studentpin);
+            captcha.then(function (res) {
                 try {
                     var response = JSON.parse(res);
                 } catch (err) {
-                    var arr = {Table :[]}
+                    var arr = { Table: [] }
                     var response = arr;
                     $scope.result = false;
                     alert("error while loading Data");
                 }
-                if (response.Table.length > 0) {
-                    $scope.result = true;
-                    $scope.ResultFound = true;
-                    $scope.ResultNotFound = false;
-                    $scope.LoadImg = false;
-                    $scope.StudentData = response.Table[0];
-                    if ($scope.StudentData.semid == 8 || $scope.StudentData.semid == 9) {
-                        $scope.StudentData.WorkingDaysForExams = 180;
-                    }
-                    //else if ($scope.StudentData.semid == 1) {
-                    //    $scope.StudentData.WorkingDaysForExams = 85;
-                    //}
-                    else {
-                        $scope.StudentData.WorkingDaysForExams = 90;
-                    }
-                    $scope.StudentData.AttdForExams = (($scope.StudentData.NumberOfDaysPresent / $scope.StudentData.WorkingDaysForExams) * 100).toFixed(0);
+                if (response[0].ResponceCode == '200') {
+                    //alert(response[0].ResponceDescription)
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    var Data = JSON.parse(response[0].Data)
+                    var response = Data;
+                    if (response.Table.length > 0) {
+                        $scope.result = true;
+                        $scope.ResultFound = true;
+                        $scope.ResultNotFound = false;
+                        $scope.LoadImg = false;
+                        $scope.StudentData = response.Table[0];
+                        if ($scope.StudentData.semid == 8 || $scope.StudentData.semid == 9) {
+                            $scope.StudentData.WorkingDaysForExams = 180;
+                        }
+                        //else if ($scope.StudentData.semid == 1) {
+                        //    $scope.StudentData.WorkingDaysForExams = 85;
+                        //}
+                        else {
+                            $scope.StudentData.WorkingDaysForExams = 90;
+                        }
+                        $scope.StudentData.AttdForExams = (($scope.StudentData.NumberOfDaysPresent / $scope.StudentData.WorkingDaysForExams) * 100).toFixed(0);
 
-                    if (response.Table1.length > 0 && response.Table2.length > 0) {
-                        $scope.attmonths = [];
-                        $scope.filteredData = [];
-                        $scope.filteredData = response.Table2;
-                        $scope.data = $scope.filteredData;
-                        $scope.totalattreport = response.Table1;
-                        $scope.attendId = response.Table[0].AttendeeId;
-                        $scope.attpin = response.Table[0].Pin;
-                        $scope.attName = response.Table[0].Name;
-                        var attbymonth = [];
-
-                        var arr = $scope.totalattreport;
-                        var finalarr = [];
-                        for (var j = 0; j < response.Table2.length; j++) {
+                        if (response.Table1.length > 0 && response.Table2.length > 0) {
+                            $scope.attmonths = [];
+                            $scope.filteredData = [];
+                            $scope.filteredData = response.Table2;
+                            $scope.data = $scope.filteredData;
+                            $scope.totalattreport = response.Table1;
+                            $scope.attendId = response.Table[0].AttendeeId;
+                            $scope.attpin = response.Table[0].Pin;
+                            $scope.attName = response.Table[0].Name;
                             var attbymonth = [];
-                            var temparr2 = [];
-                            for (var i = 0; i < arr.length; i++) {
-                                if (arr[i].AttendanceMonth === response.Table2[j].AttendanceMonth) {
-                                    attbymonth.push(arr[i]);
-                                    temparr2.push(arr[i].Day);
-                                }
-                            }
 
-                            var attstatarr = [];
-                            finalarr[j] = {};
-                            finalarr[j].month = response.Table2[j].AttendanceMonth;
-                            attstatarr[j] = {};
-                            attbymonth.forEach(function (value) {
-                                var temparr1 = [];
-                                $scope.days.forEach(function (day, k) {
-                                    if (value.Day == day && temparr2.includes(day)) {
-                                        let att = {};
-                                        att.day = value.Day;
-                                        att.AttendeeId = value.AttendeeId;
-                                        att.date = value.Date;
-                                        att.month = value.AttendanceMonth;
-                                        att.Status = value.Status;
-                                        attstatarr[k] = att;
-                                        temparr1.push(value.Day);
-                                    } else if (value.Day != day && !temparr1.includes(day) && !temparr2.includes(day)) {
-                                        let att = {};
-                                        let D = value.Date.split('-');
-                                        var dat = D[0] + '-' + D[1] + '-' + day;
-                                        att.day = day;
-                                        att.date = dat;
-                                        att.AttendeeId = value.AttendeeId;
-                                        att.month = value.AttendanceMonth;
-                                        att.Status = "-";
-                                        attstatarr[k] = att;
-                                        temparr1.push(day);
+                            var arr = $scope.totalattreport;
+                            var finalarr = [];
+                            for (var j = 0; j < response.Table2.length; j++) {
+                                var attbymonth = [];
+                                var temparr2 = [];
+                                for (var i = 0; i < arr.length; i++) {
+                                    if (arr[i].AttendanceMonth === response.Table2[j].AttendanceMonth) {
+                                        attbymonth.push(arr[i]);
+                                        temparr2.push(arr[i].Day);
                                     }
+                                }
 
+                                var attstatarr = [];
+                                finalarr[j] = {};
+                                finalarr[j].month = response.Table2[j].AttendanceMonth;
+                                attstatarr[j] = {};
+                                attbymonth.forEach(function (value) {
+                                    var temparr1 = [];
+                                    $scope.days.forEach(function (day, k) {
+                                        if (value.Day == day && temparr2.includes(day)) {
+                                            let att = {};
+                                            att.day = value.Day;
+                                            att.AttendeeId = value.AttendeeId;
+                                            att.date = value.Date;
+                                            att.month = value.AttendanceMonth;
+                                            att.Status = value.Status;
+                                            attstatarr[k] = att;
+                                            temparr1.push(value.Day);
+                                        } else if (value.Day != day && !temparr1.includes(day) && !temparr2.includes(day)) {
+                                            let att = {};
+                                            let D = value.Date.split('-');
+                                            var dat = D[0] + '-' + D[1] + '-' + day;
+                                            att.day = day;
+                                            att.date = dat;
+                                            att.AttendeeId = value.AttendeeId;
+                                            att.month = value.AttendanceMonth;
+                                            att.Status = "-";
+                                            attstatarr[k] = att;
+                                            temparr1.push(day);
+                                        }
+
+                                    });
+                                    finalarr[j].attstat = attstatarr;
                                 });
-                                finalarr[j].attstat = attstatarr;
-                            });
-                            $scope.attendancedata = finalarr;
+                                $scope.attendancedata = finalarr;
 
 
 
+                            }
+                            $scope.months = [];
+                            $scope.filteredData = [];
+                            AttDataList = [];
+                            window.localStorage.setItem("pin", pin);
+                            var pin = pin;
+                            var days = [];
+                            var istr = "";
+                            for (var i = 1; i <= 31; i++) {
+                                if (i < 10)
+                                    istr = "0" + i;
+                                else
+                                    istr = "" + i;
+                                days.push(istr);
+                            }
+                            // $scope.attName = name;
+                            $scope.days = days
+                            // $scope.LoadImg = true;
+                            $scope.showbrancwiseattdata = false;
                         }
-                        $scope.months = [];
-                        $scope.filteredData = [];
-                        AttDataList = [];
-                        window.localStorage.setItem("pin", pin);
-                        var pin = pin;
-                        var days = [];
-                        var istr = "";
-                        for (var i = 1; i <= 31; i++) {
-                            if (i < 10)
-                                istr = "0" + i;
-                            else
-                                istr = "" + i;
-                            days.push(istr);
-                        }
-                        // $scope.attName = name;
-                        $scope.days = days
-                        // $scope.LoadImg = true;
-                        $scope.showbrancwiseattdata = false;
+                    } else {
+                        $scope.result = false;
+                        $scope.ResultFound = false;
+                        $scope.ResultNotFound = true;
+                        $scope.LoadImg = false;
                     }
-                } else {
-                    $scope.result = false;
-                    $scope.ResultFound = false;
-                    $scope.ResultNotFound = true;
-                    $scope.LoadImg = false;
                 }
             },
                 function (error) {

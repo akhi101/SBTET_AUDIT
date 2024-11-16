@@ -1,5 +1,5 @@
 ﻿define(['app'], function (app) {
-    app.controller("MersidiseCertificateController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, $uibModal, $timeout, PaymentService, PreExaminationService, SystemUserService,$crypto) {
+    app.controller("MersidiseCertificateController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, $uibModal, $timeout, PaymentService, PreExaminationService, SystemUserService, $crypto, AdminService) {
         $scope.DeleteDisable = true;
 
 
@@ -476,8 +476,20 @@
         $scope.uploadUserPhoto = function () {
             var input = document.getElementById("stdPhotoFile");
             var fileSize = input.files[0].size;
-            console.log(fileSize);
+            var file = input.files[0];
+            $scope.PhotoFileName = file.name;
             if (fileSize <= 500000) {
+                var checkexttype = AdminService.CheckFileExtension($scope.PhotoFileName);
+                checkexttype.then(function (response) {
+
+                    //var res = JSON.parse(response)
+                    $scope.Status = response;
+                    if ($scope.Status == "NO") {
+                        alert("Invalid Extension Type");
+                        $('#stdPhotoFile').val('');
+                        return;
+                    }
+                });
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.readAsDataURL(input.files[0]);
@@ -531,9 +543,6 @@
         // $scope.CertFeeamount 
 
         $scope.AddData = function () {
-            if ($scope.Email == '' || $scope.Email == null) {
-                $scope.Email = 'Null'
-            }
             $scope.studentfilearr = $scope.studentfilearr.filter(function (item) {
                 if (item.file != "") {
                     return item;
@@ -558,7 +567,7 @@
                 "Father_Name": $scope.FatherName == null || angular.isUndefined($scope.FatherName) ? "" : angular.uppercase($scope.FatherName),
                 "Gender": $scope.Gender == null || angular.isUndefined($scope.Gender) ? "" : $scope.Gender,
                 "Mobile": $scope.MobileNumber == null || angular.isUndefined($scope.MobileNumber) ? "" : $scope.MobileNumber,
-                "Email": $scope.Email == null || angular.isUndefined($scope.Email) ? "" : $scope.Email,
+                "Email": $scope.Email == null || $scope.Email == '' || $scope.Email == undefined ? '' : $scope.Email,
                 "CollegeName": $scope.Collegepreviewdata.CollegeName == null || angular.isUndefined($scope.Collegepreviewdata.CollegeName) ? "" : $scope.Collegepreviewdata.CollegeName,
                 "CourseName": $scope.CourseName == null || angular.isUndefined($scope.CourseName) ? "" : angular.uppercase($scope.CourseName),
                 "CollegeCode": $scope.Collegepreviewdata.CollegeCode == null || angular.isUndefined($scope.Collegepreviewdata.CollegeCode) ? "" : $scope.Collegepreviewdata.CollegeCode,
@@ -588,65 +597,59 @@
 
             var AddUserData = PreExaminationService.AddMersyData(req);
             AddUserData.then(function (response) {
-                if (response == 'INVALID QUALIFICATION') {
-                    alert('INVALID QUALIFICATION');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
+                if (response == 'INVALID FIRST NAME') {
+                    alert('INVALID FIRST NAME');
                 }
-                else if (response == 'INVALID TENTH YEAR') {
-                    alert('INVALID TENTH YEAR');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
-                }
-                else if (response == 'INVALID EXAM TYPE') {
-                    alert('INVALID EXAM TYPE');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
-                }
-                else if (response == 'INVALID STUDENT NAME') {
-                    alert('INVALID STUDENT NAME');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
+                else if (response == 'INVALID LAST NAME') {
+                    alert('INVALID LAST NAME');
                 }
                 else if (response == 'INVALID FATHER NAME') {
                     alert('INVALID FATHER NAME');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
-                }
-                else if (response == 'INVALID MOTHER NAME') {
-                    alert('INVALID MOTHER NAME');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
-                }
-                else if (response == 'INVALID TENTH HALL TICKET NUMBER') {
-                    alert('INVALID TENTH HALL TICKET NUMBER');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
                 }
                 else if (response == 'INVALID GENDER') {
                     alert('INVALID GENDER');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
                 }
-                else if (response == 'INVALID DATE OF BIRTH') {
-                    alert('INVALID DATE OF BIRTH');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
+                else if (response == 'INVALID MOBILE NUMBER') {
+                    alert('INVALID MOBILE NUMBER');
                 }
-                else if (response == 'INVALID STUDENT NAME & FATHER NAME') {
-                    alert('INVALID STUDENT NAME & FATHER NAME');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
+                else if (response == 'INVALID EMAIL') {
+                    alert('INVALID EMAIL');
                 }
-                else if (response == 'INVALID STUDENT NAME & MOTHER NAME') {
-                    alert('INVALID STUDENT NAME & MOTHER NAME');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
+                else if (response == 'INVALID COLLEGE NAME') {
+                    alert('INVALID COLLEGE NAME');
                 }
-                else if (response == 'INVALID STUDENT NAME , MOTHER NAME & FATHER NAME') {
-                    alert('INVALID STUDENT NAME, MOTHER NAME & FATHER NAME');
-                    $scope.loader1 = false;
-                    $scope.tabsbutton = false;
+                else if (response == 'INVALID COURSE NAME') {
+                    alert('INVALID COURSE NAME');
+                }
+                else if (response == 'INVALID COLLEGE CODE') {
+                    alert('INVALID COLLEGE CODE');
+                }
+                else if (response == 'INVALID COURSE TYPE') {
+                    alert('INVALID COURSE TYPE');
+                }
+                else if (response == 'INVALID SCHEME') {
+                    alert('INVALID SCHEME');
+                }
+                else if (response == 'INVALID PURPOSE') {
+                    alert('INVALID PURPOSE');
+                }
+                else if (response == 'INVALID VILLAGE') {
+                    alert('INVALID VILLAGE');
+                }
+                else if (response == 'INVALID PURPOSE') {
+                    alert('INVALID PURPOSE');
+                }
+                else if (response == 'INVALID TOWN') {
+                    alert('INVALID TOWN');
+                }
+                else if (response == 'INVALID MANDAL NAME') {
+                    alert('INVALID MANDAL NAME');
+                }
+                else if (response == 'INVALID DISTRICT NAME') {
+                    alert('INVALID DISTRICT NAME');
+                }
+                else if (response == 'INVALID STATE NAME') {
+                    alert('INVALID STATE NAME');
                 }
                 else if (response.Table2[0].ResponceCode == '200') {
                     alert(response.Table2[0].ResponceDescription);
@@ -827,7 +830,20 @@
         $scope.uploadfiles = function (ele, val) {
             var input = document.getElementById("studentFile" + val);
             var fileSize = input.files[0].size;
+            var file = input.files[0];
+            $scope.PhotoFileName = file.name;
             if (fileSize <= 1000000) {
+                var checkexttype = AdminService.CheckFileExtension($scope.PhotoFileName);
+                checkexttype.then(function (response) {
+
+                    //var res = JSON.parse(response)
+                    $scope.Status = response;
+                    if ($scope.Status == "NO") {
+                        alert("Invalid Extension Type");
+                        $('#stdPhotoFile').val('');
+                        return;
+                    }
+                });
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.readAsDataURL(input.files[0]);
