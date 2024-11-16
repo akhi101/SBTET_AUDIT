@@ -4301,9 +4301,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_StudyCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
             }
@@ -4465,10 +4466,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_GenuinenessCheckDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -7942,10 +7943,15 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string encriptedpin = "";
+                var res = Pin.Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var pinencrypt = new HbCrypt();
+                string pin = crypt.AesDecrypt(res[0]);
+                string decryptpin = pinencrypt.AesDecrypt(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", decryptpin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_Attendance_GET_PercentageByPin", param);
                 return JsonConvert.SerializeObject(dt);
             }
@@ -11772,17 +11778,26 @@ namespace SoftwareSuite.Controllers.PreExamination
 
 
 
+
+        
+
+
+
         [HttpGet, ActionName("GetRegularHallticket")]
-        public string GetRegularHallticket(string Pin, string DateOfBirth, int StudentTypeId, int EMYR)
+        public string GetRegularHallticket(string Pin, string DateOfBirth, string StudentTypeId, string EMYR)
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
+                string DOB = GetDecryptedData(DateOfBirth);
+                string ID = GetDecryptedData(StudentTypeId);
+                string emyr = GetDecryptedData(EMYR);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[4];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@DateOfBirth", DateOfBirth);
-                param[2] = new SqlParameter("@StudentTypeId", StudentTypeId);
-                param[3] = new SqlParameter("@EMYR", EMYR);
+                param[0] = new SqlParameter("@Pin", pin);
+                param[1] = new SqlParameter("@DateOfBirth", DOB);
+                param[2] = new SqlParameter("@StudentTypeId", ID);
+                param[3] = new SqlParameter("@EMYR", emyr);
                 var dt = new DataSet();
                 dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_HallTicketDetailsByPin", param);//USP_SFP_GET_HallTicketDetailsByPin  USP_SFP_GET_HallTicketDetailsByPin_TEST
                 return JsonConvert.SerializeObject(dt);
@@ -14673,17 +14688,37 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
         }
 
-
-        [HttpGet, ActionName("GetExamMonthYearForHallticketandFeepayment")]
-        public HttpResponseMessage GetExamMonthYearForHallticketandFeepayment(int DataTypeId, int StudentTypeId)
+        [HttpGet, ActionName("GetDecryptedData")]
+        public string GetDecryptedData(string DataType)
         {
             try
             {
 
+                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string datatype = crypt.AesDecrypt(res[0]);
+                string decryptdatatype = encrypt.AesDecrypt(datatype);
+                return decryptdatatype;
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("GetExamMonthYearForHallticketandFeepayment")]
+        public HttpResponseMessage GetExamMonthYearForHallticketandFeepayment(string DataTypeId, string StudentTypeId)
+        {
+            try
+            {
+               string DataTypeID = GetDecryptedData(DataTypeId);
+               string ID = GetDecryptedData(StudentTypeId);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[2];
-                param[0] = new SqlParameter("@DataTypeId", DataTypeId);
-                param[1] = new SqlParameter("@StudentTypeId ", StudentTypeId);
+                param[0] = new SqlParameter("@DataTypeId", DataTypeID);
+                param[1] = new SqlParameter("@StudentTypeId ", ID);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_ExamMonthYearForHallTicketAndFeePayment", param);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, dt);
                 return response;

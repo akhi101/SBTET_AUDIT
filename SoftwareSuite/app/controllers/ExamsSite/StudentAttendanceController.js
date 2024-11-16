@@ -1,5 +1,6 @@
 define(['app'], function (app) {
-    app.controller("StudentAttendanceController", function ($scope, $http, $localStorage, $state, $window, $stateParams, AppSettings, $uibModal, PreExaminationService) {
+    app.controller("StudentAttendanceController", function ($scope, $crypto, $http, $localStorage, $state, $window, $stateParams, AppSettings, $uibModal, PreExaminationService, SystemUserService) {
+       
         // $scope.buttontext = "Show Full Attendance";
 
         $scope.ResultFound = false;
@@ -7,14 +8,24 @@ define(['app'], function (app) {
         $scope.LoadImg = false;
 
         const $ctrl = this;
+
         $ctrl.$onInit = () => {
-            //$state.reload();
+
             $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
-            $scope.GetCaptchaData()
+
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.EKey = res;
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.GetCaptchaData()
+
+            });
+
+
         }
 
         $scope.GetCaptchaData = function () {
-            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            var captcha = PreExaminationService.GetCaptchaString($scope.EncriptedSession);
             captcha.then(function (response) {
                 try {
                     var res = JSON.parse(response);
@@ -31,6 +42,9 @@ define(['app'], function (app) {
         }
 
 
+      
+
+
         $scope.ValidateCaptchaText = function () {
 
             if ($scope.Studentpin == undefined || $scope.Studentpin == "") {
@@ -44,8 +58,11 @@ define(['app'], function (app) {
                 $scope.loginbutton = false;
                 return;
             };
+            var EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Studentpin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.EncriptedSession, EncriptedCaptchaText, Encstdpin);
 
-            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.Studentpin);
+            
             captcha.then(function (res) {
                 var response = JSON.parse(res)
                 //var Data = JSON.parse(response[0])
@@ -188,7 +205,8 @@ define(['app'], function (app) {
             $scope.days = days
             $scope.LoadImg = true;
             $scope.showbrancwiseattdata = false;
-            var getAttendance = PreExaminationService.getAttendanceReport($scope.Studentpin);
+            var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Studentpin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var getAttendance = PreExaminationService.getAttendanceReport(Encstdpin);
             getAttendance.then(function (res) {
                 //$scope.attCaptcha = "";
                 //$scope.createCaptcha();

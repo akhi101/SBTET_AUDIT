@@ -819,7 +819,7 @@
                 //templateUrl: 'app/views/newwebsite/CommingSoon.html',
                 //dependencies: ['views/newwebsite/controllers/CommingSoonController']
                 templateUrl: 'app/views/Examssite/DiplomaHallticket.html',
-                dependencies: ['controllers/ExamsSite/DiplomaHallticketController', , 'services/Assessment/MarksEntryService', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService']
+                dependencies: ['controllers/ExamsSite/DiplomaHallticketController', , 'services/Assessment/MarksEntryService', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'services/SystemAdministration/SystemUserService']
             },
            
 
@@ -832,12 +832,12 @@
             'index.StudentAttendance': {
                 url: "/StudentAttendance",
                 templateUrl: 'app/views/Examssite/StudentAttendance.html',
-                dependencies: ['controllers/Examssite/StudentAttendanceController', 'services/PreExamination/PreExaminationService']
+                dependencies: ['controllers/Examssite/StudentAttendanceController', 'services/PreExamination/PreExaminationService', 'services/SystemAdministration/SystemUserService']
             },
             'index.GenuinenessCheckForm': {
                 url: "/GenuinenessCheckForm",
                 templateUrl: 'app/views/Examssite/GenuinenessCheckForm.html',
-                dependencies: ['controllers/Examssite/GenuinenessCheckFormController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'directives/saDate']
+                dependencies: ['controllers/Examssite/GenuinenessCheckFormController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'directives/saDate', 'services/SystemAdministration/SystemUserService']
             },
 
             'index.DiplomaStudentResult': {
@@ -1024,7 +1024,7 @@
             'index.StudentConsolidated': {
                 url: "/StudentConsolidated",
                 templateUrl: 'app/views/ExamsSite/StudentConsolidated.html',
-                dependencies: ['controllers/ExamsSite/StudentConsolidatedController', 'services/StudentResultService']
+                dependencies: ['controllers/ExamsSite/StudentConsolidatedController', 'services/StudentResultService', 'services/SystemAdministration/SystemUserService']
             },
 
             'index.StudentOnlineRequest': {

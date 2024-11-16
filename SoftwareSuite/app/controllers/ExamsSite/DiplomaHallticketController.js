@@ -1,19 +1,29 @@
 ﻿define(['app'], function (app) {
-    app.controller("DiplomaHallticketController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, MarksEntryService, $uibModal, PaymentService, PreExaminationService) {
+    app.controller("DiplomaHallticketController", function ($scope, $crypto, $http, $localStorage, $window, $state, $stateParams, AppSettings, MarksEntryService, $uibModal, PaymentService, SystemUserService, PreExaminationService) {
 
         $scope.dateOfBirth = "";
         $scope.result = false;
         $scope.ExamMonthYear = '';
 
         const $ctrl = this;
+
         $ctrl.$onInit = () => {
-            //$state.reload();
+
             $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
-            $scope.GetCaptchaData()
+
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.EKey = res;
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.GetCaptchaData()
+
+            });
+
+
         }
 
         $scope.GetCaptchaData = function () {
-            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            var captcha = PreExaminationService.GetCaptchaString($scope.EncriptedSession);
             captcha.then(function (response) {
                 try {
                     var res = JSON.parse(response);
@@ -51,7 +61,11 @@
                 return;
             };
 
-            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.pinNumber);
+            var EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.pinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.EncriptedSession, EncriptedCaptchaText, Encstdpin);
+
+          
             captcha.then(function (res) {
                 var response = JSON.parse(res)
                 //var Data = JSON.parse(response[0])
@@ -165,7 +179,11 @@
 
 
         $scope.changedVal = function () {
-            var loadHallticket = PreExaminationService.GetExamMonthYearForHallticketandFeepayment(2, $scope.Student.id);
+            var DataType=2
+            $scope.EncriptedDataType = $crypto.encrypt($crypto.encrypt(DataType.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedID = $crypto.encrypt($crypto.encrypt($scope.Student.id.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
+            var loadHallticket = PreExaminationService.GetExamMonthYearForHallticketandFeepayment($scope.EncriptedDataType, $scope.EncriptedID);
             loadHallticket.then(function (response) {
                 if (response.Table[0].ResponceCode == '200') {
                     $scope.GetExamMonthYear = [];
@@ -246,21 +264,7 @@
             const d = new Date();
             $scope.DownloadTime = moment(d).format("DD-MM-YYYY HH:mm:ss");
          
-            //  $scope.PinNumber = PinNo;
-
-            //var dob = '09-09-2002'
-            //console.log(dob)
-            //var reg = "[0-9]{1,2}[/][0-9]{1,2}[/][0-9]{4}";
-            //if ($scope.dateOfBirth != null && $scope.dateOfBirth !== undefined && !$scope.dateOfBirthFound && !(reg == $scope.dateOfBirthFound)) {
-            //    var datechange = moment($scope.dateOfBirth).format("DD/MM/YYYY HH:mm:ss");
-            //    var d = datechange.slice(0, 10).split('/');
-            //    if (d[2].length === 4) {
-            //        $scope.CandidateDob = d[0] + "-" + d[1] + "-" + d[2];
-            //    }
-            //if ($scope.Student == "" || $scope.Student == undefined || $scope.Student == null) {
-            //    alert("Select Student Type.");
-            //    return;
-            //}
+            
             if ($scope.pinNumber == "" || $scope.pinNumber == undefined || $scope.pinNumber == null) {
                 alert("Enter Pin");
                 return;
@@ -269,22 +273,10 @@
                 alert("Select Student Type.");
                 return;
             }
-            //if ($scope.hallCaptcha == undefined || $scope.hallCaptcha == "") {
-            //    alert("Enter Captcha");
-            //    return;
-            //};
-
-
-            //if ($scope.hallCaptcha == $scope.newCapchaCode) {
-
-            //} else {
-            //    alert("Invalid Captcha. try Again");
-            //    $scope.hallCaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
-
+           
             $scope.dob = '123';
+            $scope.EncriptedPIN = $crypto.encrypt($crypto.encrypt(DataType.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedID = $crypto.encrypt($crypto.encrypt($scope.Student.id.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
             var getHallticket = PreExaminationService.getHallticket($scope.pinNumber, $scope.dob, $scope.Student.id, $scope.ExamMonthYear);
             getHallticket.then(function (resp) {
                 //$scope.hallCaptcha = "";
