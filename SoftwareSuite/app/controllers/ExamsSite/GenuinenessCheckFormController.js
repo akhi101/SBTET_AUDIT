@@ -1,5 +1,5 @@
 ﻿define(['app'], function (app) {
-    app.controller("GenuinenessCheckFormController", function ($scope, $http, $localStorage, $state, $window, $stateParams, AppSettings, PreExaminationService, PaymentService, $uibModal) {
+    app.controller("GenuinenessCheckFormController", function ($scope, $crypto, $http, $localStorage, $state, $window, $stateParams, AppSettings, PreExaminationService, PaymentService, $uibModal, SystemUserService) {
         $scope.Certificate = 8;
         //$scope.OrganizationTypes = [
         //   { "Id": "1", "Name": "State Government" },
@@ -27,17 +27,24 @@
         $scope.Form3 = true;
         $scope.date = new Date();
         const $ctrl = this;
-        $ctrl.$onInit = () => {
-            //$scope.createCaptcha()
 
-            //$state.reload();
+        $ctrl.$onInit = () => {
+
             $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
-            $scope.GetCaptchaData()
+
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.EKey = res;
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.GetCaptchaData()
+
+            });
+
+
         }
 
-
         $scope.GetCaptchaData = function () {
-            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            var captcha = PreExaminationService.GetCaptchaString($scope.EncriptedSession);
             captcha.then(function (response) {
                 try {
                     var res = JSON.parse(response);
@@ -67,8 +74,12 @@
                 $scope.loginbutton = false;
                 return;
             };
+            var EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.EncriptedSession, EncriptedCaptchaText, Encstdpin);
 
-            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.PinNumber);
+
+            
             captcha.then(function (res) {
                 var response = JSON.parse(res)
                 //var Data = JSON.parse(response[0])
@@ -258,8 +269,11 @@
             //  16001 - m - 010
 
             $scope.PinNumber = PinNumber
+
+
             if ($scope.PinNumber.length > 9 && $scope.PinNumber.length < 16) {
-                var getData = PreExaminationService.getGenuinenessCheckDetailsByPin($scope.PinNumber)
+                $scope.EncriptedPinNumber = $crypto.encrypt($crypto.encrypt(PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var getData = PreExaminationService.getGenuinenessCheckDetailsByPin($scope.EncriptedPinNumber)
                 getData.then(function (response) {
                     var response = JSON.parse(response);
                     //$scope.stserCaptcha = "";

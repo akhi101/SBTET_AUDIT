@@ -15,21 +15,26 @@
 
 
         const $ctrl = this;
-        $ctrl.$onInit = () => {
-            $scope.NoOtp = true;
-            $scope.Otp = false;
-            $scope.limitexceeded = false;
-            $scope.phonenoupdated = false;
-            $scope.result = false;
 
-            //$state.reload();
+        $ctrl.$onInit = () => {
+
             $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
-            $scope.GetCaptchaData()
+
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.EKey = res;
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.GetCaptchaData()
+
+            });
+
+
         }
 
 
+
         $scope.GetCaptchaData = function () {
-            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            var captcha = PreExaminationService.GetCaptchaString($scope.EncriptedSession);
             captcha.then(function (response) {
                 try {
                     var res = JSON.parse(response);
@@ -65,7 +70,11 @@
                 return;
             };
 
-            var captcha = PreExaminationService.ValidateCaptchaText($scope.SessionCaptcha, $scope.CaptchaText, $scope.PinNumber);
+            var EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var captcha = PreExaminationService.ValidateCaptchaText($scope.EncriptedSession, EncriptedCaptchaText, Encstdpin);
+
+         
             captcha.then(function (res) {
                 var response = JSON.parse(res)
                 //var Data = JSON.parse(response[0])
@@ -1104,9 +1113,10 @@
                         $scope.NoDataFound = false;
                         $scope.NoData = false;
                     } else {
+                        $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
 
 
-                        var getData = PreExaminationService.getStudyDetailsByPin($scope.PinNumber)
+                        var getData = PreExaminationService.getStudyDetailsByPin($scope.EncriptedPin)
                     }
                 
                 } else if ($scope.Certificate== 10) {

@@ -2,6 +2,7 @@
 using SoftwareSuite.BLL;
 using SoftwareSuite.Models.Database;
 using SoftwareSuite.Models.Results;
+using SoftwareSuite.Models.Security;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -195,21 +196,22 @@ namespace SoftwareSuite.Controllers.Results
                 return ex.Message;
             }
         }
-
-        [HttpGet, ActionName("GetConsolidatedResult")]
-        public string GetConsolidatedResult(string Pin)
+        [HttpGet, ActionName("GetDecryptedData")]
+        public string GetDecryptedData(string DataType)
         {
             try
             {
-                var dbHandler = new dbHandler();
-                var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);                
-                var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_StudentCumulativeScoresForStudents", param);
-                return JsonConvert.SerializeObject(ds);
+
+                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string datatype = crypt.AesDecrypt(res[0]);
+                string decryptdatatype = encrypt.AesDecrypt(datatype);
+                return decryptdatatype;
+
             }
             catch (Exception ex)
             {
-                dbHandler.SaveErorr("USP_Results_StudentCumulativeScoresForStudents", 0, ex.Message);
                 return ex.Message;
             }
         }
@@ -219,6 +221,7 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                Pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
                 param[0] = new SqlParameter("@Pin", Pin);
