@@ -230,27 +230,6 @@ namespace SoftwareSuite.Controllers.AdminServices
 
         }
 
-        [HttpGet, ActionName("GetDecryptedData")]
-        public string GetDecryptedData(string DataType)
-        {
-            try
-            {
-
-                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
-                var crypt = new HbCrypt(res[1]);
-                var encrypt = new HbCrypt();
-                string datatype = crypt.AesDecrypt(res[0]);
-                string decryptdatatype = encrypt.AesDecrypt(datatype);
-                return decryptdatatype;
-
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
-
-
        
         [HttpGet, ActionName("GetDecryptedData")]
         public string GetDecryptedData(string DataType)
