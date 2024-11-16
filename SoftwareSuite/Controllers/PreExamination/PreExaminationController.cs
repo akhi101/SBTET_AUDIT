@@ -8264,12 +8264,50 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
         }
 
-        [HttpGet, ActionName("GetorEditFeeSettingsData")]
-        public HttpResponseMessage GetorEditFeeSettingsData(int DataTypeID, int ID)
+        [HttpGet, ActionName("GetEncryptedData")]
+        public string GetEncryptedData(string DataType)
         {
             try
             {
 
+                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string encdatatype = crypt.AesDecrypt(res[0]);
+                return encdatatype;
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("GetDecryptedData")]
+        public string GetDecryptedData(string DataType)
+        {
+            try
+            {
+
+                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string datatype = crypt.AesDecrypt(res[0]);
+                string decryptdatatype = encrypt.AesDecrypt(datatype);
+                return decryptdatatype;
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("GetorEditFeeSettingsData")]
+        public HttpResponseMessage GetorEditFeeSettingsData(string DataTypeID, string ID)
+        {
+            try
+            {
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[2];
                 param[0] = new SqlParameter("@DataTypeID", DataTypeID);
@@ -8408,6 +8446,24 @@ namespace SoftwareSuite.Controllers.PreExamination
 
         }
 
+
+        [HttpGet, ActionName("CheckFileType")]
+        public string CheckFileType(string fileName)
+        {
+            string ext = Path.GetExtension(fileName);
+            switch (ext.ToLower())
+            {
+                case ".jpg":
+                    return "YES";
+                case ".jpeg":
+                    return "YES";
+                case ".png":
+                    return "YES";
+                default:
+                    return "NO";
+            }
+        }
+
         [HttpGet, ActionName("NameCheck")]
         public string NameCheck(string DataType)
         {
@@ -8528,7 +8584,7 @@ namespace SoftwareSuite.Controllers.PreExamination
             {
                 if (DataType != "")
                 {
-                    Regex regex = new Regex("^\\d{6}$");
+                    Regex regex = new Regex("^\\d{3}$");
                     if (!regex.IsMatch(DataType))
                     {
                         return "NO";
@@ -8607,6 +8663,34 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
         }
 
+        [HttpGet, ActionName("CollegeNameCheck")]
+        public string CollegeNameCheck(string DataType)
+        {
+            try
+            {
+                if (DataType != "")
+                {
+                    Regex regex = new Regex("^[a-zA-Z\\s,]+$");
+                    if (!regex.IsMatch(DataType))
+                    {
+                        return "NO";
+                    }
+                    else
+                    {
+                        return "YES";
+                    }
+                }
+                else
+                {
+                    return "YES";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
         [HttpPost, ActionName("AddMersyData")]
         public HttpResponseMessage AddMersyData([FromBody] CertificateReqAtt CertificateReqAtt)
         {
@@ -8621,13 +8705,12 @@ namespace SoftwareSuite.Controllers.PreExamination
                 string Mobile = MobileNumberCheck(CertificateReqAtt.Mobile.ToString());
                 string Email = EmailCheck(CertificateReqAtt.Email.ToString());
 
-                string CollegeName = NameCheck(CertificateReqAtt.CollegeName.ToString());
+                string CollegeName = CollegeNameCheck(CertificateReqAtt.CollegeName.ToString());
                 string CourseName = NameCheck(CertificateReqAtt.CourseName.ToString());
                 string CollegeCode = OnlyThreeDigitCheck(CertificateReqAtt.CollegeCode.ToString());
 
 
                 string CourseType = NameCheck(CertificateReqAtt.CourseType.ToString());
-                string Scheme = NameCheck(CertificateReqAtt.Scheme.ToString());
                 string Purpose = NameCheck(CertificateReqAtt.Purpose.ToString());
 
                 string Village = DataCheck1(CertificateReqAtt.Village.ToString());
@@ -8654,14 +8737,9 @@ namespace SoftwareSuite.Controllers.PreExamination
                 }
                 string encriptedaadhar = "";
 
-                var res = CertificateReqAtt.IdNumber.Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
-                var crypt = new HbCrypt(res[1]);
-                var aadharencrypt = new HbCrypt();
-                string aadhar = crypt.AesDecrypt(res[0]);
-                string decryptaadhar = aadharencrypt.AesDecrypt(aadhar);
-                encriptedaadhar = aadharencrypt.Encrypt(decryptaadhar);
-
-                string Aadhar = OnlyTwelveDigitCheck(decryptaadhar.ToString());
+                string EncryptedAadhar = GetEncryptedData(CertificateReqAtt.IdNumber);
+                string DecryptedAadhar = GetDecryptedData(CertificateReqAtt.IdNumber);
+                string Aadhar = OnlyTwelveDigitCheck(DecryptedAadhar.ToString());
 
                 if (first_Name == "NO")
                 {
@@ -8713,11 +8791,6 @@ namespace SoftwareSuite.Controllers.PreExamination
                     response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COURSE TYPE");
                     return response;
                 }
-                else if (Scheme == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID SCHEME");
-                    return response;
-                }
                 else if (Purpose == "NO")
                 {
                     response = Request.CreateResponse(HttpStatusCode.OK, "INVALID PURPOSE");
@@ -8764,7 +8837,7 @@ namespace SoftwareSuite.Controllers.PreExamination
                 param[11] = new SqlParameter("@Scheme", CertificateReqAtt.Scheme);
                 param[12] = new SqlParameter("@Purpose", CertificateReqAtt.Purpose);
                 param[13] = new SqlParameter("@AddressProof", CertificateReqAtt.AddressProof);
-                param[14] = new SqlParameter("@IdNumber", encriptedaadhar);
+                param[14] = new SqlParameter("@IdNumber", EncryptedAadhar);
                 param[15] = new SqlParameter("@Village", CertificateReqAtt.Village);
                 param[16] = new SqlParameter("@Town", CertificateReqAtt.Town);
                 param[17] = new SqlParameter("@Mandal", CertificateReqAtt.Mandal);

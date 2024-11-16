@@ -570,6 +570,14 @@
             return promise;
         }
 
+        this.CheckFileExtension = function (FileName) {
+            var paramObj = {
+                "FileName": FileName
+            };
+            var promise = DataAccessService.getDataWithPara('api/PreExamination/CheckFileType', paramObj);
+            return promise;
+        };
+
 
     })
 })

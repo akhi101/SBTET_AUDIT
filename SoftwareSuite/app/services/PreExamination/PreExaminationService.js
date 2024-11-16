@@ -679,11 +679,11 @@
             return promise;
         }
 
-        this.ValidateCaptchaText = function (SessionId, Captcha, Pin) {
+        this.ValidateAttendenceCaptcha = function (SessionId, Captcha, Pin) {
             var paramObject = {
                 "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin
             };
-            return DataAccessService.postData('api/AdminService/ValidateCaptchaText', paramObject);
+            return DataAccessService.postData('api/AdminService/ValidateAttendenceCaptcha', paramObject);
         };
 
         this.GetCaptchaString = function (SessionId) {
@@ -3596,6 +3596,9 @@
         //    var promise = DataAccessService.postData('api/PreExamination/AddorUpdateFeeSettings', paramObj);
         //    return promise;
         //};
+
+
+
 
 
     });

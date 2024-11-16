@@ -832,7 +832,8 @@
             'index.StudentAttendance': {
                 url: "/StudentAttendance",
                 templateUrl: 'app/views/Examssite/StudentAttendance.html',
-                dependencies: ['controllers/Examssite/StudentAttendanceController', 'services/PreExamination/PreExaminationService', 'services/SystemAdministration/SystemUserService']
+              dependencies: ['controllers/Examssite/StudentAttendanceController', 'services/PreExamination/PreExaminationService', 'services/SystemAdministration/SystemUserService']
+
             },
             'index.GenuinenessCheckForm': {
                 url: "/GenuinenessCheckForm",
@@ -1036,7 +1037,7 @@
             'index.MercyFee': {
                 url: "/MercyFee",
                 templateUrl: 'app/views/ExamsSite/MersidiseCertificate.html',
-                dependencies: ['controllers/ExamsSite/MersidiseCertificateController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'services/SystemAdministration/SystemUserService']
+                dependencies: ['controllers/ExamsSite/MersidiseCertificateController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'services/SystemAdministration/SystemUserService', 'services/AdminServices/AdminService']
             },
 
             'index.TwoYearsCertificateRequest': {
