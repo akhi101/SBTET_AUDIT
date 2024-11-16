@@ -269,7 +269,8 @@
             //  16001 - m - 010
 
             $scope.PinNumber = PinNumber
-           
+
+
             if ($scope.PinNumber.length > 9 && $scope.PinNumber.length < 16) {
                 $scope.EncriptedPinNumber = $crypto.encrypt($crypto.encrypt(PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
                 var getData = PreExaminationService.getGenuinenessCheckDetailsByPin($scope.EncriptedPinNumber)
