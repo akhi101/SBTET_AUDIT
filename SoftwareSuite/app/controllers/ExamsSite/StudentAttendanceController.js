@@ -167,10 +167,17 @@ define(['app'], function (app) {
 
         $scope.ValidateAttendenceCaptcha = function () {
 
-            if ($scope.Studentpin == "" || $scope.Studentpin == undefined || $scope.Studentpin == null) {
-                alert("Enter Pin");
+            if ($scope.Studentpin == undefined || $scope.Studentpin == "") {
+                alert("Enter Student PIN");
+                $scope.loginbutton = false;
                 return;
-            }
+            };
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
 
             $scope.attendancedata = [];
             $scope.months = [];
@@ -192,9 +199,10 @@ define(['app'], function (app) {
             $scope.days = days
             $scope.LoadImg = true;
             $scope.showbrancwiseattdata = false;
+            var EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
             var Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Studentpin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
-            var getAttendance = PreExaminationService.getAttendanceReport(Encstdpin);
-            getAttendance.then(function (res) {
+            var captcha = PreExaminationService.ValidateAttendenceCaptcha($scope.EncriptedSession, EncriptedCaptchaText, Encstdpin);
+            captcha.then(function (res) {
 
                 try {
                     var response = JSON.parse(res);
@@ -308,12 +316,21 @@ define(['app'], function (app) {
                             // $scope.LoadImg = true;
                             $scope.showbrancwiseattdata = false;
                         }
-                    } else {
+                    }
+
+                    else {
                         $scope.result = false;
                         $scope.ResultFound = false;
                         $scope.ResultNotFound = true;
                         $scope.LoadImg = false;
                     }
+                }
+                else if (response[0].ResponceCode == '400') {
+                    alert(response[0].ResponceDescription);
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
                 }
             },
                 function (error) {

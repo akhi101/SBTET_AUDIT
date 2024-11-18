@@ -260,28 +260,51 @@
             $scope.modalInstance.close();
         }
 
-        $scope.getHallTkt = function () {
+        $scope.validateHallTicketCaptcha = function () {
             const d = new Date();
             $scope.DownloadTime = moment(d).format("DD-MM-YYYY HH:mm:ss");
-         
-            
+
             if ($scope.pinNumber == "" || $scope.pinNumber == undefined || $scope.pinNumber == null) {
                 alert("Enter Pin");
                 return;
             }
-            if ($scope.Student.id == "" || $scope.Student.id == undefined || $scope.Student.id == null) {
+            if ($scope.Student == "" || $scope.Student == undefined || $scope.Student == null) {
                 alert("Select Student Type.");
                 return;
             }
-           
+            if ($scope.ExamMonthYear == "" || $scope.ExamMonthYear == undefined || $scope.ExamMonthYear == null) {
+                alert("Select Exam Month Year");
+                return;
+            }
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+                  
             $scope.dob = '123';
-            $scope.EncriptedPIN = $crypto.encrypt($crypto.encrypt(DataType.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
+            $scope.EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
+            $scope.EncriptedPIN = $crypto.encrypt($crypto.encrypt($scope.pinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
             $scope.EncriptedID = $crypto.encrypt($crypto.encrypt($scope.Student.id.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
-            var getHallticket = PreExaminationService.getHallticket($scope.pinNumber, $scope.dob, $scope.Student.id, $scope.ExamMonthYear);
-            getHallticket.then(function (resp) {
-                //$scope.hallCaptcha = "";
-                //$scope.createCaptcha();
-                var resp = JSON.parse(resp);
+            $scope.EncriptedDOB = $crypto.encrypt($crypto.encrypt($scope.dob.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedEXMYR = $crypto.encrypt($crypto.encrypt($scope.ExamMonthYear.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
+
+            var captcha = PreExaminationService.ValidateHallTicketCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.EncriptedPIN, $scope.EncriptedDOB, $scope.EncriptedID, $scope.EncriptedEXMYR);
+
+            captcha.then(function (res) {
+
+                var response = JSON.parse(res)
+                if (response[0].ResponceCode == '200') {
+                    $scope.CaptchaText = "";
+                    $scope.GetCatcha = response[0].Captcha
+                    var captcha = JSON.parse(response[0].Captcha)
+                    $scope.CaptchaImage = captcha[0].Image;
+                    var Data = JSON.parse(response[0].Data)
+                    var resp = Data;
                 if (resp.Table !== undefined) {
                     if ($scope.Student.id == 1) {
                         if (resp.Table[0].ResponceCode == '200') {
@@ -343,7 +366,7 @@
                             $scope.result = false;
                             alert(resp.Table[0].ResponceDescription);
                             $state.go('index.StudentFeedback')
-                        }  else if (resp.Table[0].ResponceCode == '400') {
+                        } else if (resp.Table[0].ResponceCode == '400') {
                             $scope.result = false;
                             alert(resp.Table[0].ResponceDescription);
                         }
@@ -450,6 +473,10 @@
                             }
                         }
                     }
+                }
+                }
+                else if (response[0].ResponceCode == '400') {
+                    alert(response[0].ResponceDescription);
                 }
                 else {
                     alert("No Hallticket found");

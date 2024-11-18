@@ -21,6 +21,7 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using SoftwareSuite.Models.Security;
 using SoftwareSuite.Controllers.PreExamination;
+using SoftwareSuite.Controllers.Results;
 
 namespace SoftwareSuite.Controllers.AdminServices
 {
@@ -251,28 +252,6 @@ namespace SoftwareSuite.Controllers.AdminServices
         }
 
 
-       
-        [HttpGet, ActionName("GetDecryptedData")]
-        public string GetDecryptedData(string DataType)
-        {
-            try
-            {
-
-                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
-                var crypt = new HbCrypt(res[1]);
-                var encrypt = new HbCrypt();
-                string datatype = crypt.AesDecrypt(res[0]);
-                string decryptdatatype = encrypt.AesDecrypt(datatype);
-                return decryptdatatype;
-
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
-
-
 
         [HttpPost, ActionName("ValidateAttendenceCaptcha")]
         public string ValidateAttendenceCaptcha(JsonObject data)
@@ -301,7 +280,1644 @@ namespace SoftwareSuite.Controllers.AdminServices
                     if (dt.Rows[0]["ResponseCode"].ToString() == "200")
                     {
                         PreExaminationController PreExamination = new PreExaminationController();
-                        p1.Data = PreExamination.getAttendanceReport(Pin);
+                        p1.Data = PreExamination.getAttendanceReport(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+
+        [HttpPost, ActionName("ValidateHallTicketCaptcha")]
+        public string ValidateHallTicketCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+                string DateOfBirth = GetDecryptedData(data["DateOfBirth"].ToString());
+                string StudentTypeId = GetDecryptedData(data["StudentTypeId"].ToString());
+                string EMYR = GetDecryptedData(data["EMYR"].ToString());
+
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController PreExamination = new PreExaminationController();
+                        if (StudentTypeId.ToString()== "1")
+                        {
+                            p1.Data = PreExamination.GetRegularHallticket(data["Pin"].ToString(), data["DateOfBirth"].ToString(), data["StudentTypeId"].ToString(), data["EMYR"].ToString());
+                        }
+                        else if (StudentTypeId.ToString() == "2")
+                        {
+                            p1.Data = PreExamination.GetBacklogHallticket(data["Pin"].ToString(), data["DateOfBirth"].ToString(), data["StudentTypeId"].ToString(), data["EMYR"].ToString());
+                        }
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+
+        [HttpPost, ActionName("ValidateStudentFeePaymentforAdminCaptcha")]
+        public string ValidateStudentFeePaymentforAdminCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                string StudentTypeId = GetDecryptedData(data["StudentTypeId"].ToString());
+                string UserTypeId = GetDecryptedData(data["UserTypeId"].ToString());
+
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController PreExamination = new PreExaminationController();
+                        p1.Data = PreExamination.GetStudentFeePaymentDetailsforAdmin(data["Pin"].ToString(), data["StudentTypeId"].ToString(), data["UserTypeId"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+
+        [HttpPost, ActionName("ValidateStudentFeePaymentDetailsCaptcha")]
+        public string ValidateStudentFeePaymentDetailsCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                string StudentTypeId = GetDecryptedData(data["StudentTypeId"].ToString());
+                string EMYR = GetDecryptedData(data["EMYR"].ToString());
+
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController PreExamination = new PreExaminationController();
+                        p1.Data = PreExamination.GetStudentFeePaymentDetails(data["Pin"].ToString(), data["StudentTypeId"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateC09ConsolidatedResultCaptcha")]
+        public string ValidateC09ConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetC09ConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateC14ConsolidatedResultCaptcha")]
+        public string ValidateC14ConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetC14ConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateC16ConsolidatedResultCaptcha")]
+        public string ValidateC16ConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetC16ConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateC16SConsolidatedResultCaptcha")]
+        public string ValidateC16SConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetC16SConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateER91ConsolidatedResultCaptcha")]
+        public string ValidateER91ConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetER91ConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+
+        [HttpPost, ActionName("ValidateC05ConsolidatedResultCaptcha")]
+        public string ValidateC05ConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetC05ConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateC08ConsolidatedResultCaptcha")]
+        public string ValidateC08ConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetC08ConsolidatedResult(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateConsolidatedResultCaptcha")]
+        public string ValidateConsolidatedResultCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        ResultsController Results = new ResultsController();
+                        p1.Data = Results.GetConsolidatedResults(data["Pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+
+
+        [HttpPost, ActionName("ValidateDetailsByPinCaptcha")]
+        public string ValidateDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getDetailsByPins(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateMigrationDetailsByPinCaptcha")]
+        public string ValidateMigrationDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getMigrationDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateTranscriptDetailsByPinCaptcha")]
+        public string ValidateTranscriptDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getTranscriptDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateTcDetailsByPinCaptcha")]
+        public string ValidateTcDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getTcDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateNcDetailsByPinCaptcha")]
+        public string ValidateNcDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getNcDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateODCDetailsByPinCaptcha")]
+        public string ValidateODCDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getODCDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateMarksMemoDetailsByPinCaptcha")]
+        public string ValidateMarksMemoDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getMarksMemoDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateStudyDetailsByPinCaptcha")]
+        public string ValidateStudyDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getStudyDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateBonafiedDetailsByPinCaptcha")]
+        public string ValidateBonafiedDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getBonafiedDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateFeePaymentStatusCaptcha")]
+        public string ValidateFeePaymentStatusCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getFeePaymentStatus(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpGet, ActionName("ValidatePinDetailsCaptcha")]
+        public string ValidatePinDetailsCaptcha(string pin)
+        {
+            try
+            {
+                string Pin = GetDecryptedData(pin);
+                var dbHandler = new dbHandler();
+                var param = new SqlParameter[1];
+                param[0] = new SqlParameter("@pin", Pin);
+                var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_GetStudentDetailsForCertificate", param);
+                return JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+
+                dbHandler.SaveErorr("USP_SFP_GET_GetStudentDetailsForCertificate", 0, ex.Message);
+                return ex.Message;
+            }
+
+        }
+
+
+
+        [HttpPost, ActionName("ValidateTwoYearsFeePaymentStatusCaptcha")]
+        public string ValidateTwoYearsFeePaymentStatusCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getTwoYearsFeePaymentStatus(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateGenuinenessCheckDetailsByPinCaptcha")]
+        public string ValidateGenuinenessCheckDetailsByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string Pin = GetDecryptedData(data["pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController preExam = new PreExaminationController();
+                        p1.Data = preExam.getGenuinenessCheckDetailsByPin(data["pin"].ToString());
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                    else
+                    {
+                        captcha = GetCaptchaString(data);
+                        p1.ResponceCode = "400";
+                        p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
+                        p1.Captcha = captcha;
+                        p.Add(p1);
+                        return JsonConvert.SerializeObject(p);
+                    }
+                }
+                else
+                {
+                    p1.ResponceCode = "400";
+                    p1.ResponceDescription = "PIN Not Matched";
+                    p1.Captcha = captcha;
+                    p.Add(p1);
+                    return JsonConvert.SerializeObject(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                dbHandler.SaveErorr("USP_GET_ExamsCaptchaSessionLog", 0, ex.Message);
+                captcha = GetCaptchaString(data);
+                p1.ResponceCode = "400";
+                p1.ResponceDescription = ex.Message;
+                p1.Captcha = captcha;
+                p.Add(p1);
+                return JsonConvert.SerializeObject(p);
+                //return ex.Message;
+            }
+        }
+
+        [HttpPost, ActionName("ValidateDataByPinCaptcha")]
+        public string ValidateDataByPinCaptcha(JsonObject data)
+        {
+            var dbHandler = new dbHandler();
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+            var captcha = string.Empty;
+            try
+            {
+
+                string SessionID = GetDecryptedData(data["SessionId"].ToString());
+                string Captcha = GetDecryptedData(data["Captcha"].ToString());
+                string StudentTypeId = GetDecryptedData(data["StudentTypeId"].ToString());
+                string Pin = GetDecryptedData(data["Pin"].ToString());
+
+                var PinMatch = ValidatePin(Pin);
+                if (PinMatch == "200")
+                {
+
+                    var param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@SessionId", SessionID);
+                    param[1] = new SqlParameter("@Captcha", Captcha);
+                    var dt = dbHandler.ReturnDataWithStoredProcedureTable("USP_GET_ExamsCaptchaSessionLog", param);
+
+                    if (dt.Rows[0]["ResponseCode"].ToString() == "200")
+                    {
+                        PreExaminationController PreExamination = new PreExaminationController();
+                        string pin = data["Pin"].ToString();
+                        string StudentTypeID = data["StudentTypeId"].ToString();
+                        p1.Data = PreExamination.getUserDataByPin(StudentTypeID,pin);
                         captcha = GetCaptchaString(data);
                         p1.ResponceCode = dt.Rows[0]["ResponseCode"].ToString();
                         p1.ResponceDescription = dt.Rows[0]["ResponseDescription"].ToString();
@@ -1402,7 +3018,7 @@ namespace SoftwareSuite.Controllers.AdminServices
         public class person
         {
             
-                 public string Image { get; set; }
+            public string Image { get; set; }
             public string file { get; set; }
             public string ResponceCode { get; set; }
             public string ResponceDescription { get; set; }

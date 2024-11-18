@@ -1031,7 +1031,7 @@
             'index.StudentOnlineRequest': {
                 url: "/StudentOnlineRequest",
                 templateUrl: 'app/views/ExamsSite/StudentOnlineRequest.html',
-                dependencies: ['controllers/ExamsSite/StudentOnlineRequestController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService']
+                dependencies: ['controllers/ExamsSite/StudentOnlineRequestController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'services/SystemAdministration/SystemUserService']
             },
 
             'index.MercyFee': {
@@ -1043,7 +1043,7 @@
             'index.TwoYearsCertificateRequest': {
                 url: "/TwoYearsCertificateRequest",
                 templateUrl: 'app/views/PostExam/TwoYearsCertificateRequest.html',
-                dependencies: ['controllers/PostExam/TwoYearsCertificateRequestController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService']
+                dependencies: ['controllers/PostExam/TwoYearsCertificateRequestController', 'services/PreExamination/PreExaminationService', 'services/BillDesk/paymentService', 'services/SystemAdministration/SystemUserService']
             },
             
 

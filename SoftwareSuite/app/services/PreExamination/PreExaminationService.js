@@ -3598,8 +3598,102 @@
         //};
 
 
+        this.ValidateHallTicketCaptcha = function (SessionId, Captcha, Pin, DateOfBirth, StudentTypeId, EMYR) {
+            var paramObject = {
+                "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin, "DateOfBirth": DateOfBirth, "StudentTypeId": StudentTypeId, "EMYR": EMYR
+            };
+            return DataAccessService.postData('api/AdminService/ValidateHallTicketCaptcha', paramObject);
+        };
 
+        this.ValidateStudentFeePaymentforAdminCaptcha = function (SessionId, Captcha,Pin, StudentTypeId, UserTypeId) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha,"Pin": Pin, "StudentTypeId": StudentTypeId, "UserTypeId": UserTypeId };
+            return DataAccessService.postData('api/AdminService/ValidateStudentFeePaymentforAdminCaptcha', paramObject);
+        }
 
+        this.ValidateStudentFeePaymentDetailsCaptcha = function (SessionId, Captcha,Pin, StudentTypeId, EMYR) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin, "StudentTypeId": StudentTypeId, "EMYR": EMYR };
+            return DataAccessService.postData('api/AdminService/ValidateStudentFeePaymentDetailsCaptcha', paramObject);
+        }
+
+        this.ValidateDataByPinCaptcha = function (SessionId, Captcha, StudentTypeId, pin) {
+            var paramObject = {
+                "SessionId": SessionId, "Captcha": Captcha, "StudentTypeId": StudentTypeId, "pin": pin
+            };
+            return DataAccessService.postData('api/AdminService/getUserDataByPinForPromotionalFee', paramObject);
+        },
+
+            this.ValidateDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+            this.ValidateMigrationDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateMigrationDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidateTranscriptDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateTranscriptDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidateTcDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateTcDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidateNcDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateNcDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidateODCDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateODCDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+            this.ValidateMarksMemoDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                return DataAccessService.postData('api/AdminService/ValidateMarksMemoDetailsByPinCaptcha', paramObj);
+            },
+
+            this.ValidateStudyDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateStudyDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidateBonafiedDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateBonafiedDetailsByPinCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidateFeePaymentStatusCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateFeePaymentStatusCaptcha', paramObj);
+                return promise;
+            },
+
+            this.ValidatePinDetailsCaptcha = function (pin) {
+            var paramObj = { "pin": pin };
+            var promise = DataAccessService.getDataWithPara('api/AdminService/ValidatePinDetailsCaptcha', paramObj);
+                return promise;
+            };
+
+            this.ValidateTwoYearsFeePaymentStatusCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                var promise = DataAccessService.postData('api/AdminService/ValidateTwoYearsFeePaymentStatusCaptcha', paramObj);
+                return promise;
+            },
+                this.ValidateGenuinenessCheckDetailsByPinCaptcha = function (SessionId, Captcha, pin) {
+                var paramObj = { "SessionId": SessionId, "Captcha": Captcha, "pin": pin };
+                return DataAccessService.postData('api/AdminService/ValidateGenuinenessCheckDetailsByPinCaptcha', paramObj);
+            };
 
     });
 });
