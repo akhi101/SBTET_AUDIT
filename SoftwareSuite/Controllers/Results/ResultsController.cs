@@ -221,10 +221,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
-                Pin = GetDecryptedData(Pin);
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_StudentCumulativeScoresForStudents", param); //USP_RESULTS_GET_ConsolidatedMarksData_1
                 return JsonConvert.SerializeObject(ds);
             }
@@ -284,9 +284,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_C14ConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }
@@ -302,9 +303,11 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
+
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_C09ConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }
@@ -320,9 +323,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin =GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_C05ConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }
@@ -338,9 +342,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_C08ConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }
@@ -356,9 +361,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_C16ConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }
@@ -374,9 +380,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_C16SConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }
@@ -392,9 +399,10 @@ namespace SoftwareSuite.Controllers.Results
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var ds = dbHandler.ReturnDataWithStoredProcedure("USP_Results_Get_ER91ConsolidatedMarksData", param);
                 return JsonConvert.SerializeObject(ds);
             }

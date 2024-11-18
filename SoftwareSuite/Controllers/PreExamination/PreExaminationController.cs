@@ -3574,10 +3574,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_InteriamCertificateDetails ", param);
                 return JsonConvert.SerializeObject(dt);
@@ -4223,10 +4223,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_TranscriptsCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -4243,10 +4243,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_MigrationCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -4264,10 +4264,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_TcCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -4284,9 +4284,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_BonafiedCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
             }
@@ -4382,10 +4383,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_DuplicateMarksMemoDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -4570,10 +4571,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_NcCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -4591,10 +4592,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_GET_ODCCertificateDetails", param);
                 return JsonConvert.SerializeObject(dt);
@@ -5168,10 +5169,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-
+                string pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", Pin);
+                param[0] = new SqlParameter("@Pin", pin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_CertificateFeepaidStatus", param);
                 return JsonConvert.SerializeObject(dt);
             }
@@ -5181,6 +5182,8 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
 
         }
+
+
 
         [HttpGet, ActionName("getMersyFeeStatus")]
         public string getMersyFeeStatus(string Pin)
@@ -7943,15 +7946,11 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
-                string encriptedpin = "";
-                var res = Pin.Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
-                var crypt = new HbCrypt(res[1]);
-                var pinencrypt = new HbCrypt();
-                string pin = crypt.AesDecrypt(res[0]);
-                string decryptpin = pinencrypt.AesDecrypt(pin);
+
+                Pin = GetDecryptedData(Pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@Pin", decryptpin);
+                param[0] = new SqlParameter("@Pin", Pin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_Attendance_GET_PercentageByPin", param);
                 return JsonConvert.SerializeObject(dt);
             }
@@ -8040,22 +8039,23 @@ namespace SoftwareSuite.Controllers.PreExamination
         }
 
         [HttpGet, ActionName("GetUserDetails")]
-        public HttpResponseMessage GetUserDetails(string pin)
+        public string GetUserDetails(string pin)
         {
             try
             {
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_GetStudentDetailsForCertificate", param);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, dt);
-                return response;
+                return JsonConvert.SerializeObject(dt);
+
             }
             catch (Exception ex)
             {
 
                 dbHandler.SaveErorr("USP_SFP_GET_GetStudentDetailsForCertificate", 0, ex.Message);
-                return Request.CreateResponse(HttpStatusCode.OK, ex.Message);
+                return ex.Message;
             }
 
         }
@@ -8065,9 +8065,10 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
+                string Pin = GetDecryptedData(pin);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[1];
-                param[0] = new SqlParameter("@pin", pin);
+                param[0] = new SqlParameter("@pin", Pin);
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_GetStudentDetailsFor60PercentCertificate", param);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, dt);
                 return response;
@@ -9642,7 +9643,7 @@ namespace SoftwareSuite.Controllers.PreExamination
 
 
         [HttpGet, ActionName("getUserDataByPinForPromotionalFee")]
-        public HttpResponseMessage getUserDataByPin(int StudentTypeId, string Pin)
+        public HttpResponseMessage getUserDataByPinForPromotionalFee(string StudentTypeId, string Pin)
         {
             try
             {
@@ -11884,7 +11885,7 @@ namespace SoftwareSuite.Controllers.PreExamination
         }
 
         [HttpGet, ActionName("GetRegularHallticket1")]
-        public string GetRegularHallticket1(string Pin, string DateOfBirth, int StudentTypeId, int EMYR)
+        public string GetRegularHallticket1(string Pin, string DateOfBirth, string StudentTypeId, int EMYR)
         {
             try
             {
@@ -11907,16 +11908,21 @@ namespace SoftwareSuite.Controllers.PreExamination
         }
 
         [HttpGet, ActionName("GetBacklogHallticket")]
-        public string GetBacklogHallticket(string Pin, string DateOfBirth, int StudentTypeId, string Exammonthyearid)
+        public string GetBacklogHallticket(string Pin, string DateOfBirth, string StudentTypeId, string Exammonthyearid)
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
+                string DOB = GetDecryptedData(DateOfBirth);
+                string ID = GetDecryptedData(StudentTypeId);
+                string emyr = GetDecryptedData(Exammonthyearid);
+
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[4];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@DateOfBirth", DateOfBirth);
-                param[2] = new SqlParameter("@StudentTypeId", StudentTypeId);
-                param[3] = new SqlParameter("@Exammonthyearid", Exammonthyearid);
+                param[0] = new SqlParameter("@Pin", pin);
+                param[1] = new SqlParameter("@DateOfBirth", DOB);
+                param[2] = new SqlParameter("@StudentTypeId", ID);
+                param[3] = new SqlParameter("@Exammonthyearid", emyr);
                 var dt = new DataSet();
                 dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_HallTicketDetailsByPin_bac", param);
                 return JsonConvert.SerializeObject(dt);
@@ -12272,6 +12278,7 @@ namespace SoftwareSuite.Controllers.PreExamination
             DataSet dt = new DataSet();
             string Message = string.Empty;
             string resp = string.Empty;
+            string MobileOTP = string.Empty;
             try
             {
                 var dbHandler = new dbHandler();
@@ -12285,6 +12292,7 @@ namespace SoftwareSuite.Controllers.PreExamination
                     return "{\"status\":\"400\",\"description\" : \"" + dt.Tables[0].Rows[0]["StatusDescription"].ToString() + "\"}";
                 }
                 Message = string.Format(otpMsg, dt.Tables[1].Rows[0]["Otp"]);
+                MobileOTP = string.Format((string)dt.Tables[1].Rows[0]["Otp"]);
                 string url = ConfigurationManager.AppSettings["SMS_API"].ToString();
                 if (Phone != null || Phone != string.Empty)
                 {
@@ -12294,7 +12302,9 @@ namespace SoftwareSuite.Controllers.PreExamination
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage response = client.GetAsync(urlParameters).Result;
                     resp = "OTP sent to the mobile number :" + Phone.ToString().Substring(0, 2) + "xxxxx" + Phone.ToString().Substring(7);
-                    return "{\"status\":\"200\",\"description\" : \"" + resp + "\"}";
+                    string parameterToEncrypt = MobileOTP;
+                    string encryptedParameter = EncryptionHelper.Encrypt(parameterToEncrypt);
+                    return "{\"status\":\"200\",\"description\" : \"" + resp + "\",\"resp1\" : \"" + encryptedParameter + "\"}";
 
                 }
                 else
@@ -12513,21 +12523,24 @@ namespace SoftwareSuite.Controllers.PreExamination
         //    }
         //}
         [HttpGet, ActionName("GetStudentFeePaymentDetails")]
-        public string GetStudentFeePaymentDetails(string Pin, int StudentTypeId, int EMYR = 0)
+        public string GetStudentFeePaymentDetails(string Pin, string StudentTypeId, int EMYR = 0)
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
+                string StudentTypeID = GetDecryptedData(StudentTypeId);
+
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[3];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@StudentTypeId", StudentTypeId);
+                param[0] = new SqlParameter("@Pin", pin);
+                param[1] = new SqlParameter("@StudentTypeId", StudentTypeID);
                 param[2] = new SqlParameter("@EMYR", EMYR);
                 DataSet dt = new DataSet();
-                if (StudentTypeId == 1)
+                if (StudentTypeID == "1")
                 {
                     dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_StudentDetailsByPin", param);
                 }
-                else if (StudentTypeId == 2)
+                else if (StudentTypeID == "2")
                 {
                     dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_GET_StudentDetailsByPin_bac", param);
                 }
@@ -12637,21 +12650,24 @@ namespace SoftwareSuite.Controllers.PreExamination
 
 
         [HttpGet, ActionName("GetStudentFeePaymentDetailsforAdmin")]
-        public string GetStudentFeePaymentDetailsforAdmin(string Pin, int StudentTypeId, int UserTypeId)
+        public string GetStudentFeePaymentDetailsforAdmin(string Pin, string StudentTypeId, string UserTypeId)
         {
             try
             {
+                string pin = GetDecryptedData(Pin);
+                string StudentTypeID = GetDecryptedData(StudentTypeId);
+                string UserTypeID = GetDecryptedData(UserTypeId);
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[3];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@StudentTypeId", StudentTypeId);
-                param[2] = new SqlParameter("@UserTypeId", UserTypeId);
+                param[0] = new SqlParameter("@Pin", pin);
+                param[1] = new SqlParameter("@StudentTypeId", StudentTypeID);
+                param[2] = new SqlParameter("@UserTypeId", UserTypeID);
                 DataSet dt = new DataSet();
-                if (StudentTypeId == 1)
+                if (StudentTypeID == "1")
                 {
                     dt = dbHandler.ReturnDataWithStoredProcedure("ADM_SFP_GET_StudentDetailsByPin", param);
                 }
-                else if (StudentTypeId == 2)
+                else if (StudentTypeID == "2")
                 {
                     dt = dbHandler.ReturnDataWithStoredProcedure("ADM_SFP_GET_StudentDetailsByPin", param);
                 }
@@ -14761,26 +14777,6 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
         }
 
-        [HttpGet, ActionName("GetDecryptedData")]
-        public string GetDecryptedData(string DataType)
-        {
-            try
-            {
-
-                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
-                var crypt = new HbCrypt(res[1]);
-                var encrypt = new HbCrypt();
-                string datatype = crypt.AesDecrypt(res[0]);
-                string decryptdatatype = encrypt.AesDecrypt(datatype);
-                return decryptdatatype;
-
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
-
         [HttpGet, ActionName("GetExamMonthYearForHallticketandFeepayment")]
         public HttpResponseMessage GetExamMonthYearForHallticketandFeepayment(string DataTypeId, string StudentTypeId)
         {
@@ -15278,8 +15274,10 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
         }
 
-
-
+        internal string getUserDataByPin(string studentTypeID, string pin)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
