@@ -1,31 +1,36 @@
 ﻿define(['app'], function (app) {
-    app.controller("TwoYearsCertificateRequestController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, $uibModal, $timeout, PaymentService, PreExaminationService) {
+    app.controller("TwoYearsCertificateRequestController", function ($scope, $http, $localStorage, $window, $state, $stateParams, AppSettings, $uibModal, $timeout, PaymentService, PreExaminationService,SystemUserService,$crypto) {
         $scope.DeleteDisable = true;
+
         const $ctrl = this;
 
         $ctrl.$onInit = () => {
-            $scope.FourthCard = true;
-            $scope.firstCard = false;
-            $scope.SecondCard = false;
-            $scope.ThirdCard = false;
 
-            $scope.secondClick = false;
-            $scope.noteChallan = false;
-            $scope.noteApply = false;
-            $scope.DetailsFound = false;
-            $scope.NoDataFound = false;
-            $scope.data = false;
-
-
-            //$state.reload();
             $scope.SessionCaptcha = sessionStorage.getItem('SessionCaptcha')
-            $scope.GetCaptchaData()
+
+            var eKey = SystemUserService.GetEKey();
+            eKey.then(function (res) {
+                $scope.EKey = res;
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.GetCaptchaData();
+
+                $scope.FourthCard = true;
+                $scope.firstCard = false;
+                $scope.SecondCard = false;
+                $scope.ThirdCard = false;
+
+                $scope.secondClick = false;
+                $scope.noteChallan = false;
+                $scope.noteApply = false;
+                $scope.DetailsFound = false;
+                $scope.NoDataFound = false;
+                $scope.data = false;
+
+            });
         }
 
-
-
         $scope.GetCaptchaData = function () {
-            var captcha = PreExaminationService.GetCaptchaString($scope.SessionCaptcha);
+            var captcha = PreExaminationService.GetCaptchaString($scope.EncriptedSession);
             captcha.then(function (response) {
                 try {
                     var res = JSON.parse(response);
@@ -92,7 +97,7 @@
 
         $scope.createCaptcha = function () {
             $scope.newCapchaCode = "";
-            document.getElementById('captcha').innerHTML = "";
+            //document.getElementById('captcha').innerHTML = "";
             var charsArray =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
             var lengthOtp = 6;
@@ -125,7 +130,7 @@
             //   document.getElementById("attr").appendChild(iattr);
 
             $scope.newCapchaCode = captcha.join("");
-            document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
+            //document.getElementById("captcha").appendChild(canv); // adds the canvas to the body element
             // document.getElementById("captcha").appendChild(attr); // adds the canvas to the body element
         }
 
@@ -647,174 +652,189 @@
                 alert("Enter Pin");
                 return;
             }
-            //if ($scope.bakCaptcha == undefined || $scope.bakCaptcha == "") {
-            //    alert("Enter Captcha");
-            //    return;
-            //};
 
-
-            //if ($scope.bakCaptcha == $scope.newCapchaCode) {
-
-            //} else {
-            //    alert("Invalid Captcha. try Again");
-            //    $scope.bakCaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
-            //$scope.FourthCard = false;
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                return;
+            }
             $scope.Data = false;
             $scope.loading = true;
 
 
+            $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.Encstdpin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
             if ($scope.PinNumber.length > 9 && $scope.PinNumber.length < 16) {
-                var GetPinStatus = PreExaminationService.getTwoYearsFeePaymentStatus($scope.PinNumber);
+                var GetPinStatus = PreExaminationService.ValidateTwoYearsFeePaymentStatusCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin);
                 GetPinStatus.then(function (res) {
-                    //$scope.bakCaptcha = "";
-                    //$scope.createCaptcha();
                     try {
                         var response = JSON.parse(res);
                     } catch (err) { }
 
-                    if (response.Table[0].ResponceCode == '200' || response.Table[0].ResponceCode == '400') {
-                        $scope.loading = false;
-                        $scope.Data = false
-                        $scope.NoData = true;
-                        $scope.NoDataFound = false;
-                        alert(response.Table[0].ResponceDescription);
+                    if (response[0].ResponceCode == '200') {
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        var response = JSON.parse(response[0].Data)
 
-                    } else {
-                        //$scope.loading = false;
-                        var res = $scope.PinNumber.substring(0, 2);
-                        var tempval = angular.uppercase($scope.PinNumber)
-                        var exis = (tempval.includes("CCA") || tempval.includes("CCC") || tempval.includes("CCCM") || tempval.includes("CCEC")
-                            || tempval.includes("CCEE") || tempval.includes("CCM") || tempval.includes("CCMET") || tempval.includes("CCPT"));
+                        if (response.Table[0].ResponceCode == '200' || response.Table[0].ResponceCode == '400') {
+                            $scope.loading = false;
+                            $scope.Data = false
+                            $scope.NoData = true;
+                            $scope.NoDataFound = false;
+                            alert(response.Table[0].ResponceDescription);
 
-                        if (res >= 75) {
-                            //alert("Data Not Found Plase Fill the below Application for Certificate");
-                            $scope.PinNo = $scope.PinNumber
-                            $scope.Data = false;
-                            $scope.NoDataFound = false;
-                            $scope.NoData = false;
-                            $scope.PinNoData();
-                        } else if (res <= 04) {
-                            //alert("Data Not Found Plase Fill the below Application for Certificate");
-                            $scope.Data = false;
-                            $scope.PinNo = $scope.PinNumber
-                            $scope.NoDataFound = false;
-                            $scope.NoData = false;
-                            $scope.PinNoData();
-                        } else if (res == 05 && exis) {
-                            //alert("Data Not Found Plase Fill the below Application for Certificate");
-                            $scope.Data = false;
-                            $scope.PinNo = $scope.PinNumber
-                            $scope.NoDataFound = false;
-                            $scope.NoData = false;
-                            $scope.PinNoData();
                         } else {
-                            $scope.NoDataFound = false;
-                            var GetPinData = PreExaminationService.GetTwoYearsPinDetails($scope.PinNumber);
-                            GetPinData.then(function (res) {
-                                //$scope.bakCaptcha = "";
-                                //$scope.createCaptcha();
-                                if (res.Table[0].ResponceCode == '200' || res.Table[0].ResponceCode == '201') {
-                                    $scope.loading = false;
-                                    $scope.Data = true;
-                                    $scope.NoData = false;
-                                    $scope.StudentData = res.Table1[0];
-                                    $scope.PageType = res.Table1[0].PageType;
-                                    $scope.Scheme = res.Table1[0].Scheme;
+                            //$scope.loading = false;
+                            var res = $scope.PinNumber.substring(0, 2);
+                            var tempval = angular.uppercase($scope.PinNumber)
+                            var exis = (tempval.includes("CCA") || tempval.includes("CCC") || tempval.includes("CCCM") || tempval.includes("CCEC")
+                                || tempval.includes("CCEE") || tempval.includes("CCM") || tempval.includes("CCMET") || tempval.includes("CCPT"));
 
-                                    if ($scope.PageType == 4) {
-                                        $scope.noteApply = true;
-                                        $scope.ApplyDisable = true;
-                                    } else if ($scope.PageType == 1) {
-                                        $scope.noteApply = false;
-                                        $scope.ApplyDisable = true;
-                                    } else if ($scope.PageType == 1 && $scope.StudentData.NumberOfBacklogs > 0) {
-                                        $scope.noteApply = false;
-                                    } else if ($scope.PageType == 3) {
-                                        $scope.noteApply = true;
-                                    }
-                                    else {
-                                        $scope.noteApply = false;
-                                        $scope.ApplyDisable = false;
-                                    }
-                                    $scope.FeeAmount = res.Table2[0].FeeAmount;
-                                    $scope.NoDataFound = false;
-                                    $scope.Table3 = true;
-                                    if (res.Table3.length > 0) {
-                                        $scope.BacklogData = res.Table3;
-                                        for (let i = 0; i < $scope.BacklogData.length; i++) {
-
-                                            if ($scope.BacklogData[i].SubjectType == "Theory") {
-                                                $scope.Table3 = false;
-                                                $scope.TheoryCreditsCount = $scope.BacklogData[i].CreditsCount
-                                                $scope.TheoryPassCreditsCount = $scope.BacklogData[i].PassCreditsCount
-                                                $scope.TheorySubjectCount = $scope.BacklogData[i].SubjectsCount
-                                                $scope.TheoryPassCount = $scope.BacklogData[i].PassSubjetsCount
-                                                $scope.TheoryPercentage = $scope.BacklogData[i].PassSubjectPercentage
-                                                $scope.Theorysubtype = $scope.BacklogData[i].subtype
-
-
-                                            } else if ($scope.BacklogData[i].SubjectType == "Practical") {
-                                                $scope.Table3 = false;
-                                                $scope.PracticalCreditsCount = $scope.BacklogData[i].CreditsCount
-                                                $scope.PracticalPassCreditsCount = $scope.BacklogData[i].PassCreditsCount
-                                                $scope.PracticalSubjectCount = $scope.BacklogData[i].SubjectsCount
-                                                $scope.PracticalPassCount = $scope.BacklogData[i].PassSubjetsCount
-                                                $scope.PracticalPercentage = $scope.BacklogData[i].PassSubjectPercentage
-                                                $scope.Practicalsubtype = $scope.BacklogData[i].subtype
-                                            }
-                                            else if ($scope.BacklogData[i].SubjectType == "Rubrics") {
-                                                $scope.Table3 = false;
-                                                $scope.RubricsCreditsCount = $scope.BacklogData[i].CreditsCount
-                                                $scope.RubricsPassCreditsCount = $scope.BacklogData[i].PassCreditsCount
-                                                $scope.RubricsSubjectCount = $scope.BacklogData[i].SubjectsCount
-                                                $scope.RubricsPassCount = $scope.BacklogData[i].PassSubjetsCount
-                                                $scope.RubricsPercentage = $scope.BacklogData[i].PassSubjectPercentage
-                                                $scope.Rubricssubtype = $scope.BacklogData[i].subtype
-                                            }
-                                        }
-
-
-                                        $scope.NoDataFound = false;
-                                    } else {
-                                        $scope.loading = false;
-                                        $scope.Table3 = false;
-                                        $scope.NoDataFound = false;
-                                    }
-
-                                } else if (res.Table[0].ResponceCode == '400') {
-                                    $scope.loading = false;
-                                    //alert("No data found please fill the below form for Certificate")
-                                    $scope.Response = res.Table[0].ResponceDescription;
-                                    $scope.Data = false;
-                                    $scope.NoDataFound = true;
-                                    $scope.NoData = false;
-
-                                } else if (res.Table[0].ResponceCode == '401') {
-                                    $scope.loading = false;
-                                    $scope.Response = res.Table[0].ResponceDescription;
-                                    $scope.Data = false;
-                                    $scope.NoDataFound = true;
-                                    $scope.NoData = false;
-
-                                }
-                                else {
-                                    $scope.loading = false;
-                                    $scope.Data = false;
-                                    $scope.NoDataFound = false;
-                                    $scope.NoData = true;
-                                }
-
-                            }, function (err) {
-                                $scope.loading = false;
+                            if (res >= 75) {
+                                //alert("Data Not Found Plase Fill the below Application for Certificate");
+                                $scope.PinNo = $scope.PinNumber
                                 $scope.Data = false;
                                 $scope.NoDataFound = false;
                                 $scope.NoData = false;
-                            });
+                                $scope.PinNoData();
+                            } else if (res <= 04) {
+                                //alert("Data Not Found Plase Fill the below Application for Certificate");
+                                $scope.Data = false;
+                                $scope.PinNo = $scope.PinNumber
+                                $scope.NoDataFound = false;
+                                $scope.NoData = false;
+                                $scope.PinNoData();
+                            } else if (res == 05 && exis) {
+                                //alert("Data Not Found Plase Fill the below Application for Certificate");
+                                $scope.Data = false;
+                                $scope.PinNo = $scope.PinNumber
+                                $scope.NoDataFound = false;
+                                $scope.NoData = false;
+                                $scope.PinNoData();
+                            }
+                            else {
+                                $scope.NoDataFound = false;
+                                var GetPinData = PreExaminationService.GetTwoYearsPinDetails($scope.Encstdpin);
+                                GetPinData.then(function (res) {
+                                    //$scope.bakCaptcha = "";
+                                    //$scope.createCaptcha();
+                                    if (res.Table[0].ResponceCode == '200' || res.Table[0].ResponceCode == '201') {
+                                        $scope.loading = false;
+                                        $scope.Data = true;
+                                        $scope.NoData = false;
+                                        $scope.StudentData = res.Table1[0];
+                                        $scope.PageType = res.Table1[0].PageType;
+                                        $scope.Scheme = res.Table1[0].Scheme;
 
+                                        if ($scope.PageType == 4) {
+                                            $scope.noteApply = true;
+                                            $scope.ApplyDisable = true;
+                                        } else if ($scope.PageType == 1) {
+                                            $scope.noteApply = false;
+                                            $scope.ApplyDisable = true;
+                                        } else if ($scope.PageType == 1 && $scope.StudentData.NumberOfBacklogs > 0) {
+                                            $scope.noteApply = false;
+                                        } else if ($scope.PageType == 3) {
+                                            $scope.noteApply = true;
+                                        }
+                                        else {
+                                            $scope.noteApply = false;
+                                            $scope.ApplyDisable = false;
+                                        }
+                                        $scope.FeeAmount = res.Table2[0].FeeAmount;
+                                        $scope.NoDataFound = false;
+                                        $scope.Table3 = true;
+                                        if (res.Table3.length > 0) {
+                                            $scope.BacklogData = res.Table3;
+                                            for (let i = 0; i < $scope.BacklogData.length; i++) {
+
+                                                if ($scope.BacklogData[i].SubjectType == "Theory") {
+                                                    $scope.Table3 = false;
+                                                    $scope.TheoryCreditsCount = $scope.BacklogData[i].CreditsCount
+                                                    $scope.TheoryPassCreditsCount = $scope.BacklogData[i].PassCreditsCount
+                                                    $scope.TheorySubjectCount = $scope.BacklogData[i].SubjectsCount
+                                                    $scope.TheoryPassCount = $scope.BacklogData[i].PassSubjetsCount
+                                                    $scope.TheoryPercentage = $scope.BacklogData[i].PassSubjectPercentage
+                                                    $scope.Theorysubtype = $scope.BacklogData[i].subtype
+
+
+                                                } else if ($scope.BacklogData[i].SubjectType == "Practical") {
+                                                    $scope.Table3 = false;
+                                                    $scope.PracticalCreditsCount = $scope.BacklogData[i].CreditsCount
+                                                    $scope.PracticalPassCreditsCount = $scope.BacklogData[i].PassCreditsCount
+                                                    $scope.PracticalSubjectCount = $scope.BacklogData[i].SubjectsCount
+                                                    $scope.PracticalPassCount = $scope.BacklogData[i].PassSubjetsCount
+                                                    $scope.PracticalPercentage = $scope.BacklogData[i].PassSubjectPercentage
+                                                    $scope.Practicalsubtype = $scope.BacklogData[i].subtype
+                                                }
+                                                else if ($scope.BacklogData[i].SubjectType == "Rubrics") {
+                                                    $scope.Table3 = false;
+                                                    $scope.RubricsCreditsCount = $scope.BacklogData[i].CreditsCount
+                                                    $scope.RubricsPassCreditsCount = $scope.BacklogData[i].PassCreditsCount
+                                                    $scope.RubricsSubjectCount = $scope.BacklogData[i].SubjectsCount
+                                                    $scope.RubricsPassCount = $scope.BacklogData[i].PassSubjetsCount
+                                                    $scope.RubricsPercentage = $scope.BacklogData[i].PassSubjectPercentage
+                                                    $scope.Rubricssubtype = $scope.BacklogData[i].subtype
+                                                }
+                                            }
+
+
+                                            $scope.NoDataFound = false;
+                                        } else {
+                                            $scope.loading = false;
+                                            $scope.Table3 = false;
+                                            $scope.NoDataFound = false;
+                                        }
+
+                                    } else if (res.Table[0].ResponceCode == '400') {
+                                        $scope.loading = false;
+                                        //alert("No data found please fill the below form for Certificate")
+                                        $scope.Response = res.Table[0].ResponceDescription;
+                                        $scope.Data = false;
+                                        $scope.NoDataFound = true;
+                                        $scope.NoData = false;
+
+                                    } else if (res.Table[0].ResponceCode == '401') {
+                                        $scope.loading = false;
+                                        $scope.Response = res.Table[0].ResponceDescription;
+                                        $scope.Data = false;
+                                        $scope.NoDataFound = true;
+                                        $scope.NoData = false;
+
+                                    }
+                                    else {
+                                        $scope.loading = false;
+                                        $scope.Data = false;
+                                        $scope.NoDataFound = false;
+                                        $scope.NoData = true;
+                                    }
+
+                                }, function (err) {
+                                    $scope.loading = false;
+                                    $scope.Data = false;
+                                    $scope.NoDataFound = false;
+                                    $scope.NoData = false;
+                                });
+
+                            }
                         }
+
+                    }
+                    else {
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        $scope.loading = false;
+                        $scope.Data = false;
+                        $scope.NoDataFound = false;
+                        $scope.NoData = false;
+
                     }
                 }, function (err) {
                     $scope.loading = false;

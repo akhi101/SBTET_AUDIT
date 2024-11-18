@@ -947,37 +947,36 @@
             $scope.MarksData =[]
             $scope.Verified = false;
 
-            //if ($scope.Certificate== null || $scope.Certificate== "" || $scope.Certificate== undefined) {
-            //    alert("select Certificate Type");
-            //    return;
-            //}
+            if ($scope.CertificateType == null || $scope.CertificateType == "" || $scope.CertificateType == undefined) {
+                alert("select Certificate Type");
+                return;
+            }
 
-            //if (PinNumber == null || PinNumber == "" || PinNumber == undefined) {
-            //    alert("Enter PIN.");
-            //    return;
-            //}
-            //if ($scope.stsercaptcha == undefined || $scope.stsercaptcha == "") {
-            //    alert("enter captcha");
-            //    return;
-            //};
+            if (PinNumber == null || PinNumber == "" || PinNumber == undefined) {
+                alert("Enter PIN.");
+                return;
+            }
 
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
 
-            //if ($scope.stsercaptcha == $scope.newCapchaCode) {
-
-            //} else {
-            //    alert("invalid captcha. try again");
-            //    $scope.stsercaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
             $scope.cleardata();
-            $scope.PinNumber = PinNumber
+            $scope.PinNumber = PinNumber;
+
+            $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.Encstdpin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
             if ($scope.PinNumber.length > 9 && $scope.PinNumber.length < 16) {
                 
                 if ($scope.Certificate== 2) {
-                    var getData = PreExaminationService.getDetailsByPin($scope.PinNumber)
+                    var getData = PreExaminationService.ValidateDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                 } else if ($scope.Certificate== 1) {
-                    var getData = PreExaminationService.getMigrationDetailsByPin($scope.PinNumber)
+                    var getData = PreExaminationService.ValidateMigrationDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                 } else if ($scope.Certificate== 3) {
                     var res = $scope.PinNumber.substring(0, 2);
                     var tempval = angular.uppercase($scope.PinNumber)
@@ -1009,13 +1008,13 @@
                         $scope.NoData = false;
 
                     } else {
-                        var getData = PreExaminationService.getTranscriptDetailsByPin($scope.PinNumber)
+                        var getData = PreExaminationService.ValidateTranscriptDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                     }
 
                 } else if ($scope.Certificate== 6) {
-                    var getData = PreExaminationService.getTcDetailsByPin($scope.PinNumber)
+                    var getData = PreExaminationService.ValidateTcDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                 } else if ($scope.Certificate== 7) {
-                    var getData = PreExaminationService.getNcDetailsByPin($scope.PinNumber)
+                    var getData = PreExaminationService.ValidateNcDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                 } else if ($scope.Certificate== 5) {
 
                     var res = $scope.PinNumber.substring(0, 2);
@@ -1045,7 +1044,7 @@
                         $scope.NoDataFound = false;
                         $scope.NoData = false;
                     } else {
-                        var getData = PreExaminationService.getODCDetailsByPin($scope.PinNumber)
+                        var getData = PreExaminationService.ValidateODCDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                     }
                 } else if ($scope.Certificate== 4) {
                     $scope.GetSchemes();
@@ -1080,7 +1079,7 @@
 
                     } else {
 
-                        var getData = PreExaminationService.getMarksMemoDetailsByPin($scope.PinNumber)
+                        var getData = PreExaminationService.ValidateMarksMemoDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                     }
                 }
                 else if ($scope.Certificate== 9) {
@@ -1113,10 +1112,7 @@
                         $scope.NoDataFound = false;
                         $scope.NoData = false;
                     } else {
-                        $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
-
-
-                        var getData = PreExaminationService.getStudyDetailsByPin($scope.EncriptedPin)
+                        var getData = PreExaminationService.ValidateStudyDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                     }
                 
                 } else if ($scope.Certificate== 10) {
@@ -1150,70 +1146,89 @@
                         $scope.NoData = false;
                     } else {
 
-                        var getData = PreExaminationService.getBonafiedDetailsByPin($scope.PinNumber)
+                        var getData = PreExaminationService.ValidateBonafiedDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                     }
                 }
 
 
                 getData.then(function (response) {
-                    //$scope.stsercaptcha = "";
-                    //$scope.createCaptcha();
-                    var response = JSON.parse(response);
-                    if (response.Table[0].ResponceCode == '400') {
+
+                    var response = JSON.parse(response)
+                    if (response[0].ResponceCode == '200') {
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        var response = JSON.parse(response[0].Data)
+
+                        if (response.Table[0].ResponceCode == '400') {
+                            $scope.Error = true;
+                            $scope.OldSudent = false;
+                            $scope.NoData = false;
+                            $scope.result = false;
+                            alert(response.Table[0].ResponceDescription)
+                            $scope.ErrorMsg = response.Table[0].ResponceDescription;
+                        } else {
+                            // $scope.GetSchemes()
+                            $scope.result = true;
+                            $scope.Error = false;
+                            $scope.OldSudent = false;
+                            $scope.NoData = false;
+                            $scope.NoDataFound = false;
+                            if (response.Table1.length > 0) {
+                                var data = response.Table1[0];
+
+                                $scope.StudentPhoneNumber = response.Table1[0].StudentPhoneNumber;
+                                $scope.applicatioNo = response.Table1[0].ApplicationNumber;
+                                $scope.NewName = response.Table1[0].Name;
+                                $scope.NewFatherName = response.Table1[0].FatherName;
+                                $scope.CollegeCode = response.Table1[0].CollegeCode;
+                                $scope.BranchCode = response.Table1[0].BranchCode;
+                                $scope.NewName = response.Table1[0].Name;
+                                $scope.NewFatherName = response.Table1[0].FatherName;
+
+                                //if (data.Dateofbirth !== undefined) {
+                                //    if (data.Dateofbirth !== null) {
+                                //        var d = moment(data.Dateofbirth).toISOString().slice(0, 10).split('-');
+                                //    }
+                                //    if (d !== undefined && d[2] !== null && d[2] !== undefined) {
+                                //        if (d[0].length == '4')
+                                //            data.Dateofbirth = d[1] + "-" + d[2] + "-" + d[0];
+                                //    }
+                                //}
+                                $scope.userData = data;
+                                $scope.userData.Gender = response.Table1[0].Gender;
+                                if ($scope.userData.Gender == 'M') {
+                                    $scope.Gender = 1;
+                                } else if ($scope.userData.Gender == 'F') {
+                                    $scope.Gender = 2;
+                                }
+                            } else {
+                                $scope.NoDataFound = true;
+                                $scope.OldSudent = false;
+                                $scope.Error = false;
+                                $scope.result = false;
+                                $scope.NoData = false;
+                            }
+
+                            if (response.Table2.length > 0) {
+                                $scope.MarksData = response.Table2
+                            }
+
+
+                        }
+                    }
+
+                    else {
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
                         $scope.Error = true;
                         $scope.OldSudent = false;
                         $scope.NoData = false;
                         $scope.result = false;
-                        alert(response.Table[0].ResponceDescription)
-                        $scope.ErrorMsg = response.Table[0].ResponceDescription;
-                    } else {
-                        // $scope.GetSchemes()
-                        $scope.result = true;
-                        $scope.Error = false;
-                        $scope.OldSudent = false;
-                        $scope.NoData = false;
-                        $scope.NoDataFound = false;
-                        if (response.Table1.length > 0) {
-                            var data = response.Table1[0];
-
-                            $scope.StudentPhoneNumber = response.Table1[0].StudentPhoneNumber;
-                            $scope.applicatioNo = response.Table1[0].ApplicationNumber;
-                            $scope.NewName = response.Table1[0].Name;
-                            $scope.NewFatherName = response.Table1[0].FatherName;
-                            $scope.CollegeCode = response.Table1[0].CollegeCode;
-                            $scope.BranchCode = response.Table1[0].BranchCode;
-                            $scope.NewName = response.Table1[0].Name;
-                            $scope.NewFatherName = response.Table1[0].FatherName;
-
-                            //if (data.Dateofbirth !== undefined) {
-                            //    if (data.Dateofbirth !== null) {
-                            //        var d = moment(data.Dateofbirth).toISOString().slice(0, 10).split('-');
-                            //    }
-                            //    if (d !== undefined && d[2] !== null && d[2] !== undefined) {
-                            //        if (d[0].length == '4')
-                            //            data.Dateofbirth = d[1] + "-" + d[2] + "-" + d[0];
-                            //    }
-                            //}
-                            $scope.userData = data;
-                            $scope.userData.Gender = response.Table1[0].Gender;
-                            if ($scope.userData.Gender == 'M') {
-                                $scope.Gender = 1;
-                            } else if ($scope.userData.Gender == 'F') {
-                                $scope.Gender = 2;
-                            }
-                        } else {
-                            $scope.NoDataFound = true;
-                            $scope.OldSudent = false;
-                            $scope.Error = false;
-                            $scope.result = false;
-                            $scope.NoData = false;
-                        }
-
-                        if (response.Table2.length > 0) {
-                            $scope.MarksData = response.Table2
-                        }
-
-
                     }
                 }, function (error) {
                     $scope.NoDataFound = true;

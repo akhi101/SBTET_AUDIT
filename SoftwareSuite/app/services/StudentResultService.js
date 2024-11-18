@@ -155,5 +155,53 @@
             var promise = DataAccessService.getDataWithPara('api/Results/GetTypeWritingShorthandReport', paramObject);
             return promise;
         };
+
+        this.ValidateC09ConsolidatedResultCaptcha = function (SessionId, Captcha,Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateC09ConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateC14ConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateC14ConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateC16ConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateC16ConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateC16SConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateC16SConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateER91ConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateER91ConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateC05ConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateC05ConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateC08ConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateC08ConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
+
+        this.ValidateConsolidatedResultCaptcha = function (SessionId, Captcha, Pin) {
+            var paramObject = { "SessionId": SessionId, "Captcha": Captcha, "Pin": Pin };
+            var promise = DataAccessService.postData('api/AdminService/ValidateConsolidatedResultCaptcha', paramObject);
+            return promise;
+        };
     });
 });

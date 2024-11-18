@@ -5,7 +5,7 @@
         $scope.allItemsSelectedthing = true;
         $scope.PaymentDetails = {}
         var authData = $localStorage.authorizationData;
-        // $scope.SystemUserTypeId = authData.SystemUserTypeId;
+        //$scope.SystemUserTypeId = authData.SystemUserTypeId;
         $scope.LoadImg = false;
         $scope.DetailsFound = false;
         $scope.DetailsNotFound = false;
@@ -563,24 +563,26 @@
             return this;
         }
 
-        var loadHallticket = PreExaminationService.GetExamMonthYearForHallticketandFeepayment(1,1);
-        loadHallticket.then(function (response) {
-            if (response.Table[0].ResponceCode == '200') {
-                $scope.GetExamMonthYear = [];
-                $scope.GetExamMonthYear = response.Table1;
-            } else {
-                $scope.GetExamMonthYear = [];
-                alert("No Exam Month Year found on this Record");
-            }
-        },
-            function (error) {
-                alert("error while loading Exam Month Years");
-                console.log(error);
-            });
+        //var loadHallticket = PreExaminationService.GetExamMonthYearForHallticketandFeepayment(1,1);
+        //loadHallticket.then(function (response) {
+        //    if (response.Table[0].ResponceCode == '200') {
+        //        $scope.GetExamMonthYear = [];
+        //        $scope.GetExamMonthYear = response.Table1;
+        //    } else {
+        //        $scope.GetExamMonthYear = [];
+        //        alert("No Exam Month Year found on this Record");
+        //    }
+        //},
+        //    function (error) {
+        //        alert("error while loading Exam Month Years");
+        //        console.log(error);
+        //    });
 
         $scope.changedVal = function () {
             $scope.DetailsFound = false;
-            var loadHallticket = PreExaminationService.GetExamMonthYearForHallticketandFeepayment(1, $scope.Student.id);
+            $scope.EncDataType = $crypto.encrypt($crypto.encrypt("1", 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncstdStdTypeId = $crypto.encrypt($crypto.encrypt($scope.Student.id.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var loadHallticket = PreExaminationService.GetExamMonthYearForHallticketandFeepayment($scope.EncDataType, $scope.EncstdStdTypeId);
             loadHallticket.then(function (response) {
                 if (response.Table[0].ResponceCode == '200') {
                     $scope.GetExamMonthYear = [];
@@ -604,30 +606,27 @@
            
         }
 
-        $scope.getStudentDetails = function (Pin, Studtype) {
-            //if (Studtype == "" || Studtype == undefined || Studtype == null) {
-            //    alert("select Fee Type");
-            //    return;
-            //}
+        $scope.validateAll = function (Pin, Studtype) {
+            if (Studtype == "" || Studtype == undefined || Studtype == null) {
+                alert("select Fee Type");
+                return;
+            }
 
-            //if (Pin == "" || Pin == undefined || Pin == null) {
-            //    alert("Enter Pin");
-            //    return;
-            //}
-            //if ($scope.feeCaptcha == undefined || $scope.feeCaptcha == "") {
-            //    alert("Enter Captcha");
-            //    return;
-            //};
-
-
-            //if ($scope.feeCaptcha == $scope.newCapchaCode) {
-
-            //} else {
-            //    alert("Invalid Captcha. try Again");
-            //    $scope.feeCaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
+            if (Pin == "" || Pin == undefined || Pin == null) {
+                alert("Enter Pin");
+                return;
+            }
+            if ($scope.Studentpin == undefined || $scope.Studentpin == "") {
+                alert("Enter Student Pin");
+                $scope.loginbutton = false;
+                return;
+            };
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
 
             $scope.Studtype = Studtype;
             if (Studtype == "1") {
@@ -637,21 +636,29 @@
                     alert("Slelect Student Type");
                     return;
                 }
-
                 else if ($scope.Student !== undefined) {
                     $scope.LoadImg = true;
                     $scope.DetailsFound = false;
                     $scope.DetainedDetailsFound = false;
                     var StudtypeId = parseInt(Studtype);
+                    $scope.EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                    $scope.Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Studentpin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                    $scope.EncstdStdTypeId = $crypto.encrypt($crypto.encrypt(StudtypeId.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                    $scope.EncstdSysUserTypeId = $crypto.encrypt($crypto.encrypt("1", 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
                     if ($scope.SystemUserTypeId == 1) {
-                        var studentDetails = PreExaminationService.GetStudentFeePaymentDetailsforAdmin(Pin, StudtypeId, $scope.SystemUserTypeId);
+                        var studentDetails = PreExaminationService.ValidateStudentFeePaymentforAdminCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin, $scope.EncstdStdTypeId, $scope.EncstdSysUserTypeId);
                         studentDetails.then(function (res) {
-                            //$scope.feeCaptcha = "";
-                            //$scope.createCaptcha();
                             $scope.LoadImg = false;
                             $scope.DetailsNotFound = false;
                             $scope.DetailsFound = true;
-                            var resp = JSON.parse(res);
+                            var response = JSON.parse(res)
+                            if (response[0].ResponceCode == '200') {
+                                $scope.CaptchaText = "";
+                                $scope.GetCatcha = response[0].Captcha
+                                var captcha = JSON.parse(response[0].Captcha)
+                                $scope.CaptchaImage = captcha[0].Image;
+                            var Data = JSON.parse(response[0])
+                            var resp = Data;
                             if (resp.Table !== undefined && resp.Table[0].ResponceCode == '200') {
 
                                 $scope.studPin = resp.Table1[0].Pin;
@@ -699,6 +706,16 @@
                                 alert(resp.Table[0].ResponceDescription);
 
                             }
+                        }
+                        else {
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        $scope.DetailsFound = false;
+
+                    }
 
                         }, function (err) {
                             $scope.LoadImg = false;
@@ -709,61 +726,75 @@
 
 
                     } else {
-
-                        var studentDetails = PreExaminationService.GetStudentFeePaymentDetails(Pin, StudtypeId, $scope.ExamMonthYear);
+                        $scope.EncEmMonthYr = $crypto.encrypt($crypto.encrypt($scope.ExamMonthYear.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                        var studentDetails = PreExaminationService.ValidateStudentFeePaymentDetailsCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin, $scope.EncstdStdTypeId, $scope.EncEmMonthYr);
                         studentDetails.then(function (res) {
-                            //$scope.feeCaptcha = "";
-                            //$scope.createCaptcha();
                             $scope.LoadImg = false;
                             $scope.DetailsNotFound = false;
                             $scope.DetailsFound = true;
-                            var resp = JSON.parse(res);
-                            if (resp.Table !== undefined && resp.Table[0].ResponceCode == '200') {
+                            var response = JSON.parse(res)
+                            if (response[0].ResponceCode == '200') {
+                                $scope.CaptchaText = "";
+                                $scope.GetCatcha = response[0].Captcha
+                                var captcha = JSON.parse(response[0].Captcha)
+                                $scope.CaptchaImage = captcha[0].Image;
+                                var Data = JSON.parse(response[0].Data)
+                                var resp = Data;
+                                if (resp.Table !== undefined && resp.Table[0].ResponceCode == '200') {
 
-                                $scope.studPin = resp.Table1[0].Pin;
-                                $scope.Photo = resp.Table1[0].Photo;
-                                $scope.studentScheme = resp.Table1[0].Scheme;
-                                $scope.studentBranch = resp.Table1[0].Branch;
-                                $scope.studentSem = resp.Table1[0].Semester;
-                                $scope.studentName = resp.Table1[0].Name;
-                                $scope.studentFatherName = resp.Table1[0].FatherName;
-                                $scope.studentattendance = resp.Table1[0].PresemptiveAttendance;
-                                $scope.studentPaymentStatus = resp.Table1[0].Status;
-                                $scope.FinalstudentTatkalFee = resp.Table1[0].TatkalFee;
-                                $scope.studentTatkalFee = resp.Table1[0].TatkalFee;
-                                $scope.FinalstudentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
-                                $scope.studentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
-                                $scope.studentCondonationFee = resp.Table1[0].Condonation;
-                                $scope.FinalstudentLateFee = resp.Table1[0].LateFee;
-                                $scope.studentLateFee = resp.Table1[0].LateFee;
-                                $scope.studentExamFee = resp.Table1[0].ExamFee;
-                                $scope.studentTotalFee = resp.Table1[0].TotalFee;
-                                $scope.studentCertificateFee = resp.Table1[0].CertificateFee;
-                                $scope.studentExamCenterName = resp.Table1[0].ExaminationCenter;
-                                $scope.studentExamCenterCode = resp.Table1[0].ExaminationCenterCode;
-                                $scope.studentSubData = resp.Table2;
-                                $scope.DetailsNotFound = false;
-                                $scope.LoadImg = false;
+                                    $scope.studPin = resp.Table1[0].Pin;
+                                    $scope.Photo = resp.Table1[0].Photo;
+                                    $scope.studentScheme = resp.Table1[0].Scheme;
+                                    $scope.studentBranch = resp.Table1[0].Branch;
+                                    $scope.studentSem = resp.Table1[0].Semester;
+                                    $scope.studentName = resp.Table1[0].Name;
+                                    $scope.studentFatherName = resp.Table1[0].FatherName;
+                                    $scope.studentattendance = resp.Table1[0].PresemptiveAttendance;
+                                    $scope.studentPaymentStatus = resp.Table1[0].Status;
+                                    $scope.FinalstudentTatkalFee = resp.Table1[0].TatkalFee;
+                                    $scope.studentTatkalFee = resp.Table1[0].TatkalFee;
+                                    $scope.FinalstudentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
+                                    $scope.studentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
+                                    $scope.studentCondonationFee = resp.Table1[0].Condonation;
+                                    $scope.FinalstudentLateFee = resp.Table1[0].LateFee;
+                                    $scope.studentLateFee = resp.Table1[0].LateFee;
+                                    $scope.studentExamFee = resp.Table1[0].ExamFee;
+                                    $scope.studentTotalFee = resp.Table1[0].TotalFee;
+                                    $scope.studentCertificateFee = resp.Table1[0].CertificateFee;
+                                    $scope.studentExamCenterName = resp.Table1[0].ExaminationCenter;
+                                    $scope.studentExamCenterCode = resp.Table1[0].ExaminationCenterCode;
+                                    $scope.studentSubData = resp.Table2;
+                                    $scope.DetailsNotFound = false;
+                                    $scope.LoadImg = false;
 
-                            }
-                            else if (resp.Table[0].ResponceCode == '400') {
-                                $scope.LoadImg = false;
-                                $scope.DetailsFound = false;
-                                $scope.DetailsNotFound = false;
-                                $scope.DetainedDetailsFound = true;
-                                if (resp.Table[0].ResponceDescription == 'Please Submit Feedback.') {
-                                    alert(resp.Table[0].ResponceDescription);
-                                    $state.go('index.StudentFeedback')
                                 }
-                                $scope.DetainedDetailsFoundWithData = resp.Table[0].ResponceDescription;
+                                else if (resp.Table[0].ResponceCode == '400') {
+                                    $scope.LoadImg = false;
+                                    $scope.DetailsFound = false;
+                                    $scope.DetailsNotFound = false;
+                                    $scope.DetainedDetailsFound = true;
+                                    if (resp.Table[0].ResponceDescription == 'Please Submit Feedback.') {
+                                        alert(resp.Table[0].ResponceDescription);
+                                        $state.go('index.StudentFeedback')
+                                    }
+                                    $scope.DetainedDetailsFoundWithData = resp.Table[0].ResponceDescription;
+                                }
+                                else {
+
+                                    $scope.LoadImg = false;
+                                    $scope.DetailsFound = false;
+                                    $scope.DetailsNotFound = true;
+                                    alert(resp.Table[0].ResponceDescription);
+
+                                }
                             }
                             else {
-
-                                $scope.LoadImg = false;
+                                alert(response[0].ResponceDescription)
+                                $scope.CaptchaText = "";
+                                $scope.GetCatcha = response[0].Captcha
+                                var captcha = JSON.parse(response[0].Captcha)
+                                $scope.CaptchaImage = captcha[0].Image;
                                 $scope.DetailsFound = false;
-                                $scope.DetailsNotFound = true;
-                                alert(resp.Table[0].ResponceDescription);
-
                             }
 
                         }, function (err) {
@@ -795,106 +826,119 @@
                     $scope.DetailsFound = false;
                     $scope.DetainedDetailsFound = false;
                     var StudtypeId = parseInt(Studtype);
-                    var studentDetails = PreExaminationService.GetStudentFeePaymentDetails(Pin, StudtypeId, $scope.ExamMonthYear);
+
+                    $scope.EncEmMonthYr = $crypto.encrypt($crypto.encrypt($scope.ExamMonthYear.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                    var studentDetails = PreExaminationService.ValidateStudentFeePaymentDetailsCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin, $scope.EncstdStdTypeId, $scope.EncEmMonthYr);
                     studentDetails.then(function (resp) {
-                        //$scope.feeCaptcha = "";
-                        //$scope.createCaptcha();
-
-
                         $scope.LoadImg = false;
                         $scope.DetailsNotFound = false;
                         $scope.DetailsFound = true;
-                        resp = JSON.parse(resp);
-
                         var newDataTable = [];
+                        var response = JSON.parse(resp)
+                        if (response[0].ResponceCode == '200') {
+                            $scope.CaptchaText = "";
+                            $scope.GetCatcha = response[0].Captcha
+                            var captcha = JSON.parse(response[0].Captcha)
+                            $scope.CaptchaImage = captcha[0].Image;
+                            var Data = JSON.parse(response[0])
+                            var resp = Data;
 
-                        if (resp.Table !== undefined && resp.Table[0].ResponceCode == '200') {
+                            if (resp.Table !== undefined && resp.Table[0].ResponceCode == '200') {
 
-                            //var newDataTable = [];
-                            var SemesterList = [];
+                                //var newDataTable = [];
+                                var SemesterList = [];
 
-                            for (var i = 0; i < resp.Table2.length; i++) {
-                                if (!SemesterList.includes(resp.Table2[i].yrsem)) {
-                                    SemesterList.push(resp.Table2[i].yrsem);
-                                    var temp = {};
-                                    temp.Subjects = [];
-                                    //var Subjects = {};
-                                    temp.SemId = resp.Table2[i].semid;
-                                    temp.Semester = resp.Table2[i].yrsem;
-                                    temp.scheme = resp.Table2[i].scheme;
-                                    temp.oldscheme = resp.Table2[i].OriginalScheme;
-                                    temp.isChecked = true;
+                                for (var i = 0; i < resp.Table2.length; i++) {
+                                    if (!SemesterList.includes(resp.Table2[i].yrsem)) {
+                                        SemesterList.push(resp.Table2[i].yrsem);
+                                        var temp = {};
+                                        temp.Subjects = [];
+                                        //var Subjects = {};
+                                        temp.SemId = resp.Table2[i].semid;
+                                        temp.Semester = resp.Table2[i].yrsem;
+                                        temp.scheme = resp.Table2[i].scheme;
+                                        temp.oldscheme = resp.Table2[i].OriginalScheme;
+                                        temp.isChecked = true;
 
-                                    for (var j = 0; j < resp.Table2.length; j++) {
-                                        var Subject = {};
-                                        if (resp.Table2[j].yrsem == temp.Semester) {
-                                            Subject.SubjectCode = resp.Table2[j].sub1;
-                                            Subject.bacSubjectCode = resp.Table2[j].sub2;
-                                            Subject.SubjectName = resp.Table2[j].subname;
-                                            Subject.scheme = resp.Table2[i].scheme;
-                                            Subject.ExamDate = resp.Table2[j].ExamDate;
-                                            Subject.ExamTime = resp.Table2[j].ExamTime;
-                                            temp.Subjects.push(Subject);
+                                        for (var j = 0; j < resp.Table2.length; j++) {
+                                            var Subject = {};
+                                            if (resp.Table2[j].yrsem == temp.Semester) {
+                                                Subject.SubjectCode = resp.Table2[j].sub1;
+                                                Subject.bacSubjectCode = resp.Table2[j].sub2;
+                                                Subject.SubjectName = resp.Table2[j].subname;
+                                                Subject.scheme = resp.Table2[i].scheme;
+                                                Subject.ExamDate = resp.Table2[j].ExamDate;
+                                                Subject.ExamTime = resp.Table2[j].ExamTime;
+                                                temp.Subjects.push(Subject);
 
+                                            }
                                         }
+
+                                        newDataTable.push(temp);
                                     }
-
-                                    newDataTable.push(temp);
                                 }
+
+
+
+
+                                $scope.studPin = resp.Table1[0].Pin;
+                                $scope.Photo = resp.Table1[0].Photo;
+                                $scope.studentScheme = resp.Table1[0].Scheme;
+                                $scope.studentBranch = resp.Table1[0].Branch;
+                                $scope.studentSem = resp.Table1[0].Semester;
+                                $scope.studentName = resp.Table1[0].Name;
+                                $scope.studentFatherName = resp.Table1[0].FatherName;
+                                $scope.studentSubjectsSelected = resp.Table1[0].TotalSemSelect;
+                                $scope.studentPaymentStatus = resp.Table1[0].Status;
+                                $scope.FinalstudentTatkalFee = resp.Table1[0].TatkalFee;
+                                $scope.studentTatkalFee = resp.Table1[0].TatkalFee;
+                                $scope.studentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
+                                $scope.FinalstudentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
+                                $scope.studentCondonationFee = resp.Table1[0].Condonation;
+                                $scope.FinalstudentLateFee = resp.Table1[0].LateFee;
+                                $scope.studentLateFee = resp.Table1[0].LateFee;
+                                $scope.studentExamFee = resp.Table1[0].ExamFee;
+                                $scope.studentTotalFee = resp.Table1[0].TotalFee;
+                                $scope.studentCertificateFee = resp.Table1[0].CertificateFee;
+                                $scope.studentExamCenterName = resp.Table1[0].ExaminationCenter;
+                                $scope.studentExamCenterCode = resp.Table1[0].ExaminationCenterCode;
+                                $scope.PaymentDetails = resp.Table3;
+                                $scope.studentSubData = newDataTable;
+                                $scope.DetailsNotFound = false;
+                                $scope.LoadImg = false;
+                                $scope.selectVAll();
+
+                                $scope.tableData = [];
+                                //  $scope.ExamPayment = response;
+                                $scope.tableData.push({ rows: resp.Table3, cols: Object.keys(resp.Table3[0]) });
+                                $scope.calculateTotalFee();
                             }
-
-
-
-
-                            $scope.studPin = resp.Table1[0].Pin;
-                            $scope.Photo = resp.Table1[0].Photo;
-                            $scope.studentScheme = resp.Table1[0].Scheme;
-                            $scope.studentBranch = resp.Table1[0].Branch;
-                            $scope.studentSem = resp.Table1[0].Semester;
-                            $scope.studentName = resp.Table1[0].Name;
-                            $scope.studentFatherName = resp.Table1[0].FatherName;
-                            $scope.studentSubjectsSelected = resp.Table1[0].TotalSemSelect;
-                            $scope.studentPaymentStatus = resp.Table1[0].Status;
-                            $scope.FinalstudentTatkalFee = resp.Table1[0].TatkalFee;
-                            $scope.studentTatkalFee = resp.Table1[0].TatkalFee;
-                            $scope.studentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
-                            $scope.FinalstudentPremiumTatkalFee = resp.Table1[0].PremiumTatkalFee;
-                            $scope.studentCondonationFee = resp.Table1[0].Condonation;
-                            $scope.FinalstudentLateFee = resp.Table1[0].LateFee;
-                            $scope.studentLateFee = resp.Table1[0].LateFee;
-                            $scope.studentExamFee = resp.Table1[0].ExamFee;
-                            $scope.studentTotalFee = resp.Table1[0].TotalFee;
-                            $scope.studentCertificateFee = resp.Table1[0].CertificateFee;
-                            $scope.studentExamCenterName = resp.Table1[0].ExaminationCenter;
-                            $scope.studentExamCenterCode = resp.Table1[0].ExaminationCenterCode;
-                            $scope.PaymentDetails = resp.Table3;
-                            $scope.studentSubData = newDataTable;
-                            $scope.DetailsNotFound = false;
-                            $scope.LoadImg = false;
-                            $scope.selectVAll();
-
-                            $scope.tableData = [];
-                            //  $scope.ExamPayment = response;
-                            $scope.tableData.push({ rows: resp.Table3, cols: Object.keys(resp.Table3[0]) });
-                            $scope.calculateTotalFee();
-                        }
-                        else if (resp.Table !== undefined && resp.Table[0].ResponceCode == '400') {
-                            $scope.LoadImg = false;
-                            $scope.DetailsFound = false;
-                            $scope.DetailsNotFound = false;
-                            $scope.DetainedDetailsFound = true;
-                            if (resp.Table[0].ResponceDescription == 'Please Submit Feedback.') {
+                            else if (resp.Table !== undefined && resp.Table[0].ResponceCode == '400') {
+                                $scope.LoadImg = false;
+                                $scope.DetailsFound = false;
+                                $scope.DetailsNotFound = false;
+                                $scope.DetainedDetailsFound = true;
+                                if (resp.Table[0].ResponceDescription == 'Please Submit Feedback.') {
+                                    alert(resp.Table[0].ResponceDescription);
+                                    $state.go('index.StudentFeedback')
+                                }
+                                $scope.DetainedDetailsFoundWithData = resp.Table[0].ResponceDescription;
+                            }
+                            else {
+                                $scope.LoadImg = false;
+                                $scope.DetailsFound = false;
+                                $scope.DetailsNotFound = true;
                                 alert(resp.Table[0].ResponceDescription);
-                                $state.go('index.StudentFeedback')
+
                             }
-                            $scope.DetainedDetailsFoundWithData = resp.Table[0].ResponceDescription;
                         }
                         else {
-                            $scope.LoadImg = false;
+                            alert(response[0].ResponceDescription)
+                            $scope.CaptchaText = "";
+                            $scope.GetCatcha = response[0].Captcha
+                            var captcha = JSON.parse(response[0].Captcha)
+                            $scope.CaptchaImage = captcha[0].Image;
                             $scope.DetailsFound = false;
-                            $scope.DetailsNotFound = true;
-                            alert(resp.Table[0].ResponceDescription);
-
                         }
 
                     }, function (err) {
@@ -909,6 +953,8 @@
                 $scope.isBackLog = false;
                 $scope.ispromotional = true;
                 var StudtypeId = parseInt(Studtype);
+                $scope.Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Pin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.EncstdStdTypeId = $crypto.encrypt($crypto.encrypt(StudtypeId.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
                 var getData = PreExaminationService.getDataByPin(StudtypeId, Pin);
                 getData.then(function (res) {
                     //$scope.feeCaptcha = "";

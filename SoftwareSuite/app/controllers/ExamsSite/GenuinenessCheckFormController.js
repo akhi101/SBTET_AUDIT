@@ -246,75 +246,80 @@
 
         $scope.save = function (PinNumber) {
             $scope.MailVerified = false;
-            //if ($scope.Certificate == null || $scope.Certificate == "" || $scope.Certificate == undefined) {
-            //    alert("select Certificate Type");
-            //    return;
-            //}
-            //$('#ViewAadhar').attr('src', '');
-            //if ($scope.stserCaptcha == undefined || $scope.stserCaptcha == "") {
-            //    alert("Enter Captcha");
-            //    return;
-            //};
-
-
-            //if ($scope.stserCaptcha == $scope.newCapchaCode) {
-
-            //} else {
-            //    alert("Invalid Captcha. try Again");
-            //    $scope.stserCaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
             $scope.cleardata();
-            //  16001 - m - 010
-
             $scope.PinNumber = PinNumber
-
+            if (PinNumber == undefined || PinNumber == "") {
+                alert("Enter Pin Number");
+                $scope.loginbutton = false;
+                return;
+            };
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
 
             if ($scope.PinNumber.length > 9 && $scope.PinNumber.length < 16) {
-                $scope.EncriptedPinNumber = $crypto.encrypt($crypto.encrypt(PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
-                var getData = PreExaminationService.getGenuinenessCheckDetailsByPin($scope.EncriptedPinNumber)
+                $scope.EncriptedSession = $crypto.encrypt($crypto.encrypt($scope.SessionCaptcha, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.Encstdpin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
+                var getData = PreExaminationService.ValidateGenuinenessCheckDetailsByPinCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin)
                 getData.then(function (response) {
                     var response = JSON.parse(response);
-                    //$scope.stserCaptcha = "";
-                    //$scope.createCaptcha();
-                    if (response.Table[0].ResponceCode == '400') {
-                        $scope.Error = true;
-                        $scope.NoData = false;
-                        $scope.result = false;
-                        alert(response.Table[0].ResponceDescription)
-                        $scope.ErrorMsg = response.Table[0].ResponceDescription;
-                    } else {
-                        $scope.result = true;
-                        $scope.Error = false;
-                        $scope.NoData = false;
-                        $scope.NoDataFound = false;
-                        if (response.Table1.length > 0) {
-                            var data = response.Table1[0];
+                    if (response[0].ResponceCode == '200') {
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        var response = JSON.parse(response[0].Data)
 
-                            //$scope.StudentPhoneNumber = response.Table1[0].StudentPhoneNumber;
-                            $scope.ApplicationNo = response.Table1[0].ApplicationNumber;
-                            $scope.NewName = response.Table1[0].Name;
-                            $scope.NewFatherName = response.Table1[0].FatherName;
-                            $scope.userData = data;
-                            $scope.userData.Gender = response.Table1[0].Gender;
-                            if ($scope.userData.Gender == 'M') {
-                                $scope.Gender = 1;
-                            } else if ($scope.userData.Gender == 'F') {
-                                $scope.Gender = 2;
-                            }
-                            $scope.paymentResponseFound = false;
-                        } else {
-                            $scope.NoDataFound = true;
-                            $scope.Error = false;
-                            $scope.result = false;
+                        if (response.Table[0].ResponceCode == '400') {
+                            $scope.Error = true;
                             $scope.NoData = false;
+                            $scope.result = false;
+                            alert(response.Table[0].ResponceDescription)
+                            $scope.ErrorMsg = response.Table[0].ResponceDescription;
+                        } else {
+                            $scope.result = true;
+                            $scope.Error = false;
+                            $scope.NoData = false;
+                            $scope.NoDataFound = false;
+                            if (response.Table1.length > 0) {
+                                var data = response.Table1[0];
+
+                                //$scope.StudentPhoneNumber = response.Table1[0].StudentPhoneNumber;
+                                $scope.ApplicationNo = response.Table1[0].ApplicationNumber;
+                                $scope.NewName = response.Table1[0].Name;
+                                $scope.NewFatherName = response.Table1[0].FatherName;
+                                $scope.userData = data;
+                                $scope.userData.Gender = response.Table1[0].Gender;
+                                if ($scope.userData.Gender == 'M') {
+                                    $scope.Gender = 1;
+                                } else if ($scope.userData.Gender == 'F') {
+                                    $scope.Gender = 2;
+                                }
+                                $scope.paymentResponseFound = false;
+                            } else {
+                                $scope.NoDataFound = true;
+                                $scope.Error = false;
+                                $scope.result = false;
+                                $scope.NoData = false;
+                            }
+
                         }
-
-                        //if (response.Table2.length > 0) {
-                        //    $scope.MarksData = response.Table2
-                        //}
-
+                    }
+                    else {
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        $scope.NoDataFound = true;
+                        $scope.Error = false;
+                        $scope.result = false;
+                        $scope.NoData = false;
 
                     }
                 }, function (error) {
@@ -814,6 +819,22 @@
             });
         }
 
+
+        $scope.decryptParameter = function (EncOTP) {
+            var key = CryptoJS.enc.Utf8.parse("YourSecretKey12345678901234567890"); // Same key as in C#
+            var iv = CryptoJS.enc.Utf8.parse("YourIV1234567890"); // Same IV as in C#
+
+            var decryptedBytes = CryptoJS.AES.decrypt(EncOTP, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+
+            var decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+            console.log("Decrypted Parameter:", decryptedText);
+            $scope.decryptedParameter = decryptedText;
+        };
+
         $scope.SendOtp = function () {
             if ($scope.StudentPhoneNumber != null && $scope.StudentPhoneNumber != undefined && $scope.StudentPhoneNumber.length == '10') {
                 $scope.Otp = true;
@@ -825,6 +846,8 @@
                     } catch (err) { }
                     if (detail.status == '200') {
                         alert(detail.description);
+                        $scope.EncOTP = detail.resp1;
+                        $scope.decryptParameter();
                         $scope.Otp = true;
                         $scope.NoOtp = false;
                     } else {
@@ -888,31 +911,37 @@
                 alert('Please Enter valid OTP.');
                 return;
             }
-            var UpdateUserdata = PreExaminationService.UpdateUserdata($scope.userData.Pin, $scope.StudentPhoneNumber, $scope.OTPdata)
-            UpdateUserdata.then(function (response) {
+            if ($scope.decryptedParameter == $scope.OTPdata) {
+                var UpdateUserdata = PreExaminationService.UpdateUserdata($scope.userData.Pin, $scope.StudentPhoneNumber, $scope.OTPdata)
+                UpdateUserdata.then(function (response) {
 
-                try {
-                    var res = JSON.parse(response);
-                } catch (err) { }
-                if (res.Table[0].StatusCode == '200') {
-                    alert(res.Table[0].StatusDescription);
-                    $scope.phonenoupdated = true;
-                    $scope.Verified = true;
-                    $scope.MobileDisable = true;
-                } else {
-                    alert(res.Table[0].StatusDescription);
+                    try {
+                        var res = JSON.parse(response);
+                    } catch (err) { }
+
+                    if (res.Table[0].StatusCode == '200') {
+                        alert(res.Table[0].StatusDescription);
+                        $scope.phonenoupdated = true;
+                        $scope.Verified = true;
+                        $scope.MobileDisable = true;
+                    } else {
+                        alert(res.Table[0].StatusDescription);
+                        $scope.phonenoupdated = false;
+                        $scope.Verified = false;
+                        $scope.MobileDisable = false;
+                    }
+
+                }, function (error) {
+                    alert('error occured while updating Mobile number.');
                     $scope.phonenoupdated = false;
                     $scope.Verified = false;
                     $scope.MobileDisable = false;
-                }
-            }, function (error) {
-                alert('error occured while updating Mobile number.');
-                $scope.phonenoupdated = false;
-                $scope.Verified = false;
-                $scope.MobileDisable = false;
-            });
+                });
 
-
+            }
+            else {
+                alert("OTP Mismatched")
+            }
         }
 
         $scope.Back = function () {

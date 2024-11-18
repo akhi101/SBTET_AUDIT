@@ -224,31 +224,24 @@
 
 
         $scope.Submit = function () {
-            //if ($scope.scheme == "" || $scope.scheme == undefined || $scope.scheme == null) {
-            //    alert("select Scheme.");
-            //    return;
-            //}
+            if ($scope.scheme == "" || $scope.scheme == undefined || $scope.scheme == null) {
+                alert("select Scheme.");
+                return;
+            }
 
-            //if ($scope.Pin == "" || $scope.Pin == undefined || $scope.Pin == null) {
-            //    alert("Enter Pin");
-            //    return;
-            //}
-            //if ($scope.ConCaptcha == undefined || $scope.ConCaptcha == "") {
-            //    alert("Enter Captcha");
-            //    return;
-            //};
+            if ($scope.Pin == "" || $scope.Pin == undefined || $scope.Pin == null) {
+                alert("Enter Pin");
+                return;
+            }
 
-
-            //if ($scope.ConCaptcha == $scope.newCapchaCode) {
-            //    // alert("Valid Captcha");
-            //} else {
-            //    alert("Invalid Captcha. try Again");
-            //    $scope.ConCaptcha = "";
-            //    $scope.createCaptcha();
-            //    return;
-            //}
-
-
+            if ($scope.CaptchaText == undefined || $scope.CaptchaText == "") {
+                $scope.CaptchaText = "";
+                alert("Enter Captcha");
+                $scope.loginbutton = false;
+                return;
+            };
+            $scope.EncriptedCaptchaText = $crypto.encrypt($crypto.encrypt($scope.CaptchaText.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.Encstdpin = $crypto.encrypt($crypto.encrypt($scope.Pin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
             $scope.showData = 0
             $scope.LoadImg = true;
             $scope.ResultNotFound = false;
@@ -257,113 +250,124 @@
             $scope.ResultFound = false;
             $scope.LoadImg = true;
             if ($scope.scheme.schemeid == 8) {
-                var resultdata = StudentResultService.GetC09ConsolidatedResult($scope.Pin);
+                var resultdata = StudentResultService.ValidateC09ConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.Encstdpin);
                 resultdata.then(function (data) {
-                    //$scope.ConCaptcha = "";
-                    //$scope.createCaptcha();
                     $scope.co9Data = true;
-                    var data = JSON.parse(data)
-                    data.Table3 = data.Table3;
-                    if (data.Table.length > 0) {
-                        if (data.Table[0].ResponceCode == '400') {
-                            $scope.co9Data = false;
-                            $scope.ResultFound = false;
-                            $scope.ResultNotFound = true;
-                            $scope.LoadImg = false;
-                        }
-                        if (data.Table3.length > 0) {
-                            data.Table3.forEach(function (item, i) {
-                                if (item.SemId == "9") {
-                                    data.Table3.splice(i, 1);
-                                    data.Table3.unshift(item);
-                                }
-                            });
-
-                        }
-
-                        if (data.Table2.length > 0) {
-                            $scope.showData = 1;
-                            $scope.LoadImg = false;
-                            $scope.ResultFound = true;
-                            $scope.ResultNotFound = false;
-                            $scope.studentInfo = data.Table1[0];
-                            var resultData = [];
-                            resultData = data.Table2;
-                            $scope.TotalData = data.Table1[0];
-
-                            $scope.totalearnedCourseCredits = data.Table1[0].CgpaTotalGained;
-                            $scope.CreditsGained = parseFloat(data.Table1[0].CreditsGained) + 2.5 * data.Table3.length;
-                            $scope.CgpaTotalCredits = parseFloat(data.Table1[0].CgpaTotalCredits) + 2.5 * data.Table3.length;
-                            $scope.newresultDisplayInfo1 = [];
-
-                            var SemesterList = [];
-
-                            for (var i = 0; i < data.Table3.length; i++) {
-                                if (!SemesterList.includes(data.Table3[i].SemId)) {
-                                    SemesterList.push(data.Table3[i].SemId);
-                                    var temp = {};
-                                    temp.Subjects = [];
-                                    var temcount = [];
-                                    temp.Sgpainfo = [];
-                                    temp.courseinfo = [];
-                                    temp.semtotalinfo = [];
-                                    temp.Semester = data.Table3[i].Semester;
-                                    temp.TotalMarks = data.Table3[i].TotalMarks;
-                                    temp.Result = data.Table3[i].Result;
-
-                                    temp.SemId = data.Table3[i].SemId;
-                                    var temp1 = {
-                                        TotalGradePoints: data.Table3[i].TotalGradePoints,
-                                        SGPA: data.Table3[i].SGPA,
-                                        Credits: data.Table3[i].Credits
+                    var response = JSON.parse(data)
+                    if (response[0].ResponceCode == '200') {
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        var data = JSON.parse(response[0].Data)
+                        data.Table3 = data.Table3;
+                        if (data.Table.length > 0) {
+                            if (data.Table[0].ResponceCode == '400') {
+                                $scope.co9Data = false;
+                                $scope.ResultFound = false;
+                                $scope.ResultNotFound = true;
+                                $scope.LoadImg = false;
+                            }
+                            if (data.Table3.length > 0) {
+                                data.Table3.forEach(function (item, i) {
+                                    if (item.SemId == "9") {
+                                        data.Table3.splice(i, 1);
+                                        data.Table3.unshift(item);
                                     }
+                                });
 
-                                    temp.Sgpainfo.push(temp1);
-                                    var courseTotalGradePoints = 0;
-                                    var courseCerditsGained = 2.5;
-                                    var courseMaxcerdits = "";
-                                    for (var j = 0; j < resultData.length; j++) {
-                                        if (resultData[j].SemId == temp.SemId) {
-                                            temp.Subjects.push(resultData[j]);
-                                            courseTotalGradePoints += parseFloat(resultData[j].TotalGradePoints);
-                                            courseCerditsGained += resultData[j].CreditsGained;
-
-                                        }
-                                    }
-                                    var temp2 = {
-                                        courseTotalGradePoints: courseTotalGradePoints,
-                                        courseCerditsGained: courseCerditsGained,
-                                        courseMaxCerdits: data.Table3[i].Credits + 2.5,
-                                    }
-                                    temp.courseinfo.push(temp2);
-
-                                    //if (!temcount.includes(temp.SemId)) {
-                                    //    temcount.push(temp.SemId);
-                                    //    var tempobj = {
-                                    //        Subject_Code: "",
-                                    //        SubjectName: "Rubrics",
-                                    //        MaxCredits: "2.5",
-                                    //        Mid1Marks: "-",
-                                    //        Mid2Marks: "-",
-                                    //        InternalMarks: "-",
-                                    //        EndExamMarks: "-",
-                                    //        SubjectTotal: "-",
-                                    //        HybridGrade: "-",
-                                    //        GradePoint: "-",
-                                    //        CreditsGained: "2.5",
-                                    //        TotalGradePoints: "-",
-                                    //        WholeOrSupply: "W",
-                                    //        ExamMonthYear: "",
-                                    //        ExamStatus: "P"
-                                    //    };
-
-
-                                    //    temp.Subjects.push(tempobj);
-                                    //}
-                                    $scope.newresultDisplayInfo1.push(temp);
-                                }
                             }
 
+                            if (data.Table2.length > 0) {
+                                $scope.showData = 1;
+                                $scope.LoadImg = false;
+                                $scope.ResultFound = true;
+                                $scope.ResultNotFound = false;
+                                $scope.studentInfo = data.Table1[0];
+                                var resultData = [];
+                                resultData = data.Table2;
+                                $scope.TotalData = data.Table1[0];
+
+                                $scope.totalearnedCourseCredits = data.Table1[0].CgpaTotalGained;
+                                $scope.CreditsGained = parseFloat(data.Table1[0].CreditsGained) + 2.5 * data.Table3.length;
+                                $scope.CgpaTotalCredits = parseFloat(data.Table1[0].CgpaTotalCredits) + 2.5 * data.Table3.length;
+                                $scope.newresultDisplayInfo1 = [];
+
+                                var SemesterList = [];
+
+                                for (var i = 0; i < data.Table3.length; i++) {
+                                    if (!SemesterList.includes(data.Table3[i].SemId)) {
+                                        SemesterList.push(data.Table3[i].SemId);
+                                        var temp = {};
+                                        temp.Subjects = [];
+                                        var temcount = [];
+                                        temp.Sgpainfo = [];
+                                        temp.courseinfo = [];
+                                        temp.semtotalinfo = [];
+                                        temp.Semester = data.Table3[i].Semester;
+                                        temp.TotalMarks = data.Table3[i].TotalMarks;
+                                        temp.Result = data.Table3[i].Result;
+
+                                        temp.SemId = data.Table3[i].SemId;
+                                        var temp1 = {
+                                            TotalGradePoints: data.Table3[i].TotalGradePoints,
+                                            SGPA: data.Table3[i].SGPA,
+                                            Credits: data.Table3[i].Credits
+                                        }
+
+                                        temp.Sgpainfo.push(temp1);
+                                        var courseTotalGradePoints = 0;
+                                        var courseCerditsGained = 2.5;
+                                        var courseMaxcerdits = "";
+                                        for (var j = 0; j < resultData.length; j++) {
+                                            if (resultData[j].SemId == temp.SemId) {
+                                                temp.Subjects.push(resultData[j]);
+                                                courseTotalGradePoints += parseFloat(resultData[j].TotalGradePoints);
+                                                courseCerditsGained += resultData[j].CreditsGained;
+
+                                            }
+                                        }
+                                        var temp2 = {
+                                            courseTotalGradePoints: courseTotalGradePoints,
+                                            courseCerditsGained: courseCerditsGained,
+                                            courseMaxCerdits: data.Table3[i].Credits + 2.5,
+                                        }
+                                        temp.courseinfo.push(temp2);
+
+                                        //if (!temcount.includes(temp.SemId)) {
+                                        //    temcount.push(temp.SemId);
+                                        //    var tempobj = {
+                                        //        Subject_Code: "",
+                                        //        SubjectName: "Rubrics",
+                                        //        MaxCredits: "2.5",
+                                        //        Mid1Marks: "-",
+                                        //        Mid2Marks: "-",
+                                        //        InternalMarks: "-",
+                                        //        EndExamMarks: "-",
+                                        //        SubjectTotal: "-",
+                                        //        HybridGrade: "-",
+                                        //        GradePoint: "-",
+                                        //        CreditsGained: "2.5",
+                                        //        TotalGradePoints: "-",
+                                        //        WholeOrSupply: "W",
+                                        //        ExamMonthYear: "",
+                                        //        ExamStatus: "P"
+                                        //    };
+
+
+                                        //    temp.Subjects.push(tempobj);
+                                        //}
+                                        $scope.newresultDisplayInfo1.push(temp);
+                                    }
+                                }
+
+                            }
+                            else {
+                                $scope.co9Data = false;
+                                $scope.ResultFound = false;
+                                $scope.ResultNotFound = true;
+                                $scope.LoadImg = false;
+                            }
                         }
                         else {
                             $scope.co9Data = false;
@@ -373,9 +377,11 @@
                         }
                     }
                     else {
-                        $scope.co9Data = false;
-                        $scope.ResultFound = false;
-                        $scope.ResultNotFound = true;
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
                         $scope.LoadImg = false;
                     }
                 }, function (error) {
@@ -388,101 +394,114 @@
                 });
             } else if ($scope.scheme.schemeid == 1 || $scope.scheme.schemeid == 3 || $scope.scheme.schemeid == 4 || $scope.scheme.schemeid == 2 || $scope.scheme.schemeid == 6 || $scope.scheme.schemeid == 7) {
                 if ($scope.scheme.schemeid == 1) {
-                    var resultdata = StudentResultService.GetC14ConsolidatedResult($scope.Pin);
+                    var resultdata = StudentResultService.ValidateC14ConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.Encstdpin);
                 } else if ($scope.scheme.schemeid == 3) {
-                    var resultdata = StudentResultService.GetC16ConsolidatedResult($scope.Pin);
+                    var resultdata = StudentResultService.ValidateC16ConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.Encstdpin);
                 } else if ($scope.scheme.schemeid == 4) {
-                    var resultdata = StudentResultService.GetC16SConsolidatedResult($scope.Pin);
+                    var resultdata = StudentResultService.ValidateC16SConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.Encstdpin);
                 } else if ($scope.scheme.schemeid == 2 || $scope.scheme.schemeid == 10) {
-                    var resultdata = StudentResultService.GetER91ConsolidatedResult($scope.Pin);
+                    var resultdata = StudentResultService.ValidateER91ConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.Encstdpin);
                 } else if ($scope.scheme.schemeid == 6) {
-                    var resultdata = StudentResultService.GetC05ConsolidatedResult($scope.Pin);
+                    var resultdata = StudentResultService.ValidateC05ConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.Encstdpin);
                 } else if ($scope.scheme.schemeid == 7) {
-                    var resultdata = StudentResultService.GetC08ConsolidatedResult($scope.Pin);
+                    var resultdata = StudentResultService.ValidateC08ConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText,$scope.Encstdpin);
                 }
 
                 resultdata.then(function (data) {
                     $scope.co9Data = true;
-                    var data = JSON.parse(data)
-                    $scope.ConCaptcha = "";
-                    $scope.createCaptcha();
-                    if (data.Table.length > 0) {
-                        if (data.Table[0].ResponceCode == '400') {
-                            $scope.co9Data = false;
-                            $scope.ResultFound = false;
-                            $scope.ResultNotFound = true;
-                            $scope.LoadImg = false;
-                        }
-                        if (data.Table3.length > 0) {
-                            data.Table3.forEach(function (item, i) {
-                                if (item.SemId == "9") {
-                                    data.Table3.splice(i, 1);
-                                    data.Table3.unshift(item);
-                                }
-                            });
-
-                        }
-
-                        if (data.Table2.length > 0) {
-                            $scope.showData = 1;
-                            $scope.LoadImg = false;
-                            $scope.ResultFound = true;
-                            $scope.ResultNotFound = false;
-                            $scope.studentInfo = data.Table1[0];
-                            var resultData = [];
-                            resultData = data.Table2;
-                            $scope.TotalData = data.Table1[0];
-
-                            $scope.totalearnedCourseCredits = data.Table1[0].CgpaTotalGained;
-                            $scope.CreditsGained = parseFloat(data.Table1[0].CreditsGained) + 2.5 * data.Table3.length;
-                            $scope.CgpaTotalCredits = parseFloat(data.Table1[0].CgpaTotalCredits) + 2.5 * data.Table3.length;
-                            $scope.newresultDisplayInfo1 = [];
-
-                            var SemesterList = [];
-
-                            for (var i = 0; i < data.Table3.length; i++) {
-                                if (!SemesterList.includes(data.Table3[i].SemId)) {
-                                    SemesterList.push(data.Table3[i].SemId);
-                                    var temp = {};
-                                    temp.Subjects = [];
-                                    var temcount = [];
-                                    temp.Sgpainfo = [];
-                                    temp.courseinfo = [];
-                                    temp.semtotalinfo = [];
-                                    temp.Semester = data.Table3[i].Semester;
-                                    temp.TotalMarks = data.Table3[i].TotalMarks;
-                                    temp.Result = data.Table3[i].Result;
-
-                                    temp.SemId = data.Table3[i].SemId;
-                                    var temp1 = {
-                                        TotalGradePoints: data.Table3[i].TotalGradePoints,
-                                        SGPA: data.Table3[i].SGPA,
-                                        Credits: data.Table3[i].Credits
+                    var response = JSON.parse(data)
+                    if (response[0].ResponceCode == '200') {
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        var data = JSON.parse(response[0].Data)
+                        $scope.ConCaptcha = "";
+                        $scope.createCaptcha();
+                        if (data.Table.length > 0) {
+                            if (data.Table[0].ResponceCode == '400') {
+                                $scope.co9Data = false;
+                                $scope.ResultFound = false;
+                                $scope.ResultNotFound = true;
+                                $scope.LoadImg = false;
+                            }
+                            if (data.Table3.length > 0) {
+                                data.Table3.forEach(function (item, i) {
+                                    if (item.SemId == "9") {
+                                        data.Table3.splice(i, 1);
+                                        data.Table3.unshift(item);
                                     }
+                                });
 
-                                    temp.Sgpainfo.push(temp1);
-                                    var courseTotalGradePoints = 0;
-                                    var courseCerditsGained = 2.5;
-                                    var courseMaxcerdits = "";
-                                    for (var j = 0; j < resultData.length; j++) {
-                                        if (resultData[j].SemId == temp.SemId) {
-                                            temp.Subjects.push(resultData[j]);
-                                            courseTotalGradePoints += parseFloat(resultData[j].TotalGradePoints);
-                                            courseCerditsGained += resultData[j].CreditsGained;
-
-                                        }
-                                    }
-                                    var temp2 = {
-                                        courseTotalGradePoints: courseTotalGradePoints,
-                                        courseCerditsGained: courseCerditsGained,
-                                        courseMaxCerdits: data.Table3[i].Credits + 2.5
-                                    }
-                                    temp.courseinfo.push(temp2);
-
-                                    $scope.newresultDisplayInfo1.push(temp);
-                                }
                             }
 
+                            if (data.Table2.length > 0) {
+                                $scope.showData = 1;
+                                $scope.LoadImg = false;
+                                $scope.ResultFound = true;
+                                $scope.ResultNotFound = false;
+                                $scope.studentInfo = data.Table1[0];
+                                var resultData = [];
+                                resultData = data.Table2;
+                                $scope.TotalData = data.Table1[0];
+
+                                $scope.totalearnedCourseCredits = data.Table1[0].CgpaTotalGained;
+                                $scope.CreditsGained = parseFloat(data.Table1[0].CreditsGained) + 2.5 * data.Table3.length;
+                                $scope.CgpaTotalCredits = parseFloat(data.Table1[0].CgpaTotalCredits) + 2.5 * data.Table3.length;
+                                $scope.newresultDisplayInfo1 = [];
+
+                                var SemesterList = [];
+
+                                for (var i = 0; i < data.Table3.length; i++) {
+                                    if (!SemesterList.includes(data.Table3[i].SemId)) {
+                                        SemesterList.push(data.Table3[i].SemId);
+                                        var temp = {};
+                                        temp.Subjects = [];
+                                        var temcount = [];
+                                        temp.Sgpainfo = [];
+                                        temp.courseinfo = [];
+                                        temp.semtotalinfo = [];
+                                        temp.Semester = data.Table3[i].Semester;
+                                        temp.TotalMarks = data.Table3[i].TotalMarks;
+                                        temp.Result = data.Table3[i].Result;
+
+                                        temp.SemId = data.Table3[i].SemId;
+                                        var temp1 = {
+                                            TotalGradePoints: data.Table3[i].TotalGradePoints,
+                                            SGPA: data.Table3[i].SGPA,
+                                            Credits: data.Table3[i].Credits
+                                        }
+
+                                        temp.Sgpainfo.push(temp1);
+                                        var courseTotalGradePoints = 0;
+                                        var courseCerditsGained = 2.5;
+                                        var courseMaxcerdits = "";
+                                        for (var j = 0; j < resultData.length; j++) {
+                                            if (resultData[j].SemId == temp.SemId) {
+                                                temp.Subjects.push(resultData[j]);
+                                                courseTotalGradePoints += parseFloat(resultData[j].TotalGradePoints);
+                                                courseCerditsGained += resultData[j].CreditsGained;
+
+                                            }
+                                        }
+                                        var temp2 = {
+                                            courseTotalGradePoints: courseTotalGradePoints,
+                                            courseCerditsGained: courseCerditsGained,
+                                            courseMaxCerdits: data.Table3[i].Credits + 2.5
+                                        }
+                                        temp.courseinfo.push(temp2);
+
+                                        $scope.newresultDisplayInfo1.push(temp);
+                                    }
+                                }
+
+                            }
+                            else {
+                                $scope.co9Data = false;
+                                $scope.ResultFound = false;
+                                $scope.ResultNotFound = true;
+                                $scope.LoadImg = false;
+                            }
                         }
                         else {
                             $scope.co9Data = false;
@@ -492,12 +511,13 @@
                         }
                     }
                     else {
-                        $scope.co9Data = false;
-                        $scope.ResultFound = false;
-                        $scope.ResultNotFound = true;
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
                         $scope.LoadImg = false;
                     }
-
                 }, function (error) {
                     $scope.co9Data = false;
                     $scope.ResultFound = false;
@@ -508,131 +528,142 @@
             } else {
                 $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.Pin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
                 
-                var resultdata = StudentResultService.GetConsolidatedResult($scope.EncriptedPin);
+                var resultdata = StudentResultService.ValidateConsolidatedResultCaptcha($scope.EncriptedSession, $scope.EncriptedCaptchaText, $scope.EncriptedPin);
                 resultdata.then(function (data) {
                     $scope.co9Data = false;
-                    var data = JSON.parse(data)
-                    //$scope.ConCaptcha = "";
-                    //$scope.createCaptcha();
-                    if (data.Table.length > 0) {
-                        if (data.Table2.length > 0) {
-                            $scope.showData = 1;
-                            $scope.LoadImg = false;
-                            $scope.ResultFound = true;
-                            $scope.ResultNotFound = false;
-                            $scope.studentInfo = data.Table[0];
-                            var resultData = [];
-                            resultData = data.Table2;
-                            $scope.TotalData = data.Table1[0];
+                    var response = JSON.parse(data)
+                    if (response[0].ResponceCode == '200') {
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
+                        var data = JSON.parse(response[0].Data)
+                        if (data.Table.length > 0) {
+                            if (data.Table2.length > 0) {
+                                $scope.showData = 1;
+                                $scope.LoadImg = false;
+                                $scope.ResultFound = true;
+                                $scope.ResultNotFound = false;
+                                $scope.studentInfo = data.Table[0];
+                                var resultData = [];
+                                resultData = data.Table2;
+                                $scope.TotalData = data.Table1[0];
 
-                            $scope.totalearnedCourseCredits = data.Table1[0].CgpaTotalGained;
-                            $scope.CreditsGained = parseFloat(data.Table1[0].CreditsGained) + 2.5 * data.Table3.length;
-                            $scope.CgpaTotalCredits = parseFloat(data.Table1[0].CgpaTotalCredits) + 2.5 * data.Table3.length;
+                                $scope.totalearnedCourseCredits = data.Table1[0].CgpaTotalGained;
+                                $scope.CreditsGained = parseFloat(data.Table1[0].CreditsGained) + 2.5 * data.Table3.length;
+                                $scope.CgpaTotalCredits = parseFloat(data.Table1[0].CgpaTotalCredits) + 2.5 * data.Table3.length;
 
-                            $scope.newresultDisplayInfo = [];
+                                $scope.newresultDisplayInfo = [];
 
-                            var SemesterList = [];
-                            var sems = []
-                            for (var i = 0; i < data.Table3.length; i++) {
+                                var SemesterList = [];
+                                var sems = []
+                                for (var i = 0; i < data.Table3.length; i++) {
 
 
-                                if (!SemesterList.includes(data.Table3[i].SemId)) {
-                                    SemesterList.push(data.Table3[i].SemId);
-                                    var temp = {};
-                                    temp.Subjects = [];
-                                    var temcount = [];
-                                    temp.Sgpainfo = [];
-                                    temp.courseinfo = [];
-                                    temp.semtotalinfo = [];
-                                    temp.Semester = data.Table3[i].Semester;
+                                    if (!SemesterList.includes(data.Table3[i].SemId)) {
+                                        SemesterList.push(data.Table3[i].SemId);
+                                        var temp = {};
+                                        temp.Subjects = [];
+                                        var temcount = [];
+                                        temp.Sgpainfo = [];
+                                        temp.courseinfo = [];
+                                        temp.semtotalinfo = [];
+                                        temp.Semester = data.Table3[i].Semester;
 
-                                    temp.SemId = data.Table3[i].SemId;
-                                    var temp1 = {
-                                        TotalGradePoints: data.Table3[i].TotalGradePoints,
-                                        SGPA: data.Table3[i].SGPA,
-                                        Credits: data.Table3[i].Credits
-                                    }
+                                        temp.SemId = data.Table3[i].SemId;
+                                        var temp1 = {
+                                            TotalGradePoints: data.Table3[i].TotalGradePoints,
+                                            SGPA: data.Table3[i].SGPA,
+                                            Credits: data.Table3[i].Credits
+                                        }
 
-                                    temp.Sgpainfo.push(temp1);
-                                    var courseTotalGradePoints = 0;
-                                    if (temp.SemId == 6) {
-                                        var courseCerditsGained = 0;
-                                    } else {
-                                        var courseCerditsGained = 2.5;
-                                    }
+                                        temp.Sgpainfo.push(temp1);
+                                        var courseTotalGradePoints = 0;
+                                        if (temp.SemId == 6) {
+                                            var courseCerditsGained = 0;
+                                        } else {
+                                            var courseCerditsGained = 2.5;
+                                        }
 
-                                    var courseMaxcerdits = "";
-                                    for (var j = 0; j < resultData.length; j++) {
-                                        if (resultData[j].SemId == temp.SemId) {
-                                            temp.Subjects.push(resultData[j]);
-                                            courseTotalGradePoints += parseFloat(resultData[j].TotalGradePoints);
-                                            courseCerditsGained += resultData[j].CreditsGained;
+                                        var courseMaxcerdits = "";
+                                        for (var j = 0; j < resultData.length; j++) {
+                                            if (resultData[j].SemId == temp.SemId) {
+                                                temp.Subjects.push(resultData[j]);
+                                                courseTotalGradePoints += parseFloat(resultData[j].TotalGradePoints);
+                                                courseCerditsGained += resultData[j].CreditsGained;
+
+                                            }
 
                                         }
 
-                                    }
+                                        if (temp.SemId == 6) {
+                                            var temp2 = {
+                                                courseTotalGradePoints: courseTotalGradePoints,
+                                                courseCerditsGained: courseCerditsGained,
+                                                courseMaxCerdits: data.Table3[i].Credits,
+                                            }
 
-                                    if (temp.SemId == 6) {
-                                        var temp2 = {
-                                            courseTotalGradePoints: courseTotalGradePoints,
-                                            courseCerditsGained: courseCerditsGained,
-                                            courseMaxCerdits: data.Table3[i].Credits,
+                                        } else {
+                                            var temp2 = {
+                                                courseTotalGradePoints: courseTotalGradePoints,
+                                                courseCerditsGained: courseCerditsGained,
+                                                courseMaxCerdits: data.Table3[i].Credits + 2.5,
+                                            }
+
                                         }
 
-                                    } else {
-                                        var temp2 = {
-                                            courseTotalGradePoints: courseTotalGradePoints,
-                                            courseCerditsGained: courseCerditsGained,
-                                            courseMaxCerdits: data.Table3[i].Credits + 2.5,
+                                        sems.push(temp2);
+                                        temp.courseinfo.push(temp2);
+
+                                        if (!temcount.includes(temp.SemId)) {
+                                            if (temp.SemId != '6') {
+                                                temcount.push(temp.SemId);
+                                                var tempobj = {
+                                                    Subject_Code: "",
+                                                    SubjectName: "Rubrics",
+                                                    MaxCredits: "2.5",
+                                                    Mid1Marks: "-",
+                                                    Mid2Marks: "-",
+                                                    InternalMarks: "-",
+                                                    EndExamMarks: "-",
+                                                    SubjectTotal: "-",
+                                                    HybridGrade: "-",
+                                                    GradePoint: "-",
+                                                    CreditsGained: "2.5",
+                                                    TotalGradePoints: "-",
+                                                    WholeOrSupply: "W",
+                                                    ExamMonthYear: "",
+                                                    ExamStatus: "P"
+                                                };
+
+
+                                                temp.Subjects.push(tempobj);
+                                            }
                                         }
-
+                                        $scope.newresultDisplayInfo.push(temp);
                                     }
-
-                                    sems.push(temp2);
-                                    temp.courseinfo.push(temp2);
-
-                                    if (!temcount.includes(temp.SemId)) {
-                                        if (temp.SemId != '6') {
-                                            temcount.push(temp.SemId);
-                                            var tempobj = {
-                                                Subject_Code: "",
-                                                SubjectName: "Rubrics",
-                                                MaxCredits: "2.5",
-                                                Mid1Marks: "-",
-                                                Mid2Marks: "-",
-                                                InternalMarks: "-",
-                                                EndExamMarks: "-",
-                                                SubjectTotal: "-",
-                                                HybridGrade: "-",
-                                                GradePoint: "-",
-                                                CreditsGained: "2.5",
-                                                TotalGradePoints: "-",
-                                                WholeOrSupply: "W",
-                                                ExamMonthYear: "",
-                                                ExamStatus: "P"
-                                            };
-
-
-                                            temp.Subjects.push(tempobj);
-                                        }
-                                    }
-                                    $scope.newresultDisplayInfo.push(temp);
                                 }
+
+                                var courseTotalGradePoints = 0
+                                var courseCerditsGained = 0
+                                var courseMaxCerdits = 0
+                                for (var j = 0; j < sems.length; j++) {
+                                    courseTotalGradePoints += parseFloat(sems[j].courseTotalGradePoints);
+                                    courseCerditsGained += sems[j].courseCerditsGained;
+                                    courseMaxCerdits += sems[j].courseMaxCerdits;
+                                    $scope.courseTotalGradePoints = courseTotalGradePoints
+                                    $scope.courseCerditsGained = courseCerditsGained
+                                    $scope.courseMaxCerdits = courseMaxCerdits
+
+                                }
+
                             }
-
-                            var courseTotalGradePoints = 0
-                            var courseCerditsGained = 0
-                            var courseMaxCerdits = 0
-                            for (var j = 0; j < sems.length; j++) {
-                                courseTotalGradePoints += parseFloat(sems[j].courseTotalGradePoints);
-                                courseCerditsGained += sems[j].courseCerditsGained;
-                                courseMaxCerdits += sems[j].courseMaxCerdits;
-                                $scope.courseTotalGradePoints = courseTotalGradePoints
-                                $scope.courseCerditsGained = courseCerditsGained
-                                $scope.courseMaxCerdits = courseMaxCerdits
-
+                            else {
+                                $scope.co9Data = false;
+                                $scope.ResultFound = false;
+                                $scope.ResultNotFound = true;
+                                $scope.LoadImg = false;
                             }
-
                         }
                         else {
                             $scope.co9Data = false;
@@ -642,9 +673,11 @@
                         }
                     }
                     else {
-                        $scope.co9Data = false;
-                        $scope.ResultFound = false;
-                        $scope.ResultNotFound = true;
+                        alert(response[0].ResponceDescription)
+                        $scope.CaptchaText = "";
+                        $scope.GetCatcha = response[0].Captcha
+                        var captcha = JSON.parse(response[0].Captcha)
+                        $scope.CaptchaImage = captcha[0].Image;
                         $scope.LoadImg = false;
                     }
                 }, function (error) {
