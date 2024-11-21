@@ -1,0 +1,935 @@
+﻿<style>
+    /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+    .userRow {
+        padding: 5px;
+    }
+
+    .font_bold {
+        font-weight: bold;
+    }
+
+    .datepicker .text-info {
+        font-size: 14px;
+        color: black !important;
+    }  
+    /* .datpicker .btn-info contains selected date */
+    .datepicker .btn-info {
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #39b3d7 !important;
+    }
+
+    .required:before {
+        content: "*";
+        color: red;
+        font-weight: bold;
+    }
+    .clr_red{
+        color:red;
+    }
+
+    .btn-default {
+        border-color: #fdfdfd !important;
+        color: #fff !important;
+        background-color: #34495e !important;
+    }
+
+    .datepicker .btn:disabled {
+        font-size: 14px;
+        font-weight: normal;
+        color: gray;
+    }
+
+        .datepicker .btn:disabled > .text-muted {
+            font-size: 14px;
+            font-weight: normal;
+            color: gray;
+        }
+
+    .datepicker .text-muted {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .datepicker .btn:enabled {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+    .fSize{
+        font-size:14px;
+    }
+    .loader {
+  border: 4px solid #5cb85c;
+  border-radius: 50%;
+  border-top: 4px solid #fff;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 4s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media print {
+        .print_btn {
+            display: none;
+        }
+    }
+ 
+</style>
+
+<div ng-controller="StudentRequestFormController" ng-init="createCaptcha()">
+    <div class="container">
+        <div class="spacer"></div>
+
+        <div class="col-md-12" ng-show="serviceform">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PostExam" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12 ng-scope" ng-show="serviceform">
+            <div class="cl-details">
+                <h2>Student Request Form </h2>
+                <!--<div class="loader"></div>-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form name="StudentRequestForm" ng-show="serviceform">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="font-weight-bold">Services :</label>
+                                    <select class="form-control" ng-disabled="Service" ng-model="CertificateType" ng-change="changeCertificate()" name="CertificateType">
+                                        <option value="" selected>Select Service</option>
+                                        <option ng-repeat="data in CertificateTypes" value="{{data}}">
+                                            {{data.Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div> 
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="font-weight-bold">PIN :</label>
+                                    <div id="PinNumber">
+                                        <input type='text' class="form-control" ng-model="PinNumber" autocomplete="off" name="PinNumber" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="sel1">
+                                    Enter Captcha :
+                                </label>
+                                <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+                                    box-sizing: border-box;" id="cpatchaTextBox" ng-model="stsercaptcha" />
+                                  
+
+                            </div>
+
+                            <div class="col-md-12 ">
+
+                            </div>
+
+                            <!--<div class="col-md-12 ">
+        <div class="">
+            <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
+                Get Details
+            </button>
+        </div>
+    </div>-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8"></div>
+                            <div id="captcha" class="col-md-2"><canvas id="captcha" width="120" height="40"></canvas></div>
+                            <div class="col-md-1" style="padding-top:15px;margin-left: -80px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+                            <div class="col-md-1">
+                                <div class="">
+                                    <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
+                                        Get Details
+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ng-scope" ng-show="result">
+            <div class="cl-details">
+                <h2>Student Details</h2>
+            </div>
+        </div>
+        <form name="results">
+            <div class="col-md-12" ng-show="result">
+               
+                <div class="card">
+                    <div class="row userRow" ng-show="Certificate==3">
+                        <div class="col-md-12 text-danger">
+                            <b>Note :</b> If the candidate is not applying for any University/WES/Any Educational Consultancy,
+                            candidate email is to be provided.
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="!OldSudent">
+                        <div class="col-md-4 font_bold">PIN</div>
+                        <div class="col-md-6">: {{userData.Pin}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="OldSudent">
+                        <div class="col-md-4 font_bold">PIN</div>
+                        <div class="col-md-6">: {{PinNumber}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="!OldSudent">
+                        <div class="col-md-4 font_bold">Name</div>
+                        <div class="col-md-6">: {{userData.Name}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="OldSudent">
+                        <div class="col-md-4 font_bold">Name </div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Name" style="width:50%" ng-model="Name" />
+                        </div>
+
+                    </div>
+                    <div class="row userRow" ng-show="OldSudent">
+                        <div class="col-md-4 font_bold">Father Name </div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Father Name" style="width:50%" ng-model="FatherName" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate == 7">
+                        <div class="col-md-4 font_bold">Correction in Name :</div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Name" style="width:50%" ng-model="NewName" ng-value="NewName" />
+                        </div>
+
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==2||Certificate==6 || Certificate==8">
+                        <div class="col-md-4 font_bold">Father Name</div>
+                        <div class="col-md-6">: {{userData.FatherName == null ? '-': userData.FatherName}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==2">
+                        <div class="col-md-4 font_bold">Gender</div>
+                        <div class="col-md-6">
+                            : <span class="fSize" ng-if="userData.Gender=='M'">Male</span>
+                            <span class="fSize" ng-if="userData.Gender=='F'">Female</span>
+                        </div>
+
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6">
+                        <div class="col-md-4 font_bold">Mother Name</div>
+                        <div class="col-md-6">
+                            :{{userData.Mothername == null|| userData.Mothername == ""?"-":userData.Mothername}}
+                            <!--<input type="text" placeholder="Enter Mother Name" ng-model="userData.Mothername" class="upld-file">-->
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate == 7">
+                        <div class="col-md-4 font_bold">Correction in Father Name:</div>
+                        <div class="col-md-6">
+                            <input type="text" style="width:50%" placeholder="Enter Father Name" ng-model="NewFatherName" ng-value="NewFatherName" />
+                        </div>
+
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate == 7|| OldSudent">
+                        <div class="col-md-4 font_bold">Gender </div>
+                        <div class="col-md-6">
+                            <select id="Gender" ng-model="Gender" name="Gender"
+                                    ng-options="x.Id as x.Name for x in Genders">
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="!OldSudent && userData.BranchName != null || userData.BranchName !=undefined">
+                        <div class="col-md-4 font_bold">Branch</div>
+                        <div class="col-md-6">: {{userData.BranchName}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="OldSudent">
+                        <div class="col-md-4 font_bold">Branch </div>
+                        <div class="col-md-6">
+                            <select ng-model="Branch" placeholder="Select Branch" style="width:50%">
+                                <option value="" selected>Select Branch</option>
+                                <option value="{{data.BranchCode}}" ng-repeat="data in getBranchs">{{data.BranchName}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate == 2 ||Certificate == 1">
+                        <div class="col-md-4 font_bold">MonthYear</div>
+                        <div class="col-md-6">: {{userData.MonthYear}}</div>
+                    </div>
+                    <div class="row userRow" ng-show="!OldSudent">
+                        <div class="col-md-4 font_bold">College</div>
+                        <div class="col-md-6">: {{userData.CollegeCode}} - {{userData.CollegeName}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="OldSudent">
+                        <div class="col-md-4 font_bold">Scheme </div>
+                        <div class="col-md-6">
+                            <!-- <input type="text" placeholder="Enter Scheme" style="width:50%" ng-model="Scheme" />-->
+                            <select ng-model="Scheme" name="Scheme">
+                                <option value="" selected>Select Scheme</option>
+                                <option ng-repeat="data in Schemes" value="{{data.Scheme}}">
+                                    {{data.Scheme}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="OldSudent">
+                        <div class="col-md-4 font_bold">College Code </div>
+                        <div class="col-md-6">
+                            <select ng-model="CollegeCode" placeholder="Select College" style="width:50%">
+                                <option value="" selected>Select College</option>
+                                <option value="{{data.CollegeCode}}" ng-repeat="data in GetCollegelist">{{data.CollegeCode}}-{{data.CollegeName}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate ==9">
+                        <div class="col-md-4 font_bold">Select Certificate </div>
+                        <div class="col-md-6">
+                            <select ng-model="BonafideType" placeholder="Select Certificate" style="width:50%">
+                                <option value="" selected>Select Certificate</option>
+                                <option value="{{data.ServiceType}}" ng-repeat="data in BonafideTypes">{{data.Name}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate ==9">
+                        <div class="col-md-4 font_bold">Reason </div>
+                        <div class="col-md-6">
+                            <input type="text" title="Enter Purpose for Bonafied/study certificate" placeholder="Enter Purpose for Bonafied/study certificate" style="width:50%" ng-model="ReasonForBonafied" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate ==5">
+                        <div class="col-md-4 font_bold">Aadhaar Number </div>
+                        <div class="col-md-6">
+                            <input type="number" placeholder="Enter Aadhaar No" ng-model="AadharNo" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate ==5">
+                        <div class="col-md-4 font_bold">ODC Number <span class="clr_red">(Optional)</span></div>
+                        <div class="col-md-6">
+                            <input type="number" placeholder="Enter ODC No" ng-model="OdcNo" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==5">
+                        <div class="col-md-4 font_bold">Reason For Applying </div>
+                        <div class="col-md-6">
+                            <select class="inputCls" ng-model="OdcReason" name="OdcReason" ng-change="ChangeReason(OdcReason)">
+                                <option value="" selected>Select Reason</option>
+                                <option ng-repeat="data in getOdcReasons" value="{{data.Reason}}">
+                                    {{data.Reason}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate==4 && !OldSudent">
+                        <div class="col-md-4 font_bold">Select Scheme</div>
+                        <div class="col-md-6">
+                            <select ng-model="Scheme" name="Sems" ng-change="GetSemsBySchemePin()">
+                                <option value="" selected>Select Scheme</option>
+                                <option ng-repeat="data in GetPinSchemes" value="{{data.Scheme}}">
+                                    {{data.Scheme}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==4 && !OldSudent">
+                        <div class="col-md-4 font_bold">Select Semester</div>
+                        <div class="col-md-6">
+                            <select ng-model="Sem" name="Sems" ng-change="GetMonthYearBySemSchemePin()">
+                                <option value="" selected>Select Semester</option>
+                                <option ng-repeat="data in GetPinSems" value="{{data}}">
+                                    {{data.Semester}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==4 && !OldSudent">
+                        <div class="col-md-4 font_bold">Select Exam Month & Year</div>
+                        <div class="col-md-3">
+                            <select ng-model="ExamMonthYear" name="ExamMonthYear">
+                                <option value="" selected>Select Exam Month & Year</option>
+                                <option ng-repeat="data in Monthyears" value="{{data}}">
+                                    {{data.ExamMonthYear}}
+                                </option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <button class="btn btn-success btn-xs" ng-show="Certificate==4" ng-click="Add()">Add</button>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==4 && OldSudent">
+                        <div class="col-md-4 font_bold">Enter Semester <span style="color:red">(eg: 1SEM)</span></div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Semester" ng-model="Sem" class="upld-file">
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==4 && OldSudent">
+                        <div class="col-md-4 font_bold">Enter Exam Month & Year <span style="color:red"> (eg: March-2018)</span></div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Enter Exam Month & Year" ng-model="ExamMonthYear" class="upld-file">
+                        </div>
+                        <div class="col-md-5">
+                            <button class="btn btn-success btn-xs" ng-show="Certificate==4" ng-click="Add()">Add</button>
+                        </div>
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate==4  && array.length > 0">
+                        <div class="col-md-4 font_bold"></div>
+                        <div class="col-md-6">
+                            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Scheme</th>
+                                            <th>Semester</th>
+                                            <th>Month Year</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in array">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.Scheme}}</td>
+                                            <td>{{data.Semester}}</td>
+                                            <td>{{data.ExamMonthYear}}</td>
+                                            <td><button class="btn btn-danger btn-xs" ng-click="Delete($index)">Delete</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row userRow" ng-show="ExamMonthYear=='Other'">
+                        <div class="col-md-4 font_bold">Enter Exam Month & Year</div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Exam Month & Year" ng-model="ExamMonth" class="upld-file">
+
+                        </div>
+                    </div>
+
+
+                    <div class="row userRow" ng-show="Certificate == 2 && (userData.TotalMarksInFigure != null && userData.TotalMarksInFigure!=undefined)">
+                        <div class="col-md-4 font_bold">Total Marks</div>
+                        <div class="col-md-6">: {{userData.TotalMarksInFigure}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="Certificate == 2 && (userData.PercentageOfMarks != null && userData.PercentageOfMarks!=undefined)">
+                        <div class="col-md-4 font_bold">Percentage</div>
+                        <div class="col-md-6">: {{userData.PercentageOfMarks}}</div>
+
+                    </div>
+                    <div class="row userRow" ng-show="Certificate == 2">
+                        <div class="col-md-4 font_bold">Class</div>
+                        <div class="col-md-6">: {{userData.Class}}</div>
+
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate==4">
+                        <div class="col-md-4 font_bold" ng-show="Certificate==4">Amount for each Duplicate Memo</div>
+
+                        <div class="col-md-6" ng-show="Certificate==4">: 1000</div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate!=6 && Certificate!=9">
+                        <div class="col-md-4 font_bold" ng-show="Certificate==3">Amount for each transcript</div>
+                        <div class="col-md-4 font_bold" ng-show="Certificate!=3">Amount</div>
+                        <div class="col-md-6">: {{Price}}</div>
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate==6">
+                        <div class="col-md-4 font_bold">Religion</div>
+                        <div class="col-md-6">
+                            :{{userData.Religion == null|| userData.Religion == ""?"-":userData.Religion}}
+                            <!--<select ng-model="Religion" name="Reason">
+                <option value="" selected>Select Religion</option>
+                <option ng-repeat="data in Religions" value="{{data.ReligionId}}">
+                    {{data.Religion}}
+                </option>
+            </select>-->
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6">
+                        di
+                        <div class="col-md-4 font_bold">Nationality</div>
+                        <div class="col-md-6">
+
+                            :{{userData.Nationality == null|| userData.Nationality == ""?"-":userData.Nationality}}
+                            <!--<input type="text" placeholder="Enter Nationality" ng-model="userData.Nationality" class="upld-file">-->
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6">
+                        <div class="col-md-4 font_bold">Caste</div>
+                        <div class="col-md-6">
+                            :{{userData.Caste == null|| userData.Caste == ""?"-":userData.Caste}}
+                            <!--<select ng-model="Caste" name="Reason">
+                <option value="" selected>Select Caste</option>
+                <option ng-repeat="data in Castes" value="{{data.CasteID}}">
+                    {{data.CasteName}}
+                </option>
+            </select>-->
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6">
+                        di
+                        <div class="col-md-4 font_bold">Date of birth</div>
+                        <div class="col-md-3">
+
+                            :{{userData.Dateofbirth}}
+                            <!--<p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                <input type="text" show-weeks="false" class="form-control" id="datetimepicker1" placeholder="DD/MM/YYYY" autocomplete="off" name="userData.Dateofbirth" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="userData.Dateofbirth" is-open="showFlag1" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                </span>
+            </p>-->
+                        </div>
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate==6">
+                        <div class="col-md-4 font_bold">Reason For TC</div>
+                        <div class="col-md-6">
+                            <span>: {{userData.Remarks}}</span>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6 && userData.Remarks=='Discontinued'">
+                        <div class="col-md-4 font_bold">Discontinued Sem</div>
+                        <div class="col-md-6">
+                            <span ng-if="userData.Remarks=='Discontinued'">: {{userData.DiscontinuedSem}}</span>
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6">
+                        <div class="col-md-4 font_bold">Enter Identification Mark 1</div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Identification Mark 1" ng-model="IdMark1" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==6">
+                        <div class="col-md-4 font_bold">Enter Identification Mark 2 </div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Identification Mark 2" ng-model="IdMark2" class="upld-file">
+
+                        </div>
+                    </div>
+
+                    <!--<div class="row userRow" ng-show="Certificate==6">
+        <div class="col-md-4 font_bold">Upload No Due</div>
+        <div class="col-md-6">
+            <input type="file" id="stdNodue" ng-model="userPhoto" onchange="angular.element(this).scope().uploadNoDue()" accept="image/*" class="upld-file" required>
+
+        </div>
+    </div>-->
+                    <div class="row userRow" ng-show="Certificate==3">
+                        <div class="col-md-4 font_bold">Universities Applied</div>
+                        <div class="col-md-6">
+                            <select ng-model="UniversityCount" name="University" ng-change="calculateTranscriptamount()">
+                                <option value="" selected>Select Universities Applied</option>
+                                <option ng-repeat="data in Universities" value="{{data.Id}}">
+                                    {{data.Count}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row userRow" ng-show="UniversityCount >=1">
+                        <div class="col-md-4 font_bold">University Email 1</div>
+                        <div class="col-md-6">
+                            <input type="email" placeholder="Enter University Email 1" ng-model="UEmail1" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="UniversityCount >=2">
+                        <div class="col-md-4 font_bold">University Email 2</div>
+                        <div class="col-md-6">
+                            <input type="email" placeholder="Enter University Email  2" ng-model="UEmail2" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="UniversityCount >=3">
+                        <div class="col-md-4 font_bold">University Email  3</div>
+                        <div class="col-md-6">
+                            <input type="email" placeholder="Enter University Email 3" ng-model="UEmail3" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="UniversityCount >=4">
+                        <div class="col-md-4 font_bold">University Email 4</div>
+                        <div class="col-md-6">
+                            <input type="email" placeholder="Enter University Email 4" ng-model="UEmail4" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="UniversityCount >=5">
+                        <div class="col-md-4 font_bold">University Email 5</div>
+                        <div class="col-md-6">
+                            <input type="email" placeholder="Enter University Email 5" ng-model="UEmail5" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="UniversityCount >=6">
+                        <div class="col-md-4 font_bold">University Email 6</div>
+                        <div class="col-md-6">
+                            <input type="email" placeholder="Enter University Email 6" ng-model="UEmail6" class="upld-file">
+
+                        </div>
+                    </div>
+
+                    <div class="row userRow" ng-show="Certificate==7||(Certificate==5 && OdcReason =='Missing ODC')">
+                        <div class="col-md-4 font_bold">
+                            <span ng-if="Certificate==5 && OdcReason =='Missing ODC'">Upload Police FIR</span>
+                            <span ng-if="Certificate==7">Upload SSC Marks Memo</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="" id="stdPhotoFile" type="file" placeholder="" maxlength="10" onchange="angular.element(this).scope().uploadPhoto()" accept="image/*" ng-model="Photo" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==7||(Certificate==5 && OdcReason =='Missing ODC')">
+                        <div class="col-md-4 font_bold">
+                            <span ng-if="Certificate==5 && OdcReason =='Missing ODC'">View Police FIR</span>
+                            <span ng-if="Certificate==7">View SSC Marks Memo</span>
+
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{userPhoto}}" style="border: 2px solid #ddd;" height="175" width="150" id="stdPhotoImg" />
+                        </div>
+                    </div>
+
+
+                    <div class="row userRow" ng-show="Certificate== 3">
+                        <div class="col-md-4 font_bold">
+                            <span ng-if="Certificate==3">Upload WES Certificate<b class="notifylabel" for="sel1" style="color: red;">(PDF max size: 3MB)</b></span>
+                            <!-- <span ng-if="Certificate==5">Upload Principal Covering Letter</span>-->
+                        </div>
+                        <div class="col-md-6">
+                            <input class="" id="WesCert" type="file" placeholder="" maxlength="10" onchange="angular.element(this).scope().uploadpdffiles()" accept="application/pdf" ng-model="upldWesfile" />
+                        </div>
+                    </div>
+                    <!--<div class="row userRow" ng-show="Certificate==5">
+        <div class="col-md-4 font_bold">
+            <span ng-if="Certificate==5">View Principal Covering Letter</span>
+        </div>
+        <div class="col-md-6">
+            <img ng-src="{{wesfile}}" style="border: 2px solid #ddd;" height="175" width="150" id="WesCertData" />
+        </div>
+    </div>-->
+                    <div class="row userRow" ng-show="Certificate==5 ">
+                        c
+                        <div class="col-md-4 font_bold">
+                            <span ng-if="Certificate==5">Upload Principal Covering Letter</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="" id="PrincipalCover" type="file" placeholder="" maxlength="10" onchange="angular.element(this).scope().uploadPrincipalCover()" accept="image/png, image/jpeg" ng-model="upldfile" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==5">
+                        <div class="col-md-4 font_bold">
+
+                            <span ng-if="Certificate==5">View Principal Covering Letter</span>
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{PrincipalCover1}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewPrincipalCover" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==5 && OdcReason =='Missing ODC'">
+                        <div class="col-md-4 font_bold">
+                            <span ng-if="Certificate==5 && OdcReason =='Missing ODC'">Upload Affidavit Assested by Special Metropolitan Magistrate</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="" id="Affidiate" type="file" placeholder="" maxlength="10" onchange="angular.element(this).scope().uploadAffidiate()" accept="image/png, image/jpeg" ng-model="upldfile" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==5 && OdcReason =='Missing ODC'">
+                        <div class="col-md-4 font_bold">
+
+                            <span ng-if="Certificate==5 && OdcReason =='Missing ODC'">View Affidavit Assested by Special Metropolitan Magistrate</span>
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{Affidiate1}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewAffidiate" />
+                        </div>
+                    </div>
+                    <!--<div class="col-md-6">
+            <img ng-src="{{Affidavate1}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewAffidiate" />
+        </div>
+    </div>-->
+                    <div class="row userRow" ng-show="Certificate== 5 || Certificate== 8">
+                         8
+                        <div class="col-md-4 font_bold">
+                            <span ng-if="Certificate==5">
+                                Upload Aadhaar Photocopy
+
+                            </span>
+                            <!--ot>-->
+
+                            <span ng-if="Certificate==8">Upload ODC</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="" id="Aadhar" type="file" placeholder="" maxlength="10" onchange="angular.element(this).scope().uploadAadhar()" accept="image/png, image/jpeg" ng-model="upldfile1" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate==5 || Certificate==8">
+                        <div class="col-md-4 font_bold">
+
+                            <span ng-if="Certificate==5">View Aadhaar Photocopy</span>
+                            <span ng-if="Certificate==8">View ODC</span>
+                        </div>
+                        <div class="col-md-6">
+                            <img ng-src="{{Aadharxerox1}}" style="border: 2px solid #ddd;" height="175" width="150" id="ViewAadhar" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate ==3">
+                        <div class="col-md-4 font_bold">WES Reference No</div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter WES Reference No" ng-model="WesRefNo" class="upld-file">
+
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate ==3">
+                        <div class="col-md-4 font_bold required">Email</div>
+                        <div class="col-md-6">
+                            <input class="" id="myEmail" type="email" placeholder="Enter Email" ng-model="Email" />
+                        </div>
+                    </div>
+                    <div class="row userRow" ng-show="Certificate != 8">
+                        <div class="col-md-4 font_bold">Mobile Number</div>
+                        <div class="col-md-6">: {{userData.StudentPhoneNumber == null ? '-': userData.StudentPhoneNumber}}</div>
+
+                    </div>
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold required">Verify Mobile Number here</div>
+                        <div class="col-md-2">
+                            <input class="" placeholder="Enter Mobile Number" maxlength="10" ng-model="StudentPhoneNumber" />
+                        </div>
+                        <div class="col-md-2" ng-show="NoOtp  && !phonenoupdated">
+                            <button class="btn btn-success btn-xs" ng-click="SendOtp()">click here to verify</button>
+                        </div>
+                        <div class="col-md-2" ng-show="Otp && !phonenoupdated">
+                            <input type="text" ng-model="OTPdata" placeholder="Enter OTP">
+                            <a ng-click="ReSendOtp()" ng-hide="limitexceeded" class="pull-right">Resend OTP</a>
+                        </div>
+                        <div class="col-md-2" ng-show="Otp && !phonenoupdated">
+                            <button class="btn btn-success btn-xs" ng-click="updatephonenumber()">Verify</button>
+                        </div>
+                        <div class="col-md-2" ng-show="Otp && phonenoupdated && Verified">
+                            <button class="btn btn-success btn-xs"> <i class="fa fa-check" aria-hidden="true"></i> Verified</button>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="table-responsive table-custom-tables-tb " ng-show="Certificate == 2 && MarksData.length>0">
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Examination</th>
+                                    <th>MaxMarks</th>
+                                    <th>MaxSecured</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in MarksData">
+                                    <td>{{$index+1}} </td>
+                                    <td>{{data.Examination}}</td>
+                                    <td>{{data.MaxMarks}}</td>
+                                    <td>{{data.MaxSecured}}</td>
+                                    <td>{{data.Per}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="col-md-12" ng-show="(result && Certificate == 3) || (result && Certificate == 5)">
+                <div class="card">
+
+                    <div class="col-md-12 row ">
+                        <div class="cl-details">
+                            <h2 ng-show="Certificate == 3">(Upload the Certificates for which transcripts are required.)(Scan the document in color with 200 DPI, A4 size(Portrait mode), Max Size:3MB .PDF file)</h2>
+                            <h2 ng-show="Certificate == 5"> Damaged ODC and other marks Memos(Scan the document in color with 200 DPI,A4 Size,Portrait, Max Size:3MB .PDF file)</h2>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"><button ng-click="addUser()" style="margin-bottom:10px;" class="btn btn-sm  btn-success">Add</button></div>
+                    </div>
+                    <section ng-repeat="user in studentfilearr">
+                        <section class="users-container-inputs">
+                            <div class="row" id="userfile{{$index}}">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input class="form-control" type="file" id="studentFile{{$index}}" accept="application/pdf" ng-model="studentFile" onchange="angular.element(this).scope().uploadfiles(this, angular.element(this).scope().$index);" class="upld-file">
+                                    </div>
+                                </div>
+                                <div class="col-md-3" ng-show="result && Certificate == 3">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <select class="form-control" id="studentFilename{{$index}}" ng-model="trnscCerttype" onchange="angular.element(this).scope().uploadfiletype(this, angular.element(this).scope().$index);">
+                                                <option value="" selected>Select Certificate Type</option>
+                                                <option ng-repeat="data in transccert" value="{{data.Id}}">
+                                                    {{data.Name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <span>
+                                        <button class="btn btn-sm btn-danger" ng-click="removeUser($index)" ng-disabled="DeleteDisable">Delete</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="(result && Certificate == 3)">
+                <div class="card">
+                    <div class="row userRow">
+                        <div class="col-md-4 font_bold">Amount to be paid</div>
+                        <div class="col-md-6">: {{TranscriptPrice == undefined ?'--':TranscriptPrice}}</div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" ng-show="result">
+                <!--    <button class="btn  pull-right  btn-success" ng-click="Submit()">Submit</button>-->
+            </div>
+            <div class="col-md-6" ng-show="result">
+                <button class="btn  pull-right  btn-success" ng-disabled="ProceedDisable" ng-click="Proceed()">
+                    <span ng-show="!loader">Proceed</span>
+                    <span ng-show="loader"><div class="loader"> </div></span>
+                </button>
+            </div>
+        </form>
+        <div ng-show="TCReceiptFound && (Certificate==6 || Certificate==9)" id="TcReceiptDivPrint">
+            <!--<div class="col-md-12" >
+            <button class="btn bck_btn" ng-click="Back()"><a  class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>-->
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h3 class="payment_head">Receipt Summary</h3>
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="tblParent">
+                    <div class="table-responsive  table-custom-tables-tb">
+                        <table class="table table-bordered mytable table-hover table-striped table-rounded">
+                            <thead class="tablehead">
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Details</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="">
+
+                                <tr ng-show="tcapplicatioNo != undefined">
+                                    <td style="text-align: left;">Application Number</td>
+                                    <td>{{tcapplicatioNo}}</td>
+                                </tr>
+
+
+                                <tr ng-if="PinNumber !== undefined && PinNumber != '' ">
+                                    <td style="text-align: left;">PIN </td>
+                                    <td>{{PinNumber}}</td>
+                                </tr>
+
+                                <tr ng-if="date !== undefined">
+                                    <td style="text-align: left;">Date </td>
+                                    <td>{{date |date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <h5 class="clr_red">Note : Please Note the Application Number for Further Reference</h5>
+
+            </div>
+            <div class="container print_btn">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;">
+                            <button type="button" style="background-color:#2a8fcf!important;float:left!important;" ng-click="receiptBack()">Back</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;margin-right: 40px;">
+                            <button type="button" ng-click="printTcReceipt()">Print</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div ng-if="NoDataFound" class="no-results">
+            <img src="../../contents/img/Folder-Icon.svg" />
+            <h2>No Data Found</h2>
+        </div>
+        <div ng-if="Error" class="no-results">
+            <img src="../../contents/img/Folder-Icon.svg" />
+            <h2>{{ErrorMsg}}</h2>
+        </div>
+        <div ng-if="NoData" class="no-results">
+            <img src="../../contents/img/Folder-Icon.svg" />
+            <h2>This Service will be Enabled Soon</h2>
+        </div>
+    </div>
+
+</div>
+<div class="sm-spacer"></div>
+<div class="sm-spacer"></div>
+
+
+
+
+
+
+
+
+

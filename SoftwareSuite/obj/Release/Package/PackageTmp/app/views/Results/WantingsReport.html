@@ -1,0 +1,578 @@
+﻿<style>
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn {
+            border: 2px solid #fff;
+            color: #fff;
+            background-color: #1b84e7;
+            padding: 11px 60px;
+            border-radius: 8px;
+            font-weight: bold;
+            width: auto;
+        }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        input#file {
+            display: inline-block;
+            width: 100%;
+            padding: 120px 0 0 0;
+            height: 100px;
+            overflow: hidden;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border-radius: 20px;
+            background-size: 60px 60px;
+        }
+
+        .progress {
+            height: 110px;
+            width: 1000px;
+            margin: 20px auto;
+            background-color: white;
+            text-align: center;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0);
+            webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0);
+        }
+
+            .progress .circle,
+            .progress .bar {
+                display: inline-block;
+                background: #fff;
+                width: 40px;
+                height: 40px;
+                border-radius: 40px;
+                border: 1px solid #d5d5da;
+            }
+
+            .progress .bar {
+                position: relative;
+                width: 200px;
+                height: 6px;
+                margin: 30px -5px 68px -5px !important;
+                border-left: none;
+                border-right: none;
+                border-radius: 0;
+            }
+
+            .progress .circle .label {
+                display: inline-block;
+                width: 32px;
+                height: 32px;
+                line-height: 32px;
+                border-radius: 32px;
+                margin-top: 3px;
+                color: #b5b5ba;
+                font-size: 17px;
+            }
+
+            .progress .circle .title {
+                color: #b5b5ba;
+                font-size: 20px;
+                line-height: 30px;
+                margin-left: -5px;
+            }
+
+        span.title {
+            color: #000 !important;
+        }
+
+        /* Done / Active */
+        .progress .bar.done,
+        .progress .circle.done {
+            background: #eee;
+        }
+
+        .progress .bar.active {
+            background: linear-gradient(to right, #EEE 40%, #FFF 60%);
+        }
+
+        .progress .circle.done .label {
+            color: #FFF;
+            background: #8bc435;
+            /*box-shadow: inset 0 0 2px rgba(0,0,0,.2);*/
+        }
+
+        .progress .circle.done {
+            color: #444;
+        }
+
+        .progress .circle.active .label {
+            color: #FFF;
+            background: #0c95be;
+            /*box-shadow: inset 0 0 2px rgba(0,0,0,.2);*/
+        }
+
+        .progress .circle.active .title {
+            color: #0c95be;
+        }
+
+
+
+        /*table style*/
+
+        /* Styles go here */
+
+        .editable-cell {
+            border: none;
+            background-color: inherit;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .context-menu {
+            position: absolute;
+        }
+
+            .context-menu .dropdown-menu {
+                display: block;
+                position: static;
+            }
+
+        input.editable-cell {
+            padding-left: 5px;
+            width: 100%;
+            height: 100%;
+        }
+
+            input.editable-cell:focus {
+                outline: 1px solid #777;
+            }
+
+        .spreadsheet-container {
+            width: 100%;
+            height: 70%;
+            overflow: scroll;
+        }
+
+        .spreadsheet.table {
+            width: auto;
+            height: auto;
+        }
+
+        .spreadsheet th.col, .spreadsheet td.col {
+            padding: 0;
+            min-width: 100px;
+            width: 120px;
+        }
+
+        .spreadsheet .col-sno {
+            min-width: 30px;
+            background-color: #EEE;
+        }
+
+        .spreadsheet.table .col-sno {
+            width: 20px;
+            background-color: #EEE;
+        }
+
+        .spreadsheet.table .row-header {
+            background-color: #EEE;
+        }
+
+        /*body {
+            margin-top: 40px;
+        }*/
+
+        .stepwizard-step p {
+            margin-top: 10px;
+            padding: 0px;
+        }
+
+        .stepwizard-row {
+            display: table-row;
+        }
+
+        .stepwizard {
+            display: table;
+            width: 50%;
+            position: relative;
+        }
+
+        .stepwizard-step button[disabled] {
+            opacity: 1 !important;
+            filter: alpha(opacity=100) !important;
+        }
+
+        .stepwizard-row:before {
+            top: 19px;
+            bottom: 0;
+            position: absolute;
+            content: " ";
+            width: 81%;
+            height: 2px;
+            background-color: #35a5f1;
+            z-order: 0;
+            margin: 0px 50px;
+        }
+
+        .stepwizard-step {
+            display: table-cell;
+            text-align: center;
+            position: relative;
+        }
+
+        .btn-circle {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            padding: 9px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 30px;
+        }
+
+        .p {
+            padding-left: 17px;
+        }
+
+        .nextBtn {
+            text-align: center;
+        }
+
+        .setting {
+            margin-left: 0px;
+        }
+
+        .base-row {
+            background-color: #fefefe;
+            border-radius: 0px;
+            margin-top: 14px;
+            margin-bottom: 27px;
+            padding: 15px;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0px 3px 17px -8px #888888;
+        }
+
+        .active {
+            background-color: red;
+        }
+
+        .active_btn {
+            background-color: red;
+        }
+
+        .btn-default:hover, .btn-dark-blue:hover, .btn-default:focus, .btn-dark-blue:focus, .btn-default:active,
+        .btn-dark-blue:active, .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #f0f2f7;
+            color: #fff !important;
+            background-color: #35a5f1 !important;
+        }
+
+        a.btn.btn-circle.btn-default.active.active_btn.btn-primary {
+            border: 3px solid #000000;
+        }
+
+        #drop-area {
+            border: 2px dashed #999;
+            border-radius: 20px;
+            /* width: 480px; */
+            font-family: sans-serif;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #d8ecfa94;
+        }
+
+            #drop-area.highlight {
+                border-color: purple;
+            }
+
+        p {
+            margin-top: 0;
+        }
+
+        .my-form {
+            margin-bottom: 10px;
+        }
+
+        #gallery {
+            margin-top: 10px;
+        }
+
+            #gallery img {
+                width: 150px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+                vertical-align: middle;
+            }
+
+        .button {
+            display: inline-block;
+            padding: 10px;
+            background: #ccc;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+            .button:hover {
+                background: #ddd;
+            }
+
+        #fileElem {
+            display: none;
+        }
+
+        .btn-primary:hover {
+            color: #fff !important;
+            background-color: #1b84e7 !important;
+            border-color: #fff !important;
+        }
+
+        .btn {
+        }
+
+        .mybtnDetails {
+            padding: 5px 10px;
+            border: 2px solid #fff;
+            color: #fff;
+            background-color: #279b29;
+            /* padding: 11px 60px; */
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 13px;
+            width: auto;
+            font-weight: normal;
+        }
+
+            .mybtnDetails:hover {
+                color: #fff;
+                background-color: #17bc3f;
+                border-color: #fff;
+            }
+
+        .submit_btn {
+            font-size: 13px !important;
+            padding: 5px !important;
+            font-weight: normal !important;
+            width: 80px !important;
+            margin-top: 23px !important;
+        }
+        /*.multiselect {
+      width: 200px;
+    }*/
+
+        .selectBox {
+            position: relative;
+        }
+
+            .selectBox select {
+                width: 100%;
+                font-weight: bold;
+            }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+            #checkboxes label {
+                display: block;
+            }
+
+                #checkboxes label:hover {
+                    background-color: #1e90ff;
+                }
+
+        .contain {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            /* margin-bottom: 12px; */
+            /* padding-top: 5px; */
+            cursor: pointer;
+            margin: 5px !important;
+            font-size: 15px !important;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* Hide the browser's default checkbox */
+            .contain input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            background-color: #eee;
+            border: 1px solid #cac6c6;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .contain:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .contain input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .contain input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .contain .checkmark:after {
+            left: 8px;
+            top: 4px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .clr_red {
+            color: red;
+            font-weight: bold;
+        }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/xlsx.js"></script>
+<div ng-controller="WantingsReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Wanting Reports</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/Results">Results </a></li>
+                        <li><a href="#!/Dashboard/Results/WantingReports">Wanting Reports</a></li>
+                    </ol>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/Results" class="backA"> <button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm">
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="monthyear" required>
+                                    <option value="" selected>Select Month/Year of Exam</option>
+                                    <option ng-repeat="monYer in MonthAndYear" value="{{monYer.ExamYearMonth}}">
+                                        {{monYer.ExamYearMonth}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Scheme :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)" required>
+                                    <option value="" selected>Select Scheme</option>
+                                    <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                        {{scheme.scheme}}
+                                    </option>
+                                </select>
+                            </div>
+                            <!--<div class="col-md-4">
+                                <div class="form-group">
+                                    <label>User Type</label>
+                                    <div class="multiselect">
+                                        <div class="selectBox" ng-click="showCheckboxes()">
+                                            <select class="form-control ">
+                                                <option ng-blur="closeCheckbox()">Select Scheme</option>
+                                            </select>
+                                            <div class="overSelect"></div>
+                                        </div>
+                                        <div id="checkboxes">
+                                            <label class="contain">
+                                                <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" /><span class="checkmark"></span>Select All
+                                            </label>
+                                            <label class="contain" ng-repeat="data in schemeinfo">
+                                                <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)"><span class="checkmark"></span>{{data.scheme}}
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Exam Type :
+                                </label>
+                                <!--<select class="form-control" ng-model="SelStudentType" name="StudentType">
+                                    <option value="" selected>Select Exam Type</option>
+                                    <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                        {{Student.type}}
+                                    </option>
+                                </select>-->
+                                <select class="form-control" ng-model="SelStudentType" name="StudentType" required ng-change="hidePreviousResult()"
+                                        ng-options="Student.id as Student.type for Student in StudentType"></select>
+                            </div>
+                            <div class="col-md-2 pull-right">
+                                <div class="gr-btn">
+                                    <button type="submit" class="btn submit_btn btn-sm btn-primary gr-button" ng-click="ExcelForm.$valid && Submit()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%; text-align: center;" ng-show="Loading">
+            <div class="sm-spacer"></div>
+            <img src="../../../contents/img/loading.gif" width="100" />
+            <div class="sm-spacer"></div>
+        </div>
+       
+    </div>
+</div>

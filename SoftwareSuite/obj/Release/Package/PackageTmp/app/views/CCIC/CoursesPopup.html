@@ -1,0 +1,224 @@
+﻿
+<style>
+
+    body {
+        background: #eee5e9;
+    }
+
+    .fnt {
+        font-family: sans-serif;
+    }
+
+    p {
+        padding: unset;
+    }
+
+  
+
+ 
+
+
+
+   
+
+    .modal-content {
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: 0;
+    }
+
+
+    .modal-header.courses-modal-header {
+        padding: 2px 15px;
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #2196F3;
+    }
+
+
+
+
+    .courses-modal-header .modal-title {
+        margin: 0;
+        text-align: center;
+        line-height: 2.428571;
+        color: #fff;
+    }
+
+  
+
+
+
+    .grid {
+        margin: 80px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 30px;
+        align-items: center;
+    }
+
+
+
+        .grid > article {
+            background: #eee5e9;
+            border: unset;
+            box-shadow: 2px 2px 6px 0px rgb(0,0,0,0.3);
+            border-radius: 20px;
+            text-align: center;
+            width: 240px;
+            height: 300px;
+            transition: transform .3s;
+        }
+
+            .grid > article:hover {
+                transform: translateY(5px);
+                box-shadow: 2px 2px 26px 0px rgba(0,0,0,0.3);
+            }
+
+            .grid > article img {
+                width: 100%;
+                height: 150px;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+            }
+
+    .text {
+        padding: 0 10px 10px;
+        height: 40px;
+    }
+
+
+        .text h3 {
+            text-transform: uppercase;
+        }
+
+
+    @media(max-width: 768px) {
+        .grid {
+            grid-template-columns: repeat(2,1fr)
+        }
+    }
+
+    @media(max-width: 500px) {
+        .grid {
+            grid-template-columns: repeat(1,1fr)
+        }
+
+            .grid > article {
+                text-align: center;
+            }
+    }
+
+    #button1 {
+        background: #000080;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+        color: #fff;
+        padding: 10px 15px;
+        width: 70%;
+        height: 20%;
+        font-weight: 600;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    #button2 {
+        background: green;
+        border-radius: 10px;
+        margin: 5px;
+        border: none;
+        color: #fff;
+        padding: 10px 15px;
+        width: 50%;
+        height: 20%;
+        font-weight: 600;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+
+    .card-footer {
+        padding: 10px;
+        color: #fff;
+    }
+</style>
+
+
+    <div class="modal-dialog-centered">
+    <div class="modal-content">
+        <style class="ng-scope">
+            .modal-fit .modal-content {
+                height: max-content !important;
+                overflow: unset !important;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        </style>
+
+
+        <div class="modal-header courses-modal-header ng-scope">
+            <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">×</button>
+            <h4 class="modal-title center-block">Courses</h4>
+        </div>
+        <div class="modal-body ng-scope">
+
+            <main class="grid">
+
+                <article ng-repeat="course in CourseList | filter:search">
+
+                    <div class="card-header">
+                        <div class="image">
+                            <img ng-src="{{course.CourseImg}}" />
+                        </div>
+                    </div>
+
+
+                   
+                        <div class="text">
+                            <h4 class="fnt">
+
+                                {{course.CourseName}}
+                                <br />
+                                ({{course.CourseCode}})
+
+                            </h4>
+                        </div>
+                  
+
+                    <br />
+
+                    <div class="card-footer" style="display:inline-flex">
+                        <button id="button1" class="btn-sm" ng-click="ShowCourseDetails(course.CourseID)">Read More</button>
+                        <button id="button2" class="btn-sm" ng-click="ShowReg(course.CourseID)">Enroll</button>
+
+                    </div>
+
+                </article>
+
+
+
+
+            </main>
+        </div>
+            
+        
+        <div class="modal-footer ng-scope">
+
+            <button type="button" class="btn btn-default" ng-click="closeModal()">Cancel</button>
+        </div>
+
+       </div>
+        </div>
+
+
+
+
+
+
+

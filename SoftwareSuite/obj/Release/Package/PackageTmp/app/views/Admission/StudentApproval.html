@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Admission Confirmation</title>
+</head>
+<body>
+    <div ng-controller="StudentApprovalController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-university heading_icon"></span><b>Admission Confirmation</b></div>
+                <div class="panel-body form_border b">
+                    <div id="exTab1">
+                        <center>
+                            <ul class="nav nav-pills">
+                                <li class="tab_custom_width active">
+                                    <a href="#1a" data-toggle="tab">Personal Details</a>
+                                </li>
+                                <li class="tab_custom_width">
+                                    <a href="#2a" data-toggle="tab">Institute Details</a>
+                                </li>
+                                <li class="tab_custom_width">
+                                    <a href="#3a" data-toggle="tab">Present Address</a>
+                                </li>
+                                <li class="tab_custom_width">
+                                    <a href="#4a" data-toggle="tab">Permanent Address</a>
+                                </li>
+                            </ul>
+                        </center>
+                        <hr>
+
+                        <div class="tab-content clearfix">
+                            <div class={{FirsttabPanActiveClass}} id="1a">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="adno">Admission No.:</label>
+                                        <input type="text" class="form-control" id="adno" ng-Model="StudentApproval.AdmNo" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Candidate's  Name:</label>
+                                        <input type="text" class="form-control" id="cname" ng-Model="StudentApproval.StudName" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Father's Name:</label>
+                                        <input type="text" class="form-control" id="fname" ng-Model="StudentApproval.FatherName" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Mother's Name:</label>
+                                        <input type="text" class="form-control" id="mname" ng-Model="StudentApproval.MotherName" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Relation With Guardian:</label>
+                                        <input type="text" class="form-control" id="gname" ng-Model="StudentApproval.RelwithGuardian" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Nationality">Nationality :</label>
+                                        <input type="text" value="INDIAN" class="form-control" id="Nationality" ng-Model="StudentApproval.Nationality" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="MothTID">Select Mother Tongue :</label>
+                                        <select class="form-control populate placeholder" id="MothTID" ng-model="StudentApproval.MothTID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.MothTID == option.MothTID" ng-repeat="option in MotherTongueList" value="{{option.MothTID}}">{{option.MothTName}}</option>
+                                        </select>
+                                    </div>
+                                    <label for="email">Gender :</label>
+                                    <div class="form-group" style="margin-top: 2px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="StudentApproval.Gender" checked value="M">Male
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="StudentApproval.Gender" value="F">Female
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="StudentApproval.Gender" value="O">Other
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 27px;">
+                                        <label for="OcupID">Select Occupation :</label>
+                                        <select class="form-control" id="OcupID" ng-model="StudentApproval.OcupID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.OcupID == option.OcupID" ng-repeat="option in OccupationList" value="{{option.OcupID}}">{{option.OcupName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Parent Income:</label>
+                                        <select class="form-control" id="IncGrID" ng-model="StudentApproval.IncGrpID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.IncGrpID == option.IncGrpID" ng-repeat="option in IncGrList" value="{{option.IncGrpID}}">{{option.IncGrpame}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Select Community :</label>
+                                        <select class="form-control" id="CommunityID" ng-model="StudentApproval.CommunityID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.CommunityID == option.CommunityID" ng-repeat="option in CommunityList" value="{{option.CommunityID}}">{{option.CommName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ReligionID">Select Religion :</label>
+                                        <select class="form-control" id="ReligionID" ng-model="StudentApproval.ReligionID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.ReligionID == option.ReligionID" ng-repeat="option in ReligionList" value="{{option.ReligionID}}">{{option.RelgName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="SubCastID">Select Subcaste :</label>
+                                        <select class="form-control" id="SubCastID" ng-model="StudentApproval.SubCastID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.SubCastID == option.SubCastID" ng-repeat="option in SubCastList" value="{{option.SubCastID}}">{{option.SubCastName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Date Of Birth :</label>
+                                        <!--<input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" ng-click="GetDateOfBirthInWords(StudentApproval.BirthDate)" ng-model="StudentApproval.BirthDate" ng-todayhighlight="true" is-open="StudentApproval.BirthDateIsOpen" readonly="true" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openCalendarBirthDate()"><i class="fa fa-calendar"></i></button>
+                                        </span>-->
+                                        <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-model="StudentApproval.BirthDate">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Date Of Birth In Words :</label>
+                                        <input type="text" class="form-control" id="dob2" ng-Model="StudentApproval.DateOfBirthInWords" ng-disabled="true">
+                                    </div>
+                                    <label for="email">Physically Handicapped :</label>
+                                    <div class="form-group" style="margin-top: 5px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="Y" ng-model="StudentApproval.Handicaped" name="optradio">Yes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="N" ng-model="StudentApproval.Handicaped" checked name="optradio">No
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <div class="form-group" style="padding-top: 6px;">
+                                        <label for="adno">Identification Of Marks 1 :</label>
+                                        <input type="text" class="form-control" id="IdentiMarks" ng-Model="StudentApproval.IdentiMarks" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-offset-9 col-md-offset-1">
+                                    <button type="button" class="btn form_btn_align cancel_btn btn-md" style="margin-top: 7px;" ng-click="ContinueFirstPage()">Continue<span class="fa fa-angle-double-right heading_icon btn_icons1" style="float: right;"></span></button>
+                                </div>
+
+                            </div>
+                            <div class="{{SecondtabPanActiveClass}}" id="2a">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="adno">Name Of Institution (SSC) :</label>
+                                        <input type="text" class="form-control" id="LstInstName" ng-Model="StudentApproval.LstInstName" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="AdmDate">Date Of Admission :</label>
+                                        <!--<input type="date" class="form-control" id="AdmDate" ng-Model="StudentApproval.AdmDate">-->
+                                        <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="AdmDate" ng-model="StudentApproval.AdmDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Class In Which Student Admitted :</label>
+                                        <select class="form-control" id="ExamID" ng-model="StudentApproval.ExamID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="MediumID">Select Medium :</label>
+                                        <select class="form-control" id="MediumID" ng-model="StudentApproval.MediumID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select Second Language (Part II) :</label>
+                                        <select class="form-control" id="MediumID" ng-model="StudentApproval.SecondLangID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">Select Group (Part III) :</label>
+                                        <select class="form-control" id="SubGrpID" ng-model="StudentApproval.SubGrpID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.SubGrpID == option.SubGrpID" ng-repeat="option in SubGroupList" value="{{option.SubGrpID}}">{{option.SubName}}</option>
+                                        </select>
+                                    </div>
+                                    <label for="email">Receiving Any Scholarship :</label>
+                                    <div class="form-group" style="margin-top: 5px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="Y" ng-model="StudentApproval.ScholarshipFlag" name="optradio">Yes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="N" ng-model="StudentApproval.ScholarshipFlag" name="optradio">No
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comment">Name of the College & Address:</label>
+                                        <textarea class="form-control" rows="2" id="clgnameandaddr" ng-model="ColName" ng-disabled="true"></textarea>
+                                    </div>
+                                    <label for="email">Recognition Fee Paid :</label>
+                                    <div class="form-group" style="margin-top: 5px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="Y" ng-model="StudentApproval.RecgFeesFlag" name="optradio">Yes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="N" ng-model="StudentApproval.RecgFeesFlag" name="optradio">No
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <label for="email">Examination Fee Paid :</label>
+                                    <div class="form-group" style="margin-top: 5px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="Y" ng-model="StudentApproval.ExmFeesFlag" name="optradio">Yes
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="N" ng-model="StudentApproval.ExmFeesFlag" name="optradio">No
+                                            </label>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="email">Admission Category :</label>
+                                    <div class="form-group" style="margin-top: 5px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="Y" ng-model="StudentApproval.AdmCategory" name="optradio">Regular
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="N" ng-model="StudentApproval.AdmCategory" name="optradio">Re-Admission
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Tc No. :</label>
+                                        <input type="text" class="form-control" id="TCNO" ng-Model="StudentApproval.TCNO" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Date Of Withdrawl :</label>
+                                        <!--<input type="date" class="form-control" id="Dateofwithdrawal" ng-Model="StudentApproval.Dateofwithdrawal">-->
+                                        <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="Dateofwithdrawal" ng-model="StudentApproval.Dateofwithdrawal">
+                                    </div>
+                                    <label for="email">Class Of Withdrawl :</label>
+                                    <div class="form-group" style="margin-top: 5px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="Y" ng-model="StudentApproval.Classwithdrawal" name="optradio">1st Year
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="N" ng-model="StudentApproval.Classwithdrawal" name="optradio">2nd Year
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Reason Of Withdrawl :</label>
+                                        <select class="form-control" id="WdrwlID" ng-model="StudentApproval.WdrwlID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.WdrwlID == option.WdrwlID" ng-repeat="option in WithdrawlReasonList" value="{{option.WdrwlID}}">{{option.WdrwlName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-offset-9 col-md-offset-1">
+                                    <button type="button" class="btn form_btn_align cancel_btn btn-md" style="margin-top: 7px;" ng-click="ContinueSecondPage()">Continue<span class="fa fa-angle-double-right heading_icon btn_icons1" style="float: right;"></span></button>
+                                </div>
+                            </div>
+                            <div class="{{ThirdtabPanActiveClass}}" id="3a">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="HousenoP">House No. :</label>
+                                        <input type="text" class="form-control" id="Houseno" ng-Model="StudentApproval.Houseno" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="StreetnameP">Street :</label>
+                                        <input type="text" class="form-control" id="Streetname" ng-Model="StudentApproval.Streetname" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="adno">Village :</label>
+                                        <input type="text" class="form-control" id="Cityname" ng-Model="StudentApproval.Cityname" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select State :</label>
+                                        <select class="form-control" id="StateID" ng-model="StudentApproval.StateID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.StateID == option.StateID" ng-repeat="option in StateList" value="{{option.StateID}}">{{option.StateName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">Select Your District :</label>
+                                        <select class="form-control" id="DistrictID" ng-model="StudentApproval.DistrictID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select Mandal :</label>
+                                        <select class="form-control" id="MandalID" ng-model="StudentApproval.MandalID" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-xs-offset-9 col-md-offset-1">
+                                        <button type="button" class="btn form_btn_align cancel_btn btn-md" style="margin-top: 7px;" ng-click="ContinueThirdPage()">Continue<span class="fa fa-angle-double-right heading_icon btn_icons1" style="float: right;"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="{{FourthtabPanActiveClass}}" id="4a">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="HousenoP">House No. :</label>
+                                        <input type="text" class="form-control" id="HousenoP" ng-Model="StudentApproval.HousenoP" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Street :</label>
+                                        <input type="text" class="form-control" id="StreetnameP" ng-Model="StudentApproval.StreetnameP" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Village :</label>
+                                        <input type="text" class="form-control" id="CitynameP" ng-Model="StudentApproval.CitynameP" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select State :</label>
+                                        <select class="form-control" id="StateIDP" ng-model="StudentApproval.StateIDP" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.StateIDP == option.StateID" ng-repeat="option in StateList" value="{{option.StateID}}">{{option.StateName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">Select Your District :</label>
+                                        <select class="form-control" id="DistrictIDP" ng-model="StudentApproval.DistrictIDP" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.DistrictIDP == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select Mandal :</label>
+                                        <select class="form-control" id="MandalIDP" ng-model="StudentApproval.MandalIDP" ng-disabled="true">
+                                            <option ng-selected="StudentApproval.MandalIDP == option.MandalID" ng-repeat="option in MandalListP" value="{{option.MandalIDP}}">{{option.MandalName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Parent/Gaurdian Mob. No. :</label>
+                                        <input type="text" class="form-control" id="pmob" ng-Model="StudentApproval.ParentCellno" ng-disabled="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="adno">Student Mob. No :</label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-Model="StudentApproval.MobileNo" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="adno">Adhar Card No. (UID) :</label>
+                                        <input type="text" class="form-control" id="AadharNo" ng-Model="StudentApproval.AadharNo" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-lg-4">
+                                        <img ng-src="{{StudentPhoto}}" style=" width: 100px; height: 100px; margin: 5px; float: left;" />
+                                        <input type="file" name="file" id="filphto" accept="{{BrowseType}}" style="height:30px;width:350px" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-lg-4">
+                                        <img ng-src="{{StudentSign}}" style=" width: 100px; height: 100px; margin: 5px; float: left;" />
+                                        <input type="file" name="file" id="filsign" accept="{{BrowseType}}" style="height:30px;width:350px" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-offset-8 " style="float: right;">
+                                    <button type="button" class="btn form_btn_align cancel_btn btn-md" style="margin-top: 7px;" ng-disabled="true" ng-click="CloseStudentApproval()">CLOSE<span class="fa fa-save heading_icon btn_icons1" style="float: right;"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

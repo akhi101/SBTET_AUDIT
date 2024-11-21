@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NR Correction List</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important; 
+            }
+        }
+    </style>
+    <script language="javascript">
+        document.getElementById("btnPrintTop").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        document.getElementById("btnPrintModal").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>
+</head>
+<body>
+    <div ng-controller="NRCorrectionApprovalListSummaryController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>NR Correction Summary List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Reports</li>
+                        <li>NR Correction Summary List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select class="form-control input-sm" id="AcdYrID" ng-model="AcdYrID" ng-change="ChangeAcdYear()">
+                                <option ng-selected="AcdYrID == option.AcdYrID" ng-repeat="option in AcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="dieouser==true" id="DivIdToPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>Total Colleges</th>
+                                <th>Applied For NR Correction</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved Corrections</th>
+                                <th style="text-align: center;">DIEO Pending Corrections</th>
+                                <th style="text-align: center;">DIEO Rejected Corrections</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in NRApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td align="center"> {{ x.TotalStudCnt }} </td>
+                                <td align="center"> {{ x.TotalCorrectionCnt }} </td>
+                                <td align="center">{{ x.TotalDieoApproviedCorrections }} </td>
+                                <td align="center"><a class="mya" ng-click="ListPage()"><b> {{ x.TotalDieoPendingCorrections }} </b></a></td>
+                                <td align="center">{{ x.TotalDieoRejectedCorrections }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+                <div class="col-md-12" ng-show="supuser==true" id="DivIdToSupPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>Total Colleges</th>
+                                <th>Applied For NR Correction</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved </th>
+                                <th style="text-align: center;">DIEO Rejected </th>
+                                <th style="text-align: center;">Sup Approved </th>
+                                <th style="text-align: center;">Sup Pending </th>
+                                <th style="text-align: center;">Sup Rejected </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in NRApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td align="center"> {{ x.TotalStudCnt }} </td>
+                                <td align="center"> {{ x.TotalCorrectionCnt }} </td>
+                                <td align="center"> {{ x.TotalDieoApproviedCorrections }} </td>
+                                <td align="center"> {{ x.TotalDieoRejectedCorrections = 0 }} </td>
+                                <td align="center">{{ x.TotalSupApproviedCorrections }} </td>
+                                <td align="center"><a class="mya" ng-click="GetCandidates(x,'P')"><b>{{ x.TotalSupPendingCorrections }}</b></a> </td>
+                                <td align="center">{{ x.TotalSupRejectedCorrections }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+                <div class="col-md-12" ng-show="dsuser==true" id="DivIdToDSPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>Total Colleges</th>
+                                <th>Applied For NR Correction</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved</th>
+                                <th style="text-align: center;">DIEO Rejected </th>
+                                <th style="text-align: center;">Sup Approved</th>
+                                <th style="text-align: center;">Sup Rejected </th>
+                                <th style="text-align: center;">DS Approved</th>
+                                <th style="text-align: center;">Pending </th>
+                                <th style="text-align: center;">DS Rejected</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in NRApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td align="center">{{ x.TotalStudCnt }} </td>
+                                <td align="center">{{ x.TotalCorrectionCnt }} </td>
+                                <td align="center">{{ x.TotalDieoApproviedCorrections }} </td>
+                                <td align="center"> {{ x.TotalDieoRejectedCorrections = 0 }} </td>
+                                <td align="center">{{ x.TotalSupApproviedCorrections }} </td>
+                                <td align="center">{{ x.TotalSupRejectedCorrections }} </td>
+                                <td align="center">{{ x.TotalDSApproviedCorrections}} </td>
+                                <td align="center"><a class="mya" ng-click="GetCandidates(x,'P')"><b>{{ x.TotalDSPendingCorrections}}</b></a> </td>
+                                <td align="center">{{ x.TotalDSRejectedCorrections}} </td>
+                            </tr>                            
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+                <div class="col-md-12" ng-show="jsuser==true" id="DivIdToJSPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>Total Colleges</th>
+                                <th>Applied For NR Correction</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved</th>
+                                <th style="text-align: center;">DIEO Rejected </th>
+                                <th style="text-align: center;">Sup Approved</th>
+                                <th style="text-align: center;">Sup Rejected </th>
+                                <th style="text-align: center;">DS Approved & Rejected</th>
+                                <!--<th style="text-align: center;">JS Approved</th>
+    <th style="text-align: center;">Pending </th>
+    <th style="text-align: center;">JS Rejected </th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in NRApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td align="center"> {{ x.TotalStudCnt }} </td>
+                                <td align="center"> {{ x.TotalCorrectionCnt }} </td>
+                                <td align="center">{{ x.TotalDieoApproviedCorrections }} </td>
+                                <td align="center"> {{ x.TotalDieoRejectedCorrections = 0 }} </td>
+                                <td align="center"> {{ x.TotalSupApproviedCorrections }} </td>
+                                <td align="center">{{ x.TotalSupRejectedCorrections }} </td>
+                                <td align="center"><a class="mya" ng-click="GetCandidates(x,'P')"><b>{{ x.TotalDSApproviedCorrections}}</b></a> </td>
+                                <!--<td align="center">{{ x.TotalJSApproviedCorrections }} </td>
+    <td align="center"><a class="mya" ng-click="GetCandidates(x,'P')"><b>{{ x.TotalJSPendingCorrections}}</b></a> </td>
+    <td align="center">{{ x.TotalJSRejectedCorrections }} </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+                <div class="col-md-12" ng-show="coeuser==true" id="DivIdToCOEPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>Total Colleges</th>
+                                <th>Applied For NR Correction</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved</th>
+                                <th style="text-align: center;">DIEO Rejected </th>
+                                <th style="text-align: center;">Sup Approved</th>
+                                <th style="text-align: center;">Sup Rejected </th>
+                                <th style="text-align: center;">DS Approved & Rejected</th>
+                                <!--<th style="text-align: center;">JS Approved</th>
+    <th style="text-align: center;">COE Approved </th>
+    <th style="text-align: center;">Pending</th>
+    <th style="text-align: center;">COE Rejected </th>-->
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in NRApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td align="center"> {{ x.TotalStudCnt }} </td>
+                                <td align="center"> {{ x.TotalCorrectionCnt }} </td>
+                                <td align="center">{{ x.TotalDieoApproviedCorrections }} </td>
+                                <td align="center"> {{ x.TotalDieoRejectedCorrections = 0 }} </td>
+                                <td align="center">{{ x.TotalSupApproviedCorrections }} </td>
+                                <td align="center">{{ x.TotalSupRejectedCorrections }} </td>
+                                <td align="center"><a class="mya" ng-click="GetCandidates(x,'P')"><b>{{ x.TotalDSApproviedCorrections }}</b></a></td>
+                                <!--<td align="center">{{ x.TotalJSApproviedCorrections }} </td>
+    <td align="center">{{ x.TotalCOEApproviedCorrections }} </td>
+    <td align="center"><a class="mya" ng-click="GetCandidates(x,'P')"><b>{{ x.TotalCOEPendingCorrections }}</b></a></td>
+    <td align="center">{{ x.TotalCOERejectedCorrections }} </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <button id="btnPrintTop" type="button" class="btn btn-detail btn-sm">Print</button>
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body" id="filterdatatoprint">
+                                <div style="color:#009688;" class="row">
+                                    <div class="col-md-6"><label> College Name :  {{ CandidateListForApproval.ColName }}</label></div>
+                                    <div class="col-md-6 text-right"><label> Academic Year :  {{ AcdYrName }}</label></div>
+                                </div>
+                                <div class="col-md-12"><hr /></div>
+                                <table id="filtereddata" class="table table-striped table-responsive" style="font-size:12px">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No.</th>
+                                            <th>PRN No.</th>
+                                            <th>Student Name</th>
+                                            <th>Father Name</th>
+                                            <th>Group</th>
+                                            <th>Medium</th>
+                                            <th>Approve / Reject </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in CandidateListForApproval">
+                                            <td>{{$index + 1}}</td>
+                                            <td> {{ x.PRNNo }}</td>
+                                            <td>{{ x.StudName }}</td>
+                                            <td>{{ x.FatherName }}</td>
+                                            <td>{{ x.MainGrpName }}</td>
+                                            <td>{{ x.MediumName }}</td>
+                                            <td><form><input type="button" class="btn btn-sm btn-default" value="Edit" ng-click='SendData(x)'></form></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                <button type="button" id="btnPrintModal" class="btn btn-reset btn-sm print-hide">Print</button>
+                                <button type="button" id="btnPrintModal" class="btn btn-primary btn-sm">Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successul.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

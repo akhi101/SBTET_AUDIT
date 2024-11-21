@@ -1,0 +1,84 @@
+﻿<div ng-controller="StudentNameCorrectionControler">
+<div class="container">
+    <div class="sm-spacer"></div>
+    <div class="base-row row">
+        <form name="CorrectionForm">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>PIN</label>
+                    <input class="form-control" type="text" ng-model="$scope.pin" required/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn-success btn" style="margin-top: 23px;" ng-click="getDetails($scope.pin)">Submit</button>
+            </div>
+        </form>
+    </div> 
+    <div class="col-md-12" ng-show="result">
+        <div class="cl-details">
+            <h2>Student Details</h2>
+        </div>
+    </div> 
+<!--{{result}}-->
+    <div class="col-md-12">
+        <div class="table-responsive table-custom-tables-tb " ng-show="result">
+            <table class="table table-bordered  table-striped table-rounded">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PIN </td>
+                        <td>{{Pin}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name </td>
+                        <td><input type="text" style="width:50%" ng-model="Name" disabled ng-value="Name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Update Name </td>
+                        <td><input type="text" placeholder="Enter Name" style="width:50%" ng-model="NewName" ng-value="NewName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Father Name </td>
+                        <td><input type="text" style="width:50%" ng-model="FatherName" disabled ng-value="FatherName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Update Father Name </td>
+                        <td><input type="text" style="width:50%" placeholder="Enter Father Name" ng-model="NewFatherName" ng-value="NewFatherName" /></td>
+                    </tr>
+                    <tr>
+                        <td>Email Id</td>
+                        <td>{{EmailId}}</td>
+                    </tr>
+                    <tr>
+                        <td>Mobile Number</td>
+                        <td>{{StudentContact}}</td>
+                    </tr>
+                    <tr>
+                        <td>Upload SSC memo</td>
+                        <td><input type="file" style="width:50%" id="stdPhotoFile" accept="image/*" ng-model="SSCmemo" onchange="angular.element(this).scope().uploadPhoto()" /><br />
+                            <img id="stdPhotoImg"  ng-src="{{studentMemo}}" style="border: 2px solid #ddd;" height="175" width="150" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+           
+    </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div ng-if="NoDataFound" class="no-results">
+        <img src="../../contents/img/Folder-Icon.svg" />
+        <h2>No Data Found</h2>
+    </div>
+    <div class="col-md-12 " ng-show="result">
+        <button class="btn btn-success pull-right">Submit</button>
+    </div>
+  
+    </div>
+    <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+        </div>

@@ -1,0 +1,494 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NR Correction List</title>
+    <!--<style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important; 
+            }
+        }
+    </style>-->
+    <!--<script language="javascript">
+        document.getElementById("btnPrintTop").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        document.getElementById("btnPrintModal").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>-->
+</head>
+<body>
+    <div ng-controller="NRCorrectionApprovalListNewController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>NR Correction List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Reports</li>
+                        <li>NR Correction List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5></div>
+                </div>
+            </div>
+            <div class="modal-body" id="filterdatatoprint">
+                <div class="col-md-12 text-center">
+                    <button id="btnSubmit" type="button" class="btn btn-detail" ng-click="doTheBack()">Back</button>
+                </div>
+                <div style="color:#009688;" class="row">
+                    <div class="col-md-6"><label> College Name :  {{ CandidateListForApproval.ColName }}</label></div>
+                </div>
+                <div class="col-md-12"><hr /></div>
+                <table id="filtereddata" class="table table-striped table-responsive" style="font-size:12px">
+                    <thead>
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Prev. Reg Number</th>
+                            <th>Student Name</th>
+                            <th>Father Name</th>
+                            <th>Group</th>
+                            <th>Medium</th>
+                            <th>Amount</th>
+                            <th>Approve / Reject </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in CandidateListForApproval">
+                            <td>{{$index + 1}}</td>
+                            <td> {{ x.PREGNO }}</td>
+                            <td>{{ x.StudName }}</td>
+                            <td>{{ x.FatherName }}</td>
+                            <td>{{ x.MainGrpName }}</td>
+                            <td>{{ x.MediumName }}</td>
+                            <td>{{ x.Amount }}</td>
+                            <td><form><input type="button" class="btn btn-sm btn-default" value="Process" ng-click='SendData(x)'></form></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-md-12 text-center">
+                    <button id="btnSubmit" type="button" class="btn btn-danger" ng-click="doTheBack()">Exit</button>
+                </div>
+            </div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                <button type="button" id="btnPrintModal" class="btn btn-primary btn-sm">Print</button>
+            </div>-->
+        </div>
+            <!--<div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <button id="btnPrintTop" type="button" class="btn btn-detail btn-sm">Print</button>
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body" id="filterdatatoprint">
+                                <div style="color:#009688;" class="row">
+                                    <div class="col-md-6"><label> College Name :  {{ CandidateListForApproval.ColName }}</label></div>
+                                    <div class="col-md-6 text-right"><label> Academic Year :  {{ AcdYrName }}</label></div>
+                                </div>
+                                <div class="col-md-12"><hr /></div>
+                                <table id="filtereddata" class="table table-striped table-responsive" style="font-size:12px">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No.</th>
+                                            <th>PRN No.</th>
+                                            <th>Student Name</th>
+                                            <th>Father Name</th>
+                                            <th>Group</th>
+                                            <th>Medium</th>
+                                            <th>Approve / Reject </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in CandidateListForApproval">
+                                            <td>{{$index + 1}}</td>
+                                            <td> {{ x.PRNNo }}</td>
+                                            <td>{{ x.StudName }}</td>
+                                            <td>{{ x.FatherName }}</td>
+                                            <td>{{ x.MainGrpName }}</td>
+                                            <td>{{ x.MediumName }}</td>
+                                            <td><form><input type="button" class="btn btn-sm btn-default" value="Edit" ng-click='SendData(x)'></form></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                <button type="button" id="btnPrintModal" class="btn btn-reset btn-sm print-hide">Print</button>
+                                <button type="button" id="btnPrintModal" class="btn btn-primary btn-sm">Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+            <!--Anil-->
+            <!--<div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                    </div>
+
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-md-12">
+                                    <div class="showhide">
+                                        <div style="margin-top:20px;" class="row">
+                                            <div style="color: cornflowerblue; margin: 20px 0;" ng-show="CandidateName">
+                                                <a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click='GetShowCandidate(x)'> Verify Candidate Details </a>
+                                            </div>
+                                            <div ng-show="CandidateName">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for=""> Candidate Name :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.StudName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Update Candidate Name :</label>
+                                                        <input type="text" class="form-control" id="AStudName" ng-model="ShowCandidate.AStudName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="A" ng-model="ShowCandidate.ReqStatus1StudName" ng-change="ChangeTextArea('A','StudName')" ng-disabled="ApproverRemarks1">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="R" ng-model="ShowCandidate.ReqStatus1StudName" ng-change="ChangeTextArea('R','StudName')" ng-disabled="ApproverRemarks1">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1StudName"></textarea>
+                                                </div>
+                                            </div>
+                                            <div ng-show="FatherName">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for=""> Father Name :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.FatherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Update Father Name :</label>
+                                                        <input type="text" class="form-control" id="FatherName" ng-model="ShowCandidate.AFatherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio2" value="A" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1FatherName" ng-change="ChangeTextArea('A','FatherName')" checked="checked">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio2" value="R" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1FatherName" ng-change="ChangeTextArea('R','FatherName')">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1FatherName"></textarea>
+                                                </div>
+                                            </div>
+                                            <div ng-show="MotherName">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for=""> Mother Name :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.MotherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Update Mother Name :</label>
+                                                        <input type="text" class="form-control" id="FatherName" ng-model="ShowCandidate.AMotherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio3" value="A" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1MotherName" ng-change="ChangeTextArea('A','MotherName')" checked="checked">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio3" value="R" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1MotherName" ng-change="ChangeTextArea('R','MotherName')">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1MotherName"></textarea>
+                                                </div>
+                                            </div>
+                                            <div ng-show="Gender">
+                                                <div class="col-md-4 col-md-offset-2">
+                                                    <div class="form-group">
+                                                        <label for=""> Gender :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.Gender" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Update Gender :</label>
+                                                        <input type="text" class="form-control" id="FatherName" ng-model="ShowCandidate.AGender" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio4" value="A" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1Gender" ng-change="ChangeTextArea('A',Gender)" checked="checked">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio4" value="R" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1Gender" ng-change="ChangeTextArea('R',Gender)">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1Gender"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button id="btnSubmit" type="button" class="btn btn-detail" ng-click="SaveNRCorrectionStatus()">Submit</button>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalVerify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                    </div>
+
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-md-12">
+                                    <div class="showhide">
+                                        <div style="margin-top:20px;" class="row">
+                                            <div style="color: cornflowerblue; margin: 20px 0;" ng-show="CollegeVisible==true">
+                                                <a href="#" ng-click="GetVerificationDetailsForApproval()" style=" font-weight: bold; display: inline-block;">Verify Candidate Details</a>
+                                            </div>
+                                            <div ng-show="CandidateName">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for=""> Candidate Name :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="StudData.StudName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Update Candidate Name :</label>
+                                                        <input type="text" class="form-control" id="AStudName" ng-model="ShowCandidate.AStudName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="A" ng-model="ShowCandidate.ReqStatus1StudName" ng-change="ChangeTextArea('A','StudName')" ng-disabled="ApproverRemarks1">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="R" ng-model="ShowCandidate.ReqStatus1StudName" ng-change="ChangeTextArea('R','StudName')" ng-disabled="ApproverRemarks1">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1StudName"></textarea>
+                                                </div>
+                                            </div>
+                                            <div ng-show="FatherName">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for=""> Father Name :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.FatherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Update Father Name :</label>
+                                                        <input type="text" class="form-control" id="FatherName" ng-model="ShowCandidate.AFatherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio2" value="A" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1FatherName" ng-change="ChangeTextArea('A','FatherName')" checked="checked">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio2" value="R" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1FatherName" ng-change="ChangeTextArea('R','FatherName')">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1FatherName"></textarea>
+                                                </div>
+                                            </div>
+                                            <div ng-show="MotherName">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for=""> Mother Name :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.MotherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Update Mother Name :</label>
+                                                        <input type="text" class="form-control" id="FatherName" ng-model="ShowCandidate.AMotherName" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio3" value="A" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1MotherName" ng-change="ChangeTextArea('A','MotherName')" checked="checked">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio3" value="R" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1MotherName" ng-change="ChangeTextArea('R','MotherName')">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1MotherName"></textarea>
+                                                </div>
+                                            </div>
+                                            <div ng-show="Gender">
+                                                <div class="col-md-4 col-md-offset-2">
+                                                    <div class="form-group">
+                                                        <label for=""> Gender :</label>
+                                                        <input type="text" class="form-control" id="StudName" ng-model="ShowCandidate.Gender" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Update Gender :</label>
+                                                        <input type="text" class="form-control" id="FatherName" ng-model="ShowCandidate.AGender" ng-readonly="true">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio4" value="A" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1Gender" ng-change="ChangeTextArea('A',Gender)" checked="checked">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio4" value="R" ng-disabled="ApproverRemarks1" ng-model="ShowCandidate.ReqStatus1Gender" ng-change="ChangeTextArea('R',Gender)">
+                                                        <span>Reject</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks1" id="ProcessRemark" ng-model="ShowCandidate.ReqRemark1Gender"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button id="btnSubmit" type="button" class="btn btn-detail" ng-click="SaveNRCorrectionStatus()">Submit</button>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    
+</body>
+</html>

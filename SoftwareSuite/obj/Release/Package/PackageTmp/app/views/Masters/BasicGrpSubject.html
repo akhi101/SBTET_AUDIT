@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Group Subject </title>
+</head>
+<body>
+    <div ng-controller="BasicGrpSubjectController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Group Subject</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Group Subject</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Stream:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.CourseID" id="CourseID" ng-change="GetBranch(BasicGrpSubject.CourseID)">
+                                            <option value="">-- Select Stream--</option>
+                                            <option ng-selected="BasicGrpSubject.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="pwd"> Exam:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.ExamID" id="ExamID" ng-change="GetExamSubject(BasicGrpSubject.ExamID)">
+                                            <option value="">-- Select Exam --</option>
+                                            <option ng-selected="BasicGrpSubject.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="pwd"> Branch:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.BranchID" id="BranchID" ng-change="GetMainGroup(BasicGrpSubject.CourseID,BasicGrpSubject.BranchID)">
+                                            <option value="">-- Select Branch --</option>
+                                            <option ng-selected="BasicGrpSubject.BranchID == option.BranchID" ng-repeat="option in BasicBranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Main Group:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.MainGrpID" id="MainGrpID" ng-change="GetSubGroup(BasicGrpSubject.MainGrpID)">
+                                            <option value="">--Select Main Group --</option>
+                                            <option ng-selected="BasicGrpSubject.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="pwd"> Subject:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.ExmSubID" id="ExmSubID">
+                                            <option value="">--Select Subject --</option>
+                                            <option ng-selected="BasicGrpSubject.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="MaxNoOfPaper">Max No Of Papaer:</label>
+                                        <input type="text" class="form-control" ng-model="BasicGrpSubject.MaxPaper" id="MaxPaper">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="MinNoOfPaper">Min No Of Papaer:</label>
+                                        <input type="text" class="form-control" ng-model="BasicGrpSubject.MinPaper" id="MinPaper">
+                                     </div>
+                                    </div>
+                                    <div style="margin-top: 22px;" class="col-md-3">
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicGrpSubject()">Save</button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicGrpSubject()">Delete</button>
+                                        <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+
+      <!--  <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="heading_icon"></span><b> Group Subject</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Stream:</label>
+                                            <select class="form-control" ng-model="BasicGrpSubject.CourseID" id="CourseID" ng-change="GetBranch(BasicGrpSubject.CourseID)">
+                                                <option value="">-- Select Stream--</option>
+                                                <option ng-selected="BasicGrpSubject.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd"> Exam:</label>
+                                            <select class="form-control" ng-model="BasicGrpSubject.ExamID" id="ExamID" ng-change="GetExamSubject(BasicGrpSubject.ExamID)">
+                                                <option value="">-- Select Exam --</option>
+                                                <option ng-selected="BasicGrpSubject.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd"> Branch:</label>
+                                            <select class="form-control" ng-model="BasicGrpSubject.BranchID" id="BranchID" ng-change="GetMainGroup(BasicGrpSubject.CourseID,BasicGrpSubject.BranchID)">
+                                                <option value="">-- Select Branch --</option>
+                                                <option ng-selected="BasicGrpSubject.BranchID == option.BranchID" ng-repeat="option in BasicBranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Main Group:</label>
+                                            <select class="form-control" ng-model="BasicGrpSubject.MainGrpID" id="MainGrpID" ng-change="GetSubGroup(BasicGrpSubject.MainGrpID)">
+                                                <option value="">--Select Main Group --</option>
+                                                <option ng-selected="BasicGrpSubject.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd"> Subject:</label>
+                                            <select class="form-control" ng-model="BasicGrpSubject.ExmSubID" id="ExmSubID">
+                                                <option value="">--Select Subject --</option>
+                                                <option ng-selected="BasicGrpSubject.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="MaxNoOfPaper">Max No Of Papaer:</label>
+                                            <input type="text" class="form-control" ng-model="BasicGrpSubject.MaxPapaer" id="MaxPapaer">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="MinNoOfPaper">Min No Of Papaer:</label>
+                                            <input type="text" class="form-control" ng-model="BasicGrpSubject.MinPapaer" id="MinPapaer">
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="email">Subject Group:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.SubGrpID" id="SubGrpID" ng-disabled="DisbaleSubGroup">
+                                            <option value="">--Select Group Subject --</option>
+                                            <option ng-selected="BasicGrpSubject.SubGrpID == option.SubGrpID" ng-repeat="option in BasicSubGroupList" value="{{option.SubGrpID}}">{{option.SubGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                                    <!--<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="pwd"> Subject:</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.ExmSubID" id="ExmSubID">
+                                            <option value="">--Select Subject --</option>
+                                            <option ng-selected="BasicGrpSubject.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="sel1">Type :</label>
+                                        <select class="form-control" ng-model="BasicGrpSubject.SubjectType" id="SubjectType">
+                                            <option value="">--Select Subject Type--</option>
+                                            <option value="C">Complsory</option>
+                                            <option value="O">Optional</option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                               <!-- </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+                            <center>
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicGrpSubject()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicGrpSubject()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+
+</body>
+</html>

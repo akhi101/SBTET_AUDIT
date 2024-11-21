@@ -1,0 +1,351 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+
+ 
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+    span {
+        color: white !important;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+   
+
+</style>
+
+<div ng-controller="CcicRegisterController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container containercontent">
+            <section class="content-header">
+                <h5>Register</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/CcicDashboard/Academic">Academic</a></li>
+                    <li><a href="#!/CcicDashboard/Academic/Register">Register</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container containercontent">
+
+
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+
+
+            <div class="tab-content containercontent">
+
+
+                <div class="col-md-12 containercontent" ng-show="DropDownTable">
+                    <div class="cl-details">
+                        <h2>Register</h2>
+
+                    </div>
+                </div>
+                <div class="col-md-12 containercontent" style="padding-bottom:100px;">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Academic Year :</label>
+                                    <select class="form-control " ng-model="academicYear" name="AcademicYear" required>
+                                        <option value="" selected="selected">Select Year</option>
+                                        <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicAcademicYears" class="">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                        <!--<option value=1>1</option>
+                <option value=2>2</option>-->
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-3 form-group">
+                                <label class="font-weight-bold"> Batch:</label>
+                                <select class="form-control" ng-model="batch" name="BatchType" required>
+                                    <option value="" selected="selected">Select Batch</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 pull-left">
+                                <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="getAdminRegisterReportCount(academicYear,batch)">
+                                    Get Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="notifylabel" ng-if="AdmRegisterReportInsCountTable.length>0" for="sel1" style="color: red;top:130px">Double Click on Row to get Course wise Details</label>
+
+                    <div class="col-md-12" ng-if="loading">
+                        <!--<div class="sm-spacer"></div>-->
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-if="NoData">
+                        <div class="col-md-12 no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-custom-tables-tb" id="RegisterDetails" ng-if="AdmRegisterReportInsCountTable.length>0">
+                        <table class="table table-bordered table-hover table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+
+                                    <!--<th>InstitutionCode</th>-->
+                                    <th>Institution</th>
+                                    <th>Enrolled</th>
+                                    <th>Submitted</th>
+                                    <th>Approved</th>
+                                    <th>Pending</th>
+                                    <th>Revised</th>
+                                    <th>Rejected</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Data in AdmRegisterReportInsCountTable|orderBy:sortKey:reverse|filter:search" ng-click="showAdminRegisterCoursesCount(Data.InstitutionID,academicYear,batch,Data.Institution)">
+
+                                    <!--<td>{{Data.InstitutionCode}}</td>-->
+                                    <td>{{Data.Institution}}</td>
+                                    <td><b>{{Data.Enrolled}}</></b></td>
+                                    <td><b>{{Data.Submitted}}</b></td>
+                                    <td><b>{{Data.Approved}}</b></td>
+                                    <td><b>{{Data.Pending}}</b></td>
+                                    <td><b>{{Data.Revised}}</b></td>
+                                    <td><b>{{Data.Rejected}}</b></td>
+                                </tr>
+                                <tr style="font-weight:bold">
+                                    <td colspan="1" class="text-centre" style="padding-left:300px">Total</td>
+                                    <td>{{Enrolled}}</td>
+                                    <td>{{Submitted}}</td>
+                                    <td>{{Approved}}</td>
+                                    <td>{{Pending}}</td>
+                                    <td>{{Revised}}</td>
+                                    <td>{{Rejected}}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="table-responsive table-custom-tables-tb" id="RegisterDetails" ng-if="RegisterCoursesCountTable.length>0">
+                        <table class="table table-bordered table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th>CourseCode</th>
+                                    <th>Intake</th>
+                                    <th>Enrolled</th>
+                                    <th>Submitted</th>
+                                    <th>Approved</th>
+                                    <th>Pending</th>
+                                    <th>Revised</th>
+                                    <th>Rejected</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Data in RegisterCoursesCountTable|orderBy:sortKey:reverse|filter:search">
+
+                                    <td>{{Data.CourseCode}}</td>
+                                    <td>{{Data.Intake}}</td>
+                                    <td><b><a class="Verify" ng-click="UserDetails(Data.InstitutionID,Data.CourseID,1,academicYear,batch)">{{Data.Enrolled == null ?'--':Data.Enrolled}}</a></b></td>
+                                    <td><b><a class="Verify" ng-click="UserDetails(Data.InstitutionID,Data.CourseID,2,academicYear,batch)">{{Data.Submitted == null ?'--':Data.Submitted}}</a></b></td>
+                                    <td><b><a class="Verify" ng-click="UserDetails(Data.InstitutionID,Data.CourseID,3,academicYear,batch)">{{Data.Approved == null ?'--':Data.Approved}}</a></b></td>
+                                    <td><b><a class="Verify" ng-click="UserDetails(Data.InstitutionID,Data.CourseID,4,academicYear,batch)">{{Data.Pending == null ?'--':Data.Pending}}</a></b></td>
+                                    <td><b><a class="Verify" ng-click="UserDetails(Data.InstitutionID,Data.CourseID,5,academicYear,batch)">{{Data.Revised == null ?'--':Data.Revised}}</a></b></td>
+                                    <td><b><a class="Verify" ng-click="UserDetails(Data.InstitutionID,Data.CourseID,6,academicYear,batch)">{{Data.Rejected == null ?'--':Data.Rejected}}</a></b></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="sm-spacer"></div>
+                <div class="sm-spacer"></div>
+            </div>
+
+
+
+
+
+    </div>
+
+</div>

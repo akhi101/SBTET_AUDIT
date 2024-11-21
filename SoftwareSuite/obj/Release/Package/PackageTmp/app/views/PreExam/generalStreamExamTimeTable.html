@@ -1,0 +1,138 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>General Stream Exam Time Table </strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>General Stream Exam Time Table Approval</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="generalStreamExamTimeTableController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="generalStreamExamTimeTableForm">
+                <div class="row">
+                    <div class="col-md-3">
+                        <sa-select ng-model="generalexamTimeTableDetail.CourseID" object="generalexamTimeTableDetail.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="generalexamTimeTableDetail.ExamID" object="generalexamTimeTableDetail.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="generalexamTimeTableDetail.TTFlag" object="generalexamTimeTableDetail.TTFlag" options="basicExamDays" displaycolumn="TTFlagName" valuecolumn="TTFlag" objectname="TTFlag" objecttext="Exam Day" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3" style="margin-top:22px;">
+                        <div class="col-md-3">
+                            <button ng-click="showGeneralExamTimeTableDetails()" class="btn btn-detail btn-sm"> Show </button>
+                            <!--<sa-select ng-model="generalexamTimeTableDetail.TTFlag" object="generalexamTimeTableDetail.TTFlag" options="basicExamDays" displaycolumn="TTFlagName" valuecolumn="TTFlag" objectname="TTFlag" objecttext="Exam Day" compulsory="true"> </sa-select>-->
+                        </div>
+                    </div>
+
+
+
+                    <!--<div class="col-md-3">
+                        <sa-select ng-model="vocbridgeorotherSubjectexamTimeTableApprovalDetail.MainGrpID" object="vocbridgeorotherSubjectexamTimeTableApprovalDetail.MainGrpID" options="basicMainGroups" displaycolumn="MainGrpName" valuecolumn="MainGrpID" objectname="MainGrpID" objecttext="Main Group Name" compulsory="true"> </sa-select>
+                    </div>-->
+                    <!--<div class="col-md-2">
+                        <sa-select ng-model="vocationalexamTimeTableApprovalDetail.BranchID" object="vocationalexamTimeTableApprovalDetail.BranchID" options="basicBranches" displaycolumn="BranchName" valuecolumn="BranchID" objectname="BranchID" objecttext="Branch"> </sa-select>
+                    </div>-->
+                    <!--<div style="margin-top:22px;" class="col-md-1">
+                        <button ng-click="showGeneralExamTimeTableDetails()" class="btn btn-detail btn-sm"> Show </button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-1">
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>-->
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"style="margin-top:26px;">
+                        <sa-date-rng ng-model="generalexamTimeTableDetail.StartDate" object="generalexamTimeTableDetail.StartDate" objectname="StartDate" length="100" compulsory="false" ispascal="true" objecttext="Exam Date"> </sa-date-rng>
+                    </div>
+                    <div class="col-md-2"style="margin-top:26px;">
+                        <sa-select ng-model="generalexamTimeTableDetail.ExamSession" object="generalexamTimeTableDetail.ExamSession" options="examSessions" displaycolumn="examSessionName" valuecolumn="examSession" objectname="examSession" objecttext="Exam Session"></sa-select>
+                    </div><br /><br />
+                    <div class="col-md-2">
+                        <label>&nbsp;&nbsp;</label>
+                        <label>Start Time</label>
+                        <sa-time ng-model="generalexamTimeTableDetail.StartTime" object="generalexamTimeTableDetail.StartTime" objectname="StartTime" ispascal="true" compulsory="true" objecttext="Start Time"> </sa-time>
+                    </div>
+                    <div class="col-md-2">
+                        <label>&nbsp;&nbsp;</label>
+                        <label>End Time</label>
+                        <sa-time ng-model="generalexamTimeTableDetail.EndTime" object="generalexamTimeTableDetail.EndTime" objectname="EndTime" ispascal="true" compulsory="true" objecttext="End Time"> </sa-time>
+                    </div>
+                </div>
+                <!--<div style="margin-top:22px;" class="col-md-6 text-right">
+                    <button ng-click="SaveGeneralExamTimetable()" class="btn btn-detail btn-sm"> Save </button>
+                </div>-->
+
+
+
+                <div ng-show="generalexamTimeTableDetails.length>0">
+                    <div class="row">
+                        <hr />
+                        <div class="col-md-8 col-md-offset-2">
+                            <table class="table table-bordered table-responsive rspan">
+                                <thead>
+                                    <tr>
+                                        <th>Subject Code</th>
+                                        <th>Subject</th>
+                                        <th>Exam Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <!--<th>Exam session</th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="generalexamTimeTableDetail in generalexamTimeTableDetails">
+                                        <td>
+                                            {{generalexamTimeTableDetail.ExmSubCode}}
+                                        </td>
+                                        <td>
+                                            {{generalexamTimeTableDetail.ExmSubName}}
+                                        </td>
+                                        <td>
+                                            {{generalexamTimeTableDetail.StartDate | date: "MMMM d, y"}}
+                                        </td>
+                                        <td>
+                                            {{generalexamTimeTableDetail.StartTime | date:'shortTime'}}
+                                        </td>
+                                        <td>
+                                            {{generalexamTimeTableDetail.EndTime | date:'shortTime'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <!--<form name="vocationalexamTimeTableApprovaleApprovalForm">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-md-3 col-md-offset-2">
+                        <sa-select ng-model="vocbridgeorotherSubjectexamTimeTableApprovalDetail.ApprovalFlag" object="vocbridgeorotherSubjectexamTimeTableApprovalDetail.ApprovalFlag" options="approveStatus" displaycolumn="statusNm" valuecolumn="approveFlag" objectname="approveFlag" objecttext="Approval Status" compulsory="true"> </sa-select>
+                    </div>-->
+                    <!--<div style="margin-top:22px;" class="col-md-2">
+                        <button ng-click="SaveGeneralExamTimetable()" class="btn btn-detail btn-sm">Save</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>-->
+                    <!--<div style="margin-top:22px;" class="col-md-2">
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>-->
+                    <!--</div>-->
+                    <!--</form>-->
+                </div>
+                <div style="margin-top:22px;" class="col-md-6 text-right" ng-show="generalexamTimeTableDetails.length>0">
+                    <button ng-click="SaveGeneralExamTimetable()" class="btn btn-detail btn-sm"> Save </button>
+                    <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

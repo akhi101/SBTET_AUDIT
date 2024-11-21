@@ -1,0 +1,168 @@
+﻿<style>
+    .spacer{
+        height:70px;
+    }
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+   position:sticky;
+   top:0px;
+   
+}
+</style>
+<div ng-controller="CategoryReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Category Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard"> Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/CategoryReports"> Category Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container">
+            <div class="col-md-12" ng-if="userType== 1">
+                <a href="#!/Dashboard/AdmissionDashboard/AdminCategoryReports" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="col-md-12" ng-if="userType== 2 || userType== 3">
+                <a href="#!/Dashboard/AdmissionDashboard" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-3" style="padding-left: 30px;">
+                    <div class="form-group">
+                        <label class="font-weight-bold"> Academic Year :</label>
+                        <select class="form-control" id="designationid" ng-model="academicYear"
+                                ng-options="data.AcademicID as data.AcademicYear for data in GetAcademicYears">
+                            <option value="" selected>Select Year</option>
+                        </select>
+                        
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-3 pull-left">
+                    <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="getadmincategory()">
+                        Get Details
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right" ng-show="result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="result">
+                <div class="cl-details">
+                    <h2>Category Reports</h2>
+                </div>
+
+
+                <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S.No</th>
+                                <th>College Code</th>
+                                <th>Scheme Id</th>
+                                <th>Sem Id</th>
+                                <th>Branch Id</th>
+                                <th>On Roll</th>
+                                <th>OC(M)</th>
+                                <th>OC(F)</th>
+                                <th>SC(M)</th>
+                                <th>SC(F)</th>
+                                <th>ST(M)</th>
+                                <th>ST(F)</th>
+                                <th>BC-A(M)</th>
+                                <th>BC-A-F</th>
+                                <th>BC-B(M)</th>
+                                <th>BC-B-F</th>
+                                <th>BC-C(M)</th>
+                                <th>BC-C(F)</th>
+                                <th>BC-D(M)</th>
+                                <th>BC-D(F)</th>
+                                <th>BC-E(M)</th>
+                                <th>BC-E(F)</th>
+                                <th>NA(M)</th>
+                                <th>NA(F)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in CollegeCategories track by $index">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.CollegeCode}} </td>
+                                <td>{{x.Scheme}}</td>
+                                <td>{{x.Semester}}</td>
+                                <td>{{x.BranchCode}}</td>
+                                
+                                <td ng-click="openOnroll(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.onroll}} </td>
+                                <td ng-click="openOcM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.Oc_M}}</td>
+                                <td ng-click="openOcF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.Oc_F}}</td>
+                                <td ng-click="openScM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.Sc_M}}</td>
+                                <td ng-click="openScF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.Sc_F}} </td>
+                                <td ng-click="openStM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.St_M }}</td>
+                                <td ng-click="openStF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.St_F}}</td>
+                                <td ng-click="openBCAM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_A_M}}</td>
+                                <td ng-click="openBCAF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_A_F}}</td>
+                                <td ng-click="openBCBM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_B_M}}</td>
+                                <td ng-click="openBCBF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_B_F}}</td>
+                                <td ng-click="openBCCM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_C_M}}</td>
+                                <td ng-click="openBCCF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_C_F}}</td>
+                                <td ng-click="openBCDM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_D_M}}</td>
+                                <td ng-click="openBCDF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_D_F}}</td>
+                                <td ng-click="openBCEM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_E_M}}</td>
+                                <td ng-click="openBCEF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.BC_E_F}}</td>
+                                <td ng-click="openNaM(x,1)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.NA_M}}</>
+                                <td ng-click="openNaF(x,2)" style="font-weight:bold;text-decoration:underline;text-align:center;color: #1976d2;">{{x.NA_F}}</>
+                            </tr>
+                            <tr style="font-weight:bold!important;">
+                                <td colspan="5" class="text-center">Total</td>
+                                <td class="text-center">{{onroll}}</td>
+                                <td class="text-center">{{Oc_M}}</td>
+                                <td class="text-center">{{Oc_F}}</td>
+                                <td class="text-center">{{Sc_M}}</td>
+                                <td class="text-center">{{Sc_F}} </td>
+                                <td class="text-center">{{St_M }}</td>
+                                <td class="text-center">{{St_F}}</td>
+                                <td class="text-center">{{BC_A_M}}</td>
+                                <td class="text-center">{{BC_A_F}}</td>
+                                <td class="text-center">{{BC_B_M}}</td>
+                                <td class="text-center">{{BC_B_F}}</td>
+                                <td class="text-center">{{BC_C_M}}</td>
+                                <td class="text-center">{{BC_C_F}}</td>
+                                <td class="text-center">{{BC_D_M}}</td>
+                                <td class="text-center">{{BC_D_F}}</td>
+                                <td class="text-center">{{BC_E_M}}</td>
+                                <td class="text-center">{{BC_E_F}}</td>
+                                <td class="text-center">{{NA_M}}</td>
+                                <td class="text-center">{{NA_F}}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

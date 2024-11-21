@@ -1,0 +1,40 @@
+﻿<div class="container" >
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Exam Time Table Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Exam Time Table Report</li>
+            </ol>
+        </div>
+    </div>
+  
+    <div class="row base-row" ng-controller="examTimeTableReportController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="examTimeTableForm" ng-submit="getExamTimeTable()">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="examTimeTableDetail.CourseID" object="examTimeTableDetail.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="examTimeTableDetail.ExamID" object="examTimeTableDetail.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <!--<div class="col-md-2">
+            <sa-select ng-model="examTimeTableDetail.BranchID" object="examTimeTableDetail.BranchID" options="basicBranches" displaycolumn="BranchName" valuecolumn="BranchID" objectname="BranchID" objecttext="Branch"> </sa-select>
+        </div>-->
+                    <div style="margin-top:22px;" class="col-md-3">
+                        <button type="submit" class="btn btn-detail btn-sm">Get Time Table</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

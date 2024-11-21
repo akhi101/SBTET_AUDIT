@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Attach College To Center</title>
+    <style>
+        .table > tbody > tr > td{
+            text-align:left !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="AttachCollegeToPreZoneCenterController">
+        <!-- New Style Start-->
+        <div class="container">
+
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Attach College To Center</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>Attach College To Center</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-3 col-md-offset-1">
+                                <div class="form-group">
+                                    <label for="sel1">Select District :</label>
+                                    <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.DistrictID" id="DistrictID" ng-change="GetPreZoneData(AttachCollegeToPreZoneCenter.DistrictID)">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="AttachCollegeToPreZoneCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Select Zone :</label>
+                                    <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.ZoneID" id="ZoneID" ng-change="FillPreZoneCenter(AttachCollegeToPreZoneCenter.ZoneID)">
+                                        <option value="">--Select Zone --</option>
+                                        <option ng-selected="AttachCollegeToPreZoneCenter.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Select Center :</label>
+                                    <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.PreZoneCntrID" id="PreZoneCntrID" ng-change="FillPreZoneCollege()">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="AttachCollegeToPreZoneCenter.PreZoneCntrID == option.PreZoneCntrID" ng-repeat="option in PreZoneCenterList" value="{{option.PreZoneCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Capacity :</label>
+                                    <input type="text" class="form-control" id="Count" ng-model="AttachCollegeToPreZoneCenter.ExamCapacity" style="text-align:right" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div style="font-size: 16px; color: #3d7eaa; font-weight: 700;" class="col-md-12 text-center">
+                                College List
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <table style="font-size:12px;" class="table table-hover table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Check</th>
+                                            <th>College Code</th>
+                                            <th>College Name</th>
+                                            <th>Management Name</th>
+                                            <th>College Type</th>
+                                            <th>I Year Gen</th>
+                                            <th>I Year Voc</th>
+                                            <th>II Year Gen</th>
+                                            <th>II Year Voc</th>
+                                            <th>40 % Extra</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="PreZoneClg in PreZoneClgList | filter:search | filter:new_search" ng-click="rowClicked(PreZoneClg)">
+                                            <td>{{PreZoneClg.SrNo}}</td>
+                                            <td><input type="checkbox" ng-model="PreZoneClg.CollegeCheck"></td>
+                                            <td>{{PreZoneClg.ColCode}}</td>
+                                            <td>{{PreZoneClg.ColName}}</td>
+                                            <td>{{PreZoneClg.MngtName}}</td>
+                                            <td>{{PreZoneClg.CollegeType}}</td>
+                                            <td>{{PreZoneClg.IyearGen}}</td>
+                                            <td>{{PreZoneClg.IYearVoc}}</td>
+                                            <td>{{PreZoneClg.IIYearGen}}</td>
+                                            <td>{{PreZoneClg.IIYearVoc}}</td>
+                                            <td>{{PreZoneClg.IYearExtra}}</td>
+
+                                        </tr>
+                                        <tr ng-repeat="PreZoneClgTotal in PreZoneClgTotalList | filter:search | filter:new_search">
+                                            <td colspan="6" style="text-align:right !important; font-weight:700;">Total</td>
+                                            <td>{{PreZoneClgTotal.TotalIyearGen}}</td>
+                                            <td>{{PreZoneClgTotal.TotalIYearVoc}}</td>
+                                            <td>{{PreZoneClgTotal.TotalIIYearGen}}</td>
+                                            <td>{{PreZoneClgTotal.TotalIIYearVoc}}</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr />
+                                <label for="sel1" style="color:red;">1.College Selected as the Center, Student of the same colleges are not allowed to appear from the same Center.</label>
+                                <label for="sel1" style="color:red;">2.The colleges of the same Management that of Exam Center will not be allowed to link with the Center.</label>
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                                <button type="button" ng-click="SaveAttachCollegeToPreZoneCenter()" class="btn btn-sm btn-detail" ng-disabled="isupdatableDisable">Save</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <!-- New Style End-->
+        <!--<div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b>Attach College To Center </b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">District :</label>
+                                <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.DistrictID" id="DistrictID" ng-change="GetPreZoneData(AttachCollegeToPreZoneCenter.DistrictID)">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="AttachCollegeToPreZoneCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>-->
+                            <!--<div class="form-group">
+                            <label for="sel1">Mandal :</label>
+                            <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.MandalID" id="MandalID" ng-change="GetPreZoneData(AttachCollegeToPreZoneCenter.DistrictID,AttachCollegeToPreZoneCenter.MandalID)">
+                                <option value="">--Select Mandal --</option>
+                                <option ng-selected="AttachCollegeToPreZoneCenter.MandalID == option.MandalID" ng-repeat="option in BasicMandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                            </select>
+                        </div>-->
+                           <!-- <div class="form-group">
+                                <label for="sel1">Zone :</label>
+                                <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.ZoneID" id="ZoneID" ng-change="FillPreZoneCenter(AttachCollegeToPreZoneCenter.ZoneID)">
+                                    <option value="">--Select Zone --</option>
+                                    <option ng-selected="AttachCollegeToPreZoneCenter.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                </select>
+                            </div>-->
+                            <!--<div class="form-group">
+                                <label for="sel1">Type :</label>
+                                <select class="form-control" id="sel1" ng-model="AttachCollegeToPreZoneCenter.TheoryPract" ng-change="FillPreZoneCollege()">
+                                    <option value="">---Select---</option>
+                                    <option value="T">Theory</option>
+                                    <option value="P">Practical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">Stream :</label>
+                                <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.CourseID" id="DistrictID" ng-change="FillExam(AttachCollegeToPreZoneCenter.CourseID)">
+                                    <option value="">--Select Stream --</option>
+                                    <option ng-selected="AttachCollegeToPreZoneCenter.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>
+                            </div>-->
+                            <!--<div class="form-group">
+                            <label for="sel1">Exam :</label>
+                            <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.ExamID" id="ExamID" ng-change="FillPreZoneCenter(AttachCollegeToPreZoneCenter.ZoneID, AttachCollegeToPreZoneCenter.TheoryPract, AttachCollegeToPreZoneCenter.ExamID)">
+                                <option value="">--Select--</option>
+                                <option ng-selected="AttachCollegeToPreZoneCenter.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                            </select>
+                        </div>-->
+
+
+                      <!--  </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">Center :</label>
+                                <select class="form-control" ng-model="AttachCollegeToPreZoneCenter.PreZoneCntrID" id="PreZoneCntrID" ng-change="FillPreZoneCollege()">
+                                    <option value="">--Select--</option>
+                                    <option ng-selected="AttachCollegeToPreZoneCenter.PreZoneCntrID == option.PreZoneCntrID" ng-repeat="option in PreZoneCenterList" value="{{option.PreZoneCntrID}}">{{option.ColName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <div class="col-lg-2">
+                                        <label>Capacity :</label>
+                                    </div>
+                                    <input type="text" class="col-lg-2" id="Count" ng-model="AttachCollegeToPreZoneCenter.ExamCapacity" style="text-align:right" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 table_top_border" style="margin-top:0px;">
+                            <center><span class="fa fa-university heading_icon table_heading"></span><b class="table_heading">College List</b></center>
+                        </div>
+                        <div>
+                            <div class="col-md-12 list_table" style="overflow-x: auto;">
+                                <div class="panel-body" style="padding-right:0px;padding-left:0px;padding-bottom:0px;">
+                                    <table class="table table-bordered table-hover table-condensed">
+                                        <thead>
+                                            <tr style="font-weight:bold">
+                                                <td style="text-align:left; width:50px;">Sr. No.</td>
+                                                <td style="text-align:center; width:50px;">Check</td>
+                                                <td style="text-align:left; width:100px;">College Code</td>
+                                                <td style="text-align:left; width:300px;">College Name</td>
+                                                <td style="text-align:left; width:200px;">Management Name</td>
+                                                <td style="text-align:center; width:50px;">College Type</td>
+                                                <td style="text-align:left; width:100px;">I Year Gen</td>
+                                                <td style="text-align:left; width:100px;">I Year Voc</td>
+                                                <td style="text-align:center; width:50px;">40 % Extra</td>
+                                                <td style="text-align:left; width:100px;">II Year Gen</td>
+                                                <td style="text-align:left; width:100px;">II Year Voc</td>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="PreZoneClg in PreZoneClgList | filter:search | filter:new_search" ng-click="rowClicked(PreZoneClg)">
+                                            <td style="text-align:right;">{{PreZoneClg.SrNo}}</td>
+                                            <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="PreZoneClg.CollegeCheck"></td>
+                                            <td>{{PreZoneClg.ColCode}}</td>
+                                            <td>{{PreZoneClg.ColName}}</td>
+                                            <td>{{PreZoneClg.MngtName}}</td>
+                                            <td style="text-align:left;">{{PreZoneClg.CollegeType}}</td>
+                                            <td style="text-align:right;">{{PreZoneClg.IyearGen}}</td>
+                                            <td style="text-align:right;">{{PreZoneClg.IYearVoc}}</td>
+                                            <td style="text-align:left;">{{PreZoneClg.IYearExtra}}</td>
+                                            <td style="text-align:right;">{{PreZoneClg.IIYearGen}}</td>
+                                            <td style="text-align:right;">{{PreZoneClg.IIYearVoc}}</td>
+                                        </tr>
+                                    </table>
+                                    <table class="table table-bordered table-hover table-condensed">
+                                        <thead>
+                                            <tr style="font-weight:bold"></tr>
+                                        </thead>
+                                        <tr ng-repeat="PreZoneClgTotal in PreZoneClgTotalList | filter:search | filter:new_search">
+                                            <td style="text-align:right; width:750px;">TOTAL</td>
+                                            <td style="text-align:right;">{{PreZoneClgTotal.TotalIyearGen}}</td>
+                                            <td style="text-align:right;">{{PreZoneClgTotal.TotalIYearVoc}}</td>
+                                            <td style="text-align:right;">{{PreZoneClgTotal.TotalIIYearGen}}</td>
+                                            <td style="text-align:right;">{{PreZoneClgTotal.TotalIIYearVoc}}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1" style="color:red;">1.College Selected as the Center, Student of the same colleges are not allowed to appear from the same Center.</label>
+                                    <label for="sel1" style="color:red;">2.The colleges of the same Management that of Exam Center will not be allowed to link with the Center.</label>
+                                </div>
+                                <div class="form-group text-center">
+                                    <div class="form-group" style="text-align: center;">
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveAttachCollegeToPreZoneCenter()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <!--<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteAttachCollegeToPreZoneCenterr()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>-->
+                                        <!--<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

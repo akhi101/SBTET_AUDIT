@@ -1,0 +1,183 @@
+﻿
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+</style>
+<div ng-controller="CommonAllowancesController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Common Allowance</h5>
+                
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PayRollDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        
+    </div>
+    <div>
+        <div class="container">
+            <div class="tab-pane">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label>
+                                            Department:
+                                        </label>
+                                        <select class="form-control" id="departmentid" ng-model="Department" ng-change="ChangeDepartment(Department)"
+                                                ng-options="data as data.DepartmentName for data in DepartmentData">
+                                            <option value="" selected>Select Department</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group col-md-4" ng-show="showDaGazetted">
+                                        <label>
+                                            DA (Gazetted)% :
+                                        </label>
+                                        <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter DA(Gazetted) Percentage" ng-model="DA_Gazetted">
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-4" ng-show="showDABS">
+                                        <label>
+                                            DA (Board Staff)% :
+                                        </label>
+                                        <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter DA(Board Staff) Percentage" ng-model="DA_BoardStaff">
+                                    </div>
+                                    <div class="form-group col-md-4" ng-show="showHRA">
+                                        <label>
+                                            HRA % :
+                                        </label>
+                                        <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter HRA Percentage" ng-model="HRA">
+                                    </div>
+
+                                    <div class="form-group col-md-4" ng-show="showIR">
+                                        <label>
+                                            IR %: :
+                                        </label>
+                                        <input class="form-control" type="text" maxlength="100" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter IR Percentage" ng-model="IR">
+                                    </div>
+
+
+                                    <div class="col-md-12" style="right:200px">
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-sm btn-primary  text-center  gr-button btn_top" ng-click="ADDAllowance()">
+                                                ADD
+                                                <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <td class="">
+                <table class="table table-responsive table-bordered" ng-if="AllowanceData.length>0">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center">Department</th>
+                            <th class="text-center">DA  %</th>
+                            <th class="text-center">HRA %</th>
+                            <th class="text-center" ng-show="showIR">IR %</th>
+                            <th class="text-center">Action</th>
+                            <th class="text-center">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in AllowanceData">
+                            <td class="text-center pointer">
+                                <div>
+                                    <select class="form-control tableinpt enabletable{{$index + 1}}" id="departmentid" ng-model="data.DepartmentID" disabled 
+                                            ng-options="data.DepartmentID as data.DepartmentName for data in DepartmentData">
+                                        <option value="" selected>Select Department</option>
+                                    </select>
+
+                                </div>
+                            </td>
+
+
+                            <td class="text-center pointer"><div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.DA" /></div></td>
+
+                            <td class="text-center pointer"><div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.HRA" /></div></td>
+                            <td class="text-center pointer" ng-show="showIR">
+                                <div>
+                                    <input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-disabled="disableir" ng-model="data.IR" />
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditAllowance(data,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdateAllowance(data,$index+1)">
+                                    Update
+                                </button>
+
+                            </td>
+                            <td style="text-align:center">
+                                <button class="btn-xs btn btn-success" title="Click here to Inactive" ng-click="ChangeAllowance(data.AllowanceID,data.DepartmentID,0)" ng-if="data.Active==1">Active</button>
+                                <button class="btn-xs btn btn-danger" title="Click here to Active" ng-click="ChangeAllowance(data.AllowanceID,data.DepartmentID,1)" ng-if="data.Active==0">InActive</button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+             </td>
+            </div>
+        </div>
+        <div class="spacer"></div>
+
+        
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div> 

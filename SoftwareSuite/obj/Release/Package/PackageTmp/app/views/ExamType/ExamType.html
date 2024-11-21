@@ -1,0 +1,224 @@
+﻿<style>
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+</style>
+<div ng-controller="ExamTypeController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="cl-details">
+                        <h2>Student Reports</h2>
+                    </div>
+                </div>
+                <form>
+                    <div class="row base-row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Academic Year:</label>
+                                <div class="">
+                                    <select class="form-control" name="Academic" ng-model="AcademicID" ng-change="myFunction1(AcademicID)">
+                                        <option value="" selected>Select AcademicYear</option>
+                                        <option ng-repeat="Acd in ActiveAcademicYear" value="{{Acd.AcademicID}}">
+                                            {{Acd.AcademicYear}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Semester:</label>
+                                <div class="">
+                                    <select class="form-control" name="semister" ng-model="semid" ng-change="myFunction(semid)" required>
+                                        <option value="" selected>Select Semester</option>
+                                        <option ng-repeat="sem in ActiveSemesters" value="{{sem.semid }}">
+                                            {{sem.semester}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Branches:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="CourseId" name="CourseId" ng-change="SetStartDate()" required>
+                                        <option value="" selected>Select Branch</option>
+                                        <option ng-repeat="data in Branches" value="{{data.CourseId}}">
+                                            {{data.Branch}}
+                                        </option>
+                                        <!--<L--  ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-detail" ng-click="getExamDetailes()">
+                                Show Results
+                            </button>
+                        </div>
+                    </div>
+                       
+                </form>
+                <div class="sm-spacer"></div>
+                <div class="col-md-12" ng-if="isShowResults">
+                    <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <!-- <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                    <th style="width: 2%;">S.No</th>
+                                    <th class="text-left" style="width: 10%" ng-click="sort('Branch')">SubjectId</th>
+                                    <th class="text-left" style="width: 10%" ng-click="sort('Branch')">SubjectCode</th>
+                                    <th class="text-left" style="width: 10%" ng-click="sort('Branch')">SubjectName</th>
+                                    <th class="text-left" style="width: 10%" ng-click="sort('Branch')">DateSet</th>
+                                    <th class="text-left" style="width: 10%" ng-click="sort('Branch')">StartTime</th>
+                                    <th class="text-left" style="width: 10%" ng-click="sort('Branch')">EndTime</th>
+
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color:#fff!important;" ng-repeat="x in getTimetable">
+                                    <!--<td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="isAllchecked" ng-change="selectEntity(x)"></td>-->
+                                    <td class="text-left">{{$index + 1}}</td>
+                                    <td class="text-left">{{x.SubjectId}}</td>
+                                    <td class="text-left">{{x.SubjectCode}}</td>
+                                    <td class="text-left">{{x.SubjectName}}</td>
+                                    <td>
+                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                            <input type="text" class="form-control" placeholder="selectdate" autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" ng-model="setdate" ng-change="addDates(x.SubjectId,setdate)" is-open="showFlag1" required />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                        </p>
+
+
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input type="time" id="exampleInput" name="input" ng-change="setStartTime(x.SubjectId,date.StartTime)" ng-model="date.StartTime"
+                                                   placeholder="HH:mm:ss" min="00:00:00" max="23:59:59" required />
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input type="time" id="example" name="input" ng-change="setEndTime(x.SubjectId,date.EndTime)" ng-model="date.EndTime"
+                                                   placeholder="HH:mm:ss" min="00:00:00" max="23:59:59" required />
+                                        </label>      
+                                    </td>
+                                    <!--<input type="time" id="exampleInput" name="input" ng-model="Time"
+                                           placeholder="HH:mm:ss"  required />
+                                    </td-->
+                                    <!--</td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="EnterTime" autocomplete="off" name="Time" ng-model="SetTime"  />
+
+
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-detail" ng-click="Savedate()">
+                                DateSet
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sm-spacer"></div>
+            <div class="col-md-12" ng-if="isShowResults1">
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+                    <table class="table table-bordered  table-striped table-rounded">
+
+                        <thead>
+                            <tr class="cb-1">
+                                <!--<!-- <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th style="width: 2%;">S.No</th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('Branch')">Academic Year </th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('Branch')">Semester</th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Branch</th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">SubjectCode</th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Date</th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('Branch')">StartTime</th>
+                                <th class="text-left" style="width: 10%" ng-click="sort('Branch')">EndTime</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color:#fff!important;" ng-repeat="Y in ExamPayment">
+                                <!--<td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="isAllchecked" ng-change="selectEntity(x)"></td>-->
+                                <td class="text-left">{{$index + 1}}</td>
+                                <td class="text-left">{{Y.AcademicYear}}</td>
+                                <td class="text-left">{{Y.Semester}}</td>
+                                <td class="text-left">{{Y.BranchCode}}</td>
+                                <td class="text-left">{{Y.SubjectCode}}</td>
+                                <td class="text-left">{{Y.ExamDate}}</td>
+                                <td class="text-left">{{Y.StartTime}}</td>
+                                <td class="text-left">{{Y.EndTime}}</td>
+
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="spacer"></div>
+    </section>
+</div>

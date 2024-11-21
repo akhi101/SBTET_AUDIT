@@ -1,0 +1,233 @@
+﻿<style>
+    .pull-left {
+    margin-top: 4px;
+}
+    .studentinfo {
+   
+    margin-top: 0px;
+    margin-bottom: 60px;
+    padding: 15px;
+   
+}
+    .table.table-bordered {
+    border: 1px solid #ddd !important;
+}
+
+      .print-cnt {
+            display: none;
+            page-break-after: auto;
+        }
+
+        .print:last-child {
+            page-break-after: auto;
+        }
+          .status_css{
+               color: red !important;
+        }
+         .image {
+             width :100% !important;
+             text-align: center !important;            
+            }
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .logo-name h2{
+                text-align:left;
+                margin-left:130px;
+                margin-top:-20px;
+                font-size: 25px !important;
+                line-height: 36px;
+            }
+            #idtoDivPrintAdmin {
+	            display: flex;
+	            flex-direction: row;
+	            flex-wrap: wrap;
+	            justify-content: center;
+	            align-items: center;
+	            align-content: center;
+            }
+            #printSection, #printSection * {
+                visibility: visible;
+                justify-content:center;
+                align-items:center;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .print-cnt {
+                display: block;
+                page-break-after: auto;
+            }
+</style>
+<div ng-controller="TypingCumShorthandResultsController"  id="studentresult1">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Shorthand Results </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/ResultsDashboard"><i class="fa fa-dashboard"></i> DashBoard</a></li>
+                    <li><a href="#!/ResultsDashboard/ShorthandResult">Shorthand Results</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="row  studentinfo">
+               
+                    <div class="studWishinputs">
+                        <div class="alert alert-info">
+                            <div class="row">                               
+                                <div class="form-group col-md-3">
+                                    <label for="sel1">
+                                        Hall Ticket Number :
+                                    </label>
+                                    <input class="form-control" type="text"  ng-model="StudentHallTicket" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="gr-btn">
+                                        <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="Submit()">Get Result<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>                          
+
+                        </div>
+                  
+                </div>
+                <!--<div style="width: 100%; text-align: center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>-->
+                <div class="widget-container row" ng-show="StudentDetailsFound">
+                    <div class="col-md-3">
+
+                    </div>
+                        <div class="col-md-6">
+                            <div class="common-box c3">
+                                <span class="my-icon">
+                                    <i class="fa fa-keyboard-o" aria-hidden="true"></i>
+                                </span>
+
+                                <h2>Hall Ticket Number</h2>
+                                <h1>{{StudentHallTicket}}</h1>
+                            </div>
+                        </div>
+                    <div class="col-md-3">
+
+                    </div>
+
+
+                    </div>
+
+                <div class="row"  ng-show="StudentDetailsFound">
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="down-foramt">
+                                <div class="col-md-4 hidden">
+                                    <label for="sel1">
+                                        Download Format :
+                                    </label>
+                                </div>
+                                <div class="col-md-5 form-group hidden">
+
+                                   
+                                </div>
+                                 <div class="col-md-3">
+                                  
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 pull-right" ng-show="StudentDetailsFound">
+                        <div class="pt-btn">
+                            <button type="button" class="btn btn-sm btn-primary ptr-button" ng-click="PrintStudentResult()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="StudentDetailsFound" id="idtoDivPrintAdmin">
+                   
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-12">
+                                <div class="logo-img">
+                                    <img src="/contents/img/big-logo.png" />
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-12">
+                                <div class="logo-name">
+                                    <h2>
+                                        STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                    </h2>
+                                    <!--<h2 class="hidden"><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br /><p style="text-align: center">TELANGANA</p></h2>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="card-title">
+                            <h2>Marks Card {{CardYear}}</h2>
+                        </div>
+                    <div class="table-responsive customtable ">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Hall Ticket No</th>
+                                    <th>Name</th>
+                                    <th>Subject Name</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>{{report.HTNO ==null?'-':report.HTNO}}</td>
+                                    <td>{{report.C_NAME ==null?'-':report.C_NAME}}</td>
+                                    <td>{{report.SUBNAME ==null?'-':report.SUBNAME}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th> P1 Marks</th>
+                                    <th>P2 Marks</th>
+                                    <th>Result</th>
+                                    <th>Division</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{report.P1_MKS ==null?'-':report.P1_MKS}}</td>
+                                    <td>{{report.P2_MKS ==null?'-':report.P2_MKS}}</td>
+                                    <td>{{report.RESULT ==null?'-':report.RESULT}}</td>
+                                    <td>{{report.DIVISION ==null?'-':report.DIVISION}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+

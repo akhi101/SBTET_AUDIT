@@ -1,0 +1,226 @@
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+</style>
+<div ng-controller="TwshAcademicYearSettingController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>-->
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Academic Year Setting</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">Type Writing</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/AcademicYearSetting">Academic Year Setting</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content">
+
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold"> Start of Academic Year :</label> <input autocomplete="off" class="form-control" type="text" ng-model="StartYear" ng-change="UpdateAcaYear(StartYear)" placeholder="Select Academic Year" id="example1">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">Academic Year :</label> <input autocomplete="off" class="form-control" type="text" ng-model="AcademicYear" disabled placeholder="Academic Year">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">Start date:</label> <input autocomplete="off" class="form-control" type="date" ng-model="StartDate" placeholder="Select Start Date">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">End date:</label> <input autocomplete="off" class="form-control" type="date" ng-model="EndDate" placeholder="Select End Date">
+                                </div>
+                                <!--<div class="col-md-3 form-group">
+                                <label class="font-weight-bold">ReAdmission End date:</label> <input autocomplete="off" class="form-control" type="date" ng-model="ReAdmissionEndDate" placeholder="Select ReAdmission End Date">
+                            </div>-->
+                                <!--<div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Scheme Name</label>
+                                    <input type="text" style="resize:none" class="form-control" ng-model="Scheme" name="Semester" />
+                                </div>
+                            </div>-->
+
+                                <div class="col-md-12 pull-left">
+                                    <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="Submit()">
+                                        Create
+                                    </button>
+                                    <!--<button type="submit" class="btn pull-left btn-success btn-css" ng-click="update()" ng-if="UpdateData">
+                                    Update
+                                </button>-->
+                                </div>
+                                <!--<div class="col-md-4 pull-left">
+
+                            </div>-->
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+       
+        <div class="container">
+            <div class="col-md-12" ng-if="loading">
+                <div class="sm-spacer"></div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                </div>
+            </div>
+
+            <div class="col-md-12" ng-if="NoData">
+                <div class="col-md-12 no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Data</h2>
+                </div>
+            </div>
+            <div  ng-if="GetExamMonthYear.length>0">
+                <div class="cl-details">
+                    <h2>Academic Years</h2>
+                </div>
+
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="5%">S.No</th>
+                                <th width="10%" class="text-center">Year</th>
+                                <th width="15%" class="text-center">Academic Year</th>
+                                <th width="15%" class="text-center">Start Date</th>
+                                <th width="15%" class="text-center">End Date</th>
+                                <th width="15%" class="text-center">Current Academic Year</th>
+                                <th width="15%" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in GetExamMonthYear">
+                                <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.AcademicStartYear" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.AcademicYear" /></td>
+                                <td class="text-center pointer" style="padding: 3px;">
+                                    <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                        <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Start Date" autocomplete="off" name="StartDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.StartDate" is-open="showFlag2" />
+                                        <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                            sta
+                                            <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                    <!--<input autocomplete="off" class="form-control tableinpt tabledate enabletable{{$index + 1}}" style="width:100%;" type="date" ng-model="data.StartDate" />-->
+                                </td>
+                                <td class="text-center pointer" style="padding: 3px;">
+                                    <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                        <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="End Date" autocomplete="off" name="EndDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.EndDate" is-open="showFlag1" />
+                                        <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                            <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                    <!--<input autocomplete="off" class="form-control tableinpt tabledate enabletable{{$index + 1}}" style="width:100%;" type="date" ng-model="data.EndDate" />-->
+                                </td>
+
+                                <td style="text-align:center">
+                                    <div class="form-check">
+                                        <input ng-model="data.IsCurrentAcademicYear" ng-change="changeActive(data, data.IsCurrentAcademicYear,$index)" ng-disabled="edit{{$index + 1}}" id="checkbox{{$index + 1}}" type="checkbox" />
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditAcademicYear(data,$index+1)">
+                                        Edit
+                                    </button>
+                                    <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdateAcademicYear(data,$index+1)">
+                                        Update
+                                    </button>
+                                    <button class="btn btn-success btn-xs" style="width: 70px;" ng-show="data.ActiveFlag == true" ng-click="SetAcademicYearStatus(data.AcademicID,data.ActiveFlag)">Active</button>
+                                    <button class="btn btn-danger btn-xs" style="width: 70px;" ng-show="data.ActiveFlag == false" ng-click="SetAcademicYearStatus(data.AcademicID,data.ActiveFlag)">InActive</button>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div ng-if="Noreports" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

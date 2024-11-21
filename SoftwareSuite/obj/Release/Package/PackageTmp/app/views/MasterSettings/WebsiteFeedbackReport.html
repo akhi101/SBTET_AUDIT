@@ -1,0 +1,108 @@
+﻿<style>
+    table > thead > tr > th {
+   position:sticky;
+   top:0px;
+}
+</style>
+<div ng-controller="WebsiteFeedbackReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Website Feedback Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/WebsiteFeedbackReport">Website Feedback Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/MasterSettings" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+        <div class="sm-spacer"></div>
+        <div class="col-md-3" ng-show="data">
+            <div class="form-group">
+                <label>Search</label>
+                <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="data">
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadExcel('#TableId')">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="data">
+            <div class="cl-details">
+                <h2> Website Feedback Report</h2>
+
+            </div>
+        </div>
+
+        <div class="col-md-10" ng-show="data">
+          
+        </div>
+        <!--<div class="col-md-2" ng-show="data">
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadExcel('#websiteFeedbackReports')">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>-->
+        <div class="col-md-12">
+
+            <div class="table-responsive table-custom-tables-tb scrollbox" ng-if="data">
+                <table id="TableId" class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th width="5%">S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th width="40%">Message</th>
+                            <th width="13%" class="text-center">Created Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in FeedbackReport|filter:search">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.Name}}</td>
+                            <td>{{data.Email}}</td>
+                            <td>{{data.Mobile}}</td>
+                            <td>{{data.Message}}</td>
+                            <td>{{data.Logdate|date:'dd-MM-yyyy hh:mm:ss'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+
+        </div>
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="error">
+            <div class="col-md-12 no-results">
+                <h2>No Data</h2>
+                <img src="../../contents/img/Folder-Icon.svg" />
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+
+</div>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Academic Instance</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div ng-controller="BasicAcademicInstanceController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Academic Instance</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>Instance & Schedule </li>
+                        <li>Academic Instancee</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>AcdInstID :</label>
+                            <input type="text" class="form-control" ng-model="BasicAcademicInstance.AcdInstID" id="AcdInstID">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Academic Instance :</label>
+                                        <input type="text" class="form-control" ng-model="BasicAcademicInstance.AcdInstName" id="AcdInstName" placeholder="Enter Academic Instance Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="pwd">From Date:</label>
+                                        <input type="date" class="form-control" datetime-picker="dd/MMM/yyyy" ng-model="BasicAcademicInstance.FromDate" id="FromDate" placeholder="Select Start Date">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="pwd">To Date:</label>
+                                        <input type="date" class="form-control" datetime-picker="dd/MMM/yyyy" ng-model="BasicAcademicInstance.ToDate" id="ToDate" placeholder="Select End Date">
+                                    </div>
+                                </div>
+                                <div style="margin-top:26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <label><input type="checkbox" ng-model="BasicAcademicInstance.InstFlag" id="InstFlag"> Instance Flag</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button ng-disabled="isupdatableDisable" type="button" class="btn btn-sm btn-detail" ng-click="SaveBasicAcademicInstance()">Save</button>
+                                    <button ng-disabled="isdeletableDisable" type="button" class="btn btn-sm btn-danger" ng-click="DeleteBasicAcademicInstance()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+
+        <!--<div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-university heading_icon"></span><b>Academic Instance</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" ng-show="false">
+                                            <label class=" control-label col-lg-2">AcdInstID :</label>
+                                            <div class="col-lg-1">
+                                                <input type="text" class="form-control" ng-model="BasicAcademicInstance.AcdInstID" id="AcdInstID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Academic Instance :</label>
+                                            <input type="text" class="form-control" ng-model="BasicAcademicInstance.AcdInstName" id="AcdInstName" placeholder="Enter Academic Instance Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">From Date:</label>
+                                            <input type="date" class="form-control" datetime-picker="dd/MMM/yyyy" ng-model="BasicAcademicInstance.FromDate" id="FromDate" placeholder="Select Start Date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">To Date:</label>
+                                            <input type="date" class="form-control" datetime-picker="dd/MMM/yyyy" ng-model="BasicAcademicInstance.ToDate" id="ToDate" placeholder="Select End Date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label><input type="checkbox" ng-model="BasicAcademicInstance.InstFlag" id="InstFlag"> Instance Flag</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button ng-disabled="isupdatableDisable" type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicAcademicInstance()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button ng-disabled="isdeletableDisable" type="button" class="btn form_btn_align delete_btn" ng-click="DeleteBasicAcademicInstance()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

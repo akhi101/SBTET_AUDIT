@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> System User </title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript">
+    function confirmPass() {
+		var pass = document.getElementById("LoginPassword").value
+		var confPass = document.getElementById("ConfirmPassword").value
+		if (pass != confPass) {
+			document.getElementById("ConfirmPassword").value = '';
+            alert('Wrong confirm password !');
+        }
+    }
+    </script>
+</head>
+<body>
+    <div ng-controller="SystemUserController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>System User Detail</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>System Administration</li>
+                        <li>System User Detail</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                   
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email"> User Type:</label>
+                                        <select class="form-control" ng-model="SystemUser.TypeFlag" id="TypeFlag" ng-change="ModuleChangeEvent(SystemUser.TypeFlag)">
+                                            <option value="0">Select User Type</option>
+                                            <option value="B">Board</option>
+                                            <option value="C">College</option>
+                                            <option value="D">DIO</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">User Name:</label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.LoginName" id="LoginName" placeholder="User Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Group Name:</label>
+                                        <select class="form-control" ng-model="SystemUser.SysUsrGrpID" id="SysUsrGrpID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="SystemUser.SysUsrGrpID == option.SysUsrGrpID" ng-repeat="option in SystemUserGroupList" value="{{option.SysUsrGrpID}}">{{option.SysUsrGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Address :</label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.Address1" id="Address1" required="" placeholder="Address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="pwd">First Name:</label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.FirstName" id="FirstName" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Last Name :</label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.LastName" id="LastName" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="pwd">Password:</label>
+                                        <input type="password" class="form-control" ng-model="SystemUser.LoginPassword" id="LoginPassword" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Confirm Password:</label>
+                                        <input type="password" class="form-control" ng-model="SystemUser.ConfirmPassword" id="ConfirmPassword" placeholder=" Confirm Password" onblur="confirmPass()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="pwd">College:</label>
+                                        <select class="form-control" ng-model="SystemUser.CollegeID" id="CollegeID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="SystemUser.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">User Expiry Date :</label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.ExpiryDate" id="ExpiryDate" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Cell No: </label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.CellNo" id="CellNo" required="" placeholder="Cell No">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">E-Mail: </label>
+                                        <input type="text" class="form-control" ng-model="SystemUser.EmailId" id="EmailId" required="" placeholder="Email@gmail.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row frow">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveSystemUser()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteSystemUser()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div id="exTab1" style="margin-top:0px;" ng-show="ShowTypeFlag">
+                                        <table class="table table-bordered table-hover table-condensed">
+                                            <thead>
+                                                <tr style="font-weight:bold">
+                                                    <td style="text-align:center; width:100px;">#</td>
+                                                    <td>District Name</td>
+                                                </tr>
+                                            </thead>
+                                            <tr ng-repeat="District in Districtdata | filter:search | filter:new_search">
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="District.checkDist"></td>
+                                                <td>{{District.DistName}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+      <!--  <div>
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-university heading_icon"></span><b> User </b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email"> User Type:</label>
+                                            <select class="form-control" ng-model="SystemUser.TypeFlag" id="TypeFlag" ng-change="ModuleChangeEvent(SystemUser.TypeFlag)">
+                                                <option value="0">Select User Type</option>
+                                                <option value="B">Board</option>
+                                                <option value="C">College</option>
+                                                <option value="D">DIO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">First Name:</label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.FirstName" id="FirstName" placeholder="First Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">Last Name :</label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.LastName" id="LastName" placeholder="Last Name">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">User Name:</label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.LoginName" id="LoginName" placeholder="User Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">Password:</label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.LoginPassword" id="LoginPassword" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">Confirm Password:</label>
+                                            <input type="password" class="form-control" ng-model="SystemUser.ConfirmPassword" id="ConfirmPassword" placeholder=" Confirm Password" onblur="confirmPass()">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Group Name:</label>
+                                            <select class="form-control" ng-model="SystemUser.SysUsrGrpID" id="SysUsrGrpID">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="SystemUser.SysUsrGrpID == option.SysUsrGrpID" ng-repeat="option in SystemUserGroupList" value="{{option.SysUsrGrpID}}">{{option.SysUsrGrpName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">College:</label>
+                                            <select class="form-control" ng-model="SystemUser.CollegeID" id="CollegeID">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="SystemUser.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">User Expiry Date :</label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.ExpiryDate" id="ExpiryDate" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">Address :</label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.Address1" id="Address1" required="" placeholder="Address">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">Cell No: </label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.CellNo" id="CellNo" required="" placeholder="Cell No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">E-Mail: </label>
+                                            <input type="text" class="form-control" ng-model="SystemUser.EmailId" id="EmailId" required="" placeholder="Email@gmail.com">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" class="btn form_btn_align save_btn" ng-click="SaveSystemUser()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align delete_btn" ng-click="DeleteSystemUser()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                                <div id="exTab1" style="margin-top:0px;" ng-show="ShowTypeFlag">
+                                    <table class="table table-bordered table-hover table-condensed">
+                                        <thead>
+                                            <tr style="font-weight:bold">
+                                                <td style="text-align:center; width:100px;">#</td>
+                                                <td>District Name</td>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="District in Districtdata | filter:search | filter:new_search">
+                                            <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="District.checkDist"></td>
+                                            <td>{{District.DistName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

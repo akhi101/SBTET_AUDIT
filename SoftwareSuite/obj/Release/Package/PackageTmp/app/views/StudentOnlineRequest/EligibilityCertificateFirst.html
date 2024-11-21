@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eligibility Certificates</title>
+</head>
+<body>
+    <div ng-controller="EligibilityCertificateFirstController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Eligibility Certificates</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Eligibility Certificates</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p> Note: It is brought to the notice of the Students/Candidates that after verification of the certificates produced by them,if it is found to be fake or fabricated, appropriate criminal action will be initiated against such Students/Candidates.</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100; margin-top:50px;">For any queries please mail to :</p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="col-md-12" ng-show="hideReApply">
+                        <div class="form-inline text-center" ng-show="EligibilityCertificateFirst.Exist=='Y'">
+                            <input type="text" placeholder="Acknowledgement No" class="form-control" id="HTNO" ng-model="EligibilityCertificateFirst.FormNo" input-Number-Only>
+                            <button type="button" class="btn btn-detail btn-sm" ng-click="FillDataByFormNo()">View</button>
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-12 text-center blu-txt">-OR-</div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <select class="form-control" id="SelectBoardID" ng-model="EligibilityCertificateFirst.BoardID">
+                                            <option value="">Select 10th Board Name</option>
+                                            <option ng-selected="EligibilityCertificateFirst.BoardID == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>-->
+                            =======
+                            <!--<div style="margin-top:20px;" class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div style="margin-top: 7px;" class="col-md-5">
+                                                <label for="sel1">10th Passed Year and Month :</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" id="SelectExamYear" ng-model="EligibilityCertificateFirst.ExamYear">
+                                                    <option value="">Select Year</option>
+                                                    <option ng-repeat="Exam_Year in Exam_Years">{{Exam_Year}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control form-inline" id="SelectExamMonth" ng-model="EligibilityCertificateFirst.ExamMonth">
+                                                    <option value="">Select Month</option>
+                                                    <option value="03">Mar</option>
+                                                    <option value="06">Jun</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                            ===================
+                            <div style="margin-top:20px;" class="row" ng-show="hideReApply">
+                                <div class="col-md-12">
+                                    <input style="width:30%;" type="text" class="form-control" placeholder="Hall Ticket No/Roll No/Seat No/Unique Id" id="SelectSSCHallTicket" ng-pattern="/^[a-zA-Z0-9]*$/" ng-model="EligibilityCertificateFirst.SSCHallTicket">
+                                    <button type="button" id="btnViewBySelectCriteria" class="btn btn-detail btn-sm" ng-click="FillDataBySelectCriteria()">View</button>
+                                </div>
+                                <span style="font-size:10px;"> (If You have Roll Code,Roll No. Please enter Roll Code first give a space then enter Roll No.)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1"><font color="red">* </font>Stream :</label>
+                                    <select class="form-control input-sm" id="CourseID" ng-model="EligibilityCertificateFirst.CourseID" ng-change="FillCoursePart(EligibilityCertificateFirst.CourseID)">
+                                        <option value="">Select Stream</option>
+                                        <option ng-selected="EligibilityCertificateFirst.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"><font color="red">* </font>Admission Year :</label>
+                                    <select class="form-control input-sm" id="ExamID" ng-model="EligibilityCertificateFirst.ExamID" ng-disabled="ExamDisable" ng-change="AdmissionYearChange(EligibilityCertificateFirst.ExamID)">
+                                        <option value="">Select Year</option>
+                                        <option ng-selected="EligibilityCertificateFirst.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"><font color="red">* </font>Branch :</label>
+                                    <select class="form-control input-sm" id="BranchID" ng-model="EligibilityCertificateFirst.BranchID" ng-disabled="BranchDisable">
+                                        <option value="">Select Branch</option>
+                                        <option ng-selected="EligibilityCertificateFirst.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="row" ng-show="hideReApply">
+                            <div style="margin-top:20px;" class="col-md-10 col-md-offset-2">
+                                <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Year into which student want admission:</span>
+                                <div class="maxl">
+
+                                    <label class="radio inline">
+                                        <input type="radio" name="ExamID" ng-model="EligibilityCertificateFirst.ExamID" value="1" ng-change="AdmissionYearChange(1)">
+                                        <span>1st Year  </span>
+                                    </label>
+                                    <label class="radio inline">
+                                        <input type="radio" name="ExamID" ng-model="EligibilityCertificateFirst.ExamID" value="2" ng-change="AdmissionYearChange(2)">
+                                        <span>2nd Year  </span>
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="ch3">Student Details <hr></h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Candidate Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="StudName" ng-model="EligibilityCertificateFirst.StudName" ng-minlength="3" ng-maxlength="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Gender :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="EligibilityCertificateFirst.Gender" checked value="M">
+                                            <span>Male</span>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="EligibilityCertificateFirst.Gender" value="F">
+                                            <span>Female</span>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="EligibilityCertificateFirst.Gender" value="T">
+                                            <span>Transgender</span>
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Father Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="FatherName" ng-model="EligibilityCertificateFirst.FatherName" ng-minlength="3" ng-maxlength="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Mother Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="MotherName" ng-model="EligibilityCertificateFirst.MotherName" ng-minlength="3" ng-maxlength="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>10th Hall Ticket No./Roll No./Seat No./Unique Id :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6" >
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="SSCHallTicket" ng-model="EligibilityCertificateFirst.SSCHallTicket" ng-maxlength="20">
+                                    <span ng-show="hideReApply" style="font-size:10px;"> (If You have Roll Code,Roll No. Please enter Roll Code first give a space then enter Roll No.)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Date of Birth :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-model="EligibilityCertificateFirst.BirthDate" ng-disabled="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Residential Address :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <textarea style="width:100%" rows="4" id="Address" ng-model="EligibilityCertificateFirst.Address" ng-minlength="1" ng-maxlength="100"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Mobile Number :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="MobileNo" ng-model="EligibilityCertificateFirst.MobileNo" ng-minlength="10" maxlength="10" input-Number-Only onpaste="return false;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-12">
+                                <h3 class="ch3">Academic Details <hr /></h3>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="BoardID" id="BoardName"><font color="red">* </font>10th Board Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="BoardID" ng-model="EligibilityCertificateFirst.BoardID" ng-change="BoardChange(EligibilityCertificateFirst.BoardID, EligibilityCertificateFirst.PlaceofExam)">
+                                        <option value="0" selected="selected">Select Board Name</option>
+                                        <option ng-selected="EligibilityCertificateFirst.BoardID == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="true" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="PlaceofExam"><font color="red">* </font>Place of Examination :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="PlaceofExam" ng-model="EligibilityCertificateFirst.PlaceofExam" ng-change="BoardChange(EligibilityCertificateFirst.BoardID, EligibilityCertificateFirst.PlaceofExam)">
+                                        <option value="0">Select Place of Examination</option>
+                                        <option value="L">In India</option>
+                                        <option value="F">Outside India</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row">
+
+                            <div class="col-md-6 ">
+                                <div ng-hide="AIUHide">
+                                    <label><font color="red">* </font>Letter from Embassy/Association of Indian Universities</label>
+                                    <input type="file" class="form-control  btn btn-primary" name="LetterFromEmbassy" id="LetterFromEmbassy" accept="pdf" style="height:40px;width:350px" ng-model-instant onchange="angular.element(this).scope().FileEmbassyAIU(this)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div ng-hide="PassportHide">
+                                    <label><font color="red">* </font>Copy of Passport</label>
+                                    <input type="file" class="form-control  btn btn-primary" name="PassportCopy" id="PassportCopy" accept="pdf" style="height:40px;width:350px" ng-model-instant onchange="angular.element(this).scope().FilePassport(this)" />
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" id="ExaminationName"><font color="red">* </font>10th Examination Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="ExamName" ng-model="EligibilityCertificateFirst.ExamName" ng-maxlength="200" ng-minlength="1" ng-pattern="/^[a-zA-Z0-9_ ]*$/">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1" id="ExamPassYearMonth"><font color="red">* </font>10th Passed Year and Month :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="hideReApply">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <select class="form-control" id="TenthExamYear" ng-model="EligibilityCertificateFirst.TenthExamYear">
+                                            <option value="0">Select Year</option>
+                                            <option ng-selected="EligibilityCertificateFirst.TenthExamYear == Exam_Year" ng-repeat="Exam_Year in Exam_Years">{{Exam_Year}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control form-inline" id="TenthExamMonth" ng-selected="EligibilityCertificateFirst.TenthExamMonth" ng-model="EligibilityCertificateFirst.TenthExamMonth">
+                                            <option value="0">Select Month</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Show11">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="BoardID" id="BoardName"><font color="red">* </font>11th Board Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="EleventhBoardID" ng-model="EligibilityCertificateFirst.EleventhBoardID" ng-change="BoardChange(EligibilityCertificateFirst.EleventhBoardID, EligibilityCertificateFirst.PlaceofExam)">
+                                        <option value="0">Select Board Name</option>
+                                        <option ng-selected="EligibilityCertificateFirst.EleventhBoardID == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Show11">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1" id="ExamPassYearMonth"><font color="red">* </font>11th Passed Year and Month :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <select class="form-control" id="EleventhYear" ng-model="EligibilityCertificateFirst.EleventhYear">
+                                            <option value="0">Select Year</option>
+                                            <option ng-selected="EligibilityCertificateFirst.EleventhYear == Exam_Year" ng-repeat="Exam_Year in Exam_Years">{{Exam_Year}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control form-inline" id="EleventhMonth" ng-model="EligibilityCertificateFirst.EleventhMonth">
+                                            <option value="0">Select Month</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Show11">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" id="EleventhSchool"><font color="red">* </font>School / College Name :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="EleventhSchool" ng-model="EligibilityCertificateFirst.EleventhSchool">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="Show11">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" id="EleventhColNmAndAddr"><font color="red">* </font>Address of School / College :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="EleventhColNmAndAddr" ng-model="EligibilityCertificateFirst.EleventhColNmAndAddr" ng-minlength="1" ng-maxlength="120">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">
+                                        <a ng-show="ShowReAppCert" ng-href="{{EligibilityCertificateFirst.UploadDoc1}}"><font color="red">View Uploaded 10th Marks Memo</font></a><br />
+                                    <font color="red">* </font>
+                                    10th Marks Memo(pdf & < 200KB)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control btn btn-primary" name="10thMarkFile" ng-model="EligibilityCertificateFirst.UploadDoc1" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row" ng-show="Show11">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>11th Marks Memo(pdf & < 200KB)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control btn btn-primary" name="11thMarkFile" ng-model="EligibilityCertificateFirst.EleventhMarksMemoUploadDoc" id="EleventhMarksMemoUploadDoc" accept="pdf" ng-model-instant onchange="angular.element(this).scope().File11thMarksMemo(this)" />
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" id="TransCert">
+                                        <a ng-show="ShowReAppCert" ng-href="{{EligibilityCertificateFirst.UploadDoc2}}" ><font color="red">View Uploaded 10th Transfer Certificate</font></a><br />
+                                        <font color="red">* </font>
+                                        10th Transfer Certificate(pdf & < 200KB)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control  btn btn-primary" file-model="myFile" name="10thMarkFile" ng-model="EligibilityCertificateFirst.UploadDoc2" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row" ng-show="Show11">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>11th Transfer Certificate(pdf & < 200KB)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control  btn btn-primary" file-model="myFile" name="11thTransFile" ng-model="EligibilityCertificateFirst.EleventhTransUploadDoc" id="EleventhTransUploadDoc" accept="pdf" ng-model-instant onchange="angular.element(this).scope().File11thTransCert(this)" />
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="row" ng-show="Show101">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="" id="MigrCert">
+                                        <a ng-show="ShowReAppCert" ng-href="{{EligibilityCertificateFirst.UploadDoc3}}"><font color="red">View Uploaded 10th Migration Certificate</font></a><br />
+                                        <font color="red">* </font>
+                                        10th Migration Certificate(pdf & < 200KB)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control  btn btn-primary" name="10thMarkFile" ng-model="EligibilityCertificateFirst.UploadDoc3" id="UploadDoc3" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload3(this)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="AIUHide">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <a ng-show="ShowReAppCert" ng-href="{{EligibilityCertificateFirst.EmbassyAIUCopy}}" font color="red">View</a>
+                                    <label for=""><font color="red">* </font>Embassy /Association of Indian Universities letter(pdf & < 200KB)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control  btn btn-primary" name="LetterFromEmbassy" id="LetterFromEmbassy" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileEmbassyAIU(this)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="PassportHide">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <a ng-show="ShowReAppCert" ng-href="{{EligibilityCertificateFirst.PassportCopy}}" font color="red">View</a>
+                                    <label for=""><font color="red">* </font>Copy of Passport(pdf & < 200KB)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="file" class="form-control  btn btn-primary" name="PassportCopy" id="PassportCopy" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FilePassport(this)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Address and name of the College into which admission is bought :</label><!--Applying College Name & Address :-->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <textarea style="width:100%;" rows="4" id="ColNmAndAddr" ng-model="EligibilityCertificateFirst.ColNmAndAddr" maxlength="250"></textarea><!--ng-pattern="/^[a-zA-Z0-9_ ]*$/"-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">Fee (in rupees) :</font></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="FeeAmount" style="color:red;" ng-model="EligibilityCertificateFirst.FeeAmount" ng-disabled="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Purpose :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <textarea style="width:100%;" rows="4" id="Purpose" ng-model="EligibilityCertificateFirst.Purpose" ng-minlength="1" ng-maxlength="120"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hideReApply">
+                            <div class=" col-md-12 text-center form-group" ng-show="DwFileShow">
+                                <a href="{{EligibilityCertificateFirst.DwFilePath}}">Download Eligibility Certificate></a>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="RollEditDisable" ng-show="showsubmitpay" ng-click="SaveEligibilityCertificateFirst()" class="btn btn-sm btn-detail">Submit &amp; Pay</button>
+                                <button type="button" ng-show="showReapply"  ng-click="SaveEligibilityCertificateFirstReApply()" class="btn btn-sm btn-detail">Submit</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <style>
+        table {
+            font-size: 12px;
+        }
+        #container_Stud {
+            display: grid;
+            grid-template-columns: repeat(2, 50%);
+            grid-gap: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .current {
+            color: green;
+            text-decoration: underline;
+        }
+        #pagin li {
+            display: inline-block;
+        }
+            #pagin li a {
+                font-weight: bold;
+                font-size: 12px;
+                cursor: pointer;
+                background-color: #0f73d9;
+                color: #fff;
+                padding: 5px;
+                border-radius: 4px;
+            }
+        #stud-data {
+            padding: 5px 0 5px 0;
+            display: block;
+        }
+        #stud-data-tab {
+            
+            color: black;
+        }
+        #stud-data-tab td.info-lab {
+            width: 20%;
+            font-weight: bold;
+            padding: 1px 0px 0 3px;
+        }
+        #stud-data-tab td.info-colon {
+            text-align: center;
+            width: 1%;
+            font-weight: bold;
+        }
+        #stud-data-tab td.info {
+            width: 50%;
+            padding: 1px 0 0 3px;
+        }
+        #stud-data-tab td.pic {
+            text-align: center;
+            vertical-align: middle;
+            width: 18%;
+        }
+        #stud-data-tab td.col-confirm-chk {
+            text-align: center;
+            vertical-align: middle;
+            width: 11%;
+        }
+        #stud-data-tab td.col-confirm-edit {
+            text-align: center;
+            vertical-align: middle;
+        }
+        #pagin {
+            width: 100%;
+            text-align: center;
+            padding: 5px 0 20px 0;
+        }
+    </style>
+    <title>Admission Requests</title>
+</head>
+<body>
+    <div ng-controller="PhotoCheckListReportController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Pending Photos List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Reports</li>
+                        <li>Pending Photos List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row" style="margin-bottom: 0px;">
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-2">
+                        <div class="form-group">
+                            <!--<label for="sel1">Stream :</label>-->
+                            <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                                <option value="0">Select Stream</option>
+                                <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <!-- <label for="sel1">Exam :</label>-->
+                            <select class="form-control input-sm" id="ExamID" ng-model="ExamID" ng-disabled="ExamDisable" ng-change="ChangeSelection()">
+                                <option value="0">Select Exam Year</option>
+                                <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="button" ng-click="GetCheckListByDIEO()" class="btn btn-detail btn-sm">Get Pending Photos</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="text-align: right;">
+                        <div class="form-group">
+                            <button type="button" ng-show="ShowBack" ng-click="PageBack()" class="btn btn-detail btn-sm">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <img src="../../../../contents/img/loading2.gif" ng-show="ShowLoading" width="100" />
+                </div>
+            </div>
+            <div class="row base-row" ng-show="ShowCollege">
+                <div class="col-md-12">
+                    <table id="supTable" class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>College Code</th>
+                                <th>College Name</th>
+                                <th>Total Students</th>
+                                <th>Confirmed Students</th>
+                                <th>To Be Confirmed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in PhotoCheckListReportData">
+                                <td>{{$index + 1}}</td>
+                                <td><a style="cursor: pointer; color: #0f73d9; text-decoration: underline;" ng-click='GetCheckListByCollege(x.CollegeID)'> {{ x.ColCode }} </a></td>
+                                <td>{{ x.ColName }}</td>
+                                <td>{{ x.Tot_Stud }}</td>
+                                <td>{{ x.Approved_Stud }}</td>
+                                <td>{{ x.Pending_Stud }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row base-row" ng-show="ShowStudents">
+                <div class="col-md-12" ng-show="ShowStudents">
+                    <div class="form-group text-center" style="color:red;font-size:11px;font-weight:bold">
+                        ( Note: 1. Click on Edit button to upload photos. &nbsp;&nbsp; 2. Then Confirm the Checkbox and click on Submit button. )
+                    </div>
+                </div>
+                <div style="font-weight:700;" class="row">
+                    <div class="col-md-3">DIST:  {{PhotoCheckListStudData[0].DistCode}}</div>
+                    <div class="col-md-6 text-center">College:  {{PhotoCheckListStudData[0].ColCode}}  {{PhotoCheckListStudData[0].ColName}}</div>
+                    <div class="col-md-3 text-right">{{CurrDate | date: "dd/MM/yyyy"}}</div>
+                </div>
+                <div id="container_Stud">
+                    <div id="stud-data" ng-repeat="x in PhotoCheckListStudData" class="line-content">
+                        <table id="stud-data-tab" border="1" cellpadding="1" width="100%">
+                            <tr>
+                                <td class="info-lab">SSC HT NO.</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.SSCHallTicket}}</td>
+                                <td class="pic" rowspan="8"><img src="{{x.PhotoPath}}" alt="Photo" height="135" width="105"></td>
+                                <td class="col-confirm-chk" rowspan="2">
+                                    <input type="checkbox" id="chkPassport" ng-model="isChecked" ng-change="ConfirmChange(x.PreStudRegID, isChecked)" /> Confirm
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">PRN NO</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.PRNNo}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">STUDENT NAME</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.StudName}}</td>
+                                <td class="col-confirm-edit" rowspan="9">
+                                    <!-- Trigger the modal with a button -->
+                                    <button type="button" ng-click="EditStud($index)" class="btn btn-detail btn-sm" data-toggle="modal" data-target="#myModal" data-backdrop="static" ng-disabled="EditStudent">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">FATHER NAME</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.FatherName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">MOTHER NAME</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.MotherName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">GENDER</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.Gender}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">COMM. CODE</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.CasteCode}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">GROUP</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.MainGrpName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">MEDIUM</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.MediumName}}</td>
+                                <td class="pic" rowspan="3"><img src="{{x.SignPath}}" alt="Sign" height="40" width="100"></td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">SECOND LANGUAGE</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.SubName}}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-lab">PH</td>
+                                <td class="info-colon">:</td>
+                                <td class="info">{{x.Disablity}}</td>
+                            </tr>
+                        </table>
+                        <div ng-if="($index) == 16" ng-init="DoPaging()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pagin" ng-show="ShowStudents"></div>
+            <div class="row">
+                <div style="margin:10px 0;" class="col-md-12 text-center">
+                    <button type="button" ng-show="ShowPrintCheckList" ng-click="PrintCheckList()" class="btn btn-detail btn-sm text-center">Print</button>
+                    <button type="button" ng-show="ShowConfirmCheckList" ng-click="ConfirmStudList()" class="btn btn-detail btn-sm text-center">Submit</button>
+                </div>
+            </div>
+        </div>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="width: 65%;">
+                    <div class="modal-content" style="height: auto !important;overflow: hidden !important;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" ng-click="Reload()">&times;</button>
+                            <h4 class="modal-title">Student Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row base-row">
+                                <div class="col-md-6">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="adno">PRN No.:</label>
+                                            <input type="text" class="form-control" id="adno" ng-Model="StudData.PRNNo" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="adno">SSC Hall Ticket:</label>
+                                            <input type="text" class="form-control" id="adno" ng-Model="StudData.SSCHallTicket" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="adno">Candidate's  Name:</label>
+                                            <input type="text" class="form-control" id="cname" ng-Model="StudData.StudName" maxlength="100" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="adno">College Name:</label>
+                                            <input type="text" class="form-control" id="ColName" ng-Model="StudData.ColName" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="adno">Father's Name:</label>
+                                            <input type="text" class="form-control" id="fname" ng-Model="StudData.FatherName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="adno">Mother's Name:</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="StudData.MotherName" maxlength="40">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Caste/Community :</label>
+                                            <select class="form-control input-sm" id="CasteID" ng-model="StudData.CasteID" ng-change="FillSubCaste(StudData.CasteID)">
+                                                <option value="0">-- Select --</option>
+                                                <option ng-selected="StudData.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Sub Caste :</label>
+                                            <select class="form-control input-sm" id="SubCastID" ng-model="StudData.SubCastID" ng-disabled="SubCasteDisable">
+                                                <option value="0">-- Select --</option>
+                                                <option ng-selected="StudData.SubCastID == option.SubCastID" ng-repeat="option in SubCastList" value="{{option.SubCastID}}">{{option.SubCastName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" ng-disabled="GenderDisable">
+                                            <label for="email">Gender :</label>
+                                            <form>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="StudData.Gender" checked value="M">Male
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="StudData.Gender" value="F">Female
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="StudData.Gender" value="O">Other
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="name">Student Photo:</label>
+                                        <img data-ng-src="{{StudentPhoto}}" id="StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px;">
+                                        <input style="border:none; margin-left: -10px; box-shadow: none; margin-top:10px;" class="form-control" type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />
+                                        <p style="font-size:10px;">Photo file size must be less than 50kb. With 3cm X 4.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="name">Student Signature:</label>
+                                        <img data-ng-src={{StudentSign}} id="StudentSign" class="img img-responsive" style="height: 80px; width: 150px;margin-bottom:68px;">
+                                        <input style="border:none; margin-left: -10px; box-shadow: none;" class="form-control" type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                        <p style="font-size:10px;">Signature must be less than 20kb. With 3cm X 1.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-disabled="RollEditDisable" ng-click="SaveEditedByCollege()" class="btn btn-detail btn-sm">Update</button>
+                            <button type="button" ng-disabled="RollDeleteDisable" ng-click="DeleteEditedByCollege()" class="btn btn-detail btn-sm" ng-hide="true">Delete</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-reset btn-sm" ng-click="Reload()">Close</button>
+                            <div style="position:absolute; top:32%; left:0%;" class="col-md-12 text-center">
+                                <img src="../../../../contents/img/loading2.gif" ng-show="ShowUpdateLoad" width="100" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+

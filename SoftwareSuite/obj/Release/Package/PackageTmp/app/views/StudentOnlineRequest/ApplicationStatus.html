@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Application Status</title>
+</head>
+<body>
+    <div ng-controller="ApplicationStatusController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Application Status</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Application Status</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px; font-weight:100; margin-top:50px;">For any Queries please mail to :</p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-4  text-right">
+                            <div class="form-group">
+                                <label>Enter Acknowledgement Number</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Acknowledgement Number" class="form-control" id="FormNo" ng-model="ApplicationStatus.FormNo" maxlength="9" input-Number-Only ng-keyup="keyup()">
+                        </div>
+                        <div class="col-md-2 ">
+                            <button type="button" class="btn btn-detail btn-sm" ng-click="FillDataByAckNo()">Get Status</button>
+                        </div>
+                    </div>
+                    <div ng-show="ShowOTP">
+                        <div class="row frow">
+                            <div class="col-md-3 col-md-offset-1 text-right">
+                                <div class="form-group">
+                                    <label>Enter Verification Code</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" placeholder="Enter Verification Code" class="form-control" id="FormNo" ng-model="ApplicationStatus.VerificationCode" maxlength="8">
+                            </div>
+                            <div class="col-md-2 ">
+                                <button type="button" class="btn btn-detail btn-sm" ng-click="ShowCertificateDetails()">Verify Code</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="ShowCandidateDetails">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="margin-top: 17px;" class="col-md-3  text-right blu-txt">
+                                Application Status:
+                            </div>
+                            <div class="col-md-6 alert alert-success" ng-show="ApprShow">
+                                {{ApplicationStatus.ReqStatus1}}
+                            </div>
+                            <div class="col-md-6 alert alert-info" ng-show="PendShow">
+                                {{ApplicationStatus.ReqStatus1}}
+                            </div>
+                            <div class="col-md-6 alert alert-danger" ng-show="RejShow">
+                                {{ApplicationStatus.ReqStatus1}}
+                            </div>
+                        </div>
+                        <div class="row" ng-show="btnShow">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm">Cancel</button>
+                                <a ng-show="ShowCert" href="{{ApplicationStatus.DigiSignPDFURL}}" class="btn btn-info" target="_blank" role="button">View & Print Certificate</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="button" ng-show="reapplyshow" ng-click="ReApply()" class="btn btn-reset btn-sm">Re-Apply</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

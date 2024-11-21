@@ -1,0 +1,140 @@
+﻿<div ng-controller="SubjectListController">
+    <div class="breadcrumb-header ng-scope">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5 class="ng-binding">Branch Name:{{branchname}}</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/Electives">Subject List</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="base-row row">
+                <form>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Scheme: </label>
+                            <div class="">
+
+                                <select class="form-control" ng-model="SelectedschemeId" ng-change="ChangeSemester()"
+                                        ng-options="data.Scheme for data in schemeinf track by data.SchemeID">
+                                    <option value="" selected>Select Scheme</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">
+                                Scheme :
+                            </label>
+                            <div class="">
+                                <select class="form-control" name="semister" ng-model="SelectedschemeId" ng-change="ChangeSemester()">
+                                    <option value="" selected>
+                                        Select Scheme
+                                    </option>
+                                    <option ng-repeat="scheme in schemeinf" value="{{scheme.SchemeID}}">
+                                        {{scheme.Scheme}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Semester:</label>
+                            <div class="">
+                                <select class="form-control" ng-model="SelectedsemId"
+                                        ng-options="sem.sem for sem in ActiveSems track by sem.semid">
+                                    <option value="" selected>Select Semester</option>
+                                </select>
+
+                                <!--<select class="form-control" ng-model="SelectedsemId" name="semister" required
+                        ng-options="sem.semid as sem.sem for sem in ActiveSemesters"></select>-->
+                                <!--<select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="semId">
+                    <option value="" selected>Select Semester</option>
+                    <option ng-repeat="sem in ActiveSemesters" value="{{sem}}">
+                        {{sem.sem}}
+                    </option>
+                </select>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" ng-hide="BatchHide">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Batch:</label>
+                            <div class="">
+                                <select class="form-control" ng-model="Selectedshift" disabled name="shift" required>
+                                    <option value="" selected>Select Batch</option>
+                                    <option ng-repeat="shift in shifts" ng-value="shift.shiftid">
+                                        {{shift.shiftName}}
+                                    </option>
+                                </select>
+                                <!--<select class="form-control" ng-model="Selectedshift" name="shift" required
+                ng-options="shift.shiftid as shift.shiftName for shift in shifts"></select>-->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="com-md-3">
+                        <button class="btn btn-success" style="margin-top:23px;" ng-click="SubmitData()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="Data">
+            <div class="cl-details">
+                <h2>Subject List</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Data">
+
+            <div id="attendanceReport" class="table-responsive table-custom-tables-tb  ng-scope">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width:2%;">S.No</th>
+                            <th class="text-center" style="width: 10%">Subject Code</th>
+                            <th class="text-center" style="width: 25%">Subject Name</th>
+                            <th class="text-center" style="width: 25%">Staff Name</th>
+                            <th class="text-center" style="width: 10%">Completed Chapters</th>
+                            <th class="text-center" style="width: 10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer;" ng-repeat="x in subjectList" class="ng-scope">
+                            <td class="text-center ng-binding">{{$index+1}}</td>
+                            <td class="text-center ng-binding">{{x.Subject_Code}}</td>
+                            <td class="text-center ng-binding">{{x.SubjectName}}</td>
+                            <td>{{x.StaffName}}</td>
+                            <td class="text-center"><b>{{x.CompletedChapters}}</b></td>
+                            <td class="text-center ng-binding">
+                                <a ng-if="x.StaffName !== '-'" ng-click="OpenChapters(x.IsTheory,x.Id,x.SubjectName,x.Subject_Code)">Update</a>
+                                <p ng-if="x.StaffName === '-'" style="padding: 0px 0px;"> Assign staff to update</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="sm-spacer"></div>
+        </div>
+    </div>
+
+</div>

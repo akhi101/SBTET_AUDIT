@@ -1,0 +1,117 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Bulk OTP Send To Examiner</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Bulk OTP Send To Examiner</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="practicalDetailEntryCollegeBulkOTPController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="practicalEntryDetailCollegeBulkOTPForm">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="practicalEntryDetailCollegeBulkOTP.CourseID" object="practicalEntryDetailCollegeBulkOTP.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" ng-change="getCheckCenterCollegePresent(practicalEntryDetailCollegeBulkOTP.CourseID)" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="practicalEntryDetailCollegeBulkOTP.ExamID" object="practicalEntryDetailCollegeBulkOTP.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" ng-change="getFillBatchData(practicalEntryDetailCollegeBulkOTP.ExamID)" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="practicalEntryDetailCollegeBulkOTP.BranchID" object="practicalEntryDetailCollegeBulkOTP.BranchID" options="basicBranches" displaycolumn="BranchName" valuecolumn="BranchID" objectname="BranchID" objecttext="Branch" compulsory="true"> </sa-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="practicalEntryDetailCollegeBulkOTP.PrBatchID" object="practicalEntryDetailCollegeBulkOTP.PrBatchID" options="examBatches" displaycolumn="BatchName" valuecolumn="PrBatchID" objectname="PrBatchID" objecttext="Batch No" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2" style="margin-top:26px;">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.Prdate | date :'dd/MM/yyyy'" id="Prdate" readonly="true" required="">
+                    </div>
+                </div>
+                <div class="col-md-2 ">
+                    <div class="form-group">
+                        <!-- <label for="sel1">Practical Center:</label>-->
+                        <select class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.PrePractCntrID" id="PrePractCntrID">
+                            <option value="">Select Practical Center </option>
+                            <option ng-selected="practicalEntryDetailCollegeBulkOTP.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PracticalCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" ng-show="false">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.ExaminerCollegeID" id="ExaminerID" visible="false">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.PrePractCntrID" id="PrePractCntrID" visible="false">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.ZoneID" id="ZoneID" visible="false">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.EvalTypeID" id="EvalTypeID" visible="false">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.BatchName" id="BatchName" visible="false">
+                        <input type="text" class="form-control" ng-model="practicalEntryDetailCollegeBulkOTP.CreateLoginID" id="CreateLoginID" visible="false">
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="margin-top:22px;" class="col-md-2 col-md-offset-2">
+                        <button type="submit" ng-click="showStudentDetails()" ng-disabled="SubmitDisable" class="btn btn-detail btn-sm">Show Examiners</button>
+                    </div>
+                </div>
+            </form>
+            <form name="practicalStudentDetailForm">
+                <div class="row" ng-show="studentDetailList.length>0">
+                    <div style="color : red;"><strong>NOTE : Marks Entry From : {{StartTime}} To : {{EndTime}} </strong> </div>
+                    <hr />
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered table-responsive rspan">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Examiner Name</th>
+                                    <th>Mobile No.</th>
+                                    <th>Gender</th>
+                                    <th>Appointment Date</th>
+                                    <th>Subject</th>
+                                    <th>Examiner College</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="studentDetail in studentDetailList">
+                                    <td class="text-center num-col">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td>
+                                        {{studentDetail.full_name}}
+                                    </td>
+                                    <td>
+                                        {{studentDetail.MobileNO}}
+                                    </td>
+                                    <td>
+                                        {{studentDetail.gender}}
+                                    </td>
+                                    <td>
+                                        {{studentDetail.AppointmentDate}}
+                                    </td>
+                                    <td>
+                                        {{studentDetail.subject_name}}
+                                    </td>
+                                    <td>
+                                        {{studentDetail.college_code}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="studentDetailList.length>0">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" ng-click="postpracticalEntryDetailCollegeBulkOTP()" class="btn btn-detail btn-sm">Send OTP</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

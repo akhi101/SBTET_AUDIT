@@ -1,0 +1,464 @@
+<style>
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .btn-group:after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .rating {
+        margin-top: 10px;
+        border: none;
+        float: left;
+    }
+
+        .rating > label {
+            color: #90A0A3;
+            float: right;
+        }
+
+            .rating > label:before {
+                margin: 2px;
+                font-size: 14px;
+                font-family: FontAwesome;
+                content: "\f005";
+                content: "\2605";
+                display: inline-block;
+            }
+
+    .loader {
+        border: 4px solid #5cb85c;
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 4s linear infinite; /* Safari */
+        animation: spin 1s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .rating > input {
+        display: none;
+    }
+
+        .rating > input:checked ~ label,
+        .rating:not(:checked) > label:hover,
+        .rating:not(:checked) > label:hover ~ label {
+            color: #F79426;
+        }
+
+            .rating > input:checked + label:hover,
+            .rating > input:checked ~ label:hover,
+            .rating > label:hover ~ input:checked ~ label,
+            .rating > input:checked ~ label:hover ~ label {
+                color: #FECE31;
+            }
+
+    .myPad {
+        padding: 4px !important;
+    }
+
+    .sub_cls {
+        font-size: 11px;
+    }
+
+    .highlight {
+        background-color: #ffe1bd;
+    }
+
+    .card {
+        background: #fff;
+        min-height: 50px;
+        box-shadow: 0 0 0 1px #dce3ec, 0 0px 6px 0 #dce3ec !important;
+        position: relative;
+        margin-bottom: 20px;
+        transition: .5s;
+        border-radius: 0;
+        display: inline-block;
+        width: 100%;
+        padding: 5px;
+    }
+</style>
+<div ng-controller="StudentFeedbackController">
+
+    <div class="container-fluid" id="feedbackcontainer">
+        <br />
+        <br />
+
+
+        <h3 align="center"><b>STUDENT FEEDBACK FORM</b></h3>
+
+        <div class="container" ng-hide="hideinput">
+            <div class="col-md-12">
+                <div class="row base-row ">
+                    `
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                Feedback :
+                            </label>
+                            <select class="form-control" name="Feedback" required ng-model="Feedbacktype" ng-change="ChangeFType(Feedbacktype)">
+                                <option value="" selected>Select feedback</option>
+                                <option ng-repeat="Feedback in AvailableFeedbacks" ng-show="Feedback.IsActive==1" value="{{Feedback}}">
+                                    {{Feedback.FeedbackName}}
+                                </option>
+                            </select>
+                            <!-- <select class="form-control" name="Feedback" required ng-model="FeedbacktypeId">
+                                <option value="" selected>Select feedback</option>
+                                <option ng-repeat="Feedback in AvailableFeedbacks"  ng-show="Feedback.IsActive==1" value="{{Feedback.Id}}">
+                                    {{Feedback.FeedbackName}}
+                                </option>
+                            </select> -->
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                PIN
+                            </label>
+                            <input type="text" class="form-control" ng-model="userPin" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3" ng-show="!otpsent">
+                        <button class="btn btn-default" style="margin-top:21px;" ng-disabled="disable" ng-click="generateOtp()">
+                            <span ng-show="!load">Send OTP</span>
+                            <span ng-show="load" title="loading"><div class="loader"> </div></span>
+
+                        </button>
+                        <!-- <button class="btn btn-default" style="margin-top:21px;" ng-click="generateOtp()"> Send OTP</button> -->
+                    </div>
+                    <div class="col-md-3" ng-show="otpsent">
+                        <div class="form-group">
+                            <label>
+                                Enter OTP
+                            </label>
+                            <input type="text" class="form-control" ng-model="userOtp" style="text-transform:uppercase" required />
+                        </div>
+                    </div>
+                    <!-- <div id='recaptcha' class="g-recaptcha"
+                         data-sitekey="6LdNyNMUAAAAANxOwkhO2oNMB5-0-zaL4i5BQlhz"
+                         data-callback="validateRecaptcha"
+                         data-size="invisible"></div> -->
+                    <div class="col-md-3" ng-show="otpsent">
+                        <button class="btn btn-success" style="margin-top:21px;" id='submit1' ng-click="getDetails()"> Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="text-center" ng-if="loading">
+                <img class="" src="../../../contents/img/loading2.gif">
+            </div>
+        </div>
+
+        <form name="FeedBackForm" ng-submit="Savedata()">
+            <table border="1" width="100%" ng-show="dataTable">
+                <tr>
+
+                    <td class="myPad" width="10%"><b>Pin</b></td>
+                    <td class="myPad text-center" width="40%">{{StudentData.PIN}}</td>
+                    <td class="myPad" width="10%"><b>Name</b></td>
+                    <td class="myPad text-center" width="10%">{{StudentData.Name}}</td>
+                </tr>
+                <tr>
+                    <td class="myPad" width="10%"><b>Course</b></td>
+                    <td class="myPad text-center" width="40%">{{StudentData.BranchName}}</td>
+                    <td class="myPad" width="10%"><b>Scheme</b></td>
+                    <td class="myPad text-center" width="40%">{{StudentData.Scheme}}</td>
+                </tr>
+                <tr>
+                    <td class="myPad " width="10%"><b>College</b></td>
+                    <td class="myPad text-center" width="40%">{{StudentData.CollegeCode}}</td>
+                    <td class="myPad" width="10%"><b>Semester</b></td>
+                    <td class="myPad text-center" colspan="40">{{StudentData.sem}}</td>
+                    <!--<td></td>-->
+
+
+                </tr>
+                <tr>
+                    <td class="myPad " width="10%"><b>Feedback Type</b></td>
+                    <td class="myPad text-center" width="40%">{{FeedbackName}}</td>
+
+                </tr>
+
+            </table>
+            <!--<p align="center">For getting filled in through student</p>-->
+            <!-- <div class="sm-spacer"></div> -->
+            <div class="" ng-show="dataTable">
+                <div class="card">
+                    <div style="pointer-events:none">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th width="20%">
+                                        <label style="float:left!important;margin-top:12px;font-size:16px"><b style="font-size: 16px!important">Excellent </b></label>
+                                    </th>
+                                    <th width="20%">
+                                        <div class="rating">
+                                            <input type="radio" id="star5" name="ratings" checked="checked" disabled />
+                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                            <input type="radio" id="star4" name="ratings" disabled />
+                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star3" name="ratings" disabled />
+                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star2" name="ratings" disabled />
+                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                            <input type="radio" id="star1" name="ratings" disabled />
+                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td width="20%">
+                                        <label style="float:left!important;margin-top:12px;"><b style="font-size: 16px!important">Very Good </b></label>
+                                    </td>
+                                    <th width="20%">
+                                        <div class="rating">
+                                            <input type="radio" id="star5" name="ratingss" disabled />
+                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                            <input type="radio" id="star4" name="ratingss" checked="checked" disabled />
+                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star3" name="ratingss" disabled />
+                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star2" name="ratingss" disabled />
+                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                            <input type="radio" id="star1" name="ratingss" disabled />
+                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td width="20%">
+                                        <label style="float:left!important;margin-top:12px;"><b style="font-size: 16px!important">Good </b></label>
+                                    </td>
+                                    <th width="20%">
+                                        <div class="rating">
+                                            <input type="radio" id="star5" name="ratingsss" disabled />
+                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                            <input type="radio" id="star4" name="ratingsss" disabled />
+                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star3" name="ratingsss" checked="checked" disabled />
+                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star2" name="ratingsss" disabled />
+                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                            <input type="radio" id="star1" name="ratingsss" disabled />
+                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td width="20%">
+                                        <label style="float:left!important;margin-top:12px;"><b style="font-size: 16px!important">Poor </b></label>
+                                    </td>
+                                    <th width="20%">
+                                        <div class="rating">
+                                            <input type="radio" id="star5" name="ratingssss" disabled />
+                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                            <input type="radio" id="star4" name="ratingssss" disabled />
+                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star3" name="ratingssss" disabled />
+                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star2" name="ratingssss" checked="checked" disabled />
+                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                            <input type="radio" id="star1" name="ratingssss" disabled />
+                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td width="20%">
+                                        <label style="float:left!important;margin-top:12px;"><b style="font-size: 16px!important">Very Poor </b></label>
+                                    </td>
+                                    <th width="20%">
+                                        <div class="rating">
+                                            <input type="radio" id="star5" name="rating" disabled />
+                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                            <input type="radio" id="star4" name="rating" disabled />
+                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                            <input type="radio" id="star3" name="rating" disabled />
+                                            <label class="star" for="star3" title="Good"></label>
+                                            <input type="radio" id="star2" name="rating" disabled />
+                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                            <input type="radio" id="star1" name="rating" checked="checked" disabled />
+                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <!--</th>
+                                <th width="20%">
+                                                                        <label style="float:left!important;margin-top:12px;"><b style="font-size: 16px!important">Good :</b></label>
+                                                                        <div class="rating">
+                                                                            <input type="radio" id="star5" name="ratingsss" disabled />
+                                                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star4" name="ratingsss" disabled />
+                                                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star3" name="ratingsss" checked="checked" disabled />
+                                                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star2" name="ratingsss" disabled />
+                                                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star1" name="ratingsss" disabled />
+                                                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th width="20%">
+
+                                                                        <div class="rating">
+                                                                            <input type="radio" id="star5" name="ratingssss" disabled />
+                                                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star4" name="ratingssss" disabled />
+                                                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star3" name="ratingssss" disabled />
+                                                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star2" name="ratingssss" checked="checked" disabled />
+                                                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star1" name="ratingssss" disabled />
+                                                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th width="20%">
+                                                                        <label style="float:left!important;margin-top:12px;"><b style="font-size: 16px!important"> Poor :</b></label>
+                                                                        <div class="rating">
+                                                                            <input type="radio" id="star5" name="rating" disabled />
+                                                                            <label class="star" for="star5" title="Excellent" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star4" name="rating" disabled />
+                                                                            <label class="star" for="star4" title="Very Good" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star3" name="rating" disabled />
+                                                                            <label class="star" for="star3" title="Good" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star2" name="rating" disabled />
+                                                                            <label class="star" for="star2" title="Poor" aria-hidden="true"></label>
+                                                                            <input type="radio" id="star1" name="rating" checked="checked" disabled />
+                                                                            <label class="star" for="star1" title="Very Poor" aria-hidden="true"></label>
+                                                                        </div>
+                                                                    </th>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table border="1" style="margin-bottom:20px" ng-show="dataTable">
+                    <tr>
+                        <th class="myPad text-center" ng-repeat="data in SubjectList" width="auto">
+                            {{data.Subject_Code}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="myPad text-center sub_cls" ng-repeat="data in SubjectList" width="auto">
+                            {{data.SubjectName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="myPad text-center sub_cls" ng-repeat="data in SubjectList" width="auto">
+                            {{data.Title}} {{data.FirstName}} {{data.MiddleName}} {{data.LastName}}
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <table border="1" ng-show="dataTable">
+                    <tr>
+                        <th class="myPad text-center" width="3%" class="text-center">S.No.</th>
+                        <th class="myPad " align="top" width="16%">Description</th>
+                        <th class="myPad text-center" style="font-size:16px!important" ng-repeat="data in SubjectList" width="auto">
+                            SubjectCode
+                            {{data.Subject_Code}}
+                        </th>
+                    </tr>
+
+                    <tr ng-repeat="x in FeedBackDescriptions track by $index">
+                        <td class="myPad text-center">{{$index+1}}</td>
+                        <td class="myPad text-center">{{x.DescriptionName}}{{x.Id}}</td>
+
+                        <td class="myPad text-center" ng-repeat="y in SubjectList track by $index">
+
+                            <div>
+
+                                <div>
+                                    <!--  <input id="rdo{{$parent.$index+1}}" type="radio" name="examdate{{$parent.$index+1}}" class="examdate{{$parent.$index+1}}" value="{{y.FeddBackId}}" ng-change="RadioChange(x.DescriptionID,def)" ng-model="def" />-->
+
+                                    <div class="rating" id="{{($parent.$index+1).toString()+($index+1).toString()}}">
+                                        <input type="radio" id="star5{{$parent.$index+1}}{{$index+1}}" name="rating{{$parent.$index+1}}{{$index+1}}" ng-click="RadioChange(y.SubID,radioVal5,x.id,($parent.$index+1).toString()+($index+1).toString())" ng-model="radioVal5" value="5" />
+                                        <label class="star" for="star5{{$parent.$index+1}}{{$index+1}}" title="Excellent" aria-hidden="true"></label>
+                                        <input type="radio" id="star4{{$parent.$index+1}}{{$index+1}}" name="rating{{$parent.$index+1}}{{$index+1}}" value="4" ng-click="RadioChange(y.SubID,radioVal4,x.id,($parent.$index+1).toString()+($index+1).toString())" ng-model="radioVal4" />
+                                        <label class="star" for="star4{{$parent.$index+1}}{{$index+1}}" title="Very Good" aria-hidden="true"></label>
+                                        <input type="radio" id="star3{{$parent.$index+1}}{{$index+1}}" name="rating{{$parent.$index+1}}{{$index+1}}" value="3" ng-click="RadioChange(y.SubID,radioVal3,x.id,($parent.$index+1).toString()+($index+1).toString())" ng-model="radioVal3" />
+                                        <label class="star" for="star3{{$parent.$index+1}}{{$index+1}}" title="Good" aria-hidden="true"></label>
+                                        <input type="radio" id="star2{{$parent.$index+1}}{{$index+1}}" name="rating{{$parent.$index+1}}{{$index+1}}" value="2" ng-click="RadioChange(y.SubID,radioVal2,x.id,($parent.$index+1).toString()+($index+1).toString())" ng-model="radioVal2" />
+                                        <label class="star" for="star2{{$parent.$index+1}}{{$index+1}}" title="Poor" aria-hidden="true"></label>
+                                        <input type="radio" id="star1{{$parent.$index+1}}{{$index+1}}" name="rating{{$parent.$index+1}}{{$index+1}}" value="1" ng-click="RadioChange(y.SubID,radioVal1,x.id,($parent.$index+1).toString()+($index+1).toString())" ng-model="radioVal1" />
+                                        <label class="star" for="star1{{$parent.$index+1}}{{$index+1}}" title="Very Poor" aria-hidden="true"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+                </table>
+            </div>
+
+
+            <div class="sm-spacer"></div>
+            <div class="col-md-12" ng-show="dataTable" style="padding: 1.5em;">
+                <button class="btn pull-right btn-success" type="submit">
+                    Submit
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+
+
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>
+</div>
+
+<div class="sm-spacer"></div>
+<div class="sm-spacer"></div>
+    </div>
+</div>
+<script>
+
+    // function validate(event) {
+    //     event.preventDefault();
+
+    //     grecaptcha.execute();
+
+    // }
+
+    // function onload() {
+    //     var element = document.getElementById('submit1');
+    //     element.onclick = validate;
+    // }
+</script>
+<!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>onload();</script> -->

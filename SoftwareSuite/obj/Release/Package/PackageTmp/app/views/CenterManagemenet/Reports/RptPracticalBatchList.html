@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Practical Batch List</title>
+</head>
+<body>
+    <div ng-controller="RptPracticalBatchListController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Practical Batch List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>Practical Batch List</li> 
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="RptPracticalBatchList.DistrictID" id="DistrictID" ng-change="GetCollegeData(RptPracticalBatchList.DistrictID)">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="RptPracticalBatchList.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">College :</label>
+                                    <select class="form-control" ng-model="RptPracticalBatchList.CollegeID" id="CollegeID" ng-change="GetCollegeName(RptPracticalBatchList.CollegeID)">
+                                        <option value="">--Select Center --</option>
+                                        <option ng-selected="RptPracticalBatchList.CollegeID == option.CollegeID" ng-repeat="option in BasicCollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="RptPracticalBatchList.CourseID" id="CourseID" ng-change="GetExamList(RptPracticalBatchList.CourseID)">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="RptPracticalBatchList.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Year :</label>
+                                    <select class="form-control" ng-model="RptPracticalBatchList.ExamID" id="ExamID" ng-change="GetBasicExamSubjectList(RptPracticalBatchList.ExamID)">
+                                        <option value="">--Select Year--</option>
+                                        <option ng-selected="RptPracticalBatchList.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Subject :</label>
+                                    <select class="form-control" ng-model="RptPracticalBatchList.ExmSubID" id="ExmSubID">
+                                        <option value="">--Select Subject--</option>
+                                        <option ng-selected="RptPracticalBatchList.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="PrintPracticalBatchList()">Show</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

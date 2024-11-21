@@ -1,0 +1,183 @@
+﻿<div ng-controller="TwshStudentDetailsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Student Details</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/TypeWriting">Twsh </a></li>
+                        <li><a href="#!/Dashboard/TypeWriting/TwshStudentDetails">Student Details</a></li>
+                    </ol>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/TypeWriting" class="backA"> <button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="cl-details">
+                <h2>Student Details</h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label for="sel1">
+                                Enter Application Number :
+                            </label>
+                            <div id=''>
+                                <input type='text'class="form-control" maxlength="50" ng-model="ApplicationNumber" placeholder="Enter Application Number" autocomplete="off" required />
+                            </div>
+                           
+                        </div>
+                        <div class="col-md-2">
+                            <div class="gr-btn">
+                                <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">Get Data</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="dataFound" >
+                <div class="table-responsive table-custom-tables" >
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th style="width: 1%;font-weight:600;">S no</th>
+                                <th style="width: 10%;font-weight:600;">Description</th>
+                                <th style="width: 10%;font-weight:600;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--<tr ng-repeat="(key, value) in data">
+        <td style="width: 1%">{{$index+1}}</td>
+        <td style="width: 10%;font-weight:500;font-style:italic;">{{key}}</td>
+        <td style="width: 10%"> {{value}}</td>
+    </tr>-->
+                            <tr>
+                                <td>1</td>
+                                <td>Application No</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.ApplicationNumber}}</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>HallTicketNumber</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.HallTicketNumber == null ?'--': data.HallTicketNumber}}</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Candidate Number</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.StudentName}}</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>FatherName</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.FatherName}}</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Gender</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.Gender}}</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>DateOfBirth</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.DateOfBirth}}</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>StudentPhoneNumber</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.StudentPhoneNumber}}</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>StudentAadhaar</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.StudentAadhaar ?'--': data.StudentAadhaar}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>9</td>
+                                <td>GradeName</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.GradeName}}</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Exam Mode</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.ExamMode == 1 ?'CBT':'TMBT'}}</td>
+                            </tr>
+                            <tr  ng-show="data.ExamMode == 2 ">
+                                <td>11</td>
+                                <td> ExamDate</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.ExamDate == null ?'--': data.ExamDate}}</td>
+                            </tr>
+                            <tr ng-show="data.ExamMode == 1 ">
+                                <td>11</td>
+                                <td>Selected Online ExamDate</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.SelectedOnlineExamDate == null ?'--': data.SelectedOnlineExamDate}}</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>ExaminationCenter</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.ExaminationCenterCode}}-{{data.ExaminationCenterName}}</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td>InstitutionName</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.InstitutionName}}</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>Is Blind</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.IsBlind}}</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>Is Eligible</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.IsEligible}}</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>Is Feepaid</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.IsFeePaid}}</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>Application Date</td>
+                                <td style="font-weight:500;font-style:italic;">{{data.LogDate}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12"  ng-show="dataFound">
+                <button type="button" class="btn btn-sm btn-primary gr-button" style="margin-top:20px;" ng-click="SendSms()">Send SMS</button>
+            </div>
+    </section>
+
+    <div class="container">
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer">
+    </div>
+
+</div>

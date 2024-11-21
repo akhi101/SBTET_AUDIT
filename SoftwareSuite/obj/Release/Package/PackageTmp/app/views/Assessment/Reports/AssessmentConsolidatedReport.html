@@ -1,0 +1,142 @@
+﻿<div ng-controller="AssessmentConsolidatedReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+
+            <section class="content-header">
+                <h5>Assessment Consolidated Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard">Assessment Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard/AssessmentConsolidatedReport">Assessment Consolidated Report</a></li>
+
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <div class="container ">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Assessment Consolidated Report</h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ResultsExcel">
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="AcademicYear" name="StudentType" ng-change="GetExamMonthYearsData(AcademicYear)" required
+                                        ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                    <option value="" selected>Select Academic Year</option>
+                                </select>
+                            </div>
+                            <!--<div class="col-md-3 form-group" ng-show="UserTypeId==1">
+        <label class="font-weight-bold"> College :</label>
+        <select class="form-control" ng-model="SelectedCollege" name="College" ng-change="ChangeCollege()" required>
+            <option value="" selected>Select College</option>
+            <option ng-repeat="data in GetCollegeList" value="{{data.CollegeCode}}">
+                {{data.CollegeCode}} - {{data.CollegeName}}
+            </option>
+        </select>
+    </div>
+    <div class="col-md-3 form-group" ng-show="UserTypeId==1">
+        <label class="font-weight-bold"> Branch :</label>
+        <select class="form-control" ng-model="SelBranch" name="Branch" required>
+            <option value="" selected>Select Branch</option>
+            <option ng-repeat="data in branchdata" value="{{data.BranchId}}">
+                {{data.Branch}}
+            </option>
+        </select>
+
+    </div>-->
+                            <!--<div class="col-md-2 form-group">
+        <label for="sel1">
+            Exam Month/Year :
+        </label>
+        <select class="form-control" id="ExamYear" ng-model="Resultsmonthyear" required>
+            <option value="" selected>Select Month/Year of Exam</option>
+            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                {{monYer.ExamYearMonth}}
+            </option>
+        </select>
+    </div>-->
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Scheme :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="SelScheme" ng-change="loadSemExamTypes(SelScheme)" required>
+                                    <option value="" selected>Select Scheme</option>
+                                    <option ng-repeat="scheme in schemeinfo" value="{{scheme}}">
+                                        {{scheme.scheme}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Semester :
+                                </label>
+                                <select class="form-control" ng-model="SelSem" name="StudentType" required
+                                        ng-options="Student.semid as Student.sem for Student in sems">
+                                    <option value="" selected>Select Semester</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Exam Type :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="ExamTypeId" required>
+                                    <option value="" selected>Select Exam Type</option>
+                                    <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                        {{data.examname}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="label">
+                                        Exam Month Year :
+                                    </label>
+                                    <div class="">
+                                        <select class="form-control" name="semister" required ng-model="ExamMonthYear">
+                                            <option value="" selected>Select Exam Month Year</option>
+                                            <option ng-repeat="data in ExamMonthYears" value="{{data.Id}}">
+                                                {{data.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="">
+                                    <button class="btn sub_btn submit_btn btn-primary " style="margin-top:23px;" ng-click="ResultsExcel.$valid && GetReport(SelSem)">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>    
+</div>

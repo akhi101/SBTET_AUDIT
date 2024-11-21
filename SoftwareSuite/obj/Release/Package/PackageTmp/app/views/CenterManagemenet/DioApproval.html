@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+</head>
+<body>
+    <div ng-controller="DioApprovalController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Dieo Approval</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Theory</li>
+                        <li>Dieo Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="form-group col-md-3 ">
+                                <label for="sel1"> Select Report Type :</label>
+                                <select class="form-control" ng-model="DioApproval.ReportType" id="ReportType" ng-change="getRptTypeChange(DioApproval.ReportType)">
+                                    <option value="">Select Report Type</option>
+                                    <option ng-selected="DioApproval.ReportType == option.ReportType" ng-repeat="option in reportTypes" value="{{option.ReportType}}">{{option.ReportTypeName}}</option>
+                                </select>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1"> Select District :</label>
+                                    <select class="form-control" ng-model="DioApproval.DistrictID" id="DistrictID" ng-change="GetPreCentreAuthData()">
+                                        <option value="">---Select District---</option>
+                                        <option ng-selected="DioApproval.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                            </div>  
+                            <div style="margin-top: 22px;" class="col-md-4">
+                                <button type="button" class="btn btn-sm btn-detail" ng-click="PrintZoneDetails()">Show</button>
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SubmitApproval()">Forward</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                                <!--<button type="button" class="btn btn-sm btn-detail" ng-click="DigiSign()">Digital sign</button>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <form class="form-horizontal" name="ReportForm" novalidate>
+                                    <div class="content-container-fluid">
+                                        <div class="row">
+                                            <div class="cols-sample-area">
+                                                <div class="control">
+                                                    <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

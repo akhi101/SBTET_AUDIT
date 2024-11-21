@@ -1,0 +1,118 @@
+﻿<div ng-controller="FeePaymentController">
+    <div class="sm-spacer"></div>
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12  mtp-50" ng-show="applicationNo">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="offer-custom-style">
+                                    <h2>Fee Payment</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div class="custom-forms">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group ">
+                                            <label>Application Number</label>
+                                            <input class="form-control" ng-model="ApplicationNo" placeholder="Enter Application Number" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="submit-btn" style="margin-bottom:0px;margin-top:39px">
+                                            <button type="button" ng-click="getPaymentDetails(ApplicationNo)">Get Details</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="row">
+                <div class="col-md-12 mtp-50" ng-show="detailsfound">
+                    <div class="card" >
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="offer-custom-style">
+                                    <h2>Application Details</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <div class="custom-forms">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="">
+                                            <div class="col-md-6 ">
+                                                <div class="col-md-6"><label>Application No  </label></div>
+                                                <div class="col-md-6">: {{Applicationno}}</div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div class="col-md-6"><label>Mobile Number </label></div>
+                                                <div class="col-md-6">: {{mobileno}}</div>
+                                            </div>
+                                           
+                                            <div class="col-md-6 ">
+                                                <div class="col-md-6"><label>Name  </label></div>
+                                                <div class="col-md-6 ">: {{candidateName}}</div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-6"> <label>Grade Name </label></div>
+                                                <div class="col-md-6">: {{gradeName}} </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-6"> <label>Father Name </label></div>
+                                                <div class="col-md-6">:{{FathernameName}}</div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div class="col-md-6"> <label>Amount </label></div>
+                                                <div class="col-md-6">: {{Amount}}</div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div class="col-md-6"><label>Gender </label></div>
+                                                <div class="col-md-6 ">: {{candidategender}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="detailsfound">
+                        <div class="col-md-6">
+                            <div class="back-btn pull-left" style="margin-bottom:0px;margin-top:20px">
+                                <button type="button" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="submit-btn pull-right" style="margin-bottom:0px;margin-top:20px">
+                                <button type="button" ng-click="Payfee()">Proceed to Pay</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="!detailsfound">
+                        <div class="col-md-12">
+                            <div class="no-results">
+                                <img src="../../../contents/img/Folder-Icon.svg" />
+                                <h2 ng-if="feeresp !== 'undefined'">{{feeresp}}</h2>
+                                <h2 ng-if="feeresp === 'undefined'">No Data Found on this application no</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+</div>

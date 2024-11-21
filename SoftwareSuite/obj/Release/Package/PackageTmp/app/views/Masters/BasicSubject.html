@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Subject </title>
+</head>
+<body>
+	<div ng-controller="BasicSubjectController">
+		<div>
+			<div class="container col-xs-12">
+				<div class="panel-group">
+					<div class="panel">
+						<div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b> Subject </b></div>
+						<div class="panel-body form_border">
+							<form action="#">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group" ng-show="false">
+											<label class=" control-label col-lg-2">SubjectID:</label>
+											<div class="col-lg-1">
+												<input type="text" class="form-control" ng-model="BasicSubject.SubjectID" id="SubjectID">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="email"> Subject Name:</label>
+											<input type="text" class="form-control" ng-model="BasicSubject.SubName" id="SubName" required="" maxlength="40" placeholder="Subject Name">
+										</div>
+										<div class="form-group">
+											<label for="sel1"> Status Of Subject :</label>
+											<select class="form-control" ng-model="BasicSubject.SubStatus" id="SubStatus">
+												<option value=""> -- Select Status of Subject -- </option>
+												<option value="Y"> Current </option>
+												<option value="N"> Outdated </option>
+												<option value="Y"> Revised </option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="sel1">External Status Of Subject :</label>
+											<select class="form-control" ng-model="BasicSubject.SubExtStatus" id="SubExtStatus">
+												<option value=""> -- Select Subject External Status-- </option>
+												<option value="Y">Yes</option>
+												<option value="N">No</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="email">Short Name :</label>
+											<input type="text" class="form-control" ng-model="BasicSubject.SubShrtName" id="SubShrtName" required="" maxlength="10" placeholder="Short Name">
+										</div>
+										<div class="form-group">
+											<label for="sel1"> Stream :</label>
+											<select class="form-control" ng-model="BasicSubject.CourseID" id="CourseID">
+												<option value="">--Select Stream --</option>
+												<option ng-selected="BasicSubject.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+											</select>
+
+										</div>
+
+
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="email">Subject Code :</label>
+											<input type="text" class="form-control" ng-model="BasicSubject.SubCode" id="SubCode" required="" maxlength="2" placeholder="Subject Code">
+										</div>
+										<div class="form-group">
+											<label for="sel1"> Type Of Subject :</label>
+											<select class="form-control" ng-model="BasicSubject.SubType" id="SubType">
+												<option value="">-- Select Subject Type --</option>
+												<option value="C">Compulsory</option>
+												<option value="S">Second Language</option>
+												<option value="O">Optional</option>
+												<option value="E">Extra Study</option>
+											</select>
+										</div>
+
+									</div>
+								</div>
+								<div class="col-md-12">
+									<center>
+										<button ng-disabled="isupdatableDisable" type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicSubject()">SUBMIT<span class="fa fa-save heading_icon btn_icons"></span></button>
+										<button ng-disabled="isdeletableDisable" type="button" class="btn form_btn_align delete_btn" ng-click="DeleteBasicSubject()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+										<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+									</center>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

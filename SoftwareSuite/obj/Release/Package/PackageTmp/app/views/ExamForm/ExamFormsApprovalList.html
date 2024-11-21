@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Select Students For Exam Fee</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <!--<script type="text/x-jsrender" id="headerTemplate">
+        <input type="checkbox" hidden="true" id="headchk" />
+    </script>-->
+    <div ng-controller="ExamFormsApprovalListController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Select Students For Exam Fee</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Select Students For Exam Fee</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row" ng-hide="{{ForBoardDisable}}">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormsApprovalList.DistrictID" ng-change="FillMandal(ExamFormsApprovalList.DistrictID)">
+                                        <option ng-selected="ExamFormsApprovalList.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Mandal :</label>
+                                    <select class="form-control input-sm" id="MandalID" ng-model="ExamFormsApprovalList.MandalID" ng-change="FillCollege(ExamFormsApprovalList.MandalID)" ng-disabled="MandalDisable">
+                                        <option ng-selected="ExamFormsApprovalList.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">College :</label>
+                                    <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormsApprovalList.CollegeID" ng-change="FillCollData(ExamFormsApprovalList.CollegeID)" ng-disabled="CollegeDisable">
+                                        <option ng-selected="ExamFormsApprovalList.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <select class="form-control" ng-model="ExamFormsApprovalList.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormsApprovalList.CourseID)">
+                                        <option ng-selected="ExamFormsApprovalList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Year :</label>
+                                    <select class="form-control" ng-model="ExamFormsApprovalList.ExamID" id="ExamID" ng-disabled="ExamDisable">
+                                        <option ng-selected="ExamFormsApprovalList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Group :</label>
+                                    <select class="form-control" ng-model="ExamFormsApprovalList.MainGrpID" id="MainGrpID">
+                                        <option ng-selected="ExamFormsApprovalList.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <div style="margin-top:24px;" class="col-md-1">
+                                <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">Show</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="ExamFormsApprovalGrid" ng-init="chkinit()" ej-grid e-datasource="ExamFormsApprovalData"
+                                     e-editsettings-allowediting="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="FormsApproval()" class="btn btn-danger btn-sm">Approval</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+            <!--<div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Forms Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row ctitle">
+                <div class="col-md-4">
+                    <span><strong>Exam Forms Approval</strong></span>
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="row" ng-hide="{{ForBoardDisable}}">
+                    <div class="col-md-3 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="sel1">District :</label>
+                            <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormsApprovalList.DistrictID" ng-change="FillMandal(ExamFormsApprovalList.DistrictID)">
+                                <option ng-selected="ExamFormsApprovalList.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="sel1">Mandal :</label>
+                            <select class="form-control input-sm" id="MandalID" ng-model="ExamFormsApprovalList.MandalID" ng-change="FillCollege(ExamFormsApprovalList.MandalID)" ng-disabled="MandalDisable">
+                                <option ng-selected="ExamFormsApprovalList.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sel1">College :</label>
+                            <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormsApprovalList.CollegeID" ng-change="FillCollData(ExamFormsApprovalList.CollegeID)" ng-disabled="CollegeDisable">
+                                <option ng-selected="ExamFormsApprovalList.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col-md-2 col-md-offset-1">
+            <div class="form-group">
+                <label for="sel1">Academic Instance :</label>
+                <select class="form-control" ng-model="ExamFormsApprovalList.AcdYrID" id="AcdYrID">
+                    <option ng-selected="ExamFormsApprovalList.AcdYrID == option.AcdYrID" ng-repeat="option in AcdYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                </select>
+            </div>
+        </div>-->
+               <!-- <div class="col-md-2 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="sel1">Stream :</label>
+                        <select class="form-control" ng-model="ExamFormsApprovalList.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormsApprovalList.CourseID)">
+                            <option ng-selected="ExamFormsApprovalList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Exam :</label>
+                        <select class="form-control" ng-model="ExamFormsApprovalList.ExamID" id="ExamID">
+                            <option ng-selected="ExamFormsApprovalList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Group :</label>
+                        <select class="form-control" ng-model="ExamFormsApprovalList.MainGrpID" id="MainGrpID">
+                            <option ng-selected="ExamFormsApprovalList.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="sel1"></label><br />
+                    <div class="form-group">
+                        <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">View</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="ExamFormsApprovalGrid" ng-init="chkinit()" ej-grid e-datasource="ExamFormsApprovalData"
+                         e-editsettings-allowediting="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                </div>
+            </div>
+            <button type="button" ng-click="FormsApproval()" class="btn form_btn_align save_btn">Approval<span class="fa fa-save heading_icon btn_icons"></span></button>-->
+        </div>
+    </div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,223 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="stylesheet" href="Reports/css/bootstrap.css">
+    <link rel="stylesheet" href="Reports/css/styles.css">
+    <link rel="stylesheet" href="Reports/css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,700" rel="stylesheet">-->
+    <title>Reports</title>
+</head>
+<body>
+    <div ng-controller="BoardReportListController">
+        <header>
+            <div class="row topbar_row_section">
+                <div class="container">
+                    <div class="row">
+                        <img src="../../contents/img/updated_header.jpg" class="img img-responsive" alt="header_banner" style="width: 100%;position: relative;">
+                    </div>
+                </div>
+            </div>
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>
+                                        <!--<li class="active">
+                                            <a ng-click="goToHome()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>-->
+
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Admission Reports
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in programsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                                <!--<li><a ng-click="GovtEnrollStatusReport()">{{GovtEnrollStatusReportName}}</a></li>
+                                                <li><a ng-click="GovtEnrollCollegeReport()">{{GovtEnrollCollegeReportName}}</a></li>
+                                                <li><a ng-click="GovtEnrollStudentReport()">{{GovtEnrollStudentReportName}}</a></li>
+                                                <li><a ng-click="GroupwiseReport()">{{GroupwiseReportName}}</a></li>
+                                                <li><a ng-click="DistrictwiseReport()">{{DistrictwiseReportName}}</a></li>
+                                                <li><a ng-click="SSCHallTicketSearchReport()">{{SSCHallTicketSearchReportName}}</a></li>
+                                                <li><a ng-click="DistrictwiseRecgFeeReport()">{{DistrictwiseRecgFeeReportName}}</a></li>
+                                                <li><a ng-click="CollegewiseRecgFeeReport()">{{CollegewiseRecgFeeReportName}}</a></li>-->
+
+                                                <!--<li><a class="dropdown-item" ui-sref="GovtEnrollStatusReport">District wise Student Enrollment in GJC's</a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="GovtEnrollCollegeReport">College wise Student Enrollment in GJC's </a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="GovtEnrollStudentReport">Total Student Enrollments in GJC's</a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="GroupwiseReport">Group wise report</a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="DistrictwiseReport">District wise report</a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="SSCHallTicketSearchReport">SSC Hall Ticket Search Report</a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="DistrictwiseRecgFeeReport">District wise Recognition Fee Report</a></li>-->
+                                                <!--<li><a class="dropdown-item" ui-sref="CollegewiseRecgFeeReport">College wise Recognition Fee Report</a></li>-->
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                    <div class="container navbar_container_section">
+                                        <div class="row">
+                                            <div class="collapse navbar-collapse" id="myNavbar">
+
+                                                <ul class="nav navbar-nav navbar-right">
+                                                    <li style="font-size:13px; color:#fff; margin-top:10px;">Welcome <span id="college_name1">{{college_name1}}</span></li>
+                                                    <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b>{{userName}}</b></span></a></li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!--<header>
+            <div class="row topbar_row_section">
+                <div class="container">
+                    <div class="row">
+                        <img src="../../contents/img/updated_header.jpg" class="img img-responsive" alt="header_banner" style="width: 100%;position: relative;">
+                    </div>
+                </div>
+            </div>
+            <div style="background-color: #2196f3;">
+                <div class="container">
+
+
+                    <nav class="navbar-sm navbar-expand-lg navbar-dark style=" background-color: #2196f3;"">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="top-link nav-link" href="#">
+                                        <b class="main_header_main_menu" >
+                                            Home
+                                        </b>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="top-link nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <b class="main_header_main_menu nounderline">
+                                            Admission Reports
+                                            <span class="caret"></span>
+                                        </b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" ui-sref=".GovtEnrollStatusReport">Total Student Enrollments in GJC's</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" ui-sref=".GovtEnrollCollegeReport">Total Student Enrollments in GJC's </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" ui-sref=".GovtEnrollStudentReport">Total Student Enrollments in GJC College wise</a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+
+
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li style="font-size:13px; color:#fff; margin-top:5px;">Welcome <span id="userName"></span> {{userName}} |</li>
+                                <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b></b></span></a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>-->
+        <!-- body content start -->
+        <div class="container">
+            <div class="row">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">You are in </li>
+                        <li class="breadcrumb-item">Home</li>
+                        <li class="breadcrumb-item">Admission Reports</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row ctitle">
+                <div class="col-md-12">
+                    <span>Admission Reports</span>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="col-md-12 col-xs-12">
+                    <a ui-sref="{{ GovtEnrollStatusReport ?  '.GovtEnrollStatusReport' : undefined }}"><div class="adm pai"><p>{{GovtEnrollStatusReportName}}</p></div></a>
+                    <a ui-sref="{{ GovtEnrollCollegeReport ?  '.GovtEnrollCollegeReport' : undefined }}"><div class="adm pai"><p>{{GovtEnrollCollegeReportName}}</p></div></a>
+                    <a ui-sref="{{ GovtEnrollStudentReport ?  '.GovtEnrollStudentReport' : undefined }}"><div class="adm pai"><p>{{GovtEnrollStudentReportName}}</p></div></a>
+                    <a ui-sref="{{ GroupwiseReport ?  '.GroupwiseReport' : undefined }}"><div class="adm pai"><p>{{GroupwiseReportName}}</p></div></a>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <a ui-sref="{{ DistrictwiseReport ?  '.DistrictwiseReport' : undefined }}">
+                        <div class="adm pai">
+                            <p>
+                                {{DistrictwiseReportName}}
+                            </p>
+                        </div>
+                    </a>
+                    <a ui-sref="{{ SSCHallTicketSearchReport ?  '.SSCHallTicketSearchReport' : undefined }}"><div class="adm pai"><p>{{SSCHallTicketSearchReportName}}</p></div></a>
+                    <a ui-sref="{{ DistrictwiseRecgFeeReport ?  '.DistrictwiseRecgFeeReport' : undefined }}"><div class="adm pai"><p>{{DistrictwiseRecgFeeReportName}}</p></div></a>
+                    <a ui-sref="{{ CollegewiseRecgFeeReport ?  '.CollegewiseRecgFeeReport' : undefined }}"><div class="adm pai"><p>{{CollegewiseRecgFeeReportName}}</p></div></a>
+                </div>-->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="#" ng-click="GovtEnrollStatusReport()">{{GovtEnrollStatusReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="GovtEnrollCollegeReport()">{{GovtEnrollCollegeReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="GovtEnrollStudentReport()">{{GovtEnrollStudentReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="GroupwiseReport()">{{GroupwiseReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="DistrictwiseReport()">{{DistrictwiseReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="SSCHallTicketSearchReport()">{{SSCHallTicketSearchReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="DistrictwiseRecgFeeReport()">{{DistrictwiseRecgFeeReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="CollegewiseRecgFeeReport()">{{CollegewiseRecgFeeReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="SystemUserAuditTrailReport()">{{SystemUserAuditTrailReportName}}</a></li>
+                    <li class="list-group-item"><a href="#" ng-click="SystemUserLoginDetailsReport()">{{SystemUserLoginDetailsReportName}}</a></li>
+
+
+                    <!--<li class="list-group-item"><a href="#" ng-click="GovtEnrollStatusReport()">District wise Student Enrollment in GJC's</a></li>
+    <li class="list-group-item"><a href="#" ng-click="GovtEnrollCollegeReport()">College wise Student Enrollment in GJC's</a></li>
+    <li class="list-group-item"><a href="#" ng-click="GovtEnrollStudentReport()">Total Student Enrollments in GJC's</a></li>
+    <li class="list-group-item"><a href="#" ng-click="GroupwiseReport()">Group wise report</a></li>
+    <li class="list-group-item"><a href="#" ng-click="DistrictwiseReport()">District wise report</a></li>
+    <li class="list-group-item"><a href="#" ng-click="SSCHallTicketSearchReport()">SSC Hall Ticket Search Report</a></li>
+    <li class="list-group-item"><a href="#" ng-click="DistrictwiseRecgFeeReport()">District wise Recognition Fee Report</a></li>
+    <li class="list-group-item"><a href="#" ng-click="CollegewiseRecgFeeReport()">College wise Recognition Fee Report</a></li>-->
+                </ul>
+            </div>
+        </div>
+        <!-- body content end-->
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>-->
+    </div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+﻿<style>
+    .gr-button{
+        padding:7px 27px;
+    }
+    .cl-details h2 {
+   
+    margin-bottom: 0px!important;
+}
+
+    .btn-css{
+        margin-top:25px;
+        padding:5px 12px;
+    }
+    .editbtn{
+         width:42px;
+        margin :0px 10px 0px 10px;
+    }
+    .deleteBtn{
+        width:42px;
+        margin :0px 10px 0px 10px;
+    }
+    .mybtn{
+            width: 62px;
+    }
+
+</style>
+
+
+<div ng-controller="CreateUserController">
+
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Create User </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">MasterSettings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/CreateUser">CreateUser</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/MasterSettings" class="backA" ng-click="get()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        </div>
+ 
+    <div class="container">
+
+        <form name="MyForm">
+            <div class="base-row" style="padding:15px!important;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">RoleType:</label>
+                            <div class="">
+                                <select class="form-control" name="RoleType" ng-model="UserTypeId" required>
+                                    <option value="" selected>Select RoleType</option>
+                                    <option ng-repeat="data in Rolltype" value="{{data.Id}}">
+                                        {{data.UserDescription}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">UserName :</label>
+                            <input type="text" class="form-control" ng-model="UserName" placeholder="Enter UserName" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">First Name :</label>
+                            <input type="text" class="form-control" ng-model="FirstName" placeholder="Enter First Name" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Last Name :</label>
+                        <input type="text" class="form-control" ng-model="LastName" placeholder="Enter Last Name" required />
+                    </div>
+                </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Password :</label>
+                            <input type="text" class="form-control" ng-model="Password" placeholder="Enter Password" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Address :</label>
+                            <input type="text" class="form-control" ng-model="Address" placeholder="Enter Address" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">EmailId :</label>
+                            <input type="text" class="form-control" ng-model="EmailId" placeholder="Enter Email Id" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Cell Number :</label>
+                            <input type="text" class="form-control" ng-model="CellNumber" placeholder="Enter Cell Number" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-show="UserTypeId ==2||UserTypeId ==3||UserTypeId ==1006">
+                        <div class="form-group">
+                            <label class="font-weight-bold">College :</label>
+                            <select class="form-control" name="Branch" ng-model="CollegeId" >
+                                <option value="" selected>Select College</option>
+                                <option ng-repeat="data in getColleges" value="{{data.CollegeId}}">
+                                   {{data.college_code}} - {{data.college_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3" ng-show="UserTypeId == 3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Branch :</label>
+                            <select class="form-control" name="Branch" ng-model="BranchId" >
+                                <option value="" selected>Select Branch</option>
+                                <option ng-repeat="data in getBranches" value="{{data.CourseId}}">
+                                    {{data.Branch}}
+                                </option>
+                            </select>
+                           <!--s <input type="text" class="form-control" ng-model="CellNumber" placeholder="" required />-->
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-primary gr-button btn_top pull-left" style="margin-top: 24px!important;" ng-click="MyForm.$valid && Save()">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+     
+      
+   
+
+        <div class="container" >
+            <div class=" row">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Users List</h2>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="container">
+      
+        <div class="table-responsive table-custom-tables-tb">
+            <table class="table table-bordered table-hover table-striped table-rounded">
+
+                <thead>
+                    <tr>
+                        <th class="font-weight-bo">S.No</th>
+                        <th class="font-weight-bold">UserName</th>
+                        <th class="font-weight-bold">First name</th>
+                        <th class="font-weight-bold">Last Name</th>
+                        <th class="font-weight-bold">Email</th>
+                        <th class="font-weight-bold">Mobile</th>
+                        <th class="font-weight-bold">Status</th>
+                        <!--<th class="font-weight-bold">Action</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="X in UserType">
+                        <td>{{$index+1}}</td>
+                        <td>{{X.UserName}}</td>
+                        <td>{{X.FirstName == null ? '-':X.FirstName}}</td>
+                       <td>{{X.LastName== null ? '-':X.LastName}}</td>
+                        <td>{{X.EmailId== null ? '-':X.EmailId}}</td>
+                        <td>{{X.CellNo== null ? '-':X.CellNo}}</td>
+                        
+                        <td class="text-left">
+                            <span ng-if="X.IsActive == true"><button ng-click="ActiveStatus(X.Id,0)" class="btn-success mybtn btn btn-xs">Active</button></span>
+                            <span ng-if="X.IsActive == false"><button ng-click="ActiveStatus(X.Id,1)" class="btn-danger mybtn btn btn-xs">Is Active</button></span>
+                        </td>
+                        <!--<td>
+                            <button class="btn-xs btn btn-success editbtn col-md-2" ng-click="Edit(X.Id)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                        <button class="btn-xs btn btn-red deleteBtn col-md-2" ng-click="delete(Y.BranchID)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                        </td>-->
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            </div>
+      
+        </div>
+
+
+  
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+
+    </div>
+                    
+    

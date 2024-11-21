@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Center To Student Allocation</title>
+</head>
+<body>
+    <div ng-controller="CenterToStudentAllocationController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Center To Student Allocation</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>Center To Student Allocation</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <div class="form-group form-inline">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="CenterToStudentAllocation.DistrictID" id="DistrictID" ng-change="GetOtherCenterNewCode(CenterToStudentAllocation.DistrictID)">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="CenterToStudentAllocation.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+             
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="CenterToStudentAllocationProcess()">Process</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

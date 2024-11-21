@@ -1,0 +1,108 @@
+﻿<style>
+        .padRow {
+            padding: 5px;
+        }
+        /*.noDue:hover{
+         height: 300px; /* Modify this according to your need */
+        /*overflow: hidden;  Removing this will break the effects
+
+    }*/
+
+        .noDue {
+            transform-origin: 0 0;
+            /*transition: transform .25s, visibility .25s ease-in;*/
+        }
+
+            /* The Transformation */
+            .noDue:hover {
+                /*height:300px;
+      transform: scale(1.5);
+      z-index:100;*/
+                transform: scale(1.5);
+                height: 300px;
+                margin-bottom: 150px;
+            }
+</style>
+<div ng-controller="Transcript_StudentDetailsController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ">
+            <div class="cl-details">
+                <h2>Transfer Certificate Student Details</h2>
+            </div>
+        </div>
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="col-md-9">
+                    <div class="row padRow">
+                        <div class="col-md-3">Name</div>
+                        <div class="col-md-9">: {{Name}}  </div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">Pin</div>
+                        <div class="col-md-9">: {{PIN}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">Scheme</div>
+                        <div class="col-md-9">: {{Scheme}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">College Code</div>
+                        <div class="col-md-9">: {{CollegeCode}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">Phone</div>
+                        <div class="col-md-9">: {{Mobile}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">Applied Date</div>
+                        <div class="col-md-9">: {{StudentDetails.Logdate|date:'dd-MMM-yyyy HH:mm:ss'}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">WES Reference No</div>
+                        <div class="col-md-9">: {{StudentDetails.WESReferenceNo}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">Universities Applied</div>
+                        <div class="col-md-9">: {{StudentDetails.UniversitiesApplied}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">University Emails</div>
+                        <div class="col-md-9">: {{StudentDetails.UniversityEmails}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-3">Memos</div>
+                        <div class="col-md-9">: <div ng-repeat="data in array">{{data.memo}}</div></div>
+                    </div>
+                    <!--<div class="row padRow">
+                        <div class="col-md-3">No Due</div>
+                        <div class="col-md-9">:<img style="border: 2px solid #ddd;" height="350" width="600" class="noDue" src="{{StudentDetails.Nodue}}"></div>
+                    </div>-->
+
+                </div>
+              
+                  <div class="col-md-3">
+
+                    <img style="border: 2px solid #ddd;" height="150" width="120" src="{{StudentDetails.WESCertificate}}">
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <button class="btn btn-danger" style="margin-top:21px" ng-click="Reject()">Reject</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success pull-right" style="margin-top:21px" ng-click="Approve()">Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

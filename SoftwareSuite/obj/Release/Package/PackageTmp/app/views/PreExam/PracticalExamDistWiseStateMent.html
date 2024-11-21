@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Pracatical Exam District Wise Statement </title>
+</head>
+<body>
+    <div ng-controller="PrctExmDistWiseStMentController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> Pracatical Exam District Wise Statement </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>PreExam</li>
+                        <li>Pracatical Exam District Wise Statement</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-5">
+                                <div class="form-group">
+                                    <label for="sel1"> District :</label>
+                                    <select class="form-control" ng-model="PreExmSpelPract.DistrictID" id="DistrictID" ng-disabled="isDistrictDisable">
+                                        <option value=""> -- ALL --</option>
+                                        <option ng-selected="PreExmSpelPract.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetDistWisePracticalExamStatement()">Show</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <div id="container" ej-reportviewer="ej-reportviewer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

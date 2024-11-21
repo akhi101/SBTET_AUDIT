@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Station">
+    <title>Exam Form Generation</title>
+</head>
+<body>
+    <div ng-controller="ExamFormGenerationController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Form Generation</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Form Generation</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row" ng-hide="{{ForBoardDisable}}">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormGeneration.DistrictID" ng-change="FillMandal(ExamFormGeneration.DistrictID)">
+                                        <option value="" selected>All</option>
+                                        <option ng-selected="ExamFormGeneration.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Mandal :</label>
+                                    <select class="form-control input-sm" id="MandalID" ng-model="ExamFormGeneration.MandalID" ng-change="FillCollege(ExamFormGeneration.MandalID)" ng-disabled="MandalDisable">
+                                        <option value="" selected>All</option>
+                                        <option ng-selected="ExamFormGeneration.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">College :</label>
+                                    <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormGeneration.CollegeID" ng-change="FillCollData(ExamFormGeneration.CollegeID)" ng-disabled="CollegeDisable">
+                                        <option value="" selected>All</option>
+                                        <option ng-selected="ExamFormGeneration.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2" ">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <select class="form-control" ng-model="ExamFormGeneration.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormGeneration.CourseID)">
+                                        <option ng-selected="ExamFormGeneration.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Year :</label>
+                                    <select class="form-control" ng-model="ExamFormGeneration.ExamID" id="ExamID">
+                                        <option ng-selected="ExamFormGeneration.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top:23px;" class="col-md-2">
+                                <div class="form-group">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetGenerateExamForm()">Generate</button>
+                                    <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- New Style End-->
+       <!-- <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-university heading_icon"></span><b>Exam Form Generation</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="row" ng-hide="{{ForBoardDisable}}">
+                            <div class="col-md-3 col-md-offset-1">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormGeneration.DistrictID" ng-change="FillMandal(ExamFormGeneration.DistrictID)">
+                                        <option ng-selected="ExamFormGeneration.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Mandal :</label>
+                                    <select class="form-control input-sm" id="MandalID" ng-model="ExamFormGeneration.MandalID" ng-change="FillCollege(ExamFormGeneration.MandalID)" ng-disabled="MandalDisable">
+                                        <option ng-selected="ExamFormGeneration.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">College :</label>
+                                    <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormGeneration.CollegeID" ng-change="FillCollData(ExamFormGeneration.CollegeID)" ng-disabled="CollegeDisable">
+                                        <option ng-selected="ExamFormGeneration.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!--<div class="form-group">
+                            <label for="sel1">Academic instance :</label>
+                            <select class="form-control" id="sel1">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                                <option>Option 4</option>
+                            </select>
+                        </div>-->
+                            <!--<div class="form-group">
+                            <label for="sel1">Exam instance :</label>
+                            <select class="form-control" ng-model="ExamFormGeneration.ExamInstID" id="ExamInstID">
+                                <option value="">--Select--</option>
+                                <option ng-selected="ExamFormGeneration.ExamInstID == option.ExamInstID" ng-repeat="option in BasicExamInstanceList" value="{{option.ExamInstID}}">{{option.ExamInstanceName}}</option>
+                            </select>
+                        </div>-->
+                           <!-- <div class="form-group">
+                                <label for="sel1">Stream :</label>
+                                <select class="form-control" ng-model="ExamFormGeneration.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormGeneration.CourseID)">
+                                    <option ng-selected="ExamFormGeneration.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!--<div class="form-group">
+                            <label for="">College :</label>
+                            <select class="form-control" ng-model="ExamFormGeneration.CollegeID" id="CollegeID">
+                                ng-disabled="DisableTypeFlag"
+                                <option value="0">--Select--</option>
+                                <option ng-selected="ExamFormGeneration.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                            </select>
+                        </div>-->
+                            <!--<div class="form-group">
+                            <label for="">Branch :</label>
+                            <select class="form-control" ng-model="ExamFormGeneration.BranchID" id="BranchID">
+                                <option value="">--Select--</option>
+                                <option ng-selected="ExamFormGeneration.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                            </select>
+                        </div>-->
+                            <!--<div class="form-group">
+                                <label for="sel1">Exam :</label>
+                                <select class="form-control" ng-model="ExamFormGeneration.ExamID" id="ExamID">
+                                    <option ng-selected="ExamFormGeneration.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="form-group" style="text-align: center;">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align cancel_btn" ng-click="GetGenerateExamForm()">GENERATE<span class="fa fa-file-pdf-o heading_icon btn_icons"></span></button>
+                                <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+                    </form>
+                    <!--<div class="col-md-12">
+                    <div class="progress" style="height:10px">
+                        <div class="progress-bar" style="width:40%;height:10px"></div>
+                    </div>
+                </div>-->
+               <!-- </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

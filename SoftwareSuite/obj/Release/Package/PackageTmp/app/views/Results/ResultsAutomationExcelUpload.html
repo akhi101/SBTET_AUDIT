@@ -1,0 +1,2315 @@
+﻿<style>
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .SuccessCls {
+        color: green;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .FailClass {
+        color: red;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .btn {
+        border: 2px solid #fff;
+        color: #fff;
+        background-color: #1b84e7;
+        padding: 11px 60px;
+        border-radius: 8px;
+        font-weight: bold;
+        width: auto;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    input#file {
+        display: inline-block;
+        width: 100%;
+        padding: 120px 0 0 0;
+        height: 100px;
+        overflow: hidden;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border-radius: 20px;
+        background-size: 60px 60px;
+    }
+
+    .progress {
+        height: 110px;
+        width: 1000px;
+        margin: 20px auto;
+        background-color: white;
+        text-align: center;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0);
+        webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0);
+    }
+
+        .progress .circle,
+        .progress .bar {
+            display: inline-block;
+            background: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            border: 1px solid #d5d5da;
+        }
+
+        .progress .bar {
+            position: relative;
+            width: 200px;
+            height: 6px;
+            margin: 30px -5px 68px -5px !important;
+            border-left: none;
+            border-right: none;
+            border-radius: 0;
+        }
+
+        .progress .circle .label {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 32px;
+            margin-top: 3px;
+            color: #b5b5ba;
+            font-size: 17px;
+        }
+
+        .progress .circle .title {
+            color: #b5b5ba;
+            font-size: 20px;
+            line-height: 30px;
+            margin-left: -5px;
+        }
+
+    span.title {
+        color: #000 !important;
+    }
+
+    /* Done / Active */
+    .progress .bar.done,
+    .progress .circle.done {
+        background: #eee;
+    }
+
+    .progress .bar.active {
+        background: linear-gradient(to right, #EEE 40%, #FFF 60%);
+    }
+
+    .progress .circle.done .label {
+        color: #FFF;
+        background: #8bc435;
+        /*box-shadow: inset 0 0 2px rgba(0,0,0,.2);*/
+    }
+
+    .progress .circle.done {
+        color: #444;
+    }
+
+    .progress .circle.active .label {
+        color: #FFF;
+        background: #0c95be;
+        /*box-shadow: inset 0 0 2px rgba(0,0,0,.2);*/
+    }
+
+    .progress .circle.active .title {
+        color: #0c95be;
+    }
+
+
+
+    /*table style*/
+
+    /* Styles go here */
+
+    .editable-cell {
+        border: none;
+        background-color: inherit;
+    }
+
+    .container {
+        position: relative;
+    }
+
+    .context-menu {
+        position: absolute;
+    }
+
+        .context-menu .dropdown-menu {
+            display: block;
+            position: static;
+        }
+
+    input.editable-cell {
+        padding-left: 5px;
+        width: 100%;
+        height: 100%;
+    }
+
+        input.editable-cell:focus {
+            outline: 1px solid #777;
+        }
+
+    .spreadsheet-container {
+        width: 100%;
+        height: 70%;
+        overflow: scroll;
+    }
+
+    .spreadsheet.table {
+        width: auto;
+        height: auto;
+    }
+
+    .spreadsheet th.col, .spreadsheet td.col {
+        padding: 0;
+        min-width: 100px;
+        width: 120px;
+    }
+
+    .spreadsheet .col-sno {
+        min-width: 30px;
+        background-color: #EEE;
+    }
+
+    .spreadsheet.table .col-sno {
+        width: 20px;
+        background-color: #EEE;
+    }
+
+    .spreadsheet.table .row-header {
+        background-color: #EEE;
+    }
+
+    /*body {
+            margin-top: 40px;
+        }*/
+
+    .stepwizard-step p {
+        margin-top: 10px;
+        padding: 0px;
+        font-weight: bold;
+    }
+
+    .stepwizard-row {
+        display: table-row;
+    }
+
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+        margin-left: 0px;
+    }
+
+    .stepwizard-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+
+    .stepwizard-row:before {
+        top: 19px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 84%;
+        height: 2px;
+        background-color: #35a5f1;
+        z-order: 0;
+        margin: 0px 84px;
+    }
+
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+    .btn-circle {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 16px;
+        line-height: 1.428571429;
+        border-radius: 30px;
+    }
+
+    .btn-default.active:hover {
+        border-color: #35a5f1 !important;
+    }
+
+    .p {
+        padding-left: 17px;
+    }
+
+    .nextBtn {
+        text-align: center;
+    }
+
+    .setting {
+        margin-left: 0px;
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 0px;
+        margin-top: 14px;
+        margin-bottom: 27px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+    }
+
+    .active {
+        background-color: none!important;
+    }
+
+ /*   .active_btn {
+        background-color: red;
+    }
+*/
+    .btn-default:hover, .btn-dark-blue:hover, .btn-default:focus, .btn-dark-blue:focus, .btn-default:active,
+    .btn-dark-blue:active, .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+        border: 4px solid #148a14;
+        color: #148a14 !important;
+        background-color: #fff !important;
+        font-size: 16px;
+    }
+
+    a.btn.btn-circle.btn-default.active.active_btn.btn-primary {
+        border: 4px solid #1b84e7;
+        color: #1b84e7 !important;
+    }
+
+    #drop-area {
+        border: 2px dashed #999;
+        border-radius: 20px;
+        /* width: 480px; */
+        font-family: sans-serif;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #d8ecfa94;
+    }
+
+        #drop-area.highlight {
+            border-color: purple;
+        }
+
+    p {
+        margin-top: 0;
+    }
+
+    .my-form {
+        margin-bottom: 10px;
+    }
+
+    #gallery {
+        margin-top: 10px;
+    }
+
+        #gallery img {
+            width: 150px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+    .button {
+        display: inline-block;
+        padding: 10px;
+        background: #ccc;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+        .button:hover {
+            background: #ddd;
+        }
+
+    #fileElem {
+        display: none;
+    }
+
+    .btn-primary:hover {
+        color: #fff !important;
+        background-color: #1b84e7 !important;
+        border-color: #fff !important;
+    }
+
+    .btn {
+    }
+
+    .mybtnDetails {
+        padding: 5px 10px;
+        border: 2px solid #fff;
+        color: #fff;
+        background-color: #279b29;
+        /* padding: 11px 60px; */
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 13px;
+        width: auto;
+        font-weight: normal;
+    }
+
+        .mybtnDetails:hover {
+            color: #fff;
+            background-color: #17bc3f;
+            border-color: #fff;
+        }
+
+    .submit_btn {
+        font-size: 13px !important;
+        padding: 5px !important;
+        font-weight: normal !important;
+        width: 80px !important;
+        /*margin-top: 23px!important;*/
+    }
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .clr_red {
+        color: red;
+        font-weight: bold;
+    }
+
+    .clr_green {
+        color: darkgreen;
+    }
+
+    .cls_active {
+        color: red;
+    }
+
+    .fontSize {
+        font-size: 20px;
+    }
+
+    .btn-primary:hover {
+        color: #fff !important;
+        background-color: #fff !important;
+        border-color: #fff !important;
+    }
+
+    .btn-default.active:hover {
+        border-color: #35a5f1 !important;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        color: #000 !important;
+        background-color: #fff !important;
+        border-color: #fff !important;
+    }
+
+    .sub_btn:hover {
+        background-color: #1b84e7 !important;
+        color: #fff !important;
+    }
+
+    .btn-default.active:hover {
+        border-color: #148a14 !important;
+        color: #fff;
+    }
+
+    /*--- preview CSS-----*/
+
+    .mya {
+        color: #337ab7 !important;
+        text-decoration: underline !important;
+        cursor: pointer !important;
+    }
+
+    .modal-content {
+        height: 550px !important;
+        overflow: scroll !important;
+    }
+
+    .print-cnt {
+        display: none;
+        page-break-after: auto;
+    }
+
+    .print:last-child {
+        page-break-after: auto;
+    }
+
+    .image {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    @media screen {
+        #printSection {
+            display: none !important;
+        }
+    }
+
+    @media print {
+
+        .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+            float: left;
+        }
+
+        .col-md-12 {
+            width: 100%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-11 {
+            width: 91.66666666666666%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-10 {
+            width: 83.33333333333334%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-9 {
+            width: 75%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-8 {
+            width: 66.66666666666666%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-7 {
+            width: 58.333333333333336%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-6 {
+            width: 50%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-5 {
+            width: 41.66666666666667%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-4 {
+            width: 33.33333333333333%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-3 {
+            width: 25%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-2 {
+            width: 16.666666666666664%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-1 {
+            width: 8.333333333333332%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        .table-bordered > thead > tr > th {
+            position: unset;
+        }
+
+        #currenttime {
+            display: block !important;
+        }
+
+        .logo-name h2 {
+            text-align: left;
+            margin-left: 130px;
+            margin-top: -20px;
+            font-size: 25px !important;
+            line-height: 36px;
+        }
+
+        #idtoDivPrintAdmin {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+    }
+</style>
+<style>
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+    #checkboxesScheme {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesScheme label {
+            display: block;
+        }
+
+            #checkboxesScheme label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesHandicaped {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesHandicaped label {
+            display: block;
+        }
+
+            #checkboxesHandicaped label:hover {
+                background-color: #1e90ff;
+            }
+
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCollegeTypes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCollegeTypes label {
+            display: block;
+        }
+
+            #checkboxesCollegeTypes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAcademicYear {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAcademicYear label {
+            display: block;
+        }
+
+            #checkboxesAcademicYear label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAdmissionType {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAdmissionType label {
+            display: block;
+        }
+
+            #checkboxesAdmissionType label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCategory {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCategory label {
+            display: block;
+        }
+
+            #checkboxesCategory label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem label {
+        display: block;
+    }
+
+        #checkboxessem label:hover {
+            background-color: #1e90ff;
+        }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/xlsx.js"></script>
+<!-- MultiStep Form -->
+<div ng-controller="ResultsAutomationExcelUploadController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Results Automation</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/PostExam">PostExam </a></li>
+                        <li><a href="#!/Dashboard/PostExam/ResultsAutomationExcelUpload">Results Automation</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam" class="backA"> <button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="container-fluid">
+
+        <div class="stepwizard col-md-offset-3">
+            <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-step">
+
+                    <a href="#step-1" type="button" class="btn btn-primary btn-circle">1 </a>
+                    <p class="">OSDES Marks Uploading</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-2" type="button" class="btn btn-default btn-circle">2</a>
+                    <p class="">Nr Generation and Marks Posting</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-3" type="button" class="btn btn-default btn-circle">3</a>
+                    <p class="">Wantings and Updation</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-4" type="button" class="btn btn-default btn-circle">4</a>
+                    <p class="">Results Generation</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-5" type="button" class="btn btn-default btn-circle">5</a>
+                    <p class="">Logics and Reports</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-6" type="button" class="btn btn-default btn-circle">6</a>
+                    <p class="">Preview Results</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-7" type="button" class="btn btn-default btn-circle">7</a>
+                    <p class="">Results Deployment Master Tables</p>
+                </div>
+                <!--<div class="stepwizard-step">
+                    <a href="#step-7" type="button" class="btn btn-default btn-circle">7</a>
+                    <p class="">deploynt</p>
+                </div>-->
+
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row setup-content" id="step-1">
+
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Upload Marks</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="ExcelForm1">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="monthyear" ng-model="monthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="Scheme" ng-model="Scheme" ng-change="loadSemExamTypes(Scheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+
+                                        <select class="form-control" ng-model="SelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="UploadExamTypeId" ng-model="UploadExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn btn-sm btn-primary gr-button sub_btn" ng-click="ExcelForm1.$valid && SubmitForm()">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="ShowData">
+                    <div class="col-md-4">
+                        <div id="drop-area">
+                            <!-- <p>Upload multiple files with the file dialog or by drag and drop Excel here</p>-->
+
+                            <div class="form-group">
+                                <div class="upload-btn-wrapper">
+                                    <button class="btn " style="margin-top:21px;">Choose Excel </button>
+                                    <input type="file" name="File" id="File" accept=".xlsx" sa-file-upload="myFile" />
+                                </div>
+                                <label>{{filename}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="myCheck" ng-show="FileContains">
+                        <div id="drop-area">
+
+                            <div class="form-group">
+                                <div class="upload-btn-wrapper">
+                                    <button style="margin-top:21px;margin-bottom: 2px;" ng-show="!filename" class="btn btn-sm pull-left" ng-click="openExcel()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> uploading ">View Table</button>
+                                    <button style="margin-top:21px;margin-bottom: 26px;" ng-show="filename" class="btn btn-sm pull-left" ng-click="openExcel()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> uploading ">View Table</button>
+                                </div>
+                                <!--<label>{{filename}}</label>-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" ng-show="FileContains">
+
+                        <!--    <div id="drop-area">-->
+                        <!-- <p>Click on the beow button to download sample data</p>-->
+                        <div class="form-group">
+                            <button class="btn btn-detail mybtnDetails pull-right" style="margin-top:20px;" ng-click="Download()">
+                                <i class="fa fa-file-excel-o"></i> Download Sample Data
+                            </button>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                    <div class="col-md-8" ng-show="!FileContains">
+
+                        <!--    <div id="drop-area">-->
+                        <!-- <p>Click on the beow button to download sample data</p>-->
+                        <div class="form-group">
+                            <button class="btn btn-detail mybtnDetails pull-right" style="margin-top:20px;" ng-click="Download()">
+                                <i class="fa fa-file-excel-o"></i> Download Sample Data
+                            </button>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-o/ffset-3 setting" ng-show="ShowTableData">
+                    <div class="spacer"></div>
+                    <button ng-show="tabledata.length>0" style="margin-bottom: 30px" class="btn  btn-sm pull-right" ng-click="UploadExcel()"> Upload</button>
+                    <div class="spacer"></div>
+                    <div class="col-md-12" ng-show="tabledata.length>0">
+                        <p class="pull-right clr_red">First 10 rows will be shown below</p>
+                    </div>
+                    <div class="col-md-12">
+                        <!--<div style="width:100%;text-align:center;">
+                            <img src="../../contents/img/loading.gif" ng-show="loading" width="100" />
+                        </div>-->
+
+                        <div class="container">
+                            <div class="spreadsheet-container" ng-show="tabledata.length>0">
+                                <table class="table table-bordered" ng-repeat="table in tabledata">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 2%;">S.No</th>
+                                            <th style="width: 3%;" ng-repeat="column in table.cols">{{column}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="row in table.rows| limitTo:10 ">
+                                            <td style="width: 2%;" class="text-left">{{$index + 1}}</td>
+                                            <td ng-repeat="column in table.cols">{{row[column]}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <button ng-show="tabledata.length>0" style="margin-top: 30px" class="btn  btn-sm pull-right" ng-click="UploadExcel()"> Upload</button>
+                </div>
+                <div class="col-md-12">
+                    <div class="sm-spacer"></div>
+                    <div style="width:100%;text-align:center;" ng-show="reload">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Uploading, Please wait...</b></h4>
+                    </div>
+                </div>
+                <!--<div class="col-md-12">
+                    <div ng-show="tabledata.length<=0 && !reload">
+                        <h3 style="color:green;text-align:center">There is not Data Present in File</h3>
+                    </div>
+                </div>-->
+            </div>
+
+            <div class="row setup-content" id="step-2">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> NR Generation</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="NrForm">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Nrmonthyear" ng-model="Nrmonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="NrScheme" ng-model="NrScheme" ng-change="loadSemExamTypes(NrScheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="NrExamTypeId" ng-model="NrExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+                                        <!--<select class="form-control" ng-model="SelStudentType" name="StudentType">
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                {{Student.type}}
+                                            </option>
+                                        </select>-->
+                                        <select class="form-control" ng-model="NrSelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                        ec
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn btn-sm sub_btn btn-primary gr-button" ng-click="NrForm.$valid && GenerateNr(NrScheme)">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Marks Posting in NR</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="MarksPost">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Nrmonthyear" ng-model="Nrmonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="NrScheme" ng-model="NrScheme" ng-change="loadSemExamTypes(Nrscheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="NrExamTypeId" ng-model="NrExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+                                        <!--<select class="form-control" ng-model="SelStudentType" name="StudentType">
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                {{Student.type}}
+                                            </option>
+                                        </select>-->
+                                        <select class="form-control" ng-model="NrSelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                        ec
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn sub_btn btn-sm btn-primary gr-button" ng-click="MarksPost.$valid &&PostMarks()">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="sm-spacer"></div>
+                    <div style="width:100%;text-align:center;" ng-show="reload">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Loading, Please wait...</b></h4>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert text-center " ng-class="{SuccessCls: SuccessStatus}" ng-if="SuccessStatus">
+                        <span class="fontSize">{{StatusMessage}} </span>
+                    </div>
+                    <div class="alert text-center " ng-class="{FailCls: FailStatus}" ng-if="FailStatus">
+                        <span class="fontSize">{{StatusMessage}} </span>
+                    </div>
+                    <div class="alert text-center " ng-class="{FailCls: ResultNotFound}" ng-if="ResultNotFound">
+                        <span class="fontSize">No Data Found</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-3">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Generate Wantings</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="WantingForm">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Wantingsmonthyear" ng-model="Wantingsmonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                            /o
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="WantingsScheme" ng-model="WantingsScheme" ng-change="loadSemExamTypes(WantingsScheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="WantingsExamTypeId" ng-model="WantingsExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+                                        <!--<select class="form-control" ng-model="SelStudentType" name="StudentType">
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                         </option>
+                                                  </select>-->
+                                        <select class="form-control" ng-model="WantingsSelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+
+                                       
+                                        
+
+                                    </div>
+                                  
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn sub_btn btn-sm btn-primary gr-button" ng-click="WantingForm.$valid && GenerateWantings()">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Upload Wantings </h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="UploadForm">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Wantingsmonthyear" ng-model="Wantingsmonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="WantingsScheme" ng-model="WantingsScheme" ng-change="loadSemExamTypes(WantingsScheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+
+                                        <select class="form-control" ng-model="WantingsSelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="WantingsExamTypeId" ng-model="WantingsExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn btn-sm sub_btn btn-primary gr-button" ng-click="UploadForm.$valid && Submit()">Submit </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="ShowData">
+                    <div class="col-md-4">
+                        <div id="drop-area">
+                            <!-- <p>Upload multiple files with the file dialog or by drag and drop Excel here</p>-->
+
+                            <div class="form-group">
+                                <div class="upload-btn-wrapper">
+                                    <button class="btn " style="margin-top:21px;">Choose Excel</button>
+                                    <input type="file" name="File" id="File" accept=".xlsx" sa-file-upload="myFile" />
+                                </div>
+                                <label>{{filename}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="myCheck1" ng-show="FileContains1">
+                        <div id="drop-area">
+
+                            <div class="form-group">
+                                <div class="upload-btn-wrapper">
+                                    <button style="margin-top:21px;margin-bottom:2px;" ng-show="!filename" class="btn btn-sm pull-left" ng-click="openExcel1()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> uploading ">View Table</button>
+                                    <button style="margin-top:21px;margin-bottom:26px;" ng-show="filename" class="btn btn-sm pull-left" ng-click="openExcel1()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> uploading ">View Table</button>
+                                </div>
+                                <!--<label>{{filename}}</label>-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" ng-show="FileContains1">
+
+                        <!--    <div id="drop-area">-->
+                        <!-- <p>Click on the beow button to download sample data</p>-->
+                        <div class="form-group">
+                            <button class="btn btn-detail mybtnDetails pull-right" style="margin-top:20px;" ng-click="Download()">
+                                <i class="fa fa-file-excel-o"></i> Download Sample Data
+                            </button>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                    <div class="col-md-8" ng-show="!FileContains1">
+
+                        <!--    <div id="drop-area">-->
+                        <!-- <p>Click on the beow button to download sample data</p>-->
+                        <div class="form-group">
+                            <button class="btn btn-detail mybtnDetails pull-right" style="margin-top:20px;" ng-click="Download()">
+                                <i class="fa fa-file-excel-o"></i> Download Sample Data
+                            </button>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-o/ffset-3 setting" ng-show="ShowTableData1">
+                    <div class="spacer"></div>
+                    <button ng-show="tabledata1.length>0" style="margin-bottom: 30px" class="btn  btn-sm pull-right" ng-click="UploadWantingsExcel()"> Upload</button>
+                    <div class="spacer"></div>
+                    <div class="col-md-12" ng-show="tabledata1.length>0">
+                        <p class="pull-right clr_red">First 10 rows will be shown below</p>
+                    </div>
+                    <div class="col-md-12">
+                        <!--<div style="width:100%;text-align:center;">
+                            <img src="../../contents/img/loading.gif" ng-show="loading" width="100" />
+                        </div>-->
+
+                        <div class="container">
+                            <div class="spreadsheet-container" ng-show="tabledata1.length>0">
+                                <table class="table table-bordered" ng-repeat="table in tabledata1">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 2%;">S.No</th>
+                                            <th style="width: 3%;" ng-repeat="column in table.cols">{{column}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="row in table.rows| limitTo:10 ">
+                                            <td style="width: 2%;" class="text-left">{{$index + 1}}</td>
+                                            <td ng-repeat="column in table.cols">{{row[column]}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <button ng-show="tabledata1.length>0" style="margin-top: 30px" class="btn  btn-sm pull-right" ng-click="UploadWantingsExcel()"> Upload</button>
+                </div>
+                <div class="col-md-12">
+                    <div class="sm-spacer"></div>
+                    <div style="width:100%;text-align:center;" ng-show="reload1">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Loading, Please wait...</b></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-4">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Results Processing</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="ResultsExcel">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Academic Year :
+                                        </label>
+                                        <select class="form-control" ng-model="ResultsAcademicYear" name="StudentType" required
+                                                ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                            <option value="" selected>Select Academic Year</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Resultsmonthyear" ng-model="Resultsmonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="ResultsScheme" ng-model="ResultsScheme" ng-change="loadSemExamTypes(ResultsScheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Semester :
+                                        </label>
+                                        <div class="multiselect">
+                                            <div class="selectBox" ng-click="showsemCheckboxes()">
+                                                <select class="form-control ">
+                                                    <option ng-blur="closesemCheckbox()">Select Sem</option>
+                                                </select>
+                                                <div class="overSelect"></div>
+                                            </div>
+                                            <div id="checkboxessem" style="max-height: 12em; overflow-y: scroll;">
+                                                <label class="contain">
+                                                    <input type="checkbox" ng-click="toggleAllsem()" ng-model="isAllSelectedsem" /><span class="checkmark"></span>Select All
+                                                </label>
+                                                <label class="contain" ng-repeat="sem in GetSemesters">
+                                                    <input type="checkbox" ng-model="sem.selected" ng-change="optionToggledsem(sem.selected)"><span class="checkmark"></span>{{sem.Sem}}
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="ResultsExamTypeId" ng-model="ResultsExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+                                        <select class="form-control" ng-model="ResultsSelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn sub_btn submit_btn btn-sm btn-primary gr-button" ng-click="ResultsExcel.$valid && ResultsProcessing()">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="sm-spacer"></div>
+                    <div style="width:100%;text-align:center;" ng-show="reload">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Loading, Please wait...</b></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-5">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Results Logic Reports</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="LogicExcel">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Logicmonthyear" ng-model="Logicmonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="LogicScheme" ng-model="LogicScheme" ng-change="loadSemExamTypes(LogicScheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="LogicExamTypeId" ng-model="LogicExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+                                        <select class="form-control" ng-model="LogicSelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Academic Year :
+                                        </label>
+                                        <select class="form-control" ng-model="LogicAcademicYear" name="StudentType" required
+                                                ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                            <option value="" selected>Select Academic Year</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn sub_btn submit_btn btn-sm btn-primary gr-button" ng-click="LogicExcel.$valid && ResultsLogicReports()">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="sm-spacer"></div>
+                    <div style="width:100%;text-align:center;" ng-show="reload">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Loading, Please wait...</b></h4>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row setup-content" id="step-6">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Preview Results</h2>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="PreviewForm">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+
+                                        <select class="form-control" ng-model="SelStudentType" name="StudentType"
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+
+                                            <option value="" selected>Student Type</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="ConsolidatedPreviewScheme" ng-model="ConsolidatedPreviewScheme">
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            PIN :
+                                        </label>
+                                        <input class="form-control" type="text" ng-model="Pin" />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn btn-sm btn-primary gr-button sub_btn" ng-click="PreviewForm.$valid && GetConsolidatedPreview()">Submit </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="col-md-12">
+                    <div class="alert text-center clr_green">
+                        <span class="fontSize">In Development </span>
+                    </div>
+                </div>-->
+                <!--<div class="col-md-12">
+                    <div style="width: 100%; text-align: center;">
+                        <img src="../../../contents/img/loading.gif" ng-show="PreviewLoadImg" width="100" />
+                    </div>
+                    </div>
+                    <div class="container" ng-show="PreviewResultFound">
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="down-foramt">
+                                    <div class="col-md-4 hidden">
+                                        <label for="sel1">
+                                            Download Format :
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5 form-group hidden">
+
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="ExamYear" ng-model="EquivalancyCertificate.TenExYr">
+                                            <option value="0" selected="selected">Select Format</option>
+                                            <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2019">2019</option>
+                                            <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2018">2018</option>
+                                        </select>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-right" ng-show="PreviewResultFound">
+                            <div class="pt-btn">
+                                <button class="btn submit_btn btn-sm btn-primary gr-button sub_btn" ng-click="PrintPreviewStudentResult()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+                    </div>-->
+
+                <div class="print" ng-show="PreviewResultFound" id="idtoDivPreviewPrintAdmin">
+                    <div>
+                        <div class="col-lg-12" ng-show="co9Data">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-12">
+                                    <div class="logo-img">
+                                        <img src="../../../contents/img/big-logo.png" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-10 col-md-12">
+                                    <div class="logo-name">
+                                        <h2 style="text-align: center">
+                                            STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" ng-show="co9Data">
+
+                            <div class="card-title">
+                                <h2>Result Preview </h2>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="table table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Pin</th>
+                                                <!-- <th>Name</th> -->
+                                                <th>Branch</th>
+                                                <th>Scheme</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{studentInfo.Pin}}</td>
+                                                <!-- <td>{{studentInfo.StudentName}}</td> -->
+                                                <td>{{studentInfo.BranchCode}}</td>
+                                                <td>{{studentInfo.Scheme}}</td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered " ng-if="co9Data">
+                                        <thead>
+                                            <tr>
+                                                <th>SUBJECT CODE</th>
+                                                <th>SUBJECT NAME</th>
+                                                <!--<th>MAX CREDITS</th>
+                <th>MID SEM1 <br />(20)</th>
+                <th>MID SEM2 <br />(20)</th>-->
+                                                <th>INTERNAL <br /></th>
+                                                <th>END SEM <br /></th>
+                                                <th>SUBJECT TOTAL<br /> </th>
+                                              <!--  <th>Exam Month/Year</th>-->
+                                                <!--<th>GRADE</th>
+                <th>GRADE POINTS</th>
+                <th>CREDITS EARNED</th>-->
+                                                <!--<th>TOTAL GRADE POINTS</th>-->
+                                                <!--<th>R/S</th>
+                <th>EXAM MONTH YEAR</th>-->
+                                                <th>EXAM STATUS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="(key, val) in newresultDisplayInfo1">
+                                                <td colspan="6">{{val.Semester}}</td>
+                                            </tr>
+                                            <tr ng-repeat="data in val.Subjects">
+                                                <td>{{data.SubjectCode}}</td>
+                                                <td>{{data.SubjectName}}</td>
+                                               
+                                                <td>{{data.i}}</td>
+                                                <td>{{data.e}}</td>
+                                                <td>{{data.st1}}</td>
+                                                <!--<td>{{data.ExamMonthYear}}</td>-->
+                                               
+                                                <td>{{data.remarks}}</td>
+                                            </tr>
+                                            <tr ng-repeat-end="(key, val) in newresultDisplayInfo1">
+                                                <td colspan="4">Semester Total</td>
+                                                <td>{{val.TotalMarks}}</td>
+
+                                                <td colspan="2"></td>
+                                                <!--<td>{{val.Result}}</td>-->
+                                                <!--<td>{{data3.courseTotalGradePoints}}</td>-->
+                                                <!--<td></td>
+                <td></td>
+                <td></td>-->
+                                            </tr>
+                    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 hidden">
+                            <div class="table table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>College Code</th>
+                                            <th>College Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{$studentInfo.CollegeCode}}</td>
+                                            <td>{{$studentInfo.CollegeName}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-if="showPreviewResultData == 1" class="col-md-12">
+                            <div class="container">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-12">
+                                            <div class="logo-img">
+                                                <img src="../../../contents/img/big-logo.png" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-10 col-md-12">
+                                            <div class="logo-name">
+                                                <h2 style="text-align: center">
+                                                    STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+
+                                    <div class="card-title">
+                                        <h2>Result Preview </h2>
+                                    </div>
+
+                                    <div class="table-responsive customtable" ng-show="PreviewResultFound">
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pin</th>
+                                                    <th>Name</th>
+                                                    <th>Branch</th>
+                                                    <th>Scheme</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{studentInfo.Pin}}</td>
+                                                    <td>{{studentInfo.StudentName}}</td>
+                                                    <td>{{studentInfo.BranchCode}}</td>
+                                                    <td>{{studentInfo.Scheme}}</td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table table-bordered " ng-if="!co9Data">
+                                            <thead>
+                                                <tr>
+                                                    <th>SUBJECT CODE</th>
+                                                    <th>SUBJECT NAME</th>
+                                                    <th>MAX CREDITS</th>
+                                                    <th>MID SEM1 <br />(20)</th>
+                                                    <th>MID SEM2 <br />(20)</th>
+                                                    <th>INTERNAL <br />(20)</th>
+                                                    <th>END SEM <br />(40)</th>
+                                                    <th>SUBJECT TOTAL<br /> (100)</th>
+                                                    <th>GRADE</th>
+                                                    <th>GRADE POINTS</th>
+                                                    <th>CREDITS EARNED</th>
+                                                    <th>TOTAL GRADE POINTS</th>
+                                                    <th>R/S</th>
+                                                    <th>EXAM MONTH YEAR</th>
+                                                    <th>EXAM STATUS</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr ng-repeat-start="(key, val) in newresultDisplayInfo">
+
+                                                    <td colspan="15">{{val.Semester}}</td>
+                                                </tr>
+                                                <tr ng-repeat="data in val.Subjects">
+
+                                                    <td>{{data.Subject_Code}}</td>
+                                                    <td>{{data.SubjectName}}</td>
+                                                    <td>{{data.MaxCredits}}</td>
+                                                    <td>{{data.Mid1Marks}}</td>
+                                                    <td>{{data.Mid2Marks}}</td>
+                                                    <td>{{data.InternalMarks}}</td>
+                                                    <td>{{data.EndExamMarks}}</td>
+                                                    <td>{{data.SubjectTotal}}</td>
+                                                    <td>{{data.HybridGrade}}</td>
+                                                    <td>{{data.GradePoint}}</td>
+                                                    <td>{{data.CreditsGained}}</td>
+                                                    <td>{{data.TotalGradePoints}}</td>
+                                                    <td>{{data.WholeOrSupply =='W'?'R':'S'}}</td>
+                                                    <td>{{data.ExamMonthYear}}</td>
+                                                    <td>{{data.ExamStatus}}</td>
+
+                                                </tr>
+                                                <tr ng-repeat="data3 in val.courseinfo">
+                                                    <td colspan="2">Semester Total</td>
+                                                    <td>{{data3.courseMaxCerdits}}</td>
+                                                    <td colspan="7"></td>
+                                                    <td>{{data3.courseCerditsGained}}</td>
+                                                    <td>{{data3.courseTotalGradePoints}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr ng-repeat-end ng-repeat="data2 in val.Sgpainfo">
+                                                    <td colspan="11">Semester Grade Point Average(SGPA) ({{data2.TotalGradePoints+'/'+data2.Credits}})</td>
+                                                    <td>{{data2.SGPA}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2">Course Total</td>
+                                                    <td>{{courseMaxCerdits}}</td>
+                                                    <td colspan="7"></td>
+                                                    <td>{{courseCerditsGained}}</td>
+                                                    <td>{{courseTotalGradePoints}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="11">Cummulative Grade Point Average(CGPA) ({{TotalData.CgpaTotalGained+'/'+TotalData.CgpaTotalCredits}})</td>
+
+                                                    <td>{{TotalData.CGPA}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <Label>Abbrevations</strong></Label>
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <label><strong>R - Regular Exam</strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label><strong>S - Supplementary Exam</strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label><strong>P - Pass</strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label><strong>F - Fail</strong></label>
+                                            </div>
+                                            <!-- <div class="col-md-3">
+                                                <label><strong>W - WithHeld</strong></label>
+                                            </div> -->
+                                            <div class="col-md-3">
+                                                <label><strong>MP - MalPractice</strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label><strong>W - Wanting</strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label><strong>UE - Under Evaluation</strong></label>
+                                            </div>
+                                        </div>
+
+                                        <!--<p id="currenttime"></p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div ng-show="PreviewResultNotFound" class="no-results">
+                                <img src="../../contents/img/Folder-Icon.svg" />
+                                <h2>No Result Found</h2>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row setup-content" id="step-7">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2> Results Deploying Master Tables</h2>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form name="DeployExcel">
+                                <div class="row">
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="Deploymonthyear" ng-model="Deploymonthyear" required>
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="DeployScheme" ng-model="DeployScheme" ng-change="loadSemExamTypes(DeployScheme)" required>
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.scheme}}">
+                                                {{scheme.scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Exam Type :
+                                        </label>
+                                        <select class="form-control" id="DeployExamTypeId" ng-model="DeployExamTypeId" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="data in getExamTypes" value="{{data.examtypeid}}">
+                                                {{data.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Student Type :
+                                        </label>
+
+                                        <select class="form-control" ng-model="DeploySelStudentType" name="StudentType" required
+                                                ng-options="Student.id as Student.type for Student in StudentType">
+                                            <option value="" selected>Select Student Type</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="gr-btn">
+                                            <button class="btn submit_btn sub_btn btn-sm btn-primary gr-button" ng-click="DeployExcel.$valid && ResultsDeployTables()">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="sm-spacer"></div>
+                    <div style="width:100%;text-align:center;" ng-show="reload">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Loading, Please wait...</b></h4>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert text-center " ng-class="{SuccessCls: SuccessStatus}" ng-if="SuccessStatus">
+                        <span class="fontSize">{{StatusMessage}} </span>
+                    </div>
+                    <div class="alert text-center " ng-class="{FailCls: FailStatus}" ng-if="FailStatus">
+                        <span class="fontSize">{{StatusMessage}} </span>
+                    </div>
+                    <div class="alert text-center " ng-class="{FailCls: ResultNotFound}" ng-if="ResultNotFound">
+                        <span class="fontSize">No Data Found</span>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="row setup-content" id="step-7">
+                <div class="col-xs-6 col-md-offset-3">
+                    <div class="col-md-12">
+                        <h3> Step 3</h3>
+                        <button class="btn btn-primary prevBtn btn-lg pull-left" type="button">Previous</button>
+                        <button class="btn btn-success btn-lg pull-right" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+
+
+    </div>
+</div>
+
+<div class="container">
+
+
+    <!--<div class="col-md-3" style="margin-top:21px;" id="myCheck" ng-show="FileContains">
+        <div class="form-group">
+            <button type="button" class="btn btn-primary nextBtn btn-sm pull-left" ng-click="openExcel()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> uploading ">Generate Table</button>
+        </div>
+    </div>-->
+</div>
+<!--<div id="drop-area">
+    <form class="my-form">
+        <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+        <input type="file" id="fileElem" multiple accept=".xlsx" onchange="handleFiles(this.files)">
+        <label class="button" for="fileElem">Select some files</label>
+    </form>
+</div>
+
+<div id="gallery"></div>-->
+
+
+<div class="sm-spacer"></div>
+<div class="sm-spacer"></div>
+
+
+<!---------------------------------------------------------------------------------------->
+
+<script>
+        $(document).ready(function () {
+
+            var navListItems = $('div.setup-panel div a'),
+                    allWells = $('.setup-content'),
+                    allNextBtn = $('.nextBtn');
+
+            allWells.hide();
+
+            navListItems.click(function (e) {
+
+
+                e.preventDefault();
+                var $target = $($(this).attr('href')),
+                        $item = $(this);
+
+                if (!$item.hasClass('disabled')) {
+
+                    navListItems.removeClass('btn-primary').addClass('btn-default');
+                    $item.addClass('btn-primary').addClass('active')
+                    if($item.addClass('btn-primary').addClass('active')){
+                        ($item.addClass('active').addClass('active_btn'))
+                        allNextBtn = $('.nextBtn');
+                    }
+                    $item.addClass('active');
+                    //$("p").addClass("cls_active");
+                    allWells.hide();
+                    $target.show();
+                    $target.find('input:eq(0)').focus();
+                }
+            });
+
+
+
+            allNextBtn.click(function () {
+
+                //validation = true;
+                //$target.show();
+
+                var curStep = $(this).closest(".setup-content"),
+                    curStepBtn = curStep.attr("id"),
+                    nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                    curInputs = curStep.find("input[type='text'],input[type='url']"),
+                    isValid = true;
+                $(this).removeClass('active')
+                $("p").addClass("cls_active");
+                $(".form-group").removeClass("has-error");
+
+                for (var i = 0; i < curInputs.length; i++) {
+                    if (!curInputs[i].validity.valid) {
+                        isValid = false;
+                        $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    }
+                }
+
+                if (isValid)
+                    nextStepWizard.removeAttr('disabled').trigger('click');
+
+            });
+
+             $('div.setup-panel div a.btn-primary').trigger('click');
+
+        });
+
+
+</script>
+
+

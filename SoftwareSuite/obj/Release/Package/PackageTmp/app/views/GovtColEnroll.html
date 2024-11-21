@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script language="Javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+    </script>
+    <title>Government Junior Colleges Seat Enrollment Form</title>
+</head>
+<body>
+    <div ng-controller="GovtColEnrollController">
+        <!-- New Style Start-->
+        <header>
+            <div class="row topbar_row_section">
+                <div class="container-fluid">
+                    <div style="background-color: #dbece4;" class="row">
+                        <img src="../../contents/img/updated_header.jpg" class="img img-responsive" alt="header_banner" style="width: 100%;position: relative;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <!--<a style="color:#fff" href="#" class="mylinks"><span>New Enrollment</span></a>-->
+                                        <a style="color:#fff" href="#" ng-click="NewEnrollment()"><span>New Enrollment</span></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a style="color:#fff" href="#" ng-click="ExistingEnrollment()"><span>Existing Enrollment</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+        </header>
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-6">
+                    <ol style="margin: 10px 0 0px 0 !important;" class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Government Junior Colleges Seat Enrollment Form</li>
+                    </ol>
+                </div>
+                <div class="col-md-6 text-right">
+                    <ol style="margin: 10px 0 0px 0 !important;" class="breadcrumb">
+                        <li><a style="color:#ff5722;" href="../../contents/img/enrolment-proceedings-in-gics.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Enrolment Proceedings</a></li>
+                        <li><a style="color:#ff5722;" href="../../contents/img/adhar-guidelines.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Aadhar Guidelines</a></li>
+                        <li><a style="color:#ff5722;" href="../../contents/img/admission-schedule-2018-19.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Admission Schedule 2018-19</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- <div class="row">
+                     <div class="col-md-12 "><hr></div>
+                 </div>
+             <div class="row">
+                 <div class="col-md-3 col-md-offset-1">
+                     <div class="form-group">
+                         <label for="sel1">District :</label>
+                         <select class="form-control input-sm" id="DistrictID" ng-model="GovtColEnroll.DistrictID" ng-change="FillMandal(GovtColEnroll.DistrictID)" ng-disabled="DistrictDisable">
+                             <option ng-selected="GovtColEnroll.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="col-md-3">
+                     <div class="form-group">
+                         <label for="sel1">Mandal :</label>
+                         <select class="form-control input-sm" id="MandalID" ng-model="GovtColEnroll.MandalID" ng-change="FillCollege(GovtColEnroll.MandalID)" ng-disabled="MandalDisable">
+                             <option value="" selected>{{AllMondal}}</option>
+                             <option ng-selected="GovtColEnroll.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="col-md-4">
+                     <div class="form-group">
+                         <label for="sel1">College :</label>
+                         <select class="form-control input-sm" id="CollegeID" ng-model="GovtColEnroll.CollegeID" ng-change="FillCollData(GovtColEnroll.CollegeID)" ng-disabled="CollegeDisable">
+                             <option ng-selected="GovtColEnroll.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                         </select>
+                     </div>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-md-2 col-md-offset-2">
+                     <div class="form-group">
+                         <label for="sel1">Stream :</label>
+                         <select class="form-control" id="CourseID" ng-model="GovtColEnroll.CourseID" ng-change="FillCoursePart(GovtColEnroll.CourseID)" ng-disabled="CourseDisable">
+                             <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="col-md-2">
+                     <div class="form-group">
+                         <label for="sel1">Group :</label>
+                         <select class="form-control" id="MainGrpID" ng-model="GovtColEnroll.MainGrpID" ng-change="FillBranchByGroup(GovtColEnroll.MainGrpID)" ng-disabled="MainGrpDisable">
+                             <option ng-selected="GovtColEnroll.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                         </select>
+                     </div>
+                 </div>-->
+            <!-- <div class="col-md-2">
+                 <div class="form-group">
+                     <label for="sel1">Branch :</label>
+                     <input type="text" class="form-control" id="BranchName" ng-model="GovtColEnroll.BranchName" ng-readonly="true">
+                 </div>
+             </div>-->
+            <!--<div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Second Language :</label>
+                        <select class="form-control" id="SecondLangID" ng-model="GovtColEnroll.SecondLangID" ng-disabled="SecondLangDisable" ng-change="ChangeSecondLanguage(GovtColEnroll.SecondLangID)">
+                            <option ng-selected="GovtColEnroll.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="MediumID">Medium :</label>
+                        <select class="form-control" id="MediumID" ng-model="GovtColEnroll.MediumID" ng-disabled="MediumDisable">
+                            <option ng-selected="GovtColEnroll.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-hide="true">
+                        <label for="ExamID" ng-hide="true">{{GovtColEnroll.ExamID}}</label>
+                        <label for="BranchID" ng-hide="true">{{GovtColEnroll.BranchID}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" ng-disabled="DisableSubmitCollege" ng-click="SubmitCollege()" class="btn btn-detail btn-sm">Submit College</button>
+                    <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm">Cancel</button>
+                </div>
+            </div>-->
+            <div id="gridinfo" ng-hide="gridinfo">
+                
+                <div style="margin-bottom: 20px;" class="row">
+                    <div class="col-md-12 text-center">
+                        <div id="GovtEnrollColleges"
+                             ej-grid
+                             e-recorddoubleclick="doubleclick"
+                             e-allowgrouping="true"
+                             e-allowsorting="true"
+                             e-datasource="GovtEnrollCollegesData">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" ng-disabled="DisableEnrollCollege" ng-click="EnrollCollege()" class="btn btn-info btn-sm">Enroll</button>
+                    </div>
+                </div>
+            </div>
+            <div id="candidateinfo" ng-hide="candidateinfo">
+                <div style="background-color: #f2f2f2; padding:20px 0;" class="row">
+                    <div class="col-md-4 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="sel1">Board :</label>
+                            <select class="form-control  input-sm" ng-model="GovtColEnroll.CheckType" ng-change="ChangeCheckType(GovtColEnroll.CheckType)">
+                                <option value="S">Telangana Board of Secondary School</option>
+                                <option value="E">Other than Telangana</option>
+                                <option value="O">Telangana Open School Board</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-show="GovtColEnroll.CheckType=='E'">
+                            <label for="sel1">Other Board :</label>
+                            <select class="form-control" id="CourseID" ng-model="GovtColEnroll.BoardID">
+                                <option ng-selected="BoardList == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">SSC HallTicket No :</label>
+                            <input type="text" class="form-control input-sm" ng-model="GovtColEnroll.SSCHallTicket" id="SSCHallTicket" maxlength="16">  <!--onkeypress="return isNumberKey(this)"-->
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label id="YrName">Year :</label>
+                            <select class="form-control input-sm" ng-model="GovtColEnroll.PassingYear">
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                                <option value="2015">2015</option>
+                                <option value="2014">2014</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label id="Month">Month :</label>
+                            <select class="form-control input-sm" ng-model="GovtColEnroll.PassingMonth">
+                                <option value="Mar">March</option>
+                                <option value="Jun">Jun</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="button" ng-click="ShowStudentInfo()" ng-disabled="RollEditDisableShow" class="btn btn-info btn-sm">Show Student Info</button>
+                        <button type="button" ng-click="ClearDataHallTickete()" class="btn btn-warning btn-sm">Reset</button>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px;" class="row">
+                    <div class="col-md-3 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="adno">Candidate's  Name:</label>
+                            <input type="text" class="form-control input-sm" id="cname" ng-Model="GovtColEnroll.StudName" maxlength="100" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Father's Name:</label>
+                            <input type="text" class="form-control input-sm" id="fname" ng-Model="GovtColEnroll.FatherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Mother's Name:</label>
+                            <input type="text" class="form-control input-sm" id="mname" ng-Model="GovtColEnroll.MotherName" maxlength="40" ng-readonly="OtherBoardreadonly">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Nationality">Nationality :</label>
+                            <select class="form-control input-sm" id="Nationality" ng-disabled="true" ng-model="GovtColEnroll.Nationality" ng-readonly="true">
+                                <option value="I">Indian</option>
+                                <option value="F">Foreigner</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="email">Gender :</label>
+                            <div class="form-group" style="margin-top: 2px;">
+                                <form>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="GovtColEnroll.Gender" checked value="M">Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="GovtColEnroll.Gender" value="F">Female
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="GovtColEnroll.Gender" value="O">Other
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="email">Date Of Birth :</label>
+                            <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-Model="GovtColEnroll.BirthDate">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Student Mobile Number :</label>
+                            <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="GovtColEnroll.MobileNo" maxlength="10" onkeypress="return isNumberKey(this)">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="adno">Parent Mobile Number :</label>
+                            <input type="text" class="form-control input-sm" id="ParentCellno" ng-Model="GovtColEnroll.ParentCellno" maxlength="10" onkeypress="return isNumberKey(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1 col-md-offset-4">
+                        <button type="button" ng-click="SendOTP()" class="btn btn-detail btn-sm">REQUEST OTP</button>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" placeholder="Enter OTP" class="form-control" id="OTP" ng-model="GovtColEnroll.OTP" maxlength="6" onkeypress="return isNumberKey(this)">
+                        <label>Please wait for 1 minute to receive OTP.</label>
+                    </div>
+                    <div class="col-md-1">
+                        <button ng-disabled="RollEditDisable" type="button" ng-click="SaveGovtColEnroll()" class="btn btn-success btn-sm">SUBMIT</button>
+                    </div>
+                    <!-- <div class="col-md-1">
+                             <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Cancel</button>
+                     </div>-->
+                </div>
+            </div>
+            <!-- data enrty start-->
+            <div class="row">
+                <div class="col-md-12 "><hr></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="sel1">District :</label>
+                        <select class="form-control input-sm" id="DistrictID" ng-model="GovtColEnroll.DistrictID" ng-change="FillMandal(GovtColEnroll.DistrictID)" ng-disabled="DistrictDisable">
+                            <option ng-selected="GovtColEnroll.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel1">Mandal :</label>
+                        <select class="form-control input-sm" id="MandalID" ng-model="GovtColEnroll.MandalID" ng-change="FillCollege(GovtColEnroll.MandalID)" ng-disabled="MandalDisable">
+                            <option value="" selected>{{AllMondal}}</option>
+                            <option ng-selected="GovtColEnroll.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Stream :</label>
+                        <select class="form-control" id="CourseID" ng-model="GovtColEnroll.CourseID" ng-change="FillCoursePart(GovtColEnroll.CourseID)" ng-disabled="CourseDisable">
+                            <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Group :</label>
+                        <select class="form-control" id="MainGrpID" ng-model="GovtColEnroll.MainGrpID" ng-change="FillBranchByGroup(GovtColEnroll.MainGrpID)" ng-disabled="MainGrpDisable">
+                            <option ng-selected="GovtColEnroll.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">               
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="sel1">College :</label>
+                        <select class="form-control input-sm" id="CollegeID" ng-model="GovtColEnroll.CollegeID" ng-change="FillCollData(GovtColEnroll.CollegeID)" ng-disabled="CollegeDisable">
+                            <option ng-selected="GovtColEnroll.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Branch :</label>
+                        <input type="text" class="form-control" id="BranchName" ng-model="GovtColEnroll.BranchName" ng-readonly="true">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Second Language :</label>
+                        <select class="form-control" id="SecondLangID" ng-model="GovtColEnroll.SecondLangID" ng-disabled="SecondLangDisable" ng-change="ChangeSecondLanguage(GovtColEnroll.SecondLangID)">
+                            <option ng-selected="GovtColEnroll.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="MediumID">Medium :</label>
+                        <select class="form-control" id="MediumID" ng-model="GovtColEnroll.MediumID" ng-disabled="MediumDisable">
+                            <option ng-selected="GovtColEnroll.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-hide="true">
+                        <label for="ExamID" ng-hide="true">{{GovtColEnroll.ExamID}}</label>
+                        <label for="BranchID" ng-hide="true">{{GovtColEnroll.BranchID}}</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span style="font-size:12px; padding-top: 31px; color:red; margin:5px 0;">Note: You can enroll upto three colleges</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" ng-disabled="DisableSubmitCollege" ng-click="SubmitCollege()" class="btn btn-detail btn-sm">Submit College</button>
+                    <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm">Cancel</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 "><hr></div>
+            </div>
+            <!-- data entry end -->
+        </div>
+    </div>
+</body>
+</html>

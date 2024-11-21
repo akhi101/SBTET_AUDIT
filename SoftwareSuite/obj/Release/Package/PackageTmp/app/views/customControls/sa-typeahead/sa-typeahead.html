@@ -1,0 +1,25 @@
+<div class="form-group" >
+    <label for="{{objectname}}" class="control-label" ng-if="objecttext">
+        {{objecttext}}        
+        <span ng-show="{{compulsory}}" class="require">*</span>
+    </label>
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="fa fa-{{icontype}}"></i>
+        </span>
+        <input type="text"
+               name="{{objectname}}"
+               id="{{objectname}}"
+               placeholder="{{objecttext}}"
+               class="form-control input"
+               ng-model="object"
+               ng-disabled="isdisabled"
+               ng-required="{{compulsory}}"
+               ng-trim="true"
+               maxlength="{{length}}"
+               uib-typeahead="item as item[displaycolumn] for item in getoptions({val:$viewValue})"
+               typeahead-min-length="1"
+               autocomplete="off"
+               />
+    </div>  
+</div>

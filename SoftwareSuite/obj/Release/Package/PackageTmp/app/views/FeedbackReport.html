@@ -1,0 +1,215 @@
+﻿<style>
+    .table-bordered > thead > tr > th {
+        border: 1px solid #000 !important;
+        top: 0px;
+        position: sticky;
+    }
+</style>
+<div ng-controller="FeedbackReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Feedback Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/Feedbackreport">Feedback Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="myBtn active" ng-click="ClearData()">
+                    <a href="#1" data-toggle="tab">College Wise Feedback Report</a>
+                </li>
+                <li ng-click="ClearData()" ng-show="UserTypeId==1">
+                    <a href="#2" data-toggle="tab">Overall Feedback Report</a>
+                </li>
+             
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="row">
+                                <form name="FeedbackForm">
+                                    <div class="col-md-3 form-group" ng-hide="UserTypeId == 2|| UserTypeId == 3">
+                                        <label class="font-weight-bold">
+                                            Select College :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="selcollege" ng-change="ChangeCollege(selcollege)"
+                                                ng-options="data.CollegeCode as data.CollegeCode+' - '+data.CollegeName for data in GetCollegeList " required>
+                                            <option value="" selected>Select College</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group" ng-hide="UserTypeId == 3">
+                                        <label class="font-weight-bold">
+                                            Select Branch :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="selBranch"
+                                                ng-options="data.BranchId as data.BranchCode for data in GetBranchList " required>
+                                            <option value="" selected>Select Branch</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">
+                                            Select Scheme :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="selscheme" ng-change="ChangeScheme()"
+                                                ng-options="data.SchemeID as data.Scheme for data in getSchemes " required>
+                                            <option value="" selected>Select Scheme</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">
+                                            Select Semester :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="selsem"
+                                                ng-options="data.SemId as data.Sem for data in getActiveSemester " required>
+                                            <option value="" selected>Select Semester</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label for="sel1">
+                                            Feedback:
+                                        </label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="FeedbackId" name="StudentType" ng-change="changedVal()" required>
+                                            <option value="" selected="selected">Select Feedback Type</option>
+                                            <!-- ngRepeat: Student in StudentType -->
+                                            <option ng-repeat="data in FeedbackType" ng-value="data.Id" class="">
+                                                {{data.FeedbackName}}
+                                            </option><!-- end ngRepeat: Student in StudentType -->
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                </form>
+                                <div class="col-md-3">
+                                    <div class="gr-btn">
+                                        <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="Submit()">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right" ng-if="Data">
+                            <a class="ExportToExcel1 pointer"
+                               id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent1')">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                    </div>`
+                    <div class="col-md-12 " ng-show="Data">
+                        <div class="cl-details">
+                            <h2>Feedback Report</h2>
+                        </div>
+
+                        <div class="table-responsive table-custom-tables-tb scrollbox">
+                            <table id="tblParent1" class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                <thead>
+                                    <tr class="cb-1">
+
+                                        <th style="width: 1%" ng-click="sort('Sno')">S no</th>
+                                        <th style="width: 5%" class="text-center">Description</th>
+                                        <th class="text-center" ng-repeat="Feedback in getFeedbackReport">{{Feedback.Subject_Code}}</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+                                    <tr ng-repeat="data in feedbackdata" style="background-color:#fff!important;cursor:pointer;">
+
+                                        <td>{{$index+1}}</td>
+                                        <td style="width: 5%">{{data.descName}}</td>
+                                        <td style="width: 1%" ng-repeat="dat2 in data.descfeed">{{dat2.AverageScore==null ? '-':dat2.AverageScore}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sm-spacer"></div>
+                        <div class="sm-spacer"></div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div style="text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" height="100" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="Noresult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data Found</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="2">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Overall Feedback Report</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <form name="dataForm1" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="sel1">
+                                            Feedback:
+                                        </label>
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="FeedbackId1" name="StudentType" ng-change="changedVal()" required>
+                                            <option value="" selected="selected">Select Feedback Type</option>
+                                            <!-- ngRepeat: Student in StudentType -->
+                                            <option ng-repeat="data in FeedbackType" ng-value="data.Id" class="">
+                                                {{data.FeedbackName}}
+                                            </option><!-- end ngRepeat: Student in StudentType -->
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="gr-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary gr-button" style="margin-top:6px;" ng-click="dataForm1.$valid && GetFeedbackReportExcel()">Download Feedback Report</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sm-spacer"></div>
+
+                    <div class="col-md-12">
+                        <div class="no-results" ng-show="Noresult1">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No data Found</h2>
+                        </div>
+                        <div class="no-results" ng-show="Error2">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>{{ErrMsg1}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="width:100%;text-align:center;">
+                            <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading1" width="100" />
+                        </div>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+       
+    </div>
+</div>

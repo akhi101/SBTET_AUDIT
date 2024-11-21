@@ -1,0 +1,360 @@
+﻿<style>
+    .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxessemester {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+
+    #checkboxessemester label {
+        display: block;
+    }
+
+        #checkboxessemester label:hover {
+            background-color: #1e90ff;
+        }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+</style>
+<div ng-controller="FacultyMappingReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Faculty Mapping Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/FacultyMappingReport">Faculty Mapping Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="base-row row">
+
+                <div class="col-md-3 form-group">
+                    <label class="font-weight-bold">
+                        Academic Year  :
+                    </label>
+                    <select class="form-control" id="Academic" ng-model="AcademicYear"
+                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                        <option value="" selected>Select Academic Year</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">
+                            Schemes :
+                        </label>
+                        <div class="">
+                            <select class="form-control" name="semister" ng-model="scheme" ng-change="ChangeSemester(scheme)">
+                                <option value="" selected>
+                                    Select Scheme
+                                </option>
+                                <option ng-repeat="scheme in schemeinf" value="{{scheme.schemeid}}">
+                                    {{scheme.scheme}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3 form-group">
+        <label for="sel1">
+            semester:
+        </label>
+        <div class="multiselect">
+            <div class="selectBox" ng-click="showsemesterCheckboxes()">
+                <select class="form-control ">
+                    <option ng-blur="closesemesterCheckbox()">Select semester</option>
+                </select>
+                <div class="overSelect"></div>
+            </div>
+            <div id="checkboxessemester" style="max-height: 12em; overflow-y: scroll;">
+                <label class="contain">
+                    <input type="checkbox" ng-click="toggleAllsemester()" ng-model="isAllSelectedsemesters" /><span class="checkmark"></span>Select All
+                </label>
+                <label class="contain" ng-repeat="data in ActiveSems">
+                    <input type="checkbox" ng-model="data.selected" ng-change="optionToggledsemester(data.selected)"><span class="checkmark"></span>{{data.semester}}
+                </label>
+
+            </div>
+        </div>
+
+    </div>
+                <!--<div class="col-md-4">
+        <div class="form-group">
+            <label class="font-weight-bold">Scheme:</label>
+            <div class="">
+                <select class="form-control" name="semester" required="" ng-model="Scheme" ng-change="changeSemester(sem)">
+                    <option value="" selected="selected">Select Scheme</option>
+                    <option ng-repeat="Sem in GetSemester" value="{{Sem.Scheme}}">
+                        {{Sem.Scheme}}
+                    </option>
+
+                </select>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="font-weight-bold">Shift:</label>
+            <div class="">
+                <select class="form-control " name="semester" required="" ng-model="Shift" ng-change="changeSemester(sem)">
+                    <option value="" selected="selected">Select Shift</option>
+                    <option ng-repeat="data in Shifts" value="{{data.Id}}">
+                        {{data.Shift}}
+                    </option>
+
+                </select>
+
+
+            </div>
+        </div>
+    </div>-->
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-detail" ng-click="Submit()" style="margin-top:22px;">
+                        Show Results
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="col-md-12" ng-show="data1">
+            <button class="btn bck_btn" ng-click="goBack()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button>
+        </div>
+        <div class="col-md-12">
+            <div class="pull-right" ng-show="data1">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="GetFactultyMappingExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>
+        <div class="col-md-12 " ng-show="data1">
+            <div class="cl-details">
+                <h2>Subject Mapping Report</h2>
+            </div>
+
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table id="tblParent1" class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 5%" ng-click="sort('Sno')">Sno</th>
+                            <th>Academic Year</th>
+                            <th>College Code</th>
+                            <th class="text-center">Branch</th>
+                            <th class="text-center">Sem</th>
+                            <th class="text-center">Total Subjects </th>
+                            <th class="text-center">Mapped Subjects</th>
+                            <th class="text-center">Not Mapped Branches</th>
+                            <th class="text-center">Mapping Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="data in FacultyMappingReport1" style="background-color:#fff!important;cursor:pointer;">
+                            <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                            <td>{{$index+1}}</td>
+                            <td>{{data.AcademicYear}}</td>
+                            <td>{{data.CollegeCode}}</td>
+                            <td>{{data.Branch}}</td>
+                            <td>{{data.Sem}}</td>
+                            <td>{{data.TotalSubjects}}</td>
+                            <td>{{data.MappedSubjects}}</td>
+                            <td>{{data.NotMappedSubjects}}</td>
+                            <td>{{data.MappingStatus}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="sm-spacer"></div>
+        </div>
+                <div class="col-md-10" ng-show="data"><div class="notifylabel pull-right" for="sel1" style="color: red;">Click on row to view details</div></div>
+
+        <div class="col-md-2">
+            <div class="pull-right" ng-if="data">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="GetFactultyMappingExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-12 " ng-show="data">
+            <div class="cl-details">
+                <h2>Subject Mapping Report</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="data">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table id="tblParent" class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 5%" ng-click="sort('Sno')">Sno</th>
+                            <th>Academic Year</th>
+                            <th>College Code</th>
+                            <th class="text-center">Sem</th>
+                            <th class="text-center">Total Branches</th>
+                            <th class="text-center">Mapped Branches</th>
+                            <th class="text-center">Partially Mapped Branches</th>
+                            <th class="text-center">Not Mapped Branches</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="data in FacultyMappingReport" style="background-color:#fff!important;cursor:pointer;"
+                            ng-click="openDetails(data.CollegeCode)">
+                            <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                            <td>{{$index+1}}</td>
+                            <td>{{data.AcademicYear}}</td>
+                            <td>{{data.CollegeCode}}</td>
+                            <td class="text-center">{{data.Sem}}</td>
+                            <td class="text-center">{{data.TotalBranches}}</td>
+                            <td>{{data.MappedBranches}}</td>
+                            <td>{{data.PartiallyMappedBranches}}</td>
+                            <td>{{data.NotMappedBranches}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="sm-spacer"></div>
+        </div>
+        <div class="col-md-12">
+            <div style="text-align:center;">
+                <img src="../../../contents/img/loading2.gif" height="100" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>

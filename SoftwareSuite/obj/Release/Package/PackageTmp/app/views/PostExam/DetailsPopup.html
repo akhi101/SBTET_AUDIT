@@ -1,0 +1,133 @@
+﻿<style>
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+
+  
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+       .padRow{
+        padding:5px;
+    }
+    .noDue{
+  transform-origin: 0 0;
+  /*transition: transform .25s, visibility .25s ease-in;*/
+}
+
+/* The Transformation */
+.noDue:hover  {
+    /*height:300px;
+  transform: scale(1.5);
+  z-index:100;*/
+    transform: scale(1.5) ;
+     height: 480px;
+    width: 258px;
+    margin-bottom:250px;
+}
+.font_bold{
+    font-weight:bold;
+}
+.myInput{
+    width:100%;
+}
+</style>
+
+<div class="modal-header ">
+</div>
+<div class="modal-body">
+    
+       
+        <div class="col-md-12 ">
+            <div class="cl-details">
+                <h2>Name Correction Student Details</h2>
+            </div>
+        </div>
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row padRow">
+                            <div class="col-md-3 font_bold">Pin</div>
+                            <div class="col-md-9">: {{StudentDetails.Pin}}</div>
+                        </div>
+                        <div class="row padRow">
+                            <div class="col-md-3 font_bold">Name</div>
+                            <div class="col-md-9">: {{StudentDetails.Name}}</div>
+                        </div>
+                        <div class="row padRow">
+                            <div class="col-md-3 font_bold">Correction in Name</div>
+                            <div class="col-md-9"> <input type="text" class="myInput" ng-model="StudentDetails.UpdatedName" /></div>
+                        </div>
+                        <div class="row  padRow">
+                            <div class="col-md-3 font_bold">Father Name</div>
+                            <div class="col-md-9">: {{StudentDetails.FatherName}}</div>
+                        </div>
+                        <div class="row padRow">
+                            <div class="col-md-3 font_bold">Correction in Father Name</div>
+                            <div class="col-md-9"> <input type="text" class="myInput" ng-model="StudentDetails.UpdatedFatherName" /></div>
+                        </div>
+                        <div class="row padRow">
+                            <div class="col-md-3 font_bold">Gender</div>
+                            <div class="col-md-9">: {{StudentDetails.Gender== 1? 'MALE':'FEMALE'}}</div>
+                        </div>
+                       
+                        <div class="row padRow">
+                            <div class="col-md-3 font_bold">Applied Date</div>
+                            <div class="col-md-9">: {{StudentDetails.LogDate|date:'dd-MMM-yyyy hh:mm:ss'}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 font_bold">SSC Memo</div>
+                            <div class="col-md-9">:<img class="noDue" style="border: 2px solid #ddd;" height="450" width="390" src="{{StudentDetails.Sscmemo}}"></div>
+                        </div>
+
+                    </div>
+                </div>
+             
+
+                <div class="row">
+                    <div class="col-md-6">
+                       <!-- <button class="btn btn-danger" ng-click="Reject()">Reject</button>-->
+                    </div>
+                    <div class="col-md-6" ng-show="ApproveType =='0'">
+                        <button class="btn btn-success pull-right" ng-click="Update()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+

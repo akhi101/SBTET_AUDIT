@@ -1,0 +1,531 @@
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+    .pad_cls {
+        padding: 5px 5px !important;
+    }
+</style>
+
+<div ng-controller="TwshChangeExamCentreController">
+<div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container containercontent">
+            <section class="content-header">
+                <h5>Exam Centre</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">Type Writing</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#1" data-toggle="tab">Change Exam Centre</a>
+            </li>
+            <li>
+                <a href="#2" data-toggle="tab">Change Batch</a>
+            </li>
+        </ul>
+
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="1">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Change Exam Centre</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold"> Hall Ticket Number :</label> <input autocomplete="off" class="form-control" type="text" ng-model="HallTicketNumber" maxlength="15" placeholder="Enter Hall Ticket Number" id="example1">
+                                    </div>
+                                    <div class="col-md-3 pull-left">
+                                        <button class="btn pull-right btn-primary btn-css" style="margin-top: 23px;" ng-click="getTwshStudentDetails()">
+                                            Get Details
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div class="row class_bord" ng-show="StudentData.length>0">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Hall Ticket Number</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].HallTicketNumber}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Student Name</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].StudentName}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Father Name</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].FatherName}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Mother Name</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].MotherName}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label">Mobile Number</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].StudentPhoneNumber}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label">Alloted Centre</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].ExaminationCenterName}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls" ng-if="SelectedTransferCentre.length>0">
+                                                <strong class="course-label"> Transfer Centre</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls" ng-if="SelectedTransferCentre.length>0">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{SelectedTransferCentre}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-12" ng-show="StudentData.length>0 && ExamCentresDataNew.length>0">
+                                        <div class="">
+                                            <button type="submit" class="btn  btn-success btn_top_margin  pull-right" ng-click="Transfer()">Transfer<span class="fa  heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12" ng-if="loading">
+                        <div class="sm-spacer"></div>
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-if="NoData">
+                        <div class="col-md-12 no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <!--<div class="col-sm-12">
+                <div class="inner-heading">
+                    <h3>Notifications</h3>
+                </div>
+            </div>-->
+                        <div class="col-md-3" ng-show="StudentData.length>0 && ExamCentresDataNew.length>0">
+                            <div class="form-group">
+                                <label>Search</label>
+                                <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12" ng-show="Label">
+                            <div class="notifylabel pull-right" for="sel1" style="color: red;">
+                                Note: Double Click on the Table Row to Select Transfer Exam Centre
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" ng-show="StudentData.length>0 && ExamCentresDataNew.length>0">
+                            <div id="preExamReports" class="table-responsive table-custom-tables-tb col-md-12 scrollbox">
+                                <table class="table table-bordered  table-rounded scrollbox-content">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th width="3%">S.No</th>
+                                            <th>CentreCode</th>
+                                            <th>Centre Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="cursor:pointer" ng-repeat="data in ExamCentresDataNew | filter:search" ng-dblclick="SelectCentre(data)">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.ExaminationCenterCode}}</td>
+                                            <td>{{data.ExaminationCenterName}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="tab-pane" id="2">
+                <div class="col-md-12">
+                    <div class="cl-details">
+                        <h2>Change Batch</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold"> Hall Ticket Number :</label> <input autocomplete="off" class="form-control" type="text" ng-model="HallTicketNumber" maxlength="15" placeholder="Enter Hall Ticket Number" id="example1">
+                                    </div>
+
+                                    <div class="col-md-3 pull-left">
+                                        <button class="btn pull-right btn-primary btn-css" style="margin-top: 23px;" ng-click="getTwshStudentDetails()">
+                                            Get Details
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div class="row class_bord" ng-show="StudentData.length>0">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Hall Ticket Number</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].HallTicketNumber}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Student Name</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].StudentName}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Father Name</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].FatherName}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label"> Mother Name</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].MotherName}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label">Mobile Number</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].StudentPhoneNumber}}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-2 pad_cls">
+                                                <strong class="course-label">Alloted Exam Batch</strong>
+
+                                            </div>
+                                            <div class="col-md-2 pad_cls">
+                                                <span class="text-muted word-break fl-right">
+                                                    : {{StudentData[0].ExamBatch}}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" >
+                                        <div class="form-group required">
+                                            <label for="date-picker-example">Examination Date</label>
+                                            <select class="form-control" ng-model="ExamDateselect" required ng-change="getBatches(ExamDateselect)">
+                                                <option value="" selected>Select Exam Date</option>
+                                                <option ng-repeat="ExamDateselect in ExamDates" value="{{ExamDateselect}}">
+                                                    {{ExamDateselect.ExamDate}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 " >
+                                        <div class="form-group ">
+                                            <label>Examination Batch</label>
+                                            <select class="form-control" ng-model="exambatch" ng-change="getbatchtimings(exambatch.BatchNumber)">
+                                                <option value="" selected>Select Exam Batch</option>
+                                                <option ng-repeat="exambatch in exambatchList" value="{{exambatch.BatchNumber}}">
+                                                    {{exambatch.BatchNumber}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" ng-if="GradeBatchTimings.length>0">
+                                        <div class="form-group">
+                                            <label>Paper1 Time</label>
+                                            <input type="text" disabled class="form-control" autocomplete="off" ng-model="Paper1Time" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-if="GradeBatchTimings.length>0">
+                                        <div class="form-group">
+                                            <label>Paper2 Time</label>
+                                            <input type="text" disabled class="form-control" autocomplete="off" ng-model="Paper2Time" />
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!--<div class="col-md-3 form-group">
+                                        <select class="form-control" ng-model="Batch" ng-change="changeBatch(Batch)">
+                                            <option value="">Select Batch</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>-->
+                                    <div class="col-md-12" ng-show="StudentData.length>0">
+                                        <div class="">
+                                            <button type="submit" class="btn  btn-success btn_top_margin  pull-right" ng-click="ChangeBatch()">Change<span class="fa  heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                    
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+
+    </div>
+
+</div>

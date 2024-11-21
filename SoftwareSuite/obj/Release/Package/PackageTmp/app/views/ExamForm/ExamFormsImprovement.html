@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exam Form Improvement (Category 2)</title>
+</head>
+<body>
+    <div ng-controller="ExamFormsImprovementController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Form Improvement (Category 2)</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Form Improvement (Category 2)</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2 text-right">
+                                <div class="form-group">
+                                    <label for="email"> Enter PRN Number /HTNo :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.PRNNo" id="PRNNo" ng-disabled="Updateddisable" maxlength="15" input-Number-Only placeholder="PRN Number">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <button type="button" ng-click="ShowPRNData()" ng-disabled="Updateddisable" class="btn btn-sm btn-detail">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Personal Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Student Name:</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.StudName" id="StudName" placeholder="Student Name" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group" ng-disabled="true">
+                                    <label for="email">Gender :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsImprovement.Gender" checked value="M">Male
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsImprovement.Gender" value="F">Female
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsImprovement.Gender" value="O">Other
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.CourseName" id="CourseName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Year :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.ExmName" id="ExmName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Branch :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.BranchName" id="BranchName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-hide="true">
+                                    <!--<input type="text" class="form-control" ng-model="ExamFormsImprovement.AcdYrID" id="AcdYrID">-->
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.CourseID" id="CourseID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.ExamID" id="ExamID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.BranchID" id="BranchID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.CollegeID" id="CollegeID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.PreStudRegID" id="PreStudRegID">
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.StudCatID" id="StudCatID">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Main Group :</label>
+                                    <select class="form-control" ng-model="ExamFormsImprovement.MainGrpID" id="MainGrpID" ng-change="GetGroupSubjects(ExamFormsImprovement.MainGrpID)" ng-disabled="true">
+                                        <option ng-selected="ExamFormsImprovement.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="MediumID">Medium :</label>
+                                    <select class="form-control input-sm" id="MediumID" ng-model="ExamFormsImprovement.MediumID" ng-disabled="true">
+                                        <option ng-selected="ExamFormsImprovement.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="MediumID">2nd Language :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.SubName" id="SubName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Student Category :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.StudCatName" id="StudCatName" readonly="readonly">
+                                    <!--<select class="form-control" id="sel1" ng-model="ExamFormsImprovement.StudCatID" ng-disabled="true">
+                                        <option value="R">Category 1</option>
+                                        <option value="P">Private</option>
+                                        <option value="E">External</option>
+                                    </select>-->
+                                    <!--value =1--><!--value =2--><!--value =3-->
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Student Type :</label>
+                                    <select class="form-control" id="sel1" ng-model="ExamFormsImprovement.StudType" ng-disabled="true">
+                                        <option value="F">Fresher</option>
+                                        <option value="R">Repeater</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="email">Physically Handicapped :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsImprovement.Handicaped" checked value="N">No
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="ExamFormsImprovement.Handicaped" value="Y">Yes
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-show="ExamFormsImprovement.Handicaped=='Y'">
+                                    <label for="PhysDisbID">Physical Disability :</label>
+                                    <select class="form-control input-sm" id="PhysDisbID" ng-model="ExamFormsImprovement.PhysDisbID">
+                                        <option ng-selected="ExamFormsImprovement.PhysDisbID == option.PhysDisbID" ng-repeat="option in PhysDisbList" value="{{option.PhysDisbID}}">{{option.PhysDisbName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-show="ExamFormsImprovement.Handicaped=='Y'">
+                                    <label for="SpclConsID">Special Consider :</label>
+                                    <select class="form-control input-sm" id="SpclConsID" ng-model="ExamFormsImprovement.SpclConsID">
+                                        <option ng-selected="ExamFormsImprovement.SpclConsID == option.SpclConsID" ng-repeat="option in SpclConsList" value="{{option.SpclConsID}}">{{option.SpclConsName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2" ng-show="ExamFormsImprovement.Handicaped=='Y'">
+                                <label for="PhysDisbID">Disability Per. :</label>
+                                <input type="text" class="form-control input-sm" id="PhysDisbPer" ng-Model="ExamFormsImprovement.PhysDisbPer" input-Number-Only>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3"> Exam Form Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Form No :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.Formno" id="Formno" placeholder="Form Number" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Application Date :</label>
+                                    <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="ApplicationDate" ng-model="ExamFormsImprovement.ApplicationDate" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Regular Fee :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.RegularFees" id="RegularFees" placeholder="Regular Fees" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Late Fee :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.LateFees" id="LateFees" placeholder="Late Fees" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Fee Amount :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsImprovement.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Subject Details <hr></h3></div>
+                        </div>
+                        <table id="filtereddata" class="table">
+                            <tr>
+                                <th></th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                            </tr>
+                            <tr ng-repeat="x in Subjectdata">
+                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-disabled="checkDisable" ng-click='GetCheckSubject(x)' ng-model="x.CheckSub"></td>
+                                <td>{{ x.ExmSubCode }}</td>
+                                <td>{{ x.ExmSubName }}</td>
+                            </tr>
+                        </table>
+                        <!--<div class="row">
+                            <div id="SubjectGrid"
+                                 ej-grid
+                                 e-datasource="Subjectdata"
+                                 e-allowresizing="true">
+                            </div>
+                        </div>-->
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveExamFormsImprovement()">Save</button>
+                                <!--<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteExamFormsImprovement()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>-->
+                                <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

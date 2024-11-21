@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Success</title>
+    <style>
+        @media print {
+            .print-hide {
+                display: none;
+            }
+            
+            .base-print{
+                border:none;
+            }
+            .base-row {
+                margin-top: 0;
+                margin-bottom: 0;
+                padding: 0;
+                border: 0;
+            }
+            #page-wrapper {
+                min-height: 50vh !important;
+            }
+            .topbar_row_section{
+                display:none;
+            }
+            .form_top_spacing {
+                padding-top:0px;
+            }
+            .footer_section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="SuccessController">
+        <div class="container">
+            <div class="row ctitle print-hide">
+                <div class="col-md-5">
+                    <span><strong>{{Success.ServiceName}}</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>{{Success.ServiceName}}</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row base-print">
+                <!--<div style="margin-top:20px;" class="col-md-6 col-md-offset-3 text-center">
+                    <p class="blu-txt">Your Service Request was Successfully Submitted</p>
+                    <p class="blu-txt">Your Service Request Reference No. : <span style="color:red; font-size:18px; font-weight:bold;"><RefNo>{{Success.FormNo}}</span></p>
+                    <p class="blu-txt">
+                        Quote the above Reference No. for further correspondence.
+                    </p>
+                </div>-->
+                <div style="padding-top:10px;border:2px solid #000" class="col-md-8 col-md-offset-2">
+                    <div id="tab" style="text-align:center">
+                        <b>TELANGANA STATE<br />BOARD OF INTERMEDIATE EDUCATION<br />HYDERABAD - 50001</b>
+                    </div>
+                    <div style="padding:5px 0 5px 0;text-align:center"><img src="../../../contents/img/tsbie_1.png" width="40px" /></div>
+                    <div style="font-size:14px;text-align:center"><u>Acknowledgement</u></div>
+                    <div style="font-weight:bold;padding:0 0 5px 0;">Your Registration Number is {{Success.FormNo}}</div>
+                    <table border="1" width="100%">
+                        <tr>
+                            <td width="20%"><b>Roll Number</b></td>
+                            <td width="30%">{{AckData.RollNo}}</td>
+                            <td width="20%"><b>Candidate Name</b></td>
+                            <td width="30%">{{AckData.StudName}}</td>
+                        </tr>
+                        <tr>
+                            <td width="20%"><b>College Name</b></td>
+                            <td width="30%">{{AckData.ColCodeName}}</td>
+                            <td width="20%"><b>Admission Date</b></td>
+                            <td width="30%">{{AckData.AdmDate}}</td>
+                        </tr>
+                        <tr>
+                            <td width="20%"><b>Type of Service</b></td>
+                            <td width="30%">{{AckData.ServiceName}}</td>
+                            <td width="20%"><b>Fee</b></td>
+                            <td width="30%">{{AckData.FeeAmount}} {{AckData.AmountInWords}} </td>
+                        </tr>
+                        <tr>
+                            <td width="20%"><b>Purpose</b></td>
+                            <td width="80%" colspan="3">{{AckData.Purpose}}</td>
+                        </tr>
+                    </table>
+                    <div style="padding:10px 0 20px 0;font-size:12px;font-weight:bold;line-height:14px">
+                        Note: 1) Please Download your Document after 3 (Three) Working days.<br />
+                        <div style="width:45px;display:inline-block;">&nbsp;</div>from http://bie.telangana.gov.in/OnlineServices-> Know Your Application Status
+                    </div>
+                    <div style="font-size:12px;font-weight:bold;text-align:right;">Acknowledgement is Generated on {{ Today | date : "dd/MM/yyyy hh:mm:ss a" }}</div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" style="padding:10px 0 0 0">
+                            <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm print-hide">Home</button>
+                            <!--<button type="button" ng-click="PrintAck()" class="btn btn-reset btn-sm">Print</button>-->
+                            <button type="button" onclick="javascript:window.print()" class="btn btn-reset btn-sm print-hide">Print</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

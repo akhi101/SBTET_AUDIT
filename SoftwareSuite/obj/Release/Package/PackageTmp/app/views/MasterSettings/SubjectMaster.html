@@ -1,0 +1,253 @@
+﻿<style>
+    .btn-css {
+        margin-top: 25px;
+        padding: 5px 12px;
+    }
+
+    .editbtn {
+        width: 30px;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .deleteBtn {
+        width: 30px;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .cl-details h2 {
+        margin-bottom: -1px;
+    }
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #78987c !important;
+        font-size: 14px !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer !important;
+            border: 1px solid #ddd !important;
+    color: #ffffff!important;
+    background-color: #1976d2!important;
+    }
+     .table > thead > tr >th {
+      position:sticky;
+      top:0px;
+    }
+     .table-custom-tables-tb .table-bordered > thead > tr > th {
+    border: 1px solid #ddd !important;
+    color: #ffffff!important;
+    background-color: #1976d2!important;
+    font-size: 12px !important;
+}
+    .clr_red {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+</style>
+<div ng-controller="SubjectMasterController">
+    <div class="breadcrumb-header">
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Subject Master </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettingsDashboard">MasterSettings Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/Roles">Subject Master</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+   
+    <div class="container">
+
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-8 ">
+
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-info print_btn pull-right" ng-click="EditSubjectMasterData()">Edit Subject Master Data</button>
+        </div>
+        <div class="col-md-12">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+            <div class="col-md-12 " ng-show="Data1">
+                <div class="pull-right">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Subject Master Excel Download
+                    </a>
+                </div>
+                <div>
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="GetTanatlizationReport()">
+                        <i class="fa fa-file-excel-o"></i>
+                        Tantalization Excel Download
+                    </a>
+                </div>
+            </div>
+
+            <!--<div class="col-md-12" ng-show="subjectList.length>0">
+            <p class="pull-right clr_red">First 10 rows will be shown below</p>
+        </div>-->
+            <div class="col-md-12 ng-scope" ng-show="Data1">
+                <div class="cl-details">
+                    <h2> Subject Master List</h2>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="Data1">
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr>
+                                <th style="font-size:bold;">S.No</th>
+                                <th>Scheme</th>
+                                <th>TScheme</th>
+                                <th>Subject Code</th>
+                                <th>TSubject Code</th>
+                                <th>Subject Type</th>
+                                <th>Semester</th>
+                                <th>PCODE</th>
+                                <th>TPCODE</th>
+                                <th>Subject Name</th>
+                                <!--<th>Scheme code</th>-->
+                                <th>Branch Code</th>
+                                <th>Mid1 Marks</th>
+                                <th>Mid2 Marks</th>
+                                <th>Mid3 Marks</th>
+                                <th>Internal Marks</th>
+                                <th>External Marks</th>
+                                <th>Credits</th>
+                                <th>Is Elective</th>
+                                <th>Elective Set</th>
+                                <th>Is Board Question Paper</th>
+                                <th>Answer BookLet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color:#fff!important;" ng-repeat="data in subjectList|filter:search">
+                                <td>{{$index+1}}</td>
+                                <td>{{data.Scheme_Code== null ?'-':data.Scheme_Code}}</td>
+                                <td>{{data.TScheme == null ?'-':data.TScheme}}</td>
+                                <td>{{data.Subject_Code  == null ?'-':data.Subject_Code}}</td>
+                                <td>{{data.TSubjectCode == null ?'-':data.TSubjectCode}}</td>
+                                <td>{{data.subjectType == null ?'-':data.subjectType}}</td>
+                                <td>{{data.semester == null ?'-':data.semester}}</td>
+                                <td>{{data.PCode == null ?'-':data.PCode}}</td>
+                                <td>{{data.TPCODE  == null ?'-':data.TPCODE}}</td>
+                                <td>{{data.SubjectName  == null ?'-':data.SubjectName}}</td>
+                                <td>{{data.Branch_Code  == null ?'-':data.Branch_Code}}</td>
+                                <td>{{data.Mid1Max_Marks == null? '':data.Mid1Max_Marks}}</td>
+                                <td>{{data.Mid2Max_Marks == null? '':data.Mid2Max_Marks}}</td>
+                                <td>{{data.Mid3Max_Marks == null? '':data.Mid3Max_Marks}}</td>
+                                <td>{{data.InternalMax_Marks == null? '':data.InternalMax_Marks}}</td>
+                                <td>{{data.end_exam_max_marks == null? '':data.end_exam_max_marks}}</td>
+                                <td>{{data.Credits == null? '':data.Credits}}</td>
+                                <td>{{data.iselective == null? '':data.iselective}}</td>
+                                <td>{{data.ElectiveSet == null? '':data.ElectiveSet}}</td>
+                                <td>{{data.BoardQuestionPaper == null? '':data.BoardQuestionPaper}}</td>
+                                <td>{{data.AnswerBookLet == null? '':data.AnswerBookLet}}</td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+                <div class="table-responsive table-custom-tables-tb scrollbox" ng-hide="true">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content" id="tblParent">
+                        <thead>
+                            <tr>
+                                <th style="font-size:bold;">S.No</th>
+                                <th>Scheme</th>
+                                <th>TScheme</th>
+                                <th>Subject Code</th>
+                                <th>TSubject Code</th>
+                                <th>Subject Type</th>
+                                <th>Semester</th>
+                                <th>PCODE</th>
+                                <th>Subject Name</th>
+                                <!-- <th>Scheme code</th>-->
+                                <th>Branch Code</th>
+                                <th>Mid1 Marks</th>
+                                <th>Mid2 Marks</th>
+                                <th>Mid3 Marks</th>
+                                <th>Internal Marks</th>
+                                <th>External Marks</th>
+                                <th>Credits</th>
+                                <th>Is Elective</th>
+                                <th>Elective Set</th>
+                                <th>Is Board Question Paper</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color:#fff!important;" ng-repeat="data in subjectList1">
+                                <td>{{$index+1}}</td>
+                                <td>{{data.Scheme_Code== null ?'-':data.Scheme_Code}}</td>
+                                <td>{{data.TScheme == null ?'-':data.TScheme}}</td>
+                                <td>{{data.Subject_Code == null ?'-':data.Subject_Code}}</td>
+                                <td>{{data.TSubjectCode == null ?'-':data.TSubjectCode}}</td>
+                                <td>{{data.subjectType == null ?'-':data.subjectType}}</td>
+                                <td>{{data.semester == null ?'-':data.semester}}</td>
+                                <td>{{data.PCode  == null ?'-':data.PCode}}</td>
+                                <td>{{data.SubjectName  == null ?'-':data.SubjectName}}</td>
+                                <!-- <td>{{data.Scheme_Code  == null ?'-':data.Scheme_Code}}</td>-->
+                                <td>{{data.Branch_Code  == null ?'-':data.Branch_Code}}</td>
+                                <td>{{data.Mid1Max_Marks == null ?'-':data.Mid1Max_Marks}}</td>
+                                <td>{{data.Mid2Max_Marks == null ?'-':data.Mid2Max_Marks}}</td>
+                                <td>{{data.Mid3Max_Marks == null ?'-':data.Mid3Max_Marks}}</td>
+                                <td>{{data.InternalMax_Marks == null ?'-':data.InternalMax_Marks}}</td>
+                                <td>{{data.end_exam_max_marks == null ?'-':data.end_exam_max_marks}}</td>
+                                <td>{{data.Credits == null ?'-':data.Credits}}</td>
+                                <td>{{data.ElectiveSet == null ?'-':data.ElectiveSet}}</td>
+                                <td>
+                                    <span ng-if="data.iselective== true">Yes</span>
+                                    <span ng-if="data.iselective== false">No</span>
+                                </td>
+                                <td>
+                                    <span ng-if="data.BoardQuestionPaper== true">Yes</span>
+                                    <span ng-if="data.BoardQuestionPaper== false">No</span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+            </div>
+            <div ng-if="NoDataFound" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+     <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+    </div>

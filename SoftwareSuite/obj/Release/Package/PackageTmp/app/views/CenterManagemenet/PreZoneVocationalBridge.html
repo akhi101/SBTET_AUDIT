@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Create Bridge Course Zone </title>
+</head>
+<body>
+    <div ng-controller="PreZoneVocationalBridgeController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Create Bridge Course Zone</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Vocational Practical</li>
+                        <li>Create Bridge Course Zone</li>
+                    </ol>
+                </div>
+            </div>
+            <div style="margin-top:20px;" class="row base-row">
+                <div class="col-md-7">
+                    <form action="#">
+                        <div style="color : red;"><strong>NOTE : Double click on Created Practical Zone to add the colleges </strong> </div>
+                        <div id="PreZone" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                             e-datasource="PreZoneList"></div>
+                    </form>
+                </div>
+                <div class="col-md-5">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-3">
+
+                                <label for="sel1">District :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <select class="form-control" ng-model="PreZone.DistrictID" id="DistrictID" ng-disabled="DistEnable" ng-change="ClearGrid()">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreZone.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+
+                                <label for="email">Zone Name </label>
+                            </div>
+                            <div class="col-md-6  form-group">
+                                <input type="text" class="form-control" id="name" ng-model="PreZone.ZoneName" required="" maxlength="30" placeholder="Zone Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+
+                                <label for="email">Zone Code </label>
+                            </div>
+                            <div class="col-md-6  form-group">
+                                <input type="text" class="form-control" id="Code" ng-model="PreZone.ZoneCode" required="" maxlength="5" placeholder="Zone Code">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <label for="email">College to be Allotted to this Zone </label> <!--<label style="color:red">  (e.g 30001,30098,30098)</label>-->
+                            </div>
+                            <div class="col-md-3  form-group">
+                                <input type="text" class="form-control" id="ColCode" ng-model="PreZone.ColCode" required="" maxlength="8" input-Number-Only ng-keydown="FillGrid($event)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr /></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="CollegeTo"></label>
+                                    <button type="button" class="btn btn-detail btn-sm" ng-click="ShowColleges()">Add</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="CollegeTo"></label>
+                                    <button type="reset" class="btn btn-sm btn-danger" ng-click="ResetData()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="#">
+                    <div style="color : red;"><strong>NOTE : Click on Save after adding/deleting the colleges in that particular zone </strong> </div>
+                    <div id="BasicCollege" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="false" e-allowsorting="false" e-allowresizing="false"
+                         e-datasource="BasicCollegeList" e-actioncomplete="complete"></div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><hr></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><hr></div>
+        </div>
+        <div class="row">
+            <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-detail btn-sm" ng-click="SavePreZone()">Save</button>
+                <button type="reset" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeletePreZone()">Delete</button>
+                <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

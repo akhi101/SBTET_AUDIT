@@ -1,0 +1,342 @@
+﻿<style>
+    .padleft {
+        padding-left: 0px;
+    }
+
+    .formLabel {
+        font-size: large !important;
+        font-weight: bold;
+        width: 150px;
+    }
+
+    #print_head {
+        display: block;
+    }
+
+    fieldset.group-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend.group-border {
+        width: inherit;
+        /* Or auto */
+        padding: 0 10px;
+        /* To give a bit of padding on the left and right */
+        border-bottom: none;
+    }
+
+    .tables {
+        font-size: 12px !important;
+    }
+
+    label {
+        font-weight: bold;
+        font-size: 13px;
+    }
+    .headCls{
+        color: #1b84e7;
+    font-weight: bold;
+    }
+</style>
+
+<div ng-controller="AnnextureController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Exam Expenditures</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/DcBillsDashboard">DC Bills</a></li>
+                        <li><a href="#!/Dashboard/DcBillsDashboard/SetExaminationExpenditureCharges"> Set Exam Expenditure Charges</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/DcBillsDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="sm-space"></div>
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>  Set Exam Expenditure Charges</h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm" class="ng-pristine ng-invalid ng-invalid-required">
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="monthyear" required>
+                                    <option value="" selected>Select Month/Year of Exam</option>
+                                    <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                        {{monYer.ExamYearMonth}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 ">
+                                <div class="gr-btn">
+                                    <button class="btn submit_btn btn-sm btn-primary gr-button" style="margin-top:10px;" ng-click="GetExpenditure()">Get Exam Charges</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="Showdata">
+            <form name="studentRegForm" class="studentRegForm" ng-submit="SetSessionalExpenditure()">
+                <fieldset class="group-border">
+                    <legend class="group-border">Sessional Expenditure</legend>
+                    <h4 class="headCls">Theory Session Charges</h4>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Invigilator Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.Invigilatorcharges" placeholder="Invigilator Charges" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Number Of Students Per Invigilator (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.NumberOfStudentsPerInvigilator" placeholder="Number Of Students Per Invigilator" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Chief Superintendent Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.ChiefSuperintendent" placeholder="Chief Superintendent" required />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Joint Chief Superintendent charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.JointChiefSuperintendent" placeholder="Joint Chief Superintendent" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Police Bandobasth charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PoliceBandobasth" placeholder="PoliceBandobasth" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Police Bandobasth Per Session (Persons Needed):
+                            </label>
+                            <input class="form-control" maxlength="3" ng-model="ExamSessionalExpenditureCharges.NoOfPoliceForBandobasthPerSession" placeholder="No Of Police For Bandobasth Per Session" required />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Seating charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.SeatingChargesPerStudent" placeholder="Seating charges" required />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Number Of Students PerAttender/Waterman/Sweeper :
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.NumberOfStudentsPerAttenderCumWatermanCumSweeper" placeholder="Number Of Students PerAttender/Waterman/Sweeper" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                AttenderCumWatermanCumSweeper Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.TheoryAttenderCumWatermanCumSweeperChargesPerSubject" placeholder="Attender/Waterman/Sweeper Charges" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Examination Clerk & Typing Charges per Session (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.ExaminationClerk_TypingCharges" placeholder="Examination Clerk Typing Charges per Day" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Printing Charge Per QuestionPaper (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PrintingChargePerQuestionPaper" placeholder="Printing Charge Per QuestionPaper" required />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Delivery Charges per Day (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.DeliveryChargesPerDay" placeholder="Delivery Charges per Day " required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Internal/External Flying Squad charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.InternalFlyingSquadCharges" placeholder="Internal/External Flying Squad" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                EDEP Charges Per Session (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.EDEPChargesPerSession" placeholder="EDEP Charges Per Session" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Control Room Charge Per Person (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.ControlRoomChargePerPerson" placeholder="Control Room Charge Per Person" required />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                    </div>
+                    <h4 class="headCls">Practical Session Charges</h4>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                External Paper Setting Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalExternalPaperSettingCharges" placeholder="External Paper Setting Charges" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Internal Paper Setting Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalInternalPaperSettingCharges" placeholder="Internal Paper Setting Charges" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Local Conveyance Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalLocalConveyanceChargesPerDay" placeholder="Local Conveyance Charges Per Day " required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Technical Assistant Charges (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalTechnicalAssistantCharges" placeholder="Technical Assistant Charges " required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Practical Waterman/Sweeper Charges Per Subject (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalWatermanCumSweeperChargesPerSubject" placeholder="Practical Attender Charges Per Subject" required />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                No Of Students Per Practical Session :
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.NoOfStudentsPerPracticalSession" placeholder="No Of Students Per Practical Session" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Practical Paper Valuation Charges Per Paper (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalPaperValuationChargesPerPaper" placeholder="Practical Paper Valuation Charges Per Paper " required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                No Of Students Per Examiner :
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.NoOfStudentsPerExaminer" placeholder="No Of Students Per Examiner" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Practical Attender Charges Per Subject (Rs):
+                            </label>
+                            <input class="form-control" maxlength="4" ng-model="ExamSessionalExpenditureCharges.PracticalAttenderChargesPerSubject" placeholder="Practical Attender Charges Per Subject" required />
+                        </div>
+
+                    </div>
+
+                    <h4 class="headCls">Practical Viva Charges</h4>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="PracticalVivaChargesforSixthSem">
+                                Practical Viva Charges (Industrial Training) (Rs):
+                            </label>
+                            <input class="form-control" maxlength="3" ng-model="ExamSessionalExpenditureCharges.PracticalVivaChargesforSixthSem" placeholder="Practical Viva Charges (6 Sem)" required />
+                        </div>
+                       
+                    </div>
+                </fieldset>
+
+                <fieldset class="group-border">
+                    <legend class="group-border">Event Expenditure</legend>
+
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                AO notification per  Event:
+                            </label>
+                            <input class="form-control"  maxlength="4" ng-model="ExamEventExpenditureCharges.AoNotification" placeholder="AO per notification" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Superintendent charges per  Event:
+                            </label>
+                            <input class="form-control"  maxlength="4" ng-model="ExamEventExpenditureCharges.Superintendent" placeholder="Superintendent" required />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="ExaminationType">
+                                Examination clerk charges per  Event:
+                            </label>
+                            <input class="form-control"  maxlength="4" ng-model="ExamEventExpenditureCharges.SeatclerkCharges" placeholder="Examination clerk" required />
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+
+                    </div>
+                </fieldset>
+                <div class="col-md-12 ">
+                    <div class="gr-btn">
+                        <button class="btn submit_btn btn-primary btn-sm pull-right" style="margin-top:10px;"  type="submit" ng-show="UpdateTrue">Update Expenditure</button>
+
+                    </div>
+                </div>
+                </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ">
+            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                <img src="../../../contents/img/loading1.gif" width="100" />
+            </div>
+            <div ng-show="NoResult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+  
+        <div class="sm-spacer"></div>
+    </div>

@@ -1,0 +1,64 @@
+﻿<div ng-controller="GeneratePinOdcDataController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Generate ODC Data By Pin</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PostExam">Post Exam</a></li>
+                    <li><a href="#!/Dashboard/PostExam/OdcGeneration">Generate ODC Data By Pin</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PostExam" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Generate ODC Data By Pin</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="sel1">
+                                Pin:
+                            </label>
+                            <input class="form-control" ng-model="Pin" placeholder="Enter Pin" name="Year" required />
+                        </div>
+                        <div class="col-md-2">
+                            <div class="gr-btn">
+                                <button type="submit" class="btn  btn-primary" style="margin-top:6px;" ng-click="GenerateOdc()">Generate ODC Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+
+        <div class="col-md-12">
+            <div class="no-results" ng-show="Noresult">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>ODC Data Not Generated</h2>
+            </div>
+            <div class="no-results" ng-show="Error">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>{{ErrMsg}}</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width:100%;text-align:center;">
+                <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+            </div>
+        </div>
+    </div>  
+</div>

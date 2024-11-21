@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Instance</title>
+    <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+</head>
+<body>
+    <div ng-controller="BasicExamInstanceScheduleController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Instance Schedule</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Instance Schedule</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <div class="form-group" ng-show="false">
+                                    <label class=" control-label col-lg-2"> ExmInstSchID :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.ExmInstSchID" id="ExmInstSchID">
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.BranchID" id="BranchID">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1">Exam Instance :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.ExamInstanceNAme" id="ExamInstanceNAme" ng-disabled="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <select class="form-control" ng-model="BasicExamInstanceSchedule.CourseID" id="CourseID" ng-change="FillCoursePart(BasicExamInstanceSchedule.CourseID)">
+                                        <option ng-selected="BasicExamInstanceSchedule.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Year :</label>
+                                    <select class="form-control" ng-model="BasicExamInstanceSchedule.ExamId" id="ExamID" ng-disabled="ExamDisable" ng-change="FillExamFeesPerYearList(BasicExamInstanceSchedule.ExamId)">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="BasicExamInstanceSchedule.ExamId == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Start Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.StartDate" id="StartDate" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">End Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.EndDate" id="EndDate" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label for="email"> Regular Fee College Transfer Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.EndCollegeTransDate" id="EndCollegeTransDate" required="">
+                                </div>
+                                <!--<div class="form-group">
+                                    <label for="email">Amount :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.RegularFeeAmount" id="RegularFeeAmount" required="">
+                                </div>-->
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group" ng-show="false">
+                                    <label for="email">Amount :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.RegularFeeAmount" id="RegularFeeAmount" required="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="sel1"> Regular Fee : </label>
+                                <hr>
+                                <table class="table">
+                                    <tr>
+                                        <!--<th>ExamFeesID</th>-->
+                                        <!--<th>ExamFeesCode</th>-->
+                                        <th>Sr.No.</th>
+                                        <th>Particulars Of Exam Fee</th>
+                                        <th>Amount</th>
+                                        <!--<th>ExmInstSchID</th>
+                                        <th>ExamInstID</th>-->
+                                    </tr>
+                                    <tr ng-repeat="x in ExamFeesPerYearList">
+                                        <!--<td>{{ x.ExamFeesID }}</td>-->
+                                        <td>{{ x.ExamFeesCode }}</td>
+                                        <td>{{ x.ExamFeesDesc }} </td>
+                                        <td><input type="text" class="form-control" ng-model="x.ExamFeesAmount" input-Number-Only></td>
+                                        <!--<td>{{ x.ExmInstSchID }}</td>
+                                        <td>{{ x.ExamInstID }}</td>-->
+
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                        <label for="sel1"> Late Fee : </label>
+                        <hr>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 1 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate1 " id="DescLate1 " required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee1 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount1" id="LateAmount1" required="" input-Number-Only >
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">From Late Date1 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate1" id="FromLateDate1" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email"> Up To Late Date1 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate1 " id="UpToLateDate1" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date1:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate1" id="CollegeTransDate1" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 2 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate2" id="DescLate2 " required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee2 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount2" id="LateAmount2" required="" input-Number-Only >
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">From Late Date2 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate2" id="FromLateDate2" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Up To Late Date2 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate2" id="UpToLateDate2" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date2:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate2" id="CollegeTransDate2" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 3 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate3" id="DescLate3 " required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee3 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount3" id="LateAmount3" required="" input-Number-Only >
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">From Late Date3:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate3" id="FromLateDate3" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Up To Late Date3:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate3" id="UpToLateDate3" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date3:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate3" id="CollegeTransDate3" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 4 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate4" id="DescLate4 " required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee4 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount4" id="LateAmount4" required="" input-Number-Only >
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">From Late Date4 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate4" id="FromLateDate4" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Up To Late Date4 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate4" id="UpToLateDate4" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date4:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate4" id="CollegeTransDate4" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 5 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate5" id="DescLate5" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee5 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount5" id="LateAmount5" required="" input-Number-Only >
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">From Late Date5 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate5" id="FromLateDate5" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Up to Late Date5 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate5" id="UpToLateDate5" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date5:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate5" id="CollegeTransDate5" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 6 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate6" id="DescLate6" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee6 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount6" id="LateAmount6" required="" input-Number-Only >
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email"> From Late Date6 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate6" id="FromLateDate6" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email"> Up To Late Date6 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate6" id="UpToLateDate6" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date6:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate6" id="CollegeTransDate6" required="">
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div style="margin-top:20px;" class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="email">Particulars 7 :</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.DescLate7" id="DescLate7" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email">Late Fee7 Amount:</label>
+                                    <input type="text" class="form-control" ng-model="BasicExamInstanceSchedule.LateAmount7" id="LateAmount7" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email"> From Late Date7 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.FromLateDate7" id="FromLateDate7" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="email"> Up To Late Date7 :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.UpToLateDate7" id="UpToLateDate7" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">College Transfer Date7:</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicExamInstanceSchedule.CollegeTransDate7" id="CollegeTransDate7" required="">
+                                </div>
+                            </div>
+                        </div>-->
+                        <!--<div class="row">
+                            <div class="col-md-12"><hr>
+                            <table class="table">
+                                <tr>
+                                    <th>ExamFeesID</th>
+                                    <th>ExamFeesCode</th>
+                                    <th>Particulars Of Ecam Fee</th>
+                                    <th>Amount</th>
+                                    <th>ExmInstSchID</th>
+                                    <th>ExamInstID</th>
+                                </tr>
+                                <tr ng-repeat="x in ExamFeesPerYearList">
+                                    <td>{{ x.ExamFeesID }}</td>
+                                    <td>{{ x.ExamFeesCode }}</td>
+                                    <td>{{ x.ExamFeesDesc }} </td>
+                                    <td><input type="text" ng-model="x.ExamFeesAmount"></td>
+                                    <td>{{ x.ExmInstSchID }}</td>
+                                    <td>{{ x.ExamInstID }}</td>
+
+                                </tr>
+                            </table>
+                            </div>
+                        </div>-->
+                        <div class="row">
+
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicExamInstanceSchedule()">Save</button>
+                                <!--<button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeleteBasicExamInstanceSchedule()">Delete</button>-->
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

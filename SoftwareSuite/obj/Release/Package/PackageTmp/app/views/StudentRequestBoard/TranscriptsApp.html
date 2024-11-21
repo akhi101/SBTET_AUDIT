@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Transcripts</title>
+</head>
+<body>
+    <div ng-controller="TranscriptsAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Transcripts</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Request</li>
+                        <li>Transcripts</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date : {{TranscriptsApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidates Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="TranscriptsApp.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Fathers Name :</label>
+                                    <input type="text" class="form-control" id="FatherName" ng-model="TranscriptsApp.FatherName" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> SSC Hall Ticket: </label>
+                                        <input type="text" class="form-control" id="HTNO" ng-model="TranscriptsApp.HTNO" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Form Number :</label>
+                                        <input type="text" class="form-control" id="FormNo" ng-model="TranscriptsApp.FormNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Copies Count: </label>
+                                        <input type="text" class="form-control" id="NoOfCopy" ng-model="TranscriptsApp.NoOfCopy" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number: </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="TranscriptsApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Fee(in Rupees):</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="TranscriptsApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label> View Student Certificates : </label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a class="btn btn-sm btn-primary" target="_blank" href="{{TranscriptsApp.UploadDoc1}}" id="downloadFS">Pass Certificate(Front Side)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Accept / Reject at Level 1 : </label>
+                                        <select class="form-control" id="ReqStatus" ng-model="TranscriptsApp.ReqStatus" ng-disabled="FirstLoginStatus" ng-change="ChangeTextArea(TranscriptsApp.ReqStatus,'ReqStatus')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <!--<option value="P">Pending</option>-->
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <div class="status" ng-show="ShowLevel1">
+                                            Level 1 Status Approved/Rejected Date : {{TranscriptsApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{TranscriptsApp.ReqStatusIPAddress}}
+                                        </div>
+                                    </div>
+                                    <div ng-show="Approver1">
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Accept / Reject at Level 2: </label>
+                                            <select class="form-control" id="ReqStatus" ng-model="TranscriptsApp.ReqStatus1" ng-disabled="SecondLoginStatus" ng-change="ChangeTextArea(TranscriptsApp.ReqStatus1,'ReqStatus1')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <!--<option value="P">Pending</option>-->
+                                                <option value="R">Reject</option>
+                                            </select>
+                                            <div class="status" ng-show="ShowLevel2">
+                                                Level 2 Status Approved/Rejected Date : {{TranscriptsApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{TranscriptsApp.ReqStatus1IPAddress}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="Approver2">
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Approve / Reject at Level 3 : </label>
+                                            <select class="form-control" id="ReqStatus" ng-model="TranscriptsApp.ReqStatus2" ng-disabled="ThirdLoginStatus" ng-change="ChangeTextArea(TranscriptsApp.ReqStatus2,'ReqStatus2')">
+                                                <option value="0">Select Status</option>
+                                                <option value="A">Approve</option>
+                                                <!--<option value="P">Pending</option>-->
+                                                <option value="R">Reject</option>
+                                            </select>
+                                            <div class="status" ng-show="ShowLevel3">
+                                                Level 3 Status Approved/Rejected Date : {{TranscriptsApp.ProcessDate2 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{TranscriptsApp.ReqStatus2IPAddress}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> College Name:</label>
+                                        <input type="text" class="form-control" id="ColCodeName" ng-model="TranscriptsApp.ColCodeName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for="">Address :</label>
+                                        <textarea rows="2" class="form-control" style="width: 100%;" id="Purpose" ng-model="TranscriptsApp.Address" ng-readonly="true"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Send Transcripts Address :</label>
+                                        <textarea rows="2" class="form-control" style="width: 100%;" id="Purpose" ng-model="TranscriptsApp.SendTransAddr" ng-readonly="true"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label> View Student Certificates : </label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a class="btn btn-sm btn-primary" target="_blank" href="{{TranscriptsApp.UploadDoc2}}" id="downloadBS">Pass Certificate(Back Side)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> Process Remark at Level 1 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="TranscriptsApp.ProcessRemark" ng-disabled="FirstLoginStatus"></textarea>
+                                    </div>
+                                    <div ng-show="Approver1">
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Process Remark at Level 2:</label>
+                                            <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="TranscriptsApp.ProcessRemark1" ng-disabled="SecondLoginStatus"></textarea>
+                                        </div>
+                                    </div>
+                                    <div ng-show="Approver2">
+                                        <div class="col-md-12 form-group">
+                                            <label for=""> Process Remark at Level 3 :</label>
+                                            <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="TranscriptsApp.ProcessRemark2" ng-disabled="ThirdLoginStatus"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                                <button type="button" ng-show="SubmitTranscript" ng-disabled="RollEditDisable" ng-click="SaveTranscriptsApp()" class="btn btn-sm btn-detail">Submit</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+﻿<style>
+
+    .contain input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+    .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+    input.largerCheckbox { 
+            width: 30px; 
+            height: 30px; 
+           text-align:center;
+        
+         
+        } 
+
+/* Show the checkmark when checked */
+.contain input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    </style>
+
+<div ng-controller="SetsemesterController">
+    <div class="breadcrumb-header">
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Semester Setting </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/Setsemester">SetSemester</a>
+                    
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/MasterSettings/ModulesSetting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+       
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>Set Semester </h2>
+            </div>
+           
+            
+                 <div class="col-md-6 pull-right" ng-show="edit">
+                     <button class="btn btn-success pull-right" style="margin-bottom:10px" ng-click="editDetaila()">Edit Scheam</button>
+                 </div>
+                  <div class="col-md-6 pull-right" ng-show="Save">
+                      <button class="btn btn-success pull-right" style="margin-bottom:10px" ng-click="SaveScheamdata()">Save</button>
+                  </div>
+
+             
+
+                <div class="col-md-12">
+                    <div id="SetSemester" class="table-responsive table-custom-tables-tb ">
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+
+                                    <th style="width: 5%;" class="text-center">S.No</th>
+                                    
+                                    <th  style="width: 5%;" class="text-center">Semester</th>
+                                    <th  style="width: 5%;" class="text-center">Scheam</th>
+                                    <th  style="width: 5%;" class="text-center" >ISActive</th>
+
+
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr ng-repeat="X in SetSemester">
+                                    <td class="text-center">{{$index+1}}</td>
+                                    <td class="text-center">{{X.semester}}</td>
+                                  
+                                <td style="text-align:center">
+                                    <span ng-if="edit">
+                                        {{X.Scheme}}
+                                    </span>
+                                    <span ng-if="!edit">
+                                        <select class="form-control" ng-model="X.SchemeID"
+                                                ng-options="data.SchemeID as data.Scheme for data in SchemeList" ng-change="changeSheam(X)">
+                                            <option value="" selected>Choose</option>
+                                        </select>
+                                    </span>
+                                    </td>
+
+                                    
+                                    <td style="text-align:center" ng-if="edit">
+                                        <!--<input type="checkbox" />-->
+                                        <div class="form-check">
+                                            <input type="checkbox" ng-checked="X.IsActive" class="largerCheckbox" ng-disabled="true"
+                                          name="checkBox2" />
+                                        </div>
+                                    </td>
+                                    <td style="text-align:center" ng-if="!edit">
+                                        <!--<input type="checkbox" />-->
+                                        <div class="form-check">
+                                            <input type="checkbox" ng-checked="X.IsActive" class="largerCheckbox" ng-click="changeSheamEnable(X)"
+                                                   name="checkBox2" />
+                                        </div>
+                                    </td>
+                                   
+                                    
+                                 
+                                </tr><!-- end ngRepeat: x in getReports -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>

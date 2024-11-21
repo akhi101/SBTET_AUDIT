@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basic Subject Category Master</title>
+</head>
+<body>
+    <div ng-controller="BasicSubCategoryController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Subject Category</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Subject Category</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                   
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Exam Subject :</label>
+                                        <select class="form-control" ng-model="BasicSubCategory.ExmSubID" id="ExmSubID">
+                                            <option value="">--Select Subject --</option>
+                                            <option ng-selected="BasicSubCategory.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Evaluation Type:</label>
+                                        <select class="form-control" ng-model="BasicSubCategory.EvalTypeID" id="EvalTypeID">
+                                            <option value="">--Select Category --</option>
+                                            <option ng-selected="BasicSubCategory.EvalTypeID == option.EvalTypID" ng-repeat="option in BasicEvalTypesList" value="{{option.EvalTypID}}">{{option.EvalTypName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Concession Pass Mark:</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubCategory.ConcessionPassMark" no-Special-Char id="ConcessionPassMark" required="" input-Number-Only placeholder="Concession Pass Mark">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicSubCategory.CodeFlag" id="CodeFlag" required=""> Code
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Max Mark's :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubCategory.MaxMarks" no-Special-Char id="MaxMarks" required="" input-Number-Only placeholder="Max Mark's ">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Pass Mark's :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubCategory.PassMarks" no-Special-Char id="PassMarks" required="" input-Number-Only placeholder="Pass Mark's">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicSubCategory.MarkGradeConversionFlag" id="MarkGradeConversionFlag" required=""> Mark Grade Conversion
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Grade :</label>
+                                        <select class="form-control" ng-model="BasicSubCategory.EvalGrdID" id="EvalGrdID">
+                                            <option value="">--Evaluation Grade --</option>
+                                            <option ng-selected="BasicSubCategory.EvalGrdID == option.EvalGrdID" ng-repeat="option in BasicEvalGradeList" value="{{option.EvalGrdID}}">{{option.EvalGrdName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Creadits :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubCategory.Credits" no-Special-Char id="Credits" required="" input-Number-Only placeholder="Creadits">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicSubCategory.Scalingapplicableflag" id="Scalingapplicableflag" required=""> Scaling Applicable
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicSubCategory()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicSubCategory()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+      <!--  <div>
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Subject Category</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1"> Exam Subject :</label>
+                                            <select class="form-control" ng-model="BasicSubCategory.ExmSubID" id="ExmSubID">
+                                                <option value="">--Select Subject --</option>
+                                                <option ng-selected="BasicSubCategory.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Evaluation Type:</label>
+                                            <select class="form-control" ng-model="BasicSubCategory.EvalTypeID" id="EvalTypeID">
+                                                <option value="">--Select Category --</option>
+                                                <option ng-selected="BasicSubCategory.EvalTypeID == option.EvalTypID" ng-repeat="option in BasicEvalTypesList" value="{{option.EvalTypID}}">{{option.EvalTypName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Concession Pass Mark:</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubCategory.ConcessionPassMark" no-Special-Char id="ConcessionPassMark" required="" input-Number-Only placeholder="Concession Pass Mark">
+                                        </div>
+                                        <label for="email" style="margin-top: 12px;">Code :</label>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicSubCategory.CodeFlag" id="CodeFlag" required=""> Code
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Max Mark's :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubCategory.MaxMarks" no-Special-Char id="MaxMarks" required="" input-Number-Only placeholder="Max Mark's ">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Pass Mark's :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubCategory.PassMarks" no-Special-Char id="PassMarks" required="" input-Number-Only placeholder="Pass Mark's">
+                                        </div>
+
+                                        <label for="email" style="margin-top: 12px;">Mark Grade Conversion :</label>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicSubCategory.MarkGradeConversionFlag" id="MarkGradeConversionFlag" required=""> Mark Grade Conversion
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1"> Grade :</label>
+                                            <select class="form-control" ng-model="BasicSubCategory.EvalGrdID" id="EvalGrdID">
+                                                <option value="">--Evaluation Grade --</option>
+                                                <option ng-selected="BasicSubCategory.EvalGrdID == option.EvalGrdID" ng-repeat="option in BasicEvalGradeList" value="{{option.EvalGrdID}}">{{option.EvalGrdName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Creadits :</label>
+                                            <input type="text" class="form-control" ng-model="BasicSubCategory.Credits" no-Special-Char id="Credits" required="" input-Number-Only placeholder="Creadits">
+                                        </div>
+                                        <label for="email" style="margin-top: 12px;">Scaling Applicable :</label>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicSubCategory.Scalingapplicableflag" id="Scalingapplicableflag" required=""> Scaling Applicable
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicSubCategory()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicSubCategory()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+	</body>
+	</html>

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="modal-header aadhar-modal-header">
+        <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+        <h4 class="text-center">Students List</h4>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive table-custom-tables-tb col-md-12" ng-if="result">
+            <table class="table table-bordered  table-striped table-rounded">
+                <thead>
+                    <tr class="cb-1">
+                        <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                        <th style="width: 2%;">S.No</th>
+                        <th ng-click="sort('Scheme')">PIN</th>
+                        <th class="" ng-click="sort('Semester')">Name</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in StudentsList">
+                        <!--<td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="data.isChecked" ng-class="{selected: data.isChecked}" ng-change="selectEntity(data)"></td>-->
+                        <td class="text-center">{{$index + 1}}</td>
+                        <td class="text-center">{{x.PIN}}</td>
+                        <td class="text-center">{{x.Name}}</td>
+
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="NoData" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        </div>
+        <!--<div class="col-md-12">
+            <button class="btn btn-success pull-right" style="margin-bottom:20px!important" ng-click="closeModal()">Submit</button>
+        </div>-->
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Academic Year</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <div ng-controller="BasicAcademicYearController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Academic Year</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>Instance & Schedule </li>
+                        <li>Academic Year</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="Name"> Academic Year  :</label>
+                                            <input type="text" class="form-control" ng-model="BasicAcademicYear.AcdYrName" id="AcdYrName" required="" placeholder="Enter Academic Year Name" maxlength="10">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="Code"> Academic Year Code :</label>
+                                            <input type="text" class="form-control" ng-model="BasicAcademicYear.AcdYrCode" id="AcdYrCode" required="" placeholder="Enter Academic Year Code" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Code"> Start Date:</label>
+                                        <input type="text" datepicker class="form-control" ng-model="BasicAcademicYear.StartDate" id="StartDate" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Code"> End Date:</label>
+                                        <input type="text" datepicker class="form-control" ng-model="BasicAcademicYear.EndDate" id="EndDate" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:26px;" class="col-md-3 col-md-offset-2">  
+                                    <div class="form-group">
+                                        <label for="email" style="">Academic Year Applicable :</label>
+                                        <input type="checkbox" ng-model="BasicAcademicYear.StatusFlag" id="StatusFlag" required="">
+                                    </div>
+                                </div>
+                                <div style="margin-top:22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicAcademicYear()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicAcademicYear()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+
+      <!--  <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Academic Year</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="Name"> Academic Year  :</label>
+                                                <input type="text" class="form-control" ng-model="BasicAcademicYear.AcdYrName" id="AcdYrName" required="" placeholder="Enter Academic Year Name" maxlength="10">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="Code"> Academic Year Code :</label>
+                                                <input type="text" class="form-control" ng-model="BasicAcademicYear.AcdYrCode" id="AcdYrCode" required="" placeholder="Enter Academic Year Code" maxlength="4">
+                                            </div>
+                                        </div>
+                                        <label for="email" style="">Academic Year Applicable :</label>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicAcademicYear.StatusFlag" id="StatusFlag" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="Code"> Start Date:</label>
+                                                <input type="text" datepicker class="form-control" ng-model="BasicAcademicYear.StartDate" id="StartDate" required="">
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Code"> End Date:</label>
+                                            <input type="text" datepicker class="form-control" ng-model="BasicAcademicYear.EndDate" id="EndDate" required="">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicAcademicYear()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                            <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicAcademicYear()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                            <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

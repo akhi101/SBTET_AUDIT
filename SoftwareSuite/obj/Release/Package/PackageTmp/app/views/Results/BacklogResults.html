@@ -1,0 +1,159 @@
+﻿
+<style>
+    .contentBold {
+        font-weight: bold !important;
+    }
+         .status_css{
+               color: red !important;
+               font-weight:bold;
+               text-decoration:underline;
+              cursor: pointer;
+        }
+    
+</style>
+<div ng-controller="BacklogResultsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Previous Exam Results </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Results">Results</a></li>
+                    <li><a href="#!/Dashboard/Results/BacklogResults">BacklogResults</a></li>
+                    
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/Results" class="backA" ng-click="get()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label" style="color:#31708f!important"> Student Pin Number:</label>
+                                        <input type="text" class="form-control" name="pin" autocomplete="off" ng-model="studentPin" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="getDetails()">
+                                            Get Details
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="col-md-12" ng-if="isShowResults1">
+
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+                    <table class="table table-bordered  table-striped table-rounded">
+
+                        <thead>
+                            <tr class="cb-1">
+                                <!-- <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+
+                                
+                                <th class="text-left" style="width: 10%">pin</th>
+
+                                <th class="text-left" style="width: 10%">Name</th>
+
+                                <th class="text-left" style="width: 10%">Branch</th>
+
+                            
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            <tr style="background-color:#fff!important;" ng-repeat="studentdata  in getBackLogdata">
+                                <td class="text-left">{{studentdata.pin}}</td>
+                                <td class="text-left">{{studentdata.name}}</td>
+                                <td class="text-left">{{studentdata.br}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+   
+                        <div class="sm-spacer"></div>
+                        <div class="col-md-12" ng-if="isShowResults">
+
+                            <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+                                <table class="table table-bordered  table-striped table-rounded">
+
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <!-- <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                      
+                                                <th class="text-left" style="width: 1%">Sno</th>
+                                                <th class="text-left" style="width: 10%">Semester Year</th>
+                                                <th class="text-left" style="width: 10%">Subject Code</th>
+                                                <th class="text-left" style="width: 10%">Subject Name</th>
+                                                <th class="text-left" style="width: 10%">Marks</th>
+                                                <th class="text-left" style="width: 10%">Result</th>
+                                                <th class="text-left" style="width: 10%">Exam Year</th>
+
+
+
+                                              </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                       
+                                        <tr style="background-color:#fff!important;" ng-repeat="data  in getBacklogStudent">
+                                            <!--<td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="isAllchecked" ng-change="selectEntity(x)"></td>-->
+                                            <td class="text-left" >{{$index + 1}}</td>
+                                            <td class="text-left">{{data.yrsem}}</td>
+                                            <td class="text-left">{{data.sub1}}</td>
+                                            <td class="text-left">{{data.subname}}</td>
+                                            <td class="text-left">{{data.marks}}</td>
+                                            <td ng-click="getbacklogHistory(data.sub1,data.result)" style="text-align:center;"  ng-class="{'status_css':data.result=='F'}">{{data.result}}</td>
+                                            <td class="text-left">{{data.examyear}}</td>
+                                       
+                                        </tr>
+                                        
+                                        <tr style="font-weight:bold!important;">
+                                            <td>{{result}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+            <div class="col-md-12">
+                <div ng-if="result" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>{{response}}</h2>
+                </div>
+            </div>
+            </div>
+                  
+            <div class="spacer"></div>
+            <!--<div class="col-md-12">
+                <div class="alert alert-info" ng-if="result">
+                    {{response}}
+                </div>
+            </div>-->
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+           
+        </div>
+   

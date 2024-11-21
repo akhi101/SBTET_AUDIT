@@ -1,0 +1,354 @@
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    /*   .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }*/
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-bottom: -20px;
+    }
+
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+</style>
+<div ng-controller="CcicUsersController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Users Setting</h5>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/Settings" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#1" data-toggle="tab" ng-click="tab1()">Add UserTypes</a>
+            </li>
+            <li>
+                <a href="#2" data-toggle="tab" ng-click="tab2()">Add Users</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="1">
+                <div class="card">
+                    <form name="dataForm">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> UserType Name :</label>
+                                    <input type="text" placeholder="Enter User Type Name" maxlength="50" class="form-control" ng-model="UserTypeName" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-disabled="usertypeName" style="margin-top: 23px!important;" ng-click="addUserTypes(UserTypeName)">
+                                        Save
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="sm-spacer"></div>
+                <div class="col-md-12" style="padding:0px!important">
+                    <div class="cl-details" ng-if="UserTypesDataTable.length>0">
+                        <h5 class="head_css">UserType List</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" ng-if="loading">
+                        <div class="sm-spacer"></div>
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+
+                    <div class="card" ng-show="nodata">
+                        <div class="col-md-12 no-results" style="width:100%;text-align:center;">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+                    <div id="preExamReports" class="table-responsive table-custom-tables-tb col-md-12" ng-if="UserTypesDataTable.length>0">
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th class="" style="width: 2%;">S.No</th>
+                                    <th class="text-center" style="width: 40%;">UserType Name</th>
+                                    <th class="text-center" style="width: 30%;">Active Status</th>
+                                    <th class="text-center" style="width: 30%;">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in UserTypesDataTable">
+
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td class="text-center">
+                                        {{data.Role}}
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-xs" disabled ng-show="data.Active == true">Yes</button>
+                                        <button class="btn btn-danger btn-xs" disabled ng-show="data.Active == false">No</button>
+                                    </td>
+                                    <td style="text-align:center" width="8%">
+                                        <button  class="btn-xs btn btn-info" style="width: 70px;" ng-click="Edit(data.UserTypeID)">Edit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width:100%;text-align:center;">
+                        <!--<div class="loadingImg">
+                           <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+                        </div>-->
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane" id="2">
+                <div class="card">
+                    <form name="dataForm">
+                        <div class="row">
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> User Type :</label>
+                                    <select class="form-control " ng-model="UserType" name="UserType" ng-change="getUsers(UserType)" required>
+                                        <option value="" selected="selected">Select UserType</option>
+                                        <option value="{{data.UserTypeID}}" ng-repeat="data in UserTypesActiveData" class="">
+                                            {{data.Role}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">User Name :</label>
+                                    <input type="text" placeholder="Enter User Name" maxlength="50" class="form-control" ng-model="NewUserName" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Create Password :</label>
+                                    <input type="password" placeholder="Enter Password" class="form-control" maxlength="8" ng-model="CreatePass" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Confirm Password :</label>
+                                    <input type="password" placeholder="Enter Confirm Password" class="form-control" maxlength="8" ng-blur="CheckPassword()" ng-model="ConfirmPass" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Name of the User:</label>
+                                    <input type="text" placeholder="Enter Name of the User" maxlength="100" class="form-control" ng-model="NameofUser" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Mobile Number :</label>
+                                    <input type="text" placeholder="Enter Mobile Number " maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" ng-model="MobileNumber" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Email :</label>
+                                    <input type="text" placeholder="Enter Email" maxlength="100" class="form-control" ng-model="Email" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="addUser()">
+                                        Save
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="sm-spacer"></div>
+                <div class="col-md-12" style="padding:0px!important">
+                    <div class="cl-details" ng-if="UserData.length>0">
+                        <h5 class="head_css">User Modules</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" ng-if="loading">
+                        <div class="sm-spacer"></div>
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+
+                    <div class="card" ng-show="nodata">
+                        <div class="col-md-12 no-results" style="width:100%;text-align:center;">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+                    <div id="preExamReports" class="table-responsive table-custom-tables-tb col-md-12" ng-if="UserData.length>0">
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th class="" style="width: 2%;">S.No</th>
+                                    <th class="text-center">Role</th>
+                                    <th class="text-center">User Name</th>
+                                    <th class="text-center">Name of the User</th>
+                                    <th class="text-center">Mobile Number</th>
+                                    <th class="text-center">Active</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in UserData">
+
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td class="text-center">
+                                        {{data.Role}}
+                                    </td>
+                                    <td class="text-center">{{data.UserName}}</td>
+                                    <td class="text-center">{{data.FirstName}}</td>
+                                    <td class="text-center">{{data.UserMobile}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-xs" disabled ng-show="data.Active == true">Yes</button>
+                                        <button class="btn btn-danger btn-xs" disabled ng-show="data.Active == false">No</button>
+                                    </td>
+                                    
+                                     <td style="text-align:center" width="8%">
+                                        <button  class="btn-xs btn btn-info" style="width: 70px;" ng-click="editUserDetails(data.UserID)">Edit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="width:100%;text-align:center;">
+                        <!--<div class="loadingImg">
+                           <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+                        </div>-->
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="spacer"></div>
+
+    
+</div>

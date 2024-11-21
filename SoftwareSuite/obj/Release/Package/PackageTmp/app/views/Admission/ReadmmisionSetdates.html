@@ -1,0 +1,114 @@
+﻿<div ng-controller="ReadmissionSetdatesController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="cl-details">
+                        <h2>Readimmision set dates</h2>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="base-row" style="margin-bottom: auto;">
+                        <form name="ReadmissionSetdates">
+                            <div class="row ">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Academic Year:{{getAcademicYears}}</label>
+
+                                        <select class="form-control" ng-model="AcademicYear" name="StudentType" required>
+                                            <option value="" selected>Select Academic year </option>
+                                            <option ng-repeat="data in getAcademicYears" value="{{data.AcademicID}}">
+                                                {{data.AcademicYear}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label  class="font-weight-bold">Start Date:</label>
+                                    <sa-date ng-model="StartDate" displaylabel="Start Date" object="StatrtDate" objectname="StatrtDate" length="100" ispascal="true"  autocomplete="off" required> </sa-date>
+                                </div>
+                                <div class="col-md-3">
+                                    <label  class="font-weight-bold">End Date:</label>
+                                    <sa-date ng-model="EndDate" displaylabel="End Date" object="EndDate" objectname="EndDate" length="100" ispascal="true" autocomplete="off" required> </sa-date>
+                                </div>
+                      
+
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <label class="font-weight-bold">Fine Amount :</label>
+                                        <div class="input-group" i>
+                                            <input type="text"  class="form-control ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" ng-model="fineAmount" autocomplete="off" name="Fineamount" required="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 text-center">
+                                    <div class="form-group text-center">
+                                        <button class="btn btn-sm btn-primary  text-center  gr-button btn_top" ng-click="Savedate()">
+                                            sbumit
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="sm-spacer"></div>
+
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <div class="cl-details">
+                        <h2>Student Readmission setdate List</h2>
+                    </div>
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table style="width:100%;" class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th style="width:1%;font-weight:600;"  class="text-center">S.No</th>
+                                     <th style="font-weight:600;"  class="text-center">Semester</th>
+                                    <th style="font-weight:600;  class="text-center">Start Date</th>
+                                    <th style="font-weight:600;" class="text-center">End Date </th>
+                                    <th style="font-weight:600;"  class="text-center">Fine Amount </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="X in GetReadmission ">
+                                    <td style="width: 1%">{{$index+1}}</td>
+                                 
+                                    <td style="font-weight:500;"  class="text-center">{{X. Semester}}</td>
+                                    <td style="font-weight:500;"  class="text-center">{{X.FormDate|date:"dd-MMM-yyyy"}}</td>
+                                 
+                                    <td style="font-weight:500;"  class="text-center">{{X.Todate|date:"dd-MMM-yyyy"}}</td>
+                                    <td style="font-weight:500;"  class="text-center">{{X.FineAmount}}</td>
+                      
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="sm-spacer"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+                            </section>
+
+    </div>
+                      
+
+                         

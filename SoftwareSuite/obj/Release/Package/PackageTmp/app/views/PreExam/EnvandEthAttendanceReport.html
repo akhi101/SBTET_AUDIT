@@ -1,0 +1,772 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<script src="../../scripts/jspdf.min.js"></script>-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Env/Eth Attendance Report</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            #printThis {
+                padding: 0 0 0 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        document.getElementById("btnPrint").onclick = function () {
+            printElement(document.getElementById("printThis"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>
+    <div ng-controller="EnvandEthAttendanceReportController">
+        <div>
+            <div class="container">
+                <ui-view>
+                    <div class="container">
+                        <div class="row ctitle">
+                            <div class="col-md-5">
+                                <span><strong>Pre-Exam Dashboard</strong></span>
+                            </div>
+                            <div class="col-md-7 text-right">
+                                <ol class="breadcrumb">
+                                    <li>You are in </li>
+                                    <li>Pre-Exam Dashboard</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="row base-row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-offset-4">
+                                            <div class="form-group">
+                                                <label for="sel1">Stream :</label>
+                                                <select class="form-control" id="CourseID" ng-model="Admission.CourseID" ng-change="FillCoursePart(Admission.CourseID)">
+                                                    <option ng-selected="Admission.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sel1">Subjects :</label>
+                                                <select class="form-control" id="ExmSubID" ng-model="otherMarkEnrtyDetail.ExmSubID">
+                                                    <option ng-selected="otherMarkEnrtyDetail.ExmSubID == option.ExmSubID" ng-repeat="option in examTimeTableSubjects" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div><br />
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>
+                                                    <button type="button" id="btnPrint" class="btn btn-sm btn-detail">Print</button>
+                                                    <button id="ExportToExcel" ng-show="ShowBtn" class="btn btn-sm btn-detail">Export To Excel</button>
+                                                    <button id="ExportToExcel" ng-click="Exit()" class="btn btn-sm btn-danger">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="row">-->
+                                        <div style="width:100%;text-align:center;">
+                                            <!--<img id="LoadImg" src="" ng-show="LoadImg" width="100" />-->
+                                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                        </div>
+                                    <!--</div>-->
+                                    <div class="row" ng-show="adminuser==true" id="DivIdAdminToPrint">
+                                        <table style="font-size:12px;" id="alldata" class="table">
+                                            <tr>
+                                                <th>SI.No.</th>
+                                                <th>District Name</th>
+                                                <th>No. of College Allotted</th>
+                                                <th>No. of College Submitted</th>
+                                                <th>No. of College Pending</th>
+                                                <th>No. of Students Allotted</th>
+                                                <th>No. of Students Not Awarded</th>
+                                                <th>Added By College</th>
+                                                <th>No. of Students Present</th>
+                                                <th>No. of Students Absent</th>
+                                                <th>No. of Students Not Offered</th>
+                                                <th>No. of Students Malpractice</th>
+                                            </tr>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td align="center">{{  $index+1 }}</td>
+                                                <td align="left">{{ x.DistName }}</td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"7")'> {{ x.CollegeCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"8")'> {{ x.CollegeSubmitCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"9")'> {{ x.CollegePendingCount }} </a></td>                                            
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"0")'> {{ x.StudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"1")'> {{ x.PendingStudentCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"6")'>{{ x.AddFlag }}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"2")'> {{ x.PresentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"3")'> {{ x.AbsentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"4")'> {{ x.NotOfferedCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"5")'> {{ x.MalpracticeCount}} </a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Grand Total :</td>
+                                                <td></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"7")'>{{ DrillDownList|total:'CollegeCount'}}</a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"8")'>{{ DrillDownList|total:'CollegeSubmitCount'}}</a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"9")'>{{ DrillDownList|total:'CollegePendingCount'}}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"0")'>{{ DrillDownList|total:'StudentCount'}}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"1")'>{{ DrillDownList|total:'PendingStudentCount'}}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"6")'>{{ DrillDownList|total:'AddFlag'}}</td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"2")'>{{ DrillDownList|total:'PresentStudentCount'}}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"3")'>{{ DrillDownList|total:'AbsentStudentCount'}}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"4")'>{{ DrillDownList|total:'NotOfferedCount'}}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"5")'>{{ DrillDownList|total:'MalpracticeCount'}}</a></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" ng-show="dieouser==true" id="DivIdToPrint">
+                                        <table style="font-size:12px;" id="alldata" class="table">
+                                            <tr>
+                                                <th>SI.No.</th>
+                                                <th>College Code</th>
+                                                <th>College Name</th>                                               
+                                                <th>Total Students Allotted</th>
+                                                <th>No. of Students Not Awarded</th>
+                                                <th>Added By College</th>
+                                                <th>No. of Students Present</th>
+                                                <th>No. of Students Absent</th>
+                                                <th>No. of Students Not Offered</th>
+                                                <th>No. of Students Malpractice</th>
+                                            </tr>
+                                            <tr ng-repeat="x in colPageAdmissionList">
+                                                <td align="center">{{  $index+1 }}</td>
+                                                <td align="center">{{x.ColCode}}</td>
+                                                <td align="left">{{ x.ColName }}</td>                                                
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"0")'> {{ x.StudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"1")'> {{ x.PendingStudentCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"6")'>{{ x.AddFlag }}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"2")'> {{ x.PresentStudentCount}}</a></td>                                               
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"3")'>{{ x.AbsentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"4")'> {{ x.NotOfferedCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"5")'> {{ x.MalpracticeCount}} </a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Grand Total :</td>
+                                                <td></td>
+                                                <td></td>                     
+                                                <td align="center">{{ colPageAdmissionList|total:'StudentCount'}}</td>
+                                                <td align="center">{{ colPageAdmissionList|total:'PendingStudentCount'}}</td>
+                                                <td align="center">{{ colPageAdmissionList|total:'AddFlag'}}</td>
+                                                <td align="center">{{ colPageAdmissionList|total:'PresentStudentCount'}}</td>
+                                                <td align="center">{{ colPageAdmissionList|total:'AbsentStudentCount'}}</td>
+                                                <td align="center">{{ colPageAdmissionList|total:'NotOfferedCount'}}</td>
+                                                <td align="center">{{ colPageAdmissionList|total:'MalpracticeCount'}}</td>
+                                            </tr>
+                                        </table>
+                                        <br /><br /><br />
+                                        <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                                        <br /><br /><br />
+                                    </div>
+                                    <div class="col-md-12" ng-show="dsuser==true" id="DivIdToDSPrint">
+                                        <table style="font-size:12px;" id="alldata" class="table">
+                                            <tr>
+                                                <th>SI.No.</th>
+                                                <th>District Name</th>
+                                                <th>No. of College Allotted</th>
+                                                <th>No. of College Submitted</th>
+                                                <th>No. of College Pending</th>
+                                                <th>No. of Students Allotted</th>
+                                                <th>No. of Students Not Awarded</th>
+                                                <th>Added By College</th>
+                                                <th>No. of Students Present</th>
+                                                <th>No. of Students Absent</th>
+                                                <th>No. of Students Not Offered</th>
+                                                <th>No. of Students Malpractice</th>
+                                            </tr>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td align="center">{{  $index+1 }}</td>
+                                                <td align="left">{{ x.DistName }}</td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"7")'> {{ x.CollegeCount }} </a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"8")'> {{ x.CollegeSubmitCount }} </a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"9")'> {{ x.CollegePendingCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"0")'> {{ x.StudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"1")'> {{ x.PendingStudentCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"6")'>{{ x.AddFlag }}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"2")'> {{ x.PresentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"3")'> {{ x.AbsentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"4")'> {{ x.NotOfferedCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_ds(x,"5")'> {{ x.MalpracticeCount}} </a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Grand Total :</td>
+                                                <td></td>
+                                                <td align="center">{{ DrillDownList|total:'CollegeCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'CollegeSubmitCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'CollegePendingCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'StudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'PendingStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'AddFlag'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'PresentStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'AbsentStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'NotOfferedCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'MalpracticeCount'}}</td>
+                                            </tr>
+                                        </table>
+                                        <br /><br /><br />
+                                        <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                                        <br /><br /><br />
+                                    </div>
+                                    <div class="col-md-12" ng-show="jsuser==true" id="DivIdToJSPrint">
+                                        <table style="font-size:12px;" id="alldata" class="table">
+                                            <tr>
+                                                <th>SI.No.</th>
+                                                <th>District Name</th>
+                                                <th>No. of College Allotted</th>
+                                                <th>No. of College Submitted</th>
+                                                <th>No. of College Pending</th>
+                                                <th>No. of Students Allotted</th>
+                                                <th>No. of Students Not Awarded</th>
+                                                <th>Added By College</th>
+                                                <th>No. of Students Present</th>
+                                                <th>No. of Students Absent</th>
+                                                <th>No. of Students Not Offered</th>
+                                                <th>No. of Students Malpractice</th>
+                                            </tr>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td align="center">{{  $index+1 }}</td>
+                                                <td align="left">{{ x.DistName }}</td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"7")'> {{ x.CollegeCount }} </a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"8")'> {{ x.CollegeSubmitCount }} </a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"9")'> {{ x.CollegePendingCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"0")'> {{ x.StudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"1")'> {{ x.PendingStudentCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"6")'>{{ x.AddFlag }}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"2")'> {{ x.PresentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"3")'> {{ x.AbsentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"4")'> {{ x.NotOfferedCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetColTotalRecord_ds(x,"5")'> {{ x.MalpracticeCount}} </a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Grand Total :</td>
+                                                <td></td>
+                                                <td align="center">{{ DrillDownList|total:'CollegeCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'CollegeSubmitCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'CollegePendingCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'StudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'PendingStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'AddFlag'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'PresentStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'AbsentStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'NotOfferedCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'MalpracticeCount'}}</td>
+                                            </tr>
+                                        </table>
+                                        <br /><br /><br />
+                                        <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                                        <br /><br /><br />
+                                    </div>
+                                    <div class="col-md-12" ng-show="coeuser==true" id="DivIdToCOEPrint">
+                                        <table style="font-size:12px;" id="alldata" class="table">
+                                            <tr>
+                                                <th>SI.No.</th>
+                                                <th>District Name</th>
+                                                <th>No. of College Allotted</th>
+                                                <th>No. of College Submitted</th>
+                                                <th>No. of College Pending</th>
+                                                <th>No. of Students Allotted</th>
+                                                <th>No. of Students Not Awarded</th>
+                                                <th>Added By College</th>
+                                                <th>No. of Students Present</th>
+                                                <th>No. of Students Absent</th>
+                                                <th>No. of Students Not Offered</th>
+                                                <th>No. of Students Malpractice</th>
+                                            </tr>
+                                            <tr ng-repeat="x in DrillDownList">
+                                                <td align="center">{{  $index+1 }}</td>
+                                                <td align="left">{{ x.DistName }}</td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_js(x,"7")'> {{ x.CollegeCount }} </a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_js(x,"8")'> {{ x.CollegeSubmitCount }} </a></td>
+    <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_js(x,"9")'> {{ x.CollegePendingCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"0")'> {{ x.StudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"1")'> {{ x.PendingStudentCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"6")'>{{ x.AddFlag }}</a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"2")'> {{ x.PresentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"3")'> {{ x.AbsentStudentCount }} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"4")'> {{ x.NotOfferedCount}} </a></td>
+                                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord_coe(x,"5")'> {{ x.MalpracticeCount}} </a></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Grand Total :</td>
+                                                <td></td>
+                                                <td align="center">{{ DrillDownList|total:'CollegeCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'CollegeSubmitCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'CollegePendingCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'StudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'PendingStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'AddFlag'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'PresentStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'AbsentStudentCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'NotOfferedCount'}}</td>
+                                                <td align="center">{{ DrillDownList|total:'MalpracticeCount'}}</td>
+                                            </tr>
+                                        </table>
+                                        <br /><br /><br />
+                                        <table style="font-size:12px;" id="filtereddata" class="table"></table>
+                                        <br /><br /><br />
+                                    </div>
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5%;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div class="form-group">
+                                                                <div class="form-group">
+                                                                    <button id="ExportToExcel" ng-show="ShowBtn" class="btn btn-sm btn-detail">Export To Excel</button>
+                                                                    <button type="button" id="btnPrint" class="btn btn-sm btn-detail">Print</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">College Data</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table id="filtereddata" class="table">
+                                                        <tr>
+                                                            <th>SI.No.</th>
+                                                            <th>College Code</th>
+                                                            <th>College Name</th>
+                                                            <th>Total Students Allotted</th>
+                                                            <th>No. of Students Not Awarded</th>
+                                                            <th>No. of Students Present</th>
+                                                            <th>No. of Students Absent</th>
+                                                            <th>No. of Students Not Offered</th>
+                                                            <th>No. of Students Malpractice</th>
+                                                        </tr>
+                                                        <tr ng-repeat="x in colPageAdmissionList">
+                                                            <td align="center">{{ $index+1 }}</td>
+                                                            <td align="center">{{x.ColCode}}</td>
+                                                            <td align="left">{{ x.ColName }}</td>
+                                                            <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"0")'> {{ x.StudentCount }} </a></td>
+                                                            <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"1")'> {{ x.PendingStudentCount}} </a></td>
+                                                            <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"2")'> {{ x.PresentStudentCount }} </a></td>
+                                                            <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"3")'> {{ x.AbsentStudentCount }} </a></td>
+                                                            <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"4")'> {{ x.NotOfferedCount}} </a></td>
+                                                            <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud" ng-click='GetColTotalRecord(x,"5")'> {{ x.MalpracticeCount}} </a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Grand Total :</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td align="center">{{ colPageAdmissionList|total:'StudentCount'}}</td>
+                                                            <td align="center">{{ colPageAdmissionList|total:'PendingStudentCount'}}</td>
+                                                            <td align="center">{{ colPageAdmissionList|total:'PresentStudentCount'}}</td>
+                                                            <td align="center">{{ colPageAdmissionList|total:'AbsentStudentCount'}}</td>
+                                                            <td align="center">{{ colPageAdmissionList|total:'NotOfferedCount'}}</td>
+                                                            <td align="center">{{ colPageAdmissionList|total:'MalpracticeCount'}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModalStud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5px;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div class="form-group">
+                                                                <div class="form-group">
+                                                                    <button id="ExportToExcel" ng-show="ShowBtn" class="btn btn-sm btn-detail">Export To Excel</button>
+                                                                    <!--<button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>-->
+                                                                    <button type="button" id="btnPrint" class="btn btn-sm btn-detail">Print</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table id="filtereddata" class="table">
+                                                        <tr>
+                                                            <th>SI.No.</th>
+                                                            <th>District Name</th>
+                                                            <th>College Code</th>
+                                                            <th>College Name</th>
+                                                            <th>Student Roll No.</th>
+                                                            <th>Student Name</th>
+                                                            <th>Group</th>
+                                                            <th>Medium</th>
+                                                            <th>Thory Marks</th>
+                                                            <th>Project Marks</th>
+                                                            <th>Total Marks</th>                                                     
+                                                        </tr>
+                                                        <tr ng-repeat="x in studpageAdmissionList">
+                                                            <td>{{ $index+1 }}</td>
+                                                            <td align="left">{{ x.DistName }}</td>
+                                                            <td align="center">{{x.ColCode}}</td>
+                                                            <td align="left">{{ x.ColName }}</td>
+                                                            <td>{{ x.SSCHallTicket }}</td>
+                                                            <td>{{ x.StudName }}</td>
+                                                            <td>{{ x.MainGrpName }}</td>
+                                                            <td>{{ x.MediumName }}</td>
+                                                            <td>{{ x.MarksTh }}</td>
+                                                            <td>{{ x.MarksPr }}</td>
+                                                            <td>{{ x.TotalMarks}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModalStudForCollege" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5px;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div class="form-group">
+                                                                <div class="form-group">
+                                                                    <button id="ExportToExcel" ng-show="ShowBtn" class="btn btn-sm btn-detail">Export To Excel</button>
+                                                                    <!--<button type="button" ng-click="Submit()" class="btn btn-sm btn-detail">Submit</button>-->
+                                                                    <button type="button" id="btnPrint" class="btn btn-sm btn-detail">Print</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table id="filtereddata" class="table">
+                                                        <tr>
+                                                            <th>SI.No.</th>
+                                                            <th>Student Roll No.</th>
+                                                            <th>Student Name</th>
+                                                            <th>Group</th>
+                                                            <th>Medium</th>
+                                                            <th>Thory Marks</th>
+                                                            <th>Project Marks</th>
+                                                            <th>Total Marks</th>
+                                                            <!--<th>Status</th>-->
+                                                        </tr>
+                                                        <tr ng-repeat="x in studpageAdmissionList">
+                                                            <td>{{ $index+1 }}</td>
+                                                            <td>{{ x.SSCHallTicket }}</td>
+                                                            <td>{{ x.StudName }}</td>
+                                                            <td>{{ x.MainGrpName }}</td>
+                                                            <td>{{ x.MediumName }}</td>
+                                                            <td>{{ x.MarksTh }}</td>
+                                                            <td>{{ x.MarksPr }}</td>
+                                                            <td>{{ x.TotalMarks}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="popupContainer" class="panel">
+                                    <div class="modal fade" id="exampleModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document" style="width:90%;">
+                                            <div class="modal-content" style="width:90%; margin-left:5%;">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-blue">Personal Detail <hr /></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Candidate's  Name:</label>
+                                                                <input type="text" class="form-control input-sm" id="cname" ng-Model="StudentReg.StudName" maxlength="100" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Father's Name:</label>
+                                                                <input type="text" class="form-control input-sm" id="fname" ng-Model="StudentReg.FatherName" maxlength="40" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Mother's Name:</label>
+                                                                <input type="text" class="form-control input-sm" id="mname" ng-Model="StudentReg.MotherName" maxlength="40" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Student Mobile No :</label>
+                                                                <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="StudentReg.MobileNo" maxlength="10" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Aadhaar Card No. (UID) :</label>
+                                                                <input type="text" class="form-control input-sm" id="AadharNo" ng-Model="StudentReg.AadharNo" maxlength="12" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Village :</label>
+                                                                <input type="text" class="form-control input-sm" id="Cityname" ng-Model="StudentReg.Cityname" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Caste/Community :</label>
+                                                                <input type="text" class="form-control input-sm" id="CasteName" ng-Model="StudentReg.CasteName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Sub Caste :</label>
+                                                                <input type="text" class="form-control input-sm" id="SubCastName" ng-Model="StudentReg.SubCastName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Father's Occupation :</label>
+                                                                <input type="text" class="form-control input-sm" id="OcupName" ng-Model="StudentReg.OcupName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group" ng-disabled="true">
+                                                                <label for="email">Physically Handicapped :</label>
+                                                                <form>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="StudentReg.Handicaped" checked value="N">No
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optradio" ng-model="StudentReg.Handicaped" value="Y">Yes
+                                                                    </label>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Mother Tongue :</label>
+                                                                <input type="text" class="form-control input-sm" id="MothTName" ng-Model="StudentReg.MothTName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Student Mobile No :</label>
+                                                                <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="StudentReg.MobileNo" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-blue">Education Detail <hr /></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2  col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Group :</label>
+                                                                <input type="text" class="form-control input-sm" id="MainGrpName" ng-Model="StudentReg.MainGrpName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Second Language :</label>
+                                                                <input type="text" class="form-control input-sm" id="SecondLangName" ng-Model="StudentReg.SecondLangName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Medium :</label>
+                                                                <input type="text" class="form-control input-sm" id="MediumName" ng-Model="StudentReg.MediumName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-blue">Address Detail <hr /></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">Street :</label>
+                                                                <input type="text" class="form-control input-sm" id="Streetname" ng-Model="StudentReg.Streetname" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">House No. :</label>
+                                                                <input type="text" class="form-control input-sm" id="Houseno" ng-Model="StudentReg.Houseno" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="SubCastID">District :</label>
+                                                                <input type="text" class="form-control input-sm" id="StudDistName" ng-Model="StudentReg.StudDistName" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label for="adno">Email ID :</label>
+                                                                <input type="text" class="form-control input-sm" id="EmailId" ng-Model="StudentReg.EmailId" ng-disabled="true">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ui-view>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successful.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

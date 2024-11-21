@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Duplicate Memorandum of Marks</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <script type="text/x-jsrender" id="headerTemplate">
+        <input type="checkbox" hidden="true" id="headchk" />
+    </script>
+    <div ng-controller="DupMarksMemoController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Duplicate Memorandum of Marks (Short Memo)</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Duplicate Memorandum of Marks (Short Memo)</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Candidates who Failed/Passed 1st Year are eligible. </p>
+                    <p># Candidates who Failed 2nd Year are eligible. </p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference.</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100; margin-top:50px;">For any queries please mail to :</p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-10 col-md-offset-2">
+                            <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Pass year:</span>
+                            <div class="maxl">
+                                <label class="radio inline"><input type="radio" id="optUpto2003" name="optUpto2003" ng-model="optYears" ng-change="YearChange(optYears)" value="2003"><span>Upto 2003 Appeared Candidates</span></label>
+                                <label class="radio inline"><input type="radio" id="opt2004Onwards" name="opt2004Onwards" ng-model="optYears" ng-change="YearChange(optYears)" value="2004" checked><span>From 2004 Appeared Candidates</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">* </font> Enter Hall Ticket No/Roll No </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Enter Hall Ticket No/Roll No" id="HTNO" ng-model="DupMarksMemo.HTNO" maxlength="15" ng-keyup="clearScreen()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillDataByHTNOPassingYearAndMonth()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-show="ViewData2004">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""> Hall Ticket No/Roll No :</label>
+                                    <input type="text" class="form-control" id="AdmNo" ng-model="DupMarksMemo.AdmNo" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="DupMarksMemo.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="DupMarksMemo.Fathername" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">College Name :</label>
+                                    <input type="text" class="form-control" id="ColName" ng-model="DupMarksMemo.ColName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Course :</label>
+                                    <input type="text" class="form-control" id="Course" ng-model="DupMarksMemo.MainGrpName" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for=""> Fee (in rupees) :</label>
+                                <input type="text" class="form-control" id="FeeAmount" ng-model="DupMarksMemo.FeeAmount" ng-readonly="true">
+                            </div>
+                            <div class="col-md-6">
+                                <label for=""><font color="red">* </font>Mobile Number :</label>
+                                <input type="text" class="form-control" id="MobileNo" ng-model="DupMarksMemo.MobileNo" maxlength="10" ng-minlength="10" input-Number-Only>
+                            </div>
+                            <div class="col-md-3 form-group">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row" ng-show="ShowMarksSheet">
+                            <div class="col-md-12">
+                                <table style="font-size:10px;" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr style="background-color: #cfcfcf;">
+                                            <th></th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th><input type="text" class="form-control" id="PC1" ng-model="DupMarksMemo.YR1PC1_NAME" ng-readonly="true"></th>
+                                            <th><input type="text" class="form-control" id="PC2" ng-model="DupMarksMemo.YR1PC2_NAME" ng-readonly="true"></th>
+                                            <th><input type="text" class="form-control" id="PC3" ng-model="DupMarksMemo.YR1PC3_NAME" ng-readonly="true"></th>
+                                            <th><input type="text" class="form-control" id="PC4" ng-model="DupMarksMemo.YR1PC4_NAME" ng-readonly="true"></th>
+                                            <th><input type="text" class="form-control" id="PC5" ng-model="DupMarksMemo.YR1PC5_NAME" ng-readonly="true"></th>
+                                            <th><input type="text" class="form-control" id="PC6" ng-model="DupMarksMemo.YR1PC6_NAME" ng-readonly="true"></th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1 Year</td>
+                                            <td><input type="text" class="form-control" id="M11" ng-model="DupMarksMemo.YR1MRK1" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M12" ng-model="DupMarksMemo.YR1MRK2" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M13" ng-model="DupMarksMemo.YR1MRK3" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M14" ng-model="DupMarksMemo.YR1MRK4" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M15" ng-model="DupMarksMemo.YR1MRK5" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M16" ng-model="DupMarksMemo.YR1MRK6" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M1T" ng-model="DupMarksMemo.YR1TOT" ng-readonly="true"></td>
+                                        </tr>
+                                        <tr ng-hide="FirstSecondYearHide">
+                                            <td>2 Year</td>
+                                            <td><input type="text" class="form-control" id="M21" ng-model="DupMarksMemo.YR2MRK1" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M22" ng-model="DupMarksMemo.YR2MRK2" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M23" ng-model="DupMarksMemo.YR2MRK3" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M24" ng-model="DupMarksMemo.YR2MRK4" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M25" ng-model="DupMarksMemo.YR2MRK5" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M26" ng-model="DupMarksMemo.YR2MRK6" ng-readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="M2T" ng-model="DupMarksMemo.YR2TOT" ng-readonly="true"></td>
+                                        </tr>
+                                        <tr style="font-weight:bold;">
+                                            <td align="right" colspan="7">Grand Total</td>
+                                            <td><input type="text" class="form-control" id="GTOT" ng-model="DupMarksMemo.GTOT" ng-readonly="true"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="SaveDupMarksMemo()" class="btn btn-detail btn-sm">Submit & Pay  </button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showhide" ng-show="ViewData2003">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""> Hall Ticket No/Roll No :</label>
+                                    <input type="text" class="form-control" id="AdmNo" ng-model="DupMarksMemo.AdmNo" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="DupMarksMemo.StudName">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="DupMarksMemo.Fathername">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">College Name :</label>
+                                    <input type="text" class="form-control" id="ColName" ng-model="DupMarksMemo.ColName">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Course :</label>
+                                    <input type="text" class="form-control" id="Course" ng-model="DupMarksMemo.CourseName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">District :</label>
+                                    <select class="form-control" id="BoardID" ng-model="DupMarksMemo.DistrictID">
+                                        <option value="0" selected="selected">Select District</option>
+                                        <option ng-selected="DupMarksMemo.DistrictID ==option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Examination Month:</label>
+                                    <select class="form-control form-inline" id="PassMonth" ng-model="DupMarksMemo.PassingMonth">
+                                        <option value="0">Select Month</option>
+                                        <option value="01">January</option>
+                                        <option value="02">February</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Examination Year :</label>
+                                    <input type="text" class="form-control" id="Course" ng-model="DupMarksMemo.PassingYear" ng-maxlength="4" ng-minlength="4" input-Number-Only>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Total Marks :</label>
+                                    <input type="text" class="form-control" id="ColName" ng-model="DupMarksMemo.TotalMarks">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for=""><font color="red">* </font>Mobile Number :</label>
+                                <input type="text" class="form-control" id="MobileNo" ng-model="DupMarksMemo.MobileNo" maxlength="10" ng-minlength="10" input-Number-Only>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for=""> Fee (in rupees) :</label>
+                                <input type="text" class="form-control" id="FeeAmount" ng-model="DupMarksMemo.FeeAmount" ng-readonly="true">
+                            </div>
+                           
+                            <div class="col-md-3 form-group">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="SaveDupMarksMemo2003()" class="btn btn-detail btn-sm">Submit & Pay  </button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+        
+    </div>
+</body>
+</html>

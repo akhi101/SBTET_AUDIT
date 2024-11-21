@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Download Status Report For Env/Eth</title>
+    <style>
+        .table > thead > tr > th {
+            border: 1px solid #000 !important;
+        }
+        .table > tbody > tr > td {
+            border: 1px solid #000;
+        }
+        .link-txt {
+            color: dodgerblue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="DownloadStatusReportPracticalController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Download Status Report For Practical</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Download Status Report For Practical</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <!--<label for="sel1">Select Course :</label>-->
+                                <select class="form-control" ng-model="DownloadStatusRpt.CourseID" id="CourseID" ng-change="ChangeExamID(DownloadStatusRpt.CourseID)">
+                                    <option value="" selected>Select Course</option>
+                                    <option ng-selected="DownloadStatusRpt.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="DownloadStatusRpt.ExamID" id="ExamID" ng-change="GetDataByExamID(DownloadStatusRpt.ExamID)">
+                                    <option value="" selected>Select Year</option>
+                                    <option ng-selected="DownloadStatusRpt.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" ng-show="MainGrpDropDown">
+                            <div class="form-group">
+                                <select class="form-control" id="MainGrpID" ng-model="DownloadStatusRpt.MainGrpID" ng-change="GetVocPracSub(DownloadStatusRpt.MainGrpID)">
+                                    <option value="0" selected="selected">Select Group Name</option>
+                                    <option ng-selected="DownloadStatusRpt.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <!--<label for="sel1">Select Subjects :</label>-->
+                                <select class="form-control" id="ExmSubID" ng-model="DownloadStatusRpt.ExmSubID">
+                                    <option value="0" selected="selected">Select Subject Name</option>
+                                    <option ng-selected="DownloadStatusRpt.ExmSubID == option.ExmSubID" ng-repeat="option in SubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-detail btn-sm" ng-click="GetPracticalStatusReport()" value="Submit">
+                        </div>
+                    </div>
+                    </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="col-md-12" ng-show="ShowDIEODetail" id="DivIdToPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <!--<th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>-->
+                                <th rowspan="2" style="text-align:center;vertical-align:middle;">S.No.</th>
+                                <th rowspan="2" style="text-align:center;vertical-align:middle;">Exam Date</th>
+                                <th rowspan="2" style="text-align:center;vertical-align:middle;">District Code</th>
+                                <th rowspan="2" style="text-align:center;vertical-align:middle;">District Name</th>
+                                <th colspan="3" style="text-align:center;vertical-align:middle;">Forenoon Session</th>
+                                <th colspan="3" style="text-align:center;vertical-align:middle;">Afternoon Session </th>
+                            </tr>
+                            <tr>
+                                <!--<th style="text-align:center;vertical-align:middle;">S.No.</th>
+                                <th style="text-align:center;vertical-align:middle;">Exam Date</th>
+                                <th style="text-align:center;vertical-align:middle;">District Code</th>
+                                <th style="text-align:center;vertical-align:middle;">District Name</th>-->
+                                <th style="text-align: center;"> Total Batches</th>
+                                <th style="text-align: center;"> QP Downloaded</th>
+                                <th style="text-align: center;"> QP Not Downloaded</th>
+                                <th style="text-align: center;"> Total Batches</th>
+                                <th style="text-align: center;"> QP Downloaded</th>
+                                <th style="text-align: center;"> QP Not Downloaded</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in StatusReportData">
+                                <td align="center">{{ $index + 1 }}</td>
+                                <td align="center">{{ x.PR_DATE |date : dd.MM.y}}</td>
+                                <td align="center">{{ x.DIST_CODE }}</td>
+                                <td>{{ x.DIST_NAME }}</td>
+                                <td align="center"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'0')">{{ x.Total_AM}}</a></td>
+                                <td align="center"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'1')">{{ x.downloaded_AM}}</a> </td>
+                                <td align="center"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'2')">{{ x.notdownloaded_AM }}</a></td>
+                                <td align="center"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'0')">{{ x.Total_PM}}</a></td>
+                                <td align="center"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'1')">{{ x.downloaded_PM}}</a></td>
+                                <td align="center"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'2')">{{ x.notdownloaded_PM }}</a></td>
+                            </tr>
+                            <tr>
+                                <td align="right" colspan="4">Grand Total :</td>
+                                <td align="center">{{ StatusReportData|total:'Total_AM'}}</td>
+                                <td align="center">{{ StatusReportData|total:'downloaded_AM'}}</td>
+                                <td align="center">{{ StatusReportData|total:'notdownloaded_AM'}}</td>
+                                <td align="center">{{ StatusReportData|total:'Total_PM'}}</td>
+                                <td align="center">{{ StatusReportData|total:'downloaded_PM'}}</td>
+                                <td align="center">{{ StatusReportData|total:'notdownloaded_PM'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <!--<div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalVerify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">College Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <th>College Code</th>
+                                            <th>College Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in DistrictWiseStatData">
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ x.ColCode }}</td>
+                                            <td>{{ x.ColName }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</body>
+</html>

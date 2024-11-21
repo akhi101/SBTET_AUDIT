@@ -1,0 +1,127 @@
+<div ng-controller="AdminAdmissionsController">
+    <style>
+        th, td, p, input {
+            font: 14px Verdana;
+        }
+
+        table, th, td {
+            border: solid 1px #000;
+            border-collapse: collapse;
+            padding: 5px 5px;
+            /*text-align: center;*/
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .th {
+            background-color: red;
+        }
+
+        .sm-spacer {
+            height: 50px;
+        }
+
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+            position: sticky;
+            top: 0px;
+        }
+    </style>
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5> Admission Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#"> Admin Admission Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <section class="">
+        
+
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+            
+            
+            <div class="col-md-12">
+                <div class="pull-right" ng-if="Result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="Result">
+                <div class="cl-details">
+                    <h2> Admission Report</h2>
+
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="Result"><div class="notifylabel pull-right" for="sel1" style="color: red;">Click on row to view details</div></div>
+            <div class="col-md-12" ng-show="Result">
+               
+                <div>
+                    <!-- <div style="float:right;">Click on row to view details</div>-->
+              
+                    <div class="table-responsive table-custom-tables-tb scrollbox">
+                        <table id="tblParent" class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                            <thead>
+                                <tr class="cb-2">
+                                    <th>S no</th>
+                                    <th>College Code</th>
+                                    <th>College Name</th>
+                                    <th style="text-align:center"> Alloted</th>
+                                    <th>On Roll</th>
+
+                                    <th style="text-align:center">KYC Pending</th>
+                                    <th style="text-align:center">No Attendee Id</th>
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                <tr class="" ng-repeat="x in AttendanceReports" ng-click="openCollegeAdmissions(x)">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{x.CollegeCode}}</td>
+                                    <td>{{x.CollegeName}} </td>
+                                    <td>{{x.Alloted}}</td>
+                                    <td>{{x.OnRoll}}</td>
+
+                                    <td>{{x.KYC_Pending}}</td>
+                                    <td>{{x.NoAttendeeId}}</td>
+
+
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                <div ng-if="NoResult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm-spacer"></div>
+    </section>
+    </div>
+  
+

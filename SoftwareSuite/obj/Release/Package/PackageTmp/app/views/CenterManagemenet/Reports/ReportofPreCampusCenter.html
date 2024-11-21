@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Camp Center List</title>
+
+</head>
+<body>
+    <div ng-controller="ReportOfPreCampusCenterController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Camp Center List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Report of Campus Centers</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div  class="row">
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="form-group">
+                                   <!-- <label for="sel1"> Select Stream :</label>-->
+                                    <select class="form-control" ng-model="ReportOfPreCampusCenter.CourseID" id="CourseID" ng-change="GetBasicExam(ReportOfPreCampusCenter.CourseID)">
+                                        <option value=""> Select Stream  </option>
+                                        <option ng-selected="ReportOfPreCampusCenter.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                   <!-- <label for="sel1"> Select Exam :</label>-->
+                                    <select class="form-control" ng-model="ReportOfPreCampusCenter.ExamID" id="ExamID">
+                                        <option value=""> Select Exam </option>
+                                        <option ng-selected="ReportOfPreCampusCenter.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <button type="button" class="btn btn-sm btn-detail" ng-click="PrintPreCampusCenter()">Show</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <form class="form-horizontal" name="ReportForm" novalidate>
+                                    <div class="content-container-fluid">
+                                        <div class="row">
+                                            <div class="cols-sample-area">
+                                                <div class="control">
+                                                    <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

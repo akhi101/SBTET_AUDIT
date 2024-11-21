@@ -1,0 +1,145 @@
+﻿<style>
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+    .arrow-up:after {
+        bottom: 12px;
+        border-bottom-color: #fff;
+    }
+
+    .footer_section {
+        /* position: fixed; */
+        display: none !important;
+        bottom: 0px;
+        z-index: 99;
+    }
+
+    .arrow-down:after {
+        top: 10px;
+        border-top-color: white;
+    }
+
+    @media (min-width: 768px) {
+        .modal-dialog {
+            width: 800px !important;
+            margin: 30px auto;
+        }
+    }
+</style>
+<div ng-controller="TwshAuthorizationReportListController">
+
+    <div class="container" ng-if="userType == '1007' || userType == '1009' || userType == '1002'|| userType == '1'|| userType == '5'">
+        <!-- -->
+        <div class="row">
+
+            <div class="sm-spacer"></div>
+            <div class="col-md-12">
+                <a href="#!/Dashboard/TypeWriting/TwshAuthorizationReport" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="sm-spacer"></div>
+
+            <div class="col-md-6" ng-show="data">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+
+
+                <!--<div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>-->
+            </div>
+            <div class="col-md-6 " ng-show="data && DataType =='0'">
+                <label class="notifylabel" for="sel1" style="color: red;">Click on table row for candidate info</label>
+            </div>
+            <div class="col-md-12" ng-show="data">
+                <a class="ExportToExcel1 pointer pull-right"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel('#Table1')" style="margin-top: 15px;">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+            <div class="col-md-12 " ng-show="data">
+                <div class="cl-details">
+                    <h2>TWSH Authorization Report List</h2>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div id="Table1" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead class="sticky-header">
+                            <tr class="cb-1">
+                                <th style="width: 2%" ng-click="sort('$index')">S.No<i class="fa fa-fw fa-sort"></i></th>
+                                <th class="text-center" ng-click="sort('ApplicationNumber')">Application No.</th>
+                                <!--<th class="text-center" ng-click="sort('HallTicketNumber')">HallTicket No.<i class="fa fa-fw fa-sort"></i></th>-->
+                                <th class="text-center" ng-click="sort('ExaminationCenterName')">Exam Center</th>
+                                <th class="text-center" ng-click="sort('ExamBatch')">Exam Batch</i></th>
+                                <th class="text-center" ng-click="sort('GradeCode')">Grade Code</th>
+                                <th class="text-center" ng-click="sort('StudentName')">Student Name</th>
+                                <th class="text-center" ng-click="sort('Gender')">Gender</th>
+                                <th class="text-center" ng-click="sort('StudentPhoneNumber')">Phone Number</i></th>
+                                <th class="text-center" ng-click="sort('OnlineExamDate')" ng-show="ExamMode==1">Student Selected Dates</th>
+                                <th class="text-center" ng-click="sort('SelectedOnlineExamDate')" ng-show="ExamMode==1">Exam Date Approved By Exam Center</th>
+
+                                <th class="text-center" ng-click="sort('ExamDate')" ng-show="ExamMode==2">Exam Date</th>
+                                <th class="text-center" ng-click="sort('IsEligible')">Status</th>
+</thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in QualifiedList |filter:search" style="background-color:#fff!important;" ng-click="openStudentDetails(data.ApplicationNumber,data.StudentName,data.Gender,data.StudentPhoneNumber,data.StudentId)">
+                                <td>{{$index+1}}  </td>
+                                <td class="text-center">{{data.ApplicationNumber}}</td>
+                                <!--<td class="text-center">{{data.HallTicketNumber}}</td>-->
+                                <td class="text-center">{{data.ExaminationCenterCode}} - {{data.ExaminationCenterName}}</td>
+                                <td class="text-center" ng-if="data.ExamMode == 1">CBT</td>
+                                <td class="text-center" ng-if="data.ExamMode == 2">Manual</td>
+                                <td class="text-center">{{data.GradeCode}}</td>
+                                <td class="text-center">{{data.StudentName}}</td>
+                                <td class="text-center">{{data.Gender}}</td>
+                                <td class="text-center">{{data.StudentPhoneNumber}}</td>
+                                <td class="text-center" ng-show="ExamMode==1">{{data.OnlineExamDate == ']' ? '-' : data.OnlineExamDate|date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                <td class="text-center" ng-show="ExamMode==1">{{data.SelectedOnlineExamDate == null ? '-' : data.SelectedOnlineExamDate|date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                <td class="text-center" ng-show="ExamMode==2">{{data.ExamDate == null ? '-' : data.ExamDate|date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                <td class="text-center" style="color: green;font-weight: 600" ng-if="data.iseligible==true &&  data.isrejected == false">Approved</td>
+                                <td class="text-center" style="color: #ef4263; font-weight: 600" ng-if="data.iseligible == false && data.isrejected == false">Pending</td>
+                                <td class="text-center" style="color: #d50b07; font-weight: 600" ng-if="data.isrejected == true && data.iseligible == false">Rejected</td>
+
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12" style="position: fixed;bottom: 0px;width: 100%;padding-bottom: 5px;padding-top: 5px;" ng-show="data && DataType =='0'">
+
+                <div class="col-md-8">
+                    <button class="btn btn-danger print_btn" ng-show="userType==1007 ||userType==1002 ||userType==1009" style="margin-top:21px " ng-click="Reject()">Reject</button>
+
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-success print_btn " ng-show="userType==1007 || userType==1002" style="margin-top:21px" ng-disabled="btndisable" ng-click="!btndisable && ApprovePin()">
+                        Forward
+                    </button>
+
+                    <button class="btn btn-success print_btn " ng-show="userType==1009" style="margin-top:21px" ng-disabled="btndisable" ng-click="!btndisable && ApprovePin()">{{buttonlabel}}</button>
+                </div>
+
+            </div>
+       
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found </h2>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </div>
+</div>

@@ -1,0 +1,188 @@
+﻿<style>
+
+    table {
+        /* Not required only for visualizing */
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        table thead tr th {
+            /* Important */
+            background-color: red;
+            position: sticky;
+            z-index: 100;
+            top: 0;
+        }
+
+    td {
+        /* Not required only for visualizing */
+        padding: 1em;
+    }
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+
+    .sm-spacer1 {
+        height: 25px;
+    }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+</style>
+<div ng-controller="CcicHallTicketDownloadController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="cl-details">
+                        <h2>Hallticket Download</h2>
+                    </div>
+                </div>
+                <div class="row base-row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold"> Academic Year :</label>
+                            <select class="form-control " ng-model="AcademicYear" name="AcademicYear" required ng-change="GetExamMonthYearData(AcademicYear)">
+                                <option value="" selected="selected">Select Year</option>
+                                <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                    {{data.AcademicYear}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label class="font-weight-bold" for="ExamMonthYear">
+                            Exam Month/Year :
+                        </label>
+                        <select class="form-control" name="ExamMonthYear" required ng-model="ExamMonthYear" ng-change="ChangeExmmonthYr(ExamMonthYear)">
+                            <option value="" selected>Select Exam Month/Year</option>
+                            <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                {{data.ExamMonthYearName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label class="font-weight-bold" for="StudentType">
+                            Student Type :
+                        </label>
+                        <select class="form-control" name="StudentType" required ng-model="StudentType">
+                            <option value="" selected>Select Student Type</option>
+                            <option ng-repeat="data in StudentTypes" value="{{data.StudentTypeID}}">
+                                {{data.StudentTypeName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 pull-left">
+                        <div class="gr-btn">
+                            <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getStudentPinList()">
+                                Get Data<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm-spacer"></div>
+                <div class="col-md-12" ng-if="loading">
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="NoData">
+                    <div class="col-md-12 no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data</h2>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="StudentPinList.length>0" style="bottom:50px">
+
+                    <div class="table-responsive table-custom-tables-tb">
+                        <div ng-if="StudentPinList.length>0" class="cl-details">
+                            <h2>Student PIN List</h2>
+                        </div>
+                        <div ng-if="StudentPinList.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                            <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th width="3%">S.No</th>
+                                        <th width="10%" class="text-center">PIN</th>
+                                        <th width="20%" class="text-center">Student Name</th>
+                                        <th width="16%" class="text-center">Phone Number</th>
+                                        <th width="10%" class="text-center">Student Type</th>
+                                        <th width="10%" class="text-center">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in StudentPinList">
+                                        <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.PIN}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.StudentName}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.StudentMobile}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.FeePaymentTypeName}}</td>
+                                        <td class="text-center">
+                                            <button type="submit" class="btn btn-success" ng-click="generateHallTicket(data.AcademicYearID,data.ExamMonthYearID,data.StudentID)"><i class="fa fa-download"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sm-spacer"></div>
+                        <div class="sm-spacer"></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--<div class="text-center" ng-if="!isShowTags">
+                <img src="../../../contents/img/comingsoon.png">
+            </div>-->
+        </div>
+        <div class="spacer"></div>
+    </section>
+</div>

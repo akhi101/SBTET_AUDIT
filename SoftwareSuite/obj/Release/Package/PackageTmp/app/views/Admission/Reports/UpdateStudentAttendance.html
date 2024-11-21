@@ -1,0 +1,220 @@
+﻿<style>
+    .modal-fit-att .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .modal-xlg {
+        width: 1250px;
+    }
+    [data-tip] {
+	position:relative;
+
+}
+[data-tip]:before {
+	content:'';
+	/* hides the tooltip when not hovered */
+	display:none;
+	content:'';
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #1a1a1a;	
+	position:absolute;
+	top:30px;
+	left:35px;
+	z-index:8;
+	font-size:0;
+	line-height:0;
+	width:0;
+	height:0;
+}
+[data-tip]:after {
+	display:none;
+	content:attr(data-tip);
+	position:absolute;
+	top:35px;
+	left:0px;
+	padding:5px 8px;
+	background:#1a1a1a;
+	color:#fff;
+	z-index:9;
+	font-size: 0.75em;
+	height:18px;
+	line-height:18px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	white-space:nowrap;
+	word-wrap:normal;
+}
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+	display:block;
+}
+  #userData{
+        display:none!important;
+    }
+    #inputData {
+        display:block!important;
+    }
+
+@media print {
+    #printableArea{
+        width:80%;
+    }
+    .content{
+        display:none;
+    }
+    input[class*="sm"] {
+    display: block;
+    /* min-width: 242px; */
+    /* margin-top: 5px; */
+    padding-bottom: 5px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4) !important;
+    text-align: left;
+    font-weight: 400;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0) !important;
+    color:#000;
+}
+    #userData{
+        display:block!important;
+    }
+      #inputData {
+        display:none!important;
+    }
+}
+    .table > tbody > tr > td {
+        border: 2px solid #1976d2;
+    }
+    .table > thead:first-child > tr:first-child > td, .table > thead:first-child > tr:first-child > th {
+        border: 2px solid #1976d2;
+    }
+    textarea{
+        width:100%;
+    }
+    .modal-body {
+        position: relative;
+        padding: 0px;
+    }
+</style>
+<body>
+    <div id="printableArea">
+        <div class="modal-header aadhar-modal-header">
+            <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+            <h4 class="modal-title center-block">Student Attendance</h4>
+        </div>
+        <div class="modal-body">
+            <section class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Pin:{{attpin}}</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Name:{{attName}}</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Attendee ID:{{attendId}}</label>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-lg-12 hidden">
+                            <a id="ExportToExcel1" class="pointer pull-right" ng-click="DownloadtoExcel('#StudentAttendanceReport')">
+                                Export to Excel<i class="fa fa-file-excel-o"></i>
+                            </a>
+                        </div>
+                    </div>-->
+                    <div class="row" id="">
+                        <div class="col-md-12 ">
+                            <div id="" class="table-responsive table-custom-tables-tb">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 4%">Sc no</th>
+                                            <th style="width: 5%">Month</th>
+                                            <th style="width: 1%" ng-repeat="day in days">{{day}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in attendancedata">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{x.month}}</td>
+                                            <td style="width: 1%;padding: unset;" ng-repeat="y in x.attstat">
+                                                <input type="text" ng-disabled="{{((y.Status=='H/P')||(y.Status=='W') ||(y.Status=='E')|| (y.Status=='HP')||(y.Status=='P')||(y.Status=='W/I')||(y.Status=='H/E')||(y.Status=='H') ||(userType==3)||(userType==2))}}" style="padding: 5px 4px" ; maxlength="4" class="form-control input-sm text-uppercase" title="{{y.Status}}" ng-Model="y.Status" ng-change="addDataToList(y)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!--    !{{((userType==1) ||(y.Status=='P'||y.Status=='HP'||y.Status=='p'||y.Status=='hp')&&(userType==3))}}-->
+                            </div>
+                            <!--track by stringify(y) track by stringify(x) ng-init="getattendance()" {{y.Status==null ? '-':y.Status}}-->
+                            <div class="row">
+                                <div style="color:green" class="col-lg-2">
+                                    <label>P-Present
+                                    </label>
+                                   
+                                </div>
+                                <div style="color:red" class="col-lg-2">
+                                    <label>A-Absent</label>
+                                </div>
+                                <div style="color:blue" class="col-lg-2">
+                                    <label>H-Holiday</label>
+                                </div>
+                                <div style="color:darkslategrey" class="col-lg-2">
+                                    <label>W-Weekend</label>
+                                </div>
+                                <div style="color:#8f303e" class="col-lg-2">
+                                    <label>HP-HalfDay Present</label>
+                                </div>
+                                <div class="col-lg-2">
+
+                                </div>
+
+                            </div>
+                            <div>
+                                <table class="table" ng-show="AttDataList.length>0">
+                                    <thead>
+                                        <tr>
+                                           <td><b>Date</b></td> <td class="tbl_bord" ng-repeat="y in AttDataList">{{y.Date|date:'dd-MMM'}}</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Status</b></td> <td class="tbl_bord" ng-repeat="y in AttDataList">{{y.Status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--<div>
+            <b class="text-danger"> Notes : Attendance is Considered  From 19-06-2019.</b>
+        </div>-->
+                        </div>
+                        <div class="col-md-10" ng-show="userType==1|| userType==1014">
+                            <div class="form-group">
+                                <label><b>Remarks</b></label>
+                                <textarea rows="2" class="form-control" ng-model="Remarks"></textarea>
+                            </div>
+                        </div>
+                            <div class="col-md-2">
+                                <button type="submit" ng-click="printDetails('printableArea')" style="margin-bottom:50px;" class="btn printBtn btn-detail pull-right">
+                                    Print
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+            </section>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" ng-click="closeModal()">Cancel</button>
+            <button type="button" ng-show="userType==1|| userType==1014" class="btn btn-success pull-right" ng-click="UpdateAtt(Remarks)">Update Attendance</button>
+        </div>
+    </div>
+</body>
+
+

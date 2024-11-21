@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title> Branch</title>
+</head>
+<body>
+	<div ng-controller="BasicBranchController">
+		<div class="container top_margin">
+			<div class="container col-xs-12">
+				<div class="panel-group">
+					<div class="panel">
+						<div class="panel-heading header_background"><span class="heading_icon"></span><b> Branch </b></div>
+						<div class="panel-body form_border">
+							<form action="#" name="BasicBranch" novalidate>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group" ng-show="false">
+											<label class=" control-label col-lg-2">BranchID:</label>
+											<div class="col-lg-1">
+												<input type="text" class="form-control" ng-model="BasicBranch.BranchID" id="BranchID">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="Name">Name:</label>
+											<input type="text" class="form-control" id="BranchName"  ng-model="BasicBranch.BranchName" required="" maxlength="60" placeholder="Enter Branch Name">
+										</div>
+
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="ShortName">Code:</label>
+											<input type="text" class="form-control" id="BranchCode" no-Special-Char  ng-model="BasicBranch.BranchCode" required="" maxlength="4" placeholder="Enter Branch Short Name">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="ShortName">Stream:</label>
+											<select class="form-control" ng-model="BasicBranch.CourseID" id="CourseID">
+												<option value="">--Select stream --</option>
+												<option ng-selected="BasicBranch.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<center>
+										<button type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicBranch()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+										<button type="button" class="btn form_btn_align delete_btn" ng-click="DeleteBasicBranch()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+										<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+									</center>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

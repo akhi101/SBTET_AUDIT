@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Academic Schedule</title>
+	<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+</head>
+<body>
+    <div ng-controller="AcademicScheduleController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Academic Schedule</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>Instance & Schedule </li>
+                        <li>Academic Schedule</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Academic Year :</label>
+                                        <select class="form-control" ng-model="AcademicSchedule.AcdYrID" id="AcdYrID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="AcademicSchedule.AcdYrID == option.AcdYrID" ng-repeat="option in AcdYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                                        </select>
+                                    </div> 
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="ShortName">Stream:</label>
+                                        <select class="form-control" ng-model="AcademicSchedule.CourseID" id="CourseID" ng-change="GetExamList(AcademicSchedule.CourseID)">
+                                            <option value="">--Select stream --</option>
+                                            <option ng-selected="AcademicSchedule.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Exam :</label>
+                                        <select class="form-control" ng-model="AcademicSchedule.ExamID" id="ExamID" ng-disabled="DisableExamAndBranch">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="AcademicSchedule.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Branch :</label>
+                                        <select class="form-control" ng-model="AcademicSchedule.BranchID" id="BranchID" ng-disabled="DisableExamAndBranch">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="AcademicSchedule.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Start Date :</label>
+                                        <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.RegStartDate" id="RegStartDate" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">End Date :</label>
+                                        <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.RegEndDate" id="RegEndDate" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Late Fee Date :</label>
+                                        <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.LateFeeDate" id="LateFeeDate" required="">
+                                    </div>
+                                </div>
+                                <div style="margin-top:26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <label><input type="checkbox" ng-model="AcademicSchedule.ApproveFlag" id="ApproveFlag"> Approve Flag</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button ng-disabled="isupdatableDisable" type="button" class="btn btn-sm btn-detail" ng-click="SaveAcademicSchedule()">Save</button>
+                                    <button ng-disabled="isdeletableDisable" type="button" class="btn btn-sm btn-danger" ng-click="DeleteAcademicSchedule()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+
+       <!-- <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-calendar heading_icon"></span><b>Academic Schedule</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sel1">Academic Year :</label>
+                                            <select class="form-control" ng-model="AcademicSchedule.AcdYrID" id="AcdYrID">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="AcademicSchedule.AcdYrID == option.AcdYrID" ng-repeat="option in AcdYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ShortName">Stream:</label>
+                                            <select class="form-control" ng-model="AcademicSchedule.CourseID" id="CourseID" ng-change="GetExamList(AcademicSchedule.CourseID)">
+                                                <option value="">--Select stream --</option>
+                                                <option ng-selected="AcademicSchedule.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Exam :</label>
+                                            <select class="form-control" ng-model="AcademicSchedule.ExamID" id="ExamID" ng-disabled="DisableExamAndBranch">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="AcademicSchedule.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Branch :</label>
+                                            <select class="form-control" ng-model="AcademicSchedule.BranchID" id="BranchID" ng-disabled="DisableExamAndBranch">
+                                                <option value="">--Select--</option>
+                                                <option ng-selected="AcademicSchedule.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                            </select>
+                                        </div>
+                                        <!--<div class="form-group">
+                                        <label for="sel1">End Date :</label>
+                                        <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.RegEndDate" id="RegEndDate" required="">
+                                    </div>-->
+                                        <!--<div class="form-group">
+                                        <label><input type="checkbox" ng-model="AcademicSchedule.ApproveFlag" id="ApproveFlag"> Approve Flag</label>
+                                    </div>-->
+                                  <!--  </div>
+                                    <div class="col-md-6">
+                                        <!--<div class="form-group">
+                                        <label for="sel1">Branch :</label>
+                                        <select class="form-control" ng-model="AcademicSchedule.BranchID" id="BranchID">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="AcademicSchedule.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                        </select>
+                                    </div>-->
+                                       <!-- <div class="form-group">
+                                            <label for="email">Start Date :</label>
+                                            <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.RegStartDate" id="RegStartDate" required="">
+                                            <!--<input type="datetime" class="form-control" ng-model="AcademicSchedule.RegStartDate" id="RegStartDate">-->
+                                       <!-- </div>
+                                        <div class="form-group">
+                                            <label for="sel1">End Date :</label>
+                                            <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.RegEndDate" id="RegEndDate" required="">
+                                            <!--<input type="datetime" class="form-control" ng-model="AcademicSchedule.RegEndDate" id="RegEndDate">-->
+                                      <!--  </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Late Fee Date :</label>
+                                            <input type="text" datepicker class="form-control" ng-model="AcademicSchedule.LateFeeDate" id="LateFeeDate" required="">
+                                            <!--<input type="datetime" class="form-control" ng-model="AcademicSchedule.LateFeeDate" id="LateFeeDate">-->
+                                     <!--   </div>
+                                        <div class="form-group">
+                                            <label><input type="checkbox" ng-model="AcademicSchedule.ApproveFlag" id="ApproveFlag"> Approve Flag</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button ng-disabled="isupdatableDisable" type="button" class="btn form_btn_align save_btn" ng-click="SaveAcademicSchedule()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                            <button ng-disabled="isdeletableDisable" type="button" class="btn form_btn_align delete_btn" ng-click="DeleteAcademicSchedule()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                            <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

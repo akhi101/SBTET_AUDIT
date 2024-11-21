@@ -1,0 +1,144 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+</style>
+
+<div ng-controller="CcicMarksEntryReportsController">
+    <div class="breadcrumb-header">
+        <div class="container">
+            <section class="content-header">
+                <h5>Marks Entry Reports </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard">Ccic Dashboard</i> </a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination">Ccic PreExamination</a></li>
+                    <li><a href="#!/CcicDashboard/Assessment/MarksEntryReports">Marks Entry Reports</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <a href="#!/CcicDashboard/PreExamination" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+
+        <div id="exTab2" class="container">
+
+
+            <div class="col-md-12">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Course Code :</label>
+                                <select class="form-control " ng-model="CourseCode" name="CourseCode" required">
+                                    <option value="" selected="selected">Select CourseCode</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold"> Subject Type:</label>
+                            <select class="form-control" ng-model="SubjectType" name="SubjectType" required>
+                                <option value="" selected="selected">Select SubjectType </option>
+                                <option value=1>Theory</option>
+                                <option value=1>Practical</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="font-weight-bold"> Exam Type:</label>
+                            <select class="form-control" ng-model="ExamType" name="ExamType" required>
+                                <option value="" selected="selected">Select Exam Type</option>
+                                <option value=1>Internal</option>
+                                <option value=1>EndExam</option>
+
+                            </select>
+                        </div>
+
+
+
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="AddCcicModule()">
+                                    Get
+                                    <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="cl-details">
+                    <h2>Internal Marks Entry</h2>
+                </div>
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="5%">S.No</th>
+                                <th width="15%" class="text-center">Subject Code</th>
+                                <th width="15%" class="text-center">Subject Name</th>
+                                <th width="15%" class="text-center">Number of Students</th>
+                                <th width="15%" class="text-center">Not Posted</th>
+                          
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fff!important;cursor: pointer">
+                                <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.SubjectCode" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.SubjectName" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.NoofStudents" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.NotPosted" /></td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="sm-spacer"></div>
+
+            </div>
+          
+
+        </div>
+
+
+
+
+    </div>
+
+</div>

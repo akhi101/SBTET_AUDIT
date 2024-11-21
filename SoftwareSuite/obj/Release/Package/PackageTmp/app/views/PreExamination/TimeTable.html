@@ -1,0 +1,842 @@
+﻿<style>
+    .table-bordered > thead > tr > th {
+   background-color:#98abb9;
+   color:#fff;
+}
+
+        /*.multiselect {
+      width: 200px;
+    }*/
+
+        .selectBox {
+            position: relative;
+        }
+
+            .selectBox select {
+                width: 100%;
+                font-weight: bold;
+            }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+            #checkboxes label {
+                display: block;
+            }
+
+                #checkboxes label:hover {
+                    background-color: #1e90ff;
+                }
+
+        .contain {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            /* margin-bottom: 12px; */
+            /* padding-top: 5px; */
+            cursor: pointer;
+            margin: 5px !important;
+            font-size: 15px !important;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* Hide the browser's default checkbox */
+            .contain input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            background-color: #eee;
+            border: 1px solid #cac6c6;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .contain:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .contain input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .contain input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .contain .checkmark:after {
+            left: 8px;
+            top: 4px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+           /*--------------------***--------------------date time css--------------------***----------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------***--------------------date time css End--------------------***----------------------*/
+</style>
+
+<div ng-controller="TimeTableController">
+
+
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Time table</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/FeePayment">Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/FeePayment/SetExamCenters">Time table </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div id="exTab1" class="container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#4" data-toggle="tab">Tab 1</a>
+                </li>
+                <li>
+                    <a href="#5" data-toggle="tab">Tab 2</a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="4">
+                    <div class="row frow base-row">
+                        <div class="col-md-12">
+
+                            <form name="seatingArrangementForm" ng-init="init()">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <!--   <sa-select ng-model="seatingArrangement.courseID" object="seatingArrangement.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                                        <label>Student Type</label>
+                                        <select class="form-control" ng-model="seatingArrangementBlockwise.courwwseID">
+                                            <option value="">Select Student Type</option>
+                                            <option>Regular</option>
+                                            <option>Backlog </option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <!--   <sa-select ng-model="seatingArrangement.courseID" object="seatingArrangement.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>-->
+                                        <label>Exam Type</label>
+                                        <select class="form-control" ng-model="seatingArrangementBlockwise.courseID">
+                                            <option value="">Select Exam Type</option>
+                                            <option>Mid 1 </option>
+                                            <option>Mid 2</option>
+                                            <option>End Exam</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <!--  <sa-select ng-model="seatingArrangement.examID" object="seatingArrangement.examID" options="basicExams" displaycolumn="exmName" valuecolumn="examID" objectname="examID" objecttext="Exam" compulsory="true"> </sa-select>-->
+                                        <label>Scheme</label>
+                                        <select class="form-control" ng-model="seatingArrangementBlockwise.examID">
+                                            <option value="">Select Scheme</option>
+                                            <option>C18</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <!-- <sa-select ng-model="seatingArrangement.branch" object="seatingArrangement.branch" options="basicBranches" displaycolumn="branchName" valuecolumn="branchID" objectname="branchID" objecttext="Branch" compulsory="true"> </sa-select>-->
+                                        <label>Sem</label>
+                                        <select class="form-control" ng-model="seatingArrangementBlockwise.branch">
+                                            <option value="">Select Sem</option>
+                                            <option>SEM 3</option>
+                                            <option>SEM 4</option>
+                                            <option>SEM 5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <!-- <sa-select ng-model="seatingArrangement.branch" object="seatingArrangement.branch" options="basicBranches" displaycolumn="branchName" valuecolumn="branchID" objectname="branchID" objecttext="Branch" compulsory="true"> </sa-select>-->
+
+                                        <label>StartDate</label>
+                                        <div class='input-group'>
+                                            <sa-date ng-model="StudentReg.DateOfBirth" datedisable="DOBDisable" object="StudentReg.DateOfBirth" objectname="DateofBirth" length="100" ispascal="true"> </sa-date>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Holidays</label>
+                                            <div class="multiselect">
+                                                <div class="selectBox" ng-click="showCheckboxes()">
+                                                    <select class="form-control ">
+                                                        <option ng-blur="closeCheckbox()" value="Select an option">Select an option</option>
+                                                    </select>
+                                                    <div class="overSelect"></div>
+                                                </div>
+                                                <div id="checkboxes" style="display: block;">
+                                                    <label class="contain">
+                                                        <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" class="ng-pristine ng-untouched ng-valid ng-empty"><span class="checkmark"></span>Select All
+                                                    </label>
+                                                    <!-- ngRepeat: data in userTypes --><label class="contain ng-binding ng-scope" ng-repeat="data in Holidays">
+                                                        <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)" class="ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched"><span class="checkmark"></span>{{data.date}}
+
+                                                    </label><!-- end ngRepeat: data in userTypes -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--<select class="form-control" ng-model="seatingArrangementBlockwise.branch">
+                                        <option value="">Select Holidays</option>
+                                        <option>12-04-2019(Wednesday)</option>
+                                        <option>13-04-2019(Thursday)</option>
+                                        <option>14-04-2019(Friday)</option>
+                                        <option>15-04-2019(Saturday)</option>
+                                    </select>-->
+                                    <div class="col-md-6">
+                                        <div class="pull-right">
+                                            <button style="margin-top:21px" class="btn btn-detail btn-md custom-btn-block">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div class="container">
+
+                        </div>
+
+                        <div id="exTab2" class="container">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#1" data-toggle="tab">Rules for All Departments</a>
+                                </li>
+                                <li>
+                                    <a href="#2" data-toggle="tab">Slots for Architecture</a>
+                                </li>
+                                <li>
+                                    <a href="#3" data-toggle="tab">Slots for CCP</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content ">
+                                <div class="tab-pane active" id="1">
+                                    <div class="col-md-12">
+                                        <div class="cl-details">
+                                            <h2>Rules for All Departments</h2>
+                                        </div>
+                                        <table class="table   table-fixed table-bordered  table-responsive rspan">
+                                            <thead>
+                                                <tr>
+                                                    <th>Slots</th>
+                                                    <th>Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <!--<th>Exam session</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in examTimeTableSubjects">
+                                                    <td>
+                                                        {{data.Slots}}
+                                                    </td>
+
+                                                    <td>
+                                                        <select class="form-control input-sm" id="stdCategory" ng-model="data.type" name="time"
+                                                                ng-options="x.id as x.name for x in Types">
+                                                            <option value="" selected>Choose</option>
+                                                        </select>
+
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string1"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <!--<td>
+                                                        <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.Id" options="Sessions" displaycolumn="name" valuecolumn="Id" objectname="Id" compulsory="true"></sa-select>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="sm-spacer"></div>
+                                    <div class="col-md-12">
+                                        <table class="table   table-fixed table-bordered  table-responsive rspan">
+                                            <thead>
+                                                <tr>
+                                                    <th>Slots</th>
+                                                    <th>Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <!--<th>Exam session</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in examTimeTableSubjects2">
+                                                    <td>
+                                                        {{data.Slots}}
+                                                    </td>
+
+                                                    <td>
+                                                        <select class="form-control input-sm" id="stdCategory" ng-model="data.type" name="Category"
+                                                                ng-options="x.id as x.name for x in Types">
+                                                            <option value="" selected>Choose</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string2"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string3"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <!--<td>
+                                                        <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.Id" options="Sessions" displaycolumn="name" valuecolumn="Id" objectname="Id" compulsory="true"></sa-select>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="2">
+                                    <div class="col-md-12">
+                                        <div class="cl-details">
+                                            <h2>Slots for Architecture</h2>
+                                        </div>
+                                        <table class="table   table-fixed table-bordered  table-responsive rspan">
+                                            <thead>
+                                                <tr>
+                                                    <th>Slots</th>
+                                                    <th>Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <!--<th>Exam session</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in examTimeTableSubjects">
+                                                    <td>
+                                                        {{data.Slots}}
+                                                    </td>
+
+                                                    <td>
+                                                        <select class="form-control input-sm" id="stdCategory" ng-model="data.type" name="Category"
+                                                                ng-options="x.id as x.name for x in Types">
+                                                            <option value="" selected>Choose</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string4"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string5"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <!--<td>
+                                                        <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.Id" options="Sessions" displaycolumn="name" valuecolumn="Id" objectname="Id" compulsory="true"></sa-select>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="sm-spacer"></div>
+                                    <div class="col-md-12">
+                                        <table class="table   table-fixed table-bordered  table-responsive rspan">
+                                            <thead>
+                                                <tr>
+                                                    <th>Slots</th>
+                                                    <th>Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <!--<th>Exam session</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in examTimeTableSubjects2">
+                                                    <td>
+                                                        {{data.Slots}}
+                                                    </td>
+
+                                                    <td>
+                                                        <select class="form-control input-sm" id="stdCategory" ng-model="data.type" name="Category"
+                                                                ng-options="x.id as x.name for x in Types">
+                                                            <option value="" selected>Choose</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string6"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string7"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <!--<td>
+                                                        <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.Id" options="Sessions" displaycolumn="name" valuecolumn="Id" objectname="Id" compulsory="true"></sa-select>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="3">
+                                    <div class="col-md-12">
+                                        <div class="cl-details">
+                                            <h2>Slots for CCP</h2>
+                                        </div>
+                                        <table class="table   table-fixed table-bordered  table-responsive rspan">
+                                            <thead>
+                                                <tr>
+                                                    <th>Slots</th>
+                                                    <th>Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <!--<th>Exam session</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in examTimeTableSubjects">
+                                                    <td>
+                                                        {{data.Slots}}
+                                                    </td>
+
+                                                    <td>
+                                                        <select class="form-control input-sm" id="stdCategory" ng-model="data.type" name="Category"
+                                                                ng-options="x.id as x.name for x in Types">
+                                                            <option value="" selected>Choose</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string8"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string9"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <!--<td>
+                                                        <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.Id" options="Sessions" displaycolumn="name" valuecolumn="Id" objectname="Id" compulsory="true"></sa-select>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="sm-spacer"></div>
+
+                                    <div class="col-md-12">
+                                        <table class="table   table-fixed table-bordered  table-responsive rspan">
+                                            <thead>
+                                                <tr>
+                                                    <th>Slots</th>
+                                                    <th>Type</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <!--<th>Exam session</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in examTimeTableSubjects2">
+                                                    <td>
+                                                        {{data.Slots}}
+                                                    </td>
+
+                                                    <td>
+                                                        <select class="form-control input-sm" id="stdCategory" ng-model="data.type" name="Category"
+                                                                ng-options="x.id as x.name for x in Types">
+                                                            <option value="" selected>Choose</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string10"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group" style="width:40%">
+                                                            <input type="time" class="form-control"
+                                                                   ng-model="string11"
+                                                                   [name="string" ]
+                                                                   [min="string" ]
+                                                                   [max="string" ]
+                                                                   [ng-min="" ]
+                                                                   [ng-max="" ]
+                                                                   [required="string" ]
+                                                                   [ng-required="string" ]
+                                                                   [ng-change="string" ]> <span class="input-group-addon glyphicon glyphicon-time">
+
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <!--<td>
+                                                        <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.Id" options="Sessions" displaycolumn="name" valuecolumn="Id" objectname="Id" compulsory="true"></sa-select>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="examTimeTableSubjects.length>0">
+                        <div class="col-md-12 text-center">
+                            <button ng-click="GetStudentAttData()" class="btn btn-detail btn-sm">Preview</button>
+                            <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="5">
+                    <div class="container">
+                        <div class="base-row" style="padding:15px!important;">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label>Slot</label>
+                                    <select class="form-control" ng-model="Slot">
+                                        <option value="">Select Slot</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Branch</label>
+                                    <select class="form-control" ng-model="BranchName">
+                                        <option value="">Select BranchName</option>
+                                        <option>ECE</option>
+                                        <option>CSE</option>
+                                        <option>MECH</option>
+                                        <option>EEE</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="pull-left">
+                                    <div class="col-md-4">
+                                        <label></label>
+                                        <label></label>
+                                        <button ng-click="add()" class="btn btn-detail btn-md custom-btn-block">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" ng-if="Table1">
+                        <div class="col-md-12">
+                            <div id="studentform1" class="table-responsive table-custom-tables-tb col-md-12">
+                                <table class="table table-bordered  table-striped table-rounded">
+
+                                    <thead>
+                                        <tr class="cb-1">
+
+                                            <th class="text-left" style="width:0%">Sino</th>
+
+                                            <th class="text-left" style="width: 0%">Sloat</th>
+
+                                            <th class="text-left" style="width: 0%">BrnachName</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;" ng-repeat="data in TimeTable">
+                                            <td style="width: 1%">{{$index+1}}</td>
+                                            <td style="width: 1%">{{data.Sloat}}</td>
+                                            <td style="width: 1%">{{data.Brnach}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="container" ng-if="Result1">
+                        <div class="base-row" style="padding:15px!important;">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label>Slot</label>
+                                    <select class="form-control" ng-model="Slot">
+                                        <option value="">Select Slot</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Days</label>
+                                    <select class="form-control" ng-model="DaysName">
+                                        <option value="">Select Days</option>
+                                        <option>Sunday</option>
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>wednesday</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="pull-left">
+                                    <div class="col-md-4">
+                                        <label></label>
+                                        <label></label>
+                                        <button ng-click="add1()" class="btn btn-detail btn-md custom-btn-block">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container" ng-if="Table2">
+                        <div class="col-md-12">
+
+                            <div id="studentform" class="table-responsive table-custom-tables-tb col-md-12">
+                                <table class="table table-bordered  table-striped table-rounded">
+
+                                    <thead>
+                                        <tr class="cb-1">
+
+                                            <th class="text-left" style="width: 1%">Sino</th>
+
+                                            <th class="text-left" style="width: 1%">Sloat</th>
+
+                                            <th class="text-left" style="width: 1%">Day</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color:#fff!important;" ng-repeat="data in TimeTableform">
+
+                                            <td style="width: 1%">{{$index+1}}</td>
+                                            <td style="width: 1%">{{data.Sloat}}</td>
+                                            <td style="width: 1%">{{data.Day}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </div>
+
+</div>
+

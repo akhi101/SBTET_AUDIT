@@ -1,0 +1,81 @@
+﻿<div ng-controller="MarksMemoController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Generate Memo Data </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PostExam">Post Exam</a></li>
+                    <li><a href="#!/Dashboard/PostExam/MarksMemo">Generate Memo Data </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PostExam" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ng-scope">
+            <div class="cl-details">
+                <h2>Marks Memos</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label for="sel1">
+                                Select Scheme :
+                            </label>
+                            <select class="form-control" ng-model="Scheme" name="Scheme" required>
+                                <option value="" selected>Select Scheme</option>
+                                <option ng-repeat="data in Schemes" value="{{data.Scheme}}">
+                                    {{data.Scheme}}
+                                </option>
+                                <!--ng-options="Student.type for Student in StudentType">-->
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label for="sel1">
+                                Exam Month Year :
+                            </label>
+                            <select class="form-control" ng-model="ExamMonth" name="StudentType" required>
+                                <option value="" selected>Select Exam Month Year</option>
+                                <option ng-repeat="data in ExamMonthYear" value="{{data.Id}}">
+                                    {{data.ExamYearMonth}}
+                                </option>
+                                <!--ng-options="Student.type for Student in StudentType">-->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="sel1">
+                                    Select Date :
+                                </label>
+                                <div class="form-group" id="year">
+                                    <input type="date" placeholder="Select Date" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="DownloadtoExcel()">
+                                    Get Report
+                                    <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

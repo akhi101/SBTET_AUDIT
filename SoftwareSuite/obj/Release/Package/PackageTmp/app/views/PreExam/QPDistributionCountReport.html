@@ -1,0 +1,47 @@
+﻿<div class="container" >
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>QP Distribution Count Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Report</li>
+                <li>QP Distribution Count Report</li>
+            </ol>
+        </div>
+    </div>
+   
+    <div class="row base-row" ng-controller="QPDistributionCountReportController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="districtCenterWiseForm" ng-submit="getdistrictCenterWiseThPaperCount()">
+                <div class="row">
+                    <div class="col-md-2">
+                        <sa-select ng-model="studentCount.CourseID" object="studentCount.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="studentCount.ExamID" object="studentCount.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="studentCount.DistrictID" object="studentCount.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="studentCount.PreZoneCntrID" object="studentCount.PreZoneCntrID" options="basicCenters" displaycolumn="ColName" valuecolumn="PreZoneCntrID" objectname="PreZoneCntrID" objecttext="Center"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="studentCount.ReportType" object="studentCount.ReportType" options="reportTypes" displaycolumn="ReportTypeName" valuecolumn="ReportType" objectname="ReportType" objecttext="Report Type" compulsory="true"></sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button ui-sref="#" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

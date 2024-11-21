@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+</head>
+<body>
+    <div ng-controller="RptListOfCenterWithShortageofFurnitureController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>List of Center With Shortage Of Furniture</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>List of Center With Shortage Of Furniture</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1"> Select District :</label>
+                                    <select class="form-control" ng-model="RptListOfCenterWithShortageofFurniture.DistrictID" id="DistrictID">
+                                        <option value="">---Select District---</option>
+                                        <option ng-selected="RptListOfCenterWithShortageofFurniture.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 22px;" class="col-md-4">
+                                <button type="button" class="btn btn-sm btn-detail" ng-click="PrintCenterList()">Show</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <form class="form-horizontal" name="ReportForm" novalidate>
+                                    <div class="content-container-fluid">
+                                        <div class="row">
+                                            <div class="cols-sample-area">
+                                                <div class="control">
+                                                    <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

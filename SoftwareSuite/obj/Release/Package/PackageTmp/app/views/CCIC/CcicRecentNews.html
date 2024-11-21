@@ -1,0 +1,329 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+
+  
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family:'Open Sans';
+        font-size:14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+
+</style>
+
+<div ng-controller="CcicRecentNewsController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container containercontent">
+            <section class="content-header">
+                <h5>Recent News</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/CcicDashboard/Settings">Settings</a></li>
+                    <li><a href="#!/CcicDashboard/Settings/RecentNews">Recent News</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container containercontent">
+
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/Settings" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+
+
+
+
+
+            <div class="tab-content containercontent">
+
+
+                <div class="col-md-12 containercontent">
+                    <div class="cl-details">
+                        <h2>Add RecentNews</h2>
+
+                    </div>
+                </div>
+                <div class="col-md-12 containercontent">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <!--<div class="col-md-4">
+                        <div class="form-group">
+                            <label>User Name</label>
+                            <div class="multiselect">
+                                <div class="selectBox" ng-click="showCheckboxes()">
+                                    <select class="form-control ">
+                                        <option ng-blur="closeCheckbox()">Select an option</option>
+                                    </select>
+                                    <div class="overSelect"></div>
+                                </div>
+                                <div id="checkboxes" style="max-height: 12em; overflow-y: scroll;">
+                                    <label class="contain">
+                                        <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" /><span class="checkmark"></span>Select All
+                                    </label>
+
+                                    <label class="contain" ng-repeat="data in UserTypes">
+                                        <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)"><span class="checkmark"></span>{{data.UserType}}
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                                    <div class="col-md-4">
+                                        <div class="form-group required">
+                                            <label for="date-picker-example">Start Date(dd/mm/yyyy):</label>
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" show-weeks="false" class="form-control" id="datetimepicker1" placeholder="Please Enter StartDate" autocomplete="off" name="StartDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="StartDate" is-open="showFlag1" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group required">
+                                            <label for="date-picker-example">End Date(dd/mm/yyyy):</label>
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" show-weeks="false" class="form-control" id="datetimepicker2" placeholder="Please Enter EndDate" autocomplete="off" name="EndDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="EndDate" is-open="showFlag2" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group required">
+                                            <label>RecentNews Message</label>
+                                            <textarea rows="5" style="resize:none" ng-model="RecentNews" class="form-control" required></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button style="margin-top:105px;" class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="AddRecentNews()">
+                                                Submit
+                                                <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 pull-right mtp-50 containercontent">
+
+                        <div class="submit-btn" style="margin-bottom:0px;margin-top:-15px">
+                            <button type="submit" ng-model="GetRecentNews" ng-click="getAllRecentNews()">AllRecentNews</button>
+
+                        </div>
+                    </div>
+                    <div class="sm-spacer"></div>
+                    <div class="col-md-12" ng-if="loading">
+                        <!--<div class="sm-spacer"></div>-->
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-if="NoData">
+                        <div class="col-md-12 no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-custom-tables-tb">
+                        <div ng-if="RecentNewsTable.length>0" class="cl-details">
+                            <h2>Ccic RecentNews</h2>
+                        </div>
+                        <div ng-if="RecentNewsTable.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                            <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th>S no</th>
+                                        <th>Notification</th>
+                                        <th>From Date</th>
+                                        <th>To Date</th>
+                                        <!--<th style="text-align:center;">Status</th>-->
+                                        <th style="text-align:center;">Edit/Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in RecentNewsTable">
+                                        <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                        <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.RecentNewsText" /></td>
+                                        <td class="text-center pointer" style="padding: 3px;">
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" show-weeks="false" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Start Date" autocomplete="off" name="Startdate" datetime-picker="dd-MM-yyyy" id="datetimepicker3" ng-model="data.FromDate" is-open="showFlag3" />
+                                                <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag3 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </td>
+                                        <td class="text-center pointer" style="padding: 3px;">
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" show-weeks="false" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="End Date" autocomplete="off" name="EndDate" datetime-picker="dd-MM-yyyy" id="datetimepicker4" ng-model="data.ToDate" is-open="showFlag4" />
+                                                <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag4 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="ChangeStatus(data,$index+1)">
+                                                Edit
+                                            </button>
+                                            <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdationStatus(data,$index+1)">
+                                                Update
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sm-spacer"></div>
+                        <div class="sm-spacer"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        
+
+
+
+
+    </div>
+
+</div>

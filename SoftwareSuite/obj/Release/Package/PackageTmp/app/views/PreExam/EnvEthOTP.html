@@ -1,0 +1,82 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Environmental/Ethics Update Mobile/Send OTP</strong></span>
+        </div>
+        <div class="col-md-7 text-right no-print">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Env/Eth Update Mobile/Send OTP</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="EnvEthOTPController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="EnvEthOTPDetailForm">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-4">
+                        <sa-select ng-model="envEthOTPDetail.CourseID" object="envEthOTPDetail.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="envEthOTPDetail.ExmSubID" object="envEthOTPDetail.ExmSubID" options="examSubjects" displaycolumn="ExmSubName" valuecolumn="ExmSubID" objectname="ExmSubID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+
+                </div>
+            </form>
+            <br />
+            <br />
+            <div style="width:100%;text-align:center;">
+                <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+            <form name="EnvEthUpdateOTPDetailForm">
+                <div class="row" ng-show="principalDetails.length>0">
+                    <div class="col-md-12">
+                        Note: OTP Will be displayed 30 minutes before the examination.
+                        <table class="table table-striped table-responsive rspan">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align: top !important;">Sl No.</th>
+                                    <th style="vertical-align: top !important;">Colege Code</th>
+                                    <th style="vertical-align: top !important;">College Name</th>
+                                    <th style="vertical-align: top !important;">Principal Name</th>
+                                    <th style="vertical-align: top !important;">Principal Mobile No</th>
+                                    <th style="vertical-align: top !important;">OTP*</th>
+                                    <th style="vertical-align: top !important;">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="principalDetail in principalDetails">
+                                    <td class="num-col">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td>
+                                        {{principalDetail.ColCode}}
+                                    </td>
+                                    <td>
+                                        {{principalDetail.ColShrtName}}
+                                    </td>
+                                    <td>
+                                        {{principalDetail.principal_name}}
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 100px;text-align: center;" ng-model="principalDetail.principal_mobile_no" object="principalDetail.principal_mobile_no" id="principal_mobile_no" ng-change="MobileNoChange($index)" />
+                                    </td>
+                                    <td>
+                                    {{principalDetail.password}}
+                                    </td>
+                                    <td>
+                                        <input type="button" class="btn btn-detail btn-sm" ng-click="UpdateMobileNo($index)" value="Update" />
+                                        <input type="button" ng-disabled="true" class="btn btn-detail btn-sm" value="Send OTP" ng-click="SendOTPCode($index)" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

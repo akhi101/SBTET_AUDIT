@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Name Correction</title>
+</head>
+<body>
+    <div ng-controller="NameCorrectionAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Name Correction</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Name Correction</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date : {{NameCorrectionApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>               
+                    <div class="col-md-8 col-md-offset-2"><hr></div>
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div ng-show="CandidateName">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for=""> Candidate Name :</label>
+                                        <input type="text" class="form-control" id="StudName" ng-model="NameCorrectionApp.StudName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Update Candidate Name :</label>
+                                        <input type="text" class="form-control" id="FatherName" ng-model="NameCorrectionApp.AStudName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="FatherName">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for=""> Father Name :</label>
+                                        <input type="text" class="form-control" id="StudName" ng-model="NameCorrectionApp.FatherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Update Father Name :</label>
+                                        <input type="text" class="form-control" id="FatherName" ng-model="NameCorrectionApp.AFatherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="MotherName">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for=""> Mother Name :</label>
+                                        <input type="text" class="form-control" id="StudName" ng-model="NameCorrectionApp.MotherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Update Mother Name :</label>
+                                        <input type="text" class="form-control" id="FatherName" ng-model="NameCorrectionApp.AMotherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="Gender">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for=""> Gender :</label>
+                                        <input type="text" class="form-control" id="StudName" ng-model="NameCorrectionApp.Gender" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Update Gender :</label>
+                                        <input type="text" class="form-control" id="FatherName" ng-model="NameCorrectionApp.AGender" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="MediumName">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for=""> Medium :</label>
+                                        <input type="text" class="form-control" id="StudName" ng-model="NameCorrectionApp.MediumName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Update Medium :</label>
+                                        <input type="text" class="form-control" id="FatherName" ng-model="NameCorrectionApp.AMediumName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Application Number : </label>
+                                        <input type="text" class="form-control" id="FormNo" ng-model="NameCorrectionApp.FormNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> SSC Hall Ticket :</label>
+                                        <input type="text" class="form-control" id="HTNO" ng-model="NameCorrectionApp.HTNO" input-Number-Only ng-readonly="true">
+                                    </div>
+                                    
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> College Name & Code : </label>
+                                        <input type="text" class="form-control" id="ColCode" ng-model="NameCorrectionApp.ColCodeName" ng-readonly="true">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee(in rupees):</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="NameCorrectionApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number: </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="NameCorrectionApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <label>View Student Certificates:</label>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="view-link" target="_blank" href="{{NameCorrectionApp.UploadDoc1}}">10<sup>th</sup> SSC Marks Memo</a>
+                                <a class="view-link" target="_blank" href="{{NameCorrectionApp.UploadDoc2}}" id="UploadTC"> Inter Pass Marks Memo</a>
+                                <a class="view-link" target="_blank" href="{{NameCorrectionApp.UploadDoc3}}" id="UploadMigration">Letter From College Principal</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="col-md-12 form-group">
+                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Accept / Reject at Level 1 :</label>
+                                    <select class="form-control" id="ReqStatus" ng-disabled="ApproverRemarks" ng-model="NameCorrectionApp.ReqStatus" ng-change="ChangeTextArea(NameCorrectionApp.ReqStatus,'ReqStatus')">
+                                        <option value="0">Select Status</option>
+                                        <option value="A">Approve</option>
+                                        <!--<option value="P">Pending</option>-->
+                                        <option value="R">Reject</option>
+                                    </select>
+                                    <div class="status" ng-show="ShowLevel1"> Level 1 Status Approved/Rejected Date : {{NameCorrectionApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{NameCorrectionApp.ReqStatusIPAddress}}</div>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for=""><font color="red" ng-show="ShowAstertisk">*&nbsp;</font> Process Remark at Level 1 :</label>
+                                    <textarea rows="4" style="width: 100%;" ng-disabled="ApproverRemarks" id="ProcessRemark" ng-model="NameCorrectionApp.ProcessRemark"></textarea>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12 form-group" ng-show="Approver1" ng-disabled="Approver1Remarks">
+                                    <label for=""> Accept / Reject at Level 2 :</label>
+                                    <select class="form-control" id="ReqStatus1" ng-disabled="Status1Disable" ng-model="NameCorrectionApp.ReqStatus1" ng-change="ChangeTextArea(NameCorrectionApp.ReqStatus1,'ReqStatus1')">
+                                        <option value="0">Select Status</option>
+                                        <option value="A">Approve</option>
+                                        <!--<option value="P">Pending</option>-->
+                                        <option value="R">Reject</option>
+                                    </select>
+
+                                    <div class="status" ng-show="ShowLevel2"> Level 2 Status Approved/Rejected Date : {{NameCorrectionApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{NameCorrectionApp.ReqStatus1IPAddress}}</div>
+                                </div>
+                                <div class="col-md-12 form-group" ng-show="Approver1" ng-disabled="Approver1Remarks">
+                                    <label for=""> Process Remark at Level 2 :</label>
+                                    <textarea rows="4" style="width: 100%;" id="ProcessRemark1" ng-disabled="Status1Disable" ng-model="NameCorrectionApp.ProcessRemark1"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="RollEditDisable" ng-show="ShowSubmit" ng-click="SaveNameCorrectionApp()" class="btn btn-detail btn-sm">Submit</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+           <!-- <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12  top_margin">
+                    <div class="panel-group">
+                        <div class="panel">
+                            <div class="panel-heading header_background"><b>Name Change</b></div>
+                            <div class="panel-body form_border">
+                                <form class="form-horizontal" action="#">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="">SSC Hall Ticket:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="HTNO" ng-model="NameCorrectionApp.HTNO" input-Number-Only>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                <div class="text-center form-title">
+                                    Student Details
+                                </div>
+                                <div class="form-group">
+
+                                </div>
+                                <form class="form-horizontal" action="#">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Application Number :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FormNo" ng-model="NameCorrectionApp.FormNo" ng-readonly="true">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" ng-hide="true">
+                                                <label>{{NameCorrectionApp.PreStudRegID}}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Candidate Name :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="StudName" ng-model="NameCorrectionApp.StudName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Father Name
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FatherName" ng-model="NameCorrectionApp.FatherName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    College Name
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="ColCode" ng-model="NameCorrectionApp.ColCode" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Course:
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="CourseName" ng-model="NameCorrectionApp.CourseName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Mobile Number
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MobileNo" ng-model="NameCorrectionApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Fee (in rupees) :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FeeAmount" ng-model="NameCorrectionApp.FeeAmount" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Purpose
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" rows="4" id="Purpose" ng-model="NameCorrectionApp.Purpose" ng-readonly="true"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Request Status:</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="ReqStatus" ng-model="NameCorrectionApp.ReqStatus">
+                                                        <option value="">Select Status</option>
+                                                        <option value="A">Approved</option>
+                                                        <option value="P">Pending</option>
+                                                        <option value="R">Rejected</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Process Remark:</label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" rows="4" id="ProcessRemark" ng-model="NameCorrectionApp.ProcessRemark"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <!--<label class="control-label col-sm-4" for=""> Uploade Certificate :</label>
+                                        <div class="col-sm-5">
+                                            <input type="file" class="form-control" name="UploadDoc1" id="UploadDoc1" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                        </div>-->
+                                               <!-- <div class="col-sm-3">
+                                                    <input type="text" class="form-control" id="PreviousApproverRemarks" ng-model="NameCorrectionApp.ProcessRemark" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <div class="form-group">
+                                                <button type="button" ng-disabled="RollEditDisable" ng-click="SaveNameCorrectionApp()" class="btn btn-primary">Submit</button>
+                                                <button type="button" ng-click="Exit()" class="btn btn-primary">Exit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</body>
+</html>

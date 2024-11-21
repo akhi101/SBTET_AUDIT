@@ -1,0 +1,204 @@
+<style>
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .head_print {
+        /*position: fixed;*/
+        /*top: 0mm;
+    width: 100%;*/
+        /*border-bottom: 1px solid black;*/
+    }
+
+    @media print {
+        .time {
+            display: none;
+        }
+
+        .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+            float: left;
+        }
+
+        .col-md-12 {
+            width: 100%;
+        }
+
+        .col-md-11 {
+            width: 91.66666666666666%;
+        }
+
+        .col-md-10 {
+            width: 83.333333%;
+        }
+
+        .col-md-9 {
+            width: 75%;
+        }
+
+        .col-md-8 {
+            width: 66.66666666666666%;
+        }
+
+        .col-md-7 {
+            width: 58.333333333333336%;
+        }
+
+        .col-md-6 {
+            width: 50%;
+        }
+
+        .col-md-5 {
+            width: 41.66666666666667%;
+        }
+
+        .col-md-4 {
+            width: 33.33333333333333%;
+        }
+
+        .col-md-3 {
+            width: 25%;
+        }
+
+        .col-md-2 {
+            width: 16.666666666666664%;
+        }
+
+        .col-md-1 {
+            width: 8.333333333333332%;
+        }
+
+        .print_tbl {
+            padding: 0px;
+            page-break-after: always;
+        }
+
+        .bck_btn {
+            display: none;
+        }
+
+        .sm-spacer {
+            display: none;
+        }
+
+        .btn_print {
+            display: none;
+        }
+
+        .top-header {
+            display: none;
+        }
+
+        .head_text {
+            font-size: 11px;
+        }
+
+        .footer_section {
+            display: none;
+        }
+    }
+
+    .bck_btn {
+        margin-top: 20px;
+    }
+</style>
+<!--<style type="text/css" media="all">
+    table,
+    td {
+        border-width: 1px;
+        border-style: solid;
+        border-collapse: collapse;
+        padding: 15px;
+        color: #000000;
+        text-align: center;
+    }
+
+        table.pos_fixed1 {
+            float: left;
+            top: 30px;
+            margin-left: 120px;
+        }
+
+        table.pos_fixed2 {
+            float: right;
+            top: 30px;
+            margin-right: 120px;
+        }
+</style>-->
+<div ng-controller="NrDownloadController">
+    <!-- <div class="container">
+            <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+        <h3 style="color: red;margin-top:100px;">
+            <center>Work in Process Page will be Resumed Soon.....</center>
+        </h3>
+    </div> -->
+    <div class="container">
+        <section class="content">
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Month Year:
+                        </label>
+                        <select class="form-control" ng-model="selectedEmy" name="ExamMonthYear">
+                            <option value="" selected>Select Exam Month Year</option>
+                            <option ng-repeat="item in ExamMonthYears" value="{{item.ExamMonthYearId}}">
+                                {{item.ExamYearMonth}}
+                            </option>
+                            <!--ng-options="Student.type for Student in StudentType">-->
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Type:
+                        </label>
+                        <select class="form-control" ng-model="StudentTypeId" name="StudentType">
+                            <option value="" selected>Select Exam Type</option>
+                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                {{Student.type}}
+                            </option>
+                            <!--ng-options="Student.type for Student in StudentType">-->
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam:
+                        </label>
+                        <select class="form-control" ng-model="examTypeId" name="exam" ng-change="changedExamType()">
+                            <option value="0" selected>Select an Exam</option>
+                            <option ng-repeat="exam in Exams" value="{{exam.id}}">
+                                {{exam.examname}}
+                            </option>
+                            <!--ng-options="Student.type for Student in StudentType">-->
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Dates:
+                        </label>
+                        <select class="form-control" ng-model="selectExamDate.ExamDate" name="ExamDates" ng-change="changedExamDates()">
+                            <option value="" selected>Select Exam Date</option>
+                            <option ng-repeat="selectExamDate in ExamDates" value="{{selectExamDate.ExamDate}}">
+                                {{selectExamDate.ExamDate}}
+                            </option>
+                            <!--ng-options="Student.type for Student in StudentType">-->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="gr-btn">
+                            <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="getNRStudentDetails(selectedEmy, StudentTypeId, selectExamDate.ExamDate,examTypeId)">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                <img src="../../../contents/img/loading1.gif" width="100" />
+                <h4><b>Generating NR. This may take a while, Please be Patient.</b></h4>
+            </div>
+        </section>
+    </div>
+</div>
+

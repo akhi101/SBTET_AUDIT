@@ -1,0 +1,370 @@
+﻿<style>
+    .userRow {
+        padding: 20px;
+    }
+
+    .row {
+        margin-left: 15px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -15px;
+    }
+
+
+    .col-md-4 {
+        width: 18.33333333%;
+    }
+
+
+    element.style {
+    }
+
+    .col-md-2 {
+        -webkit-box-flex: 0;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+        width: 201px;
+        height: 33px;
+    }
+
+    .btn-group-xs > .btn, .btn-xs {
+        padding: 4px 5px;
+        font-size: 16px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
+    
+    .modal-content {
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: 0;
+    }
+
+
+    .modal-header.registration-modal-header {
+        padding: 2px 15px;
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #2196F3;
+    }
+
+    .registration-modal-header {
+        margin: 0;
+        text-align: center;
+        line-height: 2.428571;
+        color: #fff;
+    }
+
+    .font_bold {
+        font-weight: bold;
+    }
+
+    .datepicker .text-info {
+        font-size: 14px;
+        color: black !important;
+    }
+    /* .datpicker .btn-info contains selected date */
+    .datepicker .btn-info {
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #39b3d7 !important;
+    }
+
+    .required:before {
+        content: "*";
+        color: red;
+        font-weight: bold;
+    }
+
+    .clr_red {
+        color: red;
+    }
+
+    .btn-default {
+        border-color: #fdfdfd !important;
+        color: #fff !important;
+        background-color: #34495e !important;
+    }
+
+    .datepicker .btn:disabled {
+        font-size: 14px;
+        font-weight: normal;
+        color: gray;
+    }
+
+        .datepicker .btn:disabled > .text-muted {
+            font-size: 14px;
+            font-weight: normal;
+            color: gray;
+        }
+
+    .datepicker .text-muted {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .datepicker .btn:enabled {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .inputCls {
+        width: 50%;
+    }
+
+    .clr_red {
+        color: red;
+    }
+</style>
+<style>
+    #idtoDivPrint {
+        /*display: flex;*/
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        color: #000;
+    }
+
+
+
+    @media print {
+        .logo-img {
+            display: none;
+        }
+
+        .base-row {
+            border: none;
+        }
+
+        .logo-name {
+            text-align: center;
+        }
+
+        .header-top-section {
+            display: none;
+        }
+
+        .footer_section {
+            width: 100%;
+            display: none;
+        }
+
+        .print_btn {
+            display: none;
+        }
+
+        .logo_name {
+            font-size: 20px !important;
+        }
+
+        .cb-2 {
+            font-weight: bold !important;
+            color: #000 !important;
+        }
+
+        .wrapper {
+            display: none;
+        }
+
+        #helpDesk {
+            display: block;
+            bottom: 30px;
+            position: absolute;
+        }
+
+        #tbl_head1 {
+            color: #000 !important;
+        }
+
+        #tbl_head2 {
+            color: #000 !important;
+        }
+    }
+
+    .spacer {
+        height: 30px;
+    }
+
+    textarea {
+        /*width: 200px;
+    min-width:200px;
+    max-width:200px;*/
+        width: 260px;
+        height: 100px;
+        min-height: 100px;
+        max-height: 100px;
+    }
+
+    .loader {
+        border: 4px solid #5cb85c;
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        border-left: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 4s linear infinite; /* Safari */
+        animation: spin 1s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .cls_verified {
+        color: #5cb85c;
+        font-weight: bold;
+    }
+</style>
+
+<div>
+
+
+    <div class="modal-dialog-centered">
+        <div class="modal-content">
+            <style class="ng-scope">
+                .modal-fit .modal-content {
+                    height: max-content !important;
+                    overflow: unset !important;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                }
+            </style>
+
+            <div class="modal-header registration-modal-header ng-scope">
+                <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal1()">×</button>
+
+            </div>
+
+
+            <div class="sm-spacer"></div>
+
+            
+                <form name="RegistrationForm">
+                    <div class="col-md-12">
+                        <div class="Reg-details" style="text-align:center">
+                            <h2>Registration</h2>
+                        </div>
+
+                        <div class="col-md-12"></div>
+                        <div class="col-md-12 base-row">
+                            <div class="row userRow">
+                                <div class="col-md-10">
+
+                                    <input class="form-control" type="text" autocomplete="off" placeholder="Enter Student Name" maxlength="100" name="StudentName" ng-model="StudentName" />
+                                    <span style="color:red" ng-if="RegistrationForm.StudentName.$error.required && RegistrationForm.StudentName.$dirty">Student Name is a required</span>
+
+                                </div>
+                            </div>
+
+                            <div class="row userRow">
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" autocomplete="off" placeholder="Enter Father Name" maxlength="100" name="FatherName" ng-model="FatherName" />
+
+                                </div>
+                            </div>
+
+
+                            <div class="row userRow">
+                                <div class="col-md-6">
+                                    <input type="text" autocomplete="off" class="form-control" maxlength="100" placeholder="Enter Email" name="Email" ng-model="Email" />
+                                </div>
+                                <div class="col-md-2" ng-show="!MailSent">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Enter OTP" maxlength="6" name="Email" ng-model="MailOTP" />
+                                </div>
+                                <div class="col-md-2" ng-show="MailSent && !MailVerified">
+                                    <button class="btn btn-success btn-xs" ng-click="sendmail(StudentName,Email)">
+                                        click here
+                                    </button>
+                                </div>
+
+                                <div class="col-md-1" ng-show="ResendMail">
+                                    <button class="btn btn-success btn-xs" ng-click="sendmail(StudentName,Email)">Resend OTP</button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button class="btn btn-success btn-xs" ng-show="!MailSent" ng-click="VerifyMailOtp(StudentName,Email,MailOTP)" style="margin-left:40px;">Verify</button>
+                                    <div class="cls_verified" ng-show="MailVerified"><i class="fa fa-check" aria-hidden="true"></i> Verified</div>
+                                </div>
+                            </div>
+
+
+                                <div class="col-md-6">
+                                    <input type="text" autocomplete="off" class="form-control" maxlength="10" placeholder="Enter MobileNumber" name="MobileNumber" ng-model="MobileNumber" />
+                                </div>
+                                <div class="col-md-2" ng-show="!OtpSent">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Enter OTP" maxlength="6" name="MobileNumber" ng-model="MobileOTP" />
+                                </div>
+                                <div class="col-md-2" ng-show="OtpSent && !OtpVerified">
+                                    <button class="btn btn-success btn-xs" ng-click="SendSms(StudentName,MobileNumber)">
+                                        click here
+                                    </button>
+                                </div>
+
+                                <div class="col-md-1" ng-show="ResendOtp">
+                                    <button class="btn btn-success btn-xs" ng-click="SendSms(StudentName,MobileNumber)">Resend OTP</button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button class="btn btn-success btn-xs" ng-show="!OtpSent" ng-click="VerifyMobileOtp(StudentName,MobileNumber,MobileOTP)" style="margin-left:40px;">Verify</button>
+                                    <div class="cls_verified" ng-show="OtpVerified"><i class="fa fa-check" aria-hidden="true"></i> Verified</div>
+                                </div>
+
+
+
+                            <div class="row userRow">
+                                <div class="col-md-10">
+
+                                    <input class="form-control" type="text" autocomplete="off" placeholder="Enter Aadhaar Number" maxlength="100" name="AadhaarNumber" ng-model="AadhaarNumber" />
+
+                                </div>
+                            </div>
+
+
+                            <br />
+                        </div>
+                        <div class="col-md-offset-12"></div>
+                    </div>
+            </form>
+
+
+            <div class="sm-spacer"></div>
+
+            <div class="modal-footer ng-scope">
+
+                <button type="button" class="btn btn-default" ng-click="closeModal1()">Cancel</button>
+                <button id="submit" type="button" ng-disabled="RegistrationForm.$invalid" class="btn btn-primary pull-right">Submit</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Name Correction in Marks Memo</title>
+</head>
+<body>
+    <div ng-controller="NameCorrectionController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Name Correction</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Name Correction</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px; font-weight:100;">For any queries please mail to: </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-10 col-md-offset-2">
+                            <span class="rspan">Pass Year:</span>
+                            <div class="maxl">
+                                <form>
+                                    <label class="radio inline">
+                                        <input type="radio" name="optradio" value="1" ng-model="EditYear" ng-change="ChangeYear()">
+                                        <span> Upto 2003 Appeared Candidates </span>
+                                    </label>
+                                    <label class="radio inline">
+                                        <input type="radio" name="optradio" value="2" ng-model="EditYear" ng-change="ChangeYear()">
+                                        <span>From 2004 Appeared Candidates </span>
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter HallTicket No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="HTNO" placeholder="Enter Hall Ticket No." maxlength="12" ng-model="NameCorrection.HTNO" ng-keyup="keyup()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillDataByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="showhide" ng-hide="ShowCandidateDetails">
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Candidate Name :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" ng-model="NameCorrection.StudNameFlag" ng-change="CheckStudNameFlag(NameCorrection.StudNameFlag,'StudName')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.StudName" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Candidate Name :</label>
+                                    <input style="text-transform:uppercase;" type="text" class="form-control" id="" maxlength="100" ng-model="NameCorrection.AStudName" ng-readonly="!NameCorrection.StudNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Father Name :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.FatherNameFlag" ng-change="CheckStudNameFlag(NameCorrection.FatherNameFlag,'FatherName')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.FatherName" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Father  Name :</label>
+                                    <input style="text-transform:uppercase;" type="text" class="form-control" id="" maxlength="60" ng-model="NameCorrection.AFatherName" ng-readonly="!NameCorrection.FatherNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Mother Name :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.MotherNameFlag" ng-change="CheckStudNameFlag(NameCorrection.MotherNameFlag,'MotherName')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" maxlength="60" ng-model="NameCorrection.MotherName" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Mother Name :</label>
+                                    <input style="text-transform:uppercase;" type="text" class="form-control" id="" ng-model="NameCorrection.AMotherName" ng-readonly="!NameCorrection.MotherNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Gender :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.GenderFlag" ng-change="CheckStudNameFlag(NameCorrection.GenderFlag,'Gender')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.Gender" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Gender :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="NameCorrection.AGender" checked value="Male" ng-disabled="!NameCorrection.GenderFlag">Male
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="NameCorrection.AGender" value="Female" ng-disabled="!NameCorrection.GenderFlag">Female
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="NameCorrection.AGender" value="Other" ng-disabled="!NameCorrection.GenderFlag">TransGender
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Medium :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.MediumNameFlag" ng-change="CheckStudNameFlag(NameCorrection.MediumNameFlag,'Medium')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.MediumName" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Medium :</label>
+                                    <select class="form-control" id="MediumID" ng-model="NameCorrection.AMediumID" ng-disabled="!NameCorrection.MediumNameFlag">
+                                        <option ng-selected="NameCorrection.AMediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for="">College Name : </label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.ColName" ng-readonly="true">
+                                    </div>
+                                    <!--<div class="col-md-6 form-group">
+                        <label for="">Exam Month : </label>
+                        <input type="text" class="form-control" id="" ng-model="NameCorrection.ExamMonth" ng-readonly="true">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for=""> Exam Year :</label>
+                        <input type="text" class="form-control" id="" ng-model="NameCorrection.ExamYear" ng-readonly="true">
+                    </div>-->
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee (in rupees) : </label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Mobile Number :</label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.MobileNo" maxlength="10" input-Number-Only>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label>
+                                            <a ng-show="ShowReAppCert" ng-href="{{NameCorrection.UploadDoc1}}"><font color="red">View Uploaded SSC Marks Memo</font></a><br />
+                                            <font color="red">*</font>
+                                            SSC Marks Memo(File Type Should be pdf & Size Should be less than 200 KB) :
+                                        </label>
+                                        <input type="file" class="form-control btn-primary" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label>
+                                            <a ng-show="ShowReAppCert" ng-href="{{NameCorrection.UploadDoc2}}"><font color="red">View Uploaded Inter Marks Memo</font></a><br />
+                                            <font color="red">*</font>
+                                            Inter Marks Memo(File Type Should be pdf & Size Should be less than 200 KB) :
+                                        </label>
+                                        <input type="file" class="form-control btn-primary" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label>
+                                            <a ng-show="ShowReAppCert" ng-href="{{NameCorrection.UploadDoc3}}"><font color="red">View Uploaded Letter From College Principal</font></a><br />
+                                            <font color="red">*</font>
+                                            Letter From College Principal(File Type Should be pdf & Size Should be less than 200 KB) :
+                                        </label>
+                                        <input type="file" class="form-control btn-primary" id="UploadDoc3" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload3(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-show="showsubmitpay" ng-click="SaveNameCorrection()" class="btn btn-sm btn-detail">Submit & Pay</button>
+                                <button type="button" ng-show="showReapply" ng-click="SaveNameCorrectionReApply()" class="btn btn-sm btn-detail">Submit</button>
+                                <!--<button type="button" ng-disabled="RollPaymentDisable" ng-click="SaveNameCorrectionPayment()" class="btn btn-sm btn-reset">Payment</button>-->
+                                <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showhide" ng-hide="oldStudDiv">
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Candidate Name :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" ng-model="NameCorrection.StudNameFlag" ng-change="CheckStudNameFlagPrev(NameCorrection.StudNameFlag,'StudName')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.StudName">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Candidate Name :</label>
+                                    <input style="text-transform:uppercase;" type="text" class="form-control" id="" maxlength="100" ng-model="NameCorrection.AStudName" ng-readonly="!NameCorrection.StudNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Father Name :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.FatherNameFlag" ng-change="CheckStudNameFlagPrev(NameCorrection.FatherNameFlag,'FatherName')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.FatherName">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Father  Name :</label>
+                                    <input style="text-transform:uppercase;" type="text" class="form-control" id="" maxlength="60" ng-model="NameCorrection.AFatherName" ng-readonly="!NameCorrection.FatherNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Mother Name :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.MotherNameFlag" ng-change="CheckStudNameFlagPrev(NameCorrection.MotherNameFlag,'MotherName')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" maxlength="60" ng-model="NameCorrection.MotherName" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Mother Name :</label>
+                                    <input style="text-transform:uppercase;" type="text" class="form-control" id="" ng-model="NameCorrection.AMotherName" ng-readonly="!NameCorrection.MotherNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Gender :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.GenderFlag" ng-change="CheckStudNameFlagPrev(NameCorrection.GenderFlag,'Gender')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.Gender" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Gender :</label>
+                                    <form>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="NameCorrection.AGender" checked value="Male" ng-disabled="!NameCorrection.GenderFlag">Male
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="NameCorrection.AGender" value="Female" ng-disabled="!NameCorrection.GenderFlag">Female
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" ng-model="NameCorrection.AGender" value="Other" ng-disabled="!NameCorrection.GenderFlag">TransGender
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Medium :</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="NameCorrection.MediumNameFlag" ng-change="CheckStudNameFlagPrev(NameCorrection.MediumNameFlag,'Medium')">
+                                    </span>
+                                    <input type="text" class="form-control" id="" ng-model="NameCorrection.MediumName" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Update Medium :</label>
+                                    <select class="form-control" id="MediumID" ng-model="NameCorrection.AMediumID" ng-disabled="!NameCorrection.MediumNameFlag">
+                                        <option ng-selected="NameCorrection.AMediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> <font color="red">*</font> College Name : </label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.ColName" ng-maxlength="100">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label for=""><font color="red">*</font> District :(Select as per New Districts In which District you are Studied)</label>
+                                        <select class="form-control" id="DistrictC" ng-model="NameCorrection.DistrictID">
+                                            <option value="">Select District</option>
+                                            <option ng-selected="NameCorrection.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> <font color="red">*</font> Examination Month : </label>
+                                        <select class="form-control form-inline" id="Month" ng-selected="NameCorrection.ExamMonth"  ng-model="NameCorrection.ExamMonth">
+                                            <option value="0">Select Month</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> <font color="red">*</font>Examination Year : </label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.ExamYear" ng-maxlength="4">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee (in rupees) : </label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""><font color="red">*</font> Mobile Number :</label>
+                                        <input type="text" class="form-control" id="" ng-model="NameCorrection.MobileNo" maxlength="10" input-Number-Only>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label>
+                                            <font color="red">*</font>
+                                            <a ng-show="ShowReAppCert" ng-href="{{NameCorrection.UploadDoc1}}" font color="red">View</a>
+                                            SSC Marks Memo(File Type Should be pdf & Size Should be less than 200 KB) :
+                                        </label>
+                                        <input type="file" class="form-control btn-primary" id="UploadDoc1" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label>
+                                            <font color="red">*</font>
+                                            <a ng-show="ShowReAppCert" ng-href="{{NameCorrection.UploadDoc2}}" font color="red">View</a>
+                                            Inter Marks Memo(File Type Should be pdf & Size Should be less than 200 KB) :
+                                        </label>
+                                        <input type="file" class="form-control btn-primary" id="UploadDoc2" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label>
+                                            <font color="red">*</font>
+                                            <a ng-show="ShowReAppCert" ng-href="{{NameCorrection.UploadDoc3}}" font color="red">View</a>
+                                            Letter From College Principal(File Type Should be pdf & Size Should be less than 200 KB) :
+                                        </label>
+                                        <input type="file" class="form-control btn-primary" id="UploadDoc3" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload3(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-show="showsubmitpay" ng-click="SaveNameCorrection()" class="btn btn-sm btn-detail">Submit & Pay</button>
+                                <button type="button" ng-show="showReapply" ng-click="SaveNameCorrectionReApply()" class="btn btn-sm btn-detail">Submit</button>
+                                <!--<button type="button" ng-disabled="RollPaymentDisable" ng-click="SaveNameCorrectionPayment()" class="btn btn-sm btn-reset">Payment</button>-->
+                                <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

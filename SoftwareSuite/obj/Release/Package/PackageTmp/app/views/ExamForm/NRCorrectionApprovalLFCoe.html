@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NR Correction Approval</title>
+    <style>
+        table {
+            font-size: 12px !important;
+        }
+    </style>
+    <!--<style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important; 
+            }
+        }
+    </style>
+    <script language="javascript">
+        document.getElementById("btnPrintTop").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        document.getElementById("btnPrintModal").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>-->
+</head>
+<body>
+    <div ng-controller="NRCorrectionApprovalController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>NR Correction Approval</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>NR Correction Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+               
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-12 text-center">
+                                <button id="btnSubmit" type="button" class="btn btn-detail" ng-click="doTheBack()">Back</button>
+                            </div>
+                            <div style="color: cornflowerblue; margin: 20px 0;">
+                                <a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click='GetMasterData(x)'> Verify Candidate Details </a>
+                            </div>
+                            <div class="col-md-12" id="DivIdToPrint">
+                                <label id="HeadLabel" class="print-cnt"></label><br />
+                                <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <!--<th><input type="checkbox" ng-click='GetCheckStudentHeader(headercheck)' ng-model="headercheck" /></th>-->
+                                            <th>Prev Reg Number</th>
+                                            <th>Correction Name</th>
+                                            <th>Existing value</th>
+                                            <th>Updating value</th>
+                                            <th>Remarks</th>
+                                            <!--<th>Approve / Reject </th>
+                                            <th> Comments </th>-->
+                                            <!--<th>Submit</th>-->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in ShowCandidatedata">
+                                            <td>{{ $index + 1 }}</td>
+                                            <!--<td><input type="checkbox" ng-click='GetCheckStudent(x)' ng-model="x.CheckExmFrm"></td>-->
+                                            <td>{{ x.PREGNO   }}</td>
+                                            <td>{{ x.ValueName }}</td>
+                                            <td> {{ x.OldValue }}</td>
+                                            <td ng-if="x.ValueName != 'Photo Path' && x.ValueName != 'Sign Path'">{{ x.NewValue }}</td>
+                                            <td ng-if="x.ValueName == 'Photo Path'"><img src='{{x.NewValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td ng-if="x.ValueName == 'Sign Path'"><img src='{{x.NewValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td>
+                                                DIEO Comment : {{ x.DieoComment }}  <br> Superindent Comment : {{ x.SupComment }} <br> DS Comment : {{ x.DsComment }}<!--<br> JS Comment : {{ x.JsComment }}--><br>
+                                            </td>
+                                            <!--<td>
+                                                <form>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="A" ng-disabled="x.RollEditDisable" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('A',$index)">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="R" ng-disabled="x.RollEditDisable" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('R',$index)">
+                                                        <span>Reject</span>
+                                                    </label>
+
+                                                </form>
+                                            </td>
+                                            <td>  <textarea rows="2" style="width: 75%;" ng-disabled="x.RollEditDisable" id="ProcessRemark" ng-model="x.ReqRemark1"></textarea></td>-->
+                                            <!--<td><form><input type="button" class="btn btn-sm btn-default" ng-disabled="x.RollEditDisable" value="Submit" ng-click='UpdateNRCorrectionStatus(x,$index)'></form></td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12 text-center">
+                                    <!--<button id="btnSubmit" type="button" class="btn btn-detail" ng-click="UpdateNRCorrectionStatus1()">Submit</button>-->
+                                    <button id="btnSubmit" type="button" class="btn btn-danger" ng-click="doTheBack()">Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalVerify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                    </div>
+
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-striped table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            <td><p class="cp"><strong>Prev Reg Number :</strong></p></td>
+                                            <td><p>{{MasterData.PREGNO}}</p></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Candidate Name :</strong></p></td>
+                                            <td>{{MasterData.StudName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Father Name :</strong></p></td>
+                                            <td>{{MasterData.FatherName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Mother Name :</strong></p></td>
+                                            <td>{{MasterData.MotherName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Gender :</strong></p></td>
+                                            <td>{{MasterData.Gender}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Group Name :</strong></p></td>
+                                            <td>{{MasterData.MainGrpName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Medium Name :</strong></p></td>
+                                            <td>{{MasterData.MediumName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Second Language Name :</strong></p></td>
+                                            <td>{{MasterData.SecLan}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Community :</strong></p></td>
+                                            <td>{{MasterData.Community}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Cat :</strong></p></td>
+                                            <td>{{MasterData.Cat}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Student Photo :</strong></p></td>
+                                            <td><img src='{{MasterData.Photo}}' alt="Student Photo" height="120" width="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><p class="cp"><strong>Student Sign :</strong></p></td>
+                                            <td><img src='{{MasterData.Sign}}' alt="Student Sign" height="120" width="100"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        </div>
+    </div>
+</body>
+</html>

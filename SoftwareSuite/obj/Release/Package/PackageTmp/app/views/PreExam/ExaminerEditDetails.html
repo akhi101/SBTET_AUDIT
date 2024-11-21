@@ -1,0 +1,528 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Examiner Details-Edit</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 600px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important; 
+            }
+        }
+        .link-txt {
+            color: dodgerblue;
+            font-weight: bold;
+        }
+    </style>
+    <script language="javascript">
+        document.getElementById("btnPrtInfo").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        document.getElementById("btnPrintModal").onclick = function () {
+            printElement(document.getElementById("filterdatatoprintForSec"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>
+</head>
+<body>
+    <div ng-controller="ExaminerEditDetailsController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Examiner Details-Edit</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Examiner Details-Edit</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select class="form-control input-sm" id="AcdYrID" ng-model="AcdYrID" ng-change="GetApprovalListPhotoCorrection()">
+                                <option ng-selected="AcdYrID == option.AcdYrID" ng-repeat="option in AcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="col-md-12" id="DivIdToPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" >
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th style="text-align: center;">College Code</th>
+                                <th>College Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in CollegeData">
+                                <td>{{ $index + 1 }}</td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetExaminerDetailsByColCode(x)'> {{ x.ColCode }} </a></td>
+                                <td>{{ x.ColName }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+                
+
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Examiner Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" id="btnPrtInfo" class="btn btn-reset btn-sm print-hide">Print</button>
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body" id="filterdatatoprint">
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <th>College Code</th>
+                                            <th>Examiner Code</th>
+                                            <th>Examiner Name</th>
+                                            <th>Designation</th>
+                                            <th>Subject</th>
+                                            <th>Aadhar Number </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="x in ShowExaminerList">
+                                            <td style="width:2%;">{{ $index + 1 }}
+                                            <td style="width:15%;">{{ x.ColCode }}
+                                            <td style="width:15%;"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal2" ng-click='GetExaminerDetailsByID(x)'> {{ x.ExaminerCode }} </a></td>
+                                            <!--<td style="width:5%;">{{ x.ExaminerCode }}-->
+                                            <td style="width:20%;">{{ x.ExaminerName   }}</td>
+                                            <td style="width:20%;">{{ x.Designation }}
+                                            <td style="width:15%;">{{ x.SubName }}</td>
+                                            <td style="width:15%;">{{ x.AadharNo }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <!--<button type="button" id="btnPrtInfo" class="btn btn-reset btn-sm print-hide">Print</button>-->
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Examiner Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <!--<button type="button" id="btnPrintModal" class="btn btn-reset btn-sm print-hide">Print</button>-->
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body" id="filterdatatoprintForSec">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Examiner Name :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.ExaminerNameFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.ExaminerName" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Examiner Name :</label>
+                                            <input style="text-transform:uppercase;" type="text" class="form-control" id="" maxlength="50" ng-model="ExaminerListData.AExaminerName" ng-readonly="!ExaminerListData.ExaminerNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">SurName :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.SurNameFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.SurName" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update SurName :</label>
+                                            <input style="text-transform:uppercase;" type="text" class="form-control" id="" maxlength="20" ng-model="ExaminerListData.ASurName" ng-readonly="!ExaminerListData.SurNameFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Qualification :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.QualificationsFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.Qualification" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Qualification :</label>
+                                            <input type="text" class="form-control" id="" maxlength="20" ng-model="ExaminerListData.AQualification" ng-readonly="!ExaminerListData.QualificationsFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Designation :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.DesignationFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.Designation" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Designation :</label>
+                                            <input  type="text" class="form-control" id="" maxlength="20" ng-model="ExaminerListData.ADesignation" ng-readonly="!ExaminerListData.DesignationFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Mobile Number :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.MobileNumberFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.MobileNumber" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Mobile Number :</label>
+                                            <input  type="text" input-Number-Only maxlength="10" class="form-control" id=""  ng-model="ExaminerListData.AMobileNumber" ng-readonly="!ExaminerListData.MobileNumberFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Aadhar Number :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.AadharNoFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.AadharNo" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Aadhar Number :</label>
+                                            <input style="text-transform:uppercase;" type="text" input-Number-Only  class="form-control" id="" maxlength="16" ng-model="ExaminerListData.AAadharNo" ng-readonly="!ExaminerListData.AadharNoFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">College Code :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.ColCodeFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.ColCode" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update College Code :</label>
+                                            <input style="text-transform:uppercase;" type="text" input-Number-Only class="form-control" id="" maxlength="5" ng-model="ExaminerListData.AColCode" ng-readonly="!ExaminerListData.ColCodeFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Date Of Birth :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.DOBFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.DOB" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Date Of Birth :</label>
+                                            <input style="text-transform:uppercase;" type="text" input-Number-Only class="form-control" id="" maxlength="5" ng-readonly="true" disabled="disabled"  ng-show="!ExaminerListData.DOBFlag">
+                                            <input type="text" datepicker class="form-control" ng-model="ExaminerListData.ADOB" ng-click="getchangedate()" ng-show="ExaminerListData.DOBFlag" id="Prdate" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Date Of Appointment :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.DOAFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.DOA" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Date Of Appointment :</label>
+                                            <input style="text-transform:uppercase;" type="text" input-Number-Only class="form-control" id="" maxlength="5" ng-readonly="true" disabled="disabled"  ng-show="!ExaminerListData.DOAFlag">
+                                            <input type="text" datepicker class="form-control" ng-model="ExaminerListData.ADOA" ng-click="getchangedate()" ng-show="ExaminerListData.DOAFlag" id="Prdate1" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Staff Type :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.StaffTypeFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.StaffType" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Staff Type :</label>
+                                            <select class="form-control" id="staffType" ng-model="ExaminerListData.AStaffType" ng-disabled="!ExaminerListData.StaffTypeFlag">
+                                                <option value="0">--SELECT ONE--</option>
+                                                <option value="Teaching">Teaching</option>
+                                                <option value="Non-Teaching">Non-Teaching</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Employee Type :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.EmpTypeFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.EmpType" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Employee Type :</label>
+                                            <select class="form-control" id="MediumID" ng-model="ExaminerListData.AEmpType" ng-disabled="!ExaminerListData.EmpTypeFlag">
+                                                <option value="0">--SELECT ONE--</option>
+                                                <option ng-selected="ExaminerListData.AEmpType == option.EmpType" ng-repeat="option in EmpTypeList" value="{{option.EmpType}}">{{option.EmpType}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Subject :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.SubjectFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.SubName" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Subject :</label>
+                                            <select class="form-control" id="SubjectID" ng-model="ExaminerListData.ASubName" ng-disabled="!ExaminerListData.SubjectFlag">
+                                                <option value="0">--SELECT ONE--</option>
+                                                <option ng-selected="ExaminerListData.ASubName == option.SubjectID" ng-repeat="option in SubjectList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Medium :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.MediumFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.Medium" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Medium :</label>
+                                            <select class="form-control" id="MediumID" ng-model="ExaminerListData.AMediumName" ng-disabled="!ExaminerListData.MediumFlag">
+                                                <option value="0">--SELECT ONE--</option>
+                                                <option ng-selected="ExaminerListData.AMediumName == option.MediumName" ng-repeat="option in MediumList" value="{{option.MediumName}}">{{option.MediumName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Experience(In Years) :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.ExpFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.Experience" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Experience :</label>
+                                            <input style="text-transform:uppercase;" type="text" class="form-control" id="" input-Number-Only maxlength="2" ng-model="ExaminerListData.AExperience" ng-readonly="!ExaminerListData.ExpFlag" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode = 32)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Gender :</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.GenderFlag">
+                                            </span>
+                                            <input type="text" class="form-control" id="" ng-model="ExaminerListData.Gender" ng-readonly="true" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Update Gender :</label>
+                                            <select class="form-control" id="Gender" ng-model="ExaminerListData.AGender" ng-disabled="!ExaminerListData.GenderFlag">
+                                                <option value="0">--SELECT ONE--</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Examiner Photo</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.PhotoPathFlag" style="border: 1px solid #000; display: inline-block;">
+                                            </span>
+                                            <img data-ng-src="{{ExaminerListData.PhotoPath}}" id="temp_ExaminerPhoto" class="img img-responsive" style="border: 1px solid #000;height: 135px; width: 105px; display: inline-block;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Update Examiner Photo</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img data-ng-src="{{StaffPhoto}}" id="StaffPhoto" class="img img-responsive" style="border: 1px solid #000;height: 135px; width: 105px; display: inline-block;">
+                                        <input style="border:none; box-shadow: none; margin-top:10px;" class="form-control" type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" ng-disabled="!ExaminerListData.PhotoPathFlag" />
+                                        <p ng-hide="BrowseHide" style="font-size:10px; text-align: left;">Photo file size must be less than 50kb. With 3cm X 4.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Examiner Sign</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="ExaminerListData.SignPathFlag" style="border: 1px solid #000; display: inline-block;">
+                                            </span>
+                                            <img data-ng-src="{{ExaminerListData.SignPath}}" id="temp_ExaminerSign" class="img img-responsive" style="border: 1px solid #000;height: 40px; width: 100px; display: inline-block;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Update Examiner Sign</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img data-ng-src="{{StaffSign}}" id="StaffSign" class="img img-responsive" style="border: 1px solid #000;height: 40px; width: 100px; display: inline-block;">
+                                        <input  style=" border:none; box-shadow: none;" class="form-control" type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" ng-disabled="!ExaminerListData.SignPathFlag" />
+                                        <p ng-hide="BrowseHide" style="font-size:10px; text-align: left;">Signature must be less than 20kb. With 3cm X 1.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-12">
+                                    <button id="btnSubmit" type="button"  class="btn btn-sm btn-primary" g-show="Submitbtn" ng-click="UpdateExaminerData()">Submit</button>
+                                </div>-->
+                            </div>
+                            <div class="modal-footer">
+                                <div class="col-md-7">
+                                    <button id="btnSubmit" type="button" class="btn btn-sm btn-primary" g-show="Submitbtn" ng-click="UpdateExaminerData()">Submit</button>
+                                    <button type="button" id="btnPrintModal" class="btn btn-reset btn-sm print-hide">Print</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

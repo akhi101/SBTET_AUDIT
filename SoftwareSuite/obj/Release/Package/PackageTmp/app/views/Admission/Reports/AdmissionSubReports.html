@@ -1,0 +1,783 @@
+﻿<style>
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+ thead > tr > th {
+    position: sticky;
+    top: 0px;
+}
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+    #checkboxesScheme {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesScheme label {
+            display: block;
+        }
+
+            #checkboxesScheme label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesHandicaped {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesHandicaped label {
+            display: block;
+        }
+
+            #checkboxesHandicaped label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCollegeTypes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCollegeTypes label {
+            display: block;
+        }
+
+            #checkboxesCollegeTypes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAcademicYear {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAcademicYear label {
+            display: block;
+        }
+
+            #checkboxesAcademicYear label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAdmissionType {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAdmissionType label {
+            display: block;
+        }
+
+            #checkboxesAdmissionType label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCategory {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCategory label {
+            display: block;
+        }
+
+            #checkboxesCategory label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem label {
+        display: block;
+    }
+
+        #checkboxessem label:hover {
+            background-color: #1e90ff;
+        }
+
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+        .contain{
+        font-size:13px!important;
+    }
+a{
+        padding: 0px 10px;
+}
+</style>
+
+<div ng-controller="AdmissionSubReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Admission Sub Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission </a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdmissionReports">Admission Reports</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdmissionReports/AdmissionReports">Admission Sub Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12" ng-show="UserTypeId==1">
+                <a href="#!/Dashboard/AdmissionDashboard/AdmissionReports" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="col-md-12" ng-show="UserTypeId==2||UserTypeId==3">
+                <a href="#!/Dashboard/AdmissionDashboard" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="col-md-12" ng-show="UserTypeId==2||UserTypeId==3">
+                <form name="SetDatesForm" ng-submit="submit(CurrentMonthYear)">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+                                <!--<div class="multiselect">
+                            <div class="selectBox" ng-click="showAcademicYearCheckboxes()">
+                                <select class="form-control ">
+                                    <option ng-blur="closeAcademicYearCheckbox()">Select Academic Year</option>
+                                </select>
+                                <div class="overSelect"></div>
+                            </div>
+                            <div id="checkboxesAcademicYear">
+                                <label class="contain">
+                                    <input type="checkbox" ng-click="toggleAllAcademicYear()" ng-model="isAllSelectedAcademicYear" /><span class="checkmark"></span>Select All
+                                </label>
+                                <label class="contain" ng-repeat="data in GetAcademicYears">
+                                    <input type="checkbox" ng-model="data.selected" ng-change="optionToggledAcademicYear(data.selected)"><span class="checkmark"></span>{{data.AcademicYear}}
+                                </label>
+
+                            </div>
+                        </div>-->
+                                <select class="form-control" ng-model="AcademicYear" name="StudentType" required
+                                        ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                    <option value="" selected>Select Academic Year</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-3 form-group" ng-hide="UserTypeId==3||UserTypeId==2">
+                                <label for="sel1">
+                                    College Type :
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showCollegeTypesCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeCollegeTypesCheckbox()">Select College Type</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesCollegeTypes" style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllCollegeTypes()" ng-blur="closeCollegeTypesCheckbox()" ng-model="isAllSelectedCollegeTypes" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="data in GetCollegeTypes">
+                                            <input type="checkbox" ng-model="data.selected" ng-blur="closeCollegeTypesCheckbox()" ng-change="optionToggledCollegeTypes(data.selected)"><span class="checkmark"></span>{{data.CollegeType}}
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <!--<select class="form-control" id="ExamYear" ng-model="monthyear" required>
+                            <option value="" selected>Select Month/Year of Exam</option>
+                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                {{monYer.ExamYearMonth}}
+                            </option>
+                        </select>-->
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Scheme :
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showSchemeCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeSchemeCheckbox()">Select Scheme</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesScheme" style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllScheme()" ng-blur="closeSchemeCheckbox()" ng-model="isAllSelectedScheme" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="data in schemeinfo">
+                                            <input type="checkbox" ng-model="data.selected" ng-blur="closeSchemeCheckbox()" ng-change="optionToggledScheme(data.selected)"><span class="checkmark"></span>{{data.scheme}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <!--<select class="form-control" id="ExamYear" ng-model="Scheme" ng-change="loadSchemeExamTypes(1,Scheme)" required>
+                            <option value="" selected>Select Scheme</option>
+                            <option ng-repeat="scheme in schemeinfo" value="{{scheme}}">
+                                {{scheme.scheme}}
+                            </option>
+                        </select>-->
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Admission Type :
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showAdmissionTypeCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeAdmissionTypeCheckbox()">Select Admission Type</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesAdmissionType" style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllAdmissionType()" ng-blur="closeAdmissionTypeCheckbox()" ng-model="isAllSelectedAdmissionType" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="data in GetAdmissionTypes">
+                                            <input type="checkbox" ng-model="data.selected" ng-blur="closeAdmissionTypeCheckbox()" ng-change="optionToggledAdmissionType(data.selected)"><span class="checkmark"></span>{{data.ADMType}}
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <!--<select class="form-control" ng-model="SelAdmissionType" name="AdmissionType" required
+                                ng-options="Student.id as Student.type for Student in AdmissionType">
+
+                            <option value="" selected>Select Student Type</option>
+                        </select>-->
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Semester:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showsemCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closesemCheckbox()">Select Sem</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxessem"  style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllsem()" ng-blur="closesemCheckbox()" ng-model="isAllSelectedsem" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="sem in GetSemesters">
+                                            <input type="checkbox" ng-model="sem.selected" ng-blur="closesemCheckbox()" ng-change="optionToggledsem(sem.selected)"><span class="checkmark"></span>{{sem.semester}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Category:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showCategoryCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeCategoryCheckbox()">Select Category</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesCategory"  style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllCategory()" ng-blur="closeCategoryCheckbox()" ng-model="isAllSelectedCategory" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="Category in GetCategories">
+                                            <input type="checkbox" ng-model="Category.selected" ng-blur="closeCategoryCheckbox()" ng-change="optionToggledCategory(Category.selected)"><span class="checkmark"></span>{{Category.Category}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 form-group" ng-hide="UserTypeId==3">
+                                <label for="sel1">
+                                    Branch:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showBranchCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeBranchCheckbox()">Select Branch</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesBranch"  style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllBranch()" ng-blur="showBranchCheckboxes()" ng-model="isAllSelectedBranch" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="Branch in GetBranchs">
+                                            <input type="checkbox" ng-model="Branch.selected" ng-blur="showBranchCheckboxes()" ng-change="optionToggledBranch(Branch.selected)"><span class="checkmark"></span>{{Branch.Branch}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Is Physically Handicaped:
+                                </label>
+                                <div class="multiselect">
+                                    <div class="selectBox" ng-click="showHandicapedCheckboxes()">
+                                        <select class="form-control ">
+                                            <option ng-blur="closeHandicapedCheckbox()">Is Physically Handicaped</option>
+                                        </select>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="checkboxesHandicaped" style="max-height: 12em; overflow-y: scroll;">
+                                        <label class="contain">
+                                            <input type="checkbox" ng-click="toggleAllHandicaped()" ng-blur="closeHandicapedCheckbox()" ng-model="isAllSelectedHandicaped" /><span class="checkmark"></span>Select All
+                                        </label>
+                                        <label class="contain" ng-repeat="data in Array">
+                                            <input type="checkbox" ng-model="data.selected" ng-blur="closeHandicapedCheckbox()" ng-change="optionToggledHandicaped(data.selected)"><span class="checkmark"></span>{{data.Value}}
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn  btn-info  btn_top pull-left" style="margin-top: 24px!important;" ng-click="FilterData()">
+                                    Get Report
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="sm-spacer"></div>
+            <!--<div class="col-md-12">
+                <form name="SetDatesForm" ng-submit="submit(CurrentMonthYear)" novalidate>
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Academic Year:</label>
+
+                                    <select class="form-control" ng-model="AcademicYear" name="StudentType" required>
+                                        <option value="" selected>Select Academic year </option>
+                                        <option ng-repeat="data in Array" value="{{data.Id}}">
+                                            {{data.Name}}
+                                        </option>
+                                       
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn  btn-info  btn_top pull-left" style="margin-top: 24px!important;" ng-click="SetDatesForm.$valid && GetDetails(AcademicYear)">
+                                    Get Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>-->
+
+            <div class="col-md-12" ng-if="loading">
+                <div class="sm-spacer"></div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                </div>
+            </div>
+            <!--<div class="col-md-12">
+                <div class="pull-right" ng-show="result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadExcel()">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>-->
+            <div class="col-md-12" ng-show="result">
+                <div class="cl-details">
+                    <h2>College Details</h2>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="table-responsive table-custom-tables" >
+                    <table class="table table-bordered table-hover table-striped table-rounded">
+                        <thead>
+                            <tr>
+                                <td style="width: 10%" class="cb-1">College</td>
+                                <td style="width: 90%" colspan="5">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                {{CollegeCode}} - {{hodData.Table[0].CollegeName}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                               
+                            </tr>
+                            <tr>
+                                <td style="width: 10%" class="cb-1">Principal</td>
+                                <td style="width: 25%">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                {{hodData.Table[0].GeneralName}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <td style="width: 15%">
+                                    <table>
+                                        <tr>
+                                            <td>{{hodData.Table[0].Phone}}</td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+
+                                <td style="width: 30%" colspan="2">
+                                    <table>
+                                        <tr>
+                                            <td>Email:{{hodData.Table[0].Principal_Email}}</td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+
+                                <td style="width: 20%">
+                                    <table>
+                                        <tr>
+                                            <td> College Established Date:{{hodData.Table[0].Clg_Est_Date}}</td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+
+
+                            </tr>
+
+
+
+                            <tr ng-show="SystemUserTypeId!=2">
+                                <td class="cb-1">Address</td>
+
+                                <td colspan="2">
+                                    {{hodData.Table[0].Address}}
+                                </td>
+
+                                <!--<td>
+                            <table>
+                                <tr>
+                                    <td>District: &nbsp; </td>
+                                    <td>{{hodData.Table[0].District}}</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>Mandal: &nbsp;</td>
+                                    <td>{{hodData.Table[0].Mandal}}</td>
+                                </tr>
+                            </table>
+                        </td>-->
+
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>College ph_no : {{hodData.Table[0].clg_mobile_no}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td colspan="2">
+                                    <table>
+                                        <tr>
+                                            <td>College {{hodData.Table[0].Email}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+
+
+                            <tr ng-show="SystemUserTypeId!=2">
+                                <td class="cb-1">Bank Details</td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>{{hodData.Table[0].BankBranch}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td colspan="3">
+                                    <table>
+
+                                        <tr>
+                                            <td>A/C No: &nbsp;</td>
+                                            <td>{{hodData.Table[0].BankAcNo}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <td colspan="2">
+                                    <table>
+                                        <tr>
+                                            <td>IFSC: &nbsp;</td>
+                                            <td>{{hodData.Table[0].BankIfsc}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!--<td colspan="2">
+                            <table>
+                                <tr>
+                                    <td>Address: &nbsp;</td>
+                                    <td>{{hodData.Table[0].BankAddress}}</td>
+                                </tr>
+                            </table>
+                        </td>-->
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="result" style="margin-top:10px;">
+                <div class="pull-right" ng-show="hodData.Table1.length>0" >
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadExcel()">
+                        <i class="fa fa-file-excel-o"></i>
+
+                        Download Detailed Excel
+                    </a>
+                    
+                    <a class="ExportToPdf1 pointer"
+                       id="ExportToPdf1" ng-click="DownloadtoExcel('#StudentDetailsTable')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Download Counts Excel
+                    </a>
+                    <a class="ExportToPdf1 pointer"
+                       id="ExportToPdf1" ng-click="DownloadtoPdf('#StudentDetailsTable')">
+                        <i class="fa fa-file-pdf-o"></i>
+                        Export To PDF
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="result">
+                <div id="StudentDetailsTable">
+                    <div class="cl-details">
+                        <h2>Student Details  </h2>
+                    </div>
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                    </div>
+
+                    <div class="table-responsive table-custom-tables-tb" id="StudentDetails" ng-show="hodData.Table1.length>0">
+                        <table class="table table-bordered table-hover table-rounded" id="StudentDetailsTable">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th>Scheme</th>
+                                    <th>Semester</th>
+                                    <th>Branch</th>
+                                    <!-- <th>Intake</th>-->
+                                    <th>Allotted</th>
+                                    <th>On Roll</th>
+                                    <th>Data Not Updated</th>
+                                    <th>Aadhar Not Verified</th>
+                                    <th>AttendeeId Not Generated</th>
+                                    <th>Pin Not Generated</th>
+                                    <!--<th>View</th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in hodData.Table1">
+                                    <!--AadharVerified: 1
+                            Allotted: 58
+                            Branch: "A"
+                            DataStatus: 2
+                            Intake: 60
+                            Reported: 57
+                            SNO: 1
+                            Scheme: "C18"
+                            Schemeid: 5
+                            Semester: "1SEM"
+                            Semesterid: 1
+                            branchid: 8-->
+                                    <!--AadharNotUpdated: 13
+                            Alloted: 82
+                            AttendeeIdNotGenerated: null
+                            BranchCode: "C"
+                            BranchId: 1
+                            CollegeCode: "035  "
+                            DataNotUpdated: 13
+                            OnRoll: 82
+                            PinNotGenerated: null
+                            Scheme: "C16S"
+                            SchemeID: 4
+                            SemId: 5
+                            Semester: "5SEM"-->
+
+                                    <td>{{x.Scheme}}</td>
+                                    <td>{{x.Semester}}</td>
+                                    <td>{{x.BranchCode}}</td>
+                                    <!--<td>{{x.Intake == null ?'-':x.Intake}}</td>-->
+                                    <td> <b><a class="Verify" ng-click="showDetails(1,x.SemId,x.BranchId,1)">{{x.Alloted == null ?'-':x.Alloted}}</a></b></td>
+                                    <td> <b><a class="Verify" ng-click="showDetails(2,x.SemId,x.BranchId,1)"> {{x.OnRoll == null ?'-':x.OnRoll}} </a></b></td>
+                                    <td> <b><a class="Verify" ng-click="showDetails(6,x.SemId,x.BranchId,1)"> {{x.DataNotUpdated == null ?'-':x.DataNotUpdated}} </a></b></td>
+                                    <td> <b><a class="Verify" ng-click="showDetails(3,x.SemId,x.BranchId,1)"> {{x.AadharNotUpdated == null ?'-':x.AadharNotUpdated}} </a></b></td>
+                                    <td><b><a class="Verify" ng-click="showDetails(4,x.SemId,x.BranchId,1)">{{x.AttendeeIdNotGenerated  == null ?'-':x.AttendeeIdNotGenerated}} </a></b></td>
+                                    <td><b><a class="Verify" ng-click="showDetails(5,x.SemId,x.BranchId,1)">{{x.PinNotGenerated  == null ?'-':x.PinNotGenerated}} </a></b></td>
+                                    <!-- <td><a class="Verify" ng-click="showDetails(x.Schemeid,x.Semesterid,x.branchid)">Click Here</a></td>-->
+                                </tr>
+                                <tr style="font-weight:bold">
+                                    <td colspan="3">Total</td>
+                                    <td>{{Alloted}}</td>
+                                    <td>{{OnRoll}}</td>
+                                    <td>{{DataNotUpdated}}</td>
+                                    <td>{{AadharNotUpdated}}</td>
+                                    <td >{{AttendeeIdNotGenerated}}</td>
+                                    <td >{{PinNotGenerated}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-show="hodData.Table1.length<=0" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>Student Details Not Found</h2>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-md-12">
+                <div class="pull-right" ng-show="DataTypeId==1 && result">
+                    <a class="ExportToExcel1 pointer" ng-click="DownloadtoExcel('#ExportToExcel')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>-->
+          
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+
+    </section>
+  
+</div>

@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+
+</body>
+</html>
+<style>
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+
+    .padRow {
+        padding: 5px;
+    }
+
+
+    .font_bold {
+        font-weight: bold;
+    }
+</style>
+<script>
+    $("#datepicker1").datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        showAnim: "slideDown",
+        beforeShowDay: function (date) {
+            var dmy = date.getDate();
+            if (date.getDate() < 10)
+                dmy = "0" + dmy;
+            dmy += "-";
+            if (date.getMonth() + 1 < 10)
+                dmy += "0";
+            dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+            if ($.inArray(dmy, availableDates) != -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    });
+    $("#datepicker2").datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        showAnim: "slideDown",
+        beforeShowDay: function (date) {
+            var dmy = date.getDate();
+            if (date.getDate() < 10)
+                dmy = "0" + dmy;
+            dmy += "-";
+            if (date.getMonth() + 1 < 10)
+                dmy += "0";
+            dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+            if ($.inArray(dmy, availableDates) != -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    });
+
+    $("#datepicker3").datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        showAnim: "slideDown",
+        beforeShowDay: function (date) {
+            var dmy = date.getDate();
+            if (date.getDate() < 10)
+                dmy = "0" + dmy;
+            dmy += "-";
+            if (date.getMonth() + 1 < 10)
+                dmy += "0";
+            dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+            if ($.inArray(dmy, availableDates) != -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    });
+
+    //$("#datepicker1").datepicker({
+    //    format: 'dd-mm-yyyy',
+    //    autoclose: true,
+    //    todayHighlight: true
+    //});
+    $("#datepicker2").datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true
+    });
+    $("#datepicker3").datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
+<!--<div class="modal-header ">
+
+</div>-->
+<div class="modal-body">
+    <div class="col-md-12 ">
+        <div class="cl-details">
+            <h2>ODC Student Details</h2>
+        </div>
+    </div>
+    <div class="col-md-12 ">
+        <div class="card">
+            <div class="col-md-12">
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Name</div>
+                    <div class="col-md-6">: {{StudentDetails.Name}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Pin</div>
+                    <div class="col-md-6">: {{StudentDetails.Pin}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Scheme</div>
+                    <div class="col-md-6">: {{Scheme}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Branch</div>
+                    <div class="col-md-6">: {{StudentDetails.BranchName}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">College Code</div>
+                    <div class="col-md-6">: {{StudentDetails.CollegeCode}} - {{StudentDetails.CollegeName}}</div>
+                </div>
+                <!--<div class="row padRow">
+                <div class="col-md-6 font_bold">Phone</div>
+                <div class="col-md-6">: {{StudentDetails.Mobile}}</div>
+            </div>-->
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">ODC Number</div>
+                    <div class="col-md-6">: {{StudentDetails.OdcNo}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Passed Year</div>
+                    <div class="col-md-6">: {{StudentDetails.ExamMonthYear}}</div>
+                </div>
+                
+                <div class="row padRow">
+                    <div class="col-md-6 font_bold">Organization Name</div>
+                    <div class="col-md-6">: {{StudentDetails.OrganizationName}}</div>
+                </div>
+                    <div class="row padRow">
+                        <div class="col-md-6 font_bold">Organization Type</div>
+                        <div class="col-md-6">: {{StudentDetails.OrganizationType}}</div>
+                    </div><div class="row padRow">
+                        <div class="col-md-6 font_bold">Organization Mobile</div>
+                        <div class="col-md-6">: {{StudentDetails.OrganizationMobile}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-6 font_bold">Organization Email</div>
+                        <div class="col-md-6">: {{StudentDetails.OrganizationEmail}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-6 font_bold">Organization Address</div>
+                        <div class="col-md-6">: {{StudentDetails.OrganizationAddress}}</div>
+                    </div>
+
+                    <div class="row padRow">
+                        <div class="col-md-6 font_bold">ODC</div>
+                        <div class="col-md-6">: <a ng-href="{{StudentDetails.ODC}}" target="_blank">ODC</a></div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-6 font_bold">Applied Date</div>
+                        <div class="col-md-6">: {{StudentDetails.LogDate|date:'dd-MMM-yyyy HH:mm:ss'}}</div>
+                    </div>
+                </div>
+
+
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <button class="btn btn-danger" style="margin-top:21px" ng-click="closeModal()">Close</button>
+                </div>
+                <div class="col-md-6" ng-if="Data && ApproveType =='0'" >
+                    <button class="btn btn-success pull-right" style="margin-top:21px" ng-click="Verify()"> Verify & Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

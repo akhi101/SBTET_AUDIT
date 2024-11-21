@@ -1,0 +1,416 @@
+<style>
+    .genAttId {
+        cursor: pointer;
+        color: cornflowerblue;
+    }
+
+        .genAttId:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Enrollement Details</title>
+    <style>
+        /*.col-md-3 {
+            padding-right: 2px !important;
+            padding-left: 2px !important;
+        }*/
+        .modal {
+            text-align: center;
+            padding: 0 !important;
+        }
+
+            .modal:before {
+                content: '';
+                display: inline-block;
+                height: 100%;
+                vertical-align: middle;
+                margin-right: -4px;
+            }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .table-bordered > thead > tr > th {
+            position: sticky;
+            top: 0px;
+        }
+
+        .clrRed {
+            color: red;
+            font-weight: bold;
+        }
+
+            .clrRed:hover {
+                color: red;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+        .cancel-btn button {
+            background: #e51313;
+            padding: 5px 20px;
+            color: #fff;
+            float: right;
+            border: none;
+            font-size: 14px;
+            box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+            border-radius: 2px;
+        }
+
+        .submit-btn button {
+            background: #7cb82f;
+            padding: 5px 20px;
+            color: #fff;
+            float: right;
+            border: none;
+            font-size: 14px;
+            box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+            border-radius: 2px;
+        }
+
+        .ClrGreen {
+            color: green;
+            font-weight: bold;
+        }
+
+        .notVerify {
+            color: #dd1010;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .Verify {
+            color: green;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        fieldset.group-border {
+            border: 1px groove #ddd !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        .custom-forms label {
+            color: #222;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 10px 0px 10px 0px;
+            font-weight: 700;
+            font-family: 'Open Sans';
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+            margin-top: 25px;
+        }
+
+        .col-md-9 {
+            width: 75%;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+            margin-top: 15px;
+        }
+
+
+        .col-md-7 {
+            width: 58.33333333%;
+            font-weight: 500;
+            font-family: 'Open Sans';
+        }
+
+        .col-md-3 {
+            width: 25%;
+            font-weight: 500;
+            font-size: 14px !important;
+            font-family: 'Open Sans';
+            margin-bottom: 5px;
+        }
+
+        .navbar_section {
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: -20px;
+        }
+
+        a.backA, a.backA:focus {
+            color: #fff !important;
+            text-decoration: none !important;
+            font-family: 'Open Sans';
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="ViewCandidateDetailsController">
+        <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+        </script>
+
+        <!-- New Style Start-->
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+
+
+
+
+        <div class="container containercontent" style="padding-bottom:150px">
+            <div class="col-md-12 mtp-50 containercontent" ng-if="PreviewData" style="top:50px">
+                <fieldset class="group-border" style="border-color:black">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offer-custom-style">
+                                <h1 style="margin-left:450px;margin-top:10px">Application Details</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="custom-forms">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="">
+                                        <div class="col-md-12" ng-if="PreviewData.ApplicationNumber">
+                                            <div class="col-md-3"><label>Application Number  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.ApplicationNumber}}</div>
+
+                                        </div>
+                                        <div class="col-md-12" ng-if="PreviewData.CourseName">
+                                            <div class="col-md-3"><label>Course  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.CourseName}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12" ng-if="PreviewData.LanguageName">
+                                            <div class="col-md-3"><label>Language  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.LanguageName}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12" ng-if="PreviewData.GradeName">
+                                            <div class="col-md-3"><label>Grade  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.GradeName}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12" ng-if="PreviewData.QualificationDescription">
+                                            <div class="col-md-3"><label>Qualification  </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.QualificationDescription}}</div>
+
+                                        </div>
+
+
+                                        <div class="col-md-12" ng-if="PreviewData.SSCHallticketNo">
+                                            <div class="col-md-3"> <label>SSCHallTicket </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.SSCHallticketNo}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12" ng-if="PreviewData.SSCYear">
+                                            <div class="col-md-3"> <label>SSCPassedYear </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.SSCYear}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12" ng-if="PreviewData.SSCPassType">
+                                            <div class="col-md-3"> <label>SSCType </label></div>
+                                            <div class="col-md-9" style="margin-top:7px">: {{PreviewData.SSCPassType}}</div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img class="zoom" ng-src="{{PreviewData.PhotoPath}}" style="border: 2px solid #ddd; left: 999px; bottom: 240px" height="175" width="150" />
+                                    </div>
+                                </div>
+                            </div>
+                            <hr style="border-color: #454545 ">
+                            <div class="row " style="padding: 0px 15px;">
+
+
+                                <div class="col-md-6" ng-if="PreviewData.CandidateName">
+                                    <div class="col-md-5"> <label>CandidateName </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.CandidateName}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.FatherName">
+                                    <div class="col-md-5"> <label>FatherName </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.FatherName}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.MotherName">
+                                    <div class="col-md-5"> <label>MotherName </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.MotherName}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.DateOfBirth">
+                                    <div class="col-md-5"> <label>DateofBirth </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.DateOfBirth | date: "dd-MM-yyyy"}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.Gender">
+                                    <div class="col-md-5"> <label>Gender </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.Gender}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="maskedAadhaar">
+                                    <div class="col-md-5"> <label>Aadhar Number </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{maskedAadhaar}}</div>
+
+                                </div>
+
+
+
+
+                                <div class="col-md-6" ng-if="PreviewData.HnoStreet">
+                                    <div class="col-md-5"> <label>HouseNo </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.HnoStreet}}</div>
+
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.Street">
+                                    <div class="col-md-5"> <label>Street </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.Street}}</div>
+
+                                </div>
+
+
+                                <div class="col-md-6" ng-if="PreviewData.VillageTown">
+                                    <div class="col-md-5"><label>Village</label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.VillageTown}}</div>
+                                </div>
+                                <div class="col-md-6" ng-if="PreviewData.Pincode">
+                                    <div class="col-md-5"><label>Pincode</label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.Pincode}}</div>
+                                </div>
+                                <div class="col-md-6" ng-if="PreviewData.District">
+                                    <div class="col-md-5"><label>District </label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.District}}</div>
+                                </div>
+
+                                <div class="col-md-6" ng-if="PreviewData.MobileNumber">
+                                    <div class="col-md-5"><label>Mobile Number</label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.MobileNumber}}</div>
+                                </div>
+                                <div class="col-md-6" ng-if="PreviewData.EmailID">
+                                    <div class="col-md-5"><label>Email</label></div>
+                                    <div class="col-md-7 pre-text" style="font-size:14px">: {{PreviewData.EmailID}}</div>
+                                </div>
+
+
+                            </div>
+
+
+                            <hr style="border-color: #454545 ">
+                            <div class="row " style="padding: 0px 15px;">
+
+
+                                <div class="col-md-4 text-center" ng-show="imagesrc1 != '' && imagesrc1 != null ">
+                                    <div>Click on the file to Expand</div>
+                                    <img class="zoom" ng-src="{{imagesrc1}}" ng-click="openImage(imagesrc1)" style="border: 2px solid #ddd;" height="175" width="150" />
+                                </div>
+
+                                <div class="col-md-4 text-center" ng-show="imagesrc2 != '' && imagesrc2 != null ">
+                                    <div>Click on the file to Expand</div>
+                                    <img class="zoom" ng-src="{{imagesrc2}}" ng-click="openImage(imagesrc2)" style="border: 2px solid #ddd;" height="175" width="150" />
+                                </div>
+
+
+
+
+                            </div>
+                            <hr style="border-color: #454545 ">
+
+                            <div class="col-md-6" ng-if="PreviewData.Remarks">
+                                <div class="col-md-5"><label>Remarks</label></div>
+                                <div class="col-md-7 pre-text">: {{PreviewData.Remarks}}</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="spacer"></div>
+                <div class="col-md-8">
+
+                </div>
+
+                <div class="col-md-1 pull-right mtp-50">
+
+                    <div class="cancel-btn" style="margin-bottom:0px;">
+                        <button type="button" ng-model="Modify" ng-click="Modify(ApplicationNumber, StudentId)">Edit</button>
+                    </div>
+
+                </div>
+                <div class="col-md-2 pull-right mtp-50">
+                    <div class="submit-btn" style="margin-bottom:0px;">
+                        <button type="submit" ng-model="SubmitStdDetails" ng-click="SubmitStdDetails()">Submit</button>
+                    </div>
+                </div>
+
+                <div class="col-md-1 pull-right mtp-50">
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

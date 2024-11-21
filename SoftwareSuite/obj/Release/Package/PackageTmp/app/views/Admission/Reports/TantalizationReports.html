@@ -1,0 +1,92 @@
+﻿<div ng-controller="TantalizationReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Tantalization Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="/#!/Dashboard/AdmissionDashboard"> Admission Dashboard</a></li>
+                    <li><a href="/#!/Dashboard/AdmissionDashboard/WantingsReport"> Tantalization Report</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="GetTanatlizationReport()">
+                                       Download Tantalization Report
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div style="width:100%;text-align:center;">
+            <img src="../../../contents/img/loading2.gif" ng-if="LoadImg" width="100" />
+        </div>
+        <div class="col-md-12" ng-show="result">
+            <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Scheme</th>
+                            <th>Subject Code</th>
+                            <th>Pin</th>
+                            <th>Semester</th>
+                            <th>Exam Month Year</th>
+                            <th>External Marks</th>
+                            <th>Internal</th>
+                            <th>EndExam</th>
+                            <th>Subject Total</th>
+                            <th>Whole Or Supply</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in Wantings track by $index">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.Scheme== null ?'-':data.Scheme}}</td>
+                            <td>{{data.SubjectCode == null ?'-':data.SubjectCode}}</td>
+                            <td>{{data.Pin == null ?'-':data.Pin}}</td>
+                            <td>{{data.semester == null ?'-':data.semester}}</td>
+                            <td>{{data.ExamMonthYear == null ?'-':data.ExamMonthYear}}</td>
+                            <td>{{data.semester == null ?'-':data.semester}}</td>
+                            <td>{{data.Internal  == null ?'-':data.Internal}}</td>
+                            <td>{{data.EndExam  == null ?'-':data.EndExam}}</td>
+                            <td>{{data.SubjectTotal  == null ?'-':data.SubjectTotal}}</td>
+                            <td>{{data.WholeOrSupply  == null ?'-':data.WholeOrSupply}}</td>
+                            <td>{{data.Remarks == null ?'-':data.Remarks}}</td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+
+        </div>
+        <div class="coll-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>
+</div>

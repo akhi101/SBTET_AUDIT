@@ -1,0 +1,78 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Seating Arrangement Blockwise</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row ctitle">
+        <div class="col-md-4">
+            <span><strong>Seating Arrangement Blockwise</strong></span>
+        </div>
+    </div>
+    <div class="row frow">
+        <div class="col-md-12">
+
+            <form name="seatingArrangementBlockwiseForm" ng-submit="saveSeatingArrangementBlockwise()" ng-init="init()">
+                <div class="row">
+                    <div class="col-md-3">
+                        <sa-select ng-model="seatingArrangementBlockwise.courseID" object="seatingArrangementBlockwise.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="seatingArrangementBlockwise.coursePattern" object="seatingArrangementBlockwise.coursePattern" options="coursePatterns" displaycolumn="coursePattern" valuecolumn="coursePatternID" objectname="coursePatternID" objecttext="Course Pattern" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="seatingArrangementBlockwise.part" object="seatingArrangementBlockwise.part" options="parts" displaycolumn="partName" valuecolumn="partID" objectname="partID" objecttext="Part" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="seatingArrangementBlockwise.subject" object="seatingArrangementBlockwise.subject" options="subjects" displaycolumn="subjectName" valuecolumn="subjectID" objectname="subjectID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <sa-input ng-model="seatingArrangementBlockwise.capacityPerBlock" object="seatingArrangementBlockwise.capacityPerBlock" objectname="capacityPerBlock" objecttext="Capacity Per Block" length="100" compulsory="true" ispascal="true"> </sa-input>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-input ng-model="seatingArrangementBlockwise.noOfBlock" object="seatingArrangementBlockwise.noOfBlock" objectname="noOfBlock" objecttext="No. Of Block" length="100" compulsory="true" ispascal="true"> </sa-input>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Block No.</th>
+                                    <th>Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="seatingArrangementBlockwise in seatingArrangementBlockwises">
+                                    <td>
+                                        {{seatingArrangementBlockwise.blockNo}}
+                                    </td>
+                                    <td>
+                                        {{seatingArrangementBlockwise.capacity}}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button ui-sref="#" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

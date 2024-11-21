@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>C</title>
+</head>
+<body>
+    <div ng-controller="StreamWiseFinalGradeReportController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Stream Grade List Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>Report</li>
+                        <li>Stream Grade List Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-2 col-md-offset-4">
+                        <div class="form-group">
+                            <label for="ShortName">Stream:</label>
+                            <select class="form-control" ng-model="BasicCourseGrades.CourseID" id="CourseID">
+                                <option value="0">ALL</option>
+                                <option ng-selected="BasicCourseGrades.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-top: 22px;" class="col-md-3">
+                        <button type="button" class="btn btn-sm btn-detail" ng-click="PrintBasicCourseGradesReport()">Print</button>
+                        <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">CancelL</button>
+                    </div><br /><br /><br />
+                </form><br /><br />
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+        <!--  <div class="container top_margin">
+              <div class="container col-xs-12">
+                  <div class="panel-group">
+                      <div class="panel">
+                          <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Stream Grade List Report</b></div>
+                          <div class="panel-body form_border">
+                              <form action="#">
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <div class="col-md-4" style="margin-left:350px;">
+
+                                              <div class="form-group">
+                                                  <label for="ShortName">Stream:</label>
+                                                  <select class="form-control" ng-model="BasicCourseGrades.CourseID" id="CourseID">
+                                                      <option value="0">ALL</option>
+                                                      <option ng-selected="BasicCourseGrades.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                                  </select>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-12">
+                                      <center>
+                                          <button type="button" class="btn form_btn_align save_btn" ng-click="PrintBasicCourseGradesReport()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                                          <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                      </center>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>-->
+    </div>
+</body>
+</html>

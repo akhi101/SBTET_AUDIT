@@ -1,0 +1,56 @@
+﻿<style>
+    .modal-fit .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .padleft {
+        padding-left: 0px;
+    }
+
+    .formLabel {
+        font-size: large !important;
+        font-weight: bold;
+        width: 100px;
+    }
+</style>
+
+<div class="modal-header ">
+    <h4 class="modal-title text-center">
+        <b>Are you Sure you want to transfer the below Student ?</b>
+        <!--<button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>-->
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="">
+       <h3> Please verify the details before you proceed :</h3><br>
+        <div class="col-md-12 padleft">
+            <label class="formLabel">PIN </label>: {{studentdata.Pin}}
+        </div>
+        <div class="col-md-12 padleft ">
+            <label class="formLabel">Name </label>: {{studentdata.Name}}
+        </div>
+
+        <div class="col-md-12 padleft">
+            <label class="formLabel">Father Name </label>: {{studentdata.FatherName}}
+        </div>
+        <div class="col-md-12 padleft">
+            <label class="formLabel">Branch </label>: {{studentdata.BranchCode}}-{{studentdata.BranchName}}
+        </div>
+        <div class="col-md-12 padleft ">
+            <label class="formLabel"> From College </label>: {{studentdata.CollegeCode}}-{{studentdata.CollegeName}}
+        </div>
+        <div class="col-md-12 padleft ">
+            <label class="formLabel"> To College </label>:{{newcollegename}}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" ng-click="closeModal()">Cancel</button>
+    <button type="button" class="btn btn-primary pull-right" ng-class="{'disabled': btndisable}" ng-click="TransferStudent(studentdata.CollegeCode, newcollegecode, studentdata.Pin)">Procced</button>
+
+</div>

@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NR Correction Approval</title>
+    <style>
+        table {
+            font-size: 12px !important;
+        }
+        .modal-body {
+            overflow-y: auto !important;
+        }
+    </style>
+    <!--<style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+    <script language="javascript">
+        document.getElementById("btnPrintTop").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        document.getElementById("btnPrintModal").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>-->
+</head>
+<body>
+    <div ng-controller="NRCorrectionApprovalController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>NR Correction Approval</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Reports</li>
+                        <li>NR Correction Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-12 text-center">
+                                <button id="btnSubmit" type="button" class="btn btn-detail" ng-click="doTheBack()">Back</button>
+                            </div>
+                            <div style="color: cornflowerblue; margin: 20px 0;">
+                                <a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click='GetMasterData(x)'> Verify Candidate Details </a>
+                            </div>
+                            <div class="col-md-12" id="DivIdToPrint">
+                                <label id="HeadLabel" class="print-cnt"></label><br />
+                                <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <!--<th><input type="checkbox" ng-click='GetCheckStudentHeader(headercheck)' ng-disabled="Nheadercheck" ng-model="headercheck" /></th>-->
+                                            <th>Prev. Reg Number</th>
+                                            <th>Correction Name</th>
+                                            <th>Existing value</th>
+                                            <th>Updating value</th>
+                                            <th>Approve / Reject </th>
+                                            <th>Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in ShowCandidatedata">
+                                            <td style="width:13%;">{{ $index + 1 }}</td>
+                                            <!--<td><input type="checkbox" ng-click='GetCheckStudent(x)' ng-disabled="x.CheckExmFrm" ng-model="x.CheckExmFrm"></td>-->
+                                            <td style="width:13%;">{{ x.PREGNO   }}</td>
+                                            <td style="width:13%;">{{ x.ValueName }}</td>
+                                            <!--<td> {{ x.OldValue }}</td>-->
+                                            <td style="width:15%;" ng-if="x.ValueName != 'Photo Path' && x.ValueName != 'Sign Path'">{{ x.OldValue }}</td>
+                                            <td style="width:15%;" ng-if="x.ValueName == 'Photo Path'"><img src='{{x.OldValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td style="width:15%;" ng-if="x.ValueName == 'Sign Path'"><img src='{{x.OldValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td style="width:15%;" ng-if="x.ValueName != 'Photo Path' && x.ValueName != 'Sign Path'">{{ x.NewValue }}</td>
+                                            <td style="width:15%;" ng-if="x.ValueName == 'Photo Path'"><img src='{{x.NewValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td style="width:15%;" ng-if="x.ValueName == 'Sign Path'"><img src='{{x.NewValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td style="width:15%;">
+                                                <form>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="A" ng-disabled="x.CheckExmFrm" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('A',$index)">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="R" ng-disabled="x.CheckExmFrm" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('R',$index)">
+                                                        <span>Reject</span>
+                                                    </label>
+
+                                                </form>
+                                            </td>
+                                            <td style="width:15%;">  <textarea rows="2" style="width: 100%;" ng-disabled="x.CheckExmFrm" id="ProcessRemark" ng-model="x.ReqRemark1"></textarea></td>
+                                            <!--<td><form><input type="button" class="btn btn-sm btn-default" ng-disabled="x.RollEditDisable" value="Submit" ng-click='UpdateNRCorrectionStatus(x,$index)'></form></td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12 text-center">
+                                    <button id="btnSubmit" type="button" class="btn btn-detail" ng-click="GetCheckStudentHeader()">Submit</button>
+                                    <button id="btnSubmit" type="button" class="btn btn-danger" ng-click="doTheBack()">Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalVerify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="pull-right">Regular Fee :</label>
+                                    </div>
+                                    <div class="col-md-3">{{MasterData.RegularFees}}</div>
+                                    <div class="col-md-3">
+                                        <label class="pull-right">Bridge Course Regular Fee :</label>
+                                    </div>
+                                    <div class="col-md-3">{{MasterData.BridgeCourseRegularFees}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <table class="table table-striped table-responsive table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Prev Reg Number :</strong></p></td>
+                                                    <td><p>{{MasterData.PREGNO}}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Year :</strong></p></td>
+                                                    <td><p>{{MasterData.Year}}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Candidate Name :</strong></p></td>
+                                                    <td>{{MasterData.StudName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Father Name :</strong></p></td>
+                                                    <td>{{MasterData.FatherName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Mother Name :</strong></p></td>
+                                                    <td>{{MasterData.MotherName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Gender :</strong></p></td>
+                                                    <td>{{MasterData.Gender}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Group Name :</strong></p></td>
+                                                    <td>{{MasterData.MainGrpName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Medium Name :</strong></p></td>
+                                                    <td>{{MasterData.MediumName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Second Language Name :</strong></p></td>
+                                                    <td>{{MasterData.SecLan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Community :</strong></p></td>
+                                                    <td>{{MasterData.Community}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Cat :</strong></p></td>
+                                                    <td>{{MasterData.Cat}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Student Photo :</strong></p></td>
+                                                    <td><img src='{{MasterData.Photo}}' alt="Student Photo" height="120" width="100"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="cp"><strong>Student Sign :</strong></p></td>
+                                                    <td><img src='{{MasterData.Sign}}' alt="Student Sign" height="120" width="100"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <table id="filtereddata" class="table table-striped table-bordered">
+                                                <tr>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                </tr>
+                                                <tr ng-repeat="x in SubjectData">
+                                                    <td>{{ x.ExmSubCode }}</td>
+                                                    <td>{{ x.ExmSubName }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row" ng-show="GeneralMemo">
+                                    <div class="col-md-12">
+                                        <table style="font-size:10px;" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr style="background-color: #cfcfcf;">
+                                                    <th></th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>I st Year Marks</td>
+                                                    <td><span class="myspan" id="M11">{{MarksSheetData.YR1PC1}}--{{MarksSheetData.YR1MRK1}}</span></td>
+                                                    <td><span class="myspan" id="M12">{{MarksSheetData.YR1PC2}}--{{MarksSheetData.YR1MRK2}}</span></td>
+                                                    <td><span class="myspan" id="M13">{{MarksSheetData.YR1PC3}}--{{MarksSheetData.YR1MRK3}}</span></td>
+                                                    <td><span class="myspan" id="M14">{{MarksSheetData.YR1PC4}}--{{MarksSheetData.YR1MRK4}}</span></td>
+                                                    <td><span class="myspan" id="M15">{{MarksSheetData.YR1PC5}}--{{MarksSheetData.YR1MRK5}}</span></td>
+                                                    <td><span class="myspan" id="M16">{{MarksSheetData.YR1PC6}}--{{MarksSheetData.YR1MRK6}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>II nd Year Marks</td>
+                                                    <td><span class="myspan" id="M11">{{MarksSheetData.YR2PC1}}--{{MarksSheetData.YR2MRK1}}</span></td>
+                                                    <td><span class="myspan" id="M12">{{MarksSheetData.YR2PC2}}--{{MarksSheetData.YR2MRK2}}</span></td>
+                                                    <td><span class="myspan" id="M13">{{MarksSheetData.YR2PC3}}--{{MarksSheetData.YR2MRK3}}</span></td>
+                                                    <td><span class="myspan" id="M14">{{MarksSheetData.YR2PC4}}--{{MarksSheetData.YR2MRK4}}</span></td>
+                                                    <td><span class="myspan" id="M15">{{MarksSheetData.YR2PC5}}--{{MarksSheetData.YR2MRK5}}</span></td>
+                                                    <td><span class="myspan" id="M16">{{MarksSheetData.YR2PC6}}--{{MarksSheetData.YR2MRK6}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Practical Marks</td>
+                                                    <td><span class="myspan" id="M11">{{MarksSheetData.YR2PC7}}--{{MarksSheetData.YR2MRK7}}</span></td>
+                                                    <td><span class="myspan" id="M12">{{MarksSheetData.YR2PC8}}--{{MarksSheetData.YR2MRK8}}</span></td>
+                                                    <td><span class="myspan" id="M13">{{MarksSheetData.YR2PC9}}--{{MarksSheetData.YR2MRK9}}</span></td>
+                                                    <td><span class="myspan" id="M14">{{MarksSheetData.YR2PC10}}--{{MarksSheetData.YR2MRK10}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="VocationalMemo">
+                                    <div class="col-md-12">
+                                        <table style="font-size:10px;" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr style="background-color: #cfcfcf;">
+                                                    <th></th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                    <th>SubjectCode--Marks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>I st Year Marks</td>
+                                                    <td><span class="myspan" id="M11">{{MarksSheetData.YR1PC1}}--{{MarksSheetData.YR1MRK1}}</span></td>
+                                                    <td><span class="myspan" id="M12">{{MarksSheetData.YR1PC2}}--{{MarksSheetData.YR1MRK2}}</span></td>
+                                                    <td><span class="myspan" id="M13">{{MarksSheetData.YR1PC3}}--{{MarksSheetData.YR1MRK3}}</span></td>
+                                                    <td><span class="myspan" id="M14">{{MarksSheetData.YR1PC4}}--{{MarksSheetData.YR1MRK4}}</span></td>
+                                                    <td><span class="myspan" id="M15">{{MarksSheetData.YR1PC5}}--{{MarksSheetData.YR1MRK5}}</span></td>
+                                                    <td><span class="myspan" id="M16">{{MarksSheetData.YR1PC6}}--{{MarksSheetData.YR1MRK6}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>II nd Year Marks</td>
+                                                    <td><span class="myspan" id="M11">{{MarksSheetData.YR2PC1}}--{{MarksSheetData.YR2MRK1}}</span></td>
+                                                    <td><span class="myspan" id="M12">{{MarksSheetData.YR2PC2}}--{{MarksSheetData.YR2MRK2}}</span></td>
+                                                    <td><span class="myspan" id="M13">{{MarksSheetData.YR2PC3}}--{{MarksSheetData.YR2MRK3}}</span></td>
+                                                    <td><span class="myspan" id="M14">{{MarksSheetData.YR2PC4}}--{{MarksSheetData.YR2MRK4}}</span></td>
+                                                    <td><span class="myspan" id="M15">{{MarksSheetData.YR2PC5}}--{{MarksSheetData.YR2MRK5}}</span></td>
+                                                    <td><span class="myspan" id="M16">{{MarksSheetData.YR2PC6}}--{{MarksSheetData.YR2MRK6}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Practical Marks</td>
+                                                    <td><span class="myspan" id="M11">{{MarksSheetData.YR2PC7}}--{{MarksSheetData.YR2MRK7}}</span></td>
+                                                    <td><span class="myspan" id="M12">{{MarksSheetData.YR2PC8}}--{{MarksSheetData.YR2MRK8}}</span></td>
+                                                    <td><span class="myspan" id="M13">{{MarksSheetData.YR2PC9}}--{{MarksSheetData.YR2MRK9}}</span></td>
+                                                    <td><span class="myspan" id="M14">{{MarksSheetData.YR2PC10}}--{{MarksSheetData.YR2MRK10}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+</html>

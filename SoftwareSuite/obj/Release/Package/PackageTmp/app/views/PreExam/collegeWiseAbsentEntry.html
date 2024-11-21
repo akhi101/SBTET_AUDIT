@@ -1,0 +1,94 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>College-Wise Absent Entry</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row ctitle">
+        <div class="col-md-4">
+            <span><strong>College-Wise Absent Entry</strong></span>
+        </div>
+    </div>
+    <div class="row frow">
+        <div class="col-md-12">
+            <form name="absentDetailForm" ng-submit="saveAbsentEntry()" ng-init="init()">
+                <div class="row">
+                    <div class="col-md-3">
+                        <sa-select ng-model="tempDetails.collegeID" object="tempDetails.collegeID" options="basicColleges" displaycolumn="colName" valuecolumn="collegeID" objectname="collegeID" objecttext="College" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="tempDetails.courseID" object="tempDetails.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="tempDetails.examID" object="tempDetails.examID" options="basicExams" displaycolumn="exmName" valuecolumn="examID" objectname="examID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="tempDetails.exmSubID" object="tempDetails.exmSubID" options="basicSubjects" displaycolumn="exmSubName" valuecolumn="exmSubID" objectname="exmSubID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+                </div>
+                <!--<div class="row">-->
+                <!--<div class="col-md-3">
+        <sa-select ng-model="tempDetails.categoryID" object="tempDetails.categoryID" options="basicSubjectCategory" displaycolumn="evalTypName" valuecolumn="evalTypeID" objectname="evalTypeID" objecttext="Category"> </sa-select>
+    </div>-->
+                <!--<div class="col-lg-3">
+        <sa-input ng-model="tempDetails.hTNO" object="tempDetails.hTNO" objectname="hTNO" objecttext="Hall Ticket No. " length="100" ispascal="true"> </sa-input>
+    </div>-->
+                <!--</div>-->
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary" ng-click="findAbsentEntry()">Find</button>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="tempDetails.hTNO">
+                    <hr />
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Center Name</th>
+                                    <th>Hall Ticket No</th>
+                                    <th>Subject Name</th>
+                                    <!--<th>Category Name</th>-->
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="absent in absentDetails">
+                                    <td>
+                                        <button type="submit" ui-sref="absentDetail({absentId:absent.absentId})" class="btn btn-success btn-sm">View</button>
+                                        <button type="submit" ui-sref="#" class="btn btn-info">Print</button>
+                                    </td>
+                                    <td>
+                                        {{absent.centerID}}
+                                    </td>
+                                    <td>
+                                        {{absent.hTNO}}
+                                    </td>
+                                    <td>
+                                        {{absent.exmSubID}}
+                                    </td>
+                                    <!--<td>
+                            {{absent.categoryID}}
+                        </td>-->
+                                    <td>
+                                        {{absent.status}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,174 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>True Extracts of Marks Memo</title>
+</head>
+<body>
+    <div ng-controller="TrueExMarksMemoController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>True Extracts of Marks Memo</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>True Extracts of Marks Memo</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Candidates who Applied for DPC/TPC memo and whose applications are in pending are eligible.</p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference.</p>
+                    <p style="font-size:18px; font-weight:100;">For any queries please mail to :</p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                    <p><hr /></p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Hall Ticket No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Enter Hall Ticket No." class="form-control" id="HallTicket" ng-model="TrueExMarksMemo.HallTicket" maxlength="12" >
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillDataByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-hide="HideInfo">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for=""> Hall Ticket Number/Roll No. : </label><!--PRNNo-->
+                                    <input type="text" class="form-control" id="RollNO" ng-model="TrueExMarksMemo.RollNO" ng-readonly="true" disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">College Code & Name : </label>
+                                    <input type="text" class="form-control" id="ColName" ng-model="TrueExMarksMemo.ColName" ng-readonly="true" ng-disabled="true">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Candidate Name : </label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="TrueExMarksMemo.StudName" ng-readonly="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Father Name : </label>
+                                    <input type="text" class="form-control" id="FatherName" ng-model="TrueExMarksMemo.FatherName" ng-readonly="true">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Course : </label>
+                                        <input type="text" class="form-control" id="GroupName" ng-model="TrueExMarksMemo.GroupName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for=""> Fee (in rupees) : </label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="TrueExMarksMemo.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <font color="red">*</font> <label for=""> Mobile Number : </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="TrueExMarksMemo.MobileNo" maxlength="10" input-Number-Only onpaste="return false;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <font color="red">*</font> <label for=""> Purpose : </label>
+                                <textarea rows="4" style="width: 100%;" id="Purpose" ng-model="TrueExMarksMemo.Purpose" ng-minlength="1" ng-maxlength="120"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="font-size:10px;" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr style="background-color: #cfcfcf;">
+                                            <th></th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Total</th>
+
+                                        </tr>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>{{TrueExMarksMemo.YR1PC1_NAME}}</th>
+                                            <th>{{TrueExMarksMemo.YR1PC2_NAME}}</th>
+                                            <th>{{TrueExMarksMemo.YR1PC3_NAME}}</th>
+                                            <th>{{TrueExMarksMemo.YR1PC4_NAME}}</th>
+                                            <th>{{TrueExMarksMemo.YR1PC5_NAME}}</th>
+                                            <th>{{TrueExMarksMemo.YR1PC6_NAME}}</th>
+                                            <th>TOTAL</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1st Year</td>
+                                            <td>{{TrueExMarksMemo.YR1MRK1}}</td>
+                                            <td>{{TrueExMarksMemo.YR1MRK2}}</td>
+                                            <td>{{TrueExMarksMemo.YR1MRK3}}</td>
+                                            <td>{{TrueExMarksMemo.YR1MRK4}}</td>
+                                            <td>{{TrueExMarksMemo.YR1MRK5}}</td>
+                                            <td>{{TrueExMarksMemo.YR1MRK6}}</td>
+                                            <td>{{TrueExMarksMemo.YR1TOT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2nd Year</td>
+                                            <td>{{TrueExMarksMemo.YR2MRK1}}</td>
+                                            <td>{{TrueExMarksMemo.YR2MRK2}}</td>
+                                            <td>{{TrueExMarksMemo.YR2MRK3}}</td>
+                                            <td>{{TrueExMarksMemo.YR2MRK4}}</td>
+                                            <td>{{TrueExMarksMemo.YR2MRK5}}</td>
+                                            <td>{{TrueExMarksMemo.YR2MRK6}}</td>
+                                            <td>{{TrueExMarksMemo.YR2TOT}}</td>
+                                        </tr>
+                                        <tr style="font-weight:bold;">
+                                            <td align="right" colspan="6">Grand Total</td>
+                                            <td align="center" colspan="2">{{TrueExMarksMemo.GTOT}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn btn-detail btn-sm" ng-click="SaveTrueExMarksMemo()">Submit &amp; Pay</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+           </div> </body>
+</html>

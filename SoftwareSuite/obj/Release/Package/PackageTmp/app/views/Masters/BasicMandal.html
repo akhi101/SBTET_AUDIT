@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Mandal </title>
+</head>
+<body>
+	<div ng-controller="BasicMandalController">
+		<div>
+			<div class="container col-xs-12">
+				<div class="panel-group">
+					<div class="panel">
+						<div class="panel-heading header_background"><span class="heading_icon"></span><b>Mandal</b></div>
+						<div class="panel-body form_border">
+							<form action="#">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="sel1"> District :</label>
+											<select class="form-control" ng-model="BasicMandal.DistrictID" id="DistrictID">
+												<option value="">--Select District --</option>
+												<option ng-selected="BasicMandal.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="email">Mandal Name:</label>
+											<input type="text" class="form-control"  ng-model="BasicMandal.MandalName"  id="MandalName" required=""  maxlength="40" placeholder="Mandal Name">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="sel1">Mandal Code :</label>
+											<input type="text" class="form-control" ng-model="BasicMandal.MandalCode"  no-Special-Char  id="MandalCode" required="" maxlength="4" placeholder="Mandal Code">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<center>
+										<button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicMandal()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+										<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicMandal()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+										<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+									</center>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

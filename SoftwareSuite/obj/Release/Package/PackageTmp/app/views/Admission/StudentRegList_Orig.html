@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>View and Update Student Profile</title>
+    <style>
+        /*.col-md-3 {
+            padding-right: 2px !important;
+            padding-left: 2px !important;
+        }*/
+        .modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+    </style>
+</head>
+
+<body>
+    <div ng-controller="StudentRegListController">
+        <!-- New Style Start-->
+        <div class="clearfix"></div>
+
+        
+        <div class="clearfix"></div>
+        <div class="container">
+
+
+
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>View and Update Student Profile</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li class="active">
+                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i>
+                                </b> </a>
+                        </li>
+                        <li>Student Admission</li>
+                        <li>View and Update Student Profile</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-8">
+                    <h3 class="ch3">Search By
+                        <hr>
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-2 pr-md-1">
+                            <div class="form-group">
+
+                                <select class="form-control input-md" id="SchemeID" ng-model="SchemeID">
+                                    <option value="" selected>Scheme</option>
+                                    <option ng-selected="SchemeID == option.SchemeId" ng-repeat="option in SearchDropData.schemes"
+                                        value="{{option.SchemeId}}">{{option.SchemeCode}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pr-md-2">
+                            <div class="form-group">
+
+                                <select class="form-control input-md" id="SemID" ng-model="SemID">
+                                    <option value="" selected>Year</option>
+                                    <option ng-selected="SemID == option.SemId" ng-repeat="option in SearchDropData.semesters"
+                                        value="{{option.SemId}}">{{option.Sem}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+
+                                <select class="form-control input-md" id="BranchID" ng-model="BranchID">
+                                    <option value="" selected>Branch</option>
+                                    <option ng-selected="BranchID == option.BranchID" ng-repeat="option in SearchDropData.branches"
+                                        value="{{option.BranchID}}">{{option.BranchCode}}
+                                     <!--- {{option.Branch}}-->
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select class="form-control input-md" id="SectionID" ng-model="SectionID">
+                                    <option value="" selected>Section</option>
+                                    <option ng-selected="SectionID == option.SectionId" ng-repeat="option in SearchDropData.sections"
+                                        value="{{option.SectionId}}">{{option.Section}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+
+                                <select class="form-control input-md" id="ShiftID" ng-model="ShiftID">
+                                    <option value="" selected>Shifts</option>
+                                    <option ng-selected="ShiftID == option.ShiftId" ng-repeat="option in SearchDropData.shifts"
+                                        value="{{option.ShiftId}}">{{option.Shift}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="Show()" class="btn btn-sm btn-info">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 ">
+                  
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="ch3">
+                                or Search By
+                                <hr>
+                            </h3>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+
+                                <input placeholder="Enroll No" type="text" class="form-control input-sm" ng-model="AdmNo"
+                                    id="AdmNo" input-Number-Only oncopy="return false" onpaste="return false">
+                            </div>
+                        </div>
+                        <div class="col-md-5 hidden">
+                            <div style="margin-top:-10px;" class="form-group">
+                                <span style="margin-top: 5px;" class="rspan">Uploaded Photo :</span>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" value="Y" ng-model="WithPhoto"> Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" value="N" ng-model="WithPhoto"> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="ShowByPhoto()" class="btn btn-sm btn-info">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 ">
+                    <!--<h3 class="ch3"> View Total Enrolled Students List
+                        <hr>
+                    </h3>-->
+                    <div class="row">
+                        <div class="col-md-3 hidden">
+                            <div class="form-group">
+                                <select class="form-control input-sm" id="MainGrpID" ng-model="MainGrpID">
+                                    <option value="" selected>Group</option>
+                                    <option ng-selected="MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList"
+                                        value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 hidden">
+                            <div class="form-group">
+                                <select class="form-control input-sm" id="MediumID" ng-model="MediumID">
+                                    <option value="" selected>Medium</option>
+                                    <option ng-selected="MediumID == option.MediumID" ng-repeat="option in MediumList"
+                                        value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 hidden">
+                            <div class="form-group">
+                                <select class="form-control input-sm" id="SubjectID" ng-model="SubjectID">
+                                    <option value="" selected>Sec. Lang.</option>
+                                    <option ng-selected="SubjectID == option.SubjectID" ng-repeat="option in SecondLangList"
+                                        value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" ng-click="ShowAll()" class="btn btn-sm btn-info show-btn-result custom-show-btn">View Total Enrolled List</button>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="row">
+                     <div class="col-md-2 col-md-offset-2">
+                            <div class="form-group">
+
+                                    <select class="form-control input-sm" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                                        <option value="" selected>Stream</option>
+                                        <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                    </div>
+                    <div class="col-md-2">
+                            <div class="form-group">
+
+                                    <select class="form-control input-sm" id="ExamID" ng-model="ExamID">
+                                        <option value="" selected>Exam</option>
+                                        <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                    </div>
+                    <div class="col-md-2">
+                            <div class="form-group">
+
+                                    <select class="form-control input-sm" id="BranchID" ng-model="BranchID">
+                                        <option value="" selected>Branch</option>
+                                        <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                    </div>
+                    <div class="col-md-2">
+                            <button type="button" ng-click="Show()" class="btn btn-sm btn-info">Get Admission Details</button>
+                    </div>
+                </div>-->
+                <!-- <div class="row">
+                        <div class="col-md-12">
+                                <h3 class="ch3">or Short By <hr></h3>
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+
+                                        <input placeholder="Enroll No" type="text" class="form-control input-sm" ng-model="AdmNo" id="AdmNo" input-Number-Only>
+                                    </div>
+                       </div>
+                       <div class="col-md-4">
+                            <div class="form-group">
+                                    <span style=" margin-top: 5px;" class="rspan">Get Admission Report With Photo :</span>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" value="Y" ng-model="WithPhoto"> Yes
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" value="N" ng-model="WithPhoto"> No
+                                    </label>
+                                </div>
+                       </div>
+                       <div class="col-md-2">
+                            <button type="button" ng-click="ShowByPhoto()" class="btn btn-sm btn-info">Get Admission Details</button>
+                       </div>
+                   </div>-->
+                <!--<div class="row">
+                    <div class="col-md-12">
+                        <h3 class="ch3">or Sort By <hr></h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+
+                            <select class="form-control input-sm" id="MainGrpID" ng-model="MainGrpID">
+                                <option value="" selected>Group</option>
+                                <option ng-selected="MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+
+                            <select class="form-control input-sm" id="MediumID" ng-model="MediumID">
+                                <option value="" selected>Medium</option>
+                                <option ng-selected="MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" ng-click="ShowByGroupAndMedium()" class="btn btn-sm btn-info">Get Enrollment Details</button>
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row hidden">
+                    <div class="col-md-12 text-center">
+                        <button type="button" ng-click="ShowAll()" class="btn btn-sm btn-primary">View Total Enrolled
+                            Students List </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;" class="row">
+
+                    <div class="col-md-12">
+                        <label for="sel1" style="color:red;"> Double click on row to view/edit record</label>
+                        <div id="StudentRegs" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true"
+                            e-allowsorting="true" e-allowresizing="true" e-datasource="StudentRegList">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

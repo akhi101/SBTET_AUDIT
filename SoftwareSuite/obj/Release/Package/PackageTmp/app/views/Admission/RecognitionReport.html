@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title> I st year Recognition Fee paid</title>
+</head>
+<body>
+    <div ng-controller="RecognitionReportController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b> I st year Recognition Fee paid</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="panel" style="margin-bottom:12px;">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sel1">Select Stream :</label>
+                                            <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                                                <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sel1">Select Branch :</label>
+                                            <select class="form-control" id="BranchID" ng-model="BranchID">
+                                                <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <label for="email">Report Type :</label>
+                                    <div class="form-group" style="margin-top: 2px;">
+                                        <form>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="RecognitionReport.ReportType" value="P">Paid
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="RecognitionReport.ReportType" value="N">Not Paid
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <button type="button" ng-click="Show()" class="btn form_btn_align save_btn">Show<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="StudentRegsRpt"
+                             ej-grid
+                             e-recorddoubleclick="doubleclick"
+                             e-allowgrouping="true"
+                             e-allowsorting="true"
+                             e-allowresizing="true"
+                             e-datasource="RecognitionReportData">
+                        </div>
+                        <!--<div class="panel" style="margin-top:150px;">
+                            <div id="StudentRegs" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                                 e-datasource="RecognitionReport">
+                            </div>
+                        </div>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,87 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Exam Time Table Approval</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Exam Time Table Approval</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="examTimeTableApprovalController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="examTimeTableDetailForm">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="examTimeTableApprovalDetail.CourseID" object="examTimeTableApprovalDetail.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="examTimeTableApprovalDetail.ExamID" object="examTimeTableApprovalDetail.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button ng-click="showExamTimeTableDetails()" class="btn btn-detail btn-sm">Show Details</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <sa-select ng-model="examTimeTableApprovalDetail.BranchID" object="examTimeTableApprovalDetail.BranchID" options="basicBranches" displaycolumn="BranchName" valuecolumn="BranchID" objectname="BranchID" objecttext="Branch"> </sa-select>
+                    </div>-->
+                </div>
+
+            </form>
+
+
+            <div ng-show="examTimeTableDetails.length>0">
+                <div class="row">
+                    <hr />
+                    <div class="col-md-8 col-md-offset-2">
+                        <table class="table table-striped table-responsive rspan">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Exam Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <!--<th>Exam session</th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="examTimeTableDetail in examTimeTableDetails">
+                                    <td>
+                                        {{examTimeTableDetail.ExmSubName}}
+                                    </td>
+                                    <td>
+                                        {{examTimeTableDetail.StartDate | date: "MMMM d, y"}}
+                                    </td>
+                                    <td>
+                                        {{examTimeTableDetail.StartTime | date:'shortTime'}}
+                                    </td>
+                                    <td>
+                                        {{examTimeTableDetail.EndTime | date:'shortTime'}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr />
+                <form name="examTimeTableApprovalForm">
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-2">
+                            <sa-select ng-model="examTimeTableApprovalDetail.ApprovalFlag" object="examTimeTableApprovalDetail.ApprovalFlag" options="approveStatus" displaycolumn="statusNm" valuecolumn="approveFlag" objectname="approveFlag" objecttext="Approval Status" compulsory="true"> </sa-select>
+                        </div>
+                        <div style="margin-top:22px;" class="col-md-2">
+                            <button type="submit" ng-click="approveExamTimetable()" class="btn btn-detail btn-sm">Approval</button>
+                            <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+﻿<!-- Modal content-->
+<div class="modal-header aadhar-modal-header">
+    <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+    <h4 class="modal-title center-block">Aadhaar e-KYC</h4>
+</div>
+<div class="modal-body">
+    <div class="">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-horizontal">
+                    <div class="">
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <label class="control-label" for="aadhar">Aadhar Number</label>
+                                <input type="text" class="form-control" id="aadharNumber" ng-model="aadhaarVerStu.AadharNo" placeholder="Enter Aadhaar Number">
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <button type="button" class="btn btn-primary pull-right aadhar-verify" ng-click="generateRdRequest()">Aadhar Verify/KYC</button>
+                        </div>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading aadhar-panel-header">Student Data</div>
+                            <div class="panel-body aadhar_kyc_body">
+                                <!-- Profile Image -->
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+                                        <img class="profile-user-img img-responsive aadhar-img-circle" ng-src="{{aadhaarVerStu.profilephoto}}" />
+                                        <h3 class="profile-username text-center">{{aadhaarVerStu.Name}}</h3>
+                                        <ul class="list-group list-group-unbordered">
+                                            <li class="list-group-item">
+                                                <b>Date of Birth :</b> <a class="pull-right">{{aadhaarVerStu.DateOfBirth}}</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Gender</b> <a class="pull-right">{{aadhaarVerStu.Gender == 1 ? 'Male' : 'Female'}}</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Address</b> <a class="pull-right">{{aadhaarVerStu.PermanentAddress}}</a>
+                                            </li>
+                                        </ul>
+                                        
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading aadhar-panel-header">Aadhar Data</div>
+                            <div class="panel-body aadhar_kyc_body">
+                                <!-- Profile Image -->
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+                                        <img class="profile-user-img img-responsive aadhar-img-circle" ng-src="{{aadhaarPhoto}}" />
+                                        <h3 class="profile-username text-center">{{aadhaarName}}</h3>
+                                        <ul class="list-group list-group-unbordered">
+                                            <li class="list-group-item">
+                                                <b>Date of Birth :</b> <a class="pull-right">{{aadhaarDob}}</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Gender</b> <a class="pull-right">{{aadhaarGender}}</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Address</b> <a class="pull-right">{{aadhaarAddr}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+           
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-disabled="disableApprove" ng-click="approveAadhaar()">Approve</button>
+    <button type="button" class="btn btn-default" ng-click="closeModal()">Cancel</button>
+</div>
+
+

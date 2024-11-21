@@ -1,0 +1,211 @@
+﻿
+<style>
+    .gr-button {
+        background: #1b84e7;
+        border: none;
+        padding: 7px 10px;
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        border-radius: 4px;
+        border: none;
+        font-size: 13px;
+        float: right;
+    }
+
+    .deleteBtn {
+        width: 42px;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .editbtn {
+        width: 42px;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .cl-details h2 {
+        margin-bottom: -1px;
+    }
+
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #78987c !important;
+        font-size: 14px !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #fff !important;
+        cursor: pointer !important;
+        border: 1px solid #ddd !important;
+        color: #ffffff !important;
+        background-color: #1976d2 !important;
+    }
+
+    .table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #ffffff !important;
+        background-color: #1976d2 !important;
+        font-size: 12px !important;
+    }
+</style>
+<div ng-controller="SessionWiseStrengthController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Total Expenditure</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/DcBillsDashboard">DC Bills</a></li>
+                        <li><a href="#!/Dashboard/DcBillsDashboard/">Total Expenditures</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/DcBillsDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>Sessional Expenditure</h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm">
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="AcademicYear" name="StudentType" required
+                                        ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                    <option value="" selected>Select Academic Year</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control input-sm" id="monthyear" ng-model="monthyear"
+                                        ng-options="x.Id as x.ExamYearMonth for x in GetExamMonthYear" required ng-change="ChangeExamMonthYear()"
+                                        no-Special-Char ng-disabled="UpdateTrue" ng-required="true">
+                                    <option value="" selected>Select Exam Month Year</option>
+                                </select>
+                                <!--<select class="form-control" id="ExamYear" ng-model="monthyear" required ng-change="ChangeExamMonthYear()">
+                                    <option value="" selected>Select Month/Year of Exam</option>
+                                    <option ng-repeat="monYer in GetExamMonthYear" value="{{monYer.ExamMonthYearId}}">
+                                        {{monYer.ExamYearMonth}}
+                                    </option>
+                                </select>-->
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label for="ExaminationType">
+                                    Exam Type:
+                                </label>
+                                <select class="form-control input-sm" id="stdShift" ng-model="ExaminationType" ng-change="ChangeExamMonthYear()"
+                                        ng-options="x.id as x.type for x in StudentTypes"
+                                        no-Special-Char ng-disabled="UpdateTrue" ng-required="true">
+                                    <option value="" selected>Select Exam Type</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-3 ">
+                                <div class="gr-btn">
+                                    <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="ExcelForm.$valid && GetDetails()">Get Details</button>
+                                    <!--  <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="UpdateExpenditure()" ng-show="UpdateTrue">Update Expenditure</button>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-3" ng-show="SessionStrengthReport.length >0">
+            <div class="form-group">
+                <label>Search</label>
+                <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+            </div>
+
+        </div>
+        <div class="col-md-9" ng-show="SessionStrengthReport.length >0">
+            <a class="ExportToExcel1 pointer pull-right"
+               id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')" style="margin-top: 15px;">
+                <i class="fa fa-file-excel-o"></i>
+                Export to Excel
+            </a>
+        </div>
+        <div class="col-md-12 ng-scope" ng-show="SessionStrengthReport.length >0">
+            <div class="cl-details">
+                <h2> Exam Expenditures</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="SessionStrengthReport.length >0">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content" id="tblParent">
+                    <thead>
+                        <tr>
+                            <th style="font-size:bold;">S.No</th>
+                            <th>College Code</th>
+                            <!--<th>Exam Type</th>-->
+                            <!-- <th >Total Practical Amount</th>-->
+
+                            <th class="text-center">Total Theory Amount</th>
+                            <th class="text-center"> Total Practical Amount</th>
+                            <th class="text-center">Total Eventwise Amount</th>
+                            <th class="text-center">Total Amount</th>
+                            <th class="text-center">Advance<br /> (80% of Total Amount)</th>
+                            <th class="text-center">Account Number</th>
+                            <th class="text-center">IFSC Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in SessionStrengthReport|filter:search">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.ExamCenterCode}} - {{data.ExamCenterName}}</td>
+                            <td class="text-center">{{data.TotalSessionalAmount}}</td>
+
+                            <td class="text-center">{{data.TotalPracticalAmount}}</td>
+                            <td class="text-center">{{data.TotalEventwiseAmount}}</td>
+                            <td class="text-center">{{data.TotalEventwiseAmount+data.TotalPracticalAmount+data.TotalSessionalAmount}}</td>
+                            <td class="text-center">{{(data.TotalEventwiseAmount+data.TotalPracticalAmount+data.TotalSessionalAmount*percent).toFixed(2)}}</td>
+                            <td class="text-center">{{data.CollegeBankAccountNo}}</td>
+                            <td class="text-center">{{data.CollegeBankIfscCode}}</td>
+                            <!--<td>
+                                <button class="btn-xs btn btn-success editbtn" ng-click="EditExpenditure(data.Id)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                <button class="btn-xs btn btn-red deleteBtn" ng-click="DleteExpenditure(data.Id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </td>-->
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+        </div>
+        <div ng-show="SessionStrengthReport.length <1" class="no-results">
+            <img src="../../contents/img/Folder-Icon.svg" />
+            <h2>No Data Found</h2>
+        </div>
+        <div style="width: 100%; text-align: center;">
+            <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+
+
+</div>

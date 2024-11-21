@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Duplicate Memorandum of Marks</title>
+</head>
+<body>
+    <div ng-controller="DupMarksMemoAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Duplicate Memorandum of Marks</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Duplicate Memorandum of Marks</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date :  {{DupMarksMemoApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+                
+               
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="DupMarksMemoApp.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="DupMarksMemoApp.Fathername" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Form Number : </label>
+                                        <input type="text" class="form-control" id="AdmNo" ng-model="DupMarksMemoApp.FormNo" ng-readonly="true">
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label for="">Course :</label>
+                                        <input type="text" class="form-control" id="CourseName" ng-model="DupMarksMemoApp.CourseName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number: </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="DupMarksMemoApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee (in rupees) :</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="DupMarksMemoApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="Approver1StatusHide">
+                                        <label for=""><font color="red">* </font>Request Status :</label>
+                                        <select class="form-control" id="ReqStatus" ng-model="DupMarksMemoApp.ReqStatus" ng-disabled="Approver1StatusDisable" ng-change="ChangeTextArea(DupMarksMemoApp.ReqStatus,'ReqStatus')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <span class="status" ng-show="ShowLevel1">
+                                            Level 1 Status Approved/Rejected Date : {{DupMarksMemoApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{DupMarksMemoApp.ReqStatusIPAddress}}
+                                        </span>
+                                       
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="Approver2StatusHide">
+                                        <label for=""><font color="red">* </font>Request Status 1 :</label>
+                                        <select class="form-control" id="ReqStatus1" ng-model="DupMarksMemoApp.ReqStatus1" ng-disabled="Approver2StatusDisable" ng-change="ChangeTextArea(DupMarksMemoApp.ReqStatus1,'ReqStatus1')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <span class="status" ng-show="ShowLevel2">
+                                            Level 2 Status Approved/Rejected Date : {{DupMarksMemoApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{DupMarksMemoApp.ReqStatus1IPAddress}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="Approver3StatusHide">
+                                        <label for=""><font color="red">* </font>Request Status 2 :</label>
+                                        <select class="form-control" id="ReqStatus2" ng-model="DupMarksMemoApp.ReqStatus2" ng-disabled="Approver3StatusDisable" ng-change="ChangeTextArea(DupMarksMemoApp.ReqStatus2,'ReqStatus2')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <span class="status" ng-show="ShowLevel3">
+                                            Level 3 Status Approved/Rejected Date : {{DupMarksMemoApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{DupMarksMemoApp.ReqStatus1IPAddress}}
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""> College Name : </label>
+                                        <input type="text" class="form-control" id="ColName" ng-model="DupMarksMemoApp.ColName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="Approver1StatusHide">
+                                        <label for=""><font color="red">* </font>Process Remark 1 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="DupMarksMemoApp.ProcessRemark" ng-disabled="Approver1RemarkTextRO"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="Approver2StatusHide">
+                                        <label for=""><font color="red">* </font>Process Remark 2 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="DupMarksMemoApp.ProcessRemark1" ng-disabled="Approver2RemarkTextRO"></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group"ng-hide="Approver3StatusHide">
+                                        <label for=""><font color="red">* </font>Process Remark 3 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-model="DupMarksMemoApp.ProcessRemark2" ng-disabled="Approver3RemarkTextRO"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-show="showSubmit" ng-disabled="RollEditDisable" ng-click="SaveDupMarksMemoApp()" class="btn btn-detail btn-sm">Submit</button>
+                                <button type="button" ng-show="ShowDgitalSignature" ng-disabled="DigitalSign" ng-click="DigiSignApp()" class="btn btn-reset btn-sm">Digital Sign</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

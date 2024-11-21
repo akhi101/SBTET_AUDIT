@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> District Wise And CollegeWise Enviroment And Ethics Details </title>
+</head>
+<body>
+    <div ng-controller="DistrictCollegeWiseEnvEthDetailsController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> District Wise And CollegeWise Enviroment And Ethics Details</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li> You are in </li>
+                        <li> Home </li>
+                        <li> Report </li>
+                        <li> District Wise And CollegeWise Enviroment And Ethics Details </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="DistrictCollegeWiseEnvEthDetails.CourseID" id="CourseID" ng-change="GetBasicExamList(PracticalMarkEntryAbsentList.CourseID)">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="DistrictCollegeWiseEnvEthDetails.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Year :</label>
+                                    <select class="form-control" ng-model="DistrictCollegeWiseEnvEthDetails.ExamID" id="ExamID">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="PracticalMarkEntryAbsentList.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="DistrictCollegeWiseEnvEthDetails.DistrictID" id="DistrictID">
+                                        <option value=""> -- Select District -- </option>
+                                        <option ng-selected="DistrictCollegeWiseEnvEthDetails.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Report Type :</label>
+                                    <select class="form-control" ng-model="DistrictCollegeWiseEnvEthDetails.ReportType" id="ReportType">
+                                        <option value=""> -- Select -- </option>
+                                        <option value="GENV"> Enviromental Examination - Gen Report </option>
+                                        <option value="GETH"> Ethics & Human Values Examination Education - Gen Report</option>
+                                        <option value="VOCENV"> Enviromental Examination - Voc Report </option>
+                                        <option value="VOCETH"> Ethics & Human Values Examination Education - Voc Report</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12"><hr></div>
+            </div>
+
+            <div class="row">
+                <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetPracticalMarkEntryAbsentListReport()">Show</button>
+                    <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div id="exTab1" style="margin-top:0px;">
+                        <!--<br />-->
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr style="font-weight:bold">
+                                    <td>SL.No</td>
+                                    <td>College Code</td>
+                                    <td>College Name</td>
+                                    <td>Total No of Students Alloted</td>
+                                    <td>No of Students Not Awarded</td>
+                                    <td>No of Students Present</td>
+                                    <td>No of Students Absent</td>
+                                    <td>No of Students Not Offered</td>
+                                    <td>No of Students MalPractice</td>
+                                </tr>
+                            </thead>
+                            <!--<tr ng-repeat="DistColEnvEthDetails in DistColEnvEthDetailsList | filter:search | filter:new_search">
+                                <td style="text-align:center; width:50px;">{{DistColEnvEthDetails.SrNo}}</td>
+                                <td style="text-align:left;">{{DistColEnvEthDetails.ColCode}}</td>
+                                <td style="text-align:center;">{{DistColEnvEthDetails.ColName}}</td>
+                                <td>{{BasicExaminer.TotalNoofStudentsAlloted}}</td>
+                                <td>{{BasicExaminer.NoofStudentsNotAwarded}}</td>
+                                <td>{{BasicExaminer.NoofStudentsPresent}}</td>
+                                <td>{{BasicExaminer.NoofStudentsNotOffered}}</td>
+                                <td>{{BasicExaminer.NoofStudentsMalPractice}}</td>
+                            </tr>-->
+                        </table>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

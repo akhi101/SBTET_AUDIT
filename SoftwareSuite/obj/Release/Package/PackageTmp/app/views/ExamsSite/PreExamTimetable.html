@@ -1,0 +1,112 @@
+﻿<div ng-controller="PreExamTimetableController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Time Table</h5>
+              
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content">
+        <div class="container">
+          
+            <div class="sm-spacer"></div>
+
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2>Download Time Table</h2>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">
+                                        Academic Year  :
+                                    </label>
+                                    <select class="form-control" id="Academic" ng-model="selAcademicYear1" ng-change="GetExamYearMonth(selAcademicYear1)"
+                                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                                        <option value="" selected>Select Academic Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Month/Year :
+                                    </label>
+                                    <select class="form-control" ng-model="monthyear1" id="ExamYear"
+                                            ng-options="monYer.Id as monYer.ExamYearMonth for monYer in MonthAndYear">
+                                        <option value="" selected>Select Month/Year of Exam</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Student Type :
+                                    </label>
+                                    <select class="form-control" ng-model="SelStudentType1" name="StudentType"
+                                            ng-options="Student.id as Student.type for Student in StudentType ">
+                                        <option value="" selected>Select Exam Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold">
+                                        Scheme :
+                                    </label>
+                                    <select class="form-control" id="ExamYear" ng-model="selscheme1" ng-change="loadSemExamTypes(selscheme)"
+                                            ng-options="scheme.schemeid as scheme.scheme for scheme in schemeinfo ">
+                                        <option value="" selected>Select Scheme</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label for="ExamType">
+                                        Exam :
+                                    </label>
+                                    <select class="form-control" id="ExamType" ng-model="examtype1"
+                                            ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                        <option value="" selected>Select Exam</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 pull-left">
+                                    <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="getpdfTimeTableData()">
+                                        Export To PDF <span class="fa fa-file-pdf-o  heading_icon btn_icons"></span>
+                                    </button>
+
+                                </div>
+                                <div class="col-md-2 pull-left">
+
+                                    <button class="btn pull-left myBtn1 btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="exportTimetableToExcel()">
+                                        Export To Excel <span class="fa fa-file-excel-o  heading_icon btn_icons"></span>
+                                    </button>
+
+                                </div>
+                             
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                <img src="../../../contents/img/loading.gif" width="100" />
+                <div ng-show="gentmetbl"><p>Time Table Downloading is in process, please wait .....</p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-show="ResultNotFound" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data Found</h2>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        </section>

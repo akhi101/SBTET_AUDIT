@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Late Student Admission Allowed</title>
+</head>
+<body>
+    <div ng-controller="LateStudentAdmissionAllowedController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Late Student Admission Allowed</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sel1">Select Stream :</label>
+                                <input type="text" class="form-control" ng-disabled="true" ng-model="LateStudentAdmissionAllowed.CourseName" id="CourseName">
+                                <!--<select class="form-control" id="CourseID" ng-model="LateStudentAdmissionAllowed.CourseID" ng-disabled="true">
+                                    <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>-->
+                            </div>
+                            <div class="form-group">
+                                <label for="sel1">Select Exam :</label>
+                                <input type="text" class="form-control" ng-disabled="true" ng-model="LateStudentAdmissionAllowed.ExmName" id="ExmName">
+                                <!--<select class="form-control" id="ExamID" ng-model="LateStudentAdmissionAllowed.ExamID" ng-disabled="true">
+                                    <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                </select>-->
+                            </div>
+                            <div class="form-group">
+                                <label for="sel1">Select Branch :</label>
+                                <select class="form-control" id="BranchID" ng-model="LateStudentAdmissionAllowed.BranchID">
+                                    <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email" style="margin-top: 10px;"> Student Type :</label>
+                                <div>
+                                    <label style="padding-top:3px;" class="control-label col-lg-1">SSC:</label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" id="CheckSSC"  ng-disabled="true" ng-model="LateStudentAdmissionAllowed.CheckSSC" ng-change="CheckSSC()" style="width:40px" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label style="padding-top:3px;" class="control-label col-lg-2">Eligibility: </label>
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" id="CheckEligibility"  ng-disabled="true" ng-model="LateStudentAdmissionAllowed.CheckEligibility" ng-change="CheckEligibility()" style="width:40px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" ng-show="LateStudentAdmissionAllowed.CheckSSC">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-5">SSC HallTicket No :</label>
+                                    <input type="text" class="form-control" ng-disabled="true" ng-model="LateStudentAdmissionAllowed.SSCHallTicket" id="SSCHallTicket">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" ng-show="LateStudentAdmissionAllowed.CheckEligibility">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">Eligibility No :</label>
+                                    <input type="text" class="form-control" ng-disabled="true" ng-model="LateStudentAdmissionAllowed.EligibilityNo" id="EligibilityNo">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-5">SSC HallTicket No :</label>
+                                    <input type="text" class="form-control" ng-disabled="true" ng-model="LateStudentAdmissionAllowed.SSCHallTicket" id="SSCHallTicket">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center>
+                                <button ng-disabled="RollEditDisable" type="button" ng-click="SaveLateStudentAdmissionAllowed()" class="btn form_btn_align save_btn">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                            </center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,580 @@
+﻿
+<style>
+    .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxesinstitution {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+   
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+    
+    #checkboxesinstitution label {
+        display: block;
+    }
+
+        #checkboxescourse label:hover {
+            background-color: #1e90ff;
+        }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+
+    </style>
+
+<div ng-controller="CcicSetExamCentersController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Examination Centers</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination"> Pre Examination</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination/SetExamCenters">Set Examination Centers</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container">
+
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#1" data-toggle="tab" ng-click="tab1()">Exam Centres Mapping</a>
+                </li>
+                <li>
+                    <a href="#2" data-toggle="tab" ng-click="tab2()">Edit/Update Examination Centres Mapping</a>
+                </li>
+                <li>
+                    <a href="#3" data-toggle="tab" ng-click="tab3()">Examination Centres Mapping Report</a>
+                </li>
+            </ul>
+
+            <div class="tab-content container">
+
+                <div class="tab-pane active" id="1">
+
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <form novalidate>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="font-weight-bold"> Academic Year :</label>
+                                                <select class="form-control " ng-model="AcademicYear" ng-disabled="AcademicYearDisable" name="AcademicYear" required ng-change="GetExamMonthYearData(AcademicYear)">
+                                                    <option value="" selected="selected">Select Year</option>
+                                                    <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                        {{data.AcademicYear}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label class="font-weight-bold" for="ExamMonthYear">
+                                                Exam Month/Year :
+                                            </label>
+                                            <select class="form-control" name="ExamMonthYear" ng-disabled="monthyearDisable" required ng-model="monthyear">
+                                                <option value="" selected>Select Exam Month/Year</option>
+                                                <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                                    {{data.ExamMonthYearName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label class="font-weight-bold" for="Course">
+                                                Course :
+                                            </label>
+                                            <select class="form-control" name="CourseName" required ng-disabled="CourseDisable" ng-model="Course" ng-change="Submit()">
+                                                <option value="" selected>Select Course</option>
+                                                <option ng-repeat="data in CoursesData" value="{{data.CourseID}}">
+                                                    {{data.CourseName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+
+
+                                        <div class="" ng-show="ExamCentre_Institution">
+                                            <div class="col-md-6 form-group">
+                                                <label class="font-weight-bold" for="Exam Centre">
+                                                    Examination Centre :
+                                                </label>
+                                                <select class="form-control" name="CentreName" required ng-model="ExamCentre" ng-disabled="ExamCentreDisable">
+                                                    <option value="" selected>Select Examination Centre</option>
+                                                    <option ng-repeat="data in GetExaminationCentresTable" value="{{data}}">
+                                                        {{data.ExaminationCentreName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6 form-group">
+                                                <label class="font-weight-bold" for="sel1">
+                                                    Institution:
+                                                </label>
+                                                <div class="multiselect">
+                                                    <div class="selectBox" ng-click="showinstitutionCheckboxes()">
+                                                        <select class="form-control ">
+                                                            <option ng-blur="closeinstitutionCheckbox()">Select Institution</option>
+                                                        </select>
+                                                        <div class="overSelect"></div>
+                                                    </div>
+                                                    <div id="checkboxesinstitution" style="max-height: 12em; overflow-y: scroll;">
+                                                        <label class="contain">
+                                                            <input type="checkbox" ng-disabled="InstitutionDisable" ng-click="toggleAllinstitution()" ng-model="isAllSelectedinstitutions" /><span class="checkmark"></span>Select All
+                                                        </label>
+                                                        <label class="contain" ng-repeat="data in InstitutionsData">
+                                                            <input type="checkbox" ng-disabled="InstitutionDisable" ng-model="data.selected" ng-change="optionToggledinstitution(data.selected)"><span class="checkmark"></span>{{data.InstitutionName}}
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-2 pull-left" ng-show="GetButton">
+                                                <div class="gr-btn">
+                                                    <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="GetData(ExamCentre)">
+                                                        Get Exam Centers<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="ResultNotFound" class="no-results ng-hide">
+                                    <img src="../../contents/img/Folder-Icon.svg">
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+
+                    <div class="col-md-12" ng-show="TableShow">
+
+
+                        <div class="table-responsive table-custom-tables-tb">
+                            <div ng-show="TableShow" class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th width="2%">S.No</th>
+                                            <th width="40%" class="text-center">Examination Center</th>
+                                            <th width="60%" class="text-center">Institution Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in Selectedinstitutionnamearr">
+                                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                            <td class="text-center" style="padding: 3px;width:40%">{{SelectedExamCentre}}</td>
+                                            <td class="text-center" style="padding: 3px; width: 60%">{{data.InstitutionName}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                            <div class="col-md-6 pull-right" style="bottom:354px">
+                                <button class="btn btn-danger pull-right" style="margin-bottom:10px" ng-click="Cancel()">Cancel</button>
+                            </div>
+                            <div class="col-md-6 pull-right" style="bottom:354px;left:455px">
+                                <button class="btn btn-success pull-right" style="margin-bottom:10px" ng-click="addMappingExamCentres()">Save</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+                        <div ng-if="Noresult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane" id="2">
+
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <form novalidate>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="font-weight-bold"> Academic Year :</label>
+                                                <select class="form-control " ng-model="Academicyear" name="AcademicYear" required ng-change="getexamMonthYearData(Academicyear)">
+                                                    <option value="" selected="selected">Select Year</option>
+                                                    <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                        {{data.AcademicYear}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label for="ExamMonthYear">
+                                                Exam Month/Year :
+                                            </label>
+                                            <select class="form-control" name="ExamMonthYear" required ng-model="Monthyear">
+                                                <option value="" selected>Select Exam Month/Year</option>
+                                                <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                                    {{data.ExamMonthYearName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label class="font-weight-bold" for="Course">
+                                                Course :
+                                            </label>
+                                            <select class="form-control" name="CourseName" required  ng-model="course">
+                                                <option value="" selected>Select Course</option>
+                                                <option ng-repeat="data in CoursesData" value="{{data.CourseID}}">
+                                                    {{data.CourseName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2 ">
+                                            <div class="gr-btn">
+                                                <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getExamCentresMappingData()">
+                                                    Get Exam Centers<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="ResultNotFound" class="no-results ng-hide">
+                                    <img src="../../contents/img/Folder-Icon.svg">
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+
+                    <div class="col-md-12" ng-if="GetMappingData2.length>0">
+
+
+                        <div class="table-responsive table-custom-tables-tb">
+                            <!--<div class="cl-details">
+                                <h2>Set Examination Centers</h2>
+                            </div>-->
+                            <div ng-if="GetMappingData2.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th width="2%">S.No</th>
+                                            <th>Institution Name</th>
+                                            <th>Course Name</th>
+                                            <th>Examination Center</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in GetMappingData2">
+                                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.InstitutionName}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.CourseName}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.ExaminationCentreName}}</td>
+
+                                            <td class="text-center">
+                                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-click="editExamCentresMappingData(data.InstitutionExamCenterMappingId)">
+                                                    Edit
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer"></div>
+                            <div class="sm-spacer"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="NoResult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="tab-pane" id="3">
+
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <form novalidate>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="font-weight-bold"> Academic Year :</label>
+                                                <select class="form-control " ng-model="academicyear" name="AcademicYear" required ng-change="getexammonthyeardata(academicyear)">
+                                                    <option value="" selected="selected">Select Year</option>
+                                                    <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                                        {{data.AcademicYear}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label for="ExamMonthYear">
+                                                Exam Month/Year :
+                                            </label>
+                                            <select class="form-control" name="ExamMonthYear" required ng-model="MonthYear">
+                                                <option value="" selected>Select Exam Month/Year</option>
+                                                <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                                    {{data.ExamMonthYearName}}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                       
+                                        <div class="col-md-2 ">
+                                            <div class="gr-btn">
+                                                <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getData()">
+                                                    Get Exam Centers<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="ResultNotFound" class="no-results ng-hide">
+                                    <img src="../../contents/img/Folder-Icon.svg">
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                    
+                    <div class="col-md-12" ng-show="edit">
+                        <div class="pull-right" ng-show="result">
+                            <a class="ExportToExcel1 pointer"
+                               id="ExportToExcel1" ng-click="examCentreMappingExcel('#tblParent')">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-if="GetMappingData1.length>0">
+
+
+                        <div class="table-responsive table-custom-tables-tb">
+                            <!--<div class="cl-details">
+            <h2>Set Examination Centers</h2>
+        </div>-->
+                            <div ng-if="GetMappingData1.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th width="2%">S.No</th>
+                                            <th>Institution Name</th>
+                                            <th>Course Name</th>
+                                            <th>Examination Center</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in GetMappingData1">
+                                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.InstitutionName}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.CourseName}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.ExaminationCentreName}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer"></div>
+                            <div class="sm-spacer"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="noresult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+            </div>
+
+
+</section>
+    </div>

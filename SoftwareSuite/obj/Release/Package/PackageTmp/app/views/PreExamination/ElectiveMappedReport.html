@@ -1,0 +1,112 @@
+﻿<style>
+    .clr_red{
+        color:red
+    }
+      .clr_green{
+        color:green
+    }
+        .table > thead > tr >th {
+      position:sticky;
+      top:0px;
+    }
+      .table-custom-tables-tb .table-bordered > thead > tr > th {
+    border: 1px solid #ddd !important;
+    color: #ffffff!important;
+    background-color: #1976d2!important;
+    font-size: 12px !important;
+}
+    a#ExportToExcel1 {
+        margin-left: 20px;
+    }
+</style>
+<div ng-controller="ElectiveMappedReportController">
+    <div class="breadcrumb-header">
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Elective Mapping Report </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/ElectiveMappedReports">Elective Mapping Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12 " ng-show="Data">
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadSubjectWiseElectiveMappedReportExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Subjectwise Elective Mapping Report Excel Download
+                </a>
+            </div>
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Elective Mapping Report Excel Download
+                </a>
+            </div>
+            <!--<div>
+        <a class="ExportToExcel1 pointer"
+           id="ExportToExcel1" ng-click="GetTanatlizationReport()">
+            <i class="fa fa-file-excel-o"></i>
+            Tantalization Excel Download
+        </a>
+    </div>-->
+        </div>
+        <!--<div class="col-md-12" ng-show="subjectList.length>0">
+            <p class="pull-right clr_red">First 10 rows will be shown below</p>
+        </div>-->
+        <div class="col-md-12 ng-scope" ng-show="Data">
+            <div class="cl-details">
+                <h2> Elective Mapping Report</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="Data">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="font-size:bold;">S.No</th>
+                            <th>College Code</th>
+                            <th>Branch Code</th>
+                            <th>Scheme</th>
+                            <th>Semester</th>
+                            <th class="text-center">Is Mapped</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in MappedReport" ng-click="OpenDetails(data.CollegeCode)">
+
+                            <td width="5%">{{$index+1}}</td>
+                            <td>{{data.CollegeCode== null ?'-':data.CollegeCode}}</td>
+                            <td>{{data.BranchCode == null ?'-':data.BranchCode}}</td>
+                            <td>{{data.Scheme == null ?'-':data.Scheme}}</td>
+                            <td>{{data.Semester == null ?'-':data.Semester}}</td>
+                            <td class="text-center">
+                                <b class="clr_green" ng-show="data.IsMapped==true">Yes</b>
+                                <b class="clr_red" ng-show="data.IsMapped=== false">No</b>
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+
+                </table>
+
+            </div>
+        </div>
+
+</div>
+
+<div class="sm-spacer"></div>
+</div>

@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SystemUserGroup">
+    <title>User Groups</title>
+</head>
+<body>
+    <div ng-controller="SystemUserGroupController">
+        <div>
+            <div class="container">
+                <div class="row ctitle">
+                    <div class="col-md-5">
+                        <span><strong>User Groups</strong></span>
+                    </div>
+                    <div class="col-md-7 text-right">
+                        <ol class="breadcrumb">
+                            <li>You are in </li>
+
+                            <li>System Administration</li>
+                            <li>User Groups</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row base-row">
+                    <div class="col-md-12">
+                       
+                       
+                            <form action="#">
+                                <div class="form-group" ng-show="false">
+                                    <label class="control-label col-lg-2">Id : </label>
+                                    <div class="col-lg-1">
+                                        <input type="text" class="form-control" ng-model="SystemUserGroup.SysUsrGrpID" id="SysUsrGrpID">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-md-offset-3">
+                                    <div class="form-group">
+                                        <label for="email">Name</label>
+                                        <input type="text" class="form-control" id="SysUsrGrpName" ng-model="SystemUserGroup.SysUsrGrpName" required="" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sel1">Select Module :</label>
+                                        <select class="form-control" ng-model="SystemUserGroup.SysModID" id="SysModID" ng-change="ModuleChangeEvent(SystemUserGroup.SysModID)">
+                                            <option value="">--Select--</option>
+                                            <option ng-selected="SystemUserGroup.SysModID == option.SysModID" ng-repeat="option in SystemModuleList" value="{{option.SysModID}}">{{option.SysModName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-blue text-center" style="margin-bottom:10px;margin-top:0px; font-size: 15px; font-weight: 700;  background-color: #dddddd; padding: 10px 0;">
+                                   User Groups
+                                </div>
+                                <div style="margin-top:0px;">
+                                    <div id="exTab1" style="margin-top:0px;">
+                                        <ul class="nav nav-pills">
+                                            <li class="tab_custom_width active">
+                                                <a class="my-tab" href="#1a" data-toggle="tab">Programs</a>
+                                            </li>
+                                            <li class="tab_custom_width">
+                                                <a class="my-tab" href="#2a" data-toggle="tab">Reports</a>
+                                            </li>
+                                        </ul>
+                                        <label ng-hide="true">{{AllMenues}}</label>
+                                        <table class="table table-bordered table-hover table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Check All <input type="checkbox" id="CheckAllMenues" ng-model="SystemUserGroup.CheckAllMenues" /></th>
+                                                </tr>
+                                                <tr style="font-weight:bold">
+                                                    <td>Menu Name</td>
+                                                    <td style="text-align:center; width:100px;">Add</td>
+                                                    <td style="text-align:center; width:100px;">Edit</td>
+                                                    <td style="text-align:center; width:100px;">Delete</td>
+                                                    <td style="text-align:center; width:100px;">Print</td>
+                                                    <td style="text-align:center; width:100px;">ReadOnly</td>
+                                                </tr>
+                                            </thead>
+                                            <tr ng-repeat="doc in documentdata | filter:search | filter:new_search">
+                                                <td>{{doc.SysProgName}}</td>
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.selectAdd"></td>
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.selectEdit"></td>
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.selectDelete"></td>
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.selectPrint"></td>
+                                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="doc.selectReadOnly"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button type="button"class="btn btn-sm btn-detail" ng-disabled="isupdatableDisable" ng-click="SaveSystemUserGroup()">Save</button>
+                                            <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Cancel</button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

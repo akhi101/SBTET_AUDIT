@@ -1,0 +1,265 @@
+﻿<style>
+    img.photo-img {
+        height: 168px;
+        width: 190px;
+    }
+
+    table.table {
+        clear: both;
+        margin-bottom: 0px !important;
+        max-width: none !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598 !important;
+        font-size: 12px !important;
+        background-color: #fff !important;
+    }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        width: auto !important;
+        height: 35px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        /* padding: 9px!important; */
+        outline: none !important;
+    }
+
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+</style>
+<div ng-controller="PromotionalFeeController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Promotional Fee Details</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!"><i class="fa fa-dashboard"></i> </a></li>
+                    <li><a href="#!"></a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="alert alert-info">
+            <form name="dataForm">
+                <div class="row">
+
+                    <!--<div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Type:
+                        </label>
+                        <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changedVal()" required>
+                            <option value="" selected>Select Exam Type</option>
+                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                {{Student.type}}
+                            </option>
+                            
+                        </select>
+                    </div>-->
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold"> Exam Type:</label>
+                            <div class="">
+                                <select class="form-control" ng-model="StudentId" name="StudentType" ng-change="changeStuentType(Student.id)" required>
+                                    <option value="" selected>Select Exam Type</option>
+                                    <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                        {{Student.type}}
+                                    </option>
+                                    <!--ng-options="Student.type for Student in StudentType">-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="sel1">
+                            Enter PIN number :
+                        </label>
+                        <input class="form-control" type="text" placeholder="Enter PIN" ng-model="StudentPin" required />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="gr-btn">
+                            <button type="submit" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="getStudentDetails()">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div style="width: 100%; text-align: center;">
+            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+        </div>
+        <!--regular-->
+        <div  ng-show="result">
+            <div class="cl-details">
+                <h2>Student Promotional Fee  Details</h2>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px!important;border:1px solid #ddd">
+
+                <div class="col-md-10 pree-text top_table" style="padding:0px!important;">
+
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table class="table table-bordered  table-striped top-table table-rounded" style="margin-bottom: 0px !important; border-left:0px!important;border-bottom:0px!important;">
+                            <thead>
+                                <tr class="cb-2">
+                                    <th width="23%" id="tbl_head1 " class="myead2"><b>Pin</b></th>
+                                    <th id="tbl_head2" class="myead2">{{getUserData.Pin}}</th>
+                                    <th width="10%" id="tbl_head1 " class="myead2"><b>Scheme</b></th>
+                                    <th width="26%" id="tbl_head2" class="myead2">{{getUserData.Scheme}}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="">                               
+                                <tr>
+                                    <td><b>Name</b></td>
+                                    <td colspan="3">{{getUserData.Name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Father Name</b></td>
+                                    <td colspan="3">{{getUserData.FatherName}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Branch</b></td>
+                                    <td colspan="3">{{getUserData.BranchName}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><b>Current Semester</b></td>
+                                    <td >{{getUserData.CurrentSemester}}</td>
+                                    <td width="19%"><b>Promotion Semester</b></td>
+                                    <td>{{getUserData.PromotionSemester}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2 text-center" style="padding:0px;">
+                    <span ng-if="getUserData.ProfilePhoto != null && getUserData.ProfilePhoto != ''">
+                    <img   ng-src="{{getUserData.ProfilePhoto}}" class="photo-img" style="border: 2px solid #ddd;" />
+                    </span>
+                 
+                    <span ng-if="getUserData.ProfilePhoto == null || getUserData.ProfilePhoto == ''">
+                        <img  src="../../../contents/img/noimage.png" class="photo-img" style="border: 2px solid #ddd;" />
+                    </span>
+</div>
+            </div>
+         
+            <div class="col-md-12 tbl" style="padding:0px;border:1px solid #ddd">
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <tbody class="">
+
+                           
+                            <tr>
+                                <td width="19%"><b>Attendee Id</b></td>
+                                <td>{{getUserData.AttendeeId}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%"><b>Attendance Percentage(%)</b></td>
+                                <td> {{getUserData.Percentage.toFixed(2)}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%"><b>Promotional Fee Amount(RS)</b></td>
+                                <td>{{getUserData.PromotionalFeeAmount}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%"><b>Condonation Fee Amount(RS)</b></td>
+                                <td>{{getUserData.CondonationFeeAmount}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%"><b>Total Amount(RS)</b></td>
+                                <td>{{getUserData.TotalAmount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <!--BackLog-->
+        <div ng-show="displayError">
+            <div class="row" ng-show="!result">
+                <div class="col-md-12 no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>{{DetainedDetailsFoundWithData==null||DetainedDetailsFoundWithData==""?"Details Not Found":DetainedDetailsFoundWithData}}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div ng-show="DetailsNotFound" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>Details Not Found</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12"  ng-show="result">
+            <div class="pull-right">
+                <button class="btn pay_bck_btn" ng-click="payNow()">Pay Amount</button>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+
+
+
+    </div>
+
+    </div>

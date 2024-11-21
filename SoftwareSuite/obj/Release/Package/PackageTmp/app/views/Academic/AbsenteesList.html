@@ -1,0 +1,144 @@
+<style>
+
+    @media only screen and (max-width: 600px) {
+        .btn-mobile {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .loader {
+        border: 4px solid #5cb85c;
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 4s linear infinite; /* Safari */
+        animation: spin 1s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<div ng-controller="AbsenteesListController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Attendance Report</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                        <li><a href="#!/Dashboard/Academic/AttendanceReport">Attendance Report</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2>Attendance Report  </h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm" novalidate>
+                        <div class="row">
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="AcademicID" name="AcademicYear" required>
+                                    <option value="" selected>Select Academic Year</option>
+                                    <option ng-repeat="data in GetAcademicYears" value="{{data.AcademicId}}">
+                                        {{data.AcademicYear}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Semester :
+                                </label>
+                                <select class="form-control" ng-model="SemesterID" name="Semester" required ng-change="GetAbsentees()">
+                                    <option value="" selected>Select Semester</option>
+                                    <option ng-repeat="data in ActiveSemesters" value="{{data.semid}}">
+                                        {{data.sem}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="datetimepicker1" class="font-weight-bold">Start Date :</label>
+                                <div class='input-group date'>
+                                    <input type='date' class="form-control" id='datetimepicker1' ng-model="StartDate" min="{{MinDate}}" name="StartDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                                <span ng-show="SetDatesForm.StartDate.$dirty && SetDatesForm.StartDate.$invalid">
+                                    <span ng-show="hasError('StartDate', 'required')">Start Date no is required</span>
+                                </span>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="datetimepicker1" class="font-weight-bold">End Date :</label>
+                                <div class='input-group date'>
+                                    <input type='date' class="form-control" id='datetimepicker1' ng-model="EndDate" min="{{MinDate}}" name="EndDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                                <span ng-show="SetDatesForm.EndDate.$dirty && SetDatesForm.EndDate.$invalid">
+                                    <span ng-show="hasError('EndDate', 'required')">End Date no is required</span>
+                                </span>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="gr-btn">
+                                    <!--<button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="Submit()">Get Report</button>-->
+                                    <button type="submit" ng-click="Submit()" style="margin-top:10px;" class="btn submit_btn btn-primary gr-button" ng-disabled="disablebutton">
+                                        <span ng-show="!loader1">Get Report</span>
+                                        <span ng-show="loader1"><div class="loader"> </div></span>
+                                    </button>
+                                    <!--  <button class="btn submit_btn btn-primary gr-button" style="margin-top:10px;" ng-click="UpdateExpenditure()" ng-show="UpdateTrue">Update Expenditure</button>-->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-md-12" ng-if="loading">
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading1.gif" width="100" />
+                    <h4><b>Please wait getting Report...</b></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="DrillDownExamController">
+        <div class="container">
+        <div class="row base-row">
+            <div class="col-md-12">
+                
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-2">
+                        <div class="form-group">
+                            <label for="sel1">Management Type: </label>
+                            <select class="form-control" ng-model="DrillDownExam.MngtTypID" id="MngtTypID">
+                                <option value="" selected>All</option>
+                                <option ng-selected="DrillDownExam.MngtTypID == option.MngtTypID" ng-repeat="option in BasicManagementTypeList" value="{{option.MngtTypID}}">{{option.MngtTypName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="sel1">District :</label>
+                            <select class="form-control input-sm" id="DistrictID" ng-model="DrillDownExam.DistrictID">
+                                <option ng-selected="DrillDownExam.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-top:22px;" class="form-group">
+                        <button type="button" ng-click="ShowMngtTypData()" class="btn btn-sm btn-detail">Show</button>
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-12">
+                    <table style="font-size:12px;" id="alldata" class="table">
+                        <tr>
+                            <th width="30%">College Name</th>
+                            <th>Total</th>
+                            <th>Male</th>
+                            <th>Female</th>
+                        </tr>
+                        <tr ng-repeat="x in DrillDownExamList">
+                            <td>{{ x.ColName }}</td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetTotalRecord(x)'> {{ x.Total }} </a></td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetMaleRecord(x)'> {{ x.Male }} </a></td>
+                            <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetFemaleRecord(x)'> {{ x.Female }} </a></td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+            
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Data</h5>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="modal-body">
+                                <table style="font-size:12px;" id="filtereddata" class="table">
+                                    <tr>
+                                        <th>ExmFrmID</th>
+                                        <th>Form no</th>
+                                        <th>SSCHallTicket</th>
+                                        <th>PRN No</th>
+                                        <th>Student Name</th>
+                                        <th>Father Name</th>
+                                        <th>Mother Name</th>
+                                        <th>Main Group Name</th>
+                                        <th>Gender</th>
+                                    </tr>
+                                    <tr ng-repeat="x in SubDetailsList">
+                                        <td>{{ x.ExmFrmID }}</td>
+                                        <td>{{ x.Formno }}</td>
+                                        <td>{{ x.SSCHallTicket }}</td>
+                                        <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalDetail" ng-click='GetDrillDownStudentDetailsListByID(x)'> {{ x.PRNNo }} </a></td>
+                                        <td>{{ x.StudName }}</td>
+                                        <td>{{ x.Fathername }}</td>
+                                        <td>{{ x.MotherName }}</td>
+                                        <td>{{ x.MainGrpName }}</td>
+                                        <td>{{ x.Gender }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-blue">Education Detail <hr /></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Course Name :</label>
+                                            <input type="text" class="form-control input-sm" id="AadharNo" ng-Model="ExamForms.CourseName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Exam Name :</label>
+                                            <input type="text" class="form-control input-sm" id="ExmName" ng-Model="ExamForms.ExmName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Branch :</label>
+                                            <input type="text" class="form-control" ng-model="ExamForms.BranchName" id="BranchName" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1"> Main Group :</label>
+                                            <input type="text" class="form-control input-sm" id="MainGrpName" ng-Model="ExamForms.MainGrpName" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-blue">Personal Detail <hr /></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Candidate's  Name:</label>
+                                            <input type="text" class="form-control input-sm" id="cname" ng-Model="ExamForms.StudName" maxlength="100" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Father's Name:</label>
+                                            <input type="text" class="form-control input-sm" id="fname" ng-Model="ExamForms.FatherName" maxlength="40" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Mother's Name:</label>
+                                            <input type="text" class="form-control input-sm" id="mname" ng-Model="ExamForms.MotherName" maxlength="40" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group" ng-disabled="true">
+                                            <label for="email">Gender :</label>
+                                            <form>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamForms.Gender" checked value="M">Male
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamForms.Gender" value="F">Female
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamForms.Gender" value="O">Other
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Student Category :</label>
+                                            <input type="text" class="form-control input-sm" id="StudCatID" ng-Model="ExamForms.StudCatDesc" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group" ng-disabled="true">
+                                            <label for="email">Physically Handicapped :</label>
+                                            <form>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamForms.Handicaped" checked value="N">No
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="ExamForms.Handicaped" value="Y">Yes
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="text-blue">Fee Detail <hr /></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="sel1"> Form No :</label>
+                                            <input type="text" class="form-control" ng-model="ExamForms.Formno" id="Formno" placeholder="Form Number" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="form-group">
+                                            <label for="sel1"> Regular Fee :</label>
+                                            <input type="text" class="form-control" ng-model="ExamForms.RegularFees" id="RegularFees" placeholder="Regular Fees" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1"> Late Fee :</label>
+                                            <input type="text" class="form-control" ng-model="ExamForms.LateFees" id="LateFees" placeholder="Late Fees" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1"> Fee Amount :</label>
+                                            <input type="text" class="form-control" ng-model="ExamForms.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+</body>
+</html>

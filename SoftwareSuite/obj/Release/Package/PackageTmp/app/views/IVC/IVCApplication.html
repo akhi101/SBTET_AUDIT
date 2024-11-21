@@ -1,0 +1,349 @@
+﻿<style>
+    .modal-open {
+        padding-right: 0px !important;
+    }
+
+    body.modal-open {
+        padding-right: 0px !important;
+        overflow-y: auto;
+    }
+
+    form.white-popup-block .login-social {
+        padding: 25px;
+        padding-bottom: 220px;
+    }
+
+    form.white-popup-block label {
+        float: left;
+        color: #1F497D;
+        font-weight: bold;
+    }
+
+    .verify_margin {
+        margin-top: 40px;
+        margin-bottom: 25px;
+    }
+
+    .login-Sidepanel {
+        color: #1F497D;
+        background: linear-gradient(90deg, rgba(237,245,255,1) 0%, rgba(204,223,247,1) 100%);
+        /* background: linear-gradient(to bottom right, rgba(237,245,255,1), rgba(204,223,247,1));*/
+        padding: 30px;
+        padding-bottom: 325px;
+    }
+
+    .pol_reg {
+        color: #1F497D;
+    }
+
+    .link-top {
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .btn_margin {
+        margin-top: 23px;
+    }
+
+    .padding-0 {
+        padding: 0px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .btn-mobile {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .loader {
+        border: 4px solid #5cb85c;
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 4s linear infinite; /* Safari */
+        animation: spin 1s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    form.white-popup-block label {
+        float: left;
+        color: #1F497D;
+        font-weight: bold;
+    }
+    .input-group {
+        position: relative;
+        display: inline-table;
+        border-collapse: separate;
+    }
+</style>
+
+<div ng-controller="IVCApplicationController">
+    <div class="">
+        <!-- <div class="sm-spacer"></div>-->
+        <div class="sm-spacer"></div>
+        <!-- Start Login
+        ============================================= -->
+        <div class="login-area default-padding">
+            <div class="container">
+
+                <div class="col-md-10 col-md-offset-1">
+                    <form id="register-form" class="white-popup-block">
+                   
+                        <!--<div class="col-md-3 login-Sidepanel">
+        <h4 class="pol_reg" ng-repeat="data in CurrentPolycetYearData">Polycet - {{data.PolycetYear}}</h4>
+
+        <br>
+        <img src="/assets/img/sbtet-logo.png" class="img-login-logo" />
+        <br />
+        <h4 class="fee_class">Application Fee</h4>
+
+        <div class="clr_blue" ng-repeat="data in FeeAmountsData"> For SC/ST : Rs. {{data.SCSTFee}}</div>
+        <div calss="clr_blue" ng-repeat="data in FeeAmountsData"> For Others : Rs. {{data.OthersFee}}</div>
+
+    </div>-->
+                        <div class="col-md-12 login-custom">
+
+                            <div class="col-md-12">
+                                <h4> IVC Application Form</h4>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Applied for Lateral Entry into</label>
+                                    <select class="form-control" ng-model="CasteCategory"
+                                            ng-options="data.Value as data.Value for data in GetCourses" ng-change="ChangeCaste(CasteCategory)">
+                                        <option value="" selected>Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label> Name (as per SSC/10th class or its Equivalent)</label>
+                                    <input class="form-control" placeholder="Applicant Name (as per SSC/10th class or its Equivalent)" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' maxlength="100" type="text" ng-model="StudentName">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Father's Name (as per SSC/10th class or its Equivalent)</label>
+                                    <input class="form-control" placeholder="Applicant Name (as per SSC/10th class or its Equivalent)" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' maxlength="100" type="text" ng-model="StudentName">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <div class="form-group">
+                                        <label for="date-picker-example">Date Of Birth(dd/mm/yyyy)</label>
+                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                            <input type="text" show-weeks="false" class="form-control" disabled id="datetimepicker" placeholder="DD/MM/YYYY" autocomplete="off" name="DateOfBirth" datetime-picker="dd/MM/yyyy" ng-model="DOB_DATE" ng-change="checkDate(DOB_DATE)" is-open="showFlag1" required />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-primary btn_cal" ng-disabled="Calender" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select class="form-control" ng-model="CasteCategory"
+                                            ng-options="data.Value as data.Value for data in GetCasteData" ng-change="ChangeCaste(CasteCategory)">
+                                        <option value="" selected>Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Mobile Number</label>
+                                    <input class="form-control" maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ng-disabled="PhoneNum" placeholder="Enter Mobile Number" type="text" ng-model="MobileNumber">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-1" ng-if="sendotp">
+                                <div class="">
+
+                                    <button ng-click="SendSms()" ng-disabled="otpbutton" class="btn btn-xs btn-success verify_margin">
+                                        <span ng-show="!loader1">Verify OTP</span>
+                                        <span ng-show="loader1"><div class="loader"> </div></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3" ng-show="enterotp&&!phonenoupdated">
+
+                                <div class="form-group">
+                                    <label>Enter OTP</label>
+                                    <input class="form-control" placeholder="Enter Otp" maxlength="6" minlenght="6" type="text" ng-model="mobileotp">
+                                </div>
+
+                            </div>
+                            <div class="col-md-3" ng-show="enterotp||OtpVerified">
+                                <div class="form-group">
+                                    <a ng-click="ResendOtp()" class="link-top" ng-show="ResendLink&&!phonenoupdated">
+                                        Resend OTP
+                                    </a>
+
+                                    <div class="cls_verified1 verify_margin" style="color: #5cb85c; font-weight: bold;" ng-show="OtpVerified&&phonenoupdated"><i class="fa fa-check" style="display: inline-block; font-size: inherit; font: normal normal normal 14px/1 FontAwesome;" aria-hidden="true"></i> Verified</div>
+                                </div>
+                                <button ng-click="VerifyMobileOtp(MobileNumber,StudentName, mobileotp)" ng-show="verifyotp&&!phonenoupdated" class="btn btn-xs btn-success " style="margin-top:5px;">
+                                    <span ng-show="!loader2">Verify</span>
+                                    <span ng-show="loader2"><div class="loader"> </div></span>
+                                </button>
+                            </div>
+
+
+                            <!--<div class="col-md-6">
+
+        <div class="form-group">
+            <input class="form-control" ng-disabled="aadharbox" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Aadhar Number *" type="text" minlength="12" maxlength="12" ng-model="AadharNo">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="form-group">
+            <input class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="ReEnter Aadhar Number *" type="password" minlength="12" maxlength="12" ng-model="ReAadharNo">
+        </div>
+    </div>-->
+                            <!--<div class="col-md-12  mtp-50">
+        <div style=" width: 590px;text-align:right;margin-top: -145px;" ng-if="loading">
+            <img src="../../contents/img/loading2.gif" width="100" style="height:50px;width:50px" />
+
+        </div>
+    </div>-->
+
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Aadhaar UID</label>
+                                    <input class="form-control" ng-disabled="AADHARNO" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="12" minlength="12" placeholder="Aadhaar Number" type="text" ng-model="Aadhaar">
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Intermediate Vocational Course in</label>
+                                    <select class="form-control" ng-model="Vocat"
+                                            ng-options="data.Value for data.Value in GetVocat" ng-change="ChangeCaste(CasteCategory)">
+                                        <option value="" selected>Select Caste Category</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Marks secured in IVC</label>
+                                    <input class="form-control" placeholder="Caste Certificate Number" maxlength="50" ng-disabled="CASTENUM" type="text" ng-model="CasteNum">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Marks secured in Bridge course</label>
+                                    <input class="form-control" placeholder="Caste Certificate Number" maxlength="50" ng-disabled="CASTENUM" type="text" ng-model="CasteNum">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>Whether passed in the bridge course?</label>
+                                    <select class="form-control" ng-model="Vocat"
+                                            ng-options="data.Value for data.Value for data in Values" ng-change="ChangeCaste(CasteCategory)">
+                                        <option value="" selected>Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <label>IVC passed in?</label>
+                                    <select class="form-control" ng-model="Vcpass"
+                                            ng-options="data.Value for data.Value for data in passlst" ng-change="ChangeCaste(CasteCategory)">
+                                        <option value="" selected>Select </option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Captcha</label>
+                                    <input class="form-control" maxlength="5" placeholder="Captcha" type="text" ng-model="CaptchaText">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-6" style="padding:0px;">
+                                <label></label>
+                                <img class="refresh_captcha" data-ng-src="data:image/png;base64,{{CaptchaImage}}" width="150" height="33" />
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <a class="" title="Click to Refresh Captcha" ng-click="GetCaptchaData()"><img class="refresh_img" src="/assets/img/reload.png" /> </a>
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-8  col-xs-12 padding-0 btn-mobile">
+                                    <div class="form-group">
+
+                                        <button class="btn btn-primary btn_margin" ng-click="ValidateCaptcha(1)" ng-disabled="registerbutton1">
+                                            <span ng-show="!Loader1">Apply & Pay</span>
+                                            <span ng-show="Loader1"><div class="loader"> </div></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-4 col-xs-12 btn-mobile">
+            <div class="form-group">
+                <button class="btn btn-primary btn_margin " ng-click="ValidateCaptcha(2)" ng-disabled="registerbutton2">
+                    <span ng-show="!Loader2">Register & Pay Later</span>
+                    <span ng-show="Loader2"><div class="loader"> </div></span>
+                </button>
+            </div>
+        </div>-->
+                                <div class="col-md-4 col-xs-12 padding-0  btn-mobile">
+                                    <div class="form-group">
+                                        <button class="btn btn-danger btn_margin pull-right " ng-click="Cancel()">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-12">
+            <p class="lost-pass-link">Already Registered ?<a ui-sref="index.Login">Login</a></p>
+        </div>-->
+                            </div>
+                        </div>
+                    </form>
+
+                    <!--   -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

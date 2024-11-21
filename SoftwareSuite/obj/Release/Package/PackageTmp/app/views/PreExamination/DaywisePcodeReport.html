@@ -1,0 +1,162 @@
+
+<div ng-controller="DaywisePcodeReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Daywise Pcode Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/PreExamination">PreExamination</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/DaywisePcodeReport">Daywise Pcode Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="base-row row">
+
+                <div class="col-md-4 form-group">
+                    <label class="font-weight-bold">
+                        Academic Year  :
+                    </label>
+                    <select class="form-control" id="Academic" ng-model="AcademicYear"
+                            ng-options="aca.AcademicID as aca.AcademicYear for aca in GetExamMonthYear">
+                        <option value="" selected>Select Academic Year</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label class="font-weight-bold">
+                        Exam Month Year  :
+                    </label>
+                    <select class="form-control" id="ExamMonth" ng-model="ExamMonthYear"
+                            ng-options="exam.Id as exam.ExamYearMonth for exam in GetExamMonthYears">
+                        <option value="" selected>Select Exam Month Year</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label class="font-weight-bold">
+                        Student Type :
+                    </label>
+                    <select class="form-control" id="StudentType" ng-model="StudentType"
+                            ng-options="std.id as std.type for std in StudentTypes">
+                        <option value="" selected>Select Student Type</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label class="font-weight-bold">
+                        Scheme :
+                    </label>
+                    <select class="form-control" id="scheme" ng-model="Scheme"
+                            ng-options="Sem.SchemeID as Sem.Scheme for Sem in GetSemester">
+                        <option value="" selected>Select Scheme</option>
+                    </select>
+                </div>
+
+                <!--<div class="col-md-4">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Scheme:</label>
+                        <div class="">
+                            <select class="form-control" name="semester" required="" ng-model="Scheme">
+                                <option value="" selected="selected">Select Scheme</option>
+                                <option ng-repeat="Sem in GetSemester" value="{{Sem.Scheme}}">
+                                    {{Sem.Scheme}}
+                                </option>
+
+                            </select>
+
+
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="col-md-4 form-group">
+                    <label class="font-weight-bold">
+                        Exam Type :
+                    </label>
+                    <select class="form-control" id="ExamType" ng-model="ExamType"
+                            ng-options="data.id as data.examname for data in ExamTypesData">
+                        <option value="" selected>Select Exam Type</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-detail" ng-click="getDaywisePcodeExcel()" style="margin-top:22px;">
+                        Get Report
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+
+        <div class="col-md-12"  ng-if="DayWisePcodeReportData.length>0">
+            <div class="cl-details">
+                <h2>Daywise Pcode Report</h2>
+            </div>
+            <!--<div class="col-md-12">
+                <div class="pull-right">
+                    <a class="ExportToExcel pointer"
+                       id="ExportToExcel" ng-click="getDaywisePcodeExcel()">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>-->
+            <div class="col-md-12">
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table id="tblParent1" class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 5%" ng-click="sort('Sno')">Sno</th>
+                            <th>Exam Date</th>
+                            <th class="text-center">Exam Session</th>
+                            <th class="text-center">Exam Time</th>
+                            <th class="text-center">PCODE</th>
+                            <th class="text-center">Subject Name</th>
+                            <th class="text-center">Branches</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="data in DayWisePcodeReport" style="background-color:#fff!important;cursor:pointer;">
+                            <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                            <td>{{$index+1}}</td>
+                            <td>{{data.ExamDate}}</td>
+                            <td>{{data.ExamSession}}</td>
+                            <td>{{data.Pcode}}</td>
+                            <td>{{data.SubjectName}}</td>
+                            <td>{{data.Branches}}</td>       
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="sm-spacer"></div>
+        </div>
+       
+        <div class="col-md-12">
+            <div style="text-align:center;">
+                <img src="../../../contents/img/loading2.gif" height="100" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found</h2>
+            </div>
+        </div>
+    </div>

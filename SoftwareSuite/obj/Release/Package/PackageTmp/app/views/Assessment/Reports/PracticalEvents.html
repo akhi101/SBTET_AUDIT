@@ -1,0 +1,116 @@
+﻿<style>
+    .elements {
+        background: aliceblue !important;
+        cursor: pointer !important;
+    }
+
+        .elements :hover {
+            background: #f6fafe !important;
+        }
+</style>
+<div ng-controller="PracticalEventsController">
+    <div class="clearfix"></div>
+    <div>
+      
+        <div class="">
+            <div class="breadcrumb-header">
+                <!-- breadcrumb Open -->
+                <div class="container">
+                    <section class="content-header">
+                        <h5>Branch Name : {{branch}}</h5>
+                        <ol class="breadcrumb">
+                                <li><a href="#!/Dashboard"> Dashboard</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard">Assessment Dashboard</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/MarksSummary">Reports</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/MarksSummary/PracticalEvents">Event List</a></li>
+                            <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                        </ol>
+                    </section>
+                </div>
+                <!-- breadcrumb Close -->
+            </div>
+            <section class="">
+                <div class="container">
+                        <div class="col-md-12">
+                                <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard/MarksSummary" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                            </div>
+                </div>
+                <div class="container ">
+                    <div class="row base-row">
+
+
+                        <div class="col-md-4">
+                            <div class="">
+                                <div class="col-md-5">
+                                    <label class="label" for="collegSelect">Academic Year : </label>
+                                </div>
+                                {{AcademicYearsActiveResponse.AcademicYear}}
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="">
+                                <div class="col-md-5">
+                                    <label class="label" for="collegSelect">Select Scheme : </label>
+                                </div>
+                                {{Scheme}}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="">
+                                <div class="col-md-6">
+                                    <label class="label" for="collegSelect">Select Semester : </label>
+                                </div>
+                                {{Sem}}
+                            </div>
+                        </div>
+                    </div>
+                        <section class="content col-md-12" ng-show="Data">
+                            <div class="container dashboardContent">
+                                <!-- Small boxes (Stat box) -->
+                                <div class="row widgets-container">
+                                    <div class="col-lg-3 col-xs-6" ng-repeat="item in ExamCategoryList">
+                                        <a href="#" class="grow" ng-click="Showsubjects(item)">
+                                            <div class="{{item.ModuleImageClass}}">
+                                                <div class="inner">
+                                                    <div class="icon" ng-show="item.ModuleRouteName=='Practical' || item.ModuleRouteName=='Theory'">
+                                                        <img src="../../contents/img/marksentry.png" width="60px" height="60px" />
+                                                    </div>
+
+                                                    <h3>{{item.SysModName}}</h3>
+                                                    <div class="icon1">
+                                                        <img src="../../contents/img/transprent.png" width="100" height="auto" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                    <div style="width:100%;text-align:center;" class="col-md-12">
+                        <img src="../../../contents/img/loading2.gif" ng-show="Loading" width="100" />
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="Noresult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data Found</h2>
+                        </div>
+                    </div>
+
+
+                        <!--subject Details -->
+
+
+                   
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+</div>

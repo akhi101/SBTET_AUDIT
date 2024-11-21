@@ -1,0 +1,54 @@
+﻿<div ng-controller="BackLogDetailesController">
+    <div class="breadcrumb-header">
+          <div class="container">
+            <section class="content-header">
+                <h5>Previous Exam Results Details</h5>
+                <ol class="breadcrumb">
+                     <li><a href="#!/Dashboard/Results">Results</a></li>
+                    <li><a href="#!/Dashboard/Results/BacklogResults">BacklogResults</a></li>
+                    <li><a href="#!/Dashboard/Results/BacklogResults/BacklogResults"> BacklogDetailes</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+   
+  <div class="container">
+      <div class="col-md-12">
+          <a href="#!/Dashboard/Results/BacklogResults" class="backA"><button class="btn bck_btn" onclick="get()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+      </div>
+      <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+            <table class="table table-bordered  table-striped table-rounded">
+                 <thead>
+                    <tr class="cb-1">
+                        <th class="text-left" style="width: 1%">Sno</th>
+                        <th class="text-left" style="width: 10%">Semester Year</th>
+                        <th class="text-left" style="width: 10%">Subject Code</th>
+                        <th class="text-left" style="width: 10%">Subject Name</th>
+                        <th class="text-left" style="width: 10%">Marks</th>
+                        <th class="text-left" style="width: 10%">Result</th>
+                        <th class="text-left" style="width: 10%">Exam Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr style="background-color:#fff!important;" ng-repeat="data  in getBacklogStudentdetailes">
+                        <td class="text-left">{{$index + 1}}</td>
+                        <td class="text-left">{{data.yrsem}}</td>
+                        <td class="text-left">{{data.sub1}}</td>
+                        <td class="text-left">{{data.subname}}</td>
+                        <td class="text-left">{{data.marks}}</td>
+                        <td class="text-left">{{data.result}}</td>
+                        <td class="text-left">{{data.examyear}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="col-md-12">
+                <div ng-if="result" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>{{response}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>

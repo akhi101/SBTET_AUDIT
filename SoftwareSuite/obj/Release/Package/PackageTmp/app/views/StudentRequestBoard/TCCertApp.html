@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer Certificate</title>
+</head>
+<body>
+    <div ng-controller="TCCertAppController">
+        <div class="container">
+            <div class="row">
+                <label for=""> Candidate Applied Date : {{TCCertApp.TCDate | date:'dd/MMM/yyyy'}}</label>
+                <label for="" ng-show="Level1"> Level 1 Status Approved/Rejected Date : {{TCCertApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{TCCertApp.ReqStatusIPAddress}}</label>
+                <label for="" ng-show="Level2"> Level 2 Status Approved/Rejected Date : {{TCCertApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{TCCertApp.ReqStatus1IPAddress}}</label>
+                <div class="col-md-12 col-sm-12 col-xs-12  top_margin">
+                    <div class="panel-group">
+                        <div class="panel">
+                            <div class="panel-heading header_background"><b>Transfer Certificate</b></div>
+                            <div class="panel-body form_border">
+                                <form class="form-horizontal" action="#">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="">SSC Hall Ticket:</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="HTNO" ng-model="TCCertApp.HTNO" input-Number-Only>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                <div class="text-center form-title">
+                                    Student Details
+                                </div>
+                                <div class="form-group">
+
+                                </div>
+                                <form class="form-horizontal" action="#">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Application Number :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="AdmNo" ng-model="TCCertApp.AdmNo" ng-readonly="true">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" ng-hide="true">
+                                                <label>{{TCCertApp.PreStudRegID}}</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Candidate Name :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="StudName" ng-model="TCCertApp.StudName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Father Name
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="Fathername" ng-model="TCCertApp.Fathername" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    College Name
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="ColName" ng-model="TCCertApp.ColName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Course:
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="CourseName" ng-model="TCCertApp.CourseName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    New College :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="NewColName" ng-model="TCCertApp.NewColName" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Mobile Number
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="MobileNo" ng-model="TCCertApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Fee (in rupees) :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="FeeAmount" ng-model="TCCertApp.FeeAmount" ng-readonly="true">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">
+                                                    Purpose
+                                                    :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" rows="4" id="Purpose" ng-model="TCCertApp.Purpose" ng-readonly="true"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Request Status:</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="ReqStatus" ng-model="TCCertApp.ReqStatus">
+                                                        <option value="">Select Status</option>
+                                                        <option value="A">Approved</option>
+                                                        <option value="P">Pending</option>
+                                                        <option value="R">Rejected</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="">Process Remark:</label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" rows="4" id="ProcessRemark" ng-model="TCCertApp.ProcessRemark"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for=""> Uploade Certificate :</label>
+                                                <div class="col-sm-5">
+                                                    <input type="file" class="form-control" name="UploadDoc1" id="UploadDoc1" accept="pdf" style="height:40px;width:225px" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button type="button" ng-disabled="UploadFiles" ng-click="SaveUploadDoc1()" class="btn btn-success">Upload</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <div class="form-group">
+                                                <button type="button" ng-disabled="RollEditDisable" ng-click="SaveTCCertApp()" class="btn btn-primary">Submit</button>
+                                                <button type="button" ng-disabled="PrintDisable" ng-click="PrintTCCertApp()" class="btn btn-primary">Print</button>
+                                                <button type="button" ng-click="Exit()" class="btn btn-primary">Exit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Blind Condidate Approval</title>
+</head>
+<body>
+    <div ng-controller="ExamFormsBlindCondAprovalListController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Blind Condidate Approval</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Blind Condidate Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row" ng-hide="{{ForBoardDisable}}">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormsBlindCondAprovalList.DistrictID" ng-change="FillMandal(ExamFormsBlindCondAprovalList.DistrictID)">
+                                        <option ng-selected="ExamFormsBlindCondAprovalList.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Mandal :</label>
+                                    <select class="form-control input-sm" id="MandalID" ng-model="ExamFormsBlindCondAprovalList.MandalID" ng-change="FillCollege(ExamFormsBlindCondAprovalList.MandalID)" ng-disabled="MandalDisable">
+                                        <option ng-selected="ExamFormsBlindCondAprovalList.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">College :</label>
+                                    <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormsBlindCondAprovalList.CollegeID" ng-change="FillCollData(ExamFormsBlindCondAprovalList.CollegeID)" ng-disabled="CollegeDisable">
+                                        <option ng-selected="ExamFormsBlindCondAprovalList.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <select class="form-control" ng-model="ExamFormsBlindCondAprovalList.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormsBlindCondAprovalList.CourseID)">
+                                        <option ng-selected="ExamFormsBlindCondAprovalList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Branch :</label>
+                                    <select class="form-control" ng-model="ExamFormsBlindCondAprovalList.BranchID" id="BranchID">
+                                        <option ng-selected="ExamFormsBlindCondAprovalList.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Year :</label>
+                                    <select class="form-control" ng-model="ExamFormsBlindCondAprovalList.ExamID" id="ExamID">
+                                        <option ng-selected="ExamFormsBlindCondAprovalList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top:24px;" class="col-md-1">
+                                <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">Submit</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="GridExamForms"
+                                     ej-grid
+                                     e-recorddoubleclick="doubleclick"
+                                     e-allowgrouping="true"
+                                     e-allowsorting="true"
+                                     e-allowresizing="true"
+                                     e-datasource="ExamFormsBlindCondAprovalListData">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

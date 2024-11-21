@@ -1,0 +1,147 @@
+﻿<div ng-controller="OdcDataController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <!--<div class="col-md-12">
+            <a  href="#!/Dashboard/PostExam/GenuinenessApproval/GenuinenessApproveList" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="col-md-12" ng-show="Back == 1">
+            <a href="#!/Dashboard/PostExam/OdcApproveList/OdcApproveListDetails" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>-->
+        
+        <div class="sm-spacer"></div>
+        <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+            <img src="../../../contents/img/loading.gif" width="100" />
+        </div>
+        <div class="row print" id="idtoDivPrintAdmin" ng-show="ResultFound">
+            <div class="col-md-12 ">
+                <div class="cl-details">
+                    <h2>STUDENT ODC DETAILS</h2>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-2 col-md-12">
+                        <div class="logo-img">
+                            <img src="../../../contents/img/big-logo.png" />
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-12">
+                        <div class="logo-name">
+                            <h2 style="text-align: center">
+                                STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                            </h2>
+                            <!--<h2><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br /><p style="text-align: center">TELANGANA</p></h2>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" style="margin-top: 35px;">
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Permanent Id No. (PIN)</div>
+                    <div class="col-md-10">: {{ODCstudData.Pin}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Name Of the Candidate</div>
+                    <div class="col-md-10">: {{ODCstudData.Name}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Father Name</div>
+                    <div class="col-md-10">: {{ODCstudData.FatherName}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Branch</div>
+                    <div class="col-md-10">:{{ODCstudData.BranchCode}}-{{ODCstudData.BranchName}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Course Duration</div>
+                    <div class="col-md-10">:{{ODCstudData.CourseDuration}}</div>
+                </div>
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Month & Year of Exam</div>
+                    <div class="col-md-10">: {{ODCstudData.MonthYear}}</div>
+                </div>
+
+
+                <div class="row padRow">
+                    <div class="col-md-2 font_bold">Name of the Institution</div>
+                    <div class="col-md-10">: {{ODCstudData.CollegeCode}}-{{ODCstudData.CollegeName}},{{ODCstudData.CollegeAddress}}</div>
+                </div>
+
+
+                <div class="table-responsive customtable">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+
+                                <th class="text-center" rowspan="2">Examination</th>
+                                <th class="text-center" rowspan="3">Maximum <br />Marks </th>
+                                <th class="text-center" rowspan="3">Marks <br /> Secured</th>
+                                <th class="text-center" colspan="3">
+                                    MARKS TAKEN INTO CONSIDERATION FOR THE
+                                    AWARD OF CLASS
+                                </th>
+
+
+                            </tr>
+                            <tr>
+
+                                <th class="text-center">IN FIGURES</th>
+                                <th class="text-center">PERCENTAGE</th>
+                                <th class="text-center">IN WORDS</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <tr ng-repeat="x in Odcmarkstable ">
+                                <td class="text-center"> {{x.Examination}}</td>
+                                <td class="text-center">{{x.MaxMarks}}</td>
+                                <td class="text-center">{{x.MaxSecured}}</td>
+                                <td class="text-center">{{x.InFigures}}</td>
+                                <td class="text-center">{{x.Per}}</td>
+                                <td class="text-center">
+                                    {{x.InWords}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"> Total Marks In Figure</td>
+
+                                <td class="text-center" colspan="5"><b class="text-uppercase ">{{ODCstudData.TotalMarksInFigure}}</b> </td>
+
+
+                            </tr>
+                            <tr>
+                                <td class="text-center"> IN Words</td>
+
+                                <td class="text-center" colspan="5"><b class="text-uppercase ">{{ODCstudData.TotalMarksInWords}}</b> </td>
+
+
+                            </tr>
+                            <tr>
+                                <td class="text-center"> Percentage of Marks</td>
+
+                                <td class="text-center" colspan="5"><b class="text-uppercase ">{{ODCstudData.PercentageOfMarks}}</b> </td>
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div ng-show="ResultNotFound" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

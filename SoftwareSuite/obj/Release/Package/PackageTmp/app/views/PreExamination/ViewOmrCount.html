@@ -1,0 +1,78 @@
+﻿<div ng-controller="ViewOmrCountController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>branchwise Omr Count</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PreExamination"> Fee Payment</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/OmrCount">Omr Count</a></li>
+
+                    <li><a href="#!/Dashboard/PreExamination/OmrCount/ViewOmrCount">Branchwise Omr Count</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination/OmrCount" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12" ng-show="result">
+            <div class="cl-details">
+                <h2>Branchwise Omr Count</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="result">
+            <div class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center">Branch</th>
+                            <th class="text-center">Scheme</th>                        
+                            <th class="text-center">Semester</th>
+                            <th class="text-center">No of Students</th>
+                            <th class="text-center">Theory</th>
+                            <th class="text-center">Practicals</th>
+                            <th class="text-center" style="width: 10%">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-click="openDetails(x.SemId,x.SchemeId)" ng-repeat="x in getOmrBranchCount">
+                            <!--<td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="data.isChecked" ng-class="{selected: data.isChecked}" ng-change="selectEntity(data)"></td>-->
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{x.BranchCode}}</td>
+                            <td class="text-center">{{x.Scheme}}</td>
+                            <td class="text-center">{{x.Semester}}</td>
+                            <td class="text-center">{{x.NoOfStudents == null ? '-' : x.NoOfStudents}}</td>
+                            <td class="text-center">{{x.NoOfTheory == null ? '-' : x.NoOfTheory}}</td>
+                            <td class="text-center">{{x.NoOfPracticals == null ? '-' : x.NoOfPracticals}}</td>
+                            <td class="text-center">{{x.Count == null ? '-' : x.Count}}</td>
+                           
+                        </tr>
+                        <tr >
+                            <td colspan="4" class="text-center"><b>Total</b></td>
+                            <td class="text-center"><b>{{NoOfStudents}}</b></td>
+                            <td class="text-center"><b>{{NoOfTheory}}</b></td>
+                            <td class="text-center"><b>{{NoOfPracticals}}</b></td>
+                            <td class="text-center"><b>{{Count}}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div ng-if="NoData" class="no-results">
+            <img src="../../contents/img/Folder-Icon.svg" />
+            <h2>No Result Found</h2>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

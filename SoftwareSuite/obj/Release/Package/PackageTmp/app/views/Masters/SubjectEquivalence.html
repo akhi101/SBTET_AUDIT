@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Subject Equivalence </title>
+</head>
+<body>
+    <div ng-controller="BasicSubjectEquivalenceController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Subject Equivalence</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Academics</li>
+                        <li>Vocational Subject Equivalency</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-1" ng-show="false">
+                                <div class="form-group">
+                                    <input type="text"  ng-model="BasicSubjectEquivalence.SubEqiValenceID" id="SubEqiValenceID">
+                                </div>
+                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="BasicSubjectEquivalence.CourseID" id="CourseID" ng-change="GetExamList(BasicSubjectEquivalence.CourseID)">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="BasicSubjectEquivalence.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Year :</label>
+                                    <select class="form-control" ng-model="BasicSubjectEquivalence.ExamID" id="ExamID" ng-change="GetExamSubjectList(BasicSubjectEquivalence.ExamID)">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="BasicSubjectEquivalence.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Subject :</label>
+                                    <select class="form-control" ng-model="BasicSubjectEquivalence.ExmSubID" id="ExmSubID">
+                                        <option value="">-- Select Subject --</option>
+                                        <option ng-selected="BasicSubjectEquivalence.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Equivalence Subject :</label>
+                                    <select class="form-control" ng-model="BasicSubjectEquivalence.SubEquID" id="SubEquID">
+                                        <option value="">-- Select Subject --</option>
+                                        <option ng-selected="BasicSubjectEquivalence.SubEquID == option.ExmSubID" ng-repeat="option in BasicSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                </div><br /><br />
+                <!--<div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>-->
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicSubjectEquivalence()">Save</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

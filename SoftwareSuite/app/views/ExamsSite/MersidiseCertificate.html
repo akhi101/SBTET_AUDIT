@@ -8,6 +8,7 @@
         cursor: pointer;
         z-index: 1;
     }
+
     .table > thead > tr > th {
         background-color: #fff;
         color: #788598 !important;
@@ -29,6 +30,7 @@
         background-position: center center;
         background-size: contain;
     }
+
     .loader {
         border: 4px solid #5cb85c;
         border-radius: 50%;
@@ -60,16 +62,18 @@
         }
     }
 
-        input[type=checkbox]:not(:checked) {
-            background-image: url(../../../contents/img/unchecked.png);
-        }
+    input[type=checkbox]:not(:checked) {
+        background-image: url(../../../contents/img/unchecked.png);
+    }
 
-        input[type=checkbox]:checked {
-            background-image: url(../../../contents/img/checked.png);
-        }
+    input[type=checkbox]:checked {
+        background-image: url(../../../contents/img/checked.png);
+    }
+
     .modal-content {
         margin-top: 200px;
     }
+
     .btn-margin {
         margin-top: 20px;
     }
@@ -81,6 +85,9 @@
         </li>
     </ul>
 </marquee> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
 <div ng-controller="MersidiseCertificateController" ng-init="createCaptcha()">
 
     <div class="container">
@@ -168,13 +175,13 @@
                         </div>
                     </div>
                     <!--<div class="col-md-4">
-        <div class="form-group ">
-            <label for="" class="font-weight-bold">Year Of Passing :</label>
-            <div id=''>
-                <input type='text' class="form-control" placeholder="Enter Course Name" ng-model="YearOfPassing" autocomplete="off" name="FatherName" required />
-            </div>
-        </div>
-    </div>-->
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">Year Of Passing :</label>
+                            <div id=''>
+                                <input type='text' class="form-control" placeholder="Enter Course Name" ng-model="YearOfPassing" autocomplete="off" name="FatherName" required />
+                            </div>
+                        </div>
+                    </div>-->
                     <div class="col-md-4">
                         <div class="form-group ">
                             <label for="" class="font-weight-bold">Course Type :</label>
@@ -196,22 +203,22 @@
 
                         </div>
                         <!-- <div class="form-group ">
-            <label for="" class="font-weight-bold">Scheme :</label>
-            <div id=''>
-                <input type='text' class="form-control" placeholder="Enter Scheme" maxlength="20" ng-model="Scheme" autocomplete="off" name="Scheme" required />
-            </div>
-        </div> -->
+                            <label for="" class="font-weight-bold">Scheme :</label>
+                            <div id=''>
+                                <input type='text' class="form-control" placeholder="Enter Scheme" maxlength="20" ng-model="Scheme" autocomplete="off" name="Scheme" required />
+                            </div>
+                        </div> -->
                     </div>
                     <!--<div class="col-md-4">
-        <div class="form-group ">
-            <label for="" class="font-weight-bold">Purpose :</label>
-            <select class="form-control" ng-model="Purpose" required>
-                <option value="" selected>Select Purpose</option>
-                <option value="Certificate">Certificate</option>
-            </select>
+                        <div class="form-group ">
+                            <label for="" class="font-weight-bold">Purpose :</label>
+                            <select class="form-control" ng-model="Purpose" required>
+                                <option value="" selected>Select Purpose</option>
+                                <option value="Certificate">Certificate</option>
+                            </select>
 
-        </div>
-    </div>-->
+                        </div>
+                    </div>-->
 
                     <div class="col-md-4">
                         <div class="form-group ">
@@ -451,7 +458,7 @@
                             <div class="form-group ">
                                 <label for="" class="font-weight-bold">Mobile Number :</label>
                                 <div id=''>
-                                    <input type='text' maxlength="10" class="form-control" placeholder="Mobile Number" ng-model="MobileNumber" autocomplete="off" name="MobileNumber" required />
+                                    <input type='text' maxlength="10" class="form-control" placeholder="Mobile Number" ng-model="MobileNumber" ng-disabled="MobileDisable" autocomplete="off" name="MobileNumber" required />
                                 </div>
                             </div>
                         </div>
@@ -459,7 +466,7 @@
                             <button class="btn btn-success btn-xs" ng-click="SendOtp()">click here to verify</button>
                         </div>
                         <div class="col-md-2 btn-margin" ng-show="Otp && !phonenoupdated">
-                            <input type="text" ng-model="OTPdata" placeholder="Enter OTP">
+                            <input type="text" ng-model="OTPdata" placeholder="Enter OTP" maxlength="6">
                             <a ng-click="ReSendOtp()" ng-hide="limitexceeded" class="pull-right">Resend OTP</a>
                         </div>
                         <div class="col-md-2 btn-margin" ng-show="Otp && !phonenoupdated">
@@ -477,10 +484,10 @@
                         </div>
                     </div>
                     <!--<div class="col-md-6">
-        <button class="btn btn-info" style="margin-top:23px;" ng-click="AddData()">Submit</button>
-    </div>-->
+                        <button class="btn btn-info" style="margin-top:23px;" ng-click="AddData()">Submit</button>
+                    </div>-->
                 </div>
-</form>
+            </form>
         </div>
         <div class="card" ng-show="ThirdCard">
             <div class="col-md-12">
@@ -514,38 +521,38 @@
                 </div>
             </div>
             <!--<div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">First Name  </label></div>
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">First Name  </label></div>
 
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FirstName}}</div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Last Name  </label></div>
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FirstName}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Last Name  </label></div>
 
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{LastName}}</div>
-    </div>-->
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{LastName}}</div>
+            </div>-->
             <!--<div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Gender  </label></div>
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Gender  </label></div>
 
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Gender}}</div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Father Name  </label></div>
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FatherName}}</div>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Ciollege Name  </label></div>
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CollegeName}}</div>
-    </div>-->
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Gender}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Father Name  </label></div>
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{FatherName}}</div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Ciollege Name  </label></div>
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CollegeName}}</div>
+            </div>-->
             <!--<div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Course Name  </label></div>
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Course Name  </label></div>
 
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CourseName}}</div>
-    </div>-->
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{CourseName}}</div>
+            </div>-->
             <!--<div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Year of passing  </label></div>
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Year of passing  </label></div>
 
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{YearOfPassing}}</div>
-    </div>-->
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{YearOfPassing}}</div>
+            </div>-->
             <div class="col-md-6">
                 <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">CourseType  </label></div>
 
@@ -557,10 +564,10 @@
                 <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Scheme}}</div>
             </div>
             <!--<div class="col-md-6">
-        <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Purpose  </label></div>
+                <div class="col-md-3"><label style="margin:5px 10px 5px 10px">Purpose  </label></div>
 
-        <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Purpose}}</div>
-    </div>-->
+                <div class="col-md-9 pre-text" style="padding:5px 10px 5px 10px">: {{Purpose}}</div>
+            </div>-->
             <div class="col-md-6">
                 <div class="col-md-3  textBold"><label style="margin:5px 10px 5px 10px">Mobile  </label></div>
 

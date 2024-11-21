@@ -1,0 +1,119 @@
+﻿<div ng-controller="SeatingArrangementController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Seating Arrangement</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/FeePayment">Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/FeePayment/SetExamCenters">Seating Arrangement </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="row frow base-row">
+            <div class="col-md-12">
+                <form name="seatingArrangementForm" ng-submit="saveSeatingArrangement()" ng-init="init()">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <label>Exam Month Year</label>
+                            <select class="form-control" ng-model="selectedEmy" name="ExamMonthYear">
+                                <option value="" selected>Select Exam Month Year</option>
+                                <option ng-repeat="item in ExamMonthYears" value="{{item.ExamMonthYearId}}">
+                                    {{item.ExamYearMonth}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Student Type</label>
+                            <select class="form-control" ng-model="studentTypeId" ng-change="changedStudentType()">
+                                <option value="">Select Student Type</option>
+                                <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                    {{Student.type}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Exam Date</label>
+                            <select class="form-control" ng-model="selectedExamDate" name="ExamMonthYear">
+                                <option value="" selected>Select Exam Date</option>
+                                <option ng-repeat="item in ExamDates" value="{{item.ExamDate}}">
+                                    {{item.ExamDate}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Time Slot</label>
+                            <select class="form-control" ng-model="timeSlot">
+                                <option value="">Select Time Slot</option>
+                                <option>FN</option>
+                                <option>AN</option>
+                            </select>
+                        </div>
+                        <!--<div class="col-md-3 form-group">
+                            <label>Seating Per Bench</label>
+                            <select class="form-control" ng-model="seatingPerBench">
+                                <option value="">Select Seating Per Bench</option>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </div>-->
+                        <div class="col-md-9">
+                            <h4>Exam Halls</h4>
+                            <table class="table" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <th>ExamHall Name</th>
+                                    <th>Rows</th>
+                                    <th>Columns</th>
+                                    <th>Students per Bench</th>
+                                    <th></th>
+                                </tr>
+                                <tbody ng-repeat="eh in ExamHalls">
+                                    <tr>
+                                        <td><p>{{eh.HallName}}</p></td>
+                                        <td><p>{{eh.Rows}}</p></td>
+                                        <td><p>{{eh.Columns}}</p></td>
+                                        <td><p>{{eh.SeatingPerBench}}</p></td>                                    
+                                        <td><input type="button" ng-click="RemoveHall($index)" value="Remove" /></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td><input type="text" ng-model="HallName" /></td>
+                                        <td><input type="text" ng-model="Rows" /></td>
+                                        <td><input type="text" ng-model="Columns" /></td>
+                                        <td>
+                                            <select class="form-control" id="SeatingPerBench" ng-model="SeatingPerBench">
+                                                <option value="" selected>Select students per bench.</option>
+                                                <option ng-repeat="itm in studentsperbenchlist" value="{{itm.val}}">
+                                                    {{itm.lbl}}
+                                                </option>
+                                            </select>
+
+                                            <!--<input type="text" ng-model="SeatingPerBench" />-->
+                                        </td>
+                                        <td><input class="btn" type="button" ng-click="AddHall()" value="Add" /></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 text-center" style="padding:20px;">
+                            <button type="submit" ng-click="getSeatingData()" ng-disabled="isLoading" class="btn btn-block btn-detail btn-md">Get Seating Arrangement</button>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                </form>
+                <hr />
+                <div ng-if="isLoading"></div>
+            </div>
+        </div>
+    </div>
+</div>

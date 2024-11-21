@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Bridge Course Theory Center </title>
+    <style>
+        .table > tbody > tr > td {
+            text-align: left !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="PreBridgeCourseTheoryCenterController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Create Bridge Course Theory Center</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>General Practical</li>
+                        <li>Create Bridge Course Theory Center</li>
+                    </ol>
+                </div>
+            </div>
+            <div style="margin-top:20px;" class="row base-row">
+                <div class="col-md-6">
+                    <form action="#">
+                        <div id="BasicCollege"
+                             ej-grid e-recorddoubleclick="doubleclick"
+                             e-allowgrouping="false"
+                             e-allowsorting="false"
+                             e-allowresizing="false"
+                             e-editsettings-allowdeleting="true"
+                             e-isresponsive="true"
+                             e-datasource="BasicCollegeist"
+                             e-actioncomplete="complete"></div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-4"><label for="sel1">District </label></div>
+                            <div class="col-md-6 form-group">
+                                <select class="form-control" ng-model="PreBridgeCourseTheoryCenter.DistrictID" id="DistrictID" ng-disabled="DistEnable" ng-change="getdistrictchange(PreBridgeCourseTheoryCenter.DistrictID)">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreBridgeCourseTheoryCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label for="ManagementName">Stream </label></div>
+                            <div class="col-md-6 form-group">
+                                <select class="form-control" ng-model="PreBridgeCourseTheoryCenter.CourseID" id="CourseID" ng-disabled="true">
+                                    <option ng-selected="PreBridgeCourseTheoryCenter.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label for="CollegeTo">Add Centers To This District<span style="color:red">  (e.g 30201) Please press Enter</span></label></div>
+                            <div class="col-md-3 form-group">
+                                <input type="text" class="form-control" id="ColCode" ng-model="PreBridgeCourseTheoryCenter.ColCode" required="" maxlength="8" input-Number-Only ng-keydown="GetCenterInfoInCenterZone($event)">
+                            </div>
+                            <div class="col-md-5 form-group">
+                                <label><span style="color:red">It must be Exam Theory Center</span></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label for="ColType">Center Type </label></div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="ColType" ng-model="PreBridgeCourseTheoryCenter.ColType" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label for="ColType">Center Capacity </label></div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="ExamCapacity" ng-model="PreBridgeCourseTheoryCenter.ExamCapacity" input-Number-Only>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>   Zone List
+                        </div>
+                        <table id="CollegeData" style="font-size:10px;width: 400px;" class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" ng-click='GetCheckStudentHeader(headercheck)' ng-model="headercheck" /></th>
+                                    <th>Sr No </th>
+                                    <th>Zone Code</th>
+                                    <th>Name</th>
+                                    <th>IYearGen</th>
+                                    <th>IIYearGen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="PreZoneClg in PreZoneList">
+                                    <td><input type="checkbox" ng-model="PreZoneClg.checkZone" ng-change="GetCheckZone(PreZoneClg)"></td>
+                                    <td>{{PreZoneClg.SrNo}}</td>
+                                    <td>{{PreZoneClg.ZoneCode}}</td>
+                                    <td>{{PreZoneClg.ZoneName}}</td>
+                                    <td>{{PreZoneClg.IYearGen}}</td>
+                                    <td>{{PreZoneClg.IIYearGen}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-sm" ng-click="ShowColleges()">Add</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-danger" ng-click="ResetData()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-md-2">
+                <div class="form-group">
+                    <label for="email">I Year Total </label>
+                    <input type="text" class="form-control" id="IYearCount" readonly ng-model="PreBridgeCourseTheoryCenter.IYearCount">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="email">II Year Total </label>
+                    <input type="text" class="form-control" id="IIYearCount" readonly ng-model="PreBridgeCourseTheoryCenter.IIYearCount">
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label for="email">Center Type </label>
+                    <input type="text" class="form-control" id="ColType" ng-model="PreBridgeCourseTheoryCenter.ColType" readonly>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="email">Center Capacity </label>
+                    <input type="text" class="form-control" id="ExamCapacity" ng-model="PreBridgeCourseTheoryCenter.ExamCapacity" maxlength="2">
+                </div>
+            </div>-->
+        </div>
+        <div style="margin-bottom:20px;" class="row">
+            <div class="col-md-12 text-center">
+                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreBridgeCourseTheoryCenter()">Save</button>
+                <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Cancel</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <form action="#">
+                    <div style="color : red;"><strong>NOTE : Double click on grid to add the colleges. </strong> </div>
+                    <div id="PreBridgeCourseTheoryCenterGrid" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                         e-datasource="PreBridgeCourseTheoryCenterList"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BasicEduBoards">
+    <title> Educational Board</title>
+</head>
+<body>
+    <div ng-controller="BasicEduBoardsController">
+        <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-university heading_icon"></span><b> Educational Board</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" ng-show="false">
+                                            <label class=" control-label col-lg-2">Id :</label>
+                                            <div class="col-lg-1">
+                                                <input type="text" class="form-control" ng-model="BasicEduBoards.EduBoardID" id="EduBoardID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Name:</label>
+                                            <input type="text" class="form-control" id="EduName" no-Special-Char  ng-model="BasicEduBoards.EduName" maxlength="100" required="" placeholder="Enter Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Code:</label>
+                                            <input type="text" class="form-control" id="EduCode" no-Special-Char  ng-model="BasicEduBoards.EduCode" maxlength="2" required="" placeholder="Short Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sel1">State :</label>
+                                            <select class="form-control" ng-model="BasicEduBoards.StateID" id="StateID">
+                                                <option value="">--Select State --</option>
+                                                <option ng-selected="BasicEduBoards.StateID == option.StateID" ng-repeat="option in BasicStateList" value="{{option.StateID}}">{{option.StateName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel1">Type :</label>
+                                            <select class="form-control" id="EducBoardType" ng-model="BasicEduBoards.EducBoardType">
+                                                <option value="">-----Select Type-----</option>
+                                                <option value="Y">Yes</option>
+                                                <option value="N">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicEduBoards()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicEduBoards()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

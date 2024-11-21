@@ -1,0 +1,26 @@
+﻿<div class="form-group" >
+    <label for="{{objectname}}" class="control-label" ng-show="{{objecttext!==''}}">
+        {{objecttext}}
+        <span ng-show="{{compulsory}}" class="require">*</span>
+    </label>
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i class="fa fa-mobile"></i>
+        </span>
+        <input  
+               type="text"              
+               name="{{objectname}}"
+               id="{{objectname}}"
+               placeholder="9898989898"
+               class="form-control number"
+               ng-model="object"
+               ng-pattern="/^(|\d{10})$/"
+               maxlength="10"
+               autocomplete="off"
+               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"              
+               ng-required="{{compulsory}}"
+               ng-keypress="keyPressed($event)"
+               />
+    </div>
+    <span class="help-block alert-danger" ng-show="!form.{{objectname}}.$valid && form.{{objectname}}.$dirty && object.length!==''">Contact No. Should Be of 10 Digit</span> 
+</div>

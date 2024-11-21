@@ -1,0 +1,170 @@
+﻿<div ng-controller="BranchOrSemFeeReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Branch/Semester Fee Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/PreExamination">PreExamination </a></li>
+                    <li><a href="#!/Dashboard/PreExamination/BranchOrSemFeeReports">Branch/Semester Fee Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12">
+                <a href="#!/Dashboard/PreExamination" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="col-md-12">
+                <form name="SetDatesForm" ng-submit="submit(CurrentMonthYear)">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Branch/Semester:</label>
+
+                                    <select class="form-control" ng-model="DataTypeId" name="DataTypeId" ng-change="ChangeData()" required>
+                                        <option value="" selected>Select </option>
+                                        <option ng-repeat="data in Array" value="{{data.Id}}">
+                                            {{data.Name}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Student Type :
+                                </label>
+
+                                <select class="form-control" ng-model="SelStudentType" name="StudentType" ng-change="ChangeData()" required
+                                        ng-options="Student.id as Student.type for Student in StudentType">
+
+                                    <option value="" selected>Select Student Type</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="monthyear" ng-change="ChangeData()" required>
+                                    <option value="" selected>Select Month/Year of Exam</option>
+                                    <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                        {{monYer.ExamYearMonth}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn  btn-info  btn_top pull-left" style="margin-top: 24px!important;" ng-click="SetDatesForm.$valid && GetDetails(DataTypeId)">
+                                    Get Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-12" ng-if="loading">
+                <div class="sm-spacer"></div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right" ng-show="DataTypeId==1 && result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadExcel('#Table1')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="DataTypeId==1 && result">
+                <div class="cl-details">
+                    <h2> Semester Wise Fee Payment Reports</h2>
+                </div>
+                <div  class="table-responsive table-custom-tables-tb scrollbox">
+                    <table id="Table1" class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="5%">S.No</th>
+                                <th>Scheme</th>
+                                <th>Semester</th>
+                                <th>Fee Paid Students Count</th>
+                                <th>Total Students Count</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <tr ng-repeat="x in CollegeTransferedList track by $index" ng-click="openReport(x.semid)">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.Scheme}} </td>
+                                <td>{{x.Semester}}</td>
+                                <td>{{x.FeePaidStudentsCount}} </td>
+                                <td>{{x.TotalStudentsCount}}</td>
+                            </tr>
+                            <!--<tr style="font-weight:bold!important;">
+                                <td colspan="5">Total</td>
+                                <td class="text-center">{{TransferedCount}}</td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right" ng-show="DataTypeId==2 && result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadExcel1('#Table2')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="DataTypeId==2 && result">
+                <div class="cl-details">
+                    <h2> Branch Wise Fee Payment Reports</h2>
+                </div>
+                <div id="Table2" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="5%">S.No</th>
+                                <th>Scheme</th>
+                                <th>Branch Code</th>
+                                <th>Fee Paid Students Count</th>
+                                <th>Total Students Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in CollegeTransferedList track by $index" ng-click="openReport(x.branchid)">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.Scheme}} </td>
+                                <td>{{x.BranchCode}}</td>
+                                <td>{{x.FeePaidStudentsCount}} </td>
+                                <td>{{x.TotalStudentsCount}}</td>
+                            </tr>
+                            <!--<tr style="font-weight:bold!important;">
+                                <td colspan="5">Total</td>
+                                <td class="text-center">{{TransferedCount}}</td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

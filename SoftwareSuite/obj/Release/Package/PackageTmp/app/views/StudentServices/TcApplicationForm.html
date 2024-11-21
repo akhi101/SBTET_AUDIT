@@ -1,0 +1,203 @@
+﻿<style>
+     .formLabel{
+       font-weight:bold;
+       width:150px;
+    }
+     .gr-button{
+margin-top: 20px!important;
+     }
+     
+.cl-details h2 {
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    background: #5ca0d3;
+    padding: 6px 9px;
+    font-weight: 600;
+    margin-top: -12px;
+    margin-bottom: 2px;
+}
+
+  input.largerCheckbox { 
+            width: 25px; 
+            height: 40px; 
+            margin-left:10px;
+        }
+   .checkCss{
+       margin: 15px 0px;
+       font-weight:bold;
+       color:forestgreen;
+   }
+    .label {
+        display: inline;
+        padding: 0;
+    }
+
+    </style>
+
+
+
+
+<div ng-controller="TcApplicationFormController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Tc Application Form </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/StudentServices">StudentServices</a></li>
+                    <li><a href="#!/Dashboard/StudentServices/TcApplicationForm">TcApplication</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Results" class="backA" ng-click="get()"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <form name="myForm">
+
+
+        <div class="container">
+
+            <!--<div class="alert alert-info">
+                <div class="studWishinputs">-->
+
+
+            <div class="base-row row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="label" style="color:#31708f!important"> Enter Pin Number:</label>
+                        <input type="text" class="form-control" name="pin" autocomplete="off" ng-model="studentPin" ng-keyup="EnableDisable()" required />
+
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-disabled="IsDisabled" ng-click="getDetails()">
+                            Get Details
+                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </form>
+
+
+
+    <div class="container" ng-if="Result">
+        <div class=" row">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2> Student  Reports</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card tables" id="idtoDivPrint" ng-if="Datatable" style="margin-top:0px">
+
+            <div class="col-md-9">
+
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">PIN: </label>: {{StudentDetails.PIN}}
+                </div>
+                <div class="col-md-12 padleft ">
+                    <label class="formLabel">Name: </label>: {{StudentDetails.StudentName}}
+                </div>
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">FatherName: </label>:{{StudentDetails.FatherName}}
+                </div>
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">Gender: </label>:{{StudentDetails.Gender}}
+                </div>
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">DateOfBirth: </label>: {{StudentDetails.DateOfBIrth}}
+                </div>
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">Branch Name: </label>: {{StudentDetails.BranchName}}
+                </div>
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">College Name: </label>: {{StudentDetails.CollegeName}}
+                </div>
+                <div class="col-md-12 padleft">
+                    <label class="formLabel">Scheme: </label>: {{StudentDetails.Scheme}}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container" ng-if="Table">
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="font-weight-bold">Select Certificate :</label>
+                    <div class="">
+                        <select class="form-control" name="Certificate" ng-model="Certificate">
+                            <option value="" selected>Select Certificate</option>
+                            <option ng-repeat="x in CertificateNames" value="{{x.CertificateId}}">
+                                {{x.CertificateName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="OTP">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary" ng-click="SendOtp()">
+                Send Otp
+            </button>
+        </div>
+    </div>
+  
+    <div class="container" ng-if="Tables">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="label" style="color:#31708f!important"> Enter Otp:</label>
+                    <input type="text" class="form-control" name="pin" autocomplete="off" ng-model="EnterOtp" />
+
+                </div>
+                <div class="col-md-3">
+                    <input type="checkbox" ng-model="myCheckBox" ng-checked="false" name="checkBox2" class="largerCheckbox">
+                </div>
+                <div class="col-md-9 checkCss" ng-if="myCheckBox == true;">Details Verified </div>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="submit" ng-disabled="myCheckBox == false" class="btn btn-primary">
+                    Submit
+                </button>ss
+            </div>
+        </div>
+    </div>
+    
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+
+</div>
+
+    
+  
+    

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>DRDC Chart Subject Wise</title>
+</head>
+<body>
+    <div ng-controller="DRDCChartSubjectWiseController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>DRDC Chart Subject Wise</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Post-Examination</li>
+                        <li>DRDC Chart Subject Wise</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="sel1">Camp :</label>
+                                    <select class="form-control" ng-model="DRDCChartSubjetWise.CampusID" id="CampusID">
+                                        <option ng-selected="DRDCChartSubjetWise.CampusID == option.CampusID" ng-repeat="option in CampusList" value="{{option.CampusID}}">{{option.CampusName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top:24px;" class="col-md-1">
+                                <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">Submit</button>
+                            </div>
+                        
+                            <div class=" col-md-6 form-group" id="printableArea">
+                                <table id="filtereddata" class="table table-striped" style="font-size:10px;">
+                                    <thead>
+                                        {{CharHead}}
+                                    </thead>
+                                     <tr>
+                                        <th>Subject Name</th>
+                                        <th>Examiner Count</th>
+                                    </tr>
+                                    <tr ng-repeat="x in DRDCChartdata">
+                                        <td>{{ x.SubName }}</td>
+                                        <td>{{ x.ExmCnt }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight:bold">Total</td>
+                                        <td style="font-weight:bold">{{ExmCntTotal}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-md-12 text-center"> <input type="button" onclick="printDiv('printableArea')" value="Print" class="btn btn-sm btn-detail" /><hr></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+</body>
+</html>
+
+
+

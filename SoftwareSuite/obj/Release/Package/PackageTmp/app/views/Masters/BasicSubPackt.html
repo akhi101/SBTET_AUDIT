@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title> Subject  Packet </title>
+</head>
+<body>
+    <div ng-controller="BasicSubPacktController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Subject Packet</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Subject Packet</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>SubPacktID :</label>
+                            <input type="text" class="form-control" ng-model="BasicSubPackt.SubPacktID" id="SubPacktID">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="Name"> Stream:</label>
+                                        <select class="form-control" ng-model="BasicSubPackt.CourseID" id="CourseID" ng-change="GetExamList(BasicSubPackt.CourseID)">
+                                            <option value=""> -- Select Stream -- </option>
+                                            <option ng-selected="BasicSubPackt.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Name"> Exam:</label>
+                                        <select class="form-control" ng-model="BasicSubPackt.ExamID" id="ExamID" >
+                                            <option value=""> -- Select Exam -- </option>
+                                            <option ng-selected="BasicSubPackt.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Name"> Packet:</label>
+                                        <select class="form-control" ng-model="BasicSubPackt.PcktID" id="PcktID">
+                                            <option value=""> -- Select Packet -- </option>
+                                            <option ng-selected="BasicSubPackt.PcktID == option.PcktID" ng-repeat="option in BasicPacketList" value="{{option.PcktID}}">{{option.PcktName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group" ng-show="false">
+                                        <label for="Name">Select Subject:</label>
+                                        <select class="form-control" ng-model="BasicSubPackt.ExmSubID" id="ExmSubID">
+                                            <option value=""> -- Select Packet -- </option>
+                                            <option ng-selected="BasicSubPackt.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>-->
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Name">Subject Type:</label>
+                                        <select class="form-control" ng-model="BasicSubPackt.SubjectType" id="SubjectType" ng-change="GetVocationalLanguageSubject(BasicSubPackt.ExamID)">
+                                            <option value=""> -- Select Subject Type -- </option>
+                                            <option value="LS">Languages</option>
+                                            <option value="GS">Group Subject</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Name">Main Group:</label>
+                                        <select class="form-control" ng-model="BasicSubPackt.MainGrpID" id="MainGrpID" ng-disabled="MainGroupDisable" ng-change="GetVocationalExamSubjectList(BasicSubPackt.ExamID,BasicSubPackt.MainGrpID)">
+                                            <option value=""> -- Select Main Group -- </option>
+                                            <option ng-selected="BasicSubPackt.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGrpList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-md-offset-2">
+                                    <label for="Name">Medium:</label>
+                                    <select class="form-control" ng-model="BasicSubPackt.MediumID" id="ExmSubID" ng-change="GetExamSubjectList(BasicSubPackt.ExamID)">
+                                        <option value=""> - Select Medium - </option>
+                                        <option ng-selected="BasicSubPackt.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Size">State Buffer(in %):</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubPackt.StateBuffer" input-Number-Only no-Special-Char id="StateBuffer">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Size">District Buffer (in %) :</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubPackt.DistrictBuffer" input-Number-Only no-Special-Char id="DistrictBuffer">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="Size">Center Buffer (in %):</label>
+                                        <input type="text" class="form-control" ng-model="BasicSubPackt.CenterBuffer" input-Number-Only no-Special-Char id="CenterBuffer">
+                                    </div>
+                                    <br /><br />
+                                </div><br /><br />
+                                <div class="row">
+                                    <div class="col-md-9 col-md-offset-2">
+                                        <div id="exTab1" style="margin-top:0px;">
+                                            <br />
+                                            <table class="table table-bordered table-hover table-condensed">
+                                                <thead>
+                                                    <tr style="font-weight:bold">
+                                                        <td style="text-align:center; width:100px;">#</td>
+                                                        <td style="text-align:center; width:100px;">Subject Code</td>
+                                                        <td>Subject Name</td>
+                                                        <td>Quetion Paper Code</td>
+                                                        <!--<td>Medium</td>-->
+                                                    </tr>
+                                                </thead>
+                                                <tr ng-repeat="BasicPreExamSubject in BasicPreExamSubjectList | filter:search | filter:new_search">
+                                                    <td style="text-align:center; width:100px;"><input type="checkbox" ng-model="BasicPreExamSubject.checkSub"></td>
+                                                    <td style="text-align:center;">{{BasicPreExamSubject.ExmSubCode}}</td>
+                                                    <td>{{BasicPreExamSubject.ExmSubName}}</td>
+                                                    <td><input type="text" class="form-control" ng-model="BasicPreExamSubject.QpCode"></td>
+                                                    <!--<td>
+                                                        <select class="form-control" ng-model="BasicPreExamSubject.MediumID" id="ExmSubID">
+                                                            <option value=""> - Select Medium - </option>
+                                                            <option ng-selected="BasicPreExamSubject.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                                        </select>
+                                                    </td>-->
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-7 text-right">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicSubPackt()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicSubPackt()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

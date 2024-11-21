@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TSBIE | Medium Change</title>
+</head>
+<body>
+    <div ng-controller="MediumChangeController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Medium Change</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Medium Change</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px; font-weight:100;">Instructions </p>
+                    <!--<p># Candidates who passed IInd year are Eligible</p>-->
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference.</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100;">For any Queries please mail to: </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <!--<div class="row frow">
+                        <div class="col-md-5 col-md-offset-3">
+                            <span class="rspan">Select Year Type:</span>
+                            <div class="maxl">-->
+                    <!--<div class="form-group">
+                        <label for="">Case:</label>
+                        <label class="radio inline"><input type="radio" name="optradio" value="N" id="FirstYear" ng-model="DupTripPassCert.LostOrDamage"  checked >First Year</label>
+                        <label class="radio inline"><input type="radio" name="optradio" value="D" id="SecondYear" ng-model="DupTripPassCert.LostOrDamage" >Second Year</label>
+                    </div>-->
+                    <!--<form>-->
+                    <!--<label class="radio inline">
+                        <input type="radio" name="optradio" checked value="N" checked>
+                        <span> First Year </span>
+                    </label>-->
+                    <!--<label class="radio inline">
+                        <input type="radio" name="optradio" value="Y">
+                        <span>Second Year </span>
+                    </label>-->
+                    <!--</form>-->
+                    <!--</div>
+                        </div>
+                    </div>-->
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter SSC Hall Ticket Number</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Enter Hall Ticket No." class="form-control" id="HTNO"  ng-model="MediumChange.HTNO"   maxlength="12" ng-keyup="keyup()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-detail btn-sm" ng-click="FillDataByHTNO()">Get Data</button>
+                        </div>
+                    </div>
+
+                    <div class="showhide" ng-hide="ShowCandidateDetails">
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Candidate Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="cp"><strong>Candidate Name:</strong> {{MediumChange.StudName}}</p>
+                                <p class="cp"><strong>Father Name:</strong> {{MediumChange.Fathername}}</p>
+                                <p class="cp"><strong>Mother Name:</strong> {{MediumChange.Mothername}}</p>
+                                <p class="cp"><strong>Mobile Number:</strong> {{MediumChange.MobileNo}}</p>
+                                <p class="cp"><strong>Admission Number:</strong> {{MediumChange.AdmNo}}</p>
+                                <p class="cp"><strong>Group Name:</strong> {{MediumChange.MainGrpName}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>College Code:</strong> {{MediumChange.ColCode}}</p>
+                                <p class="cp"><strong>College Name:</strong> {{MediumChange.ColName}}</p>
+                                <p class="cp"><strong>Date of Admission:</strong> {{MediumChange.AdmDate | date : "dd/MM/y"}}</p>
+                                <p class="cp"><strong>Medium:</strong> {{MediumChange.MediumName}}</p>
+                                <p class="cp"><strong>Course:</strong> {{MediumChange.CourseName}}</p>
+                                <p class="cp"><strong>2<sup>nd</sup> Language:</strong> {{MediumChange.SubName}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>Address:</strong> {{MediumChange.HousenoP}}<br />{{MediumChange.StreetnameP}} {{MediumChange.CitynameP}}</p>
+                                <p class="cp"><strong>Mandal:</strong> {{MediumChange.MandalName}}</p>
+                                <p class="cp"><strong>District:</strong> {{MediumChange.DistName}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+                        </div>-->
+                        <div class="row">
+
+                            <div class="col-md-3 col-md-offset-1">
+                                <label for=""> Current Medium Name :</label>
+                                <div class="form-group">
+                                    <!--<span class="input-group-addon">
+                                        <input type="checkbox" value="" ng-model="MediumChange.MediumNameFlag" ng-change="MediumChange.MediumNameFlag">
+                                    </span>-->
+                                    <input type="text" class="form-control" id="Medium" ng-model="MediumChange.MediumName" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""><font color="red">*</font>Medium Change : </label>
+                                    <select class="form-control" id="NewMedium" ng-model="MediumChange.NewMediumID"><!--ng-disabled="!MediumChange.MediumNameFlag"-->>
+                                        <option value="">--Select Medium--</option>
+                                        <option ng-selected="MediumChange.AMediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for=""> Payable Amount :</label>
+                                    <input type="text" class="form-control" id="FeeAmount" ng-model="MediumChange.FeeAmount" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div style="padding-top: 21px;" class="col-md-3">
+                                <button type="button" ng-disabled="RollEditDisable" class="btn btn-sm btn-detail" ng-click="SaveMediumChange()">Submit &amp; Pay</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+    
+</body>
+</html>

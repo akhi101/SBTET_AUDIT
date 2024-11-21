@@ -1,0 +1,48 @@
+﻿<div class="container" >
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Subjectwise College Summary</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Subjectwise College Summary</li>
+            </ol>
+        </div>
+    </div>
+    
+    <div class="row base-row" ng-controller="subjectwiseCollegeSummaryController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="subjectwiseCollegeSummaryForm" ng-submit="getSubjectwiseCollegeSummary()">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <sa-select ng-model="subjectwiseCollegeSummary.CourseID" object="subjectwiseCollegeSummary.CourseID" options="courses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCollegeSummary.ExamID" object="subjectwiseCollegeSummary.ExamID" options="bacicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCollegeSummary.DistrictID" object="subjectwiseCollegeSummary.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="subjectwiseCollegeSummary.CollegeID" object="subjectwiseCollegeSummary.CollegeID" options="basicColleges" displaycolumn="ColName" valuecolumn="CollegeID" objectname="CollegeID" objecttext="College" compulsory="true"> </sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button type="submit" class="btn btn-detail btn-sm">Print</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

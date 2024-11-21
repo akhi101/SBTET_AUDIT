@@ -1,0 +1,727 @@
+﻿<div ng-controller="StudentsResultsController">
+    <div class="">
+        <!--<div class="row ctitle">
+            <div class="col-md-5">
+                <span><strong>Student wise</strong></span>
+            </div>
+            <div class="col-md-7 text-right">
+                <ol class="breadcrumb">
+                    <li>You are in </li>
+                    <li>Request</li>
+                    <li>Student wise</li>
+                </ol>
+            </div>
+        </div>-->
+
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Student wise</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Request</a></li>
+                        <li><a href="#">Student Wise</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+        <section class="">
+            <div class="container">
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/Results" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Scheme :
+                                    </label>
+                                    <select class="form-control ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)">
+                                        <option value="" selected="selected">Select Scheme</option>
+                                        <!-- ngRepeat: scheme in schemeinfo -->
+                                        <option ng-repeat="scheme in schemeinfo" value="5" class="ng-binding ng-scope">
+                                            C18
+                                        </option><!-- end ngRepeat: scheme in schemeinfo -->
+                                        <option ng-repeat="scheme in schemeinfo" value="4" class="ng-binding ng-scope">
+                                            C16S
+                                        </option><!-- end ngRepeat: scheme in schemeinfo -->
+                                        <option ng-repeat="scheme in schemeinfo" value="3" class="ng-binding ng-scope">
+                                            C16
+                                        </option><!-- end ngRepeat: scheme in schemeinfo -->
+                                        <option ng-repeat="scheme in schemeinfo" value="2" class="ng-binding ng-scope">
+                                            ER91
+                                        </option><!-- end ngRepeat: scheme in schemeinfo -->
+                                        <option ng-repeat="scheme in schemeinfo" value="1" class="ng-binding ng-scope">
+                                            C14
+                                        </option><!-- end ngRepeat: scheme in schemeinfo -->
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Sem &amp; Year :
+                                    </label>
+                                    <select class="form-control ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" id="ExamYear" ng-model="sem">
+                                        <option value="" selected="selected">Select Sem</option>
+                                        <!-- ngRepeat: sem in seminfo -->
+                                        <option ng-repeat="sem in seminfo" value="1" class="ng-binding ng-scope">
+                                            1SEM
+                                        </option><!-- end ngRepeat: sem in seminfo -->
+                                        <option ng-repeat="sem in seminfo" value="2" class="ng-binding ng-scope">
+                                            2SEM
+                                        </option><!-- end ngRepeat: sem in seminfo -->
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="ExamType">
+                                        Exam :
+                                    </label>
+                                    <select class="form-control ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" id="ExamType" ng-model="examtype" ng-change="hidePreviousResult()">
+                                        <option value="" selected="selected">Select Exam</option>
+                                        <!-- ngRepeat: examtype in examtypeinfo -->
+                                        <option ng-repeat="examtype in examtypeinfo" value="1" class="ng-binding ng-scope">
+                                            Mid-1
+                                        </option><!-- end ngRepeat: examtype in examtypeinfo -->
+                                        <option ng-repeat="examtype in examtypeinfo" value="2" class="ng-binding ng-scope">
+                                            Mid-2
+                                        </option><!-- end ngRepeat: examtype in examtypeinfo -->
+                                        <option ng-repeat="examtype in examtypeinfo" value="10" class="ng-binding ng-scope">
+                                            Semester
+                                        </option><!-- end ngRepeat: examtype in examtypeinfo -->
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Pin Number :
+                                    </label>
+                                    <input class="form-control ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" type="text" ng-model="Pin">
+                                </div>
+                                <div class="col-md-2 form-group">
+
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="gr-btn">
+                                        <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="width: 100%; text-align: center;">
+                        <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                    </div>
+                    <div class="widget-container row" ng-show="ResultFound">
+                        <div class="col-md-6">
+                            <div class="common-box c2">
+                                <span class="my-icon">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </span>
+
+                                <h2>Sem &amp; Year</h2>
+                                <h1 class="ng-binding">1SEM</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="common-box c3">
+                                <span class="my-icon">
+                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                </span>
+
+                                <h2>Pin Number</h2>
+                                <h1 class="ng-binding">18001-M-001</h1>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row" ng-show="ResultFound">
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="down-foramt">
+                                    <div class="col-md-4 hidden">
+                                        <label for="sel1">
+                                            Download Format :
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5 form-group hidden">
+
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-empty" id="ExamYear" ng-model="EquivalancyCertificate.TenExYr">
+                                            <option value="? undefined:undefined ?" selected="selected"></option>
+                                            <option value="0">Select Format</option>
+                                            <!-- ngRepeat: Exam_Year in Exam_Years -->
+                                            <!-- ngRepeat: Exam_Year in Exam_Years --><!-- end ngRepeat: Exam_Year in Exam_Years -->
+                                            <!-- ngRepeat: Exam_Year in Exam_Years --><!-- end ngRepeat: Exam_Year in Exam_Years -->
+
+
+
+                                        </select>
+                                    </div>
+
+                                    <!--<div class="col-md-3>
+                                        <div class="down-btn">
+                                            </div>
+                                    </div>-->
+                                    <!-- ngIf: examtype=='10' --><div class="col-md-3 ng-scope" ng-if="examtype=='10'">
+                                        <div class="down-btn ng-hide" ng-hide="scheme == '5'">
+                                            <a class="btn btn-sm btn-primary dwl-button" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud">Grade Info<span class="fa fa-info-circle heading_icon btn_icons"></span></a>
+                                        </div>
+                                    </div><!-- end ngIf: examtype=='10' -->
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-right" ng-show="ResultFound">
+                            <div class="pt-btn">
+                                <button type="button" class="btn btn-sm btn-primary ptr-button" ng-click="PrintStudentResult()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row print" ng-show="ResultFound" id="idtoDivPrintAdmin">
+                        <div class="col-md-12 hidden">
+                            <div class="table table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Pin</th>
+                                            <th>Name</th>
+                                            <th>Branch</th>
+                                            <th>Sem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="ng-binding">18001-M-001</td>
+                                            <td class="ng-binding">BAGADE NAVEEN KUMAR</td>
+                                            <td class="ng-binding"></td>
+                                            <td class="ng-binding">1SEM</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 hidden">
+                            <div class="table table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>College Code</th>
+                                            <th>College Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="ng-binding"></td>
+                                            <td class="ng-binding"></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- ngIf: showData == 1 --><div ng-if="showData == 1" class="col-md-12 ng-scope">
+
+                            <div class="container">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-12">
+                                            <div class="logo-img">
+                                                <img src="/contents/img/big-logo.png">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-10 col-md-12">
+                                            <div class="logo-name">
+                                                <h2>
+                                                    STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                                </h2>
+                                                <h2 class="hidden"><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br></p><p style="text-align: center">TELANGANA</p></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+
+                                    <!-- ngIf: AcadamicYear && scheme =='5' --><div class="card-title ng-scope" ng-if="AcadamicYear &amp;&amp; scheme =='5'">
+                                        <h2 class="ng-binding">Marks Card 2018-19</h2>
+                                    </div><!-- end ngIf: AcadamicYear && scheme =='5' -->
+                                    <!-- ngIf: !AcadamicYear &&  scheme =='5' -->
+                                    <!-- ngIf: !AcadamicYear && (scheme =='3' || scheme =='1' || scheme =='4') -->
+                                    <div class="table-responsive customtable ">
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pin</th>
+                                                    <th>Name</th>
+                                                    <th>Branch</th>
+                                                    <th>Sem</th>
+                                                    <th>Exam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="ng-binding">18001-M-001</td>
+                                                    <td class="ng-binding">BAGADE NAVEEN KUMAR</td>
+                                                    <td class="ng-binding"></td>
+                                                    <td class="ng-binding">1SEM</td>
+                                                    <td class="ng-binding"></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>College Code</th>
+                                                    <th>College Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="ng-binding">001</td>
+                                                    <td class="ng-binding">GOVT. POLYTECHNIC MASAB TANK</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <!--for old students marks display-->
+                                        <!-- ngIf: (scheme != '5') && Result!='MALPRACTICE' && Result!='WITHHELD'  -->
+                                        <!-- ngIf: (scheme != '5') &&( Result=='MALPRACTICE' ||Result=='WITHHELD') -->
+                                        <!-- ngIf: scheme == 5 --><table class="table table-bordered ng-scope" ng-if="scheme == 5">
+                                            <thead>
+                                                <tr>
+                                                    <th>Subject Code</th>
+                                                    <th>Subject Name</th>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <th ng-if="examtype=='10'" class="ng-scope">Course Credits</th><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='1'||examtype=='10' -->
+                                                    <th ng-if="examtype=='1'||examtype=='10'" class="ng-scope">Mid SEM1<br>(20)</th><!-- end ngIf: examtype=='1'||examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' || examtype=='2' -->
+                                                    <th ng-if="examtype=='10' || examtype=='2'" class="ng-scope">Mid SEM2<br>(20)</th><!-- end ngIf: examtype=='10' || examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10' || examtype=='3' -->
+                                                    <th ng-if="examtype=='10' || examtype=='3'" class="ng-scope">Internal<br>(20)</th><!-- end ngIf: examtype=='10' || examtype=='3' -->
+                                                    <!-- ngIf: examtype=='10' || examtype=='4' -->
+                                                    <th ng-if="examtype=='10' || examtype=='4'" class="ng-scope">End SEM<br>(40)</th><!-- end ngIf: examtype=='10' || examtype=='4' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <th ng-if="examtype=='10'" class="ng-scope">Subject Total<br>(100)</th><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <th ng-if="examtype=='10'" class="ng-scope">Grade</th><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <th ng-if="examtype=='10'" class="ng-scope">Grade Points Equiv</th><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <th ng-if="examtype=='10'" class="ng-scope">Credits Earned</th><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <th ng-if="examtype=='10'" class="ng-scope">Total Grade Points</th><!-- end ngIf: examtype=='10' -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-101F</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC ENGLISH</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">36</td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">86</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A+</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">10</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">30</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-102F</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC ENGINEERING MATHEMATICS</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">20</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">40</td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">94</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A+</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">10</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">30</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-103F</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC PHYSICS</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">14</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">32</td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">80</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A+</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">10</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">30</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-104F</td>
+                                                    <td style=" text-align left" class="ng-binding">GENERAL ENGINEERING CHEMISTRY</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">14</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">19</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">35</td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">84</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A+</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">10</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">30</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-105C</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC WORKSHOP TECHNOLOGY</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">13</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">27</td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">76</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">9</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">3</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">27</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-106P</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC ENGINEERING DRAWING</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">5</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">13</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">10</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">37</td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">65</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">B</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">7</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">10.5</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-107P</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC COMPUTER AIDED DRAFTING</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">17</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">35        </td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">86</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">9</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">13.5</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-108P</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC WORKSHOP PRACTICE</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">17</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">35        </td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">84</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">9</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">13.5</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-109P</td>
+                                                    <td style=" text-align left" class="ng-binding">BASIC SCIENCE LAB PRACTICE</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">13</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">16</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">18</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">35        </td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">82</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">B+</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">8</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">12</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <tr ng-repeat="student in StudentWiseReportData" class="ng-scope">
+                                                    <td class="ng-binding">18M-110P</td>
+                                                    <td style=" text-align left" class="ng-binding">COMPUTER FUNDAMENTALS LAB PRACTICE</td>
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='1'" class="ng-binding ng-scope">20</td><!-- end ngIf: examtype=='10'|| examtype=='1' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='2'" class="ng-binding ng-scope">20</td><!-- end ngIf: examtype=='10'|| examtype=='2' -->
+                                                    <!-- ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <td ng-if="examtype=='10'|| examtype=='3'" class="ng-binding ng-scope">19</td><!-- end ngIf: examtype=='10'|| examtype=='3' -->
+                                                    <!-- ngIf: student.Result=='F' && (examtype=='10'|| examtype=='4') -->
+                                                    <!-- ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <td ng-if="student.Result=='P' &amp;&amp; examtype=='10'" class="ng-binding ng-scope">39        </td><!-- end ngIf: student.Result=='P' && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">98</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">A+</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint==0 && examtype=='10' -->
+                                                    <!-- ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <td ng-if="student.GradePoint!=0 &amp;&amp; examtype=='10'" class="ng-binding ng-scope">10</td><!-- end ngIf: student.GradePoint!=0 && examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->  
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">1.5</td><!-- end ngIf: examtype=='10' -->
+                                                    <!-- ngIf: examtype=='10' -->
+                                                    <td ng-if="examtype=='10'" class="ng-binding ng-scope">15</td><!-- end ngIf: examtype=='10' -->
+                                                </tr><!-- end ngRepeat: student in StudentWiseReportData -->
+                                                <!-- ngIf: examtype=='10' -->
+                                                <tr ng-if="examtype=='10'" class="ng-scope">
+                                                    <td></td>
+                                                    <td style=" text-align left">Rubrics</td>
+                                                    <td>2.5</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>P</td>
+                                                    <td>-</td>
+                                                    <td>2.5</td>
+                                                    <td></td>
+                                                </tr><!-- end ngIf: examtype=='10' -->
+                                                <!-- ngIf: examtype=='10' -->
+                                                <tr ng-if="examtype=='10'" class="ng-scope">
+                                                    <td colspan="2">
+                                                        <strong>Total:</strong>
+
+                                                    </td>
+                                                    <td class="ng-binding">25</td>
+                                                    <td colspan="7"></td>
+
+                                                    <td class="hidden">
+                                                        <strong class="ng-binding">835</strong>
+                                                    </td>
+                                                    <td class="hidden"></td>
+                                                    <td class="hidden"></td>
+                                                    <td class="ng-binding">
+                                                        25
+                                                    </td>
+                                                    <td class="ng-binding">
+                                                        211.5
+                                                    </td>
+                                                </tr><!-- end ngIf: examtype=='10' -->
+                                                <!-- ngIf: examtype=='10' -->
+                                                <tr ng-if="examtype=='10'" class="ng-scope">
+                                                    <td colspan="11" class="ng-binding">
+                                                        Semester Grade Point Average(SGPA)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(211.5/22.5)
+                                                    </td>
+                                                    <td class="ng-binding">9.4</td>
+                                                </tr><!-- end ngIf: examtype=='10' -->
+                                                <!-- ngIf: examtype=='10' -->
+                                                <tr ng-if="examtype=='10'" class="ng-scope">
+                                                    <td colspan="11" class="ng-binding">
+                                                        Cummulative Grade Point Average(CGPA)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(211.5/22.5)
+                                                    </td>
+                                                    <td class="ng-binding">9.4</td>
+
+                                                </tr><!-- end ngIf: examtype=='10' -->
+                                                <!-- ngIf: examtype=='10' -->
+                                                <tr ng-if="examtype=='10'" class="ng-scope">
+                                                    <td colspan="11">
+                                                        Result
+                                                    </td>
+                                                    <td>
+                                                        <!-- ngIf: Result=='MP' -->
+                                                        <!-- ngIf: Result=='Promoted' -->
+                                                        <!-- ngIf: Result=='Pass' --><span ng-if="Result=='Pass'" style=" color green;
+                                                                                           font-weight bold" class="ng-scope"><strong class="ng-binding">Pass</strong></span><!-- end ngIf: Result=='Pass' -->
+                                                    </td>
+
+                                                </tr><!-- end ngIf: examtype=='10' -->
+
+                                            </tbody>
+                                        </table><!-- end ngIf: scheme == 5 -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div><!-- end ngIf: showData == 1 -->
+                        <Label ng-show="ResultFound"><strong>Abbrevations</strong></Label>
+                        <div class="col-md-12" ng-show="ResultFound">
+                            <div class="col-md-3">
+                                <label><strong>R - Regular Exam</strong></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label><strong>S - Supplementary Exam</strong></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label><strong>P - Pass</strong></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label><strong>F - Fail</strong></label>
+                            </div>
+                            <!--<div class="col-md-3">
+                                <label><strong>W - WithHeld</strong></label>
+                            </div>-->
+                            <div class="col-md-3">
+                                <label><strong>MP - MalPractice</strong></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label><strong>W - Wanting</strong></label>
+                            </div>
+                            <div class="col-md-3">
+                                <label><strong>UE - Under Evaluation</strong></label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div ng-show="ResultNotFound" class="no-results ng-hide">
+                                <img src="../../contents/img/Folder-Icon.svg">
+                                <h2>No Result Found</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

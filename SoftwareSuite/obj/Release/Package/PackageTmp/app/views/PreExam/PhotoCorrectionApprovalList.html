@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Photo Correction List</title>
+    <style>
+        /*.mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important; 
+            }
+        }*/
+        .link-txt {
+            color: dodgerblue;
+            font-weight: bold;
+        }
+    </style>
+    <!--<script language="javascript">
+        document.getElementById("btnPrintTop").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        document.getElementById("btnPrintModal").onclick = function () {
+            printElement(document.getElementById("filterdatatoprint"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>-->
+</head>
+<body>
+    <div ng-controller="PhotoCorrectionApprovalListController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Photo Correction List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Photo Correction List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <select class="form-control input-sm" id="AcdYrID" ng-model="AcdYrID" ng-change="GetApprovalListPhotoCorrection()">
+                                <option ng-selected="AcdYrID == option.AcdYrID" ng-repeat="option in AcademicYearList" value="{{option.AcdYrID}}">{{option.AcdYrName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="col-md-12" ng-show="dieouser==true" id="DivIdToPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>College Code</th>
+                                <th>College Name</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved Corrections</th>
+                                <th style="text-align: center;">DIEO Pending Corrections</th>
+                                <th style="text-align: center;">DIEO Rejected Corrections</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in PhotoApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td style="text-align: center;"> {{ x.TotalStudCnt }} </td>
+                                <td style="text-align: center;"> {{ x.TotalCorrectionCnt }} </td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetStudentDetails(x,"A")'> {{ x.TotalDieoApproviedCorrections }} </a></td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetStudentDetails(x,"P")'> {{ x.TotalDieoPendingCorrections }} </a></td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal" ng-click='GetStudentDetails(x,"R")'> {{ x.TotalDieoRejectedCorrections }} </a></td>
+                            </tr>
+                            <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Grand Total :</td>
+                        <td align="center">{{ PhotoApprovalListData|total:'TotalStudCnt'}}</td>
+                        <td align="center">{{ PhotoApprovalListData|total:'TotalCorrectionCnt'}}</td>
+                        <td align="center">{{ PhotoApprovalListData|total:'TotalDieoApproviedCorrections'}}</td>
+                        <td align="center">{{ PhotoApprovalListData|total:'TotalDieoPendingCorrections'}}</td>
+                        <td align="center">{{ PhotoApprovalListData|total:'TotalDieoRejectedCorrections'}}</td>
+                    </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+                <div class="col-md-12" ng-show="dsuser==true" id="DivIdToPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>College Code</th>
+                                <th>College Name</th>
+                                <th style="text-align: center;">Total Students</th>
+                                <th style="text-align: center;">Total Corrections</th>
+                                <th style="text-align: center;">DIEO Approved Corrections</th>
+                                <th style="text-align: center;">DIEO Pending Corrections</th>
+                                <th style="text-align: center;">DIEO Rejected Corrections</th>
+                                <th style="text-align: center;">DS Approved Corrections</th>
+                                <th style="text-align: center;">DS Pending Corrections</th>
+                                <th style="text-align: center;">DS Rejected Corrections</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in PhotoApprovalListData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.ColCode }}</td>
+                                <td>{{ x.ColName }}</td>
+                                <td style="text-align: center;"> {{ x.TotalStudCnt }} </td>
+                                <td style="text-align: center;"> {{ x.TotalCorrectionCnt }} </td>
+                                <td style="text-align: center;">{{ x.TotalDieoApproviedCorrections }}</td>
+                                <td style="text-align: center;"> {{ x.TotalDieoPendingCorrections }} </td>
+                                <td style="text-align: center;"> {{ x.TotalDieoRejectedCorrections }} </td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal1" ng-click='GetStudentDetails(x,"A")'> {{ x.TotalDSApproviedCorrections }} </a></td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal1" ng-click='GetStudentDetails(x,"P")'> {{ x.TotalDSPendingCorrections }} </a></td>
+                                <td style="text-align: center;font-weight:bold"><a class="mya link-txt" href="#" target="_blank" data-toggle="modal" data-target="#exampleModal1" ng-click='GetStudentDetails(x,"R")'> {{ x.TotalDSRejectedCorrections }} </a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Grand Total :</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalStudCnt'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalCorrectionCnt'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalDieoApproviedCorrections'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalDieoPendingCorrections'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalDieoRejectedCorrections'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalDSApproviedCorrections'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalDSPendingCorrections'}}</td>
+                                <td align="center">{{ PhotoApprovalListData|total:'TotalDSRejectedCorrections'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <!--<button id="btnPrintTop" type="button" class="btn btn-detail btn-sm">Print</button>-->
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body" id="filterdatatoprint">
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <th>College Code</th>
+                                            <th>HTNo /Student Name</th>
+                                            <!--<th>Correction Name</th>-->
+                                            <th>Existing value</th>
+                                            <th>Updating value</th>
+                                            <th>Approve / Reject </th>
+                                            <th>Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in ShowCandidatedata">
+                                            <td style="width:2%;">{{ $index + 1 }}
+                                            <td style="width:5%;">{{ x.ColCode }}
+                                            <td style="width:10%;">{{ x.HTNo   }} <br><br> {{x.StudName}}</td>
+                                            <!--<td style="width:8%;">{{ x.ValueName }}</td>-->
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Photo'"><img src='{{x.OldValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Sign'"><img src='{{x.OldValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Photo'"><img src='{{x.NewValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Sign'"><img src='{{x.NewValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td style="width:25%;">
+                                                <form>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="A" ng-disabled="x.RowDisable" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('A',$index)">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="R" ng-disabled="x.RowDisable" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('R',$index)">
+                                                        <span>Reject</span>
+                                                    </label>
+
+                                                </form>
+                                            </td>
+                                            <td style="width:25%;">  <textarea rows="2" style="width: 100%;" ng-disabled="x.RowDisable" id="ProcessRemark" ng-model="x.ReqRemark1"></textarea></td>
+                                            <!--<td><form><input type="button" class="btn btn-sm btn-default" ng-disabled="x.RollEditDisable" value="Submit" ng-click='UpdateNRCorrectionStatus(x,$index)'></form></td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12 text-center">
+                                    <button id="btnSubmit" type="button" class="btn btn-detail" ng-show="btnShowfrsubmit" ng-disabled="RollEditDisable" ng-click="UpdateApprovalData()">Submit</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                <!--<button type="button" id="btnPrintModal" class="btn btn-reset btn-sm print-hide">Print</button>
+                        <button type="button" id="btnPrintModal" class="btn btn-primary btn-sm">Print</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">Student Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <!--<button id="btnPrintTop" type="button" class="btn btn-detail btn-sm">Print</button>-->
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body" id="filterdatatoprint">
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive" ng-show="ShowDIEODetail">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <th>College Code</th>
+                                            <th>HTNo / Student Name</th>
+                                            <th>Existing value</th>
+                                            <th>Updating value</th>
+                                            <th>Previous Level Remarks</th>
+                                            <th>Approve / Reject </th>
+                                            <th>Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in ShowCandidatedata">
+                                            <td style="width:2%;">{{ $index + 1 }}</td>
+                                            <td style="width:2%;">{{ x.ColCode }}</td>
+                                            <td style="width:10%;">{{ x.HTNo   }} <br><br> {{x.StudName}}</td>
+                                            <!--<td style="width:8%;">{{ x.ValueName }}</td>-->
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Photo'"><img src='{{x.OldValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Sign'"><img src='{{x.OldValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Photo'"><img src='{{x.NewValue}}' alt="Student Photo" height="120" width="100"></td>
+                                            <td style="width:12%;" ng-if="x.ValueName == 'Sign'"><img src='{{x.NewValue}}' alt="Student Sign" height="45" width="100"></td>
+                                            <td style="width:15%;">
+                                                DIEO Comment : {{ x.DieoComment }}
+                                            </td>
+                                            <td style="width:15%;">
+                                                <form>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="A" ng-disabled="x.RowDisable" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('A',$index)">
+                                                        <span> Approve </span>
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="optradio1" value="R" ng-disabled="x.RowDisable" ng-model="x.ReqStatus1" ng-change="ChangeTextArea('R',$index)">
+                                                        <span>Reject</span>
+                                                    </label>
+
+                                                </form>
+                                            </td>
+                                            <td style="width:15%;">  <textarea rows="2" style="width: 100%;" ng-disabled="x.RowDisable" id="ProcessRemark" ng-model="x.ReqRemark1"></textarea></td>
+                                            <!--<td><form><input type="button" class="btn btn-sm btn-default" ng-disabled="x.RollEditDisable" value="Submit" ng-click='UpdateNRCorrectionStatus(x,$index)'></form></td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12 text-center">
+                                    <button id="btnSubmit" type="button" class="btn btn-detail" ng-show="btnShowfrsubmit" ng-disabled="RollEditDisable" ng-click="UpdateApprovalData()">Submit</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                                <!--<button type="button" id="btnPrintModal" class="btn btn-reset btn-sm print-hide">Print</button>
+                    <button type="button" id="btnPrintModal" class="btn btn-primary btn-sm">Print</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</body>
+</html>

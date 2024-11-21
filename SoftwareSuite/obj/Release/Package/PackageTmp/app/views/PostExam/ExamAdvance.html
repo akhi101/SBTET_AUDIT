@@ -1,0 +1,92 @@
+﻿<div ng-controller="ExamAdvanceController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Exam Advance</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/Results">Post Exam </a></li>
+                        <li><a href="#!/Dashboard/Results/StudentWise">Exam Advance</a></li>
+                    </ol>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-6">
+            <button class="btn bck_btn"><a href="#!/Dashboard/DcBillsDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="OpenPopup()">  Calculate Advance</button>
+        </div>
+        <div class="col-md-12">
+            <div class="cl-details">
+                <h2> Exam Advance</h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <form name="ExcelForm">
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" id="ExamYear" ng-model="monthyear" required>
+                                    <option value="" selected>Select Month/Year of Exam</option>
+                                    <option ng-repeat="monYer in MonthAndYear" value="{{monYer.ExamMonthYearId}}">
+                                        {{monYer.ExamYearMonth}}
+                                    </option>
+                                </select>
+                            </div>
+                          
+                            <div class="col-md-2 ">
+                                <div class="gr-btn">
+                                    <button class="btn submit_btn btn-sm btn-primary gr-button" style="margin-top:10px;" ng-click="GenerateNr()">Get Students Strength</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" >
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="font-size:bold;">S.No</th>
+                            <th>College Name </th>
+                            <th>22-02-2021</th>
+                            <th>23-02-2021</th>
+                            <th>24-02-2021</th>
+                            <th>25-02-2021</th>
+                            <th>26-02-2021</th>
+                            <th>27-02-2021</th>
+                            <th>28-02-2021</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in ExamAdvanceData">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.CollegeCode== null ?'-':data.CollegeCode}} - {{data.Clgname== null ?'-':data.Clgname}}</td>
+                           <td>200</td>
+                            <td>300</td>
+                            <td>400</td>
+                            <td>500</td>
+                            <td>600</td>
+                            <td>700</td>
+                            <td>800</td>
+                        </tr>                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
+    </div>
+
+   
+</div>

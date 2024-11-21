@@ -820,26 +820,56 @@
         }
 
 
-        $scope.decryptParameter = function (EncOTP) {
-            var key = CryptoJS.enc.Utf8.parse("YourSecretKey12345678901234567890"); // Same key as in C#
-            var iv = CryptoJS.enc.Utf8.parse("YourIV1234567890"); // Same IV as in C#
+        $scope.decryptParameter = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncOTP; // Encrypted text (Base64)
 
-            var decryptedBytes = CryptoJS.AES.decrypt(EncOTP, key, {
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
                 iv: iv,
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.Pkcs7
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
             });
 
-            var decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-            console.log("Decrypted Parameter:", decryptedText);
-            $scope.decryptedParameter = decryptedText;
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter = $scope.decryptedText;
+        };
+
+
+        $scope.decryptParameter1 = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncStatus; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText1 = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter1 = $scope.decryptedText1;
         };
 
         $scope.SendOtp = function () {
             if ($scope.StudentPhoneNumber != null && $scope.StudentPhoneNumber != undefined && $scope.StudentPhoneNumber.length == '10') {
                 $scope.Otp = true;
                 $scope.NoOtp = false;
-                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate($scope.userData.Pin, $scope.StudentPhoneNumber)
+
+                var EncPin = $crypto.encrypt($crypto.encrypt($scope.userData.Pin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var EncPhone = $crypto.encrypt($crypto.encrypt($scope.StudentPhoneNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+
+                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate(EncPin, EncPhone)
                 GenerateOtpForMobileNoUpdate.then(function (response) {
                     try {
                         var detail = JSON.parse(response);
@@ -878,13 +908,17 @@
                 $scope.limitexceeded = true;
                 return;
             } else {
-                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate($scope.userData.Pin, $scope.StudentPhoneNumber)
+                var EncPin = $crypto.encrypt($crypto.encrypt($scope.userData.Pin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var EncPhone = $crypto.encrypt($crypto.encrypt($scope.StudentPhoneNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate(EncPin, EncPhone)
                 GenerateOtpForMobileNoUpdate.then(function (response) {
                     try {
                         var detail = JSON.parse(response);
                     } catch (err) { }
                     if (detail.status == '200') {
                         alert(detail.description);
+                        $scope.EncOTP = detail.resp1;
+                        $scope.decryptParameter();
                         $scope.Otp = true;
                         $scope.NoOtp = false;
                     } else {
@@ -911,26 +945,36 @@
                 alert('Please Enter valid OTP.');
                 return;
             }
-            if ($scope.decryptedParameter == $scope.OTPdata) {
-                var UpdateUserdata = PreExaminationService.UpdateUserdata($scope.userData.Pin, $scope.StudentPhoneNumber, $scope.OTPdata)
+                var EncPin = $crypto.encrypt($crypto.encrypt($scope.userData.Pin.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var EncPhone = $crypto.encrypt($crypto.encrypt($scope.StudentPhoneNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var EncOtp = $crypto.encrypt($crypto.encrypt($scope.OTPdata.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                var UpdateUserdata = PreExaminationService.UpdateUserdata(EncPin, EncPhone, EncOtp)
                 UpdateUserdata.then(function (response) {
-
                     try {
                         var res = JSON.parse(response);
                     } catch (err) { }
-
-                    if (res.Table[0].StatusCode == '200') {
-                        alert(res.Table[0].StatusDescription);
-                        $scope.phonenoupdated = true;
-                        $scope.Verified = true;
-                        $scope.MobileDisable = true;
-                    } else {
-                        alert(res.Table[0].StatusDescription);
-                        $scope.phonenoupdated = false;
-                        $scope.Verified = false;
-                        $scope.MobileDisable = false;
+                    if (res == undefined || res == '' || res == null) {
+                        alert(response);
                     }
+                    else {
+                        $scope.EncStatus = res.status;
+                        $scope.decryptParameter1();
+                        if ($scope.decryptedParameter1 == '200') {
+                            alert("Mobile Number Verified");
+                            $scope.phonenoupdated = true;
+                            $scope.Verified = true;
+                            $scope.MobileDisable = true;
+                        }
 
+                        else {
+                            alert("Not Verified");
+                            $scope.phonenoupdated = false;
+                            $scope.Verified = false;
+                            $scope.MobileDisable = false;
+
+                        }
+                    }
+                    
                 }, function (error) {
                     alert('error occured while updating Mobile number.');
                     $scope.phonenoupdated = false;
@@ -938,10 +982,6 @@
                     $scope.MobileDisable = false;
                 });
 
-            }
-            else {
-                alert("OTP Mismatched")
-            }
         }
 
         $scope.Back = function () {
@@ -969,9 +1009,9 @@
             $scope.ResendMail = true
 
             var obj = {
-                "From": 'sbtet-helpdesk@telangana.gov.in',
+                "From": 'sbtet-helpdesk[at]telangana[dot]gov[dot]in',
                 "To": $scope.OrganizationEmail,
-                "cc": "sbtet-helpdesk@telangana.gov.in",
+                "cc": "sbtet-helpdesk[at]telangana[dot]gov[dot]in",
                 "Subject": "Genuineness OTP Verification",
                 "Message": "Hii",
                 //"attachmentdata": Attachment,

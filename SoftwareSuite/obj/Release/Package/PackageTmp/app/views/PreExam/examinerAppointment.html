@@ -1,0 +1,125 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Pre Examiner Appointment</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row ctitle">
+        <div class="col-md-4">
+            <span><strong>Pre Examiner Appointment</strong></span>
+        </div>
+    </div>
+    <div class="row frow">
+        <div class="col-md-12">
+            <form name="examinerAppointmentForm" ng-submit="saveExaminerAppointment()" ng-init="init()">
+                <div class="row">
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.courseID" object="examinerAppointmentDetail.courseID" options="basicCourses" displaycolumn="courseName" valuecolumn="courseID" objectname="courseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.examID" object="examinerAppointmentDetail.examID" options="basicExams" displaycolumn="exmName" valuecolumn="examID" objectname="examID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.examinerTypeID" object="examinerAppointmentDetail.examinarTypeID" options="basicExaminerTypes" displaycolumn="exmTypName" valuecolumn="examinerTypeID" objectname="examinerTypeID" objecttext="Examiner Type" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.districtID" object="examinerAppointmentDetail.districtID" options="basicDistrictList" displaycolumn="distName" valuecolumn="districtID" objectname="districtID" objecttext="District" compulsory="true"> </sa-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.collegeID" object="examinerAppointmentDetail.collegeID" options="basicCollegeList" displaycolumn="colName" valuecolumn="collegeID" objectname="collegeID" objecttext="College" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.exmSubID" object="examinerAppointmentDetail.exmSubID" options="subjectList" displaycolumn="exmSubName" valuecolumn="exmSubID" objectname="exmSubID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+                </div>
+                <div class="row" ng-show="examinerList.length>0">
+                    <div class="col-md-3">
+                        <sa-select ng-model="examinerAppointmentDetail.CampusID" object="examinerAppointmentDetail.CampusID" options="basicCenterCollegeList" displaycolumn="centerName" valuecolumn="centerID" objectname="centerID" objecttext="Center" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-date ng-model="examinerAppointmentDetail.fromDate" object="examinerAppointmentDetail.fromDate" objectname="fromDate" objecttext="From Date" length="100" compulsory="true" ispascal="true"> </sa-date>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-date ng-model="examinerAppointmentDetail.toDate" object="examinerAppointmentDetail.toDate" objectname="toDate" objecttext="To Date" length="100" compulsory="true" ispascal="true"> </sa-date>
+                    </div>
+                </div>
+
+                <!--<div class="row">
+                    <div class="col-md-3">
+                        <sa-date ng-model="examinerAppointmentDetail.examID" object="examinerAppointmentDetail.examID" options="basicExams" displaycolumn="exmName" valuecolumn="examID" objectname="examID" objecttext="Exam" compulsory="true"> </sa-date>
+                    </div>
+                    <div class="col-md-3">
+                        <sa-date ng-model="examinerAppointmentDetail.branchID" object="examinerAppointmentDetail.branchID" options="basicBranches" displaycolumn="branchName" valuecolumn="branchID" objectname="branchID" objecttext="Branch"> </sa-date>
+                    </div>
+
+                    <div class="col-md-3">
+                        <sa-select ng-model="tempDetails.exmSubID" object="tempDetails.exmSubID" options="examTimeTableSubjects" displaycolumn="exmSubName" valuecolumn="exmSubID" objectname="exmSubID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+                </div>-->
+                <!--<div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary" ng-click="findAbsentEntry()">Find</button>
+                    </div>
+                </div>-->
+
+                <div class="row" ng-show="examinerList.length>0">
+                    <hr />
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-responsive rspan">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Select Examiner</th>
+                                    <th>Examiner Name</th>
+                                    <th>Gender</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Appointment Date</th>
+                                    <th>Subject Name</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="examiner in examinerList">
+                                    <td class="text-center num-col">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" ng-model="examiner.isExaminerChecked" object="examiner.isExaminerChecked" />
+                                    </td>
+                                    <td>
+                                        {{examiner.full_name}}
+                                    </td>
+                                    <td>
+                                        {{examiner.gender}}
+                                    </td>
+                                    <td>
+                                        {{examiner.date_of_birth}}
+                                    </td>
+                                    <td>
+                                        {{examiner.date_of_appoint_ment}}
+                                    </td>
+                                    <td>
+                                        {{examiner.subject_name}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="examinerList.length>0">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-detail btn-sm">Save</button>
+                        <button ui-sref="home" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

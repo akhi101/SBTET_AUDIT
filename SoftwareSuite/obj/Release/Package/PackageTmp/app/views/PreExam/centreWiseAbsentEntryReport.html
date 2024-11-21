@@ -1,0 +1,49 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Centre-Wise Absent Entry Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>Centre-Wise Absent Entry Report</li>
+            </ol>
+        </div>
+    </div>
+   
+    <div class="row base-row" ng-controller="centreWiseAbsentEntryReportController"  ng-init="init()">
+        <div class="col-md-12">
+            <form name="absentEntryForm" ng-submit="getAbsentEntryReport()" >
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="tempDetails.DistrictID" object="tempDetails.DistrictID" options="basicDistricts" displaycolumn="DistName" valuecolumn="DistrictID" objectname="DistrictID" objecttext="District"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="tempDetails.PreZoneCntrID" object="tempDetails.PreZoneCntrID" options="preZoneCenters" displaycolumn="CenterName" valuecolumn="PreZoneCntrID" objectname="PreZoneCntrID" objecttext="Center" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="tempDetails.CourseID" object="tempDetails.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="tempDetails.ExamID" object="tempDetails.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <sa-select ng-model="tempDetails.BranchID" object="tempDetails.BranchID" options="basicBranches" displaycolumn="BranchName" valuecolumn="BranchID" objectname="BranchID" objecttext="Branch" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="tempDetails.ExmSubID" object="tempDetails.ExmSubID" options="examTimeTableSubjects" displaycolumn="ExmSubName" valuecolumn="ExmSubID" objectname="ExmSubID" objecttext="Subject" compulsory="true"> </sa-select>
+                    </div>
+                    <div style="margin-top:22px;" class="col-md-2">
+                        <button type="submit" class="btn btn-detail btn-sm">Get Report</button>
+                        <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</div>

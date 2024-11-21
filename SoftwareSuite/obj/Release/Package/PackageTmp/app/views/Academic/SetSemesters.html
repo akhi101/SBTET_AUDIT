@@ -1,0 +1,182 @@
+﻿<style>
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    tr th {
+        background: #98abb9;
+        color: #fff !important;
+        font-weight: normal;
+    }
+
+    .cl-details h4 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+    }
+</style>
+<div ng-controller="SetSemesterDatesController">
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Set Semester Entry Dates</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="#!/Dashboard/AssessmentDashboard"> Admission Dashboard</a></li>
+                        <li><a href="#!/Dashboard/AssessmentDashboard/SetDates">Set Dates</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <form name="SetDatesForm" ng-submit="submit(semesterId, schemeId, StartDate, EndDate)">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">
+                                        Academic Year :
+                                    </label>
+                                    <div class='input-group' id='year'>
+                                        <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Semester:</label>
+                                    <div class="">
+                                        <select class="form-control" ng-init="LoadSemisters()" name="semister" ng-model="semesterId" ng-change="LoadExamType(sem.current_schemeid)">
+                                            <option value="" selected>Select Semester</option>
+                                            <option ng-repeat="sem in ActiveSemesters" value="{{sem.semid}}">
+                                                {{sem.sem}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">
+                                        Scheme :
+                                    </label>
+                                    <div class="">
+                                        <select class="form-control" id="ExamYear" name="scheme" ng-model="schemeId">
+                                            <option value="" selected>Select Scheme</option>
+                                            <option ng-repeat="data in schemeinfo" value="{{data.SchemeID}}">
+                                                {{data.Scheme}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group ">
+                                    <label for="datetimepicker1" class="font-weight-bold">Start Date :</label>
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <input type='date' class="form-control" ng-model="StartDate" name="StartDate" required />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <!--<span ng-show="SetDatesForm.StartDate.$dirty && SetDatesForm.StartDate.$invalid">
+                                        <span ng-show="hasError('StartDate', 'required')">Start Date no is required</span>
+                                    </span>-->
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group ">
+                                    <label for="datetimepicker2" class="font-weight-bold">End Date :</label>
+                                    <div class='input-group' id='datetimepicker2'>
+                                        <input type='date' class="form-control" ng-model="EndDate" name="EndDate" required />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <!--<span ng-show="SetDatesForm.EndDate.$dirty && SetDatesForm.EndDate.$invalid">
+                                        <span ng-show="hasError('EndDate', 'required')">End Date no is required</span>
+                                    </span>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-detail">
+                                Set Dates
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h4>semester Entry Dates</h4>
+                </div>
+                <div>
+                    <table class="table   table-fixed table-bordered  table-responsive">
+                        <thead>
+                            <tr>
+                                <th style="width: 2%">S No.</th>
+                                <th style="width: 5%">Scheam </th>
+                                <th style="width: 5%">Semester</th>
+                                <th style="width: 5%">AcademicYear</th>
+                                <th style="width: 5%">StartDate </th>
+                                <th style="width: 5%">EndDate </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="date in MarksEntryData">
+                                <td style="width: 2%">{{$index+1}}</td>
+                                <td>{{date.Scheme}}</td>
+                                <td>{{date.Semester}}</td>
+                                <td>{{date.AcademicYear}}</td>
+                                <td>{{date.StartDate==null ||date.StartDate==undefined ? '-' :date.StartDate | date :  "dd-MMM-yyyy"}}</td>
+                                <td>{{date.EndDate==null ||date.EndDate==undefined ?'-' :date.EndDate| date :  "dd-MMM-yyyy"}}
+
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </ui-view>
+</div>
+
+

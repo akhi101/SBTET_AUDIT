@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Details</title>
+</head>
+<body>
+    <div ng-controller="StudentDetailsController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Student Details</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Request</li>
+                        <li>Student Details</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row" style="border:medium">
+                <div class="col-md-9">
+                    <!--<div class="row frow">
+                        <div class="col-md-10 col-md-offset-3">
+                            <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Type:</span>
+                            <div class="maxl">
+                                <label class="radio inline">
+                                <input type="radio" id="rdInter" name="optradio" ng-model="InterORAppearedInter" checked value="1" ng-change="ChangeIntermediate(InterORAppearedInter)">
+                                <span>New to Intermediate </span>
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" id="rdAlInter" name="optradio" ng-model="InterORAppearedInter" value="2" ng-change="ChangeIntermediate(InterORAppearedInter)">
+                                <span>Already Appeared Intermediate  </span>
+                            </label>
+
+                            </div>
+                        </div>
+                    </div>-->
+                    
+                    <div style="margin-top:20px;" class="row">
+                        <div class="col-md-4 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label id="HallTicket"><font color="red">*</font> Enter SSC Roll No. / Previous Roll No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="HTNO" placeholder="Enter SSC Roll No." ng-model="AttendanceExemption.HTNO" maxlength="12">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillAttendanceExemptionByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px;" class="row">
+                        <div class="col-md-4 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label id="HallTicket"><font color="red">*</font> Date of Birth </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="BirthDate">
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+
+                    <div class="showhide" ng-hide="HideInfo">
+
+                        <div class="showhide" ng-hide="HideInfo">
+                            <!--New Code Start-->
+                            <div class="row">
+                                <div class="col-md-12"><h3 class="ch3">Student Details <hr></h3></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">* </font>Candidate Name :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="StudName" ng-minlength="3" ng-maxlength="100" ng-model="AttendanceExemption.StudName" ng-disabled="StudentDetailsdisabled">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">* </font>Father Name :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="FatherName" ng-model="AttendanceExemption.FatherName" ng-minlength="3" ng-maxlength="100" ng-disabled="StudentDetailsdisabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">* </font>Mother Name :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="MotherName" ng-model="AttendanceExemption.MotherName" ng-minlength="3" ng-maxlength="100" ng-disabled="StudentDetailsdisabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">* </font>Group :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="AttendanceExemption.MobileNo" maxlength="10" input-Number-Only onpaste="return false;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red"> </font>Second Language :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="GroupName" ng-model="AttendanceExemption.GroupName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red"> </font>College Name :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="GroupName" ng-model="AttendanceExemption.GroupName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red"> </font>Year :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="GroupName" ng-model="AttendanceExemption.GroupName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red"> </font>Stream :</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="GroupName" ng-model="AttendanceExemption.GroupName" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">Fee (in rupees) :</font></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!--<input type="text" class="form-control" style="color:red;" placeholder="100" ng-disabled="true">-->
+                                        <input type="text" class="form-control" id="FeeAmount" style="color:red;" ng-model="AttendanceExemption.FeeAmount" ng-disabled="true">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font>Transaction Number :</font></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!--<input type="text" class="form-control" style="color:red;" placeholder="100" ng-disabled="true">-->
+                                        <input type="text" class="form-control" id="FeeAmount" style="color:red;" ng-model="AttendanceExemption.FeeAmount" ng-disabled="true">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">* </font>Upload Photo(jpg or png & < 100KB)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!--<input type="file" class="form-control btn btn-primary" />-->
+                                        <input type="file" class="form-control btn btn-primary" name="photo" id="Upload1Photo" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1Photo(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for=""><font color="red">* </font>Upload Signature(jpg or png & < 100KB)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <!--<input type="file" class="form-control btn btn-primary" />-->
+                                        <input type="file" class="form-control btn btn-primary" name="photo" id="Upload1Photo" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1Photo(this)" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <!--New Code End-->
+
+                            <div class="row">
+                                <div class="col-md-12"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box-content">
+                                        <div id="ReverifEntry" ng-init="chkinit()" ej-grid e-datasource="ReverifdataEntryData" e-recorddoubleclick="doubleclick"
+                                             e-recordclick="recordClick" e-allowselection="true" e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row"></div><br />
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-disabled="RollEditDisable" ng-click="SaveAttendanceExemption()" class="btn btn-detail btn-sm">Submit</button>
+                                    <!--<button type="button" ng-disabled="!RollPaymentDisable" ng-click="SaveCounterSignaturePayment()" class="btn btn-reset btn-sm">Payment</button>-->
+                                    <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="border:medium">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

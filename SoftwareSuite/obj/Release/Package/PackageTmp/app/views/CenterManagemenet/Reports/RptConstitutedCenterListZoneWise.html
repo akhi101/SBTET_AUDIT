@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Constituted Center List Zone Wise</title>
+
+</head>
+<body>
+    <div ng-controller="RptConstitutedCenterListZoneWiseController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Constituted Center List Zone Wise</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Constituted Center List Zone Wise</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Select District :</label>
+                                    <select class="form-control" ng-model="RptConstitutedCenterListZoneWise.DistrictID" id="DistrictID" ng-change="GetPreZoneData(RptConstitutedCenterListZoneWise.DistrictID)">
+                                        <option value="">---Select District---</option>
+                                        <option ng-selected="RptConstitutedCenterListZoneWise.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <label for="sel1">Select Zone :</label>
+                                    <select class="form-control" ng-model="RptConstitutedCenterListZoneWise.ZoneID" id="ZoneID">
+                                        <option value="0">--ALL--</option>
+                                        <option ng-selected="RptConstitutedCenterListZoneWise.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 22px;" class="col-md-2">
+                                <button type="button" class="btn btn-sm btn-detail" ng-click="PrintConstitutedCenterListZoneWise()">Show</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <form class="form-horizontal" name="ReportForm" novalidate>
+                                    <div class="content-container-fluid">
+                                        <div class="row">
+                                            <div class="cols-sample-area">
+                                                <div class="control">
+                                                    <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
