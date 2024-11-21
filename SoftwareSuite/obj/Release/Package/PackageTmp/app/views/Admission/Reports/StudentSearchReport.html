@@ -1,0 +1,538 @@
+﻿<style>
+    .table.table-border, th, td {
+        border: 1px solid #ddd !important;
+    }
+
+    .table > thead > tr > th {
+        vertical-align: bottom;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 2px solid #ddd;
+        border-bottom-color: transparent;
+    }
+
+    .spacer {
+        height: 100px;
+    }
+
+    input {
+        color: #000;
+    }
+    .custom-sign img{
+        width: 150px;
+    height: 60px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    }
+    .formLabel{
+       font-weight:bold;
+       width:150px;
+    }
+    .header{
+            display:block;
+        }
+    #print_head{
+        display:none;
+    }
+    @media print {
+        .main {
+            display: none !important;
+        }
+
+        .photo-img {
+            height: 110px !important;
+            width: 95px !important;
+        }
+
+        .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+            float: left;
+        }
+
+        .col-md-12 {
+            width: 100%;
+        }
+
+        .col-md-11 {
+            width: 91.66666666666666%;
+        }
+
+        .col-md-10 {
+            width: 83.333333%;
+        }
+
+        .col-md-9 {
+            width: 75%;
+        }
+
+        .col-md-8 {
+            width: 66.66666666666666%;
+        }
+
+        .col-md-7 {
+            width: 58.333333333333336%;
+        }
+
+        .col-md-6 {
+            width: 50%;
+        }
+
+        .col-md-5 {
+            width: 41.66666666666667%;
+        }
+
+        .col-md-4 {
+            width: 33.33333333333333%;
+        }
+
+        .col-md-3 {
+            width: 25%;
+        }
+
+        .col-md-2 {
+            width: 16.666666666666664%;
+        }
+
+        .col-md-1 {
+            width: 8.333333333333332%;
+        }
+        .header{
+            display:none;
+        }
+        .breadcrumb-header{
+            display:none;
+        }
+        .bck_btn{
+            display:none;
+        }
+        .base-row{
+            display:none;
+        }
+        .nav-tabs{
+            display:none;
+        }
+        .padleft{
+            padding-left:0px;
+        }
+        .footer_section {
+            display:none;
+        }
+        .scroll-top-wrapper{
+            display:none;
+        }
+          .button_print{
+        display:none;  
+
+    }
+            #print_head{
+        display:block;
+    }
+    .tables{
+        font-size:12px!important;
+    }
+    }
+       .tables{
+        font-size:12px!important;
+    }
+    .padleft{
+            padding-left:0px;
+        }
+
+  
+</style>
+<div ng-controller="StudentSearchReportController" class="NonPrint">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Student Search</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/SearchStudent">Student Search</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+       
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="row base-row">
+                    <div class="col-md-12" style="padding:10px!important;">
+                        <div class="col-md-2">
+                            <h5><b>Search By :</b></h5>
+                        </div>
+                        <div class="col-md-4 form-inline">
+                            <input type="radio" name="SearchType" value="Pin" ng-click="searchBy('PIN')"> Pin &nbsp;&nbsp;
+                            <input type="radio" name="SearchType" value="Attid" ng-click="searchBy('ATTID')"> Attendee Id &nbsp;&nbsp;
+                            <input type="radio" name="SearchType" value="Aadhaar" ng-click="searchBy('Aadhaar')"> Aadhaar No
+                        </div>
+                        <div class="col-md-3 form-group" style="margin:0px!important;">
+                            <input type="text" placeholder="{{placeholder}}" class="form-control input-sm" ng-Model="filter" />
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn-default btn" ng-click="search()">Search</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <div class="container">
+
+            <ul class="nav nav-tabs" ng-show="searchResult">
+                <li class="active" ><a data-toggle="tab" href="#home"> Assessment</a></li>
+                <li><a data-toggle="tab"  href="#menu1">Attendance</a></li>
+                <li><a data-toggle="tab" href="#menu2">Admission</a></li>
+                <!-- <li class="pull-right"><button class="btn btn-success" ng-click="EditDetails()">Edit Details{{mid1Marks}}</button></li>-->
+            </ul>
+
+           
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <div class="row">
+                        <div class="col-sm-12 clr_red details" ng-show="searchResult">
+                            <div style="float:right;font-size:12px;"><b>Note :</b> <b style="font-size:13px;color:red">AB</b> indicates Absent,  <b style="font-size:13px;color:green">MP</b> indicates Malpractice,  <b style="font-size:13px;color:blue">DC</b> indicates Discontinued,  <b style="font-size:13px;color:forestgreen">TC</b> indicates TC taken,  <b style="font-size:13px;color:#6741dc">DT</b> indicates Detained</div>
+                        </div>
+                        <div class="col-md-12" ng-show="searchResult">
+                            <div class="cl-details">
+                                <h2>Student Details</h2>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                            </div>
+                            <div class="table-responsive table-custom-tables" style="overflow-x:auto;" ng-show="StudentDetailsFound">
+                                <table style="width:100%;" class="table table-border table-hover table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width:1%;font-weight:600;">Sno</th>
+                                            <th style="font-weight:600;">Scheme Code</th>
+                                            <th style="font-weight:600;">SemId</th>
+                                            <th style="font-weight:600;">Branch Code</th>
+                                            <th style="font-weight:600;">Pin</th>
+                                            <th style="font-weight:600;">Subject Code</th>
+                                            <th style="font-weight:600;">Is Elective</th>
+                                            <th style="font-weight:600;">Mid1 Max Marks</th>
+                                            <th style="font-weight:600;">Mid1</th>
+                                            <th style="font-weight:600;">Mid1 Date</th>
+                                            <th style="font-weight:600;">Mid1 IsSubmitted</th>
+                                            <th style="font-weight:600;">Mid2 Max Marks</th>
+                                            <th style="font-weight:600;">Mid2</th>
+                                            <th style="font-weight:600;">Mid2 Date</th>
+                                            <th style="font-weight:600;">Mid2 IsSubmitted</th>
+                                            <th style="font-weight:600;">Internal Max Marks</th>
+                                            <th style="font-weight:600;">Internal</th>
+                                            <th style="font-weight:600;">Internal Date</th>
+                                            <th style="font-weight:600;">Internal Issubbmited</th>
+                                            <th style="font-weight:600;">End Exam Max Marks</th>
+                                            <th style="font-weight:600;">End Exam</th>
+                                            <th style="font-weight:600;">End Exam Date</th>
+                                            <th style="font-weight:600;">End Is Submitted</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in StudentSearchReportStats">
+
+                                            <td style="width: 1%">{{$index+1}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.Scheme_Code}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.semid}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.Branch_Code}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.pin}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.Subject_Code}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                            <span ng-if="data.iselective == true">Yes</span>
+                                            <span ng-if="data.iselective == false">No</span></td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.Mid1Max_Marks}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <input ng-model="data.mid1" class='text-uppercase' id="{{data.id}}" value="mid1{{$index+1}}" ng-change="AddMarksByIds(data)" style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="2" />
+                                                <!--  <input ng-model="data.mid1" class='text-uppercase'  id="{{data.id}}" value="mid1{{$index+1}}" ng-change="AddMarksByIds(data)" style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="2" />-->
+                                            </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.mid1date}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <span ng-if="data.mid1issubmitted == true">Yes</span>
+                                                <span ng-if="data.mid1issubmitted == false">No</span>
+                                            </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.Mid2Max_Marks}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <input ng-model="data.mid2" class='text-uppercase' id="{{data.id}}" value="mid2{{$index+1}}" ng-change="AddMarksByIds(data)" style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="2" />
+                                            </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.mid2date}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <span ng-if="data.mid2issubmitted == true">Yes</span>
+                                                <span ng-if="data.mid2issubmitted == false">No</span>
+                                        </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.InternalMax_Marks}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <input ng-model="data.internal" class='text-uppercase' id="{{data.id}}" value="internal{{$index+1}}" ng-change="AddMarksByIds(data)" style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="2" />
+                                            </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.internaldate}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <span ng-if="data.internalissubmitted == true">Yes</span>
+                                                <span ng-if="data.internalissubmitted == false">No</span>
+                                           </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.end_exam_max_marks}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <input ng-model="data.endexam" class='text-uppercase' id="{{data.id}}" value="endexam{{$index+1}}" ng-change="AddMarksByIds(data)" style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="2" />
+                                            </td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.endexamdate}}</td>
+                                            <td style="font-weight:500;font-style:italic;">
+                                                <span ng-if="data.endissubmitted == true">Yes</span>
+                                                <span ng-if="data.endissubmitted == false">No</span>
+                                            </td>
+                                            <!-- <td style="width: 10%">{{value==null==null?'-':value}}</td>-->
+                    </tr>                                   
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-md-12 pull-right" ng-show="searchResult && Table">
+                            <button class="btn btn-success pull-right"style="margin-top:10px!important;" ng-click="updateData()">Update</button>
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-md-12" ng-show="searchResult">
+                            <div class="cl-details">
+                                <h2>Student Details</h2>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                            </div>
+                            <div class="table-responsive table-custom-tables" ng-show="StudentDetailsFound">
+                                <table class="table table-border table-hover table-striped table-rounded">
+                                    <thead>
+
+                                        <tr class="cb-1">
+                                            <th style="width: 1%;font-weight:600;">S no</th>
+                                            <th style="font-weight:600;">Pin</th>
+                                            <th style="font-weight:600;">Attendee Id</th>
+                                            <th style="font-weight:600;">Name</th>
+                                            <th style="font-weight:600;">College Code</th>
+                                            <th style="font-weight:600;">Semester</th>
+                                            <th style="font-weight:600;">Branchcode</th>
+                                            <th style="font-weight:600;">Working Days</th>
+                                            <th style="font-weight:600;">Attendance Percentage</th>
+                                            <th style="font-weight:600;">Days Present</th>
+                                            <th style="font-weight:600;">Updated Date</th>
+                                            <th style="font-weight:600;">Istransfered</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="data in StudentAttendanceReports">
+                                            <td style="width: 1%">{{$index+1}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.Pin}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.AttendeeId}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.name}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.CollegeCode}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.semester}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.branchcode}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.WorkingDays}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.AttendancePercentage}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.DaysPresent}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.UpdatedDate}}</td>
+                                            <td style="font-weight:500;font-style:italic;">{{data.istransfered}}</td>
+
+                                            <!-- <td style="width: 10%">{{value==null==null?'-':value}}</td>-->
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button class="btn btn-primary" ng-click="GetStudentAtt()">View Attendance</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <h3 id="print_head" class="text-center"><b><u>Student Details</u></b></h3>
+               <div class="card tables" id="idtoDivPrint">
+                   <div class="col-md-9">
+                       <div class="col-md-12 padleft ">
+                           <label class="formLabel">Name </label>: {{AdmissioneReports.Name}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">PIN </label>: {{AdmissioneReports.Pin}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">AadharVerfied </label>: {{AdmissioneReports.AadharVerfied}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">ActiveFlag </label>: {{AdmissioneReports.ActiveFlag}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">AttendeeId </label>: {{AdmissioneReports.AttendeeId}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Istransfered </label>: {{AdmissioneReports.istransfered}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Admission Type </label>: {{AdmissioneReports.ADMType}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Father Name </label>: {{AdmissioneReports.FatherName}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Mother's Name </label>: {{AdmissioneReports.MotherName}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Date of Birth </label>: {{AdmissioneReports.DateOfBIrth}}
+                       </div>
+
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Gender </label>: {{AdmissioneReports.GenderCode}}
+                       </div>
+                       <div class="col-md-12 padleft">
+                           <label class="formLabel">Semester </label>: {{AdmissioneReports.Semester}}
+                       </div>
+                   </div>
+                   <div class="col-md-3 text-center">
+                       <img ng-src="{{AdmissioneReports.ProfilePhoto}}" style="border: 2px solid #ddd;" height="175" width="150"  ng-show="AdmissioneReports.ProfilePhoto"/>
+                       <img src="../../../../contents/img/noimage.png" style="border: 2px solid #ddd;" height="175" width="150" ng-show="!AdmissioneReports.ProfilePhoto" />
+                   </div>
+                  
+                   <div class="col-md-6">
+                       <label class="formLabel">Branch </label>: {{AdmissioneReports.BranchName}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Tenth Year </label>: {{AdmissioneReports.TenthYear}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Tenth Board </label>: {{AdmissioneReports.BoardName}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Tenth Hallticket Number </label>: {{AdmissioneReports.TenthHallTicketNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Polycet Hallticket Number </label>: {{AdmissioneReports.PolycetHallTicketNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Minority Type </label>: {{AdmissioneReports.Minority}}
+                   </div>
+                  
+                   <div class="col-md-6">
+                       <label class="formLabel">Region </label>: {{AdmissioneReports.Region}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Aadhar Number </label>: {{AdmissioneReports.AadharNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Religion </label>: {{AdmissioneReports.ReligionCode}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Studied /Resided During SSC </label>: {{AdmissioneReports.StudentRecided}}
+                   </div>
+                   <div class="col-md-12">
+                       <label class="formLabel">House No & Street (or) Village </label>: {{AdmissioneReports.VillageorTown}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">District</label>: {{AdmissioneReports.District_Name}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Mandal </label>: {{AdmissioneReports.Mandal_Name}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Pincode </label>: {{AdmissioneReports.Pincode}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Email Id </label>: {{AdmissioneReports.EmailId}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Student Mobile Number </label>: {{AdmissioneReports.StudentContact}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Parent Mobile Number </label>: {{AdmissioneReports.ParentContact}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Father Aadhaar Number </label>: {{AdmissioneReports.FatherAadhaarNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Mother Aadhaar Number </label>: {{AdmissioneReports.MotherAadhaarNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Is Father Govt Employee ? </label>:<span ng-if="AdmissioneReports.IsFatherGorthEmp == 'False'">No</span>
+                       <span ng-if="AdmissioneReports.IsFatherGorthEmp == 'True'">Yes</span> 
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Meeseva Income Certificate Number </label>: {{AdmissioneReports.Income}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Occupation</label>: {{AdmissioneReports.Occupation}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">MeeSeva Caste Certificate Number</label>: {{AdmissioneReports.CasteNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Bank Name </label>: {{AdmissioneReports.BankName}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Bank Account Number </label>: {{AdmissioneReports.BankAccountNo}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">IFSC Code</label>: {{AdmissioneReports.IfscCode}}
+                   </div>
+                   <div class="col-md-6">
+                       <label class="formLabel">Branch</label>: {{AdmissioneReports.BankBranch}}
+                   </div>
+               </div>
+                    <div class="col-md-12 ">
+                        <div class="btn btn-success button_print pull-right" ng-click="printDetails()">Print Details</div>
+                    </div>
+                </div>
+                <div id="menu3" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-md-12" ng-show="searchResult">
+                            <div class="cl-details">
+                                <h2>Student Details</h2>
+                            </div>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                            </div>
+                            <div class="table-responsive table-custom-tables" ng-show="StudentDetailsFound">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 1%;font-weight:600;">S nso</th>
+                                            <th style="width: 10%;font-weight:600;">Attribute</th>
+                                            <th style="width: 10%;font-weight:600;">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(key, value) in AdmissioneReports">
+                                            <td style="width: 1%">{{$index+1}}</td>
+                                            <td style="width: 10%;font-weight:500;font-style:italic;">{{key}}</td>
+                                            <td style="width: 10%"><span><input type="text" value="{{value==null==null?'-':value}}" /></span></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="spacer"></div>
+    </section>
+</div>
+
+

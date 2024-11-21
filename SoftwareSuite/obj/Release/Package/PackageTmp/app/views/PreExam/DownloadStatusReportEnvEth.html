@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Download Status Report For Env/Eth</title>
+</head>
+<body>
+    <div ng-controller="DownloadStatusReportEnvEthController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Download Status Report For Env/Eth</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Download Status Report For Env/Eth</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <select class="form-control" ng-model="DownloadStatusRpt.ExmSubID" id="ExmSubID">
+                                <option value="1">Environmental Education</option>
+                                <option value="2">Ethics & Human Values</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-detail btn-sm" ng-click="GetEnvEthStatusReport()" value="Submit">
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="col-md-12" ng-show="ShowDIEODetail" id="DivIdToPrint">
+                    <label id="HeadLabel" class="print-cnt"></label><br />
+                    <label id="MangtLabel" class="print-cnt" ng-model="MngtName"></label>
+                    <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th align="center">S.No.</th>
+                                <th>District Code</th>
+                                <th>District Name</th>
+                                <th style="text-align: center;">Total Colleges</th>
+                                <th style="text-align: center;"> QP Downloaded</th>
+                                <th style="text-align: center;"> QP Not Downloaded</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in StatusReportData">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ x.DIST_CODE }}</td>
+                                <td>{{ x.DIST_NAME }}</td>
+                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'0')"><b>{{ x.Totalcolleges}}</b></a> </td>
+                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'1')"><b>{{ x.Download_Colleges}}</b></a> </td>
+                                <td align="center"><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click="GetDistrictWiseData(x,'2')"><b> {{ x.NotDownload_Colleges }} </b></a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Grand Total :</td>
+                                <td align="center">{{ StatusReportData|total:'Totalcolleges'}}</td>
+                                <td align="center">{{ StatusReportData|total:'Download_Colleges'}}</td>
+                                <td align="center">{{ StatusReportData|total:'NotDownload_Colleges'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br /><br /><br />
+                </div>
+            </div>
+            <div id="popupContainer" class="panel">
+                <div class="modal fade" id="exampleModalVerify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" style="width:90%;">
+                        <div class="modal-content" style="width:90%; margin-left:5%;">
+
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6"><h5 style="font-size: 16px; margin-top: 8px;" class="modal-title text-blue" id="exampleModalLabel">College Details</h5></div>
+                                    <div class="col-md-6 text-right">
+                                        <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                </div>
+                                <table style="font-size:12px;" id="supTable" class="table table-striped table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th align="center">S.No.</th>
+                                            <th>College Code</th>
+                                            <th>College Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in DistrictWiseStatData">
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ x.ColCode }}</td>
+                                            <td>{{ x.ColName }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

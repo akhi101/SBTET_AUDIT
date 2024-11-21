@@ -1,0 +1,62 @@
+﻿<style>
+.Pending{
+    color:orange;
+    font-weight:bold;
+}
+.Approved{
+    color:darkgreen;
+        font-weight:bold;
+}
+.Rejected{
+    color:red;
+        font-weight:bold;
+}
+</style>
+<div ng-controller="CertificateApprovalController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12" >
+            <div class="cl-details">
+                <h2>Students List For Approvals</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center">PIN</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center" ng-click="sort('On Roll')">Approval Status</th>
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalList" ng-click="openDetails(x.PIN)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{x.PIN}}</td>
+                            <td class="text-center">{{x.first_Name}} {{x.last_Name}}</td>
+                            <td class="text-center " ng-if="x.Approved == ''"><span class="Pending">Pending</span></td>
+                            <td class="text-center Pending" ng-if="x.Approved == null"><span class="Pending">Pending</span></td>
+                            <td class="text-center Approved" ng-if="x.Approved == '1'"><span class="Approved">Approved</span></td>
+                            <td class="text-center " ng-if="x.Approved == '2'"><span class="Rejected">Rejected</span></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+</div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

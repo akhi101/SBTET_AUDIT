@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Admission Confirmation</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <script type="text/x-jsrender" id="headerTemplate">
+        <input type="checkbox" hidden="true" id="headchk" />
+    </script>
+    <div ng-controller="StudentApprovalListController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>Admission Confirmation</b></div>
+                <div class="panel-body form_border">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Select Stream :</label>
+                                    <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                                        <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Select Exam :</label>
+                                    <select class="form-control" id="ExamID" ng-model="ExamID">
+                                        <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Select Branch :</label>
+                                    <select class="form-control" id="BranchID" ng-model="BranchID">
+                                        <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="button" ng-click="Show()" class="btn form_btn_align save_btn">Show<span class="fa fa-save heading_icon btn_icons"></span></button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label for="sel1" style="color:red;"> Double click on row to view/edit record</label>
+            <div id="StudentRegs" ng-init="chkinit()" ej-grid e-datasource="StudentApprovalData" e-recorddoubleclick="doubleclick"
+                 e-recordclick="recordClick" e-allowselection="true"
+                 e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin">
+            </div>
+
+        </div>
+        <!--<div class="box-content">
+        </div>-->
+        <button type="button" ng-disabled="RollEditDisable" ng-click="StudentApproval()" class="btn form_btn_align save_btn">Approval<span class="fa fa-save heading_icon btn_icons"></span></button>
+    </div>
+</body>
+</html>
+

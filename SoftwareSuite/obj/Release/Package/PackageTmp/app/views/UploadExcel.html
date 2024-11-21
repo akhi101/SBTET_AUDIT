@@ -1,0 +1,555 @@
+﻿<style>
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .btn {
+        border: 2px solid #35a5f1;
+        color: #1976d2;
+        background-color: white;
+        padding: 11px 60px;
+        border-radius: 8px;
+        font-weight: bold;
+        width: auto;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    input#file {
+        display: inline-block;
+        width: 100%;
+        padding: 120px 0 0 0;
+        height: 100px;
+        overflow: hidden;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border-radius: 20px;
+        background-size: 60px 60px;
+    }
+
+    .progress {
+        height: 110px;
+        width: 1000px;
+        margin: 20px auto;
+        background-color: white;
+        text-align: center;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0);
+        webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0);
+    }
+
+        .progress .circle,
+        .progress .bar {
+            display: inline-block;
+            background: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            border: 1px solid #d5d5da;
+        }
+
+        .progress .bar {
+            position: relative;
+            width: 200px;
+            height: 6px;
+            margin: 30px -5px 68px -5px !important;
+            border-left: none;
+            border-right: none;
+            border-radius: 0;
+        }
+
+        .progress .circle .label {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 32px;
+            margin-top: 3px;
+            color: #b5b5ba;
+            font-size: 17px;
+        }
+
+        .progress .circle .title {
+            color: #b5b5ba;
+            font-size: 20px;
+            line-height: 30px;
+            margin-left: -5px;
+        }
+
+    span.title {
+        color: #000 !important;
+    }
+
+    /* Done / Active */
+    .progress .bar.done,
+    .progress .circle.done {
+        background: #eee;
+    }
+
+    .progress .bar.active {
+        background: linear-gradient(to right, #EEE 40%, #FFF 60%);
+    }
+
+    .progress .circle.done .label {
+        color: #FFF;
+        background: #8bc435;
+        /*box-shadow: inset 0 0 2px rgba(0,0,0,.2);*/
+    }
+
+    .progress .circle.done {
+        color: #444;
+    }
+
+    .progress .circle.active .label {
+        color: #FFF;
+        background: #0c95be;
+        /*box-shadow: inset 0 0 2px rgba(0,0,0,.2);*/
+    }
+
+    .progress .circle.active .title {
+        color: #0c95be;
+    }
+
+
+
+    /*table style*/
+
+    /* Styles go here */
+
+    .editable-cell {
+        border: none;
+        background-color: inherit;
+    }
+
+    .container {
+        position: relative;
+    }
+
+    .context-menu {
+        position: absolute;
+    }
+
+        .context-menu .dropdown-menu {
+            display: block;
+            position: static;
+        }
+
+    input.editable-cell {
+        padding-left: 5px;
+        width: 100%;
+        height: 100%;
+    }
+
+        input.editable-cell:focus {
+            outline: 1px solid #777;
+        }
+
+    .spreadsheet-container {
+        width: 100%;
+        height: 70%;
+        overflow: scroll;
+    }
+
+    .spreadsheet.table {
+        width: auto;
+        height: auto;
+    }
+
+    .spreadsheet th.col, .spreadsheet td.col {
+        padding: 0;
+        min-width: 100px;
+        width: 120px;
+    }
+
+    .spreadsheet .col-sno {
+        min-width: 30px;
+        background-color: #EEE;
+    }
+
+    .spreadsheet.table .col-sno {
+        width: 20px;
+        background-color: #EEE;
+    }
+
+    .spreadsheet.table .row-header {
+        background-color: #EEE;
+    }
+ body {
+    margin-top:40px;
+}
+.stepwizard-step p {
+    margin-top: 10px;
+    padding:0px;
+}
+.stepwizard-row {
+    display: table-row;
+}
+.stepwizard {
+    display: table;
+    width: 50%;
+    position: relative;
+}
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+.stepwizard-row:before {
+  top: 19px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 81%;
+    height: 2px;
+    background-color: #35a5f1;
+    z-order: 0;
+    margin: 0px 50px;
+}
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 9px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 30px;
+}
+.p{
+    padding-left:17px;
+}
+.nextBtn{
+    text-align:center;
+}
+.setting{
+    margin-left:0px;
+
+}
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 0px;
+        margin-top: 14px;
+        margin-bottom: 27px;
+      
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+    }
+    .active{
+        background-color:red;
+    }
+    .active_btn{
+        background-color:red;
+    } 
+
+.btn-default:hover, .btn-dark-blue:hover, .btn-default:focus, .btn-dark-blue:focus, .btn-default:active,
+ .btn-dark-blue:active, .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue
+ {
+      border-color: #f0f2f7;
+    color: #fff!important;
+    background-color: #35a5f1!important;
+}
+a.btn.btn-circle.btn-default.active.active_btn.btn-primary{
+        border: 3px solid #000000;
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/xlsx.js"></script>
+<!-- MultiStep Form -->
+<div ng-controller="UploadExcelController">
+
+    <div class="container">
+
+        <div class="stepwizard col-md-offset-3">
+            <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-step">
+                    <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                    <p>upload Excel</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-2" type="button" class="btn btn-default btn-circle">2</a>
+                    <p>Process Excel</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-3" type="button" class="btn btn-default btn-circle ">3</a>
+                    <p>Generate Wanting's</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-4" type="button" class="btn btn-default btn-circle ">4</a>
+                    <p>Submit Excel</p>
+                </div>
+            </div>
+        </div>
+
+    <form>
+                <div class="row setup-content" id="step-1">
+                    <div class="container base-row">
+                       <!--<h3 style="text-align:center"> Download Sampledata </h3>--> 
+                       
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Scheme:</label>
+                                <div class="">
+                                    <select class="form-control" name="Scheme" ng-model="Scheamid" required>
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="data in getActiveSchemes" value="{{}}">
+                                            {{data.Scheme}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Semester :</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="selectedsem">
+                                        <option value="" selected>Select Semester Type</option>
+                                        <option ng-repeat="x in sems" value="{{x.SchemeId}}">
+                                            {{x.sem}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label class="font-weight-bold"></label>
+                            <label class="font-weight-bold"></label>
+
+                            <button class="btn btn-detail" style="margin-top:21px;" ng-click="Download()">
+                                Download Sample Data
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary nextBtn btn-sm pull-right" type="button">Next</button>
+                            </div>
+                        </div>
+
+
+                  
+            </div>
+      
+           
+            
+      
+       
+            
+            <div class="row setup-content" id="step-2">
+                <div class="container base-row">
+              
+                      <!--<div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Scheme:</label>
+                                <div class="">
+                                    <select class="form-control" name="Scheme" ng-model="Scheam" required>
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="data in ActiveSchemes" value="{{}}">
+                                            {{data.Scheme}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Semester :</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="sem" required>
+                                        <option value="" selected>Select Semester Type</option>
+                                        <option ng-repeat="x in Semester" value=" {{}}">
+                                            {{x.sem}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="upload-btn-wrapper">
+                                    <button class="btn " style="margin-top:21px;">Choose Excel</button>
+                                    <input type="file" name="File" id="File" accept=".xlsx" sa-file-upload="myFile" />
+                                </div>
+                                <label>{{filename}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" style="margin-top:21px;" id="myCheck" ng-show="FileContains">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary nextBtn btn-sm pull-left" ng-click="openExcel()" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> uploading ">Generate Table</button>
+                            </div>
+                        </div>
+                       
+                   
+                    </div>
+               
+               
+            </div>
+            
+          
+            <div class="row setup-content" id="step-3">
+                <div class="col-xs-12 col-md-offset-3 setting">
+                    <div class="spacer"></div>
+                    <button ng-show="tabledata.length>0" style="margin-bottom: 30px" type="button" class="btn btn-primary nextBtn btn-sm pull-right" ng-click="UploadExcel()"> Upload</button>
+                    <div class="spacer"></div>
+                    <div class="col-md-12">
+                        <!--<div style="width:100%;text-align:center;">
+                            <img src="../../contents/img/loading.gif" ng-show="loading" width="100" />
+                        </div>-->
+                     
+                        <div class="container">
+                        <div class="spreadsheet-container" ng-show="tabledata.length>0">
+                            <table class="table table-bordered" ng-repeat="table in tabledata">
+                                <thead>
+                                    <tr class="cb-1">
+                                        <th style="width: 2%;">S.No</th>
+                                        <th style="width: 3%;" ng-repeat="column in table.cols">{{column}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in table.rows">
+                                        <td style="width: 2%;" class="text-left">{{$index + 1}}</td>
+                                        <td ng-repeat="column in table.cols">{{row[column]}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                          
+                        </div>
+                            </div>
+                        <div style="width:100%;text-align:center;" ng-show="tabledata.length<=0 && !reload">
+                            <img src="../contents/img/loading.gif" width="100" />
+                        </div>
+                        <div ng-show="tabledata.length<=0 && reload">
+                            <h3 style="color:green;text-align:center">There is not Data Present in File</h3>
+                            </div>
+                </div>
+
+                    <button ng-show="tabledata.length>0" style="margin-top: 30px" type="button" class="btn btn-primary nextBtn btn-sm pull-right" ng-click="UploadExcel()"> Upload</button>
+            </div>
+               
+                </div>
+            <div class="row setup-content" id="step-4" >
+                <div class="col-xs-6 col-md-offset-3">
+                    <div class="col-md-12 LableColur">
+                        <h3 ng-show="tabledata.length>0" style="color:green;text-align:center"> Data is Upload  Suceesfully</h3>
+
+                        <h3 ng-show="tabledata.length<=0" style="color:green;text-align:center"> Data is not Upload Suceesfully</h3>
+                    </div>
+                </div>
+            </div>
+ 
+
+        
+                <div class="context-menu hidden" ng-show="isContextMenuVisible" ng-style="contextMenuStyle">
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a tabindex="-1" ng-click="addRow()">Add Row</a>
+                        </li>
+                        <li>
+                            <a tabindex="-1" ng-click="removeRow()">Remove Row</a>
+                        </li>
+                        <li>
+                            <a tabindex="-1" ng-click="addColumn()">Add Column</a>
+                        </li>
+                        <li>
+                            <a tabindex="-1" ng-click="removeColumn()">Remove Column</a>
+                        </li>
+                    </ul>
+                </div>
+       
+            <!--<div class="row" ng-show="tabledata.length>0">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-sm pull-right" ng-click="UploadExcel()"> Upload</button>
+                </div>
+            </div>-->
+        </form>
+
+    </div>
+  <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+    <!---------------------------------------------------------------------------------------->
+   
+    <script>
+        $(document).ready(function () {
+            var navListItems = $('div.setup-panel div a'),
+                    allWells = $('.setup-content'),
+                    allNextBtn = $('.nextBtn');
+
+            allWells.hide();
+
+            navListItems.click(function (e) {
+             
+           
+                e.preventDefault();
+                var $target = $($(this).attr('href')),
+                        $item = $(this);
+
+                if (!$item.hasClass('disabled')) {
+                  
+                    navListItems.removeClass('btn-primary').addClass('btn-default');
+                    $item.addClass('btn-primary').addClass('active')
+                    if($item.addClass('btn-primary').addClass('active')){
+                        ($item.addClass('active').addClass('active_btn'))
+                        allNextBtn = $('.nextBtn');
+                    }
+                    $item.addClass('active');
+                    allWells.hide();
+                    $target.show();
+                    $target.find('input:eq(0)').focus();
+                }
+            });
+
+         
+
+            allNextBtn.click(function () {
+                
+                //validation = true;
+                //$target.show();
+               
+                var curStep = $(this).closest(".setup-content"),
+                    curStepBtn = curStep.attr("id"),
+                    nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                    curInputs = curStep.find("input[type='text'],input[type='url']"),
+                    isValid = true;
+                $(this).removeClass('active')
+
+                $(".form-group").removeClass("has-error");
+
+                for (var i = 0; i < curInputs.length; i++) {
+                    if (!curInputs[i].validity.valid) {
+                        isValid = false;
+                        $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    }
+                }
+
+                if (isValid)
+                    nextStepWizard.removeAttr('disabled').trigger('click');
+              
+            });
+
+            $('div.setup-panel div a.btn-primary').trigger('click');
+        });
+     
+
+    </script>
+
+   
+  </div>

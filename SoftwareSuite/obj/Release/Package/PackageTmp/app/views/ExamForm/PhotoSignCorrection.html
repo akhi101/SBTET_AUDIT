@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Photo Sign Correction</title>
+</head>
+<body>
+    <div ng-controller="PhotoSignCorrectionController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Photo Sign Correction</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Photo Sign Correction</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="sel1">PRN No. </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control input-sm" id="Fathername" ng-Model="PhotoSignCorrection.PRNNo" ng-maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-detail" ng-click="Submit()">Get Photo/Signature</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Student Photo</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group"><img data-ng-src="{{tempStudentPhoto}}" id="temp_StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px;"></div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Update Photo</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img data-ng-src="{{StudentPhoto}}" id="StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px;">
+                                        <input style="border:none; margin-left: -10px; box-shadow: none; margin-top:10px;" class="form-control" type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Student Signature</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group"><img data-ng-src={{tempStudentSign}} id="temp_StudentSign" class="img img-responsive" style="height: 80px; width: 150px;"></div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Update Signature</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img data-ng-src={{StudentSign}} id="StudentSign" class="img img-responsive" style="height: 80px; width: 150px;">
+                                        <input style="border:none; margin-left: -10px; box-shadow: none;" class="form-control" type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-sm btn-detail" ng-click="AddPhotoSignAtDIEO()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<!--ALTER procedure [dbo].[GetPhotoSignAtDIEO] (@PRNNo varchar(50), @LoggedUserID int) as
+BEGIN
+SELECT a.PreStudRegID, a.PhotoPath, a.SignPath, '' ErrorMessage FROM PreStudentOther A, PreStudentReg B, BasicCollege C , SystemUser D
+WHERE A.PreStudRegID=B.PreStudRegID
+AND B.PRNNo=@PRNNo
+AND C.CollegeID=B.CollegeID
+AND D.DistrictIDs=CONVERT(varchar(100), C.DistrictID)
+AND D.DistrictIDs=C.DistrictID
+AND SysUserID=@LoggedUserID
+END-->

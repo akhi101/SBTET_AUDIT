@@ -1,0 +1,178 @@
+﻿<div ng-controller="ThreeBacklogODCReportController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PostExam" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="sm-spacer"></div>
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="myBtn active" ng-click="ClearData()">
+                    <a href="#1" data-toggle="tab">Three Backlog ODC Report</a>
+                </li>
+                <li ng-click="ClearData()">
+                    <a href="#2" data-toggle="tab">Three Backlog ODC Report By Pin</a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <div class="col-md-12 ng-scope">
+                        <div class="cl-details">
+                            <h2>Three Backlog ODC Report</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group" id="FromData">
+                                            <label>From Date:</label>
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" class="form-control" placeholder="From Date" autocomplete="off" name="setFromdate" datetime-picker="dd/MM/yyyy" id="setFromDate" ng-model="Fromdate" is-open="showFlag12" ng-change="setTodate()" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag12 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" id="ToData">
+                                            <label>To Date:</label>
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" class="form-control" placeholder="To Date" autocomplete="off" name="settodate" datetime-picker="dd/MM/yyyy" id="settoDate" ng-model="Todate" is-open="showFlag13" ng-change="Setdate()" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag13 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sel1">
+                                                Print Date :
+                                            </label>
+                                            <div class="form-group">
+                                                <input ng-model="printday" placeholder="day" style="width: 30px; text-align: center;margin:6px;" autocomplete="off" type='text' maxlength="2" />\
+                                                <input ng-model="printMonth" placeholder="Month" style="width: 50px; text-align: center;margin:6px;" autocomplete="off" type='text' maxlength="2" />\
+                                                <input ng-model="Year" placeholder="Year" style="width: 60px; text-align: center;margin:6px;" autocomplete="off" type='text' maxlength="4" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sel1">
+                                                Exam Month Year :
+                                            </label>
+                                            <div class="form-group" id="monthyear">
+                                                <input type="text" placeholder="Enter Exam month Year" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="ExamYearMonth">
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="DownloadtoExcel()">
+                                                Get Report
+                                                <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Generating Three Backlog Certificate Data. Please wait...</b></h4>
+                    </div>
+                </div>
+                <div class="tab-pane" id="2">
+                    <div class="col-md-12 ng-scope">
+                        <div class="cl-details">
+                            <h2>Three Backlog ODC Data By Pin</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group" id="FromData">
+                                            <label>From Date:</label>
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" class="form-control" placeholder="From Date" autocomplete="off" name="setFromdate" datetime-picker="dd/MM/yyyy" id="setFromDate" ng-model="Fromdate" is-open="showFlag12" ng-change="setTodate()" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag12 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" id="ToData">
+                                            <label>To Date:</label>
+                                            <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                <input type="text" class="form-control" placeholder="To Date" autocomplete="off" name="settodate" datetime-picker="dd/MM/yyyy" id="settoDate" ng-model="Todate" is-open="showFlag13" ng-change="Setdate()" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" ng-click="showFlag13 = true"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sel1">
+                                                Print Date :
+                                            </label>
+                                            <div class="form-group">
+                                                <input ng-model="printday" placeholder="day" style="width: 30px; text-align: center;margin:6px;" autocomplete="off" type='text' maxlength="2" />\
+                                                <input ng-model="printMonth" placeholder="Month" style="width: 50px; text-align: center;margin:6px;" autocomplete="off" type='text' maxlength="2" />\
+                                                <input ng-model="Year" placeholder="Year" style="width: 60px; text-align: center;margin:6px;" autocomplete="off" type='text' maxlength="4" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sel1">
+                                                Exam Month Year :
+                                            </label>
+                                            <div class="form-group" id="monthyear">
+                                                <input type="text" placeholder="Enter Exam month Year" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="ExamYearMonth">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sel1">
+                                                Pin :
+                                            </label>
+                                            <div class="form-group" id="Pin">
+                                                <input type="text" placeholder="Enter Pin" class="form-control" ng-model="Pin">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="DownloadtoExcel1()">
+                                                Get Report
+                                                <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                        <img src="../../../contents/img/loading1.gif" width="100" />
+                        <h4><b>Generating Three Backlog Certificate Data. Please wait...</b></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

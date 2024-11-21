@@ -1,0 +1,308 @@
+﻿<style>
+     div#year {
+        width: -webkit-fill-available !important;
+    }
+</style>
+
+<div ng-controller="AssessmentController">
+    <header>
+        <div class="header" ng-include="'app/views/SBPHeader.html'"> </div>
+        <div class="row navbar_section">
+            <nav class="navbar navbar-inverse navbar_inverse_section">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"></a>
+
+                    </div>
+                    <div class="container navbar_container_section">
+                        <div class="row">
+                            <div class="collapse navbar-collapse" id="myNavbar">
+                                <ul class="nav navbar-nav">
+                                    <li ng-class="{'active':homeDashBoard}">
+                                        <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                                    </li>
+                                    <!--temporary field open-->                                   
+                                   
+                                </ul>
+
+                                <ul class="nav navbar-nav navbar-right log-navbar">
+                                    <li>
+                                        <a href="#">
+                                            Welcome <span id="college_name1">{{college_name1}}</span>
+                                            {{userName}}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                            <i class="fa fa-sign-out fa-fw"></i>
+                                            Logout
+                                        </a>
+                                    </li>
+                                    <li ng-show="CollegeID!=0">
+                                        <a style="font-size:small" href="#" class="main_header_main_menu" ng-click="ChangePassword()">
+                                            <i class="fa fa-sign-out fa-fw"></i> Change
+                                            Password <span><b></b></span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+    </header>
+
+    <div class="clearfix"></div>
+    <div ng-if="!access1">
+        <div class="">
+            <ui-view>
+                <div class="breadcrumb-header">
+                    <!-- breadcrumb Open -->
+                    <div class="container">
+                        <section class="content-header">
+                            <h5>Branch Name: {{branch}}</h5>
+                            <ol class="breadcrumb">
+                                <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                                <li><a href="#!/Admission">Admission</a></li>
+                                <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                            </ol>
+                        </section>
+                    </div>
+                    <!-- breadcrumb Close -->
+                </div>
+                <section class="content">
+                    <div class="container ">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label"> Exam Type:</label>
+                                <select class="form-control" ng-model="SelectedStudent" 
+                                        ng-options="Student.type for Student in StudentType"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label">
+                                    Academic Year :
+                                </label>
+                                <div class='input-group' id='year'>
+                                    <input type='text' class="form-control" ng-model="years.AcademicID" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label" for="collegSelect">Select Semester :</label>
+                                <select class="form-control" ng-model="selectedsem" ng-init="getActiveSemisters()" ng-change="setActiveSemisters(selectedsem)"
+                                        ng-options="x.semester for x in sems"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="content col-md-12">
+                        <div class="container dashboardContent">
+                            <!-- Small boxes (Stat box) -->
+                            <div class="row widgets-container">
+                                <div class="col-lg-3 col-xs-6" ng-repeat="item in modulesList">
+                                    <a href="#" class="grow"  ng-click="OpenModule(item.ModuleRouteName)">
+                                        <div class="{{item.ModuleImageClass}}">
+                                            <div class="inner">
+                                                <!--<div class="icon" ng-show="item.ModuleRouteName=='Admission'">
+                                                    <img src="../../contents/img/admissionnew.png" width="90" height="auto" />
+                                                </div>
+                                                <div class="icon" ng-show="item.ModuleRouteName=='Results'">
+                                                    <img src="../../contents/img/results.png" width="90" height="auto" />
+                                                </div>-->
+                                                <h3>{{item.SysModName}}</h3>
+                                                <div class="icon1">
+                                                    <img src="../../contents/img/transprent.png" width="150" height="auto" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </section>      
+            </ui-view>
+        </div>
+    </div>
+    <div ng-if="access1">
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Set Marks Entry Dates</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Assessment</a></li>
+                        <li><a href="#">Set Marks Entry Dates</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+
+        <div class="container">
+            <form name="SetDatesForm" ng-submit="submit()">
+                <div class="base-row">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Academic Year :
+                                </label>
+                                <div class='input-group' id='year'>
+                                    <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Semester:</label>
+                                <div class="">
+                                    <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="sem.current_schemeid" ng-change="LoadExamType(sem.current_schemeid)">
+                                        <option value="" selected>Select Semester</option>
+                                        <option ng-repeat="sem in ActiveSemesters" value="{{sem.current_schemeid}}">
+                                            {{sem.semester}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Exam Type:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="exam.id" name="exam" ng-change="LoadStudentType(exam.id)" required>
+                                        <option value="" selected>Select Exam</option>
+                                        <option ng-repeat="exam in Examtypes" value="{{exam.id}}">
+                                            {{exam.examname}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Exam Type:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="SetDates()" required>
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="datetimepicker1" class="font-weight-bold">Starts Date :</label>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='datetime-local' class="form-control" ng-model="StartDate" name="StartDate" required />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            <span ng-show="SetDatesForm.StartDate.$dirty && SetDatesForm.StartDate.$invalid">
+                                <span ng-show="hasError('StartDate', 'required')">Start Date no is required</span>
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label for="datetimepicker2" class="font-weight-bold">End Date :</label>
+                                <div class='input-group' id='datetimepicker2'>
+                                    <input type='date' class="form-control" ng-model="EndDate" name="EndDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                                <span ng-show="SetDatesForm.EndDate.$dirty && SetDatesForm.EndDate.$invalid">
+                                    <span ng-show="hasError('EndDate', 'required')">End Date no is required</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label for="datetimepicker3" class="font-weight-bold">Fine Date :</label>
+                                <div class='input-group' id='datetimepicker3'>
+                                    <input type='date' class="form-control" ng-model="FineDate" name="FineDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                                <span ng-show="SetDatesForm.FineDate.$dirty && SetDatesForm.FineDate.$invalid">
+                                    <span ng-show="hasError('FineDate', 'required')">Fine Date no is required</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label for="datetimepicker3" class="font-weight-bold">Fine Amount :</label>
+                                <div class='input-group' id='Fineamount'>
+                                    <input type='text' class="form-control" ng-model="fineAmount" autocomplete="off" name="Fineamount" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-detail">
+                                Set Dates
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h4>Marks Entry Dates</h4>
+                </div>
+                <div class="scrollbox">
+                    <table class="table   table-fixed table-bordered  table-responsive scrollbox-content">
+                        <thead>
+                            <tr>
+                                <th style="width: 2%">S No.</th>
+                                <th style="width: 5%">Semester</th>
+                                <th style="width: 5%">Exam Type </th>
+                                <th style="width: 5%">Student Type</th>
+                                <th style="width: 5%">From Date </th>
+                                <th style="width: 5%">To Date </th>
+                                <th style="width: 5%">Fine Date </th>
+                                <th style="width: 5%">Fine Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="date in MarksEntryData">
+                                <td style="width: 2%">{{$index+1}} </td>
+                                <td>{{date.Semester==null ||date.Semester==undefined ? '-' :date.Semester}}</td>
+                                <td>{{date.examname==null ||date.examname==undefined ? '-' :date.examname}}</td>
+                                <td>{{date.type==null ||date.type==undefined ? '-' :date.type}}</td>
+                                <td>{{date.fromdate==null ||date.fromdate==undefined ? '-' :date.fromdate}}</td>
+                                <td>{{date.todate==null ||date.todate==undefined ?'-' :date.todate}}</td>
+                                <td>{{date.finedate==null ||date.finedate==undefined ? '-' :date.finedate}}</td>
+                                <td>{{date.fine_ammount==null ||date.fine_ammount==undefined ? '-' :date.fine_ammount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+	</div>
+</div>

@@ -1,0 +1,382 @@
+﻿<style>
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------------------------------------*/
+    tr th {
+        background: #98abb9;
+        color: #fff !important;
+        font-weight: normal;
+    }
+
+    .cl-details h4 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+    }
+
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+</style>
+<div ng-controller="SetMarksEntryDatesController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Marks Entry Dates</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard"> Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard/SetDates">Set Dates</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <form name="SetDatesForm" novalidate>
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="year" ng-change="setAcademicYears(year)">
+                                    <option value="" selected>Select Academic Year</option>
+                                    <option ng-repeat="yr in Acayears" value="{{yr}}">
+                                        {{yr.AcademicYear}}
+                                    </option>
+                                </select>
+                                <!-- <div class='input-group' id='year'>
+                                    <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Exam Month year:</label>
+                                <div class="">
+                                    <select class="form-control" name="semister" required ng-model="ExamMonthYear">
+                                        <option value="" selected>Select Month year</option>
+                                        <option ng-repeat="data in ExamMonthYears" value="{{data.Id}}">
+                                            {{data.ExamYearMonth}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Student Type:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="StudentId" name="StudentType" ng-change="getSchemes()" required>
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <!--ng-show="StudentId == 2 || StudentId == 1"> -->
+                            <div class="form-group">
+                                <label class="font-weight-bold">Schemes:</label>
+                                <div class="">
+                                    <select class="form-control" name="Scheme" ng-model="schemeId" ng-change="getSemestersByScheme()" required>
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="data in getActiveSchemes" value="{{data.SchemeId}}">
+                                            {{data.Scheme}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <!--ng-show="StudentId == 2 || StudentId == 1"> -->
+                            <div class="form-group">
+                                <label class="font-weight-bold">Semester:</label>
+                                <div class="">
+                                    <select class="form-control" name="semister" ng-model="SemesterId" ng-change="getExamType(userSem)" required>
+                                        <option value="" selected>Select Semester</option>
+                                        <option ng-repeat="userSem in UserSemesters" value="{{userSem.semid}}">
+                                            {{userSem.sem}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" ng-if="false">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Semester:</label>
+                                <div class="">
+                                    <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="sem" ng-change="LoadExamType(sem)">
+                                        <option value="" selected>Select Semester</option>
+                                        <option ng-repeat="sem in ActiveSemesters" value="{{sem}}">
+                                            {{sem.semester}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Exam Type:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="examId" name="exam" ng-change="LoadStudentType(exam.id)" required>
+                                        <option value="" selected>Select Exam</option>
+                                        <option ng-repeat="exam in Examtypes" value="{{exam.id}}">
+                                            {{exam.examname}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="datetimepicker1" class="font-weight-bold">Start Date :</label>
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Select Start Date" autocomplete="off" name="StartDate" datetime-picker="dd/MM/yyyy HH:mm" id="setToDate " ng-model="StartDate" is-open="showFlag4" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag4 = true"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="datetimepicker1" class="font-weight-bold">End Date :</label>
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Select Start Date" autocomplete="off" name="EndDate" datetime-picker="dd/MM/yyyy HH:mm" id="EndDate " ng-model="EndDate" is-open="showFlag5" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag5 = true"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="datetimepicker1" class="font-weight-bold">Fine Date :</label>
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Select Start Date" autocomplete="off" name="FineDate" datetime-picker="dd/MM/yyyy HH:mm" id="FineDate " ng-model="FineDate" is-open="showFlag6" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag6 = true"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <label for="datetimepicker3" class="font-weight-bold">Fine Amount :</label>
+                                <div class='input-group' id='Fineamount'>
+                                    <input type='text' class="form-control" ng-model="fineAmount" autocomplete="off" name="Fineamount" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-detail" ng-disabled="BtnDisable" ng-click="submitData()">
+                                Set Dates
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-12" ng-show="MarksEntryData">
+            <div class="cl-details">
+                <h4>Marks Entry Dates</h4>
+            </div>
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th width="5%">S.No</th>
+                            <th width="10%" class="text-center">Semester</th>
+                            <th width="10%" class="text-center">Exam Month Year </th>
+                            <th width="10%" class="text-center">Exam Type</th>
+                            <th width="10%" class="text-center">Student Type</th>
+                            <th width="12%" class="text-center">From Date</th>
+                            <th width="12%" class="text-center">To Date</th>
+                            <th width="12%" class="text-center">Fine Date</th>
+                            <th width="10%" class="text-center">Fine Amount</th>
+                            <th width="9%" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="date in MarksEntryData">
+                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                            <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="date.Semester" /></td>
+                            <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="date.ExamYearMonth" /></td>
+                            <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="date.examname" /></td>
+                            <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="date.type" /></td>
+                            <td class="text-center pointer" style="padding: 3px;">
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="From Date" autocomplete="off" name="fromdate" ng-click="ChangeDate(1)" datetime-picker="dd-MM-yyyy HH:mm" id="fromdate " ng-model="date.fromdate" is-open="showFlag1" />
+                                    <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag1 = true;ChangeDate(1)"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </td>
+                            <td class="text-center pointer" style="padding: 3px;">
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="To Date" autocomplete="off" name="todate" ng-click="ChangeDate(2)" datetime-picker="dd-MM-yyyy HH:mm" id="fromdate " ng-model="date.todate" is-open="showFlag2" />
+                                    <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag2 = true;ChangeDate(2)"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </td>
+                            <td class="text-center pointer" style="padding: 3px;">
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Fine Date" autocomplete="off" name="finedate" ng-click="ChangeDate(3)" datetime-picker="dd-MM-yyyy HH:mm" id="finedate " ng-model="date.finedate" is-open="showFlag3" />
+                                    <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag3 = true;ChangeDate(3)"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </td>
+                            <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="date.fine_ammount" /></td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditDates(date,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdateDates(date,$index+1)">
+                                    Update
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            
+            <div class="sm-spacer"></div>
+        </div>
+        <div class="col-md-12">
+
+            <h4 class="text-center" ng-show="LoadImg"><b>Generating Assessment Data Please wait for 5 minutes......</b></h4>
+            <div style="width: 100%; text-align: center;">
+                <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+</div>
+

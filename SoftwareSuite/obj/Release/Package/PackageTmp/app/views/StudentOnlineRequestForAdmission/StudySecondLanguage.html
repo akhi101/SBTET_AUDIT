@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TSBIE | Study of 2nd Language At Own Risk</title>
+</head>
+<body>
+    <div ng-controller="StudySecondLanguageController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>2nd Language Change / Study At Own Risk</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>2nd Language Change / Study At Own Risk</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px; font-weight:100;">Instructions </p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference.</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100;">For any Queries please mail to: </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font>Enter Hall Ticket No. :</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="HallTicketNo" placeholder="Your Hall Ticket No." class="form-control" ng-model="StudySecondLanguage.HTNO" maxlength="20" ng-keyup="clearScreen()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillDataByHTNO()" class="btn btn-detail btn-sm">Get Details</button>
+                        </div>
+                    </div>
+                   
+                    <div class="showhide" ng-show="ViewData">
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Candidate Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="cp"><strong>Candidate Name:</strong> {{StudySecondLanguage.StudName}}</p>
+                                <p class="cp"><strong>Father Name:</strong>{{StudySecondLanguage.FatherName}}</p>
+                                <p class="cp"><strong>Mother Name:</strong>{{StudySecondLanguage.MotherName}}</p>
+                                <p class="cp"><strong>Mobile Number:</strong>{{StudySecondLanguage.MobileNo}}</p>
+                                <p class="cp"><strong>Admission Number:</strong> {{StudySecondLanguage.AdmNo}}</p>
+                                <p class="cp"><strong>Group Name:</strong> {{StudySecondLanguage.MainGrpName}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>College Code:</strong>{{StudySecondLanguage.ColCode}}</p>
+                                <p class="cp"><strong>College Name:</strong>{{StudySecondLanguage.CollegeName}}</p>
+                                <p class="cp"><strong>Date of Admission:</strong>{{StudySecondLanguage.DateofAdmission}}</p>
+                                <p class="cp"><strong>Medium:</strong>{{StudySecondLanguage.MediumName}}</p>
+                                <p class="cp"><strong>Course:</strong>{{StudySecondLanguage.CourseName}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>Address:</strong>{{StudySecondLanguage.Address}}</p>
+                                <p class="cp"><strong>District:</strong>{{StudySecondLanguage.DistrictName}}</p>
+                                <p class="cp"><strong>Mandal:</strong>{{StudySecondLanguage.MandalName}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <!--<div class="row">
+        <div class="col-md-12 blu-txt text-center">  Please Tick (✔)  Appropriate Box To Change</div>
+    </div>-->
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-1">
+                                <label for=""> <font color="red">*</font>Current 2<sup>nd</sup> Language :</label>
+                                <div class="form-group">
+                                    <!--<span class="input-group-addon">
+                    <input type="checkbox" value="" ng-model="StudySecondLanguage.LanguageFlag" ng-change="StudySecondLanguage.LanguageFlag">
+                </span>-->
+                                    <input type="text" class="form-control" ng-model="StudySecondLanguage.SecondLanguage" ng-readonly="true" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for=""> <font color="red">*</font>New 2<sup>nd</sup> Language :</label>
+                                    <div class="form-group">
+                                        <select class="form-control" id="SecondLanguage" ng-model="StudySecondLanguage.SubjectID" ng-change="CheckSecondLanguageExist(StudySecondLanguage.SubjectID)">
+                                            <!--ng-disabled="!StudySecondLanguage.LanguageFlag">-->
+                                            <option value="">Select Second Language</option>
+                                            <option ng-selected="SubjectID == option.SubjectID" ng-repeat="option in StudySecondLanguageList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for=""> Payable Amount :</label>
+                                    <input type="text" class="form-control" id="FeeAmount" ng-model="StudySecondLanguage.FeeAmount" ng-disabled="true">
+                                </div>
+                            </div>
+                            <div style="padding-top: 21px;" class="col-md-3">
+                                <button type="submit" ng-click="SaveStudySecondLanguage()" class="btn btn-detail btn-sm">Submit &amp; Pay</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,420 @@
+﻿<style>
+    img.photo-img {
+        height: 168px;
+        width: 190px;
+    }
+
+    table.table {
+        clear: both;
+        margin-bottom: 0px !important;
+        max-width: none !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598 !important;
+        font-size: 12px !important;
+        background-color: #fff !important;
+    }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        width: auto !important;
+        height: 35px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        /* padding: 9px!important; */
+        outline: none !important;
+    }
+
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+</style>
+<div ng-controller="AdminFeePaymentController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Admin FeePayment </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!"><i class="fa fa-dashboard"></i> </a></li>
+                    <li><a href="#!"></a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="alert alert-info">
+            <form name="dataForm">
+                <div class="row">
+
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Type:
+                        </label>
+                        <select class="form-control" ng-model="StudentTypeId" name="StudentType" ng-change="changedVal()" required>
+                            <option value="" selected>Select Exam Type</option>
+                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                {{Student.type}}
+                            </option>
+                            <!--ng-options="Student.type for Student in StudentType">-->
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="sel1">
+                            Enter PIN number :
+                        </label>
+                        <input class="form-control" type="text" placeholder="Enter PIN" ng-model="Studentpin" required />
+                    </div>
+                    <!--<div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Exam Month Years:
+                        </label>
+                        <select class="form-control" ng-model="ExamMonthYear" name="StudentType" ng-change="ChangeExamMonthYear()" required>
+                            <option value="" selected>Select Exam Type</option>
+                            <option ng-repeat="data in getExamMonthYears" value="{{data.Id}}">
+                                {{data.ExamYearMonth}}
+                            </option>
+                            
+                        </select>
+                    </div>-->
+                    <div class="col-md-3">
+                        <div class="gr-btn">
+                            <button type="submit" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="getStudentDetails(Studentpin,StudentTypeId)">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div style="width: 100%; text-align: center;">
+            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+        </div>
+        <!--regular-->
+        <div ng-show="DetailsFound  && !isBackLog">
+            <div class="cl-details">
+                <h2>Student FeePayment  Details</h2>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px!important;border:1px solid #ddd">
+
+                <div class="col-md-10 pree-text top_table" style="padding:0px!important;">
+
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table class="table table-bordered  table-striped top-table table-rounded" style="margin-bottom: 0px !important; border-left:0px!important;border-bottom:0px!important;">
+                            <thead>
+                                <tr class="cb-2">
+                                    <th width="23%" id="tbl_head1 " class="myead2"><b>Pin</b></th>
+                                    <th id="tbl_head2" class="myead2">{{studPin}}</th>
+                                    <th width="10%" id="tbl_head1 " class="myead2"><b>Scheme</b></th>
+                                    <th width="26%" id="tbl_head2" class="myead2">{{studentScheme}}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="">
+
+                                <tr>
+                                    <td><b>Name</b></td>
+                                    <td colspan="3">{{studentName}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Father Name</b></td>
+                                    <td colspan="3">{{studentFatherName}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Branch</b></td>
+                                    <td colspan="3">{{studentBranch}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Examination Center</b></td>
+                                    <td colspan="3">{{studentExamCenterName}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2 text-center" style="padding:0px;">
+                    <img ng-src="{{Photo}}" class="photo-img" style="border: 2px solid #ddd;" />
+                </div>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px;border:1px solid #ddd">
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-2">
+                                <th width="5%" id="tbl_head1"><b>S No</b></th>
+                                <th id="tbl_head2" class="myead2" width="14.1%"><b>Year/Sem</b></th>
+                                <th width="" id="tbl_head1"><b>Subject Code</b></th>
+                                <th id="tbl_head2" class="myead2"><b>Name of the Subject</b></th>
+                                <th width="" id="tbl_head1"><b>Exam Date</b></th>
+                                <th width="" id="tbl_head1"><b>Exam Time</b></th>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            <tr ng-repeat="data in studentSubData">
+                                <td>{{$index+1}}</td>
+                                <td>{{data.Semester}}</td>
+                                <td>{{data.SubjectCode}}</td>
+                                <td>{{data.SubjectName}}</td>
+                                <td>{{data.ExamDate}}</td>
+                                <td>{{data.ExamTime}}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px;border:1px solid #ddd">
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <tbody class="">
+
+                            <tr>
+                                <td width="19%">Presumptive Attendance(%)</td>
+                                <td>{{studentattendance}}</td>
+                            </tr>
+
+                            <tr>
+                                <td width="19%">Exam Fee Amount</td>
+                                <td>{{studentExamFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">Condonation Amount</td>
+                                <td>{{studentCondonationFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">Late Fee Amount</td>
+                                <td>{{studentLateFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">Tatkal Amount</td>
+                                <td>{{studentTatkalFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">Certification Fee</td>
+                                <td>{{studentCertificateFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">Total Amount</td>
+                                <td>{{studentTotalFee}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <!--BackLog-->
+        <div ng-show="DetailsFound && isBackLog ">
+            <div class="cl-details">
+                <h2>Student Details</h2>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px!important;border:1px solid #ddd">
+
+                <div class="col-md-10 pree-text top_table" style="padding:0px!important;">
+
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table class="table table-bordered  table-striped top-table table-rounded" style="margin-bottom: 0px !important; border-left:0px!important;border-bottom:0px!important;">
+                            <thead>
+                                <tr class="cb-2">
+                                    <th width="29%" id="tbl_head1 " class="myead2"><b>Pin</b></th>
+                                    <th id="tbl_head2" class="myead2">{{studPin}}</th>
+                                    <!--<th width="10%" id="tbl_head1 " class="myead2"><b>Scheme</b></th>
+                                    <th width="26%" id="tbl_head2" class="myead2">{{studentScheme}}</th>-->
+                                </tr>
+                            </thead>
+                            <tbody class="">
+
+                                <tr>
+                                    <td><b>Name</b></td>
+                                    <td colspan="3">{{studentName}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Father Name</b></td>
+                                    <td colspan="3">{{studentFatherName}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Branch</b></td>
+                                    <td colspan="3">{{studentBranch}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Examination Center</b></td>
+                                    <td colspan="3">{{studentExamCenterName}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2 text-center" style="padding:0px;">
+                    <img ng-src="{{Photo}}" class="photo-img" style="border: 2px solid #ddd;" />
+                </div>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px;border:1px solid #ddd">
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-2">
+                                <th colspan="1" rowspan="2" style="width: 1%;" ng-show="isBackLog"><input type="checkbox" ng-model="allItemsSelected" ng-checked="allItemsSelectedthing" ng-change="selectAll()" ng-show="Student.id == 2"></th>
+                                <th colspan="1" rowspan="2" width="5%" id="tbl_head1"><b>S No</b></th>
+                                <th colspan="1" rowspan="2" id="tbl_head2" class="myead2" width="10.1%"><b>Year/Sem</b></th>
+                                <th colspan="1" rowspan="2" id="tbl_head1"><b>Scheme</b></th>
+                                <th colspan="1" rowspan="2" id="tbl_head1"><b>Backlog Subject</b></th>
+                                <th colspan="5" style="text-align: center;" id="tbl_head1"><b>To appear in</b></th>
+                            </tr>
+                            <tr>
+                                <th colspan="1" id="tbl_head1"><b>Scheme</b></th>
+                                <th colspan="1" id="tbl_head1"><b>Subject Code</b></th>
+                                <th colspan="1" id="tbl_head1"><b>Subject Name</b></th>
+                                <th colspan="1" id="tbl_head1"><b>Exam Date</b></th>
+                                <th colspan="1" id="tbl_head1"><b>Exam Time</b></th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            <tr ng-repeat-start="(key, val) in studentSubData">
+                                <td rowspan="{{val.Subjects.length+1}}" style="text-align: center" ng-show="isBackLog"><input type="checkbox" ng-model="val.isChecked" ng-checked="val.isChecked" ng-change="selectEntity(val)" ng-show="Student.id == 2"></td>
+                                <td rowspan="{{val.Subjects.length+1}}">{{$index+1}}</td>
+                                <td rowspan="{{val.Subjects.length+1}}">{{val.Semester}}</td>
+                                <td rowspan="{{val.Subjects.length+1}}">{{val.oldscheme}}</td>
+                            </tr>
+                            <tr ng-repeat-end ng-repeat="value in val.Subjects">
+                                <td colspan="1" rowspan="{{value.Subjects.length+1}}" style="padding: 11.2px;">{{value.bacSubjectCode}}</td>
+                                <td colspan="1" rowspan="{{value.Subjects.length+1}}" style="padding: 11.2px;">{{value.scheme}}</td>
+                                <td colspan="1" rowspan="{{value.Subjects.length+1}}" style="padding: 11.2px;">{{value.SubjectCode}}</td>
+                                <td colspan="1" rowspan="{{value.Subjects.length+1}}" style="padding: 11.2px;">{{value.SubjectName}}</td>
+                                <td colspan="1" rowspan="{{value.Subjects.length+1}}" style="padding: 11.2px;">{{value.ExamDate}}</td>
+                                <td colspan="1" rowspan="{{value.Subjects.length+1}}" style="padding: 11.2px;">{{value.ExamTime}}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="col-md-12 tbl" style="padding:0px;border:1px solid #ddd">
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <tbody class="">
+                            <tr ng-show="isBackLog">
+                                <sa-table class="table table-striped" tabledata="tableData">
+                                </sa-table>
+                            </tr>
+                            <tr>
+                                <td width="19%">Total Semesters Selected</td>
+                                <td>{{studentSubjectsSelected}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">
+                                    Exam Fee Amount
+                                </td>
+                                <td>{{FinalExamFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">
+                                    Late Fee Amount
+                                </td>
+                                <td>{{FinalLateFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">Tatkal Amount</td>
+                                <td>{{FinalTatkalFee}}</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">
+                                    Total Amount
+                                </td>
+                                <td>{{FinalTotalFee}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row" ng-show="DetainedDetailsFound">
+            <div class="col-md-12 no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>{{DetainedDetailsFoundWithData==null||DetainedDetailsFoundWithData==""?"Details Not Found":DetainedDetailsFoundWithData}}</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div ng-show="DetailsNotFound" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>Details Not Found</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="DetailsFound">
+            <div class="pull-right">
+                <button class="btn pay_bck_btn" ng-click="payNow()">Pay Amount</button>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+
+
+
+    </div>
+
+</div>

@@ -1,0 +1,347 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .container .containercontent {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .containercontent {
+        margin-right: auto;
+        margin-left: auto;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div ng-controller="CcicSetEntryDatesController">
+    <script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+    </script>
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container containercontent">
+            <section class="content-header">
+                <h5>Set Assesment Entry Dates</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/CcicDashboard/Assessment">Assessment</a></li>
+                    <li><a href="#!/CcicDashboard/Assessment/SetEntryDates">Set Entry Dates</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container containercontent">
+
+        <div class="col-md-12 containercontent">
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/Assessment" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+
+
+
+
+        <div class="tab-content ">
+
+
+            <div class="col-md-12 containercontent">
+                <div class="cl-details">
+                    <h2>Add Assessment Entry Dates</h2>
+
+                </div>
+            </div>
+            <div class="col-md-12 containercontent">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Academic Year :</label>
+                                <select class="form-control " ng-model="academicYear" name="AcademicYear" required ng-change="GetExamMonthYearData(academicYear)">
+                                    <option value="" selected="selected">Select Year</option>
+                                    <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                        {{data.AcademicYear}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold"> Exam Month Year :</label>
+                                <select class="form-control " ng-model="ExamMonthYear" name="ExamMonthYear" required>
+                                    <option value="" selected="selected">Select Exam Month Year</option>
+                                    <option value="{{data.ExamMonthYearID}}" ng-repeat="data in ExamMonthYrData" class="">
+                                        {{data.ExamMonthYearName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col-md-2 form-group">
+                            <label class="font-weight-bold">Start Date:</label> <input autocomplete="off" class="form-control" type="date" ng-model="StartDate" placeholder="Select Start Date">
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label class="font-weight-bold">End Date:</label> <input autocomplete="off" class="form-control" type="date" ng-model="EndDate" placeholder="Select End Date">
+                        </div>
+                        
+
+                        <div class="col-md-2 pull-left">
+                            <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="AddAssesmentEntryDates()">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-if="loading">
+                    <!--<div class="sm-spacer"></div>-->
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-if="NoData">
+                    <div class="col-md-12 no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data</h2>
+                    </div>
+                </div>
+                <div class="table-responsive table-custom-tables-tb">
+                    <div ng-if="GetAssesmentEntryDatesTable.length>0" class="cl-details">
+                        <h2>AcademicYear Batch</h2>
+                    </div>
+                    <div ng-if="GetAssesmentEntryDatesTable.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                        <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th width="5%">S.No</th>
+                                    <th width="15%" class="text-center">Academic Year</th>
+                                    <th width="15%" class="text-center">Exam Month Year</th>
+                                    <th width="15%" class="text-center">Start Date</th>
+                                    <th width="15%" class="text-center">End Date</th>
+                                    <th width="15%" class="text-center">Status</th>
+                                    <th width="15%" class="text-center">Edit/Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in GetAssesmentEntryDatesTable">
+                                    <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                    <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.AcademicYear" /></td>
+                                    <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable" type="text" ng-model="data.ExamMonthYear" /></td>
+                                    <td class="text-center pointer" style="padding: 3px;">
+                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                            <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="Start Date" autocomplete="off" name="Startdate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.StartDate" is-open="showFlag2" />
+                                            <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </td>
+                                    <td class="text-center pointer" style="padding: 3px;">
+                                        <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                            <input type="text" class="form-control tableinpt tabledate enabletable{{$index + 1}}" placeholder="End Date" autocomplete="off" name="EndDate" datetime-picker="dd-MM-yyyy" id="setToDate " ng-model="data.EndDate" is-open="showFlag1" />
+                                            <span class="input-group-btn" ng-show="!edit{{$index + 1}}">
+                                                <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-xs" style="width: 70px;" ng-show="data.Active == true" ng-click="SetAssesmentEntryDatesStatus(data.EntryDateID,false)">Active</button>
+                                        <button class="btn btn-danger btn-xs" style="width: 70px;" ng-show="data.Active == false" ng-click="SetAssesmentEntryDatesStatus(data.EntryDateID,true)">InActive</button>
+                                    </td>
+
+
+
+                                    <td class="text-center">
+                                        <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="ChangeStatus(data,$index+1)">
+                                            Edit
+                                        </button>
+                                        <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdationStatus(data,$index+1)">
+                                            Update
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="sm-spacer"></div>
+                    <div class="sm-spacer"></div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+

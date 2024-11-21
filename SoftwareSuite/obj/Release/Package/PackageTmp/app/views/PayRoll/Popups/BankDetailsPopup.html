@@ -1,0 +1,152 @@
+<style>
+    .modal-content {
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: 0;
+    }
+
+
+    .modal-header.popup-modal-header {
+        padding: 2px 15px;
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #2196F3;
+    }
+
+
+
+
+    .popup-modal-header .modal-title {
+        margin: 0;
+        text-align: center;
+        line-height: 2.428571;
+        color: #fff;
+    }
+
+    .center-block {
+        display: block;
+    }
+
+
+
+
+
+    .btn-modal-close {
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 1;
+    }
+</style>
+<div class="modal-dialog-centered">
+    <div class="modal-content">
+        <style class="ng-scope">
+            .modal-fit .modal-content {
+                height: max-content !important;
+                overflow: unset !important;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        </style>
+
+        <div class="modal-header popup-modal-header ng-scope">
+            <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">x</button>
+            <h4 class="modal-title center-block">Bank Details</h4>
+
+
+        </div>
+
+
+
+        <div class="modal-body ng-scope">
+
+            <div class="row">
+                <div class="col-sm-6 col-md-9 pull-right">
+
+                    <div class="row">
+
+                        <div class="col-sm-6 col-md-9">
+
+                            <div class="box box-default">
+
+                                <div class="box-body">
+                                    <div class="row">
+
+                                        <div class="col-sm-6 col-md-9">
+                                            <div class="box box-primary">
+                                                <!-- /.box-header -->
+                                                <div class="box-body">
+                                                    <div class="form-group" required>
+                                                        <label>
+                                                            Bank Name:
+                                                        </label>
+                                                        <select class="form-control" name="BankName" ng-model="BankData" ng-change="getBranchesbyName(BankData)">
+                                                            <option value="" selected>Select Bank</option>
+                                                            <option ng-repeat="data in BanksData" value="{{data}}">
+                                                                {{data.BankName}}
+                                                            </option>
+                                                        </select>
+
+
+                                                    </div>
+                                                    <hr>
+
+                                                    <div class="form-group" required>
+                                                        <label>
+                                                            Bank Branch:
+                                                        </label>
+
+                                                        <select class="form-control" name="BankBranch" ng-model="BankBranch" ng-change="ChangeBranchs(BankBranch)">
+                                                            <option value="" selected>Select Bank Branch</option>
+                                                            <option ng-repeat="data in BranchsData" value="{{data.BankBranch}}">
+                                                                {{data.BankBranch}}
+                                                            </option>
+                                                        </select>
+
+
+
+                                                    </div>
+                                                    <hr>
+
+                                                    <strong class="course-label" ng-show="IFSCCode" style="font-size:20px">IFSC Code:</strong>
+                                                    <span class="text-muted word-break" style="font-size:20px">
+                                                        {{IFSCCode}}
+                                                    </span>
+                                                    <hr>
+
+
+                                                    <a class="btn btn-primary" role="button" ng-click="SubmitBankDetails(Bank,BankBranch)">Submit</a>
+
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer ng-scope">
+
+            <button type="button" class="btn btn-default" ng-click="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>

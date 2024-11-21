@@ -1,0 +1,434 @@
+﻿<style>
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+    #checkboxesScheme {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesScheme label {
+            display: block;
+        }
+
+            #checkboxesScheme label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesHandicaped {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesHandicaped label {
+            display: block;
+        }
+
+            #checkboxesHandicaped label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCollegeTypes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCollegeTypes label {
+            display: block;
+        }
+
+            #checkboxesCollegeTypes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAcademicYear {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAcademicYear label {
+            display: block;
+        }
+
+            #checkboxesAcademicYear label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesAdmissionType {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesAdmissionType label {
+            display: block;
+        }
+
+            #checkboxesAdmissionType label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesCategory {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesCategory label {
+            display: block;
+        }
+
+            #checkboxesCategory label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxesBranch {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxesBranch label {
+            display: block;
+        }
+
+            #checkboxesBranch label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem label {
+        display: block;
+    }
+
+        #checkboxessem label:hover {
+            background-color: #1e90ff;
+        }
+
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 1px solid #d8d8d8 !important;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
+    element.style {
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .myBtn1 {
+        margin-top: 23px;
+        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+    /**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+
+<div ng-controller="SemMigrationController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Student Promotion</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                    <li><a href="#!/Dashboard/Academic/StudentPromotion">Student Promotion </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div id="exTab2" class="container">
+                <ul class="nav nav-tabs">
+                    <li class="myBtn active" ng-click="ClearData()">
+                        <a href="#1" data-toggle="tab">Student Promotion</a>
+                    </li>
+                    <li ng-click="ClearData()" ng-show="Data">
+                        <a href="#2" data-toggle="tab">Show Promotion Sems</a>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content ">
+                    <div class="tab-pane active" id="1">
+                        <div class="col-md-12">
+                            <div class="cl-details">
+                                <h2> Student Promotion</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label for="sel1">
+                                                Academic Year :
+                                            </label>
+                                            <select class="form-control" ng-model="AcademicYear" name="StudentType" required
+                                                    ng-options="Student.AcademicID as Student.AcademicYear for Student in GetAcademicYears">
+                                                <option value="" selected>Select Academic Year</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="gr-btn">
+                                                <button type="submit" class="btn btn-sm btn-primary gr-button  pull-right" style="margin-top:6px;" ng-click="dataForm.$valid && Submit()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="width:100%;text-align:center;">
+                                <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="Data">
+                            <div class="cl-details">
+                                <h2>Student Promotion</h2>
+                            </div>
+                            <div class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered table-hover table-striped table-rounded custom-table-wdith scrollbox-content">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th>S.No</th>
+                                            <th class="text-left">Academic Year</th>
+                                            <th class="text-center">From Sememester</th>
+                                            <th class="text-center">ToSememester</th>
+                                            <th class="text-center">Is IVC</th>
+                                            <th class="text-left">CummulativeCredits</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color: #fff!important;" ng-repeat="data in MigrationData">
+                                            <td class="text-left">{{$index+1}}</td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <select class="form-control input-sm tableinpt enabletable{{$index + 1}}" autocomplete="off" style="width: min-content;" ng-model="data.AcademicYearId"
+                                                        ng-options="x.AcademicID as x.AcademicYear for x in GetAcademicYears"
+                                                        no-Special-Char>
+                                                    <option value="" selected>Select Academic Year</option>
+                                                </select>
+                                                <!-- <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="15" ng-model="data.TOTAL1" />-->
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;"> {{data.FromSememester}} </td>
+                                            <td class="text-center pointer" style="padding: 3px;"> {{data.ToSememester}} </td>
+                                            <td class="text-center pointer" style="padding: 3px;"> {{data.IsIVC}} </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="15" ng-model="data.CummulativeCredits" />
+                                            </td>
+
+                                            <td class="text-center">
+                                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                                    Edit
+                                                </button>
+                                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                                    Update
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="2">
+                        <!--<div class="col-md-12" ng-show="Data">
+            <div class="-btn">
+                <button type="button" class="btn btn-primary  pull-left" style="margin-top:6px;" ng-click="ShowSems()">Show Promotional Sem</button>
+            </div>
+        </div>-->
+                        <div class="col-md-12" ng-show="Data">
+                            <div class="alert alert-info">
+                                <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label for="sel1">
+                                                Semester:
+                                            </label>
+                                            <div class="multiselect">
+                                                <div class="selectBox" ng-click="showsemCheckboxes()">
+                                                    <select class="form-control ">
+                                                        <option ng-blur="closesemCheckbox()">Select Sem</option>
+                                                    </select>
+                                                    <div class="overSelect"></div>
+                                                </div>
+                                                <div id="checkboxessem">
+                                                    <label class="contain">
+                                                        <input type="checkbox" ng-click="toggleAllsem()" ng-blur="closesemCheckbox()" ng-model="isAllSelectedsem" /><span class="checkmark"></span>Select All
+                                                    </label>
+                                                    <label class="contain" ng-repeat="sem in GetSemesters">
+                                                        <input type="checkbox" ng-model="sem.selected" ng-blur="closesemCheckbox()" ng-change="optionToggledsem(sem.selected)"><span class="checkmark"></span>{{sem.Label}}
+                                                    </label>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="gr-btn">
+                                                <button type="submit" class="btn btn-sm btn-primary gr-button  pull-right" style="margin-top:6px;" ng-click="SemTransfer()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        
+                        <div class="col-md-12" ng-show="!Data">
+                            <div class="no-results" >
+                                <img src="../../contents/img/Folder-Icon.svg" />
+                                <h2>No data Found</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+       
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

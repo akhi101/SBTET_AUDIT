@@ -1,0 +1,100 @@
+﻿<div class="base-row" ng-controller="examTimeTableController" ng-init="init()">
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Exam Time Table</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a href="#">Pre Exam Process</a></li>
+                        <li><a href="#">Exam Time Table</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="examTimeTableForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <sa-select ng-model="examTimeTableDetail.CourseID" object="examTimeTableDetail.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                            </div>
+                            <div class="col-md-4">
+                                <sa-select ng-model="examTimeTableDetail.ExamID" object="examTimeTableDetail.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="ExamID" objecttext="Exam" compulsory="true"> </sa-select>
+                            </div>
+                            <div class="col-md-4">
+                                <sa-select ng-model="examTimeTableDetail.BranchID" object="examTimeTableDetail.BranchID" options="basicBranches" displaycolumn="BranchName" valuecolumn="BranchID" objectname="BranchID" objecttext="Branch"> </sa-select>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button ng-click="showExamTimeTableSubjects()" class="btn btn-detail btn-md custom-btn-block">Show Details</button>
+                                    <button ui-sref="PreExam" class="btn btn-reset custom-btn-block">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <form name="examTimeTableSubjectsForm">
+                        <div class="row" ng-show="examTimeTableSubjects.length>0">
+                            <hr />
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-responsive rspan">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Exam Date</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Exam session</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="examTimeTableSubject in examTimeTableSubjects">
+                                            <td>
+                                                {{examTimeTableSubject.ExmSubName}}
+                                            </td>
+                                            <!--<td>
+                                    {{examTimeTableSubject.EvalTypName}}
+                                </td>-->
+                                            <td>
+                                                <sa-date-rng ng-model="examTimeTableSubject.StartDate" object="examTimeTableSubject.StartDate" objectname="StartDate" length="100" compulsory="true" ispascal="true"> </sa-date-rng>
+                                            </td>
+                                            <td>
+                                                <!--<input type="time" id="exampleInput" name="input"
+                                    ng-model="examTimeTableSubject.startTime"
+                                    ng-change="show()"
+                                    placeholder="HH:mm:ss" min="00:00:00" max="24:00:00" required="" />-->
+                                                <sa-time ng-model="examTimeTableSubject.StartTime" object="examTimeTableSubject.StartTime" objectname="StartTime" ispascal="true" compulsory="true"> </sa-time>
+                                            </td>
+                                            <td>
+                                                <sa-time ng-model="examTimeTableSubject.EndTime" object="examTimeTableSubject.EndTime" objectname="EndTime" ispascal="true" compulsory="true"> </sa-time>
+                                            </td>
+                                            <td>
+                                                <sa-select ng-model="examTimeTableSubject.ExamSession" object="examTimeTableSubject.ExamSession" options="examSessions" displaycolumn="examSessionName" valuecolumn="examSession" objectname="examSession" compulsory="true"></sa-select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="examTimeTableSubjects.length>0">
+                            <div class="col-md-12 text-center">
+                                <button ng-click="saveExamTimeTable()" class="btn btn-detail btn-sm">Save</button>
+                                <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+        
+</div>
+

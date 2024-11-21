@@ -1,0 +1,195 @@
+﻿<style>
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-xlg {
+        width: 1250px;
+    }
+      .modal-content {
+          height: auto !important;
+          overflow: auto !important;
+      }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    canvas.sa-canvas {
+        border: 1px dashed;
+        /*border-bottom: 1px solid rgba(0,0,0,0.3);*/
+        /*background-color: #333;
+            box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);*/
+    }
+
+    /* Disable selection highlight on drag. */
+    canvas {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+
+
+
+      .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+          margin-bottom: 20px !important;
+          width: 120px !important;
+          height: 31px !important;
+          border-radius: 20px !important;
+          font-size: 16px !important;
+          font-weight: 600 !important;
+          color: #fff !important;
+          /* font-family: itallic; */
+          background-color: #63aacf !important;
+          padding: 4px !important;
+          outline: none !important;
+          float: right !important;
+          margin-right: 15px !important;
+      }
+
+      .spacer {
+          height: 50px !important;
+      }
+
+      .padRow {
+          padding: 5px;
+      }
+
+      .noDue {
+          transform-origin: 0 0;
+          /*transition: transform .25s, visibility .25s ease-in;*/
+      }
+
+          /* The Transformation */
+          .noDue:hover {
+              /*height:300px;
+    transform: scale(1.5);
+    z-index:100;*/
+              transform: scale(1.5);
+              height: 480px;
+              width: 258px;
+              margin-bottom: 250px;
+          }
+
+      .font_bold {
+          font-weight: bold;
+      }
+         .noDue{
+  transform-origin: 0 0;
+  /*transition: transform .25s, visibility .25s ease-in;*/
+}
+
+/* The Transformation */
+.noDue:hover  {
+    /*height:300px;
+  transform: scale(1.5);
+  z-index:100;*/
+    transform: scale(1.5) ;
+     height: 480px;
+    width: 258px;
+    margin-bottom:250px;
+}
+</style>
+
+<div class="modal-header ">
+</div>
+<div class="modal-body">
+    <div class="col-md-12 ">
+        <div class="cl-details">
+            <h2>Transcript Student Details</h2>
+        </div>
+    </div>
+    <div class="col-md-12 ">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Application No:</b></div>
+                        <div class="col-md-7">: {{StudentDetails.ApplicationNo}}  </div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Pin</b></div>
+                        <div class="col-md-7">: {{StudentDetails.Pin}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Name</b></div>
+                        <div class="col-md-7">: {{StudentDetails.Name}}  </div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Scheme</b></div>
+                        <div class="col-md-7">: {{StudentDetails.Scheme}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>College Code</b></div>
+                        <div class="col-md-7">: {{StudentDetails.CollegeCode==""|| StudentDetails.CollegeCode ==null?"--" :StudentDetails.CollegeCode}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Phone</b></div>
+                        <div class="col-md-7">: {{StudentDetails.Mobile==""|| StudentDetails.Mobile ==null?"--" :StudentDetails.Mobile}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Applied Date</b></div>
+                        <div class="col-md-7">: {{StudentDetails.Logdate|date:'dd-MMM-yyyy HH:mm:ss'}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>WES Reference No</b></div>
+                        <div class="col-md-7">: {{StudentDetails.WESReferenceNo==""|| StudentDetails.WESReferenceNo ==null?"--" :StudentDetails.WESReferenceNo}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Universities Applied</b></div>
+                        <div class="col-md-7">: {{StudentDetails.UniversitiesApplied}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>University Emails</b></div>
+                        <div class="col-md-7">: <div ng-repeat="data in mailarray"> {{data.mail}}</div></div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-5"><b>Transcripts</b></div>
+                        <div class="col-md-7">: <div ng-repeat="data in array"><a ng-href={{data.link}} target="_blank">Document{{$index+1}}</a></div></div>
+                    </div>
+                    <!--<div class="row padRow">
+                <div class="col-md-5">No Due</div>
+                <div class="col-md-7">:<img style="border: 2px solid #ddd;" height="350" width="600" class="noDue" src="{{StudentDetails.Nodue}}"></div>
+            </div>-->
+
+                </div>
+
+                <!--<div class="col-md-5">
+            <img style="border: 2px solid #ddd;" height="150" width="120" src="{{StudentDetails.WESCertificate}}">
+        </div> ng-href={{data.link}} target="_blank"
+                    ng-href={{StudentDetails.WESCertificate}} target="_blank"
+                    -->
+            </div>
+            <div class="row">
+                <div class="col-md-5 "><b>WES Certificate</b></div>
+                <div class="col-md-7">:<a ng-href={{StudentDetails.WESCertificate}} target="_blank">{{StudentDetails.WESCertificate ==""|| StudentDetails.WESCertificate ==null?"---" :"WESCertificate"}}</a></div>
+            </div>
+            <div class="row" ng-show="ApproveType =='0'">
+
+                <div class="col-md-6">
+                    <button class="btn btn-danger" style="margin-top:21px" ng-click="closeModal()">Close</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-success pull-right" style="margin-top:21px" ng-click="Verify(StudentDetails.ApplicationNo)"> Verify & Submit </button>
+                </div>
+            </div>
+            <!--<div class="col-md-12 ">
+                <div class="cl-details">
+                    <h2>PDF viewer</h2>
+                </div>
+            </div>-->
+          
+        </div>
+    </div>
+</div>

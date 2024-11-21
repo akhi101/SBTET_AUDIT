@@ -1,0 +1,529 @@
+﻿
+    <style type='text/css'>
+        .logo-image {
+            height: 80px;
+            width: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .border_btm {
+            border-bottom: 1px solid black;
+            text-transform: uppercase;
+        }
+
+        .myfont {
+            font-size: 16px;
+        }
+
+        .myfont1 {
+            border-bottom: 1px dashed black;
+            font-size: 16px;
+        }
+
+        .border_dot {
+            width: auto;
+        }
+
+        .spacer {
+            height: 100px;
+        }
+
+        .sm-spacer {
+            height: 50px;
+        }
+
+        .border_dot {
+            width: auto;
+        }
+
+        .spacer {
+            height: 100px;
+        }
+
+       
+
+        .length {
+            padding: 5px 0px;
+        }
+
+        .generateBtn {
+            display: block;
+        }
+
+        /*--------------print Css*/
+
+        @media print {
+            .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+                float: left;
+            }
+
+            .col-md-12 {
+                width: 100%;
+            }
+
+            .col-md-11 {
+                width: 91.66666666666666%;
+            }
+
+            .col-md-10 {
+                width: 83.333333%;
+            }
+
+            .col-md-9 {
+                width: 75%;
+            }
+
+            .col-md-8 {
+                width: 66.66666666666666%;
+            }
+
+            .col-md-7 {
+                width: 58.333333333333336%;
+            }
+
+            .col-md-6 {
+                width: 50%;
+            }
+
+            .col-md-5 {
+                width: 41.66666666666667%;
+            }
+
+            .col-md-4 {
+                width: 33.33333333333333%;
+            }
+
+            .col-md-3 {
+                width: 25%;
+            }
+
+            .col-md-2 {
+                width: 16.666666666666664%;
+            }
+
+            .col-md-1 {
+                width: 8.333333333333332%;
+            }
+
+            .myHr {
+                border-top: 1px solid #000;
+            }
+
+            .header-top-section {
+                display: none;
+            }
+
+            .border_btm {
+                border-bottom: 1px solid #ddd;
+                text-transform: uppercase;
+            }
+
+            .text-uppercase {
+                text-transform: uppercase;
+            }
+
+            p {
+                text-indent: 50px;
+            }
+
+            .logo-image {
+                height: 80px;
+                width: 80px;
+                margin-left: auto;
+                margin-right: auto;
+                line-height: 1.6;
+            }
+
+            .footer_section {
+                display: none;
+            }
+
+            .footer_section {
+                display: none;
+            }
+
+
+            .text-intend {
+                text-indent: 50px;
+                line-height: 1.6;
+            }
+
+            .Line {
+                line-height: normal;
+            }
+
+            .a {
+                margin: 25px;
+            }
+
+            .length {
+                padding: 3px 0px;
+            }
+
+            .pad {
+                line-height: normal;
+            }
+
+            .sm-spacer {
+                height: 50px;
+            }
+
+            .ssm-spacer {
+                height: 20px;
+            }
+            #backbtn {
+            display:none;
+            }
+            .breadcrumb-header {
+                display: none;
+            }
+        }
+        
+    </style>
+    <div ng-controller="TransferCertificatePendingController">
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+
+            <div class="container">
+                <section class="content-header">
+                    <h5>Transfer Certificate Preview</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a href="#!/Dashboard/PostExam">Student Services</a></li>
+                        <li><a href="#!/Dashboard/PostExam/TcApprovalList/TcApprovalListDetails">SchemeWise TC list</a></li>
+                        <li><a href="#!/Dashboard/PostExam/TcApprovalList/TcApprovalListDetails/TransferCertificatePending">Transfer Certificate </a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+        <div class='container'>
+            <div id='backbtn'>
+                <div class="sm-spacer"></div>
+                <div class="col-md-12">
+                    <a href="#!/Dashboard/PostExam/TcApprovalList/TcApprovalListDetails" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+                </div>
+                <div class="sm-spacer"></div>
+            </div>
+            <div class='row' ng-show="StudentDetails.IsGovClg">
+                <div class='col-md-12'>
+                    <div class='logo-image text-center'>
+                        <img src='../../../contents/img/telangana-logo-png.png' class='img-responsive logoImg pull-left' />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class='row pad'>
+                <div class='col-md-12 title'>
+                    <h3 class='text-center hall_head'><b>{{StudentDetails.CollegeName == null ?"--":StudentDetails.CollegeName}}</b></h3>
+
+                </div>
+                <div class='col-md-12'>
+                    <h5 class='text-center hall_head'><b>{{StudentDetails.CollegeAddress == null ?"--":StudentDetails.CollegeAddress}}</b></h5>
+
+                </div>
+
+                <h3 class='text-center hall_head '><b class='border_btm text-uppercase'>TRANSFER CERTIFICATE</b></h3>
+            </div>
+        </div> <div class='container'>
+            <div class='ssm-spacer'></div>
+            <div class='row'>
+
+                <div class='col-md-4'>
+                    <div class='myfont'>TC No: - {{StudentDetails.TransferCertificateNo == null ?"--":StudentDetails.TransferCertificateNo}}  </div>
+                </div>
+                <div class='col-md-3'></div>
+                <div class='col-md-3'>
+                    <div class='myfont'>Admission No: - {{StudentDetails.AdmissionNo == null ?"--":StudentDetails.AdmissionNo}} </div>
+                </div>
+
+
+                <div class='sm-spacer'></div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            1.   Name Of the Student(In Block Letters)
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Name == null ?"--":StudentDetails.Name}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            2.  PIN
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Pin == null ?"--":StudentDetails.Pin}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            3.Father's Name
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.FatherName == null ?"--":StudentDetails.FatherName}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            4.Mother's Name
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.MotherName == null ?"--":StudentDetails.MotherName}}</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            5.Nationality & Religion
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Nationality == null ?"--":StudentDetails.Nationality}} && {{StudentDetails.Religion == null ?"--":StudentDetails.Religion}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            6.Caste
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Caste == null ?"--":StudentDetails.Caste}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            7.Date Of Birth(in Words)
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Dateofbirth == null ?"--":StudentDetails.Dateofbirth|date:"dd-MM-yyyy"}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            8.Date of which he/she was admitted in the Polytechnic
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.admittedDate == null ?"--":StudentDetails.admittedDate|date:"dd-MM-yyyy"}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            9.Date on which he/she left the Polytechnic
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.LeftDate == null ?"--":StudentDetails.LeftDate|date:"dd-MM-yyyy"}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            10.Class in which he/she was studying at the time of leaving(in words)
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.LeftClass == null ?"--":StudentDetails.LeftClass}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            11.Whether he/she has paid Course fees or other money due
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.CollegeDuesPaid == null ?"--":StudentDetails.CollegeDuesPaid}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            12.Whether qualified for promotion to higher Class
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Promoted == null ?"--":StudentDetails.Promoted}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            13.Conduct and Character
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.Conduct == null || StudentDetails.Conduct =='' ?"--":StudentDetails.Conduct}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            14.Date on which application for Transfer Certificte was made
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.LogDate == null ?"--":StudentDetails.LogDate|date:"dd-MM-yyyy"}}</b>
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            15.Whether he/she has appeared/final the
+                            Exams and passed the Class/Discontinued
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>{{StudentDetails.ReasonForTC == null ?"--":StudentDetails.ReasonForTC}}</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            16.Marks of Identification
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>:{{StudentDetails.IdMark1 == null ?"--":StudentDetails.IdMark1}}</b>
+
+                        </div>
+                    </div>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>:{{StudentDetails.IdMark2 == null ?"--":StudentDetails.IdMark2}}</b>
+
+                        </div>
+                    </div>
+                </div>
+                <div class='row length'>
+                    <div class='col-md-5'>
+                        <div class='myfont'>
+                            17.Remarks
+
+                        </div>
+                    </div>
+                    <div class='col-md-7'>
+                        <div class='myfont1'>
+                            <b class='border_dot'>:{{StudentDetails.StudentRemarks == null ?"--":StudentDetails.StudentRemarks}}</b>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class='sm-spacer'></div>
+                <div class='sm-spacer'></div>
+
+                <div class='row'>
+
+                    <div class='col-md-7'>
+
+                        <div class='row length'>
+                            <div class='col-md-8'>
+                                <div class='myfont'>
+                                    Date <b class='border_dot'>: {{today|date: "dd-MM-yyyy"}}</b>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class='row length'>
+                            <div class='col-md-8'>
+                                <div class='myfont'>
+                                    Station <b class='border_dot'>: {{StudentDetails.Station == null ?"--":StudentDetails.Station}}</b>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class='col-md-5'>
+                        <div class='col-md-12' style='
+    margin-bottom: 40px;
+'></div>
+                        <div class='col-md-12'>
+                            <h5 class='text-center'><b class='text-uppercase '>Principal</b></h5>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <div class='sm-spacer'></div>
+
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,176 @@
+﻿<div ng-controller="GenerateC18MemosDataController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Generate C18 ODC Data </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PostExam">Post Exam</a></li>
+                    <li><a href="#!/Dashboard/PostExam/GenerateC18MemosData">Generate C18 ODC Data </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PostExam" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="myBtn active" ng-click="ClearData()">
+                    <a href="#1" data-toggle="tab"> Generate C18 ODC Data</a>
+                </li>
+                <li ng-click="ClearData()">
+                    <a href="#2" data-toggle="tab">Generate C18 ODC Data By Pin</a>
+                </li>
+                
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Generate C18 ODC Data</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Exam Month Year :
+                                        </label>
+                                        <select class="form-control" ng-model="ExamMonthYear" name="ExamMonthYear" required>
+                                            <option value="" selected>Select Exam Month Year</option>
+                                            <option ng-repeat="data in getExamMonthYears" value="{{data.Id}}">
+                                                {{data.ExamYearMonth}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Credits Earned :
+                                        </label>
+                                        <select class="form-control" ng-model="GradePoints" name="GradePoints" ng-change="ChangeGrade()" required>
+                                            <option value="" selected>Select Credits</option>
+                                            <option ng-repeat="data in GetGradepoints" value="{{data.Value}}">
+                                                {{data.Value}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Day:
+                                        </label>
+                                        <input class="form-control" ng-model="Day" placeholder="Enter Day" name="Day" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Month:
+                                        </label>
+                                        <input class="form-control" ng-model="Month" placeholder="Enter Month" name="Month" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Year:
+                                        </label>
+                                        <input class="form-control" ng-model="Year" placeholder="Enter Year" name="Year" required />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="gr-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary gr-button  pull-right" style="margin-top:6px;" ng-click="dataForm.$valid && Submit()">Submit<span class="fa fa-arrow-up heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="width:100%;text-align:center;">
+                            <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="2">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Generate C18 ODC Data By Pin</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <form name="dataForm1" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Exam Month Year :
+                                        </label>
+                                        <select class="form-control" ng-model="ExamMonthYear" name="ExamMonthYear" required>
+                                            <option value="" selected>Select Exam Month Year</option>
+                                            <option ng-repeat="data in getExamMonthYears" value="{{data.Id}}">
+                                                {{data.ExamYearMonth}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Credits Earned :
+                                        </label>
+                                        <select class="form-control" ng-model="GradePoints" name="GradePoints" ng-change="ChangeGrade()" required>
+                                            <option value="" selected>Select Credits</option>
+                                            <option ng-repeat="data in GetGradepoints" value="{{data.Value}}">
+                                                {{data.Value}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Day:
+                                        </label>
+                                        <input class="form-control" ng-model="Day" placeholder="Enter Day" name="Day" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Month:
+                                        </label>
+                                        <input class="form-control" ng-model="Month" placeholder="Enter Month" name="Month" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Year:
+                                        </label>
+                                        <input class="form-control" ng-model="Year" placeholder="Enter Year" name="Year" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Pin:
+                                        </label>
+                                        <input class="form-control" ng-model="Pin" placeholder="Enter Pin" name="Pin" required />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="gr-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary gr-button  pull-right" style="margin-top:6px;" ng-click="dataForm1.$valid && Submit1()">Submit<span class="fa fa-arrow-up heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="width:100%;text-align:center;">
+                                <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,88 @@
+﻿<div ng-controller="SeatingArrangementController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ng-scope">
+            <div class="cl-details">
+                <h2>Seating Arrangement</h2>
+            </div>
+        </div>
+ 
+                <section class="content">
+                  
+                        <div class="alert alert-info">
+                            <div class="row">
+
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Type:
+                                    </label>
+                                    <select class="form-control" ng-model="StudentTypeId" name="StudentType">
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam:
+                                    </label>
+                                    <select class="form-control" ng-model="examTypeId" name="exam" ng-change="changedExamType()">
+                                        <option value="" selected>Select an Exam</option>
+                                        <option ng-repeat="exam in Exams" value="{{exam.id}}">
+                                            {{exam.exam}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                                <div class="col-md-3" ng-hide="examTypeId ==5">
+                                    <div class="form-group">
+                                        <label for="sel1">
+                                            Seating per Bench:
+                                        </label>
+                                        <div class="form-group" id="year">
+                                            <input type="text" placeholder="Seating per Bench" class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Dates:
+                                    </label>
+                                    <select class="form-control" ng-model="selectExamDate.ExamDate" name="ExamDates" ng-change="changedExamDates()">
+                                        <option value="" selected>Select Exam Date</option>
+                                        <option ng-repeat="selectExamDate in ExamDates" value="{{selectExamDate.ExamDate}}">
+                                            {{selectExamDate.ExamDate}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Select Time Slot:
+                                    </label>
+                                    <select class="form-control" ng-model="TimeSlot" name="exam" >
+                                        <option value="" selected>Select Time Slot</option>
+                                        <option ng-repeat="data in TimeSlots" value="{{data.id}}">
+                                            {{data.time}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="gr-btn">
+                                        <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="getNRStudentDetails(StudentTypeId, selectExamDate.ExamDate,examTypeId)">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                           <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                            <img src="../../../contents/img/loading1.gif" width="100" />
+                            <h4><b>Generating NR. This may take a while, Please be Patient.</b></h4>
+                        </div>
+</section>
+            </div>
+       
+    </div>

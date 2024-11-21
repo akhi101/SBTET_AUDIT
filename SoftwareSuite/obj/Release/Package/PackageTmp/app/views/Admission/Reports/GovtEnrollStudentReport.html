@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Total Student Enrollments in GJC's</title>
+    <style type="text/css">
+        .control {
+            padding-left: 10px;
+            min-height: 680px !important;
+        }
+
+        .content-container-fluid > :first-child.row {
+            width: 100% !important;
+        }
+
+        .cols-sample-area {
+            min-width: 800px !important;
+            min-height: 706px !important;
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="GovtEnrollStudentReportController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Total Student Enrollments in GJC's</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Total Student Enrollments in GJC's</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-4">
+                    <label for="GovtOrPvt">College Type :</label>
+                    <form>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" ng-model="GovtOrPvt" ng-change="ClgTypeChange(GovtOrPvt)" checked value="G">Govt.
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" ng-model="GovtOrPvt" ng-change="ClgTypeChange(GovtOrPvt)" value="P">Pvt.
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="col-md-2 col-md-offset-4">
+                    <label>Select District</label>
+                    <select class="form-control" id="DistrictID" ng-model="DistrictID" ng-change="FillCollege(DistrictID)">
+                        <option ng-selected="DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label>Select College</label>
+                    <select class="form-control" id="CollegeID" ng-model="CollegeID">
+                        <option ng-selected="CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div style="text-align:center;" class="col-md-12">
+                    <button type="button" ng-click="Print()" class="btn btn-detail">Show</button>
+                    <button type="button" ng-click="Exit()" class="btn btn-reset">Exit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr style="margin-top:20px;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

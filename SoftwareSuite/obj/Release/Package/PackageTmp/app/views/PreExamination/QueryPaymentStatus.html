@@ -1,0 +1,267 @@
+﻿<style>
+    img.photo-img {
+        height: 168px;
+        width: 190px;
+    }
+
+    table.table {
+        clear: both;
+        margin-bottom: 0px !important;
+        max-width: none !important;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598 !important;
+        font-size: 12px !important;
+        background-color: #fff !important;
+    }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        width: auto !important;
+        height: 35px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        /* padding: 9px!important; */
+        outline: none !important;
+    }
+
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+
+
+    @media print {
+        .alert-info {
+            display: none;
+        }
+
+        .header-top-section {
+            display: none;
+        }
+
+        .main-header {
+            display: block;
+        }
+
+        .breadcrumb-header {
+            display: none;
+        }
+
+        .submit-btn {
+            display: none;
+        }
+
+        button.btn.bck_btn {
+            display: none;
+        }
+
+        .footer_section {
+            display: none;
+        }
+    }
+</style>
+<div ng-controller="QueryPaymentStatusController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Check Payment Status </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!"><i class="fa fa-dashboard"></i> </a></li>
+                    <li><a href="#!"></a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="text-center" ng-if="!showData">
+            <img class="gif_css" src="../../../contents/img/error_401.jpg">
+        </div>
+
+
+        <div class="alert alert-info" ng-if="showData">
+            <div class="row">
+                <div class="col-md-3 form-group" ng-hide="true">
+                    <label for="sel1">
+                        Exam Type:
+                    </label>
+                    <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changedVal(Student.id)" required>
+                        <option value="" selected>Select Exam Type</option>
+                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                            {{Student.type}}
+                        </option>
+                        <!--ng-options="Student.type for Student in StudentType">-->
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sel1">
+                        Enter Challan number :
+                    </label>
+                    <input class="form-control" type="text" placeholder="Enter Challan Number" ng-model="challanNumber" />
+                </div>
+                <div class="col-md-3">
+                    <div class="gr-btn">
+                        <button type="button" style="margin-top: 5px;" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="checkChallanNumber(challanNumber)">Get Details<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                    </div>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div style="width: 100%; text-align: center;">
+            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+        </div>
+
+        <div ng-if="!paymentResponseFound && dataInform">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h3 class="payment_head">Payment Receipt Summary</h3>
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="tblParent">
+                    <div class="table-responsive table-custom-tables-tb">
+                        <table class="table table-bordered table-hover table-striped table-rounded">
+                            <thead class="tablehead">
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Details</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                <tr ng-if="refno !== undefined">
+                                    <td style="text-align: left;">Reference Number</td>
+                                    <td>{{refno}}</td>
+                                </tr>
+                                <tr ng-if="name !== undefined">
+                                    <td style="text-align: left;">Candidate Name</td>
+                                    <td>{{name}}</td>
+                                </tr>
+                                <tr ng-if="grade !== undefined">
+                                    <td style="text-align: left;">Grade</td>
+                                    <td>{{grade}}</td>
+                                </tr>
+                                <tr ng-if="appno !== undefined">
+                                    <td style="text-align: left;">Application Number</td>
+                                    <td>{{appno}}</td>
+                                </tr>
+
+                                <tr ng-if="transactionno !== undefined">
+                                    <td style="text-align: left;">Transaction Number </td>
+                                    <td>{{transactionno}}</td>
+                                </tr>
+                                <tr ng-if="Status !== undefined && success">
+                                    <td style="text-align: left;">Payment Status</td>
+                                    <td style="font-weight: bold;color: #7cb82f;">{{Status}}</td>
+                                </tr>
+
+                                <tr ng-if="Status !== undefined && !success">
+                                    <td style="text-align: left;">Payment Status</td>
+                                    <td style="font-weight: bold;color: red;">{{Status}}</td>
+                                </tr>
+                                <tr ng-if="pins !== undefined && pins != '' ">
+                                    <td style="text-align: left;">Pin </td>
+                                    <td>{{pins}}</td>
+                                </tr>
+                                <tr ng-if="pins === undefined || pins == '' ">
+                                    <td style="padding-right: 170px; ">Pin </td>
+                                    <td>No Pins have been paid</td>
+                                </tr>
+                                <tr ng-if="amount !== undefined">
+                                    <td style="text-align: left;">Fee Amount </td>
+                                    <td>{{amount}}</td>
+                                </tr>
+
+                                <tr ng-if="date !== undefined">
+                                    <td style="text-align: left;">Date </td>
+                                    <td>{{date}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="container print_btn">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="submit-btn " style="margin-bottom:0px;margin-top:10px;margin-right: 40px;">
+                            <button type="button" ng-click="printMarksEntered()">Print</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="paymentResponseFound && showData">
+            <div class="col-md-12 no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>{{Status}}</h2>
+            </div>
+        </div>
+        <div class="sm-spacer" ng-if="showData"></div>
+        <div class="sm-spacer" ng-if="showData"></div>
+
+
+
+    </div>
+
+</div>

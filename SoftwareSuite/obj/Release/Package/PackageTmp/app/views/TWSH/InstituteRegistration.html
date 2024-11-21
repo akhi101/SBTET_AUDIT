@@ -1,0 +1,250 @@
+﻿<style>
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+</style>
+<div ng-controller="InstituteRegistrationController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Institute Registration</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/InstituteRegistration">TWSH Institutes</a></li>
+                </ol>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <form name="RegisterForm">
+
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Institute Code</label>
+                            <input class="form-control" type="text" maxlength="10" name="InstituteCode" ng-model="InstituteCode" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Institute Name</label>
+                            <input class="form-control" type="text" name="InstituteName" ng-model="InstituteName" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Email</label>
+                            <input class="form-control" type="text" ng-blur="ValidateEmail()" name="Email" ng-model="Email" required />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group required">
+                            <label>Exam Center</label>
+                            <!--<select class="form-control" ng-model="ExamCenter" required>
+                            <option value="" selected>Select Exam Center</option>
+                            <option ng-repeat="data in ExamCentersList" value="{{data.Id}}">
+                                {{data.CenterName}}
+                            </option>
+                        </select>-->
+                            <select class="form-control input-sm" id="" ng-model="ExamCenter" name="ExamCenter"
+                                    ng-options="x.Id as x.ExamCenter for x in ExamCentersList" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Contact Person</label>
+                            <input class="form-control" type="text" name="ContactPerson" maxlength="100" ng-model="ContactPerson" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Contact Number</label>
+                            <input class="form-control" type="text" maxlength="10" name="MobileNumber" ng-model="MobileNumber" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Districts</label>
+
+                            <select class="form-control input-sm" id="stdGender" ng-model="DistrictId" name="Gender"
+                                    ng-options="x.Id as x.DistrictName for x in Districts" required>
+                                <option value="" selected>Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group required">
+                            <label>Pincode</label>
+                            <input class="form-control" type="text" maxlength="6" name="Pincode" ng-model="Pincode" required />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-8">
+                            <div class="form-group required">
+                                <label>Institute Address</label></br>
+                                <textarea name="InstituteAddress" ng-model="InstituteAddress" style="width:100%" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button class="btn btn-info pull-right" style="margin-top:32px;" type="submit" ng-click="RegisterForm.$valid && Submit()">Create </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+
+        <div class="col-md-12 " ng-show="ResultFound">
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+
+        </div>
+        <div class="col-md-12" ng-show="ResultFound">
+
+
+            <div class="cl-details">
+                <h2>Institutes List</h2>
+            </div>
+            <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content" style="width: 100%;">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th ng-click="sort('Sno')">Sno</th>
+                            <th width="5%">Institution Code</th>
+                            <th width="8%">Institute Name</th>
+
+                            <th>Mail Id</th>
+                            <th width="90px;">Exam Center</th>
+                            <th>Contact Person</th>
+                            <th>Contact Number</th>
+                            <th width="90px;">Institution Address</th>
+                            <th>District</th>
+                            <th>Pincode</th>
+                            <th>Is Active</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in GetInstituteList" style="background-color:#fff!important;">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <input autocomplete="off" style="width: 59px" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.InstitutionCode" />
+                            </td>
+                            <td>
+                                <input autocomplete="off" style="width: 130px" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.InstitutionName" />
+                            </td>
+
+                            <td>
+                                <input autocomplete="off" style="width: 49px" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.MailId" />
+                            </td>
+                            <td>
+
+                                <select style="width: 50px" class="form-control tableinpt enabletable{{$index + 1}} input-sm" id="" ng-model="data.ExaminationCenterId" name="ExamCenter"
+                                        ng-options="x.Id as x.ExamCenter for x in ExamCentersList" required>
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input autocomplete="off" style="width: 75px" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.ContactPerson" />
+                            </td>
+                            <td>
+                                <input autocomplete="off" style="width: 90px" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.ContactNumber" />
+                            </td>
+
+                            <td>
+                                <textarea autocomplete="off" style="width: 100px" rows="2" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.InstitutionAddress"></textarea>
+                            </td>
+                            <td>
+
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" style="width: 110px" ng-model="data.DistrictId" name="iselective" style="width: min-content;"
+                                        ng-options="dat.Id as dat.DistrictName for dat in Districts">
+                                    <option value="" selected>Select District</option>
+                                </select>
+                            </td>
+
+
+                            <td>
+                                <input autocomplete="off" style="width: 70px" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.Pincode" />
+                            </td>
+                            <td>
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" style="width: 75px" ng-model="data.IsActive" name="iselective" style="width: min-content;"
+                                        ng-options="dat.Id as dat.Value for dat in Array">
+                                    <option value="" selected>Select </option>
+                                </select>
+
+                            </td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditData(data,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px; margin-bottom:5px;" ng-show="!edit{{$index + 1}}" ng-click="Update(data,$index+1)">
+                                    Update
+                                </button>
+                                <button class="btn-xs btn btn-danger" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Cancel(data,$index+1)">
+                                    Cancel
+                                </button>
+
+                            </td>
+                            <td class="text-center" style="cursor:pointer"><button ng-click="DeleteInstitute(data.Id)" class="btn btn-xs btn-danger"><b>Delete</b></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="width: 100%; text-align: center;">
+                <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+            </div>
+
+            <div ng-show="ResultNotFound" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No data Found</h2>
+
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+</div>
+<!--  -->

@@ -1,0 +1,664 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Results</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+         .table-bordered > thead > tr > th {
+               position:sticky;
+               top:0px;
+               z-index: 9998;
+               background: #f0f2f7;
+        }
+       
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+             #pinhead {
+                position:unset;
+               top:unset;
+              
+            }
+            .scroll-top-wrapper {
+                display: none;
+            }
+
+            .table-bordered > thead > tr > th {
+                position: unset;
+            }
+
+            #goto-top-arrow {
+                display: none;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+
+        .html2canvas-container {
+            width: 3000px !important;
+            height: 3000px !important;
+        }
+       
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+</head>
+
+<body>
+    <div ng-controller="BranchWiseController">
+
+        <div class="">
+
+            <div class="breadcrumb-header">
+                <!-- breadcrumb Open -->
+                <div class="container">
+
+                    <section class="content-header">
+                        <h5>Branch wises</h5>
+                        <ol class="breadcrumb">
+                            <li><a href="#"><i class="fa fa-dashboard"></i> Request</a></li>
+                            <li><a href="#">Branch Wise</a></li>
+                        </ol>
+                    </section>
+                </div>
+                <!-- breadcrumb Close -->
+            </div>
+            <section class="">
+                <div class="container">
+                    <div class="col-md-12">
+                        <button class="btn bck_btn"><a href="#!/Dashboard/Results" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <div class="studWishinputs">
+                                <div class="row">
+
+
+                                    <div class="col-md-2 form-group" ng-show="UserType ==1 ||UserType ==5">
+                                        <label for="sel1">
+                                            College :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="college" ng-change="loadBranches()">
+                                            <option value="" selected>Select College</option>
+                                            <option ng-repeat="college in collegeinfo" value="{{college.CollegeId}}">
+                                                {{college.CollegeCode}} - {{college.college_name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!--<div class="col-md-2 form-group">
+        <label for="sel1">
+            Scheme :
+        </label>
+        <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemInfo()">
+            <option value="" selected>Select Scheme</option>
+            <option ng-repeat="scheme in schemeinfo" value="{{scheme.SchemeId}}">
+                {{scheme.SchemeCode}}
+            </option>
+        </select>
+    </div>
+    <div class="col-md-2 form-group">
+        <label for="sel1">
+            Sem & Year :
+        </label>
+        <select class="form-control" id="ExamYear" ng-model="sem" ng-change="loadExamTypes()">
+            <option value="" selected>Select Sem</option>
+            <option ng-repeat="sem in seminfo" value="{{sem.SemId}}">
+                {{sem.yearsem}}
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-2 form-group">
+        <label for="ExamType">
+            Exam :
+        </label>
+        <select class="form-control" id="ExamType" ng-model="examtype" ng-change="hidePreviousResult()">
+            <option value="" selected>Select Exam</option>
+            <option ng-repeat="examtype in examtypeinfo" value="{{examtype.ID}}">
+                {{examtype.ExamType}}
+            </option>
+        </select>
+    </div>-->
+
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Scheme :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)" ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                            <option value="" selected>Select Scheme</option>
+                                        </select>
+
+                                        <!--<select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)">
+            <option value="" selected>Select Scheme</option>
+            <option ng-repeat="scheme in schemeinfo" value="{{scheme.schemeid}}">
+                {{scheme.scheme}}
+            </option>
+        </select>-->
+                                    </div>
+
+                                    <div class="col-md-2 form-group" ng-show="scheme.schemeid != '5' && scheme.schemeid != '9'">
+                                        <label for="sel1">
+                                            Academic Year :
+                                        </label>
+                                        <select class="form-control" id="Year" ng-model="selectedyear">
+                                            <option value="" selected>Select Academic Year</option>
+                                            <option ng-repeat="year in AcademicYears" value="{{year.AcademicID}}">
+                                                {{year.AcademicYear}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group">
+                                        <label for="sel1">
+                                            Sem & Year :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="sem">
+                                            <option value="" selected>Select Sem</option>
+                                            <option ng-repeat="sem in seminfo" value="{{sem.semid}}">
+                                                {{sem.semester}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group">
+                                        <label for="ExamType">
+                                            Exam :
+                                        </label>
+                                        <select class="form-control" id="ExamType" ng-model="examtype" ng-change="hidePreviousResult()">
+                                            <option value="" selected>Select Exam</option>
+                                            <option ng-repeat="examtype in examtypeinfo" value="{{examtype}}">
+                                                {{examtype.examname}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group" ng-show="scheme.schemeid == '5' || scheme.schemeid == '9'">
+                                        <label for="sel1">
+                                            Exam Month/Year :
+                                        </label>
+                                        <select class="form-control" id="ExamYear" ng-model="monthyear">
+                                            <option value="" selected>Select Month/Year of Exam</option>
+                                            <option ng-repeat="monYer in MonthAndYear" value="{{monYer.Id}}">
+                                                {{monYer.ExamYearMonth}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+
+                                    <!--<div class="col-md-2 form-group">
+        <label for="sel1">
+            Sem & Year :
+        </label>
+        <select class="form-control" id="ExamYear" ng-model="sem">
+            <option value="" selected>Select Sem</option>
+            <option ng-repeat="sem in seminfo" value="{{sem.semid}}">
+                {{sem.semester}}
+            </option>
+
+        </select>
+    </div>-->
+
+                                    <!--<div class="col-md-2 form-group">
+                                        <label for="ExamType">
+                                            Exam :
+                                        </label>
+                                        <select class="form-control" id="ExamType" ng-model="examtype" ng-change="hidePreviousResult()">
+                                            <option value="" selected>Select Exam</option>
+                                            <option ng-repeat="examtype in examtypeinfo" value="{{examtype}}">
+                                                {{examtype.examname}}
+                                            </option>
+                                        </select>
+                                    </div>-->
+
+
+                                    <div class="col-md-2 form-group" ng-show="UserType ==2 || UserType ==1|| UserType ==5">
+                                        <label for="ExamBranch">
+                                            Branch :
+                                        </label>
+                                        <select class="form-control" id="ExamBranch" ng-model="branch" ng-change="hidePreviousResult()">
+                                            <option value="" selected>Select Branch</option>
+                                            <option ng-repeat="branch in branchinfo" value="{{branch}}">
+                                                {{branch.Branch}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 pull-right">
+                                        <div class="gr-btn">
+                                            <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">
+                                                Get
+                                                Results<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                        </div>
+
+                        <div class="row" ng-show="ResultFound">
+                            <div class="col-md-3">
+                                <div class="common-box c1">
+                                    <span class="my-icon">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                    </span>
+                                    <h2>Scheme</h2>
+                                    <h1>{{collegescheme}}</h1>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="common-box c2">
+                                    <span class="my-icon">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </span>
+
+                                    <h2>Sem & Year</h2>
+                                    <h1>{{semyear}}</h1>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="common-box c4">
+                                    <span class="my-icon">
+                                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                                    </span>
+                                    <h2>Branch Code</h2>
+                                    <h1>{{branchcode}}</h1>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="common-box c3">
+                                    <span class="my-icon">
+                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                    </span>
+                                    <h2>Students Count</h2>
+                                    <h1>{{studentscount}}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="ResultFound">
+                            <div class="col-md-12">
+                                <div class="tabbable-panel">
+                                    <div class="tabbable-line">
+                                        <ul class="nav nav-tabs ">
+                                            <li class="active">
+                                                <a href="#tab_default_1" data-toggle="tab" aria-expanded="true">
+                                                    <i class="fa fa-file-text-o"></i> Results
+                                                </a>
+                                            </li>
+                                            <li class="" ng-if="exam.examtypeid=='5'">
+                                                <a href="#tab_default_2" data-toggle="tab" aria-expanded="false" ng-if="scheme.schemeid == 1">
+                                                    <i class="fa fa-info-circle"></i> Grade Info
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab_default_1">
+
+                                                <div class="row mtb-30" ng-show="ResultFound">
+                                                    <div class="col-lg-3">
+                                                        <div class="input-group custom-search-form">
+                                                            <input type="text" class="form-control" placeholder="search..."
+                                                                   ng-model="searchtxt">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary search-btn" type="button">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div><!-- /input-group -->
+                                                    </div>
+                                                    <div class="col-md-6 ">
+                                                        <div class="row">
+                                                            <div class="down-foramt">
+                                                                <div class="col-md-4 hidden">
+                                                                    <label for="sel1">
+                                                                        Download Format :
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-5 form-group hidden">
+
+                                                                    <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                                                                            id="ExamYear">
+                                                                        <option value="0" selected="selected">Select Format</option>
+                                                                        <option value="1">Excel</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="down-btn">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <button type="button" class="btn btn-sm btn-primary dwl-button"
+                                                                                        id="ExportToExcel1" ng-click="DownloadExcelResult('#idtoDivPrintAdmin')">
+                                                                                    Download Excel<span class="fa fa-download heading_icon btn_icons"></span>
+                                                                                </button>
+                                                                            </li>
+                                                                            <li class="hidden">
+
+                                                                                <button type="button" class="btn btn-sm btn-primary dwl-button"
+                                                                                        id="ExportToPdf1" ng-click="DownloadPdfResult('#idtoDivPrintAdmin')">
+                                                                                    Download Pdf<span class="fa fa-download heading_icon btn_icons"></span>
+                                                                                </button>
+                                                                            </li>
+                                                                        </ul>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="pt-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary ptr-button"
+                                                                    ng-click="PrintStudentResult()">
+                                                                Print<span class="fa fa-print heading_icon btn_icons"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="showData == 1" class="" ng-show="ResultFound">
+                                                    <div class="col-md-12" style="margin-bottom: 50px;">
+                                                        <div class="scrollbox" id="cntn">
+                                                            <div class="customtable scrollbox-content" id="idtoDivPrintAdmin">
+
+                                                                <table class="table table-responsive table-bordered custom-table-wdith">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>College Code</th>
+                                                                            <th>College Name</th>
+
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tr>
+                                                                        <td>{{CollegeCode}}</td>
+                                                                        <td>{{CollegeName}}</td>
+                                                                    </tr>
+                                                                </table>
+
+                                                                <table class="table table-responsive table-bordered custom-table-wdith">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Scheme </th>
+                                                                            <th>Sem & Year </th>
+                                                                            <th>Exam</th>
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tr>
+                                                                        <td>{{collegescheme}}</td>
+                                                                        <td>{{semyear}}</td>
+                                                                        <td>{{StudentExamType}}</td>
+                                                                    </tr>
+                                                                </table>
+
+                                                                <div ng-if="scheme.schemeid == 4 ||scheme.schemeid == 3">
+                                                                    <table class="table table-responsive table-bordered custom-table-wdith ">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="width: 10% ">Pin</th>
+                                                                                <th>Name</th>
+                                                                                <th ng-repeat="subjectCode in UniqueBranchCodeGradeInfo"
+                                                                                    style="width:250px">
+                                                                                    {{subjectCode}}
+                                                                                </th>
+                                                                                <th>Total</th>
+                                                                                <th>Result</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="stud in StudentDetails | filter:searchtxt">
+                                                                                <td>{{stud.pin}}</td>
+                                                                                <td>{{stud.Studentname}}</td>
+                                                                                <td ng-repeat="studentgrade in getOldChildren(stud)">
+                                                                                    <span>
+                                                                                        {{studentgrade.HybridGrade==null? '-':studentgrade.HybridGrade}}<br />
+                                                                                        <span class="marks-binding" ng-hide='{{studentgrade.HybridGrade == null}}'>
+                                                                                            ({{studentgrade.Internal_MARKS}}
+                                                                                            +{{studentgrade.EndSemMarks}}
+                                                                                            = {{studentgrade.SubjectTotal}})
+                                                                                        </span>
+                                                                                    </span>
+
+                                                                                </td>
+                                                                                <td>{{stud.Total==null? '-' : stud.Total}}</td>
+                                                                                <td>{{stud.SemExamStatus==null? '-' : stud.SemExamStatus}}</td>
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div ng-if="scheme.schemeid == 5|| scheme.schemeid == 9">
+                                                                    <table class="table table-responsive table-bordered custom-table-wdith">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th ng-click='sortColumn("pin")' ng-class='sortClass("pin")' id="pinhead" style="position:sticky;left:0px;
+               top:0px;z-index: 9999;background: #f0f2f7;">Pin</th>
+                                                                                <th ng-click='sortColumn("student")' ng-class='sortClass("student")'>Name</th>
+                                                                                <th ng-click='sortColumn("Subject_Code")' ng-class='sortClass("Subject_Code"+{{$index + 1}})'
+                                                                                    ng-repeat="subject in BranchSubjectGradeInfo"
+                                                                                    style="width:250px">
+                                                                                    {{subject.Subject_Code}}
+                                                                                    <p ng-if="subject.Credits!='0'">({{subject.Credits}})</p>
+                                                                                </th>
+                                                                                <th ng-if="exam.examtypeid=='5'" ng-class='sortClass("rubrics")'>Rubrics (2.5)</th>
+                                                                                <th ng-if="exam.examtypeid=='5'" ng-click='sortColumn("total")'
+                                                                                    ng-class='sortClass("total")' class="hidden">Total</th>
+                                                                                <th ng-if="exam.examtypeid=='5'" ng-click='sortColumn("TotalCredits")'
+                                                                                    ng-class='sortClass("TotalCredits")'>Credits (25)</th>
+                                                                                <th ng-if="exam.examtypeid=='5'" ng-click='sortColumn("TotalGradePoints")'
+                                                                                    ng-class='sortClass("TotalGradePoints")'>Total Grade Points</th>
+                                                                                <th ng-if="exam.examtypeid=='5'" ng-click='sortColumn("SGPA")'
+                                                                                    ng-class='sortClass("SGPA")'>SGPA</th>
+                                                                                <th ng-if="exam.examtypeid=='5'" ng-click='sortColumn("CGPA")'
+                                                                                    ng-class='sortClass("CGPA")'>CGPA</th>
+                                                                                <th ng-if="exam.examtypeid=='5'">Result</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="student in StudentSubjectTotalSGPA | orderBy:column:reverse |filter:searchtxt">
+                                                                                <td  id="pinhead" style=" position:sticky;
+               left:0px;z-index: 9998;background: #ffffff;">{{student.pin}}</td>
+                                                                                <td>{{student.Studentname}}</td>
+                                                                                <td ng-repeat="studentgrade in getChildren(student)">
+                                                                                    <span ng-if="exam.examtypeid=='1'||exam.examtypeid=='28'">{{studentgrade.MID1_MARKS}}</span>
+                                                                                    <span ng-if="exam.examtypeid=='2'||exam.examtypeid=='29'">{{studentgrade.MID2_MARKS}}</span>
+                                                                                    <span ng-if="exam.examtypeid=='3'">{{studentgrade.Internal_MARKS}}</span>
+                                                                                    <span ng-if="exam.examtypeid=='4'">{{studentgrade.EndSemMarks}}</span>
+                                                                                    <span ng-if="exam.examtypeid=='5'">
+                                                                                        {{studentgrade.HybridGrade}}<br /><span class="marks-binding">
+                                                                                            ({{studentgrade.MID1_MARKS}}+{{studentgrade.MID2_MARKS}}+{{studentgrade.Internal_MARKS}}+{{studentgrade.EndSemMarks}})<br/>
+                                                                                             ({{studentgrade.SubjectTotal}})
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </td>
+                                                                                <td ng-if="exam.examtypeid=='5'">P</td>
+                                                                                <td ng-if="exam.examtypeid=='5'" class="hidden">{{student.total}}</td>
+                                                                                <td ng-if="exam.examtypeid=='5'">{{student.TotalCredits}}</td>
+                                                                                <td ng-if="exam.examtypeid=='5'">{{student.TotalGradePoints}}</td>
+                                                                                <td ng-if="exam.examtypeid=='5'">{{student.SGPA}}</td>
+                                                                                <td ng-if="exam.examtypeid=='5'">{{student.CGPA}}</td>
+                                                                                <td ng-if="exam.examtypeid=='5'">{{student.SemExamStatus == null? '--': student.SemExamStatus}}</td>
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab_default_2">
+
+                                                <div ng-if="exam.examtypeid=='5'" class="row mtb-30" ng-show="ResultFound">
+                                                    <div class="col-lg-3 hidden">
+                                                        <div class="input-group custom-search-form">
+                                                            <input type="text" class="form-control" placeholder="search..."
+                                                                   ng-model="searchtxt">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-primary search-btn" type="button">
+                                                                    <span class="glyphicon glyphicon-search"></span>
+                                                                </button>
+                                                            </span>
+                                                        </div><!-- /input-group -->
+                                                    </div>
+                                                    <div class="col-md-6 ">
+                                                        <div class="row">
+                                                            <div class="down-foramt">
+                                                                <div class="col-md-4 hidden">
+                                                                    <label for="sel1">
+                                                                        Download Format :
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-5 form-group hidden">
+
+                                                                    <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                                                                            id="ExamYear">
+                                                                        <option value="0" selected="selected">Select Format</option>
+                                                                        <option value="1">Excel</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                    <div class="down-btn">
+                                                                        <button type="button" class="btn btn-sm btDownloadExcelResultn-primary dwl-button"
+                                                                                ng-click="DownloadExcelResult('#idtoDivPrintGrade')">
+                                                                            Download
+                                                                            Excel<span class="fa fa-download heading_icon btn_icons"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 pull-right">
+                                                        <div class="pt-btn">
+                                                            <button type="button" class="btn btn-sm btn-primary ptr-button"
+                                                                    onclick="PrintDashboard('idtoDivPrintGrade')">
+                                                                Print<span class="fa fa-print heading_icon btn_icons"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mtb-30">
+                                                    <div class="col-md-12">
+                                                        <div class="scrollbox">
+                                                            <div class="customtable scrollbox-content">
+                                                                <table class="table table-responsive table-bordered" id="idtoDivPrintGrade">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Subject_Code</th>
+                                                                            <th>SubjectName</th>
+                                                                            <th>A+</th>
+                                                                            <th>A</th>
+                                                                            <th>B+</th>
+                                                                            <th>B</th>
+                                                                            <th>C+</th>
+                                                                            <th>C</th>
+                                                                            <th>D</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tr ng-repeat="subject in BranchSubjectGradeInfo">
+                                                                        <td>{{subject.Subject_Code}}</td>
+                                                                        <td>{{subject.SubjectName}}</td>
+                                                                        <td>{{subject.APlusGrade}}</td>
+                                                                        <td>{{subject.AGrade}}</td>
+                                                                        <td>{{subject.BPlusGrade}}</td>
+                                                                        <td>{{subject.BGrade}}</td>
+                                                                        <td>{{subject.CPlusGrade}}</td>
+                                                                        <td>{{subject.CGrade}}</td>
+                                                                        <td>{{subject.DGrade}}</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="ResultNotFound" class="no-results">
+                                    <img src="../../contents/img/Folder-Icon.svg" />
+                                    <h2>No Result Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </section>
+        </div>
+
+        <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+
+        </div>
+
+    </div>
+
+</body>
+</html>

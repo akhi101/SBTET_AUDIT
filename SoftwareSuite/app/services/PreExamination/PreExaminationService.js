@@ -3695,5 +3695,12 @@
                 return DataAccessService.postData('api/AdminService/ValidateGenuinenessCheckDetailsByPinCaptcha', paramObj);
             };
 
+        this.CheckFileType = function (filename) {
+            var paramObj = {
+                "filename": filename
+            };
+            return DataAccessService.postData('api/PreExamination/CheckFileType', paramObj);
+        };
+
     });
 });

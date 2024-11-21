@@ -1,0 +1,140 @@
+﻿<div ng-controller="TwshCertificateReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Certificate Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/TwshCertificateReports">TWSH Certificate Reports</a></li>
+                </ol>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/TypeWriting" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <div class="row">
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="bold" for="sel1">
+                                <b> Exam : </b>
+                            </label>
+
+                            <select class="form-control" id="ExamMode" ng-model="ExamMode" ng-change="changemode(ExamMode)"
+                                    ng-options="Exam.Id as Exam.Name for Exam in ExamTypes">
+                                <option value="" selected>Select Exam mode</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group" ng-show="ExamMode==2">
+                        <label for="sel1">
+                            Exam Month Year:
+                        </label>
+                        <select class="form-control" ng-model="ExamMonthYearId" name="ExamMonthYearId">
+                            <option value="" selected>Select Exam Month Year</option>
+                            <option ng-repeat="item in getExamYearMonth" value="{{item.Id}}">
+                                {{item.ExamMonthYear}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group" ng-show="ExamMode==1">
+                        <label for="sel1">
+                            From Date:
+                        </label>
+                        <input name="FromDate" type="date" class="form-control" ng-model="FromDate" />
+                    </div>
+                    <div class="col-md-3 form-group" ng-show="ExamMode==1">
+                        <label for="sel1">
+                            To Date:
+                        </label>
+                        <input name="ToDate" type="date" ng-min="FromDate" class="form-control" ng-model="ToDate" />
+                    </div>
+                    <div class="col-md-2">
+                        <div class="gr-btn">
+                            <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="GetReport()">Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                    {{StatusMessage}}
+                </div>
+            </div>
+            <div class="col-md-6" ng-show="data">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12" ng-show="data">
+                <a class="ExportToExcel1 pointer pull-right"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel('#Table1')" style="margin-top: 15px;">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+            <div class="col-md-12 " ng-show="data">
+                <div class="cl-details">
+                    <h2>TWSH Certificate Reports</h2>
+                </div>
+                <div style="width:100%;text-align:center;">
+                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox"  ng-show="data">
+                    <table id="Table1" class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                             
+                                <th style="width: 3%" ng-click="sort('Sno')">S.No</th>
+                                <th ng-click="sort('Scheme')">ApplicationNumber</th>
+                                <th class="text-center" ng-click="sort('Semester')">Registration Number</th>
+                                <th class="text-center" ng-click="sort('Branch')">Name</th>
+                                <th class="text-center" ng-click="sort('Branch')">Grade</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Paper One</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Paper Two</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Result</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Applied Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in InstituteReports |orderBy:sortKey:reverse|filter:search" style="background-color:#fff!important;">
+                              
+                                <td>{{$index+1}}</td>
+                                <td>{{data.ApplicationNumber}}</td>
+                                <td class="text-center">{{data.RegistrationNumber}}</td>
+                                <td class="text-center">{{data.StudentName}}</td>
+                                <td class="text-center">{{data.GradeCode}} - {{data.GradeName}}</td>
+                                <td class="text-center">{{data.PaperOne}}</td>
+                                <td class="text-center">{{data.PaperTwo}}</td>
+                                <td class="text-center">{{data.Result}}</td>
+                                <td class="text-center">{{data.logdate|date:'dd-MM-yyyy hh:mm:ss'}}</td>
+                            </tr>
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+</div>

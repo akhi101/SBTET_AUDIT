@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Settlement BillDesk</title>
+</head>
+<body>
+    <div ng-controller="SettlementBDController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Settlement BillDesk</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <!--<li>Home</li>-->
+                        <li>Reports</li>
+                        <li>Settlement BillDesk</li>
+                    </ol>
+                </div>
+            </div>                    
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <select class="form-control" id="Date" ng-model="SettlementBD.Date">
+                            <option value="">Select Date</option>
+                            <option ng-selected="SettlementBD.Date == option.PayMentDate" ng-repeat="option in MyList" value="{{option.PayMentDate}}">{{option.PayMentDate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <span class="rspan">Report Type</span>
+                        <div class="maxl">
+                            <form>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" value="1" ng-model="EditRptType" ng-change="ChangeType()">
+                                    <span>Sucessfull(0300) </span>
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" name="optradio" value="2" ng-model="EditRptType" ng-change="ChangeType()">
+                                    <span>Failures(0399)</span>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <button type="button" ng-disabled="RollEditDisable" ng-click="GetReport()" class="btn btn-detail btn-sm">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div> 
+                   
+</body>
+</html>

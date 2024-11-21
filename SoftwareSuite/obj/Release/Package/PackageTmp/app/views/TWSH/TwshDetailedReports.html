@@ -1,0 +1,763 @@
+﻿<style>
+    .zoom:hover {
+        transform: scale(2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+    .zoom {
+        /*padding: 50px;*/
+        /*background-color: green;*/
+        transition: transform .2s; /* Animation */
+        width: 70px;
+        height: 80px;
+        margin: 0 auto;
+    }
+
+    .edit_btn, .edit_btn:hover {
+        background-color: #7cb82f;
+        color: #fff;
+        font-weight: bold;
+        min-width: 40px;
+    }
+
+    .pad_left {
+        padding-left: 0px;
+    }
+</style>
+
+
+<script>
+    $(function () {
+        var datesEnabled = ["28-11-2019", "29-11-2019", "30-11-2019", "02-12-2019", "03-12-2019", "04-12-2019", "05-12-2019", "06-12-2019", "07-12-2019", "09-12-2019", "10-12-2019", "11-12-2019", "12-12-2019", "13-12-2019", "14-12-2019", "16-12-2019", "17-12-2019", "18-12-2019", "19-12-2019", "20-12-2019", "21-12-2019", "23-12-2019", "24-12-2019", "27-12-2019"];
+        var location = window.location.origin;
+
+        if (location == "https://sbtet.telangana.gov.in" || location == "https://www.sbtet.telangana.gov.in") {
+            location += "/API/"
+        } else {
+            location += "/"
+        }
+
+        var availableDates = [];
+        $.ajax({
+            type: 'GET',
+            url: location + '/api/TwshStudentReg/getonlineExamcentersAndDates?CoursesType=1&DistrictId=3',
+            async: false,
+            //success: myCallback
+        }).done(function (data) {
+            for (var i = 0; i < data.Table1.length; i++) {
+                availableDates.push(data.Table1[i].Date);
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.statusText);
+
+        });
+
+
+
+        $("#datepicker1").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            showAnim: "slideDown",
+            beforeShowDay: function (date) {
+                var dmy = date.getDate();
+                if (date.getDate() < 10)
+                    dmy = "0" + dmy;
+                dmy += "-";
+                if (date.getMonth() + 1 < 10)
+                    dmy += "0";
+                dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+                if ($.inArray(dmy, availableDates) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        });
+        $("#datepicker2").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            showAnim: "slideDown",
+            beforeShowDay: function (date) {
+                var dmy = date.getDate();
+                if (date.getDate() < 10)
+                    dmy = "0" + dmy;
+                dmy += "-";
+                if (date.getMonth() + 1 < 10)
+                    dmy += "0";
+                dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+                if ($.inArray(dmy, availableDates) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        });
+        $("#datepicker3").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            showAnim: "slideDown",
+            beforeShowDay: function (date) {
+                var dmy = date.getDate();
+                if (date.getDate() < 10)
+                    dmy = "0" + dmy;
+                dmy += "-";
+                if (date.getMonth() + 1 < 10)
+                    dmy += "0";
+                dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+                if ($.inArray(dmy, availableDates) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        });
+        $("#datepicker4").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            showAnim: "slideDown",
+            beforeShowDay: function (date) {
+                var dmy = date.getDate();
+                if (date.getDate() < 10)
+                    dmy = "0" + dmy;
+                dmy += "-";
+                if (date.getMonth() + 1 < 10)
+                    dmy += "0";
+                dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+                if ($.inArray(dmy, availableDates) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        });
+        $("#datepicker5").datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            showAnim: "slideDown",
+            beforeShowDay: function (date) {
+                var dmy = date.getDate();
+                if (date.getDate() < 10)
+                    dmy = "0" + dmy;
+                dmy += "-";
+                if (date.getMonth() + 1 < 10)
+                    dmy += "0";
+                dmy += (date.getMonth() + 1) + "-" + date.getFullYear();
+
+                if ($.inArray(dmy, availableDates) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        });
+    });
+
+
+</script>
+<div ng-controller="TwshDetailedReportsController">
+    <div class="container">
+        <div class="spacer"></div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                    {{StatusMessage}}
+                </div>
+            </div>
+            <div style="width:100%;text-align:center;" ng-if="load">
+                <img src="../../../../contents/img/loading2.gif" width="100" />
+            </div>
+            <div class="col-md-12 " ng-show="data">
+                <div class="cl-details">
+                    <h2>Applied Student  Details</h2>
+                </div>
+                <!--<div style="width:100%;text-align:center;">
+            <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+        </div>-->
+
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content" style="width: 100%;">
+                        <thead>
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th ng-click="sort('Sno')">Sno</th>
+                                <th ng-click="sort('Sno')">Application Number</th>
+                                <th ng-click="sort('Scheme')">Student Name</th>
+                                <th class="text-center" ng-click="sort('Semester')">Grade</th>
+                                <th class="text-center" ng-click="sort('Branch')">Photo</th>
+                                <th class="text-center" ng-click="sort('')">Status</th>
+                                <th class="text-center" ng-click="sort('')">Approved</th>
+                                <th class="text-center" ng-click="sort('')">Action</th>
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in gradewiseReports" style="background-color:#fff!important;">
+
+                                <td>{{$index+1}}</td>
+                                <td>{{data.ApplicationNumber}}</td>
+                                <td>{{data.StudentName}}</td>
+                                <td class="text-center">{{data.GradeName}}</td>
+                                <td class="text-center">
+                                    <span ng-show="data.Photo != '' && data.Photo != null"><img ng-src="{{data.Photo}}" class="zoom" style="border: 2px solid #ddd;" height="70" width="55" /></span>
+                                    <span ng-show="data.Photo == '' || data.Photo == null"><img src="/contents/img/no-image.png" class="zoom" style="border: 2px solid #ddd;" height="70" width="55" /></span>
+                                </td>
+                                <td>{{data.FeeStatus}}</td>
+                                <td>{{data.AuthorizationStatus}}</td>
+                                <td class="text-center"><button class="btn btn-xs edit_btn" ng-click="editDetails(data.ApplicationNumber,data.DateOfBirth)">View</button></td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="data">
+                <div class="cancel-btn" style="margin-bottom:0px;">
+                    <button type="submit" ng-click="Back()">Back</button>
+                </div>
+            </div>
+            <div class="col-md-12 mtp-50" ng-show="userData">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offer-custom-style">
+                                <h2>Application Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="custom-forms" id="idtoDivPrint">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="">
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"><label>Name  </label></div>
+                                            <div class="col-md-9 pre-text" style="padding-left:0px!important;">: {{Name}}</div>
+
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"> <label>Father Name </label></div>
+                                            <div class="col-md-9 pre-text" style="padding-left:0px!important;">: {{FatherName}} </div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"> <label>Date of Birth </label></div>
+                                            <div class="col-md-6 pre-text">: {{DateOfBirth}}</div>
+
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-5"><label>Gender </label></div>
+                                            <div class="col-md-7 pre-text" style="padding:5px 0px!important;">: {{Gender}}</div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"><label>Community </label></div>
+                                            <div class="col-md-6 pre-text">:{{CategoryCode}}</div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-5"><label>Is Blind </label></div>
+                                            <div class="col-md-7 pre-text" style="padding:5px 0px!important;">: {{IsBlind}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6"><label>Mobile Number </label></div>
+                                            <div class="col-md-6 pre-text">: {{StudentPhoneNumber}}</div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-5"><label>Email </label></div>
+                                            <div class="col-md-7 pre-text" style="padding:5px 0px!important;">: {{EmailId}}</div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"><label>Address </label></div>
+                                            <div class="col-md-9 pre-text" style="padding-left:0px!important;">: {{HnoStreet}},{{VillageTown}},{{DistrictName}} </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-center">
+                                    <img ng-src="{{UserUploadPhoto}}" style="border: 2px solid #ddd;" height="175" width="150" />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row " style="padding: 0px 15px;">
+                                <!--<div class="col-md-6 ">
+                            <div class="col-md-5"><label>Institution </label></div>
+                            <div class="col-md-7 pre-text">: Private Candidate</div>
+                        </div>-->
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Application Number </label></div>
+                                    <div class="col-md-7 pre-text">: {{ApplicationNumber}} </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Language </label></div>
+                                    <div class="col-md-7 pre-text">: {{LanguageName}} </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Grade </label></div>
+                                    <div class="col-md-7 pre-text">: {{GradeName}} </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Examination District </label></div>
+                                    <div class="col-md-7 pre-text">: {{DistrictName}} </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Examination Center </label></div>
+                                    <div class="col-md-7 pre-text">: {{ExaminationCenterName}} </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Examination Date </label></div>
+                                    <div class="col-md-7 pre-text">: {{ExamDate}}</div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Examination Batch </label></div>
+                                    <div class="col-md-7 pre-text">: {{ExamBatch}} </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Is Elegible </label></div>
+                                    <div class="col-md-7 pre-text">
+                                        : <span ng-show="IsEligible == true"> Eligilibility Criteria Fullfilled</span>
+                                        <span ng-show="IsEligible == false">Need to get Approval from Examination Center Principal</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-5"> <label>Payment Status </label></div>
+                                    <div class="col-md-7 pre-text">
+                                        : <span class="success_msg" ng-show="IsFeePaid == true"> Paid</span>
+                                        <span class="fail_msg" ng-show="IsFeePaid == false">Not Paid</span>
+                                    </div>
+
+                                </div>
+                                <!--<div class="col-md-6 form-group">
+                            <label>Examination Center :</label> Hyderabad
+                        </div>-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6" ng-show="userData">
+                <div class="cancel-btn" style="margin-bottom:0px;">
+                    <button type="submit" ng-click="BackToDetails()">Back</button>
+                </div>
+
+            </div>
+            <div class="col-md-6" ng-show="userData">
+                <div class="submit-btn" style="margin-bottom:0px;">
+                    <button type="submit" ng-click="EditDAta()">Edit Details</button>
+                </div>
+            </div>
+            <div class="col-md-12 mtp-50" ng-show="editStudentData && IsFeePaid ==true">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offer-custom-style">
+                                <h2>Edit Application Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="custom-forms">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label>Application No</label>
+                                        <input type="text" placeholder="Application No" ng-model="ApplicatioNo" autocomplete="off" class="form-control" required disabled />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group required">
+                                        <label>House No</label>
+                                        <input type="text" placeholder="House No/D.no" ng-model="HnoStreet" autocomplete="off" class="form-control" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group required">
+                                        <label>Village/Town/Mandal</label>
+                                        <input type="text" placeholder="Village/Town" class="form-control" autocomplete="off" ng-model="VillageTown" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 " ng-show="tmpmode==1">
+                                    <div class="form-group required">
+                                        <label>Examination Date(option 1):</label>
+                                        <div class="input-group date">
+                                            <input id="datepicker1" autocomplete="off" ng-model="date1" ng-change="dates(date1,1)" class="form-control" type="text" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 " ng-show="tmpmode==1">
+                                    <div class="form-group required">
+                                        <label>Examination Date(option 2):</label>
+                                        <div class="input-group date" id="datepicker2">
+                                            <input id="datepicker2" autocomplete="off" ng-model="date2" class="form-control" ng-change="dates(date2,2)" type="text" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 " ng-show="tmpmode==1">
+                                    <div class="form-group required">
+                                        <label>Examination Date(option 3):</label>
+                                        <div class="input-group date" id="datepicker3">
+                                            <input id="datepicker3" autocomplete="off" ng-model="date3" class="form-control" ng-change="dates(date3,3)" type="text" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 " ng-show="tmpmode==1">
+                                    <div class="form-group required">
+                                        <label>Examination Date(option 4):</label>
+                                        <div class="input-group date" id="datepicker4">
+                                            <input id="datepicker4" autocomplete="off" ng-model="date4" class="form-control" ng-change="dates(date4,4)" type="text" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 " ng-show="tmpmode==1">
+                                    <div class="form-group required">
+                                        <label>Examination Date(option 5):</label>
+                                        <div class="input-group date" id="datepicker5">
+                                            <input id="datepicker5" autocomplete="off" ng-model="date5" class="form-control" ng-change="dates(date5,5)" type="text" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group required ">
+                                        <label>Exam District</label>
+                                        <input class="form-control" disabled placeholder="District" autocomplete="off" ng-model="DistrictName" required>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group ">
+                                        <label>Email</label>
+                                        <input type="text" placeholder="Email Address" autocomplete="off" class="form-control" ng-model="EmailId" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="form-group required custom-img">
+                                            <label>Update  Photo with a sign(size less than 50KB) :</label>
+                                            <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                            <img ng-src="{{userPhotos}}" class="img img-responsive" id="stdPhotoImg" />
+                                            <input type="file" id="stdPhotoFile" ng-model="userPhoto" onchange="angular.element(this).scope().uploadPhoto()" class="upld-file" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" ng-show="stdSscCert != ''&& stdSscCert != null">
+                                        <div class="form-group required custom-img">
+                                            <label>Upload SSC/10th Certificate(size less than 300KB) :</label>
+                                            <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                            <img ng-src="{{stdSscCert}}" class="img img-responsive" id="stdSscCert" />
+                                            <input type="file" required id="stdSscCertFile" ng-model="stdSscCert" onchange="angular.element(this).scope().uploadSscCert()" class="upld-file">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" ng-show="StdinterCert != ''&& StdinterCert != null">
+                                        <div class="form-group required custom-img">
+                                            <label>Lower Qualified Exam Certificate(size less than 300KB) :</label>
+                                            <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                            <img ng-src="{{StdinterCert}}" class="img img-responsive" id="StdinterCert" />
+                                            <input type="file" required id="StdinterCertoFile" ng-model="StdinterCert" onchange="angular.element(this).scope().uploadInterCert()" class="upld-file">
+                                        </div>
+                                    </div>
+                                    `
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form name="StudentDetails" ng-submit="submitData()" ng-show="editStudentData && IsFeePaid ==false">
+                <div class="custom-forms">
+                    <div class="col-md-12  mtp-50">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="offer-custom-style">
+                                        <h2>Edit Details</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body">
+                                <div class="custom-forms">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label>Name</label>
+                                                <input type="text" placeholder="Name of the Candidate" autocomplete="off" name="applicationForm.CandidateName" ng-model="Name" class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label>Father Name</label>
+                                                <input type="text" ng-model="FatherName" placeholder="Father Name" autocomplete="off" name="applicationForm.FatherName" class="form-control" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label>Mother Name</label>
+                                                <input type="text" ng-model="MotherName" placeholder="Mother Name" autocomplete="off" name="applicationForm.MotherName" class="form-control" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label for="date-picker-example">Date Of Birth(dd/mm/yyyy):</label>
+                                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                                    <input type="text" show-weeks="false" class="form-control" id="datetimepicker1" placeholder="DD/MM/YYYY" autocomplete="off" name="applicationForm.CandidateNameDOB" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="CandidateNameDOB" is-open="showFlag1" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label>Gender</label>
+                                                <select class="form-control" name="applicationForm.Gender" ng-model="Gender" required>
+                                                    <option value="">Select Gender</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <!--<div class="col-md-12">-->
+                                        <div class="col-md-4 " ng-show="tmpmode ==2">
+                                            <div class="form-group required">
+                                                <label>Is Blind</label>
+                                                <select class="form-control" name="applicationForm.IsBlind" ng-model="IsBlind">
+                                                    <option value="">--Select---</option>
+                                                    <option value=0>No</option>
+                                                    <option value=1>Yes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4 ">
+                                            <div class="form-group required">
+                                                <label>Examination District</label>
+                                                <select class="form-control" ng-model="District" ng-change="LoadExamCenters(District)" required>
+                                                    <option value="" selected>Select District</option>
+                                                    <option ng-repeat="District in Districts" value="{{District}}">
+                                                        {{District.DistrictName}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 ">
+                                            <div class="form-group required">
+                                                <label>Examination Center</label>
+                                                <select class="form-control" ng-model="ExamCenterId" required>
+                                                    <option value="" selected>Select Exam Center</option>
+                                                    <option ng-repeat="examCenter in examCenterList" value="{{examCenter.Id}}">
+                                                        {{examCenter.ExaminationCenterName}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label for="date-picker-example">Examination Date</label>
+                                                <select class="form-control" ng-model="ExamDateselect" required ng-change="getBatches(ExamDateselect)">
+                                                    <option value="" selected>Select Exam Date</option>
+                                                    <option ng-repeat="ExamDateselect in ExamDates" value="{{ExamDateselect}}">
+                                                        {{ExamDateselect.ExamDate}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 " ng-show="tmpmode==2">
+                                            <div class="form-group required">
+                                                <label>Examination Batch</label>
+                                                <select class="form-control" ng-model="exambatch">
+                                                    <option value="" selected>Select Exam Batch</option>
+                                                    <option ng-repeat="exambatch in exambatchList" value="{{exambatch.BatchNumber}}">
+                                                        {{exambatch.BatchNumber}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 " ng-show="tmpmode==1">
+                                            <div class="form-group required">
+                                                <label>Examination Date(option 1):</label>
+                                                <div class="input-group date">
+                                                    <input id="datepicker1" autocomplete="off" ng-model="date1" ng-change="dates(date1,1)" class="form-control" type="text" />
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 " ng-show="tmpmode==1">
+                                            <div class="form-group required">
+                                                <label>Examination Date(option 2):</label>
+                                                <div class="input-group date" id="datepicker2">
+                                                    <input id="datepicker2" autocomplete="off" ng-model="date2" class="form-control" ng-change="dates(date2,2)" type="text" />
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 " ng-show="tmpmode==1">
+                                            <div class="form-group required">
+                                                <label>Examination Date(option 3):</label>
+                                                <div class="input-group date" id="datepicker3">
+                                                    <input id="datepicker3" autocomplete="off" ng-model="date3" class="form-control" ng-change="dates(date3,3)" type="text" />
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 " ng-show="tmpmode==1">
+                                            <div class="form-group required">
+                                                <label>Examination Date(option 4):</label>
+                                                <div class="input-group date" id="datepicker4">
+                                                    <input id="datepicker4" autocomplete="off" ng-model="date4" class="form-control" ng-change="dates(date4,4)" type="text" />
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 " ng-show="tmpmode==1">
+                                            <div class="form-group required">
+                                                <label>Examination Date(option 5):</label>
+                                                <div class="input-group date" id="datepicker5">
+                                                    <input id="datepicker5" autocomplete="off" ng-model="date5" class="form-control" ng-change="dates(date5,5)" type="text" />
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label>House No</label>
+                                                <input type="text" placeholder="House No/D.no" ng-model="HnoStreet" autocomplete="off" class="form-control" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group required">
+                                                <label>Village/Town/Mandal</label>
+                                                <input type="text" placeholder="Village/Town" class="form-control" autocomplete="off" ng-model="VillageTown" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 ">
+                                            <div class="form-group ">
+                                                <label>Email</label>
+                                                <input type="text" placeholder="Email Address" autocomplete="off" class="form-control" ng-model="EmailId" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 ">
+                                            <div class="form-group required">
+                                                <label>Mobile No</label>
+                                                <input type="text" placeholder="Mobile No" autocomplete="off" class="form-control" minlength="10" maxlength="10" ng-model="StudentPhoneNumber" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group required custom-img">
+                                                <label>Update  Photo with a sign(size less than 50KB) :</label>
+                                                <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                                <img ng-src="{{userPhotos}}" class="img img-responsive" id="stdPhotoImg" />
+                                                <input type="file" id="stdPhotoFile" ng-model="userPhoto" onchange="angular.element(this).scope().uploadPhoto()" class="upld-file" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" ng-show="stdSscCert != ''&& stdSscCert != null">
+                                            <div class="form-group required custom-img">
+                                                <label>Upload SSC/10th Certificate(size less than 300KB) :</label>
+                                                <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                                <img ng-src="{{stdSscCert}}" class="img img-responsive" id="stdSscCert" />
+                                                <input type="file" required id="stdSscCertFile" ng-model="stdSscCert" onchange="angular.element(this).scope().uploadSscCert()" class="upld-file">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4" ng-show="StdinterCert != ''&& StdinterCert != null">
+                                            <div class="form-group required custom-img">
+                                                <label>Lower Qualified Exam Certificate(size less than 300KB) :</label>
+                                                <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                                <img ng-src="{{StdinterCert}}" class="img img-responsive" id="StdinterCert" />
+                                                <input type="file" required id="StdinterCertoFile" ng-model="StdinterCert" onchange="angular.element(this).scope().uploadInterCert()" class="upld-file">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-8 pull-right mtp-50">
+                                            <div class="submit-btn" style="margin-top: 150px;margin-bottom: 0px;;">
+                                                <button type="submit" ng-click="UpdateData()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </form>
+        </div>
+
+        <div class="col-md-6" ng-show="editStudentData">
+            <div class="cancel-btn" style="margin-bottom:0px;">
+                <button type="submit" ng-click="BackToDetails()">Back</button>
+            </div>
+
+        </div>
+        <div class="col-md-6" ng-show="editStudentData  && IsFeePaid ==true">
+            <div class="submit-btn" style="margin-bottom:0px;">
+                <button type="submit" ng-click="UpdateData()">Update Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#img').click(function () {
+        $(this).css("cursor", "pointer");
+    });
+</script>
+</div>

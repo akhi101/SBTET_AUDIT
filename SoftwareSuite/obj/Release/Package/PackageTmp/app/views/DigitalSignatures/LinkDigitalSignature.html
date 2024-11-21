@@ -1,0 +1,29 @@
+﻿<div ng-controller="DigitalSignaturesController">
+    <div class="container-fluid" ng-show="availableCerts.length > 0">
+        <h4>Available Certificates in Computer</h4>
+        <hr />
+        <table style="max-width: 768px;" class="table table-bordered bg-light table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                    <th>Certificate Subject Name</th>
+                    <th>Valid From</th>
+                    <th>Valid Till</th>
+                    <th>Link Certificate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="cert in availableCerts">
+                    <td>{{cert.SerialNumber}}</td>
+                    <td>{{cert.Subject.split(',')[0]}}</td>
+                    <td>{{cert.NotBefore}}</td>
+                    <td>{{cert.NotAfter}}</td>
+                    <td><button class="btn btn-info" ng-click="linkCertificate(cert.SerialNumber, cert.Subject, cert.NotBefore, cert.NotAfter)">Link Certificate</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-show="availableCerts.length == 0">
+        No Certifcates Found in Machine
+    </div>
+</div>

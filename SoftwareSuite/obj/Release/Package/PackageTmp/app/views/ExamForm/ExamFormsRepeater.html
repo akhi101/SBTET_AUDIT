@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exam Form Repeater</title>
+</head>
+<body>
+    <div ng-controller="ExamFormsRepeaterController">
+        <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="heading_icon"></span><b>Exam Form Repeater</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group" style="font-size:medium;font-family:Verdana;color:dodgerblue;">
+                                                <label for="sel1"> Personal Details </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="email">Hall Ticket No.:</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.SSCHallTicket" id="SSCHallTicket" maxlength="15"  input-Number-Only placeholder="SSC Hall Ticket Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="email">Passing Year:</label>
+                                                <select class="form-control input-sm" ng-model="ExamFormsRepeater.LastAppearYear">
+                                                    <option value="" selected>Select Year</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2015">2015</option>
+                                                    <option value="2014">2014</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="email">Passing Month:</label>
+                                                <select class="form-control input-sm" ng-model="ExamFormsRepeater.LastAppearMonth">
+                                                    <option value="" selected>Select Month</option>
+                                                    <option value="Mar">March</option>
+                                                    <option value="Jun">Jun</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Student Name:</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.StudName" id="StudName" placeholder="Student Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Father Name:</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.Fathername" id="Fathername" placeholder="Father Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Mother Name:</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.MotherName" id="MotherName" placeholder="Mother Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="SubCastID">Caste/Community :</label>
+                                                <select class="form-control input-sm" id="CasteID" ng-model="ExamFormsRepeater.CasteID" ng-change="FillSubCaste(ExamFormsRepeater.CasteID)">
+                                                    <option ng-selected="ExamFormsRepeater.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="SubCastID">Sub Caste :</label>
+                                                <select class="form-control input-sm" id="SubCastID" ng-model="ExamFormsRepeater.SubCastID" ng-disabled="SubCasteDisable">
+                                                    <option ng-selected="ExamFormsRepeater.SubCastID == option.SubCastID" ng-repeat="option in SubCastList" value="{{option.SubCastID}}">{{option.SubCastName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="email">Gender :</label>
+                                                <form>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optradio" ng-model="ExamFormsRepeater.Gender" checked value="M">Male
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optradio" ng-model="ExamFormsRepeater.Gender" value="F">Female
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optradio" ng-model="ExamFormsRepeater.Gender" value="O">Other
+                                                    </label>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="email">Aaddhar No.:</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.AadharNo" id="AadharNo" maxlength="16" input-Number-Only placeholder="Aaddhar Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Mobile No. :</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.MobileNo" maxlength="10" id="MobileNo" input-Number-Only placeholder="Mobile Number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group" style="font-size:medium;font-family:Verdana;color:dodgerblue;">
+                                                <label for="sel1"> Stream Details </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Stream :</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.CourseName" id="CourseName" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Year :</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.ExmName" id="ExmName" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1">Branch :</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.BranchName" id="BranchName" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group" ng-hide="true">
+                                                <!--<input type="text" class="form-control" ng-model="ExamFormsRepeater.AcdYrID" id="AcdYrID">-->
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.CourseID" id="CourseID">
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.ExamID" id="ExamID">
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.BranchID" id="BranchID">
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.CollegeID" id="CollegeID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sel1"> Main Group :</label>
+                                                <select class="form-control" ng-model="ExamFormsRepeater.MainGrpID" id="MainGrpID" ng-change="GetGroupSubjects(ExamFormsRepeater.MainGrpID)">
+                                                    <option ng-selected="ExamFormsRepeater.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sel1">Second Language (Part II) :</label>
+                                                <select class="form-control input-sm" id="MediumID" ng-model="ExamFormsRepeater.SecondLangID" >
+                                                    <option ng-selected="ExamFormsRepeater.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="MediumID">Medium :</label>
+                                                <select class="form-control input-sm" id="MediumID" ng-model="ExamFormsRepeater.MediumID">
+                                                    <option ng-selected="ExamFormsRepeater.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sel1">Student Category :</label>
+                                                <select class="form-control" id="sel1" ng-model="ExamFormsRepeater.StudCatID">
+                                                    <option value="3">Category 3</option> <!--value =1-->
+                                                    <option value="4">Category 4</option> <!--value =2-->
+                                                    <option value="5">Category 5</option> <!--value =3-->
+                                                    <option value="6">Category 6</option> <!--value =3-->
+                                                    <option value="7">Category 7</option> <!--value =3-->
+                                                    <option value="8">Category 8</option> <!--value =3-->
+                                                    <option value="9">Category 9</option> <!--value =3-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sel1">Student Type :</label>
+                                                <select class="form-control" id="sel1" ng-model="ExamFormsRepeater.StudType">
+                                                    <option value="F">Fresher</option>
+                                                    <option value="R">Repeater</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group" style="font-size:medium;font-family:Verdana;color:dodgerblue;">
+                                                <label for="sel1"> Exam Form Details </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1"> Form No :</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.Formno" id="Formno" placeholder="Form Number" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1"> Application Date :</label>
+                                                <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="ApplicationDate" ng-model="ExamFormsRepeater.ApplicationDate" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="sel1"> Fee Amount :</label>
+                                                <input type="text" class="form-control" ng-model="ExamFormsRepeater.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="email">Applied For Improvement :</label>
+                                                <form>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optradio" ng-model="ExamFormsRepeater.ImprovementFlag" checked value="Y">Yes
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="optradio" ng-model="ExamFormsRepeater.ImprovementFlag" value="N">No
+                                                    </label>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                            <div class="form-group" style="font-size:medium;font-family:Verdana;color:dodgerblue;">
+                                                <label for="sel1"> Subject Details </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 " style="overflow-x: auto;">
+                                    <div class="panel panel-info" style="margin-bottom:12px;">
+                                        <div class="panel-heading">Subject Details</div>
+                                        <div class="panel-body" style="padding-right: 5px; padding-left: 5px; padding-bottom: 5px;; padding-top: 5px;">
+                                            <div id="SubjectGrid"
+                                                 ej-grid
+                                                 e-datasource="Subjectdata"
+                                                 e-allowresizing="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveExamFormsRepeater()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">Exit<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

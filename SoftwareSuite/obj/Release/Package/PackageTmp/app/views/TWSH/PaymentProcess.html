@@ -1,0 +1,97 @@
+﻿<style>
+      input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;   
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+    input[type=checkbox]:not(:checked) {
+        background-image: url(../../../contents/img/unchecked.png);
+    }
+
+    input[type=checkbox]:checked {
+        background-image: url(../../../contents/img/checked.png);
+    }
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+    .sm-spacer1 {
+        height: 25px;
+    }
+</style>
+<div ng-controller="PaymentProcessController">
+    <div class="container">
+        <div class="spacer"></div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="cl-details">
+                    <h2>Applied Student Details</h2>
+                </div>
+                <!--<div style="width:100%;text-align:center;">
+        <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+    </div>-->
+                <div class="sm-spacer1"></div>
+
+                <label class="notifylabel" ng-if="NotpaidList.length>0" for="sel1" style="color: red;"> click on table row to view student details</label>
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead class="sticky-header">
+                            <tr class="cb-1">
+                                <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th style="width: 5%">S.No</th>
+                                <th ng-click="sort('Scheme')">Application Number</th>
+                                <th class="" ng-click="sort('Semester')">Student Name</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('Branch')">Grade</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('Branch')">Fee</th>
+                                <!--<th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Fee Type</th>-->
+                                <!--<th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Fee Amount</th>-->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in NotpaidList" ng-click="getData(data.ApplicationNumber)" style="background-color:#fff!important;cursor:pointer">
+                                <!--<td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="data.isChecked" ng-class="{selected: data.isChecked}" ng-change="selectEntity(data)"></td>-->
+                                <td>{{$index+1}}</td>
+                                <td>{{data.ApplicationNumber}}</td>
+                                <td>{{data.StudentName}}</td>
+                                <td class="text-center">{{data.GradeCode}}</td>
+                                <td class="text-center">{{data.FeeType}}</td>
+                                <!--<td class="pointer text-center">{{data.FeeAmount}}</td>-->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="col-md-8 ">
+
+            </div>
+            <!--<div class="col-md-4">
+                <div class="card">
+                    <p>Records Selected : {{PaymentStudentList.length}}</p>
+                    <p>Total Amount : {{feeAmount}}</p>
+                </div>
+
+            </div>-->
+            <!--<div class="col-md-12 pull-right">
+               
+                    <div class="btn-success pull-right btn" ng-class="{'disabled': btndisable}" style="margin-bottom:0px;margin-top:20px" ng-click="Proceed()">
+                        Proceed
+                    </div>
+                  
+            </div>-->
+        </div>
+    </div>
+</div>

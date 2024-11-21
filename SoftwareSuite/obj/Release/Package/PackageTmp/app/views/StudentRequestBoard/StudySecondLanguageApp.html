@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Study of 2nd Language At Own Risk</title>
+</head>
+<body>
+    <div ng-controller="StudySecondLanguageAppController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>2nd Language Change / Study At Own Risk</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li> 2nd Language Change / Study At Own Risk</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12 text-center"> <span style="font-weight:700;" class="text-blue"> Candidate Applied Date : {{StudySecondLanguageApp.RequestDate | date:'dd/MMM/yyyy'}} </span></div>
+                <div class="col-md-8 col-md-offset-2"><hr></div>
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <p class="cp"><strong>College Code:</strong>{{StudySecondLanguageApp.ColCode}}</p>
+                                <p class="cp"><strong>College Name:</strong>{{StudySecondLanguageApp.CollegeName}}</p>
+                                <p class="cp"><strong>Date of Admission:</strong>{{StudySecondLanguageApp.DateofAdmission}}</p>
+                                <p class="cp"><strong>Medium:</strong>{{StudySecondLanguageApp.MediumName}}</p>
+                                <p class="cp"><strong>Course:</strong>{{StudySecondLanguageApp.CourseName}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="cp"><strong>Address:</strong>{{StudySecondLanguageApp.Address}}</p>
+                                <p class="cp"><strong>District:</strong>{{StudySecondLanguageApp.DistrictName}}</p>
+                                <!--<p class="cp"><strong>Mandal:</strong>{{StudySecondLanguageApp.MandalName}}</p>-->
+                                <p class="cp"><strong>Admission Number:</strong> {{StudySecondLanguageApp.AdmNo}}</p>
+                                <p class="cp"><strong>Group Name:</strong> {{StudySecondLanguageApp.MainGrpName}}</p>
+                            </div>
+
+                        </div>
+                        <div style="margin-top:20px;" class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for=""> Candidate Name :</label>
+                                    <input type="text" class="form-control" id="StudName" ng-model="StudySecondLanguageApp.StudName" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Father Name :</label>
+                                    <input type="text" class="form-control" id="Fathername" ng-model="StudySecondLanguageApp.FatherName" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2" ">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Application Number : </label>
+                                        <input type="text" class="form-control" id="FormNo" ng-model="StudySecondLanguageApp.FormNo" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> SSC Hall Ticket :</label>
+                                        <input type="text" class="form-control" id="SSCHallTicket" ng-model="StudySecondLanguageApp.SSCHallTicket" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Old Second Language : </label>
+                                        <input type="text" class="form-control" id="ColName" ng-model="StudySecondLanguageApp.OldSecondLanguageName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> New Second Language :</label>
+                                        <input type="text" class="form-control" id="CourseName" ng-model="StudySecondLanguageApp.NewSecondLanguageName" ng-readonly="true">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Mobile Number: </label>
+                                        <input type="text" class="form-control" id="MobileNo" ng-model="StudySecondLanguageApp.MobileNo" ng-readonly="true" maxlength="10" input-Number-Only>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for=""> Fee(in rupees):</label>
+                                        <input type="text" class="form-control" id="FeeAmount" ng-model="StudySecondLanguageApp.FeeAmount" ng-readonly="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <div class="row">
+                                    <div class="col-md-12 form-group" ng-hide="RequestStatus1">
+                                        <label for=""><font color="red" ng-hide="showastertisk1">*</font> Approve/Reject at Level 1 :</label>
+                                        <select class="form-control" id="ReqStatus" ng-model="StudySecondLanguageApp.ReqStatus" ng-disabled="Approver1Status" ng-change="ChangeTextArea(StudySecondLanguageApp.ReqStatus,'ReqStatus')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <!--<option value="P">Pending</option>-->
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <div class="status" ng-show="ShowLevel1">Level 1 Status Approved/Rejected Date : {{StudySecondLanguageApp.ProcessDate | date: 'MMM d, y h:mm:ss a' }} From IpAddress:{{StudySecondLanguageApp.ReqStatusIPAddress}}</div>
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="ProcessRemark1">
+                                        <label for=""><font color="red">*</font> Process Remark at Level 1 :</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark" ng-disabled="Approver1Status" ng-model="StudySecondLanguageApp.ProcessRemark" ng-readonly="ProcessRemarkRO" ></textarea>
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="RequestStatus2">
+                                        <label for=""> <font color="red" ng-hide="showastertisk2">*</font>Approve/Reject at Level 2 :</label>
+                                        <select class="form-control" id="ReqStatus2" ng-disabled="Approver2Status" ng-model="StudySecondLanguageApp.ReqStatus1" ng-change="ChangeTextArea(StudySecondLanguageApp.ReqStatus1,'ReqStatus1')">
+                                            <option value="0">Select Status</option>
+                                            <option value="A">Approve</option>
+                                            <!--<option value="P">Pending</option>-->
+                                            <option value="R">Reject</option>
+                                        </select>
+                                        <div ng-show="ShowLevel2" class="status"> Level 2 Status Approved/Rejected Date : {{StudySecondLanguageApp.ProcessDate1 | date:'MMM d, y h:mm:ss a' }} From IpAddress:{{StudySecondLanguageApp.ReqStatus1IPAddress}}</div>
+                                    </div>
+                                    <div class="col-md-12 form-group" ng-hide="ProcessRemark2">
+                                        <label for=""><font color="red">*</font> Process Remark at Level 2:</label>
+                                        <textarea rows="4" style="width: 100%;" id="ProcessRemark2" ng-disabled="Approver2Status" ng-model="StudySecondLanguageApp.ProcessRemark1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-show="ShowSubmit" ng-disabled="RollEditDisable" ng-click="SaveStudySecondLanguageApp()" class="btn btn-detail btn-sm">Submit</button>
+                                <button type="button" ng-click="PrintStudySecondLanguage()" class="btn btn-sm btn-primary" ng-hide="PrintButtonHide">Digital Sign</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Exit</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+    </div>
+</body>
+</html>

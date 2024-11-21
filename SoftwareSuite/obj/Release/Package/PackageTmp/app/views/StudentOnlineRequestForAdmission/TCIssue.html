@@ -1,0 +1,196 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admission Details for TC Issue</title>
+</head>
+<body>
+    <div ng-controller="TCIssueController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Admission Details for TC Issue</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Admission Details for TC Issue</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Only fee not paid students are allowed for first year TC issue. </p>
+                    <p># If student completed first year and willing to take TC, use 2nd year TC issue form.</p>
+                    <hr />
+                    <p style="font-size:18px; font-weight:100;">For any queries please mail to: </p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-1 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Admission No.</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="AdmissionNo" placeholder="Admission No." ng-model="TCIssue.AdmNo" maxlength="12" input-Number-Only>
+                            <!--<input type="text" placeholder="Your Enter Hall Ticket No." class="form-control" id="HallTicket" ng-model="TCIssue.HallTicket" maxlength="12" input-Number-Only>-->
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillTCIssueRequestByAdmNo()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-hide="HideInfo">
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Personal Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="cp"><strong>Admission Number:</strong> {{TCIssue.AdmNo}} </p>
+                                        <p class="cp"><strong>Fathers/Gaurdian Name:</strong> {{TCIssue.FatherName}} </p>
+                                        <p class="cp"><strong>Relation With Gaurdian:</strong> {{TCIssue.RelwithGuardian}} </p>
+                                        <p class="cp"><strong>Mother Tongue:</strong> {{TCIssue.MothTName}} </p>
+                                        <p class="cp"><strong>Occupation:</strong> {{TCIssue.OcupName}} </p>
+                                        <p class="cp"><strong>Caste/Community:</strong> {{TCIssue.CasteName}} </p>
+                                        <p class="cp"><strong>Subcaste:</strong> {{TCIssue.SubCastName}} </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="cp"><strong>HallTicket No.:</strong> {{TCIssue.SSCHallTicket}} </p>
+                                        <p class="cp"><strong>Candidate's Name:</strong> {{TCIssue.StudName}} </p>
+                                        <p class="cp"><strong>Mothers Name:</strong> {{TCIssue.MotherName}} </p>
+                                        <p class="cp"><strong>Nationality:</strong> {{TCIssue.Nationality}} </p>
+                                        <p class="cp"><strong>Sex:</strong> {{TCIssue.Gender}} </p>
+                                        <p class="cp"><strong>Parent Income:</strong> {{TCIssue.IncGrpame}} </p>
+                                        <p class="cp"><strong>Religion:</strong> {{TCIssue.Religion}} </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><p class="cp"><strong>Date of Birth:</strong> {{TCIssue.BirthDate | date : "dd-MM-yyyy"}} </p></div>
+                                    <div class="col-md-8"><p class="cp"><strong>Date of birth in words:</strong> {{TCIssue.BirthDate | date : "EEEE, dd MMMM yyyy"}}  </p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12"><p class="cp"><strong>Physically Handicapped:</strong> {{TCIssue.PhysDisbName}} </p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><p class="cp"><strong>Identification Marks:</strong></p></div>
+                                    <div class="col-md-9">
+                                        <p>1. {{TCIssue.IdentiMarks}}</p>
+                                        <p>2.{{TCIssue.IdentiMarks2}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12"><p class="cp"><strong>Name of the institition last studied(SSC):</strong> {{TCIssue.LstInstName}} </p></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{PhotoData.PhotoString}}" style=" width: 50%; height: 150px;" id="imgPhoto" alt="Photo Not Available" />
+                                <img src="{{PhotoData.SignString}}" style=" width: 50%; height: 50px;" id="imgSign" alt="Sign Not Available" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Institution Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="cp"><strong>Date of Admission:</strong> {{TCIssue.AdmDate | date : "dd-MM-yyyy"}} </p>
+                                <p class="cp"><strong>Medium:</strong> {{TCIssue.MediumName}} ({{TCIssue.MedShrtName}}) </p>
+                                <p class="cp"><strong>Group(Part III):</strong> {{TCIssue.MainGrpName}} </p>
+                                <p class="cp"><strong>College Address:</strong> {{TCIssue.ColCode}}, {{TCIssue.ColName}}, {{TCIssue.address}}, {{TCIssue.city_town}}, {{TCIssue.ColMandal}}, {{TCIssue.ColDistrict}}.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="cp"><strong>Class in which Student Admitted:</strong> {{TCIssue.ExmName}} </p>
+                                <p class="cp"><strong>Second Language(Part II):</strong> {{TCIssue.SubName}} </p>
+                                <p class="cp"><strong>Stream:</strong> {{TCIssue.CourseName}} </p>
+                                <p class="cp"><strong>Admission Category:</strong> {{TCIssue.AdmCategory}} </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Present Address <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="cp"><strong>H.No:</strong> {{TCIssue.Houseno}} </p>
+                                <p class="cp"><strong>Village:</strong> {{TCIssue.cityname}} </p>
+                                <p class="cp"><strong>District:</strong> {{TCIssue.PreAddrDistrict}} </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="cp"><strong>Street:</strong> {{TCIssue.streetName}} </p>
+                                <p class="cp"><strong>State:</strong> {{TCIssue.PreAddrStateName}} </p>
+                                <p class="cp"><strong>Mandal:</strong> {{TCIssue.PreAddrMandal}} </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Permanent Address <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="cp"><strong>H.No:</strong> {{TCIssue.HousenoP}}</p>
+                                <p class="cp"><strong>Village:</strong> {{TCIssue.CitynameP}}</p>
+                                <p class="cp"><strong>District:</strong> {{TCIssue.PerAddrDistrict}} </p>
+                                <p class="cp"><strong>Mobile Number of Parent/Gaurdian:</strong> {{TCIssue.ParentCellNo}} </p>
+                                <p class="cp"><strong>Aadhar Card No.(UIDAI):</strong> {{TCIssue.AadharNo}} </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="cp"><strong>Street:</strong> {{TCIssue.StreetnameP}} </p>
+                                <p class="cp"><strong>Mandal:</strong> {{TCIssue.PerAddrMandal}} </p>
+                                <p class="cp"><strong>State:</strong> {{TCIssue.PerAddrStateName}} </p>
+                                <p class="cp"><strong>Mobile Number of Student:</strong> <label ng-hide="HideMblLabel"> {{TCIssue.MobileNo}}</label> <input type="text" class="form-control" id="MobileNo" ng-hide="HideMblNo" ng-model="TCIssue.MobileNo" maxlength="10" input-Number-Only onpaste="return false;"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">TC Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>Date of Withdrawal : </label>
+                                    <!--<input type="text" datepicker class="form-control" id="StartDate">-->
+                                    <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="IssueDate" ng-model="TCIssue.IssueDate" ng-disabled="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for=""><font color="red">* </font>TC No. : </label>
+                                    <input type="text" class="form-control" id="TCNumber" ng-model="TCIssue.TCNumber" maxlength="10" input-Number-Only onpaste="return false;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1"><font color="red">* </font> Reason :</label>
+                                    <select class="form-control" id="TCIssueReasonID" ng-model="TCIssue.TCIssueReasonID">
+                                        <option value="0">Select Reason</option>
+                                        <option ng-selected="TCIssue.TCIssueReasonID == option.TCIssueReasonID" ng-repeat="option in ReasonList" value="{{option.TCIssueReasonID}}">{{option.ReasonDescription}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="SaveTCIssue()" class="btn btn-sm btn-detail">Issue TC</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--New Style End-->
+            <!--jgksdfjkl-->
+        </div>
+    </div>
+</body>
+</html>

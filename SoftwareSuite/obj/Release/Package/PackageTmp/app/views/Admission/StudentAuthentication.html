@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Aadhaar Authentication</title>
+    <style>
+        .panel-pricing {
+            -moz-transition: all .3s ease;
+            -o-transition: all .3s ease;
+            -webkit-transition: all .3s ease;
+        }
+
+            .panel-pricing:hover {
+                box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+            }
+
+
+
+            .panel-pricing .panel-heading .fa {
+                margin-top: 10px;
+            }
+
+            .panel-pricing .list-group-item {
+                color: #777777;
+                border-bottom: 1px solid rgba(250, 250, 250, 0.5);
+                font-size: 14px;
+            }
+
+                .panel-pricing .list-group-item:last-child {
+                    border-bottom-right-radius: 0px;
+                    border-bottom-left-radius: 0px;
+                }
+
+                .panel-pricing .list-group-item:first-child {
+                    border-top-right-radius: 0px;
+                    border-top-left-radius: 0px;
+                }
+
+            .panel-pricing .panel-body {
+                background-color: #f0f0f0;
+                font-size: 14px;
+                color: #777777;
+                padding: 5px;
+                margin: 0px;
+            }
+    </style>
+    <!--<script src="../../../scripts/jquery-2.1.4.min.js"></script>-->
+    <script type="text/javascript">
+        var MethodInfo = "";
+        var posh = "";
+        function scanfinger() {
+            if (document.getElementById("AadharNo").value != '') {
+                posh = GetFingerPOSH(5);
+                DiscoverStartekAVDM(11100);
+            } else {
+                alert('Enter Aadhaar Number');
+            }
+
+        }
+
+        function test() {
+            var _url = '' + document.getElementById("AadharNo").value + '&xmlPiddata=' + document.getElementById("txtPidData").value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", _url, true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send();
+            var response = JSON.parse(xhttp.responseText);
+        }
+
+        function GetFingerPOSH(index) {
+            if (index == "0") {
+                return "LEFT_LITTLE";
+            }
+            else if (index == "1") {
+                return "LEFT_RING";
+            }
+            else if (index == "2") {
+                return "LEFT_MIDDLE";
+            }
+            else if (index == "3") {
+                return "LEFT_INDEX";
+            }
+            else if (index == "4") {
+                return "LEFT_THUMB";
+            }
+            else if (index == "5") {
+                return "RIGHT_THUMB";
+            }
+            else if (index == "6") {
+                return "RIGHT_INDEX";
+            }
+            else if (index == "7") {
+                return "RIGHT_MIDDLE";
+            }
+            else if (index == "8") {
+                return "RIGHT_RING";
+            }
+            else if (index == "9") {
+                return "RIGHT_LITTLE";
+            }
+            else {
+                return "LEFT_INDEX";
+            }
+
+        }
+
+        function DiscoverStartekAVDM(count) {
+
+            if (window.location.protocol == "http:") {
+
+                var primaryUrl = "http://127.0.0.1:";
+                var finalUrl = "";
+                //alert("Please wait while discovering port from 11100 to 11120.\nThis will take some time.");
+                for (var i = count; i <= 11120; i++) {
+                    var verb = "RDSERVICE";
+                    var err = "";
+                    var url = primaryUrl + i.toString();
+                    var res;
+                    $.support.cors = true;
+                    var httpStaus = false;
+                    var jsonstr = "";
+                    var data = new Object();
+                    var obj = new Object();
+                    $.ajax({
+                        type: "RDSERVICE",
+                        async: false,
+                        crossDomain: true,
+                        url: url,
+                        contentType: "text/xml; charset=utf-8",
+                        processData: false,
+                        cache: false,
+                        // useDefaultXhrHeader: false,
+                        success: function (data) {
+
+                            httpStaus = true;
+                            res = { httpStaus: httpStaus, data: data };
+                            //alert(data);
+                            finalUrl = primaryUrl + i.toString();
+                            rdservice(finalUrl);
+
+                        },
+                        error: function (jqXHR, ajaxOptions, thrownError) {
+                            i = 11120;
+                            //alert("Service UnAvailable.");
+                            // $("#lblPort").text("0");
+                            res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
+
+                            //alert(res.d);
+                        },
+                    });
+                }
+            }
+            else {
+
+                var primaryUrl = "https://127.0.0.1:";
+                var finalUrl = "";
+                //alert("Please wait while discovering port from 11100 to 11120.\nThis will take some time.");
+                //for (var i = 11100; i <= 11120; i++) {
+                var i = 11200;
+                var verb = "RDSERVICE";
+                var err = "";
+                var url = primaryUrl + i.toString();
+                var res;
+                $.support.cors = true;
+                var httpStaus = false;
+                var jsonstr = "";
+                var data = new Object();
+                var obj = new Object();
+                $.ajax({
+                    type: "RDSERVICE",
+                    async: false,
+                    crossDomain: true,
+                    url: url,
+                    contentType: "text/xml; charset=utf-8",
+                    processData: false,
+                    cache: false,
+                    // useDefaultXhrHeader: false,
+                    success: function (data) {
+                        //debugger;
+
+                        httpStaus = true;
+                        res = { httpStaus: httpStaus, data: data };
+                        //alert(data);
+                        finalUrl = primaryUrl + i.toString();
+                        rdservice(finalUrl);
+                        //i = 11120;
+                    },
+                    error: function (jqXHR, ajaxOptions, thrownError) {
+                        //i = 11120;
+                        //alert("Service UnAvailable.");
+                        // $("#lblPort").text("0");
+                        res = { httpStaus: httpStaus, err: getHttpError(jqXHR) };
+                    },
+                });
+            }
+            //}
+
+
+
+        }
+
+        function scanMultiPorts() {
+            //debugger;
+            //SCAN FOR https 11200 port
+            scanForRDSrvcHTTPS(11200);
+
+            //SCAN FOR https 11100 to 11120 ports
+            var i = 11100;
+            for (i = 11100; i < 11121; i++) {
+                scanForRDSrvc(i);
+            }
+        }
+        function rdservice(finalUrl1) {
+            getJSON_rd(finalUrl1 + '/rd/',//MethodInfo,
+                function (err, data) {
+                    if (err != null) {
+                        alert('Something went wrong: ' + err);
+                    } else {
+                        document.getElementById("txtPidData").value = String(data);
+                        if (document.getElementById("txtPidData").value != "") {
+                            var $doc = document.getElementById("txtPidData").value;
+                            parser = new DOMParser();
+                            xmlDoc = parser.parseFromString($doc, "text/xml");
+                            var CmbData1 = $(xmlDoc).find('RDService').attr('status');
+                            if (CmbData1 == "READY") {
+                                captureFP(finalUrl1);
+                            }
+                            else {
+                                // debugger;
+                                var fovalue = finalUrl1.split(":");
+                                var count = fovalue[2];
+                                //alert(count);
+                                DiscoverStartekAVDM(parseInt(count) + 1);
+                            }
+                        }
+                    }
+                }
+            );
+        }
+        function info() {
+            // DiscoverStartekAVDM();
+            var finalUrl = $("#lblPort").val();
+            getJSON_info(finalUrl + '/rd/info',
+                function (err, data) {
+                    if (err != null) {
+                        alert('Something went wrong: ' + err);
+                    } else {
+                        document.getElementById("txtPidData").value = String(data);
+                        // String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                        //                         htmlEncode(data);
+                        //alert("done");
+                    }
+                }
+            );
+        }
+        function captureFP(finalUrl1) {
+            getJSONCapture(finalUrl1 + '/rd/capture',
+                //'http://localhost:11101/rd/capture',
+                function (err, data) {
+                    if (err != null) {
+                        alert('Something went wrong: ' + err);
+                    } else {
+                        document.getElementById("txtPidData").value = String(data);
+
+                        //String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                        //                         htmlEncode(data);
+                        //  alert("capture done");
+                        // alert(data);
+                    }
+                }
+            );
+        }
+        function convertData() {
+            document.getElementById("txtPidData").value = String(document.getElementById("txtPidData").value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        var getJSON_rd = function (url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('RDSERVICE', url, true);
+            xhr.responseType = 'application/xml';
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status == 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status);
+                }
+            };
+            xhr.send();
+        };
+        var getJSON_info = function (url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('DEVICEINFO', url, true);
+            xhr.responseType = 'application/xml';
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status == 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status);
+                }
+            };
+            xhr.send();
+        };
+        var getJSONCapture = function (url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('CAPTURE', url, true);
+            xhr.responseType = 'application/xml';    //json
+
+            // var InputXml = "<PidOptions> <Opts fCount=\"1\" fType=\"0\" iCount=\"0\" pCount=\"0\" format=\"0\" pidVer=\"2.0\" timeout=\"20000\" otp=\"\" posh=\"LEFT_INDEX\" env=\"PP\" wadh=\"+0njvZli4IkkbxG9yNKSWNMG7RNY6OhyWBUf/n5Dag4=\" /> <Demo></Demo>  </PidOptions>";
+            var Env = document.getElementById("Env").value;
+            var wadh = document.getElementById("txtWadh").value;
+            //var InputXml = '<?xml version="1.0"?> <PidOptions ver="1.0"> <Opts fCount="1" fType="0" iCount="0" pCount="0" format="0" pidVer="2.0" timeout="' + $("#Timeout").val() + '" posh="' + posh + '" env="' + Env + '" wadh="' + wadh + '"/> </PidOptions>';
+            var InputXml = '<?xml version="1.0"?> <PidOptions ver="1.0"> <Opts fCount="1" fType="0" iCount="0" pCount="0" format="0" pidVer="2.0" timeout="20000" posh="' + posh + '" env="' + Env + '" wadh="' + wadh + '"/> </PidOptions>';
+
+            //var InputXml = "<PidOptions> <Opts fCount=\"1\" fType=\"0\" iCount=\"0\" pCount=\"0\" format=\"0\" pidVer=\"2.0\" timeout=\"20000\" otp=\"\" posh=\"LEFT_INDEX\" env=\"S\" wadh=\"\" /> <Demo></Demo>  </PidOptions>";
+
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status == 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status);
+                }
+            };
+            xhr.send(InputXml);
+        };
+        function htmlEncode(value) {
+            //create a in-memory div, set it's inner text(which jQuery automatically encodes)
+            //then grab the encoded contents back out.  The div never exists on the page.
+            return $('<div/>').text(value).html();
+        }
+        function getHttpError(jqXHR) {
+            var err = "Unhandled Exception";
+            if (jqXHR.status === 0) {
+                err = 'Service Unavailable';
+            } else if (jqXHR.status == 404) {
+                err = 'Requested page not found';
+            } else if (jqXHR.status == 500) {
+                err = 'Internal Server Error';
+            } else if (thrownError === 'parsererror') {
+                err = 'Requested JSON parse failed';
+            } else if (thrownError === 'timeout') {
+                err = 'Time out error';
+            } else if (thrownError === 'abort') {
+                err = 'Ajax request aborted';
+            } else {
+                err = 'Unhandled Error';
+            }
+            return err;
+        }
+    </script>
+
+
+</head>
+<body>
+
+    <div ng-controller="StudentAuthenticationController">
+        <div ng-hide="true">
+            <input type="text" class="form-control" id="txtPidData" ng-readonly="true" ng-Model="StudentAuthentication.xmlPiddata">
+            <input type="text" class="form-control" id="Env" value="P" />
+            <input type="text" class="form-control" id="txtWadh" value="rhVuL7SnJi2W2UmsyukVqY7c93JWyL9O/kVKgdNMfv8=" />
+        </div>
+        <!-- New Style Start-->
+        <div class="container">
+                <div class="row ctitle">
+                        <div class="col-md-5">
+                            <span><strong>Student Aadhaar Authentication</strong></span>
+                        </div>
+                        <div class="col-md-7 text-right">
+                                <ol class="breadcrumb">
+                                        <li>You are in </li>
+                                        <li>Home</li>
+                                        <li>Student Admission</li>
+                                        <li>Student Aadhaar Authentication</li>
+                                    </ol>
+                        </div>
+                    </div>
+            
+            <div class="row frow">
+                <div class="col-md-5 col-md-offset-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adno">Enroll No.:</label>
+                                <input type="text" class="form-control" id="adno" ng-Model="StudentAuthentication.AdmNo" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adno">SSC Hall Ticket:</label>
+                                <input type="text" class="form-control" id="adno" ng-Model="StudentAuthentication.SSCHallTicket" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adno">Candidate's  Name:</label>
+                                <input type="text" class="form-control" id="cname" ng-Model="StudentAuthentication.StudName" maxlength="100" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adno">College Name:</label>
+                                <input type="text" class="form-control" id="ColName" ng-Model="StudentAuthentication.ColName" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adno">Father's Name:</label>
+                                <input type="text" class="form-control" id="fname" ng-Model="StudentAuthentication.FatherName" maxlength="40" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adno">Mother's Name:</label>
+                                <input type="text" class="form-control" id="mname" ng-Model="StudentAuthentication.MotherName" maxlength="40" ng-readonly="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name">Aadhaar Number :</label>
+                                <input type="text" class="form-control" id="AadharNo" ng-Model="StudentAuthentication.AadharNo" ng-readonly="true" maxlength="12">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button type="button" onclick="scanfinger()" style="margin-top:25px;" class="btn btn-lg btn-info">Take Thumb</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12"><hr></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" ng-click="PostStudentAadhar()" class="btn btn-detail btn-sm">Check Aadhaar & Submit</button>
+                    <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"><hr></div>
+            </div>
+            <div class="row" id="AdharPanel" ng-hide="AdharPanel">
+                <div class="col-md-4 col-md-offset-2 text-center">
+                    <div class="panel panel-success panel-pricing">
+                        <div class="panel-heading">
+                            <h5>College Server Data</h5>
+                        </div>
+                        <div class="panel-body text-center">
+                            <img src="{{StudentAuthentication.PhotoPath}}" width="180" height="200" />
+                        </div>
+                        <ul class="list-group text-center">
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Aadhaar No.:</span> {{StudentAuthentication.AadharNo}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Name: </span>{{StudentAuthentication.StudName}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Date of Birth:</span> {{StudentAuthentication.BirthDateDesc}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Gender:</span> {{StudentAuthentication.GenderDesc}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Father's Name:</span> {{StudentAuthentication.FatherName}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Address:</span> <p>{{StudentAuthentication.Houseno}}, {{StudentAuthentication.Streetname}}, {{StudentAuthentication.Cityname}}, {{StudentAuthentication.MandalName}}, {{StudentAuthentication.DistName}}, {{StudentAuthentication.StateName}}</p></li>
+                        </ul>
+                        <div class="panel-footer">
+                            <button type="button" ng-click="SaveStudentAuthentication()" class="btn btn-sm btn-detail">Approve</button>
+                            <button type="button" ng-click="Exit()" class="btn btn-sm btn-danger">Reject</button>
+                            <button type="button" ng-click="Exit()" class="btn btn-sm btn-reset">Close</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="panel panel-success panel-pricing">
+                        <div class="panel-heading">
+                            <h5>Aadhar Data</h5>
+                        </div>
+                        <div class="panel-body text-center">
+                            <img src="data:image/png;base64,{{AaadhaarData.pht}} " width="180" height="200" />
+                        </div>
+                        <ul class="list-group text-center">
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Aadhaar No.:</span> {{AaadhaarData.aadhaarno}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Name: </span>{{AaadhaarData.name}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Date of Birth:</span> {{AaadhaarData.dob}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Gender:</span> {{AaadhaarData.gender}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Father's Name:</span> {{AaadhaarData.co}}</li>
+                            <li class="list-group-item"> <span style="font-weight:700; color:#000;">Address:</span> <p>{{AaadhaarData.address}}</p></li>
+                        </ul>
+                        <div class="panel-footer text-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

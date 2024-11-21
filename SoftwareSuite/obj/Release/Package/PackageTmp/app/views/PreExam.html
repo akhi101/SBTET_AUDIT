@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Pre Exam</title>
+    <style>
+        .print-only {
+            display: none;
+        }
+        @media print {
+            .no-print {
+                display:none;
+            }
+            .print-stud {
+                width: 300px !important;
+            }
+            .print-ht {
+                width: 80px !important;
+            }
+            .print-tab{
+                width:80%;
+            }
+            .col-md-12 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .print-only {
+                display: block;
+            }
+            .table {
+                margin: 0 0 0 8px;
+            }
+            .table > thead > tr > th {
+                padding: 4px;
+                text-align:center;
+                border: 1px solid #000;
+                border-top: 1px solid #000 !important;
+            }
+            .table > tbody > tr > td {
+                padding: 8px;
+                border: 1px solid #000;
+                border-top: 1px solid #000;
+            }
+            .no-border {
+                border: none !important;
+            }
+            .base-row {
+                border: none;
+                box-shadow: none;
+            }
+            .head-border {
+                border-bottom: 1px solid #000;
+            }
+            .examiner-drop {
+                margin-top: -20px;
+            }
+            .note {
+                padding-left: 10px;
+            }
+            hr {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="PreExamController">
+        <header>
+            <div class="row topbar_row_section no-print">
+                <div class="container">
+                    <div class="row">
+                        <img src="../../contents/img/updated_header.jpg" class="img img-responsive" alt="header_banner" style="width: 100%;position: relative;">
+                    </div>
+                </div>
+            </div>
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>
+                                        <!--<li class="active">
+                                            <a ng-click="GoToHome()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>-->
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Pre Exam
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in programsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                                <!--<li><a ui-sref="examTimeTable">Exam Time Table</a></li>
+                                                <li><a ui-sref="examTimeTableApproval">Exam Time Table Approval</a></li>
+                                                <li><a ui-sref="practicalTimeTable">Practical Time Table</a></li>
+                                                <li><a ui-sref="practicalTimeTableApproval">Practical Time Table Approval</a></li>
+                                                <li><a ui-sref="studentSms">Student SMS</a></li>
+                                                <li><a ui-sref="studentDetailView">Student Detail View</a></li>
+                                                <li><a ui-sref="generationOfSeatNo">Generation of Hall Ticket No</a></li>
+                                                <li><a ui-sref="generationOMRData">Generation OMR Data</a></li>
+                                                <li><a ui-sref="centreWiseAbsentEntry">Centre-Wise Absent Entry</a></li>
+                                                <li><a ui-sref="practicalDetailEntry">Practical Entry</a></li>
+                                                <li><a ui-sref="otherMarkEnrty">Other Mark Entry</a></li>-->
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Appointment
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in AppointList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                                <!--<li><a ui-sref="examinerAppointmentTheory">Examinar Appointment Theory</a></li>
+                                                <li><a ui-sref="examinerAppointmentPractical">Examinar Appointment Practical</a></li>-->
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Reports
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in ReportsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                                <!--<li><a ui-sref="studentCount">Student Count</a></li>
+                                                <li><a ui-sref="collegewiseSubjectSummary">Collegewise Subject Summary</a></li>
+                                                <li><a ui-sref="subjectwiseCollegeSummary">Subjectwise College Summary</a></li>
+                                                <li><a ui-sref="centerwiseSubjectSummary">Centerwise Subject Summary</a></li>
+                                                <li><a ui-sref="subjectwiseCenterSummary">Subjectwise Center Summary</a></li>
+                                                <li><a ui-sref="centerwiseSeatingArrangement">Centerwise Seating Arrangment</a></li>
+                                                <li><a ui-sref="seatingArrangementBlockwise">Seating Arrangement Blockwise</a></li>
+                                                <li><a ui-sref="packetDistributionReport">Packet Distribution Report</a></li>
+                                                <li><a ui-sref="sortingPrivateENRFile">Sorting Private ENR File</a></li>
+                                                <li><a ui-sref="examTimeTableReport">Exam Time Table Report</a></li>
+                                                <li><a ui-sref="practicalTimeTableReport">Practical Time Table Report</a></li>
+                                                <li><a ui-sref="centreWiseAbsentEntryReport">Absent Entry Report</a></li>
+                                                <li><a ui-sref="otherMarkEnrtyReport">Other Mark Entry Report</a></li>
+                                                <li><a ui-sref="districtCenterWiseThPaperCountReport">District Center Wise Theory Student Count</a></li>
+                                                <li><a ui-sref="preExaminerAppointmentReport">Examiner Appointment Report</a></li>
+                                                <li><a ui-sref="preExaminerAppointmentOrderReport">Examiner Appointment Order Report</a></li>-->
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                        </li>
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li style="font-size:13px; color:#fff; margin-top:10px;">Welcome <span id="college_name1">{{college_name1}}</span> | {{userName}} |</li>
+                                        <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b></b></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div>
+            <div class="">
+                <ui-view>
+                    <div class="container">
+                        <div class="col-md-12 col-xs-12">
+                        </div>
+                    </div>
+                </ui-view>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

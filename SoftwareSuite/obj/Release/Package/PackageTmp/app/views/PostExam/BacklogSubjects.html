@@ -1,0 +1,70 @@
+﻿<div ng-controller="BacklogSubjectsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Backlog Subjects</h5>
+                <ol class="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                        <li><a href="#!/Dashboard/PostExam">Post Exam </a></li>
+                        <li><a href="#!/Dashboard/PostExam/BacklogSubjects">Backlog Subjects</a></li>
+                    </ol>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam" class="backA"> <button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="cl-details">
+                <h2>BacklogSubjects</h2>
+            </div>
+            <div class="alert alert-info">
+                <div class="studWishinputs">
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="sel1">
+                                Scheme :
+                            </label>
+
+                            <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="ChangeScheme()"
+                                    ng-options="scheme.scheme as scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                <option value="" selected>Select Scheme</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="gr-btn">
+                                <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit(scheme)">Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer">
+    </div>
+</div>

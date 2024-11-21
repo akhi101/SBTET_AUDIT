@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<style>
+   
+    .alert-success {
+    color: #3c763d!important;
+    background-color: #dff0d8!important;
+    border-color: #d6e9c6!important;
+}
+    .table-custom-tables-tb .table-bordered > tbody > tr > td {
+    border: 1px solid #ddd !important;
+    color: #78987c!important;
+    font-size: 14px !important;
+}
+    .table-hover > tbody > tr:hover {
+    background-color: #fff !important;
+    cursor: pointer!important;
+}
+     .sm-spacer{
+        height:70px;
+    }
+
+      .ExportToExcel1 {
+    color: #31c420;
+}
+
+.table-custom-tables-tb .table-bordered > thead > tr > th {
+   position: sticky!important;
+   top: 0px!important;
+}
+</style>
+<div ng-controller="FinalReportsController">
+  
+        
+        <section class="content" >
+           
+            <div class="container" ng-if="access1">
+                    <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="clg_reports" width="100" />
+                        </div>
+                    <div class="col-md-12" ng-if="userType==1">
+                            <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard/MarksSummary" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                        </div>
+                <div class="col-md-12" ng-if="userType==2">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard/Assessment" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right" ng-if="responseData">
+                        <a class="ExportToExcel1 pointer"
+                           id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export to ExcelS
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="responseData">
+                    <div class="cl-details">
+                        <h2>Marks Entry Reports</h2>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div id="tblParent" ng-show="responseData">
+                        <div class="table-responsive table-custom-tables-tb scrollbox">
+                            <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                <thead>
+                                    <tr class="cb-2">
+                                        <th>S no</th>
+                                        <th>Scheme</th>
+                                        <th>College Code</th>
+                                        <th>Branch Code</th>
+                                        <th>Semester</th>
+                                        <th>Subject Code</th>
+                                        <th>Total</th>
+                                        <th>Not Submitted</th>
+                                        <th>Not Posted</th>
+                                        <th>Absent</th>
+                                        <th>Malpractice</th>
+                                        <th>Detained</th>
+                                        <th>Discontinued</th>
+                                        <th>Tc Taken</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr ng-class="{'alert-success':x.NotPosted==0}" ng-repeat="x in collegeReports" ng-click="openBranchReport(x)">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{x.Scheme}}</td>
+                                        <td>{{x.CollegeCode}} </td>
+                                        <td>{{x.BranchCode}}</td>
+                                        <td>{{x.Semester}}</td>
+                                        <td>{{x.SubjectCode}}</td>
+                                        <td>{{x.Total}}</td>
+                                        <td>{{x.NotSubmitted== null ? '-' : x.NotSubmitted}}</td>
+                                        <td>{{x.NotPosted== null ? '-' : x.NotPosted}}</td>
+                                        <td>{{x.Absent== null ? '-' : x.Absent}}</td>
+                                        <td>{{x.MallPractice== null ? '-' : x.MallPractice}}</td>
+                                        <td>{{x.Detained== null ? '-' : x.Detained}}</td>
+                                        <td>{{x.DisContinued== null ? '-' : x.DisContinued}}</td>
+                                        <td>{{x.TcTaken== null ? '-' : x.TcTaken}}</td>
+                                    </tr>
+                                    <tr class="alert-sucess">
+                                        <td colspan="6">Total</td>
+                                        <td>{{Total}}</td>
+                                        <td>{{NotSubmitted}}</td>
+                                        <td>{{NotPosted}}</td>
+                                        <td>{{Absent}}</td>
+                                        <td>{{MallPractice}}</td>
+                                        <td>{{Detained}}</td>
+                                        <td>{{DisContinued}}</td>
+                                        <td>{{TcTaken}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="NoResult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" ng-if="access2">
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-if="clg_reports" width="100" />
+                </div>
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard/Assessment" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="col-md-12">
+                    <div class="pull-right" ng-if="responseData">
+                        <a class="ExportToExcel1 pointer"
+                           id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export to Excel
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="responseData">
+                    <div class="cl-details">
+                        <h2>Marks Entry Reports</h2>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div id="tblParent" ng-show="responseData">
+                        <div class="table-responsive table-custom-tables-tb scrollbox">
+                            <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                <thead>
+                                    <tr class="cb-2">
+                                        <th>S no</th>
+                                        <th>Scheme</th>
+                                        <th>College Code</th>
+                                        <th>Semester</th>
+                                        <th>Subject Code</th>
+                                        <th>Pin</th>
+                                        <th style="text-align:center">Marks Entered Date</th>
+                                        <th style="text-align:center">Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="alert-success">
+                                    <tr  ng-repeat="x in collegeReports" ng-click="openCollegeReport(x.CollegeCode)">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{x.Scheme}}</td>
+                                        <td>{{x.collegeCode}} </td>
+                                        <td>{{x.Semester}}</td>
+                                        <td>{{x.SubjectCode}}</td>
+                                        <td>{{x.Pin}}</td>
+                                        <td style="text-align:center">{{x.MarksEnteredAt == null ? '-' : x.MarksEnteredAt| date : "dd-MMM-yyyy HH:MM:ss" }}</td>
+                                        <td style="text-align:center">{{x.Marks == null ? '-' : x.Marks}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div ng-if="NoResult" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+
+
+        <div class="sm-spacer"></div>
+
+  
+</div>
+

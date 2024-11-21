@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Entry Form - Attendence Exemption(CAT 5 & 6)</title>
+    <style>
+        .myspan {
+            font-size: 10px !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="ExamFormCategory5Controller">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Entry Form - Attendence Exemption(CAT 5 & 6)</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Exam</li>
+                        <li>Entry Form - Attendence Exemption(CAT 5 & 6)</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <!--<div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Candidates who passed 1st and 2nd year are eligible </p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference</p>
+                </div>-->
+                <div class="col-md-8 col-md-offset-2">
+                    <!--<div class="row frow" ng-show="hideReApply">
+                        <div class="col-md-8 col-md-offset-3">
+                            <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Type:</span>
+                            <div class="maxl">
+                                <label class="radio inline"><input type="radio" id="Duplicate" name="Duplicate" ng-model="DupTrip" value="1" checked ng-change="chekDupTrip(DupTrip)"><span>Duplicate Pass Certificate</span></label>
+                                <label class="radio inline"><input type="radio" id="Triplicate" name="Triplicate" ng-model="DupTrip" value="2" ng-change="chekDupTrip(DupTrip)"><span>Triplicate Pass Certificate</span></label>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="row frow">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Hall Ticket Number/Ack Number </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Enter HallTicket/ACK Number" class="form-control" id="ACKNO" ng-model="ExamFormCategory5.ACKNO" maxlength="15" ng-keyup="keyup()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillPreStudentByHTAckNo()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-hide="ShowCandidateDetails">
+                     
+                        <!--Data Row Start-->
+                        <div class="row">
+                            <div class="col-md-11 col-md-offset-2">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="">SSC Hall Ticket No. :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="HTNO" ng-model="ExamFormCategory5.SSCHallTicket" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Candidate Name :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="StudName" ng-model="ExamFormCategory5.StudName" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Father Name :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" class="form-control" id="FatherName" ng-model="ExamFormCategory5.FatherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Mother Name :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" class="form-control" id="MotherName" ng-model="ExamFormCategory5.MotherName" ng-readonly="true">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="">Gender :</label>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" class="form-control" id="Gender" ng-model="ExamFormCategory5.Gender" ng-readonly="true">
+                                    </div>
+                                </div>
+                             
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Stream :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="CourseName" ng-model="ExamFormCategory5.BranchName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Group :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="MainGrpName" ng-model="ExamFormCategory5.MainGrpName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Medium :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="MediumName" ng-model="ExamFormCategory5.MediumName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">College Code :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="ColCode" ng-model="ExamFormCategory5.ColCode" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">College Name :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="ColName" ng-model="ExamFormCategory5.ColName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Exam Name :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group" ">
+
+                                        <input type="text" class="form-control" id="ExmName" ng-model="ExamFormCategory5.ExmName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">Mandal :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="MandalName" ng-model="ExamFormCategory5.MandalName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <label for="">District :</label>
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
+                                        <input type="text" class="form-control" id="DistName" ng-model="ExamFormCategory5.DistName" ng-readonly="true">
+
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="AppExamFee()" class="btn btn-detail btn-sm">Approve Examination Fee</button><!--class="btn btn-sm btn-detail"-->
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--New Style End-->
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+
+

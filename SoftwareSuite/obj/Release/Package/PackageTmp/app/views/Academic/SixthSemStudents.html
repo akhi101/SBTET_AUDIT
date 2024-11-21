@@ -1,0 +1,173 @@
+﻿<style>
+    .updateBtn {
+        margin: 15px;
+    }
+
+    .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 600;
+        font-size: 15px !important;
+        color: #3d7eaa !important;
+    }
+</style>
+<div ng-controller="SixthSemStudentsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Mark 5th/6th Semester</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic"> Academic Dashboard</a></li>
+                    <li><a href="#!/Dashboard/Academic/SixthSemStudents">Mark 6th Sem</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container ">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate>
+                            <div class="row">
+                                <!-- <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label"> College Code:</label>
+                                        <input class="form-control" ng-model="CollegeCode" ng-disabled="true" name="CollegeCode" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label"> Branch Code:</label>
+                                        <input class="form-control" ng-model="CollegeCode" ng-disabled="true" name="BranchCode" />
+                                    </div>
+
+                                </div> -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label"> Academic Year: </label>
+                                        <select class="form-control" id="AcademicYear" ng-model="AcademicId" ng-init="loadYears()" ng-change="ChangeSData(x.AcademicId)"
+                                                ng-options="x.AcademicID as x.AcademicYear for x in AcademicYears">
+                                            <option value="" ng-if="AcademicYears" selected="selected">Select Academic Year</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <!--<div class="col-md-3">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary gr-button btn_top pull-left" ng-click="getReport()">
+                                            Get Report
+                                            <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container ">
+            <!--<div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="!Semisters " width="100" />
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>-->
+            <!--<div class="col-md-12">
+                <div class="pull-right" >
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>-->
+
+            <div class="col-md-12" ng-show="Result">
+                <div class="pull-right">
+                    <button class="btn btn-info btn-sm updateBtn" ng-click="UpdateData()"> Save</button>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="Result">
+                <h6 class="pull-right" for="sel1" style="color: red;font-weight:bold;">
+                    <!--Mark 5th sem studying student PIN as “NO” <br>
+    Mark 6th sem studying student PIN as “YES” then save and submit-->
+                    Select 5SEM for 5th sem studying student PIN  <br>
+                    Select 6SEM for Industrial Training student PIN then save and submit
+                </h6>
+            </div>
+            <div class="col-md-12" ng-show="Result">
+                <div class="cl-details">
+                    <h2>Mark 5th/6th Semester</h2>
+                </div>
+                <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S.No</th>
+                                <th>PIN</th>
+                                <th>Student Name</th>
+                                <th>Select 5th sem/6th Sem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in Semdata" ng-click="selectSubjectDetails(x)">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.PIN}} </td>
+                                <td>{{x.StudentName}}</td>
+                                <td>
+                                    <!--{{x.Is6thSemStudied}}
+                                    <input type="text" ng-model="x.Is6thSemStudied" >-->
+                                    <select class="form-control" ng-model="x.Is6thSemStudied"
+                                            ng-options="data.Id as data.val for data in timeslotlist" ng-change="changeCenter(x)">
+
+                                        <option value="" selected>Choose</option>
+                                    </select>
+                                    <!--<select ng-model="Timeslot" class="form-control" id="TimeSlot{{$index}}" style="width:100%;" onchange="angular.element(this).scope().changeTimeslot(this, angular.element(this).scope().$index);">
+                                        <option value="" selected>select AN/FN/F1</option>
+                                        <option ng-repeat="lst in timeslotlist" style="max-height: 12em;overflow-y: scroll;" value="{{lst.Id}}">
+                                            {{lst.val}}
+                                        </option>
+                                    </select>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Data Found</h2>
+                </div>
+            </div>
+            <div style="width: 100%; text-align: center;">
+                <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" class="ng-hide">
+            </div>
+            <div class="col-md-12" ng-show="Result">
+                <div class="pull-right">
+                    <button class="btn btn-success btn-sm updateBtn" ng-click="SubmitData()"> Submit</button>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-info btn-sm updateBtn" ng-click="UpdateData()"> Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

@@ -1,0 +1,233 @@
+﻿<style>
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+</style>
+
+<div class="modal-header ">
+    <h4 class="modal-title text-center" ng-show="DetailsFound && !isBackLog">
+        <b>Verify the Payment Details before you Proceed</b>
+        <!--<button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>-->
+    </h4>
+    <h4 class="modal-title text-center" ng-show="DetailsFound && isBackLog">
+        <b>Verify the Backlog Payment Details before you Proceed</b>
+        <!--<button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>-->
+    </h4>
+</div>
+<div class="row">
+    {{PaymentStudent}}
+    <div class="modal-body">
+        <div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-4"><label for="stdSem">Challan Number</label></div>
+                        <div class="col-md-8">: {{challan}}</div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="DetailsFound && !isBackLog">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th style="width: 2%;">S.No</th>
+                                <th ng-click="sort('Scheme')">Pin</th>
+                                <th class="" ng-click="sort('Semester')">Student Name</th>
+                                <th class="" ng-click="sort('Semester')">Phone Number</th>
+
+                                <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Total Fee (Rs)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- ngRepeat: x in PaymentStudent -->
+                            <tr style="background-color:#fff!important;" ng-repeat="x in StudentVerData" class="ng-scope">
+                                <td class="text-left ng-binding">{{$index+1}}</td>
+                                <td class="text-left ng-binding">{{x.Pin}}</td>
+                                <td class="text-left ng-binding">{{x.StudentName}}</td>
+                                <td class="text-left ng-binding">{{x.StudentContact}}</td>
+                                <td class="text-center ng-binding">{{x.Amount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12" ng-show="DetailsFound && isBackLog">
+                    <table class="table table-bordered  table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th style="width: 2%;">S.No</th>
+                                <th ng-click="sort('Scheme')">Pin</th>
+                                <th class="" ng-click="sort('Semester')">Student Name</th>
+                                <th class="" ng-click="sort('Semester')">Phone Number</th>
+
+                                <th class="text-left" style="width: 10%">Semester Year</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- ngRepeat: x in PaymentStudent -->
+                            <tr style="background-color:#fff!important;" ng-repeat="x in StudentVerData" class="ng-scope">
+                                <td class="text-left ng-binding">{{$index+1}}</td>
+                                <td class="text-left ng-binding">{{x.Pin}}</td>
+                                <td class="text-left ng-binding">{{x.StudentName}}</td>
+                                <td class="text-left ng-binding">{{x.StudentContact}}</td>
+
+                                <td class="text-center ng-binding">{{x.Semester}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-4"><label for="stdSem">Total Amount</label></div>
+                        <div class="col-md-8 payment-result">: {{FinalAmountDB }}</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <h5>Note: Payment gateway transaction charges as below</h5>
+                </div>
+
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="cb-1">
+                                <th class="text-center" style="width: 2%;">S.No</th>
+                                <th class="text-center">Mode of Payment</th>
+                                <th class="text-center"> < Rs.2000 </th>
+                                <th class="text-center"> > Rs.2000 </th>
+                                <th class="text-center" style="width: 10%">Recommended</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr style="background-color:#fff!important;">
+                                <td class="text-center">1</td>
+                                <td class="text-center">UPI</td>
+                                <td class="text-center">NIL</td>
+                                <td class="text-center">NIL</td>
+                                <td class="text-center">All</td>
+                            </tr>
+                            <tr style="background-color:#fff!important;">
+                                <td class="text-center">2</td>
+                                <td class="text-center">Debit Card- Rupay</td>
+                                <td class="text-center">NIL</td>
+                                <td class="text-center">NIL</td>
+                                <td class="text-center">Student Individual Payment</td>
+                            </tr>
+                            <tr style="background-color:#fff!important;">
+                                <td class="text-center">3</td>
+                                <td class="text-center">Debit Card-Visa/Master</td>
+                                <td class="text-center">1.00%</td>
+                                <td class="text-center">1.24%</td>
+                                <td class="text-center">Student individual payment</td>
+                            </tr>
+                            <tr style="background-color:#fff!important;">
+                                <td class="text-center">4</td>
+                                <td class="text-center">Net Banking</td>
+                                <td class="text-center">10rs</td>
+                                <td class="text-center">10rs</td>
+                                <td class="text-center">Colleges Group payment</td>
+                            </tr>
+                            <tr style="background-color:#fff!important;">
+                                <td class="text-center">5</td>
+                                <td class="text-center">Wallets</td>
+                                <td class="text-center">1.24%</td>
+                                <td class="text-center">1.24%</td>
+                                <td class="text-center">Student individual payment</td>
+                            </tr>
+                            <tr style="background-color:#fff!important;">
+                                <td class="text-center">6</td>
+                                <td class="text-center">Credit Card</td>
+                                <td class="text-center">1.24%</td>
+                                <td class="text-center">1.24%</td>
+                                <td class="text-center">Student individual payment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="sm-spacer"></div>
+         
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="sm-spacer"></div>
+       
+
+            <div class="col-md-1"><input type="checkbox" ng-checked="noteChallan" ng-model="noteChallan" ng-change="notedChallan()" /></div>
+            <div class="col-md-8" style="margin-top: 5px;">: I agree that i have noted the challan number</div>
+            <div class="sm-spacer"></div>
+        </div>
+        <div class="modal-footer">
+
+            <button type="button" class="btn btn-success pull-right" ng-click="Proceedtopayfine()" style="margin-top: 20px;" ng-disabled="!noteChallan && !secondClick ">Proceed</button>
+            <button type="button" class="btn btn-default pull-left" ng-click="closeModal()" style="margin-top: 20px;">Cancel</button>
+        </div>
+
+    </div>
+</div>

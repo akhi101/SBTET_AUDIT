@@ -141,7 +141,7 @@ namespace SoftwareSuite.Controllers.CCIC
 
                     var msgbdy = new MailRequest()
                     {
-                        From = "sbtet-helpdesk@telangana.gov.in",
+                        From = "sbtet-helpdesk[at]telangana[dot]gov[dot]in",
                         To = data["CandidateEmail"].ToString(),
                         Subject = "test mail",
                         Message = "Your Verification Code for Email verification is " + dt.Tables[1].Rows[0]["EmailOTP"].ToString(),

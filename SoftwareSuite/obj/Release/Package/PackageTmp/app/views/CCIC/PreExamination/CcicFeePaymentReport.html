@@ -1,0 +1,175 @@
+<style>
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+
+        input[type=checkbox]:not(:checked) {
+            background-image: url(../../../contents/img/unchecked.png);
+        }
+
+        input[type=checkbox]:checked {
+            background-image: url(../../../contents/img/checked.png);
+        }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+
+    .sm-spacer1 {
+        height: 25px;
+    }
+
+    .pay_bck_btn, .pay_bck_btn:hover, .pay_bck_btn:focus, .pay_bck_btn:active {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        width: 120px !important;
+        height: 31px !important;
+        border-radius: 20px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        /* font-family: itallic; */
+        background-color: #63aacf !important;
+        padding: 4px !important;
+        outline: none !important;
+        float: right !important;
+        margin-right: 15px !important;
+    }
+
+    .spacer {
+        height: 50px !important;
+    }
+</style>
+<div ng-controller="CcicFeePaymentReportController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="cl-details">
+                        <h2>Fee Payment Report</h2>
+                    </div>
+                </div>
+                <div class="row base-row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold"> Academic Year :</label>
+                            <select class="form-control " ng-model="AcademicYear" name="AcademicYear" required ng-change="ChangeAcaYr(AcademicYear)">
+                                <option value="" selected="selected">Select Year</option>
+                                <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                    {{data.AcademicYear}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="ExamMonthYear">
+                            Exam Month/Year :
+                        </label>
+                        <select class="form-control" name="ExamMonthYear" required ng-model="ExamMonthYear" ng-change="ChangeExmmonthYr(ExamMonthYear)">
+                            <option value="" selected>Select Exam Month/Year</option>
+                            <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                {{data.ExamMonthYearName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label for="StudentType">
+                            Fee Payment Type :
+                        </label>
+                        <select class="form-control" name="FeePaymentType" required ng-model="FeePaymentType"
+                                ng-change="ChangeFeeType(FeePaymentType)">
+                            <option value="" selected>Select Fee Payment Type</option>
+                            <option ng-repeat="data in FeePaymentTypeData" value="{{data.FeePaymentTypeID}}">
+                                {{data.FeePaymentTypeName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12 text-center" style="bottom:23px">
+                        <button type="submit" class="btn btn-detail" ng-click="getFeePaymentReport()">
+                            Get Report
+                        </button>
+                    </div>
+                </div>
+                <div class="sm-spacer"></div>
+                <div class="col-md-12" ng-if="loading">
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                </div>
+                <div class="col-md-12" ng-if="NoData">
+                    <div class="col-md-12 no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Data</h2>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="PaymentReport">
+                    <div class="pull-right">
+                        <a class="ExportToExcel1 pointer"
+                           id="ExportToExcel1" ng-click="FeePaymentReportExcel('#preExamReports')">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export to Excel
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="PaymentReport">
+                    <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+                        <table class="table table-bordered  table-striped table-rounded">
+                            <thead>
+                                <tr class="cb-1">
+                                    <th style="width: 2%;">S.No</th>
+                                    <th class="text-center" ng-click="sort('Scheme')" style="width: 8%">Pin</th>
+                                    <th class="text-center" ng-click="sort('Semester')">Student Name</th>
+                                    <th class="text-center" ng-click="sort('Semester')">Fee Payment Type</th>
+                                    <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Fee Amount(Rs)</th>
+                                    <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Fee Status</th>
+                                    <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Challan Number</th>
+                                    <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Payment Mode</th>
+                                    <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Payment Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="background-color:#fff!important;" ng-repeat="data in PaymentReport">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td class="text-center" style="width: 11%">{{data.PIN}}</td>
+                                    <td class="text-center">{{data.StudentName}}</td>
+                                    <td class="text-center">{{data.FeePaymentTypeName}}</td>
+                                    <td class="text-center">{{data.FeeAmount}}</td>
+                                    <td class="text-center">{{data.FeeStatus}}</td>
+                                    <td class="text-center">{{data.ChallanNumber}}</td>
+                                    <td class="text-center">{{data.PaymentMode}}</td>
+                                    <td class="text-center">{{removeTFromDatetime(data.PaymentDate)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--<div class="text-center" ng-if="!isShowTags">
+                <img src="../../../contents/img/comingsoon.png">
+            </div>-->
+        </div>
+        <div class="spacer"></div>
+    </section>
+</div>

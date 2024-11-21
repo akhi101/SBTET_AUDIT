@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>   
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Station">
+    <title>Exam Form Generation</title>
+</head>
+<body>
+    <div ng-controller="OpenExamFormGenerationController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Form Generation</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Open Exam Form Generation</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <h3 class="ch3"> Open Form <hr></h3>
+                            <div class="row">
+                                <div class="col-md-3 text-right">
+                                    <label>Last Appreared Hall Ticket No.</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control" type="text" id="LastApprearedHallTicketNo" ng-model="OpenExamForm.PreStudRegID" maxlength="16" value=" " placeholder="please enter your hallticket no" input-Number-Only/>
+                                </div>
+                                <div class="col-md-1 text-right">
+                                    <label>Month & Year</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text" uib-datepicker-popup="{{dateformat}}" min-date="mindate" ng-model="OpenExamForm.MonthandYear" is-open="showdp" datepicker-options="{minMode: 'month'}" show-button-bar="false" show-weeks="false" />
+                                        <span>
+                                            <button type="button" class="btn btn-default" ng-click="showcalendar($event);showDate();">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <label>Addmission Acadamic Year</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <select class="form-control" id="year" ng-model="OpenExamForm.year" name="year"></select>
+                                    </div>
+                                </div>
+
+                            <div class="row">
+                                <h3 class="ch3">Student's Personal Detail <hr></h3>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Candidate's  Name:</label>
+                                            <input type="text" class="form-control input-sm" id="cname" ng-model="OpenExamForm.StudName"  maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Father's Name:</label>
+                                            <input type="text" class="form-control input-sm" id="fname" ng-model="OpenExamForm.FatherName"  maxlength="40">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Mother's Name:</label>
+                                            <input type="text" class="form-control input-sm" id="mname"  ng-model="OpenExamForm.MotherName" maxlength="40">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="Nationality">Nationality :</label>
+                                            <select class="form-control input-sm" id="Nationality" ng-model="OpenExamForm.Nationality" >
+                                                <option value="I">Indian</option>
+                                                <option value="F">Foreigner</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="email">Date Of Birth :</label>
+                                            <!--<input type="date" class="form-control input-sm" id="dob" ng-model="OpenExamForm.BirthDate">-->
+                                            <input type="text" uib-datepicker-popup="{{dateformat}}"ng-model="OpenExamForm.BirthDate" is-open="showDobdp"/>
+                                            <span>
+                                                <button type="button" class="btn btn-default" ng-click="showDOBCal($event)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Adhar Card No. (UID) :</label>
+                                            <input type="text" class="form-control" id="AadharNo" ng-Model="OpenExamForm.AadharNo" maxlength="12" input-Number-Only>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="col-lg-4">
+                                            <img ng-src="{{StudentPhoto}}" style=" width: 100px; height: 100px; margin: 5px; float: left;" />
+                                            <input type="file" name="file" id="filphto" accept="{{BrowseType}}" style="height:30px;width:350px" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <button type="button" class="btn btn-primary" onclick="angular.element(filphto).scope().uploadPhoto(filphto.files)">Upload</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="col-lg-4">
+                                            <img ng-src="{{StudentSign}}" style=" width: 100px; height: 100px; margin: 5px; float: left;" />
+                                            <input type="file" name="file" id="filsign" accept="{{BrowseType}}" style="height:30px;width:350px" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <button type="button" class="btn btn-primary" onclick="angular.element(filsign).scope().uploadSign(filsign.files)">Upload</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="margin-top: 26px;">
+                                        <div class="form-group" ng-disabled="true">
+                                            <label for="email">Gender :</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-disabled="Updateddisable" name="genderradio" ng-model="OpenExamForm.Gender" checked value="M">Male
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-disabled="Updateddisable" name="genderradio" ng-model="OpenExamForm.Gender" value="F">Female
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" ng-disabled="Updateddisable" name="genderradio" ng-model="OpenExamForm.Gender" value="O">Other
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Caste/Community :</label>
+                                            <select class="form-control input-sm" id="CasteID" ng-model="CasteList.CasteID" ng-change="FillSubCaste(CasteList.CasteID)">
+                                                <option value="" selected>Select Caste</option>
+                                                <option ng-selected="CasteList.CasteID == option.CasteID" ng-repeat="option in CasteList" value="{{option.CasteID}}">{{option.CasteName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Sub Caste :</label>
+                                            <select class="form-control input-sm" id="SubCastID" ng-model="SubCastList.SubCastID" ng-disabled="SubCasteDisable">
+                                                <option value="" selected>Select Sub Caste</option>
+                                                <option ng-selected="SubCastList.SubCastID == option.SubCastID" ng-repeat="option in SubCastList" value="{{option.SubCastID}}">{{option.SubCastName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="OtherCast" style="display:none">
+                                        <input type="text" value="" id="OtherCaste" />
+                                    </div>
+
+                                </div>
+                               
+                               
+                            </div>
+                            </div>                        
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2" style="margin-top:10px;">
+                                <div class="form-group">
+                                    <label for="email">Physically Handicapped :</label>
+                                    <!--<form>-->
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-disabled="Updateddisable" name="optradio" ng-Model="OpenExamForm.Handicaped" checked value="N">No
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" ng-disabled="Updateddisable" name="optradio" ng-model="OpenExamForm.Handicaped" value="Y">Yes
+                                        </label>
+                                    <!--</form>-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group" ng-show="OpenExamForm.Handicaped=='Y'">
+                                            <label for="PhysDisbID">Physical Disability :</label>
+                                            <select class="form-control input-sm" id="PhysDisbID" ng-model="PhysDisbList.PhysDisbID">
+                                                <option ng-selected="PhysDisbList.PhysDisbID == option.PhysDisbID" ng-repeat="option in PhysDisbList" value="{{option.PhysDisbID}}">{{option.PhysDisbName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" ng-show="OpenExamForm.Handicaped=='Y'">
+                                            <label for="SpclConsID">Special Consider :</label>
+                                            <select class="form-control input-sm" id="SpclConsID" ng-model="SpclConsList.SpclConsID">
+                                                <option ng-selected="SpclConsList.SpclConsID == option.SpclConsID" ng-repeat="option in SpclConsList" value="{{option.SpclConsID}}">{{option.SpclConsName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" ng-show="OpenExamForm.Handicaped=='Y'">
+                                        <label for="PhysDisbID">Disability Per. :</label>
+                                        <input type="text" class="form-control input-sm" id="PhysDisbPer" ng-Model="OpenExamForm.PhysDisbPer" input-Number-Only>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <h3 class="ch3">Stream : <hr></h3>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">                                   
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Main Group</label>
+                                            <select class="form-control input-sm" id="CourseID" ng-model="ExamFormsApprovalList.CourseID" ng-change="NFillCoursePart(ExamFormsApprovalList.CourseID)">
+                                                <option value="" selected>Select Course</option>
+                                                <option ng-selected="ExamFormsApprovalList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            <select class="form-control" ng-model="ExamFormsApprovalList.ExamID" id="ExamID" ng-change="GetGroupSubjects(ExamFormsRepeater.MainGrpID);">
+                                                <option value="" selected>Select Year</option>
+                                                <option value="0" selected>All</option>
+                                                <option ng-selected="ExamFormsApprovalList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>                                  
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sel1"> Group :</label>
+                                            <select class="form-control" ng-model="ExamFormsRepeater.MainGrpID" id="MainGrpID" ng-change="GetGroupSubjects(ExamFormsRepeater.MainGrpID);GetValue();">
+                                                <option ng-selected="ExamFormsRepeater.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="MediumID"> 2nd Language :</label>
+                                                <select class="form-control input-sm" id="SecondLang" ng-model="SecondLangList.SecondLangID">
+                                                    <option value="" selected>Select Second Language</option>
+                                                    <option ng-selected="SecondLangList.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}"> {{option.SubName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="MediumID">Medium :</label>
+                                                <select class="form-control input-sm" id="MediumID" ng-model="MediumList.MediumID">
+                                                    <option value="" selected>Select Medium</option>
+                                                    <option ng-selected="MediumList.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Subject Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <input type="checkbox" id="AllSubjectsList" value=" " ng-model="OpenExamForm.IsAllChecked" ng-change="CheckUncheckAll()">
+                                <label>
+                                    Sellect All Subjects
+                                </label>
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <div class="box-content">
+                                            <ul>
+                                                <li ng-repeat="subjectList in SubList">
+                                                    <!--<input type="checkbox" id="chkSubjects" name="SubjectsList1" ng-model="subjectList.selected" value="" ng-checked="checkedChkBoxList.indexOf(subjectList) != -1" ng-change="toggleCheck(subjectList)" ng-selected="subjectList.selected">-->
+                                                    
+                                                    <input type="checkbox" class="form-control input-sm" id="checkbox_{{subjectList.SubjectId}}" name="SubjectsList1" ng-model="subjectList.selected" value="" ng-checked="OpenExamForm.IsAllChecked" ng-change="GetValue()" ng-selected="subjectList.selected">
+                                                    <label>
+                                                        {{subjectList.ExmSubName}}
+                                                    </label>
+                                                    <br />
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>                                   
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Regular Fee :</label>
+                                        <input type="text" class="form-control" ng-model="OpenExamForm.RegularFees" id="RegularFees" placeholder="Regular Fees">
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                       
+                                        <label for="sel1"> Late Fee :</label>
+                                        <input type="text" class="form-control" ng-model="OpenExamForm.LateFees" id="LateFees" placeholder="Late Fees">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                      
+                                        <label for="sel1"> Fee Amount :</label>
+                                        <input type="text" class="form-control" ng-model="OpenExamForm.FormFees" id="FormFees" placeholder="Fee Amount">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveExamForms()">Save</button>
+                                    <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--</div>-->
+    <script>
+        var select = document.getElementById("year");
+        var currentYear = new Date("01/06/2005").getFullYear();
+       
+        for (var i = currentYear; i >= currentYear - 30; --i) {
+            var option = document.createElement('option');
+            option.text = option.value = i;
+            select.add(option, 0);
+        }   
+      
+        
+    </script>
+</body>
+</html>

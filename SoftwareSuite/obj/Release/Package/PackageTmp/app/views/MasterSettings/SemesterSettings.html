@@ -1,0 +1,290 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+      /*.tableinpt select {
+           ;
+        }*/
+    /*--------------------------------------------------*/
+
+
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxessem label {
+            display: block;
+        }
+
+            #checkboxessem label:hover {
+                background-color: #1e90ff;
+            }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+</style>
+<div ng-controller="SemesterSettingsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Semester Settings</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/SemesterSettings">Semester Settings</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/MasterSettings" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="font-weight-bold">
+                                        Scheme :
+                                    </label>
+                                    <select class="form-control" id="ExamYear" ng-model="scheme"
+                                            ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                        <option value="" selected>Select Scheme</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Semester Name</label>
+                                        <input type="text" style="resize:none" class="form-control text-uppercase" autocomplete="off" ng-model="Semester" name="Semester" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">                                       
+                                        <label>Semester Session</label>
+                                        <div class="multiselect">
+                                            <div class="selectBox" ng-click="showsemCheckboxes()">
+                                                <select class="form-control ">
+                                                    <option ng-blur="closesemCheckbox()">Select Semester Session</option>
+                                                </select>
+                                                <div class="overSelect"></div>
+                                            </div>
+                                            <div id="checkboxessem" style="max-height: 6em;overflow-y: scroll;z-index:9">
+                                                <label class="contain">
+                                                    <input type="checkbox" ng-click="toggleAllsem()" ng-model="isAllSelectedses" /><span class="checkmark"></span>Select All
+                                                </label>
+                                                <label class="contain" ng-repeat="ses in sessioninfo">
+                                                    <input type="checkbox" ng-model="ses.selected" ng-change="optionToggledsem(ses.selected)"><span class="checkmark"></span>{{ses.session}}
+                                                </label>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--<div class="form-group">
+                                        <label class="font-weight-bold">Semester Session</label>
+                                        <select class="form-control" id="SemSession" ng-model="SemSession">
+                                            <option value="" selected>Select Semester Session</option>
+                                            <option value=1>Session 1</option>
+                                            <option value=2>Session 2</option>
+                                        </select>
+                                    </div>-->
+                                </div>
+
+                                <div class="col-md-3 pull-left">
+                                    <button class="btn pull-left btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="Submit()">
+                                        create
+                                    </button>
+                                    <!--<button type="submit" class="btn pull-left btn-success btn-css" ng-click="update()" ng-if="UpdateData">
+            Update
+        </button>-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+      
+        <div class="container ">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2>Semester List</h2>
+                </div>
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered table-hover table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="5%">S.No</th>
+                                <th>Scheme</th>
+                                <th>Semester</th>
+                                <th>IsSession1</th>
+                                <th>IsSession2</th>
+                                <th width="15%" class="text-center">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #fff!important;" ng-repeat="data in GetMasterSchemes">                            
+                                <td class="text-left">{{$index + 1}}</td>
+                                <td class="text-center pointer" style="padding: 3px;">
+                                    <select class="form-control tableinpt enabletable{{$index + 1}}" id="scheme" ng-model="data.schemeid"
+                                            ng-options="dat3.schemeid as dat3.scheme for dat3 in schemeinfo">
+                                        <option value="" selected>Select Scheme</option>
+                                    </select>
+                                </td>
+                                <td class="text-left"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.Sem" /></td>
+                                <td class="text-left">
+                                    <select class="form-control tableinpt enabletable{{$index + 1}}" id="SemSession1" ng-model="data.IsSession1" ng-options="dat1.IsSession1 as dat1.IsSession1labl for dat1 in selsession1type">
+                                        <option value="" selected> is Session1</option>
+                                    </select>
+                                </td>
+                                <td class="text-left">
+                                    <select class="form-control tableinpt enabletable{{$index + 1}}" id="SemSession2" ng-model="data.IsSession2" ng-options="dat2.IsSession2 as dat2.IsSession2labl for dat2 in selsession2type">
+                                        <option value="" selected> is Session2</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                        Edit
+                                    </button>
+                                    <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                        Update
+                                    </button>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <div ng-if="Noreports" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

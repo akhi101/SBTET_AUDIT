@@ -1,0 +1,1044 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Components</title>
+
+
+    <link href="../../contents/css/custom-css/component.css" rel="stylesheet" />
+
+
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+            page-break-after: auto;
+        }
+
+        .print:last-child {
+            page-break-after: auto;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+                page-break-after: auto;
+            }
+
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+    
+   
+    <script type="text/javascript">
+       setInterval(function () {
+           var date = new Date();
+           var format = "DD-MMM-YYYY DDD";
+           dateConvert(date, format)
+       }, 1);
+
+       function dateConvert(dateobj, format) {
+           var year = dateobj.getFullYear();
+           var month = ("0" + (dateobj.getMonth() + 1)).slice(-2);
+           var date = ("0" + dateobj.getDate()).slice(-2);
+           var hours = ("0" + dateobj.getHours()).slice(-2);
+           var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+           var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+           var day = dateobj.getDay();
+           var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+           var converted_date = "";
+
+           switch (format) {
+               case "DD-MMM-YYYY DDD":
+                   converted_date = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;;
+                   break;
+               case "YYYY-MM-DD":
+                   converted_date = year + "-" + month + "-" + date;
+                   break;
+               case "YYYY-MMM-DD DDD":
+                   converted_date = year + "-" + months[parseInt(month) - 1] + "-" + date
+                   + " " + hours + ":" + minutes + ":" + seconds;
+                   break;
+           }
+           //return converted_date;
+           // to show it I used innerHTMl in a <p> tag
+           if (document.getElementById("example") != null) {
+               document.getElementById("example").innerHTML = "Today's Date is :  " + converted_date + "  GMT+0530 (India Standard Time)";
+           }
+       }
+    </script>
+</head>
+<body>
+    <div ng-controller="ComponentsController">
+        <header>
+
+
+            <div class="tp-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="time">
+                                <p id="example"></p>
+                            </div>
+                        </div>
+
+
+              
+
+
+
+                        <div class="col-md-4">
+                            <div class="site-changes" style="display:none;">
+                                <p>
+                                    Click the button for Font Resize or Color Change ->
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="logo-img">
+                                <img src="../../contents/img/big-logo.png" class="img-responsive" />
+                                <h2>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</h2>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="o-info">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>040-23222192</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>admin-sbtet@telangana.gov.in</a></li>
+
+                                </ul>
+                            </div>
+                            <div class="s-icons">
+                                <p>
+                                    CONNECT US WITH: <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="" style="color:white;font-weight:bold" ng-click="StudentResult()">Results</a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="col-md-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+
+            
+        </header>
+
+
+        <div class="clearfix"></div>
+
+
+        <div class="content">
+   
+   <div class="container">
+       <div class="row">
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>ACCORDION STYLE 01</h2>
+                       <p>The default collapse behavior to create an accordion.</p>
+                   </div>
+
+                   <div class="clearfix"></div>
+                   
+
+             
+                       <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                           <div class="panel panel-default">
+                               <div class="panel-heading" role="tab" id="headingOne">
+                                   <h4 class="panel-title">
+                                       <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                                           Making a Beautiful CSS3 Button Set
+                                       </a>
+                                   </h4>
+                               </div>
+                               <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                                   <div class="panel-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="panel-matter">
+                                  <p>
+                                      A concisely coded CSS3 button set increases usability across the board, gives you a ton of options, and keeps all the code involved to an absolute minimum. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="panel panel-default">
+                               <div class="panel-heading" role="tab" id="headingTwo">
+                                   <h4 class="panel-title">
+                                       <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                           Horizontal Navigation Menu Fold Animation
+                                       </a>
+                                   </h4>
+                               </div>
+                               <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">
+                                   <div class="panel-body">
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="panel-matter">
+                                                   <p>
+                                                       Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 
+                                                       3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                                                        Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. 
+                                                       Nihil anim keffiyeh helvetica, craft beer labore.
+
+                                                   </p>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="panel panel-default">
+                               <div class="panel-heading" role="tab" id="headingThree">
+                                   <h4 class="panel-title">
+                                       <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                           Creating CSS3 Button with Rounded Corners
+                                       </a>
+                                   </h4>
+                               </div>
+                               <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false" style="height: 0px;">
+                                   <div class="panel-body">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <div class="panel-matter">
+                                       <p>
+                                           Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                                            3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                                            Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+                                            Nihil anim keffiyeh helvetica, craft beer labore.
+
+                                       </p>
+                                   </div>
+                               </div>
+                           </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+
+            
+               </div>
+           </div>
+
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>ALERTS</h2>
+                       <p>Use one of the four required contextual classes</p>
+                   </div>
+
+                   <div class="clearfix"></div>
+                   <div class="alert alert-success">
+                       <a href="#" class="close" data-dismiss="alert" aria-label="close"> ×</a>
+                       Submit successfully!
+                   </div>
+
+                   <div class="alert alert-info">
+                       <a href="#" class="close" data-dismiss="alert" aria-label="close"> ×</a>
+                       For more updates visit our offical forum.
+                   </div>
+
+                   <div class="alert alert-danger">
+                       <a href="#" class="close" data-dismiss="alert" aria-label="close"> ×</a>
+                       Error
+                   </div>
+
+                   <div class="alert alert-warning">
+                       <a href="#" class="close" data-dismiss="alert" aria-label="close"> ×</a>
+                       Don't use caps keys.
+                   </div>
+               </div>
+           </div>
+
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>Cards</h2>
+                       <p>An example some text within a card body.</p>
+                   </div>
+                   <div class="clearfix"></div>
+
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="items-1">
+                               <div class="item">
+                                   <div class="card  table-striped">
+                                   
+                                       <div class="card-body">
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                       </div>
+
+
+
+
+                                   </div>
+
+                               </div>
+                               <div class="item">
+                                   <div class="card  table-striped">
+
+                                       <div class="card-body">
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                       </div>
+
+                           
+
+
+                                   </div>
+
+                               </div>
+                               <div class="item">
+                                   <div class="card  table-striped">
+
+                                       <div class="card-body">
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                       </div>
+
+
+                             
+
+
+                                   </div>
+
+                               </div>
+                
+                           </div>
+
+                       </div>
+                   </div>
+
+
+                   <div class="card-details">
+                       <h2>COLORED BACKGROUND VARIANT</h2>
+                       <p>Cards include their own variant classes for quickly changing card background.</p>
+                   </div>
+
+
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="items-custom">
+                               <div class="item">
+                                   <div class="card  table-striped bg-primary">
+
+                                       <div class="card-body ">
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                       </div>
+
+
+
+
+                                   </div>
+
+                               </div>
+                               <div class="item">
+                                   <div class="card  table-striped bg-danger">
+
+                                       <div class="card-body">
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                       </div>
+
+
+
+
+                                   </div>
+
+                               </div>
+                               <div class="item">
+                                   <div class="card  table-striped bg-purple ">
+
+                                       <div class="card-body">
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                       </div>
+
+
+
+
+
+                                   </div>
+
+                               </div>
+
+                           </div>
+
+                       </div>
+                   </div>
+
+
+                   <div class="card-details">
+                       <h2>CARD TITLES, TEXT AND LINKS</h2>
+                       <p>An example of using card title. In the same way, links are added and placed next to each other by adding link tag.</p>
+                   </div>
+
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="items-1">
+                               <div class="item">
+                                   <div class="card  table-striped ">
+
+                                       <div class="card-body ">
+                                           <h2>
+                                               The Card Title
+                                           </h2>
+                                           <h3>This is the card subtitle</h3>
+
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                           <ul>
+                                               <li>
+                                                   <a href="#">Cardlink</a>
+                                                   <a href="#">Another link</a>
+                                               </li>
+                                           </ul>
+                                       </div>
+
+
+
+
+                                   </div>
+
+                               </div>
+                               <div class="item">
+                                   <div class="card  table-striped ">
+
+                                       <div class="card-body ">
+                                           <h2>
+                                               The Card Title
+                                           </h2>
+                                           <h3>This is the card subtitle</h3>
+
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                           <ul>
+                                               <li>
+                                                   <a href="#">Cardlink</a>
+                                                   <a href="#">Another link</a>
+                                               </li>
+                                           </ul>
+                                       </div>
+
+
+
+
+
+                                   </div>
+
+                               </div>
+                               <div class="item">
+                                   <div class="card  table-striped  ">
+
+                                       <div class="card-body ">
+                                           <h2>
+                                               The Card Title
+                                           </h2>
+                                           <h3>This is the card subtitle</h3>
+
+                                           <p>
+                                               Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet consictetur...
+                                           </p>
+                                           <ul>
+                                               <li>
+                                                   <a href="#">Cardlink</a>
+                                                   <a href="#">Another link</a>
+                                               </li>
+                                           </ul>
+                                       </div>
+
+
+
+
+
+
+                                   </div>
+
+                               </div>
+
+                           </div>
+
+                       </div>
+                   </div>
+
+
+               </div>
+
+
+           </div>
+
+
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>Tabs</h2>
+                       <p>Add a tab navigation in header of a card.</p>
+                   </div>
+
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="tabbable-panel">
+                               <div class="tabbable-line">
+                                   <ul class="nav nav-tabs ">
+                                       <li class="active">
+                                           <a href="#tab_default_1" data-toggle="tab">
+                                               Tab 1
+                                           </a>
+                                       </li>
+                                       <li>
+                                           <a href="#tab_default_2" data-toggle="tab">
+                                               Tab 2
+                                           </a>
+                                       </li>
+                                       <li>
+                                           <a href="#tab_default_3" data-toggle="tab">
+                                               Tab 3
+                                           </a>
+                                       </li>
+                                   </ul>
+                                   <div class="tab-content">
+                                       <div class="tab-pane active" id="tab_default_1">
+                                           <h2>
+                                               I'm in Tab 1.
+                                           </h2>
+                                           <p>
+                                               Duis autem eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.
+                                           </p>
+                                           <p>
+                                               <a class="btn btn-success" href="#" target="_blank">
+                                                   Learn more...
+                                               </a>
+                                           </p>
+                                       </div>
+                                       <div class="tab-pane" id="tab_default_2">
+                                           <h2>
+                                               Howdy, I'm in Tab 2.
+                                           </h2>
+                                           <p>
+                                               Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.
+                                           </p>
+                                           <p>
+                                               <a class="btn btn-warning" href="#" target="_blank">
+                                                   Click for more features...
+                                               </a>
+                                           </p>
+                                       </div>
+                                       <div class="tab-pane" id="tab_default_3">
+                                           <h2>
+                                               Howdy, I'm in Tab 3.
+                                           </h2>
+                                           <p>
+                                               Duis autem vel eum iriure dolor in hendrerit in vulputate. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat
+                                           </p>
+                                           <p>
+                                               <a class="btn btn-info" href="#" target="_blank">
+                                                   Learn more...
+                                               </a>
+                                           </p>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+                
+
+
+                   </div>
+
+
+               </div>
+           </div>
+
+
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>DEFAULT BUTTONS</h2>
+                       <p>Predefined button styles, each serving its own semantic purpose.</p>
+                   </div>
+
+                   <div class="row">
+                 
+                       <div class="col-md-2">
+                           <div class="custom-bts">
+                               <button class="btn btn-primary btn-block mg-b-10">Primary</button>
+                           </div>
+                       </div>
+                       <div class="col-md-2">
+                           <div class="custom-bts">
+                               <button class="btn btn-primary active  btn-block mg-b-10">Active </button>
+                           </div>
+                       </div>
+                       <div class="col-md-2">
+                           <div class="custom-bts">
+                               <button class="btn btn-primary disabled  btn-block mg-b-10">Disabled</button>
+                           </div>
+                       </div>
+                    
+                       <div class="col-md-2">
+                           <div class="custom-bts">
+                               <button class="btn btn-secondary btn-block  btn-block mg-b-10">Secondary</button>
+                           </div>
+                       </div>
+
+                       <div class="col-md-2">
+                           <div class="custom-bts">
+                               <button class="btn btn-secondary active btn-block  btn-block mg-b-10">Active</button>
+                           </div>
+                       </div>
+
+                       <div class="col-md-2">
+                           <div class="custom-bts">
+                               <button class="btn btn-secondary disabled btn-block  btn-block mg-b-10">Disabled</button>
+                           </div>
+                       </div>
+
+                   </div>
+
+
+                   <div class="clearfix"></div>
+
+                   <div class="card-details m-30">
+                       <h2>BUTTON SIZES</h2>
+                       <p>A button with small and large size.</p>
+                   </div>
+
+                   <div class="row">
+                       <div class="col-md-4">
+                           <div class="custom-bts1">
+                               <button class="btn btn-primary btn-sm btn-block mg-b-10">Small</button>
+                               <button class="btn btn-primary btn-lg btn-block mg-b-10">Large</button>
+                           </div>
+                         
+                       </div>
+            
+                       <div class="col-md-4">
+                           <div class="custom-bts1">
+                               <button class="btn btn-secondary btn-sm btn-block mg-b-10">Small</button>
+                               <button class="btn btn-secondary btn-lg btn-block mg-b-10">Large</button>
+                           </div>
+
+                       </div>
+
+                   </div>
+
+
+                   <div class="clearfix"></div>
+
+                   <div class="card-details m-30">
+                       <h2>COLORED BUTTONS</h2>
+                       <p>Predefined button styles, each serving its own semantic purpose.</p>
+                   </div>
+
+                   <div class="row">
+
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-success btn-block mg-b-10">Success</button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-success active  btn-block mg-b-10">Active </button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-success disabled  btn-block mg-b-10">Disabled</button>
+                           </div>
+                       </div>
+
+                 
+
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-warning btn-block mg-b-10">Warning</button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-warning active  btn-block mg-b-10">Active </button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-warning disabled  btn-block mg-b-10">Disabled</button>
+                           </div>
+                       </div>
+
+                   
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-danger btn-block mg-b-10">Danger</button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-danger active  btn-block mg-b-10">Active </button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-danger disabled  btn-block mg-b-10">Disabled</button>
+                           </div>
+                       </div>
+
+
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-info btn-block mg-b-10">Info</button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-info active  btn-block mg-b-10">Active </button>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="custom-bts">
+                               <button class="btn btn-info disabled  btn-block mg-b-10">Disabled</button>
+                           </div>
+                       </div>
+
+                   </div>
+
+                   <div class="clearfix"></div>
+                   <div class="card-details m-30">
+                       <h2>ROUNDED BUTTONS</h2>
+                       <p>A very rounded corner for both basic and outline buttons.</p>
+                   </div>
+
+                   <div class="row">
+                       <div class="col-md-3">
+                           <div class="custom-bts">
+                               <button class="btn btn-oblong btn-primary btn-block mg-b-10">Primary</button>
+                           </div>
+                       </div>
+                       <div class="col-md-3">
+                           <div class="custom-bts">
+                               <button class="btn btn-oblong btn-secondary btn-block mg-b-10">Secondary</button>
+                           </div>
+                       </div>
+                       <div class="col-md-3">
+                           <div class="custom-bts">
+                               <button class="btn btn-oblong btn-success btn-block mg-b-10">Success</button>
+                           </div>
+                       </div>
+                       <div class="col-md-3">
+                           <div class="custom-bts">
+                               <button class="btn btn-oblong btn-danger btn-block mg-b-10">Danger</button>
+                           </div>
+                       </div>
+                   </div>
+      
+
+
+
+               </div>
+           </div>
+
+
+     
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>TOP LABEL LAYOUT</h2>
+                       <p>A form with a label on top of each form control.</p>
+                   </div>
+                   <div class="row">
+                       <div class="custom-forms">
+                           <div class="col-md-4">
+                               <div class="form-group">
+                                   <label class="form-control-label">Firstname: <span class="tx-danger">*</span></label>
+                                   <input class="form-control" type="text" name="firstname" value="John Paul" placeholder="Enter firstname">
+                               </div>
+                           </div>
+
+                           <div class="col-md-4">
+                               <div class="form-group">
+                                   <label class="form-control-label">Lastname:  <span class="tx-danger">*</span></label>
+                                   <input class="form-control" type="text" name="firstname" value="McDoe" placeholder="McDoe">
+                               </div>
+                           </div>
+
+                           <div class="col-md-4">
+                               <div class="form-group">
+                                   <label class="form-control-label">Email address:  <span class="tx-danger">*</span></label>
+                                   <input class="form-control" type="text" name="firstname" value="johnpaul@yourdomain.com" placeholder="johnpaul@yourdomain.com">
+                               </div>
+                           </div>
+
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <label class="form-control-label">Mail Address:  <span class="tx-danger">*</span></label>
+                                   <input class="form-control" type="text" name="firstname" value="Market St. San Francisco" placeholder="Market St. San Francisco">
+                               </div>
+                           </div>
+
+                           <div class="col-md-4">
+                               <div class="form-group">
+                                   <label class="form-control-label">Country: <span class="tx-danger">*</span></label>
+                                   <select class="form-control select2" data-placeholder="Choose country">
+                                       <option label="Choose country"></option>
+                                       <option value="USA">United States of America</option>
+                                       <option value="UK">United Kingdom</option>
+                                       <option value="China">China</option>
+                                       <option value="Japan">Japan</option>
+                                   </select>
+                               </div>
+                           </div>
+                       </div>
+
+
+                       <div class="col-md-12">
+                           <div class="form-layout-footer pull-right">
+                               <button class="btn btn-primary bd-0">Submit Form</button>
+                               <button class="btn btn-secondary bd-0">Cancel</button>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+  
+
+           </div>
+
+
+
+           <div class="col-md-12">
+               <div class="card">
+<div class="card-details">
+    <h2>LEFT LABEL ALIGNMENT</h2>
+    <p>A basic form where labels are aligned in left.</p>
+</div>
+
+                   <div class="col-md-12">
+                       <div class="row custom-forms">
+                           <label class="col-sm-2 form-control-label">Firstname: <span class="tx-danger">*</span></label>
+                           <div class="col-sm-10 ">
+                               <input type="text" class="form-control" placeholder="Enter firstname">
+                           </div>
+                       </div>
+
+                       <div class="row custom-forms">
+                           <label class="col-sm-2 form-control-label">Lastname: <span class="tx-danger">*</span></label>
+                           <div class="col-sm-10 ">
+                               <input type="text" class="form-control" placeholder="Enter Lastname">
+                           </div>
+                       </div>
+
+                       <div class="row custom-forms">
+                           <label class="col-sm-2 form-control-label">Email: <span class="tx-danger">*</span></label>
+                           <div class="col-sm-10 ">
+                               <input type="text" class="form-control" placeholder="Enter email address">
+                           </div>
+                       </div>
+
+                       <div class="row custom-forms">
+                           <label class="col-sm-2 form-control-label">Address: <span class="tx-danger">*</span></label>
+                           <div class="col-sm-10">
+                               <textarea class="" placeholder="Enter your address" rows="4"></textarea>
+                           </div>
+                       </div>
+
+                   </div>
+                   <div class="col-md-12">
+                       <div class="form-layout-footer pull-right">
+                           <button class="btn btn-primary bd-0">Submit Form</button>
+                           <button class="btn btn-secondary bd-0">Cancel</button>
+                       </div>
+                   </div>
+
+               </div>
+           </div>
+
+
+           <div class="col-md-12">
+               <div class="card">
+                   <div class="card-details">
+                       <h2>Timeline</h2>
+                   </div>
+
+                   <div class="row">
+
+                       <div class="col-md-12">
+                           <div class="timeline-centered">
+                               <article class="timeline-entry">
+                                   <div class="timeline-entry-inner">
+                                       <div class="timeline-icon bg-success">
+                                           <i class="entypo-feather"></i>
+                                       </div>
+                                       <div class="timeline-label">
+                                           <h2><a href="#">Art Ramadani</a> <span>posted a status update</span></h2>
+                                           <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                                       </div>
+                                   </div>
+                               </article>
+
+                               <article class="timeline-entry">
+                                   <div class="timeline-entry-inner">
+                                       <div class="timeline-icon bg-secondary">
+                                           <i class="entypo-suitcase"></i>
+                                       </div>
+                                       <div class="timeline-label">
+                                           <h2><a href="#">Job Meeting</a></h2>
+                                           <p>You have a meeting at <strong>Laborator Office</strong> Today.</p>
+                                       </div>
+                                   </div>
+                               </article>
+
+                               <article class="timeline-entry">
+                                   <div class="timeline-entry-inner">
+                                       <div class="timeline-icon bg-info">
+                                           <i class="entypo-location"></i>
+                                       </div>
+                                       <div class="timeline-label">
+                                           <h2><a href="#">Arlind Nushi</a> <span>checked in at</span> <a href="#">Laborator</a></h2>
+                                           <blockquote>Great place, feeling like in home.</blockquote>
+                                           <div id="sample-checkin" class="map-checkin" style="height: 170px; width: 100%; position: relative; background-color: rgb(229, 227, 223); overflow: hidden; -webkit-transform: translateZ(0);"><div class="gm-style" style="position: absolute; left: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; overflow: hidden; width: 100%; height: 100%; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1; width: 100%; cursor: url(http://maps.gstatic.com/mapfiles/openhand_8_8.cur) 8 8, default; -webkit-transform-origin: 0px 0px; -webkit-transform: matrix(1, 0, 0, 1, 0, 0);"><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; width: 100%; z-index: 200;"><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 101; width: 100%;"></div></div><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; width: 100%; z-index: 201;"><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 102; width: 100%;"></div><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 103; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: -1;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1;"><div style="width: 256px; height: 256px; overflow: hidden; -webkit-transform: translateZ(0); position: absolute; left: 72px; top: -176px;"><canvas draggable="false" height="256" width="256" style="-webkit-user-select: none; position: absolute; left: 0px; top: 0px; height: 256px; width: 256px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; -webkit-transform: translateZ(0); position: absolute; left: 72px; top: 80px;"></div><div style="width: 256px; height: 256px; overflow: hidden; -webkit-transform: translateZ(0); position: absolute; left: -184px; top: -176px;"></div><div style="width: 256px; height: 256px; overflow: hidden; -webkit-transform: translateZ(0); position: absolute; left: -184px; top: 80px;"></div><div style="width: 256px; height: 256px; overflow: hidden; -webkit-transform: translateZ(0); position: absolute; left: 328px; top: -176px;"></div><div style="width: 256px; height: 256px; overflow: hidden; -webkit-transform: translateZ(0); position: absolute; left: 328px; top: 80px;"></div></div></div></div></div><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; width: 100%; z-index: 202;"><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 104; width: 100%;"></div><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 105; width: 100%;"></div><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"></div></div><div style="-webkit-transform: translateZ(0); position: absolute; left: 0px; top: 0px; z-index: 100; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1;"><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 72px; top: -176px;"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 72px; top: 80px;"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: -184px; top: -176px;"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: -184px; top: 80px;"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 328px; top: -176px;"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 328px; top: 80px;"></div></div></div></div><div style="position: absolute; z-index: 0; left: 0px; top: 0px;"><div style="overflow: hidden; width: 431px; height: 170px;"><img src="http://maps.googleapis.com/maps/api/js/StaticMapService.GetMapImage?1m2&1i701363&2i1636267&2e1&3u14&4m2&1u431&2u170&5m4&1e0&5spt-BR&6sus&10b1&token=8503" style="width: 421px; height: 160px;"></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1;"><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 72px; top: -176px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="http://mt0.googleapis.com/vt?lyrs=m@248313357&src=apiv3&hl=pt-BR&x=2740&y=6391&z=14&style=47,37%7Csmartmaps" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; -webkit-transform: translateZ(0);"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 72px; top: 80px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="http://mt0.googleapis.com/vt?lyrs=m@248254527&src=apiv3&hl=pt-BR&x=2740&y=6392&z=14&style=47,37%7Csmartmaps" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; -webkit-transform: translateZ(0);"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: -184px; top: -176px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="http://mt1.googleapis.com/vt?lyrs=m@248282439&src=apiv3&hl=pt-BR&x=2739&y=6391&z=14&style=47,37%7Csmartmaps" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; -webkit-transform: translateZ(0);"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: -184px; top: 80px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="http://mt1.googleapis.com/vt?lyrs=m@248011677&src=apiv3&hl=pt-BR&x=2739&y=6392&z=14&style=47,37%7Csmartmaps" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; -webkit-transform: translateZ(0);"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 328px; top: -176px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="http://mt1.googleapis.com/vt?lyrs=m@248301220&src=apiv3&hl=pt-BR&x=2741&y=6391&z=14&style=47,37%7Csmartmaps" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; -webkit-transform: translateZ(0);"></div><div style="width: 256px; height: 256px; -webkit-transform: translateZ(0); position: absolute; left: 328px; top: 80px; opacity: 1; transition: opacity 200ms ease-out; -webkit-transition: opacity 200ms ease-out;"><img src="http://mt1.googleapis.com/vt?lyrs=m@248301220&src=apiv3&hl=pt-BR&x=2741&y=6392&z=14&style=47,37%7Csmartmaps" draggable="false" style="width: 256px; height: 256px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; -webkit-transform: translateZ(0);"></div></div></div></div></div><div style="margin-left: 5px; margin-right: 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px;"><a target="_blank" href="http://maps.google.com/maps?ll=36.738888,-119.783013&z=14&t=m&hl=pt-BR&gl=US&mapclient=apiv3" title="Clique para ver esta área no Google Maps" style="position: static; overflow: visible; float: none; display: inline;"><div style="width: 62px; height: 26px; cursor: pointer;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png" draggable="false" style="position: absolute; left: 0px; top: 0px; width: 62px; height: 26px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></a></div><div class="gmnoprint" style="z-index: 1000001; position: absolute; right: 192px; bottom: 0px; width: 85px;"><div draggable="false" class="gm-style-cc" style="-webkit-user-select: none;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a style="color: rgb(68, 68, 68); text-decoration: none; cursor: pointer;">Dados do mapa</a><span style="display: none;">Dados cartográficos ©2014 Google</span></div></div></div><div style="background-color: white; padding: 15px 21px; border: 1px solid rgb(171, 171, 171); font-family: Roboto, Arial, sans-serif; color: rgb(34, 34, 34); -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px; z-index: 10000002; display: none; width: 256px; height: 118px; position: absolute; left: 61px; top: 5px;"><div style="padding: 0px 0px 10px; font-size: 16px;">Dados do mapa</div><div style="font-size: 13px;">Dados cartográficos ©2014 Google</div><div style="width: 13px; height: 13px; overflow: hidden; position: absolute; opacity: 0.7; right: 12px; top: 12px; z-index: 10000; cursor: pointer;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/mapcnt3.png" draggable="false" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></div><div class="gmnoscreen" style="position: absolute; right: 0px; bottom: 0px;"><div style="font-family: Roboto, Arial, sans-serif; font-size: 11px; color: rgb(68, 68, 68); direction: ltr; text-align: right; background-color: rgb(245, 245, 245);">Dados cartográficos ©2014 Google</div></div><div class="gmnoprint gm-style-cc" draggable="false" style="z-index: 1000001; position: absolute; -webkit-user-select: none; right: 113px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a href="http://www.google.com/intl/pt-BR_US/help/terms_maps.html" target="_blank" style="text-decoration: none; cursor: pointer; color: rgb(68, 68, 68);">Termos de Uso</a></div></div><div draggable="false" class="gm-style-cc" style="-webkit-user-select: none; position: absolute; right: 0px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right;"><a target="_new" title="Informar erros no mapa ou nas imagens para o Google" href="http://maps.google.com/maps?ll=36.738888,-119.783013&z=14&t=m&hl=pt-BR&gl=US&mapclient=apiv3&skstate=action:mps_dialog$apiref:1&output=classic" style="font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); text-decoration: none; position: relative;">Informar erro no mapa</a></div></div><div class="gmnoprint" draggable="false" controlwidth="32" controlheight="84" style="margin: 5px; -webkit-user-select: none; position: absolute; left: 0px; top: 0px;"><div controlwidth="32" controlheight="40" style="cursor: url(http://maps.gstatic.com/mapfiles/openhand_8_8.cur) 8 8, default; position: absolute; left: 0px; top: 0px;"><div style="width: 32px; height: 40px; overflow: hidden; position: absolute; left: 0px; top: 0px;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/cb_scout2.png" draggable="false" style="position: absolute; left: -9px; top: -102px; width: 1028px; height: 214px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div style="width: 32px; height: 40px; overflow: hidden; position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/cb_scout2.png" draggable="false" style="position: absolute; left: -107px; top: -102px; width: 1028px; height: 214px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div style="width: 32px; height: 40px; overflow: hidden; position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/cb_scout2.png" draggable="false" style="position: absolute; left: -58px; top: -102px; width: 1028px; height: 214px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div style="width: 32px; height: 40px; overflow: hidden; position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/cb_scout2.png" draggable="false" style="position: absolute; left: -205px; top: -102px; width: 1028px; height: 214px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></div><div class="gmnoprint" controlwidth="0" controlheight="0" style="opacity: 0.6; display: none; position: absolute;"><div title="Girar o mapa em 90 graus" style="width: 22px; height: 22px; overflow: hidden; position: absolute; cursor: pointer;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/mapcnt3.png" draggable="false" style="position: absolute; left: -38px; top: -360px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></div><div class="gmnoprint" controlwidth="20" controlheight="39" style="position: absolute; left: 6px; top: 45px;"><div style="width: 20px; height: 39px; overflow: hidden; position: absolute;"><img src="http://maps.gstatic.com/mapfiles/api-3/images/mapcnt3.png" draggable="false" style="position: absolute; left: -39px; top: -401px; width: 59px; height: 492px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div title="Aumentar o zoom" style="position: absolute; left: 0px; top: 2px; width: 20px; height: 17px; cursor: pointer;"></div><div title="Diminuir o zoom" style="position: absolute; left: 0px; top: 19px; width: 20px; height: 17px; cursor: pointer;"></div></div></div><div class="gmnoprint" style="margin: 5px; z-index: 0; position: absolute; cursor: pointer; right: 0px; top: 0px;"><div class="gm-style-mtc" style="float: left;"><div draggable="false" title="Mostrar mapa de ruas" style="direction: ltr; overflow: hidden; text-align: center; position: relative; color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; -webkit-user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 1px 6px; border-bottom-left-radius: 2px; border-top-left-radius: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; border: 1px solid rgba(0, 0, 0, 0.14902); -webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; min-width: 28px; font-weight: 500;">Mapa</div><div style="background-color: white; z-index: -1; padding-top: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; border-width: 0px 1px 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-color: rgba(0, 0, 0, 0.14902); border-bottom-color: rgba(0, 0, 0, 0.14902); border-left-color: rgba(0, 0, 0, 0.14902); -webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; position: absolute; left: 0px; top: 19px; text-align: left; display: none;"><div draggable="false" title="Mostrar mapa de ruas com terreno" style="color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; -webkit-user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 3px 8px 3px 5px; direction: ltr; text-align: left; white-space: nowrap;"><span role="checkbox" style="box-sizing: border-box; position: relative; line-height: 0; font-size: 0px; margin: 0px 5px 0px 0px; display: inline-block; background-color: rgb(255, 255, 255); border: 1px solid rgb(198, 198, 198); border-top-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; width: 13px; height: 13px; vertical-align: middle;"><div style="position: absolute; left: 1px; top: -2px; width: 13px; height: 11px; overflow: hidden; display: none;"><img src="http://maps.gstatic.com/mapfiles/mv/imgs8.png" draggable="false" style="position: absolute; left: -52px; top: -44px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; width: 68px; height: 67px;"></div></span><label style="vertical-align: middle; cursor: pointer;">Terreno</label></div></div></div><div class="gm-style-mtc" style="float: left;"><div draggable="false" title="Mostrar imagens de satélite" style="direction: ltr; overflow: hidden; text-align: center; position: relative; color: rgb(86, 86, 86); font-family: Roboto, Arial, sans-serif; -webkit-user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 1px 6px; border-bottom-right-radius: 2px; border-top-right-radius: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; border-width: 1px 1px 1px 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-top-color: rgba(0, 0, 0, 0.14902); border-right-color: rgba(0, 0, 0, 0.14902); border-bottom-color: rgba(0, 0, 0, 0.14902); -webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; min-width: 36px;">Satélite</div><div style="background-color: white; z-index: -1; padding-top: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; border-width: 0px 1px 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-color: rgba(0, 0, 0, 0.14902); border-bottom-color: rgba(0, 0, 0, 0.14902); border-left-color: rgba(0, 0, 0, 0.14902); -webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; position: absolute; right: 0px; top: 19px; text-align: left; display: none;"><div draggable="false" title="Aumentar o zoom para a visualização de 45 graus" style="color: rgb(184, 184, 184); font-family: Roboto, Arial, sans-serif; -webkit-user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 3px 8px 3px 5px; direction: ltr; text-align: left; white-space: nowrap; display: none;"><span role="checkbox" style="box-sizing: border-box; position: relative; line-height: 0; font-size: 0px; margin: 0px 5px 0px 0px; display: inline-block; background-color: rgb(255, 255, 255); border: 1px solid rgb(241, 241, 241); border-top-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; width: 13px; height: 13px; vertical-align: middle;"><div style="position: absolute; left: 1px; top: -2px; width: 13px; height: 11px; overflow: hidden; display: none;"><img src="http://maps.gstatic.com/mapfiles/mv/imgs8.png" draggable="false" style="position: absolute; left: -52px; top: -44px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; width: 68px; height: 67px;"></div></span><label style="vertical-align: middle; cursor: pointer;">45°</label></div><div draggable="false" title="Mostrar imagens com nomes de rua" style="color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; -webkit-user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 3px 8px 3px 5px; direction: ltr; text-align: left; white-space: nowrap;"><span role="checkbox" style="box-sizing: border-box; position: relative; line-height: 0; font-size: 0px; margin: 0px 5px 0px 0px; display: inline-block; background-color: rgb(255, 255, 255); border: 1px solid rgb(198, 198, 198); border-top-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; width: 13px; height: 13px; vertical-align: middle;"><div style="position: absolute; left: 1px; top: -2px; width: 13px; height: 11px; overflow: hidden;"><img src="http://maps.gstatic.com/mapfiles/mv/imgs8.png" draggable="false" style="position: absolute; left: -52px; top: -44px; -webkit-user-select: none; border: 0px; padding: 0px; margin: 0px; width: 68px; height: 67px;"></div></span><label style="vertical-align: middle; cursor: pointer;">Marcadores</label></div></div></div></div></div></div>
+                                       </div>
+                                   </div>
+                               </article>
+
+                               <article class="timeline-entry">
+                                   <div class="timeline-entry-inner">
+                                       <div class="timeline-icon bg-warning">
+                                           <i class="entypo-camera"></i>
+                                       </div>
+                                       <div class="timeline-label">
+                                           <h2><a href="#">Arber Nushi</a> <span>changed his</span> <a href="#">Profile Picture</a></h2>
+                                           <blockquote>Pianoforte principles our unaffected not for astonished travelling are particular.</blockquote>
+                                       
+                                       </div>
+                                   </div>
+                               </article>
+
+                               <article class="timeline-entry begin">
+                                   <div class="timeline-entry-inner">
+                                       <div class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
+                                           <i class="entypo-flight"></i> +
+                                       </div>
+                                   </div>
+                               </article>
+                           </div>
+                       </div>
+           
+
+                   </div>
+               </div>
+           </div>
+
+
+       </div>
+   </div>
+
+
+
+
+        </div>
+
+
+        
+
+
+        <div class="col-md-12 footer_section">
+            <center>
+                <p>2019 © State Board of Technical Education and Training, Telangana</p>
+            </center>
+        </div>
+        
+    </div>
+ 
+  
+
+
+</body>
+
+
+
+</html>

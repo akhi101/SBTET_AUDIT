@@ -1,0 +1,113 @@
+﻿<style>
+    /*.pub_btn {
+        border-radius: 30px;
+        font-weight: bold;
+        margin-top:20px;
+    }
+    .hed_tcxt{
+        color:darkgreen;
+    }
+    .yt-container {
+        position: absolute;*/ /* Postion relative to section */
+    /* Make it full size ↓ */
+    /*bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        overflow: hidden;*/ /* Prevent video overflow */
+    /*pointer-events: none;*/ /* Prevent user interaction */
+    /*z-index: -2;*/ /* Make YouTube container underneath section content */
+    /*}
+
+    .yt-background {
+        position: absolute;*/ /* Postion relative to .yt-container */
+    /* center it ↓ */
+    /*top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);*/
+    /* make it full height ↓ */
+    /*height: 100%;
+    }*/
+
+    /* Make a hidden sizer SVG to take up full size of the .yt-background */
+    /*.yt-sizer {
+        display: inline-block;
+        width: auto;
+        max-width: none;
+        height: 100%;
+        border: none;
+        vertical-align: top;
+    }*/
+
+    .res_bg {
+        width: 600PX;
+        height: 440PX;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        /*margin-top:100px;*/
+        /*width: 50%;*/
+    }
+
+    .txt-center {
+        text-align: center;
+        color: darkgreen;
+    }
+
+    h1.text-center {
+        text-align: center;
+        font-family: cursive;
+        font-weight: 600;
+        color: #00ab1a;
+        background: -webkit-linear-gradient(rgb(197 4 255), rgb(0 231 237));
+        margin-top:20px;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    #clock {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: lightgrey;
+        margin: auto;
+        background-color: #923efa;
+    }
+    #seconds {
+        display: block;
+        /* width: 100%; */
+        margin: auto;
+        /* padding-top: 60px; */
+        padding: 10px;
+        text-align: center;
+        font-size: 20px;
+        color: #fff;
+    }
+</style>
+<div ng-controller="ReleasePolycetResultsController">
+    <!--<h3 class="text-center hed_tcxt">click below button to publish polycet 2022 results</h3>
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center"> <button class="btn btn-circle text-center btn-info pub_btn" ng-click="releaseresults()">publish results</button></div>
+    <div class="col-md-4"></div>-->
+    <div class="container">
+        <h1 class="text-center">Polycet 2024 Results Released</h1>
+        <img class="res_bg" src="/assets/img/Release_Results.gif" />
+        <div id="clock">
+            <span id="seconds">10</span>
+        </div>
+        <h4 class="txt-center">Please wait redirecting to Rank Card</h4>
+    </div>
+
+</div>
+<script>
+    timeLeft = 10;
+
+    function countdown() {
+        timeLeft--;
+        document.getElementById("seconds").innerHTML = String(timeLeft);
+        if (timeLeft > 0) {
+            setTimeout(countdown, 1000);
+        }
+    };
+
+    setTimeout(countdown, 1000);
+</script>

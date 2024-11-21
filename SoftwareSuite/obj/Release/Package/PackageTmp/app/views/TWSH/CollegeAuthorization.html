@@ -1,0 +1,144 @@
+﻿<style>
+    .gr-button {
+        float: none !important;
+    }
+
+    a.ExportToExcel {
+        color: #1f497d;
+        text-decoration: none;
+        font-size: 18px;
+        padding-right: 10px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .fa-file-excel:before {
+        content: "\f1c3";
+    }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .success-btn, .success-btn:hover, .success-success:focus {
+        background-color: #639829 !important;
+        color: #fff;
+        min-width: 30px;
+    }
+
+        .success-btn:hover {
+            color: #fff
+        }
+
+    .fail-btn, .fail-btn:hover, .fail-btn:focus {
+        background-color: #f5632d;
+        color: #fff;
+        min-width: 30px;
+    }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div ng-controller="CollegeAuthorizationController">
+    <div class="container">
+        <div class="spacer"></div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="alert text-center " ng-class="{'{{statusclass}}': showStatus}" ng-if="showStatus">
+                    {{StatusMessage}}
+                </div>
+            </div>
+            <div class="col-md-2 pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" title="Excel Download" ng-click="DownloadtoExcel('#tblParent')" style="margin-left:15px;font-size:16px">
+                    <i class="fa fa-file-excel"></i>
+                    Rejected Students
+                </a>
+            </div>
+            <div class="col-md-12 " ng-if="studDetailsfound">
+                <div class="cl-details">
+                    <h2>Authorization Details</h2>
+                </div>
+                <!--<div style="width:100%;text-align:center;">
+                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>-->
+                <div id="attendanceReport" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead class="sticky-header">
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                <th style="width: 5%" ng-click="sort('Sno')">Sno</th>
+                                <th style="width: 10%" ng-click="sort('Scheme')">Course</th>
+                                <th style="width: 7%" ng-click="sort('Scheme')">Grade Code</th>
+                                <th class="text-center" style="width: 20%" ng-click="sort('Semester')">Grade</th>
+
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Exam Batch</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Registered</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Approved</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('Rejected')">Rejected</th>
+                                <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Pending</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr title="Click to Open Details" ng-repeat="data in GetAppliedStudents" style="background-color:#fff!important;">
+                                <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                                <td style="width: 5%" ng-click="sort('Sno')">{{$index+1}}</td>
+                                <td>{{data.Course}}</td>
+                                <td>{{data.GradeCode}}</td>
+                                <td>{{data.GradeName}}</td>
+                                <td class="text-center">{{data.ExamBatch}}</td>
+                                <td class="text-center"><a ng-click="openStudentList(data.CourseId,data.GradeId,data.LanguageId,data.ExamBatch,0)">{{data.OnRoll}}</a></td>
+                                <td class="text-center"><a ng-click="openStudentList(data.CourseId,data.GradeId,data.LanguageId,data.ExamBatch,1)">{{data.Approved}}</a></td>
+                                <td class="text-center"><a ng-click="openStudentList(data.CourseId,data.GradeId,data.LanguageId,data.ExamBatch,3)">{{data.isrejected}}</a></td>
+                                <td class="pointer text-center">
+                                    <span ng-show="data.NeedToApprove > '0'">
+                                        <button class="btn-xs btn sm_btn fail-btn  ng-binding" ng-click="openStudentList(data.CourseId,data.GradeId,data.LanguageId,data.ExamBatch,2)"
+                                                data-toggle="tooltip" data-placement="top" title="Click to Open Details">
+                                            {{data.NeedToApprove}}
+                                        </button>
+                                    </span>
+                                    <span ng-show="data.NeedToApprove == '0'">
+                                        <button class="btn-xs btn success-btn sm_btn ng-binding" ng-click=noData()
+                                                data-toggle="tooltip" data-placement="top" title="Click to Open Details">
+                                            {{data.NeedToApprove}}
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="5">Total</td>
+                                <td class="text-center"><b>{{OnRoll}}</b></td>
+                                <td class="text-center"><b>{{Approved}}</b></td>
+                                <td class="text-center"><b>{{isrejected}}</b></td>
+                                <td class="text-center"><b>{{NeedToApprove}}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="loading">
+            <div class="sm-spacer"></div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="error">
+            <div class="col-md-12 no-results">
+                <h2>No Data</h2>
+                <img src="../../contents/img/Folder-Icon.svg" />
+            </div>
+        </div>
+    </div>
+</div>

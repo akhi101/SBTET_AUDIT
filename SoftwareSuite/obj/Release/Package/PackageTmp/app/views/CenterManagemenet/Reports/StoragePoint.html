@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> Storage Point </title>
+    <style type="text/css">
+        .control {
+            padding-left: 10px;
+            min-height: 680px !important;
+        }
+
+        .content-container-fluid > :first-child.row {
+            width: 100% !important;
+        }
+
+        .cols-sample-area {
+            min-width: 800px !important;
+            min-height: 706px !important;
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="SameManagementCollegeListController">
+        <div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b> Storage Point List </b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="margin-left:500px;">
+                                <div class="form-group">
+                                    <label for="sel1"> District :</label>
+                                    <select class="form-control" ng-model="PreExamManagement.DistrictID" id="DistrictID">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="PreExamManagement.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12" style="overflow-x: auto;">
+                                <div class="panel-body" style="overflow-x: auto;">
+                                    <center>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="PrintSameManagementCollegeList()">Show<span class="fa fa-print heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">EXIT<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr style="margin-top:20px;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

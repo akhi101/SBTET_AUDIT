@@ -1,0 +1,74 @@
+﻿<style>
+    td.Verify.pointer {
+        cursor: pointer;
+    }
+
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="ReAdmissionStudentListController" >
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Detained Student List </h5>
+                    <ol class="breadcrumb">
+                            <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li><a href="#!/Dashboard/AdmissionDashboard"> Admission Dashboard</a></li>
+                            <li><a href="#!/Dashboard/AdmissionDashboard/ReAdmission"> DetainedStudents</a></li>
+                        <li><a href="#!/Dashboard/AdmissionDashboard/ReAdmission/DetainedStudentList">Detained Student List</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+        <section class="">
+            <div class="container">
+                
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard/ReAdmission" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="col-md-12">
+                    <div class="scrollbox">
+                        <table class="table  ReAdmissionStudent-table table-fixed table-bordered  table-responsive scrollbox-content">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">S No.</th>
+                                    <th style="width: 10%" ng-click="sort('Academicyear')">Academic Year <i class="fa fa-fw fa-sort"></i></th>
+                                    <th style="width: 5%" ng-click="sort('Scheme')">Scheme </th>
+                                    <th style="width: 5%" ng-click="sort('Semid')">Semister</th>
+                                    <th style="width: 5%" ng-click="sort('BranchCode')">BranchCode </i></th>
+                                    <th style="width: 10%" ng-click="sort('Pin')">PIN <i class="fa fa-fw fa-sort"></i></th>
+                                    <th style="width: 10%" ng-click="sort('Name')">Name <i class="fa fa-fw fa-sort"></i></th>
+                                    <th style="width: 10%" ng-click="sort('FatherName')">Father Name</th>
+                                    <th style="width: 5%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in ResponseData">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{x.Academicyear == null ? '-' : x.Academicyear}}</td>
+                                    <td>{{x.Scheme == null ? '-' : x.Scheme}}</td>
+                                    <td>{{x.Semid == null ? '-' : x.Semid}}</td>
+                                    <td>{{x.BranchCode == null ? '-' : x.BranchCode}}</td>
+                                    <td>{{x.Pin == null ? '-' : x.Pin}}</td>
+                                    <td>{{x.Name == null ? '-' : x.Name}}</td>
+                                    <td>{{x.FatherName == null ? '-' : x.FatherName}}</td>
+                                    <td class="Verify pointer" ng-click="ReadmitStudent(x.Name, x.Pin, x.Semid)">Re-Admit</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+   </div>
+
+</body>
+</html>

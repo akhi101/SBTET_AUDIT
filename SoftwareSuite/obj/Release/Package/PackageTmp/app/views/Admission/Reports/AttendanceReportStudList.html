@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+   <style>
+       @media print {
+            .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+            float: left;
+        }
+
+        .col-md-12 {
+            width: 100%;
+        }
+
+        .col-md-11 {
+            width: 91.66666666666666%;
+        }
+
+        .col-md-10 {
+            width: 83.333333%;
+        }
+
+        .col-md-9 {
+            width: 75%;
+        }
+
+        .col-md-8 {
+            width: 66.66666666666666%;
+        }
+
+        .col-md-7 {
+            width: 58.333333333333336%;
+        }
+
+        .col-md-6 {
+            width: 50%;
+        }
+
+        .col-md-5 {
+            width: 41.66666666666667%;
+        }
+
+        .col-md-4 {
+            width: 33.33333333333333%;
+        }
+
+        .col-md-3 {
+            width: 25%;
+        }
+
+        .col-md-2 {
+            width: 16.666666666666664%;
+        }
+
+        .col-md-1 {
+            width: 8.333333333333332%;
+        }
+       }
+   </style>
+    <div ng-controller="AttendanceReportStudListController">
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Attendance Report</h5>
+                    <ol class="breadcrumb">
+                         <li><a href="#!/Dashboard/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                           <!--<li><a href="#!/Dashboard/AdmissionDashboard/AttendanceReport">Attendance Report</a></li>-->
+                        <li><a href="#!/Dashboard/AdmissionDashboard/AttendanceReport">Attendance Report</a></li>
+                        <li><a href="#!/Dashboard/AdmissionDashboard/AttendanceReport/Branchwise">Branch Wise</a></li>
+                    </ol>
+                </section>
+            </div>
+            <!-- breadcrumb Close -->
+        </div>
+        <section class="">
+            <div class="container">
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard/AttendanceReport" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="col-md-12">
+                    <div class="base-row">
+                        <div class="row">
+
+                            <div class="col-lg-6 ">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label>Search</label>
+                                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-6 ">
+                                <a id="ExportToExcel1" class="pointer pull-right" ng-click="DownloadtoExcel('#attendanceReport')">
+                                    Export to Excel<i class="fa fa-file-excel-o"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="cl-details">
+                                    <h2>Students Attendance Details</h2>
+                                </div>
+                                <div style="width:100%;text-align:center;">
+                                    <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                </div>
+                                <div id="attendanceReport" class="table-responsive table-custom-tables-tb" ng-show="showbrancwiseattdata">
+                                    <table class="table table-bordered  table-hover table-striped table-rounded">
+                                        <thead>
+                                            <tr class="cb-1">
+                                                <th style="width: 5%">Sc no</th>
+                                                <th style="width: 10%">Pin</th>
+                                                <th style="width: 10%">Name</th>
+                                                <th style="width: 10%">working Days</th>
+                                                <th style="width: 10%">Present</th>
+                                                <th style="width: 5%"> %</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr ng-click="GetStudentAttData(x.pin,x.name)" ng-repeat="x in filteredbranchData|orderBy:sortKey:reverse|filter:search">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{x.pin == null ? '-' : x.pin}}</td>
+                                                <td>{{x.name == null ? '-' : x.name}}</td>
+                                                <td>{{x.workingDays == null ? '-' : x.workingDays}}</td>
+                                                <td>{{x.no_of_dayspresent == null ? '-' : x.no_of_dayspresent}}</td>
+                                                <td>{{x.percentage.toFixed(2) == null ? '-' : x.percentage.toFixed(2)}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+      
+    </div>
+</body>
+</html>

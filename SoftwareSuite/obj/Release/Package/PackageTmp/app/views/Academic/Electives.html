@@ -1,0 +1,193 @@
+﻿<head>
+
+    <!--<script src="../../scripts/jspdf.min.js"></script>-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Electives</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        div#year {
+            width: -webkit-fill-available !important;
+        }
+
+        span {
+            color: white !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .label {
+            display: inline;
+            padding: .2em .6em .3em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            color: #3d7eaa !important;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+        }
+
+        input.largerCheckbox {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="ElectivesController">
+        <div class="clearfix"></div>
+        <div ng-show="CollegeID!=0">
+            <div class="">
+                <ui-view>
+                    <div class="breadcrumb-header">
+                        <!-- breadcrumb Open -->
+                        <div class="container">
+                            <section class="content-header">
+                                <h5>Branch Name: {{branch}}</h5>
+                                <ol class="breadcrumb">
+                                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                                    <li><a href="#!/Dashboard/Academic">Academic</a></li>
+                                    <li><a href="#!/Dashboard/Academic/Electives">Electives</a></li>
+
+                                </ol>
+                            </section>
+                        </div>
+                        <!-- breadcrumb Close -->
+                    </div>
+                    <section class="content">
+                        <div class="container ">
+                            <div class="col-md-12">
+                                <button class="btn bck_btn"><a href="#!/Dashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="label"> Exam Type:</label>
+                                    <select class="form-control" ng-model="SelectedStudent"
+                                            ng-options="Student.type for Student in StudentType"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="label">
+                                        Academic Year :
+                                    </label>
+                                    <div class='input-group' id='year'>
+                                        <input type='text' class="form-control" ng-model="years.AcademicYear" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="label" for="collegSelect"> Semester :</label>
+                                    <select class="form-control" ng-model="selectedsem" ng-change="LoadSchemeForSemester(selectedsem)"
+                                            ng-options="x.semester for x in sems">
+                                        <option value="" selected>Select Semester</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3" ng-hide="HideSession">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Session</label>
+                                    <select class="form-control" disabled id="selSession" ng-model="selSession" 
+                                            ng-options="ses.val as ses.session for ses in sessioninfo">
+                                        <option value="" selected>Select Session</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="btn btn-success pull-right" ng-click="loadsubjects(selectedsem,selSession)"> Get Details</button>
+                            </div>
+                        </div>
+
+                        <section class="content col-md-12">
+                            <div class="container dashboardContent">
+                                <div ng-show="true">
+                                    <div style="width:100%;text-align:center;">
+                                        <img src="../../../contents/img/loading2.gif" ng-show="LoadImgForSubject" width="100" />
+                                    </div>
+                                    <div class="col-md-12" ng-show="Electivesfound">
+                                        <div class="cl-details">
+                                            <h2>Elective Subject List</h2>
+                                        </div>
+
+                                        <div class="table-responsive table-custom-tables-tb">
+                                            <table class="table table-bordered table-hover table-striped table-rounded">
+                                                <thead>
+                                                    <tr class="cb-1">
+                                                        <th>S no</th>
+
+                                                        <th>Subject ID</th>
+                                                        <th>Subject Name</th>
+                                                        <th>Subject Code</th>
+                                                        <th>Elective Set</th>
+                                                        <th>ISActive</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in getSemSubjectsResponse">
+                                                        <td>{{$index+1}}</td>
+
+                                                        <td>{{x.Subid}}</td>
+                                                        <td>{{x.SubjectName}}</td>
+                                                        <td>{{x.Subject_code}}</td>
+                                                        <td>{{x.ElectiveSet}}</td>
+                                                        <td style="text-align:center">
+                                                            <div class="form-check">
+                                                                <input ng-model="x.active"  ng-change="change(x, x.active,$index)" type="checkbox" />
+                                                            </div>
+                                                        </td>
+
+
+
+                                                        <!--<!--<td><a class="Verify" ng-click="selectSubjectDetails(x)">Click here</a></td>-->
+                                                        <!--<tr ng-repeat-start="(key, val) in getSemSubjectsResponse">
+                                                               <td class="bott_border" rowspan="{{getSemSubjectsResponse.length+1}}">{{$index+1}}</td>
+                                                               <td class="bott_border" rowspan="{{getSemSubjectsResponse.length+1}}">{{val.ElectiveSet}}</td>
+                                                               <td class="bott_border" rowspan="{{getSemSubjectsResponse.length+1}}">{{key}}</td>
+                                                           </tr>S
+                                                           <tr ng-repeat-end ng-repeat="(key, val) in getSemSubjectsResponse">
+                                                               <td class="bott_border" >{{val.Subid}}</td>
+                                                               <td class="bott_border" >{{val.SubjectName}}</td>
+                                                               <td class="bott_border" >{{val.Subject_code}}</td>
+                                                           </tr>-->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" ng-if="valid">
+                                        <button class="btn btn-success pull-right"  style="margin-bottom:10px" ng-click="savedata()">Save</button>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div ng-show="!Electivesfound" class="no-results">
+                                            <img src="../../contents/img/Folder-Icon.svg" />
+                                            <h2>No Electives Found for the Selected Semester</h2>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+    </div>
+</body>
+
+

@@ -1,0 +1,44 @@
+﻿<div ng-controller="CreateSeatingListController">
+<div class="container">
+    <div class="sm-spacer"></div>
+    <div class="card">
+        <div class="row">
+
+            <div class="col-md-3"><button ng-click="addUser()" style="margin-bottom:10px;" class="btn btn-sm  btn-success">Add</button></div>
+        </div>
+        <section ng-repeat="user in studentfilearr ">
+            <section class="users-container-inputs">
+                <div class="row" id="userfile{{$index}}">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Examination Hall Name</label>
+                            <input class="form-control" type="text" id="studentFile{{$index}}" placeholder="Enter exam hall name" ng-blur="submit(HallNumber$index,rowNumber$index,rows$index,$index)"  ng-model="HallNumber$index" >
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Number of Rows in Hall</label>
+                            <input class="form-control" type="text" id="studentFile{{$index}}" placeholder="Enter Number of Rows in Exam Hall" ng-blur="submit(HallNumber$index,rowNumber$index,rows$index,$index)"    ng-model="rowNumber$index"  >
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Number of columns in Hall</label>
+                            <input class="form-control" type="text" placeholder="Enter number of columns in Exam Hall" id="studentFile{{$index}}" ng-blur="submit(HallNumber$index,rowNumber$index,rows$index,$index)"   ng-model="rows$index" >
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span>
+                            <button class="btn btn-sm btn-danger" style="margin-top:23px" ng-click="removeUser($index)" ng-disabled="DeleteDisable">Delete</button>
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <div class="col-md-12">
+            <button class="pull-right btn btn-success" ng-click="submit()">Submit</button>
+        </div>
+    </div>
+</div>
+</div>

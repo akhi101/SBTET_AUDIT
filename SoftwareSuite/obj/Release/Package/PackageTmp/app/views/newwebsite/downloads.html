@@ -1,0 +1,100 @@
+﻿<style>
+       .loadImg1{
+                height:380px;
+                width:570px;
+                /*position:relative;
+                top:100px;*/
+                }
+         table > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+<div ng-controller="DownloadsController">
+    <div class="pages-links">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+
+                        <li class="breadcrumb-item active" aria-current="page">Downloads</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--table start-->
+    <!---table end  -->
+
+    <div class="clearfix"></div>
+    <div class="inner-body">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="inner-heading">
+                        <h3>Downloads</h3>
+                    </div>
+                </div>
+                <div class="col-md-3" ng-show="data">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" class="form-control ng-pristine ng-untouched ng-valid ng-empty" placeholder="Search">
+                    </div>
+                </div>
+                <div class="col-sm-12" ng-show="data">
+                    <div class="table-responsive scrollbox">
+                        <table id="tableID"  class="table table-bordered table-hover scrollbox-content">
+                            <thead>
+                                <tr>
+                                    <th width="5%" ng-click="sort('Id')">S.No <i class="fa fa-fw fa-sort"></i></th>
+                                    <th width="10%" ng-click="sort('CircularType')">Circular Type <i class="fa fa-fw fa-sort"></i></th>
+                                    <th data-priority="1" ng-click="sort('Title')">Description <i class="fa fa-fw fa-sort"></i></th>
+                                    <th width="12%" ng-click="sort('NotificationDate')">Notification Date <i class="fa fa-fw fa-sort"></i></th>
+                                    <th data-priority="2" ng-click="sort('Url')" width="10%">Download <i class="fa fa-fw fa-sort"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in Downloads |limitTo: 100 |orderBy:sortKey:reverse|filter:search">
+                                    <td >{{$index+1}}</td>
+                                    <td>{{data.CircularType}}</td>
+                                    <td>{{data.Title}}</td>
+                                    <td>{{data.NotificationDate|date:'dd-MM-yyyy'}}</td>
+                                    <td>
+                                        <a href="{{data.Url}}" download>
+                                            <img class="img-responsive" height="50px" width="85px" src="assets/img/custom/download-button-155-48.svg">
+                                        </a>
+                                    </td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+             
+                <div class="col-md-12" ng-if="loading">
+                    <!--<div class="col-md-12 no-results">-->
+                        <!--<h2>No Data</h2>-->
+                     <center><img class="loadImg1" src="../../../contents/img/websiteloading.gif"></center> 
+                    <!--</div>-->
+                </div>
+                <div class="col-md-12" ng-if="error">
+                    <div class="col-md-12 no-results">
+                        <h2>No Data</h2>
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        /* Initialization of datatable */
+        $(document).ready(function() {
+            $('#tableID').DataTable({ });
+        });
+    </script>
+</div>

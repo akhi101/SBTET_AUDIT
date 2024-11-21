@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Download Hall Ticket </title>
+    <!--<style>
+        .print-cnt {
+            display: none;
+        }
+
+        .modal-body {
+            overflow-y: auto !important;
+        }
+        .modal-content {
+            height:auto !important;
+        }
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            #printThis {
+                padding: 0 0 0 30px;
+            }
+        }
+    </style>-->
+</head>
+<body>
+    <!--<script type="text/javascript">
+        document.getElementById("btnPrint").onclick = function () {
+            printElement(document.getElementById("printThis"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+    </script>-->
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <div ng-controller="DownloadHallTicketController">
+        <section id="main-content">
+            <!-- New Style Start-->
+            <div class="container">
+                <div class="row ctitle">
+                    <div class="col-md-2">
+                        <span><strong>Download HallTicket</strong></span>
+                    </div>
+                    <div class="col-md-10 text-right">
+                        <ol class="breadcrumb">
+                            <li>You are in </li>
+                            <li>Pre-Examination</li>
+                            <li>Download Hall Ticket </li>
+                        </ol>
+                    </div>
+                    <!--<div class="col-md-4" >
+                    <span>
+                        <strong>
+                            If you are unable to correct any NR Fields please
+                        </strong>
+                    </span>
+                    <button type="button" data-toggle="modal" data-target="#exampleModalVerify" class="btn btn-sm btn-primary">Write here</button>
+                </div> -->
+                </div>
+                <div class="row base-row">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label for="sel1">Course :</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select class="form-control" ng-model="HallTicketData.CourseID" id="CourseID" ng-change="FillCoursePart(HallTicketData.CourseID)">
+                                            <option ng-selected="HallTicketData.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="sel1">Year :</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select class="form-control" ng-model="HallTicketData.ExamID" id="ExamID">
+                                            <!--<option value="0">All</option>-->
+                                            <option ng-selected="HallTicketData.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="sel1">Group :</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select class="form-control" ng-model="HallTicketData.MainGrpID" id="MainGrpID" ng-change="changeGroup(HallTicketData.MainGrpID)">
+                                            <option value="">All Group</option>
+                                            <option ng-selected="HallTicketData.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="sel1">Medium :</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select class="form-control" ng-model="HallTicketData.MediumID" id="ExamID">
+                                            <option value="">All Medium</option>
+                                            <option ng-selected="HallTicketData.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <button type="button" ng-click="Show()" ng-disabled="AppDisable" class="btn btn-sm btn-detail">Show</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                            <div id="printThis" class="row">
+                                <table style="font-size:11px;" id="alldata" class="table table-striped">
+                                    <tr>
+                                        <th>Serial No.</th>
+                                        <th>Prev Reg Number</th>
+                                        <th>Student Name</th>
+                                        <th>Father Name</th>
+                                        <th>Mother Name</th>
+                                        <th>Gender</th>
+                                        <th>Group Name</th>
+                                        <th>Medium</th>
+                                        <th>Category</th>
+                                        <th>View</th>
+                                        <th>Download</th>
+                                    </tr>
+                                    <tr ng-repeat="x in ExamfeesData">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{ x.PREGNO }}</td>
+                                        <td>{{ x.CNAME }}</td>
+                                        <td>{{ x.FNAME }}</td>
+                                        <td>{{ x.MNAME }}</td>
+                                        <td>{{ x.SEX }}</td>
+                                        <td>{{ x.MainGrpName }}</td>
+                                        <td>{{ x.MEDIUM }}</td>
+                                        <td>{{ x.CAT }}</td>
+                                        <td><a class="mya" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalVerify" ng-click='ViewHallTicket(x)'> View HallTicket </a></td>
+<!--<td><form><input type="button" class="btn btn-sm btn-default" value="View" ng-click='ViewHallTicket(x)'></form></td>-->
+                                        <td><form><input type="button" class="btn btn-sm btn-primary" value="Download" ng-click='Download(x)'></form></td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <br /><br /><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="popupContainer" class="panel">
+            <div class="modal fade" id="exampleModalVerify" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="width:90%;">
+                    <div class="modal-content" style="width:90%; margin-left:5%;">
+                        <div class="modal-header">
+                            <div class="col-md-12 text-right">
+                                <button type="button" class=" btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <embed id="pdfviewer" src="" type="application/pdf" width="100%" height="500px" />
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

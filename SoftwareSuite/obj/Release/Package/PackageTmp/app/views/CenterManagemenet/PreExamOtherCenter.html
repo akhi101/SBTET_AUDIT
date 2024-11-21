@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Define Other/Extra Center</title>
+</head>
+<body>
+    <div ng-controller="PreExamOtherCenterController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Define Other/Extra Center</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Theory</li>
+                        <li>Define Other/Extra Center</li>
+                    </ol>
+                </div>
+            </div>
+            <div style="margin-top:20px;" class="row base-row">
+
+
+                <div class="showhide">
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-2">
+                            <div class="form-group">
+                                <label for="sel1">District :</label>
+                                <select class="form-control" ng-model="PreExamOtherCenter.DistrictID" id="DistrictID" ng-change="GetOtherCenterNewCode(PreExamOtherCenter.DistrictID)"  ng-disabled="districtDisable">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreExamOtherCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ManagementName">Code Of Other Center </label>
+                                <input type="text" class="form-control" id="NewCode" ng-model="PreExamOtherCenter.NewCode" maxlength="5" required="" placeholder="Code Of Other Exam Center">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ManagementName">Name Of Other Center </label>
+                                <input type="text" class="form-control" id="NameOfOtherCenter" ng-model="PreExamOtherCenter.NameOfOtherCenter" required="" placeholder="Name Of Other Exam Center">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ManagementName">Name Of Management </label>
+                                <input type="text" class="form-control" id="ManagementName" ng-model="PreExamOtherCenter.ManagementName" required="" placeholder="Name Of Management">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label for="email">Center Type </label>
+                                <input type="text" class="form-control" id="ColType" ng-model="PreExamOtherCenter.ColType" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <!--<div class="form-group">
+                                        <label for="CollegeTo"> Post Office Name</label>
+                                        <input type="text" class="form-control" id="PostOffice" ng-model="PreExamOtherCenter.PostOffice" required="" placeholder="Post Office">
+                                    </div>-->
+                                </div>
+                                <div class="col-md-5">
+                                    <!--<div class="form-group">
+                                        <label for="CollegeTo">PO Distance (in Km) </label>
+                                        <input type="text" class="form-control" id="DistancePost" ng-model="PreExamOtherCenter.DistancePost" required="" input-Number-Only placeholder="Distance">
+                                    </div>-->
+                                </div>
+                                <div class="col-md-7">
+                                    <!--<div class="form-group">
+                                        <label for="CollegeTo"> Police Station Name</label>
+                                        <input type="text" class="form-control" id="PoliceStation" ng-model="PreExamOtherCenter.PoliceStation" required="" placeholder="Police Station">
+                                    </div>-->
+                                </div>
+                                <div class="col-md-5">
+                                    <!--<div class="form-group">
+                                        <label for="CollegeTo"> PS Distance (in Km) </label>
+                                        <input type="text" class="form-control" id="DistancePolice" ng-model="PreExamOtherCenter.DistancePolice" required="" input-Number-Only placeholder="Distance">
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label for="ManagementName">Address </label>
+                                    <!--<input type="text" class="form-control" id="Address" ng-model="PreExamOtherCenter.Address" required="" placeholder="Address">-->
+                                    <textarea style="width:100%;" rows="2" id="Address" ng-model="PreExamOtherCenter.Address" required="" placeholder="Address"></textarea>
+                                </div>
+                                <div class="col-md-5 form-group">
+                                    <!--<label class="control-label"><input style="margin-right: 10px;" type="checkbox" ng-model="PreExamOtherCenter.SensiCompli" id="SensiCompli" ng-change="CheckSensiCompli(PreExamOtherCenter.SensiCompli)">Sensitive/Complicated </label>-->
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <!--<label class="control-label"><input style="margin-right: 10px;" type="checkbox" ng-model="PreExamOtherCenter.Vocational" id="Vocational" ng-change="CheckVocational(PreExamOtherCenter.Vocational)">Vocational </label>-->
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <!--<label class="control-label"><input style="margin-right: 10px;" type="checkbox" ng-model="PreExamOtherCenter.MinorSubject" id="MinorSubject" ng-change="CheckMinorSubject(PreExamOtherCenter.MinorSubject)">Minor Subjects</label>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreExamOtherCenter()">Save</button>
+                    <!--<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeletePreZone()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>-->
+                    <button type="reset" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeletePreExamOtherCenter()">Delete</button>
+                    <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <form action="#">
+                        <div id="PreExamOtherCenter" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                             e-datasource="PreExamOtherCenterList"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- New Style End-->
+        <!--<div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b> Define Other/Extra Center </b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-4" style="margin-left:350px;">
+                            <div class="form-group">
+                                <label for="sel1">District :</label>
+                                <select class="form-control" ng-model="PreExamOtherCenter.DistrictID" id="DistrictID">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreExamOtherCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ManagementName">Name Of Other Center </label>
+                                <input type="text" class="form-control" id="NameOfOtherCenter" ng-model="PreExamOtherCenter.NameOfOtherCenter" required="" placeholder="Name Of Other Exam Center">
+                            </div>
+                            <div class="form-group">
+                                <label for="ManagementName">Address </label>
+                                <!--<input type="text" class="form-control" id="Address" ng-model="PreExamOtherCenter.Address" required="" placeholder="Address">-->
+        <!-- <textarea class="form-control" id="Address" ng-model="PreExamOtherCenter.Address" required="" placeholder="Address"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ManagementName">Name Of Management </label>
+                <input type="text" class="form-control" id="ManagementName" ng-model="PreExamOtherCenter.ManagementName" required="" placeholder="Name Of Management">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4" style="margin-left:335px;">
+                        <label for="CollegeTo"> Post Office </label>
+                        <input type="text" class="form-control" id="PostOffice" ng-model="PreExamOtherCenter.PostOffice" required="" placeholder="Post Office">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="CollegeTo">Post Office Distance (in Km) </label>
+                        <input type="text" class="form-control" id="DistancePost" ng-model="PreExamOtherCenter.DistancePost" required="" placeholder="Distance">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4" style="margin-left:335px;">
+                <div class="form-group">
+                    <label for="CollegeTo"> Police Station </label>
+                    <input type="text" class="form-control" id="PoliceStation" ng-model="PreExamOtherCenter.PoliceStation" required="" placeholder="Police Station">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="CollegeTo"> Police Station Distance (in Km) </label>
+                    <input type="text" class="form-control" id="DistancePolice" ng-model="PreExamOtherCenter.DistancePolice" required="" placeholder="Distance">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="margin-left:150px;">
+            <div class="form-group">
+                <div style="padding-left:200px;">
+                    <label class="control-label"><input type="checkbox" ng-model="PreExamOtherCenter.SensiCompli" id="SensiCompli" ng-change="CheckSensiCompli(PreExamOtherCenter.SensiCompli)" style="margin-right: 4px;">Sensitive/Complicated </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="padding-left:200px;">
+                    <label class="control-label"><input type="checkbox" ng-model="PreExamOtherCenter.Vocational" id="Vocational" ng-change="CheckVocational(PreExamOtherCenter.Vocational)" style="margin-right: 4px;">Vocational </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="padding-left:200px;">
+                    <label class="control-label"><input type="checkbox" ng-model="PreExamOtherCenter.MinorSubject" id="MinorSubject" ng-change="CheckMinorSubject(PreExamOtherCenter.MinorSubject)" style="margin-right: 4px;">Minor Subjects</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="col-md-12 list_table" style="overflow-x: auto;">
+                <div class="panel-body" style="overflow-x: auto;">
+                    <div class="form-group text-center">
+                        <div class="form-group" style="text-align: center;">
+                            <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SavePreExamOtherCenter()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                            <!--<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeletePreZone()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>-->
+        <!--<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">Exit<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="panel-body form_border">
+                        <form action="#">
+                            <div id="PreExamOtherCenter" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                                 e-datasource="PreExamOtherCenterList"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

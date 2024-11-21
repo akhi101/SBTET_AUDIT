@@ -1,0 +1,109 @@
+﻿  
+<div ng-controller="MarksEntryController">
+     
+    <div class="clearfix"></div>
+    <div>
+        <div class="">          
+            <div class="breadcrumb-header">
+                <!-- breadcrumb Open -->
+                <div class="container">
+                    <section class="content-header">
+                        <h5>Branch Name : {{branch}}</h5>
+                        <ol class="breadcrumb">
+                            <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                            <li><a href="#!/Admission">Admission</a></li>
+                            <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                        </ol>
+                    </section>
+                </div>
+                <!-- breadcrumb Close -->
+            </div>
+            <section class="content">
+                <div class="container ">
+                    <div class="row base-row">
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    <label class="label" for="collegSelect">Academic Year :</label>
+                                </div>
+                                {{AcademicYearsActiveResponse.AcademicYear}}
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    <label class="label" for="collegSelect">Select Scheme :</label>
+                                </div>
+                                {{loadedScheme.Scheme}}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-5">
+                                    <label class="label" for="collegSelect">Select Semester :</label>
+                                </div>
+                                {{selectedsem.sem}}
+                            </div>
+                        </div>
+
+                        <!--subject Details -->
+                        <div ng-if="examName.examname == 'Internals'">
+                            <div class="col-md-12">
+                                <div class="cl-details">
+                                    <h2>{{pinWise[0].SubjectName}} Marks Entry</h2>
+                                </div>
+                                <div style="width:100%;text-align:center;">
+                                    <img src="../../contents/img/loading2.gif" ng-show="LoadImgForPinList" width="100" />
+                                </div>
+                                <div class="table-responsive table-custom-tables-tb" ng-show="subjectDetailsView">
+                                    <table class="table table-bordered table-hover table-striped table-rounded">
+                                        <thead>
+                                            <tr class="cb-1">
+                                                <th style="width: 1%;text-align: center">S no</th>
+                                                <th style="width: 2%;text-align: center">Pin</th>
+                                                <th style="width: 10%;text-align: center">Name</th>
+                                                <th style="width: 1%;text-align: center">Marks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in pinWise" ng-click="selectSubjectDetails(x)">
+                                                <td style="text-align: center">{{$index+1}}</td>
+                                                <td style="text-align: center">{{x.pin}} </td>
+                                                <td style="text-align: center">-</td>
+                                                <td style="text-align: center"><input  style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="3"   /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class ="row col-md-12" style="position: fixed;bottom: 0px;width: 100%;padding-bottom: 5px;padding-top: 5px;">                    
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-default">
+                                                Back
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6 pull-right">
+                                            <button type="submit" class="btn btn-primary">
+                                                Save
+                                            </button>
+                                            <button type="button" class="btn btn-success" ng-click="submit()">Submit</button>
+                                            <button type="button" class="btn btn-info" ng-click="submit()">Print</button>
+                                        </div>                                                
+                                    </div>                                       
+                                </div>
+                            </div>
+                        </div>                  
+                    </div>
+                </div>
+            </section>
+          
+        </div>
+    </div>
+
+    <!--<div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+    </div>-->
+</div>

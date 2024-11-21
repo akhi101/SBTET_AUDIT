@@ -1,0 +1,186 @@
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    /*   .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }*/
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-bottom: -20px;
+    }
+
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+</style>
+<div ng-controller="TwshExamCentresCourseWiseController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Exam Centers</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting"> TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/TwshExamCenters">TWSH Exam Centers</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/TwshExamCenters/TwshExamCentersCourseWise"> Course wise Exam Centers</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting/TwshExamCenters" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+    
+        <div class="col-md-12"  ng-show="Data">
+            <div class="cl-details">
+                <h2>Exam Centers list</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="getData.length>1">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center" style="width: 2%;">S.No</th>
+                            <th class="text-center">Academic Year</th>
+                            <th class="text-center">Exam Month Year</th>
+                            <th class="text-center">Exam Center Code</th>
+                            <th class="text-center">Exam Center Name</th>
+                            <th class="text-center">Grade Name</th>
+                            <th class="text-center">Course Available</th>
+                            <th class="text-center">Grade Strength</th>
+                            <th class="text-center" style="width:10%">Is Active</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getData" ng-click="openDetails(x)">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{data.AcademicYear}}</td>
+                            <td class="text-center">{{data.ExamMonthYear}}</td>
+                            <td class="text-center">{{data.ExaminationCenterCode}}</td>
+                            <td class="text-center">{{data.ExamCentre}}</td>
+                            <td class="text-center">{{data.GradeName}}</td>
+                            <td class="text-center">{{data.CourseAvailable==1 ? 'Yes' : 'No'}}</td>
+                            <td class="text-center">{{data.ExamStrength}}</td>
+                            <!--<td>
+
+                                <div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.ExamStrength" /></div>
+                            </td>-->
+                            <td class="text-center">{{data.Active==1 ? 'Yes' : 'No'}}</td>
+
+
+
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-click="EditCentres(data.ExamCentreCourseID)">
+                                    Edit
+                                </button>
+
+
+                            </td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="width:100%;text-align:center;">
+            <div class="loading">
+                <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+            </div>
+
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

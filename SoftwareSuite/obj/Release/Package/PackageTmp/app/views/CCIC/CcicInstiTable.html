@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Responsive table
+    </title>
+    <style>
+
+       
+        th, td, p, input {
+            font: 14px Verdana;
+        }
+
+        table, th, td {
+            border: solid 1px #000;
+            border-collapse: collapse;
+            padding: 5px 5px;
+            text-align: center;*/
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .th {
+            background-color: red;
+        }
+
+ 
+        .sm-spacer {
+            height: 50px;
+        }
+
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+            position: sticky;
+            top: 0px;
+        }
+
+        .heading{
+           text-align:center;
+        }
+    </style>
+
+
+</head>
+
+
+<body>
+
+    <div class="container" ng-controller="CcicInstiTableController">
+
+        <div class="heading">
+            <h2>Institutions List</h2>
+        </div>
+
+
+       
+
+       
+        <form class="form-inline">
+            <div class="form-group">
+                <label>Search</label>
+                <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                <div class="notifylabel pull-right" for="sel1" style="color: red; padding-left:700px;">Click on row to view details</div>
+
+            </div>
+        </form>
+            
+
+
+
+
+        <div class="table-responsive table-custom-tables-tb scrollbox">
+            <table id="tblParent" class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                <thead>
+
+
+                    <tr class="cb-2">
+
+                        <th style="text-align:center">District Name</th>
+                        <th>Institution Code</th>
+
+                        <th>Institution Name</th>
+
+                        <th style="text-align:center">Institution Address</th>
+                        <th style="text-align:center">Institution WebSite</th>
+
+
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    <tr class="" ng-click="ShowCourses(institution.InstitutionID)" ng-repeat="institution in Institutionslist| filter:search">
+
+                        <td>{{institution.DistrictName}}</td>
+                        <td>{{institution.InstitutionCode}}</td>
+                        <td>{{institution.InstitutionName}}</td>
+                        <td>{{institution.InstitutionAddress}}</td>
+                        <td>{{institution.InstitutionWebSite}}</td>
+
+
+
+
+
+
+                    </tr>
+
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

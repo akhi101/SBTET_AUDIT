@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Exam Forms Correction Approval</title> 
+</head>
+<body>
+    <div ng-controller="ExamFormsCorrectionApprovalListController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Forms Correction Approval</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Forms Correction Approval</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <!--<div class="col-md-2 form-group">
+                                <input class="form-control" type="text" id="search" ng-model="search" placeholder="Search...">
+                            </div>-->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select class="form-control" ng-model="ExamFormsCorrectionApprovalList.CourseID" id="CourseID" ng-change="NFillCoursePart(ExamFormsCorrectionApprovalList.CourseID)">
+                                        <option value="" selected>Select Stream</option>
+                                        <option ng-selected="ExamFormsCorrectionApprovalList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select class="form-control" ng-model="ExamFormsCorrectionApprovalList.ExamID" id="ExamID">
+                                        <option value="" selected>Select Year</option>
+                                        <option ng-selected="ExamFormsCorrectionApprovalList.ExamID == option.ExamID" ng-repeat="option in ExamListData" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" ng-click="Show()" ng-disabled="AppDisable" class="btn btn-sm btn-detail">Show</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-md-2">
+                                <label for="adno"> Selected Candidates : </label>
+                                <input type="text" class="form-control" id="TotalCondidate" ng-Model="ExamFormsCorrectionApprovalList.TotalCondidate" ng-readonly="true">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="adno"> Total Candidates : </label>
+                                <input type="text" class="form-control" id="TotalCondidateCount" ng-Model="ExamFormsCorrectionApprovalList.TotalCondidateCount" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>-->
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="sel1" style="color:red;"> To Approval/Reject Condidate please Double Click on Record</label>
+                                <div id="GridCorrectionApp"
+                                     ej-grid
+                                     e-recorddoubleclick="doubleclick"
+                                     e-allowgrouping="true"
+                                     e-allowsorting="true"
+                                     e-allowresizing="true"
+                                     e-datasource="ExamFormsApprovalData">
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <table style="font-size:11px;" id="alldata" class="table table-striped table-responsive">
+                                <tr>
+                                    <th>Sr.</th>
+                                    <th><input type="checkbox" ng-click='GetCheckStudentHeader(headercheck)' ng-model="headercheck" /></th>
+                                    <th>PRN No</th>
+                                    <th>Student Name</th>
+                                    <th>Category</th>
+                                    <th>Form Fee</th>
+                                    <th>Bridge Fee</th>
+                                    <th>Group[New]</th>
+                                    <th>Medium[New]</th>
+                                    <th>Second Lang.[New]</th>
+                                    <th>1st Yr Subjects</th>
+                                    <th>Modify 1st Yr Subjects</th>
+                                    <th>2nd Yr Subjects</th>
+                                    <th>Modify 2nd Yr Subjects</th>
+                                    <th></th>
+                                </tr>
+                                <tr ng-repeat="x in ExamFormsApprovalData | filter : search">
+                                    <td>{{ x.srno }}</td>
+                                    <td><input type="checkbox" ng-click='GetCheckStudent(x)' ng-model="x.CheckExmFrm"></td>
+                                    <td>{{ x.PRNNo }}</td>
+                                    <td>{{ x.StudName }}</td>
+                                    <td>{{ x.StudCatID }}</td>
+                                    <td>{{ x.FormFees }}</td>
+                                    <td>{{ x.BridgeCourseFees }}</td>
+                                    <td>{{ x.MainGrpName }}</td>
+                                    <td>{{ x.MediumName }}</td>
+                                    <td>{{ x.SubName }}</td>
+                                    <td>{{ x.FirstYearSubjects }}</td>
+                                    <td>{{ x.ModifyFirstYearSubjects }}</td>
+                                    <td>{{ x.SecondYearSubjects }}</td>
+                                    <td>{{ x.ModifySecondYearSubjects }}</td>
+                                    <td><form><input type="button" class="btn btn-sm btn-danger" value="SelectionPRN" ng-hide="x.SelectionPRN" ng-click='GetEditApproval(x.PRNNo)'></form></td>
+                                </tr>
+                            </table>
+                        </div>-->
+                        <!--<div class="row">
+                            <div class="col-md-2">
+                                <label for="adno"> Selected Candidates : </label>
+                                <input type="text" class="form-control" id="TotalCondidate" ng-Model="ExamFormsCorrectionApprovalList.TotalCondidate" ng-readonly="true">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="adno"> Total Candidates : </label>
+                                <input type="text" class="form-control" id="TotalCondidateCount" ng-Model="ExamFormsCorrectionApprovalList.TotalCondidateCount" ng-readonly="true">
+                            </div>
+                        </div>-->
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-click="FormsApproval()" class="btn btn-danger btn-sm">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

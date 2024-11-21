@@ -1,0 +1,275 @@
+﻿<style>
+    .table > thead:first-child > tr:first-child > th {
+        border-top: 0;
+        background-color: #98abb9;
+        color: #fff;
+    }
+
+    .table > thead:first-child > tr:first-child > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 1px solid #d8d8d8 !important;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
+    element.style {
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .myBtn1 {
+        margin-top: 23px;
+        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+    /**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+<script>
+
+
+//$("#datetimepicker4").datepicker({
+//    format: 'dd-mm-yyyy',
+//    autoclose: true,
+//    todayHighlight: true,
+//    showAnim: "slideDown"         
+
+//});
+</script>
+<div ng-controller="TwshExamDatesController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Exam Dates and Batches</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/InstituteRegistration">TWSH Exam Dates and Batches</a></li>
+                </ol>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+                    <div class="col-md-12 base-row">
+                        <div class="card">
+                            <form name="RegisterForm">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ExamType">
+                                            Month & Year :
+                                        </label>
+                                        <select class="form-control" name="monthYear" ng-model="ExamMonthYear" required>
+                                            <option value="" selected>Select Year Month</option>
+                                            <option ng-repeat="data in getExamYearMonth" value="{{data}}">
+                                                {{data.ExamMonthYear}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Course">
+                                            Course :
+                                        </label>
+                                        <select class="form-control" name="Course" ng-model="CourseIds" ng-change="ChangeCourse(CourseIds)" required>
+                                            <option value="" selected>Select Course</option>
+                                            <option ng-repeat="data in getCourses" value="{{data}}">
+                                                {{data.CourseName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                             
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ExamType">
+                                            Select no of  Batches :
+                                        </label>
+                                        <select class="form-control" name="monthYear" ng-model="Batch" required>
+                                            <option value="" selected>Select  Batch</option>
+                                            <option ng-repeat="data in ExamBatches" value="{{data.Id}}">
+                                                {{data.Batch}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button ng-show="!edit" class="btn btn-info" style="margin-top:32px;" type="submit" ng-click="RegisterForm.$valid && Add()">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sm-spacer"></div>
+                    <div class="sm-spacer"></div>
+                    <div class="sm-spacer"></div>
+                    <div class="sm-spacer"></div>
+     
+                    <div class="col-md-12" ng-show="array.length>0">
+                        <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                            <table class="table table-bordered  table-striped table-rounded">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Exam Month Year</th>
+                                        <th>Course</th>
+                                        <th>Exam Date </th>
+                                        <th>Batch</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr ng-repeat="data in array track by $index ">
+                                        <td>{{$index+1}}</td>
+                                        <td>{{data.ExamYearMonth}}</td>
+                                        <td>{{data.Course}}</td>
+                                        <td>
+                                            <div class='input-group'>
+                                                <input type="date" class="form-control" id='datetimepicker4' ng-model="data.ExamDate" name="FineDate" required />
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" name="monthYear" ng-model="data.BatchId" required>
+                                                <option value="" selected>Select Batch</option>
+                                                <option ng-repeat="data in GetBatches" value={{data.Id}}>
+                                                    {{data.BatchName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td><button class="btn btn-danger btn-xs" ng-click="Delete($index)">Delete</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <button ng-show="array.length>0" class="btn btn-info pull-right" style="margin-top:32px;" type="submit" ng-click="SaveDates()">Save</button>
+
+                        </div>
+                    </div>
+        <!--<div class="col-md-12">
+          
+        </div>-->
+        <div class="col-md-12"  ng-show="GetTwshExamDatesBatches.length>0">
+            <div class="cl-details">
+                <h2>TWSH Exam Dates and Batches</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="GetTwshExamDatesBatches.length>0">
+          
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%">S.No</th>
+                            <th style="">ExamYearMonth</th>
+                            <th style="">Course </th>
+                            <th width="16%">Exam Date </th>
+                            <th style="">Exam Batch</th>
+                           
+                            
+                            <th style="">Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dates in GetTwshExamDatesBatches track by $index ">
+                            <td style="width: 2%">{{$index+1}} </td>
+                            <td>
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="dates.ExamMonthYearId" name="iselective" style="width: min-content;"
+                                        ng-options="dat.Id as dat.ExamMonthYear for dat in getExamYearMonth">
+                                    <option value="" selected>Select </option>
+                                </select>
+
+                            </td>
+                            <td>
+
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="dates.CourseId" name="iselective" style="width: min-content;"
+                                        ng-options="dat.Id as dat.CourseName for dat in getCourses">
+                                    <option value="" selected>Select </option>
+                                </select>
+
+                            </td>
+                            <td>
+
+                                <input type="text"  style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" placeholder="DD-MM-YYYY" autocomplete="off" name="ExamDate{{$index + 1}}" ng-model="dates.ExamDate" />
+
+                            </td>
+                            <td>
+                              
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="dates.BatchNumber" name="iselective" style="width: min-content;"
+                                        ng-options="dat.Id as dat.BatchName for dat in GetBatches">
+                                    <option value="" selected>Select </option>
+                                </select>
+                            </td>
+                            <td style="width:15%">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditTwshDate(dates,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdateTwshDate(dates,$index+1)">
+                                    Update
+                                </button>
+                                <button class="btn-xs btn btn-danger" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Cancel($index+1)">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12"  ng-show="GetTwshExamDatesBatches.length==0">
+            <div  class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+        <div class="loading">
+            <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+        </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </div>

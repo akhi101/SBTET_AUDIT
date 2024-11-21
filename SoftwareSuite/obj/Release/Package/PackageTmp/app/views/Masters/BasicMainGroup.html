@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Group Subject </title>
+</head>
+<body>
+    <div ng-controller="BasicMainGroupController">
+        <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="heading_icon"></span><b> Main Group </b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" ng-show="false">
+                                            <label class=" control-label col-lg-2">MainGrpID :</label>
+                                            <div class="col-lg-1">
+                                                <input type="text" class="form-control" ng-model="BasicMainGroup.MainGrpID" id="MainGrpID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="ShortName">Stream:</label>
+                                            <select class="form-control" ng-model="BasicMainGroup.CourseID" id="CourseID" ng-change="GetExamList(BasicMainGroup.CourseID)">
+                                                <option value="">--Select stream --</option>
+                                                <option ng-selected="BasicMainGroup.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1">Exam:</label>
+                                            <select class="form-control" ng-model="BasicMainGroup.ExamID" id="ExamID" ng-disabled="DisableExamAndBranch">
+                                                <option value="">--Select Exam --</option>
+                                                <option ng-selected="BasicMainGroup.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">Branch</label>
+                                            <select class="form-control" ng-model="BasicMainGroup.BranchID" id="BranchID" ng-disabled="DisableExamAndBranch">
+                                                <option value=""> --Select Branch -- </option>
+                                                <option ng-selected="BasicMainGroup.BranchID == option.BranchID" ng-repeat="option in BasicBranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">Main Group Name </label>
+                                            <input type="text" class="form-control" no-Special-Char id="MainGrpName" ng-model="BasicMainGroup.MainGrpName" required="" placeholder="Enter Name" maxlength="20">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="MaxNumberofPaper">Max Number of Paper</label>
+                                            <input type="text" class="form-control" no-Special-Char id="MaxNoofPaper" input-Number-Only ng-model="BasicMainGroup.MaxNoofPaper" required="" placeholder="Enter Max No of Paper" maxlength="2">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="MinNumberofPaper"> Min Number of Paper </label>
+                                            <input type="text" class="form-control" no-Special-Char id="MainNoofPaper" input-Number-Only ng-model="BasicMainGroup.MainNoofPaper" required="" placeholder="Enter Min No of Paper" maxlength="2">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Code"> Code </label>
+                                            <input type="text" class="form-control" no-Special-Char id="Code" ng-model="BasicMainGroup.Code" required="" placeholder="Main Group " maxlength="3">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicMainGroup()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align delete_btn" ng-click="DeleteBasicMainGroup()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="button" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

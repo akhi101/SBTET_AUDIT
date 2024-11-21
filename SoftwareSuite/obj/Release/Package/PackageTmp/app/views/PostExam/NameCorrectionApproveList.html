@@ -1,0 +1,74 @@
+﻿<div ng-controller="NameCorrectionApproveListController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12" ng-show="Data">
+            <a class="ExportToExcel1 pointer pull-right"
+               id="ExportToExcel1" ng-click="DownloadtoExcel()" style="margin-top: 15px;">
+                <i class="fa fa-file-excel-o"></i>
+                Export to Excel
+            </a>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2>Name Correction Summary</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center">Scheme</th>
+                            <th class="text-center">Approval Pending</th>
+                            <th class="text-center">Approved</th>
+                            <!-- <th class="text-center">Send To College</th>-->
+                            <th class="text-center">Rejected</th>
+                            <th class="text-center">Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in ApprovalData" ng-click="openDetails(x.Id)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{x.Scheme}}</td>
+                            <td class="text-center" ng-click="ApprovePending(x.Scheme,x.ApprovalPending)"><a><b>{{x.ApprovalPending}}</b></a> </td>
+                            <td class="text-center " ng-click="ApprovedList(x.Scheme,x.Approved)"><a><b>{{x.Approved}}</b></a></td>
+                            <!-- <td class="text-center " ng-click="SendToCollege(x.Scheme)"><a>{{x.SentToCollege}}</a></td>-->
+                            <td class="text-center " ng-click="RejectedList(x.Scheme,x.Rejected)"><a><b>{{x.Rejected}}</b></a></td>
+                            <td class="text-center "><a>{{x.ApprovalPending+x.Approved+x.Rejected}}</a></td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center" colspan="2">Total</td>
+                            <td class="text-center">{{ApprovalPending}}</td>
+                            <td class="text-center">{{Approved}}</td>
+                            <!-- <td class="text-center">{{SentToCollege}}</td>-->
+                            <td class="text-center">{{Rejected}}</td>
+                            <td class="text-center">{{ApprovalPending+Approved+Rejected}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--<div class="loading">
+            <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+        </div>-->
+
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

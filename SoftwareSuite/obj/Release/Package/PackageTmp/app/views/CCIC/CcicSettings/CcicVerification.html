@@ -1,0 +1,284 @@
+﻿
+<!DOCTYPE html>
+<style>
+    span {
+        color: white !important;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Verification Report</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        span {
+            color: red;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .navbar_section {
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: -20px;
+        }
+
+        a.backA, a.backA:focus {
+            color: #fff !important;
+            text-decoration: none !important;
+            font-family: 'Open Sans';
+            font-size: 14px;
+            padding-right: 0px;
+            margin-right: 80px;
+        }
+
+        a {
+            color: #337ab7;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .breadcrumb-header {
+            background-color: #d8d8d8;
+            padding: 8px 0px;
+            margin-bottom: 20px;
+            font-family: 'Open Sans';
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="CcicVerificationController">
+
+        <div>
+            <div class="">
+                <ui-view>
+                    <div class="breadcrumb-header">
+                        <!-- breadcrumb Open -->
+                        <div class="container containercontent">
+                            <section class="content-header">
+                                <h5>Verification Report View </h5>
+                                <ol class="breadcrumb">
+                                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> CcicDashboard</a></li>
+                                    <li><a href="#!/CcicDashboard/Academic">Academic</a></li>
+                                </ol>
+                            </section>
+                        </div>
+                    </div>
+                    <section class="content">
+                        <div class="container containercontent">
+
+                            <button class="btn bck_btn"><a href="#!/CcicDashboard/Academic" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                            <div class="base-row" style="padding:15px!important;">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold"> Academic Year :</label>
+                                            <select class="form-control " ng-model="academicYear" name="AcademicYear" required>
+                                                <option value="" selected="selected">Select Year</option>
+                                                <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicAcademicYears" class="">
+                                                    {{data.AcademicYear}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold"> Batch:</label>
+                                        <select class="form-control" ng-model="batch" name="BatchType" required>
+                                            <option value="" selected="selected">Select Batch</option>
+                                            <option value=1>1</option>
+                                            <option value=2>2</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3 pull-left" ng-show="UserTypeID == 1 || UserTypeID == 4 || UserTypeID == 5 || UserTypeID == 6 ||
+            UserTypeID == 7 || UserTypeID == 8 || UserTypeID == 9 || UserTypeID == 10">
+                                        <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="getAdminVerReportCount(academicYear,batch)">
+                                            Get Details
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3 pull-left" ng-show="UserTypeID == 2">
+                                        <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="getInsVerReportCount(academicYear,batch)">
+                                            Get Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="VerificationReportCoursesTable">
+                                <div class="row base-row">
+
+                                    <div class="col-md-12 containercontent">
+                                        <div id="VerificationReportTable">
+                                            <div class="table-responsive table-custom-tables-tb" id="VerificationDetails">
+                                                <table class="table table-bordered table-rounded">
+                                                    <thead>
+                                                        <tr class="cb-1">
+                                                            <th>CourseCode</th>
+                                                            <th>Intake</th>
+                                                            <th>Enrolled</th>
+                                                            <th>Submitted</th>
+                                                            <th>Approved</th>
+                                                            <th>Pending</th>
+                                                            <th>Revised</th>
+                                                            <th>Rejected</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="Data in VerificationReportCoursesTable">
+
+                                                            <td>{{Data.CourseCode}}</td>
+                                                            <td>{{Data.Intake}}</td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,1)">{{Data.Enrolled == null ?'--':Data.Enrolled}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,2)">{{Data.Submitted == null ?'--':Data.Submitted}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,3)">{{Data.Approved == null ?'--':Data.Approved}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,4)">{{Data.Pending == null ?'--':Data.Pending}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,5)">{{Data.Revised == null ?'--':Data.Revised}}</a></b></td>
+                                                            <td><b><a class="Verify" ng-click="showDetails(Data.CourseID,6)">{{Data.Rejected == null ?'--':Data.Rejected}}</a></b></td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="AdminVerificationReportTable">
+                                <div class="row base-row">
+
+                                    <div class="col-md-12">
+                                        <div id="AdminVerificationReportTable">
+                                            <form class="form-inline">
+                                                <div class="form-group">
+                                                    <label>Search</label>
+                                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                                </div>
+                                            </form>
+                                            <label class="notifylabel" for="sel1" style="color: red;">Double Click on Row to get Courses Count Details</label>
+
+                                            <div class="table-responsive table-custom-tables-tb" id="VerificationDetails">
+                                                <table class="table table-bordered table-hover table-rounded">
+                                                    <thead>
+                                                        <tr class="cb-1">
+
+                                                            <th>InstitutionCode</th>
+                                                            <th>InstitutionName</th>
+                                                            <th>Enrolled</th>
+                                                            <th>Submitted</th>
+                                                            <th>Approved</th>
+                                                            <th>Pending</th>
+                                                            <th>Recommended</th>
+                                                            <th>Revised</th>
+                                                            <th>Rejected</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="Data in AdminVerificationReportInsCountTable" ng-dblclick="showAdminVerificationInsCount(Data.AcademicYearID,Data.Batch,Data.InstitutionID)|orderBy:sortKey:reverse|filter:search">
+
+                                                            <td>{{Data.InstitutionCode}}</td>
+                                                            <td>{{Data.InstitutionName}}</td>
+                                                            <td><b>{{Data.Enrolled}}</></b></td>
+                                                            <td><b>{{Data.Submitted}}</b></td>
+                                                            <td><b>{{Data.Approved}}</b></td>
+                                                            <td><b>{{Data.Pending}}</b></td>
+                                                            <td><b>{{Data.Recommended}}</b></td>
+                                                            <td><b>{{Data.Revised}}</b></td>
+                                                            <td><b>{{Data.Rejected}}</b></td>
+                                                        </tr>
+                                                        <tr style="font-weight:bold">
+                                                            <td colspan="2" class="text-centre" style="padding-left:300px">Total</td>
+                                                            <td>{{Enrolled}}</td>
+                                                            <td>{{Submitted}}</td>
+                                                            <td>{{Approved}}</td>
+                                                            <td>{{Pending}}</td>
+                                                            <td>{{Recommended}}</td>
+                                                            <td>{{Revised}}</td>
+                                                            <td>{{Rejected}}</td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-12 footer_section" ng-include="'app/views/CCIC/CCICFooter.html'"></div>
+
+</body>
+</html>

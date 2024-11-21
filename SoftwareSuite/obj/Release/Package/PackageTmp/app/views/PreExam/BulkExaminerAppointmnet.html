@@ -1,0 +1,52 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>Bulk Examiner Appointmnet</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam </li>
+                <li>Bulk Examiner Appointmnet</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="BulkExaminerAppointmnetController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="BulkExaminerAppointmnetForm" ng-submit="ProcessBulkExaminerAppointmnet()">
+                <div class="row">
+                    <div class="col-md-2">
+                        <sa-select ng-model="BulkExaminerAppointmnet.CourseID" object="BulkExaminerAppointmnet.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="BulkExaminerAppointmnet.EvalTypeID" object="BulkExaminerAppointmnet.EvalTypeID" options="basicEvalTypes" displaycolumn="EvalTypeName" valuecolumn="EvalTypeID" objectname="EvalTypeID" objecttext="Evaluation Type" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="BulkExaminerAppointmnet.CampusID" object="BulkExaminerAppointmnet.CampusID" options="basicCampusList" displaycolumn="CampusName" valuecolumn="CampusID" objectname="CampusID" objecttext="Campus" ng-show="campshow"> </sa-select>
+                        <sa-select ng-model="BulkExaminerAppointmnet.PrePractCntrID" object="BulkExaminerAppointmnet.PrePractCntrID" options="basicCampusList" displaycolumn="ColName" valuecolumn="PrePractCntrID" objectname="PrePractCntrID" objecttext="Center" ng-hide="campshow"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="BulkExaminerAppointmnet.ExaminerTypeID" object="BulkExaminerAppointmnet.ExaminarTypeID" options="basicExaminerTypes" displaycolumn="ExmTypName" valuecolumn="ExaminerTypeID" objectname="ExaminerTypeID" objecttext="Examiner Type" compulsory="true"> </sa-select>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <sa-date-rng ng-model="BulkExaminerAppointmnet.FromDate" object="BulkExaminerAppointmnet.FromDate" objectname="FromDate" objecttext="From Date" length="110" compulsory="true" ispascal="true"> </sa-date-rng>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-date-rng ng-model="BulkExaminerAppointmnet.ToDate" object="BulkExaminerAppointmnet.ToDate" objectname="ToDate" objecttext="To Date" length="110" compulsory="true" ispascal="true"> </sa-date-rng>
+                    </div>
+                    <div class="row">
+                        <div style="margin-top:22px;" class="col-md-2">
+                            <button type="submit" class="btn btn-detail btn-sm">Process</button>
+                            <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+</form>
+        </div>
+    </div>
+</div>

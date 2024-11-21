@@ -1,0 +1,191 @@
+﻿<style>
+    input[type=checkbox] {
+        margin: 4px 0 0;
+        width: 20px;
+        margin: 0px 10px !important;
+        padding: 0px 10px;
+        height: 20px;
+    }
+
+    .modal-content {
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: 0;
+    }
+
+    .modal-dialog {
+        width: 600px;
+        margin: 30px auto;
+    }
+
+    .modal-header {
+        padding: 15px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .modal-body {
+        position: relative;
+        padding: 15px;
+    }
+
+    .modal-footer {
+        padding: 15px;
+        text-align: right;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .close {
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        filter: alpha(opacity=20);
+        opacity: .2;
+    }
+
+    .fl-right {
+        /* float: right; */
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+        position: relative;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+        font-size: 15px !important;
+        color: #4747e3;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #0a8bfb;
+        border-color: #0886f3;
+    }
+</style>
+<div class="modal-content">
+    <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">View Details</h2>
+        <button type="button" class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form>
+            <strong class="course-label" style="font-size:20px">Task Date:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.TaskDate | date:'dd-MM-yyyy'}}
+            </span>
+            <hr>
+
+
+            <strong class="course-label" style="font-size:20px">User:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.UserName}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px">Project Name:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.ProjectName}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px">Task Type:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.TaskType}}
+            </span>
+            <hr>
+
+
+
+            <strong class="course-label" style="font-size:20px">Task Description:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.TaskDescription}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px">Task Date:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.FileNmae}}
+            </span>
+            <hr>
+
+            <strong class="course-label" style="font-size:20px">File Download:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                <button ng-click="DownloadFile()" title="Click here to Download" class="btn btn-xs download_btn"> <i class="fa fa-download" aria-hidden="true"></i></button>
+            </span>
+            <hr>
+
+            <strong style="font-size:20px" ng-show="DataType=='2' || DataType=='3' || DataType=='4'" class="course-label">Remarks:</strong>
+            <span class="text-muted word-break" style="font-size:20px">
+                {{EditData.Remarks}}
+            </span>
+            <hr ng-show="DataType=='2' || DataType=='3' || DataType=='4'">
+
+            <strong style="font-size:20px" ng-show="DataType=='2'" class="course-label">Approved Remarks:</strong>
+            <span style="font-size:20px" class="text-muted word-break">
+                {{EditData.WorkAssigned}}
+            </span>
+            <hr ng-show="DataType=='2'">
+
+            <strong style="font-size:20px" ng-show="DataType=='2'" class="course-label">Approved Date Time:</strong>
+            <span style="font-size:20px" class="text-muted word-break">
+                {{EditData.ApprovedDateTime}}
+            </span>
+            <hr ng-show="DataType=='2'">
+
+            <strong style="font-size:20px" ng-show="DataType=='3'" class="course-label">Work Assigned To:</strong>
+            <span style="font-size:20px" class="text-muted word-break">
+                {{EditData.WorkAssigned}}
+            </span>
+            <hr ng-show="DataType=='3'">
+
+            <strong style="font-size:20px" ng-show="DataType=='3'" class="course-label">Work Assigned DateTime:</strong>
+            <span style="font-size:20px" class="text-muted word-break">
+                {{EditData.WorkAssignedDateTime}}
+            </span>
+            <hr ng-show="DataType=='3'">
+
+            <strong style="font-size:20px" ng-show="DataType=='4'" class="course-label">Completed Remarks:</strong>
+            <span style="font-size:20px" class="text-muted word-break">
+                {{EditData.CompletedRemarks}}
+            </span>
+            <hr ng-show="DataType=='4'">
+
+            <strong style="font-size:20px" ng-show="DataType=='4'" class="course-label">Completion DateTime:</strong>
+            <span style="font-size:20px" class="text-muted word-break">
+                {{EditData.CompletionDateTime}}
+            </span>
+
+
+            <!--<div class="form-group" ng-show="DataType=='1'">
+        <label class="font-weight-bold">Remarks</label>
+        <div class="form-group">
+            <textarea type="text" rows="5" maxlength="200" class="form-control" placeholder="Enter Remarks" ng-model="Remarks" required></textarea>
+        </div>
+    </div>-->
+            <!--</div>-->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="row padRow">
+           
+            <div class="col-md-2 pull-right" ng-show="DataType=='1'|| DataType=='2' || DataType=='3' || DataType=='4'">
+                <button class="btn  btn-danger btn-css" ng-click="Close()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<style>
+    span {
+        color: white;
+    }
+</style>
+
+<div ng-controller="PinGeneratedReportController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Pin Generated Report</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/PinGeneratedReport">Pin Generated Report</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content" ng-if="userType == 1 || userType == 5 || userType == 1000 || userType == 1014 || userType == 1015 || userType == 1009 || userType == 1002 ||userType == 1007 || userType == 1013">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="search..."
+                               ng-model="searchtxt">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary search-btn" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-6 pull-right">
+                    <button type="button" class="btn btn-sm btn-primary dwl-button"
+                            id="ExportToExcel" ng-click="DownloadExcelResult('#downloadPinGeneratedReport')">
+                        Download Excel<span class="fa fa-download heading_icon btn_icons"></span>
+                    </button>
+                </div>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+            <div class="scrollbox" id="downloadPinGeneratedReport" ng-show="PinReportFound">
+                <table class="table table-hover PinGeneratedreport-table table-bordered  table-responsive scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%" ng-click="sort('Sno')">S No.</th>
+                            <th style="width: 5%" ng-click="sort('college_code')">College Code</th>
+                            <th style="width: 20%" ng-click="sort('college_name')">College Name</th>
+                            <th style="width: 10%" ng-click="sort('')">Intake</th>
+                            <th style="width: 10%" ng-click="sort('Alloted')">Alloted</th>
+                            <th style="width: 10%" ng-click="sort('PinGeneratedCount')">Pin Generated</th>
+                            <th style="width: 5%">Pin Generated %</th>
+                            <th style="width: 10%" ng-click="sort('AttendeeNotGeneratedCount')">AttendeeId not Generated</th>
+                            <th style="width: 10%">Principal Ph no</th>
+                            <th style="width: 10%">College Ph no</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in filteredData|orderBy:sortKey:reverse|filter:searchtxt">
+                            <td>{{x.Sno == null ? '-' : x.Sno}}</td>
+                            <td>{{x.college_code == null ? '-' : x.college_code}}</td>
+                            <td>{{x.college_name == null ? '-' : x.college_name}}</td>
+                            <td>{{x.intake == null ? '-' : x.intake}}</td>
+                            <td>{{x.Alloted == null ? '-' : x.Alloted}}</td>
+                            <td>{{x.PinGeneratedCount == null ? '-' : x.PinGeneratedCount}}</td>
+                            <td>{{x.PinGeneratedPerc == null ? '-' : x.PinGeneratedPerc}}</td>
+                            <td>{{x.AttendeeNotGeneratedCount == null ? '-' : x.AttendeeNotGeneratedCount}}</td>
+                            <td>{{x.Principal_number == null||x.Principal_number == ""  ? '-' : x.Principal_number}}</td>
+                            <td>{{x.College_number == null ||x.College_number == "" ? '-' : x.College_number}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>

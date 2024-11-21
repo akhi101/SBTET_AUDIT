@@ -1,0 +1,661 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<script src="../../scripts/jspdf.min.js"></script>-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admission</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="AdmissionController">
+        <header>
+            <div class="header" ng-include="'app/views/SBPHeader.html'"> </div>
+
+
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b> </a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Admission
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in programsList">
+                                                    <a ng-if="item.IsActive" ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+
+                                    <ul class="nav navbar-nav navbar-right log-navbar">
+                                        <li>
+                                            <a href="#">
+                                                Welcome <span id="college_name1">{{college_name1}}</span>
+                                                {{userName}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                                <i class="fa fa-sign-out fa-fw"></i>
+                                                Logout
+                                            </a>
+                                        </li>
+                                        <li ng-show="CollegeID!=0">
+                                            <a style="font-size:small" href="#" class="main_header_main_menu" ng-click="ChangePassword()">
+                                                <i class="fa fa-sign-out fa-fw"></i> Change
+                                                Password <span><b></b></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+
+        </header>
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <ui-view>
+                    <div class="breadcrumb-header">
+                        <!-- breadcrumb Open -->
+                        <div class="container">
+                            <section class="content-header">
+                                <h5>College Detail View</h5>
+                                <ol class="breadcrumb">
+                                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                                    <li><a href="#">College Detail View</a></li>
+                                </ol>
+                            </section>
+                        </div>
+                        <!-- breadcrumb Close -->
+                    </div>
+                    <section class="content">
+                        <div class="container ">
+                            <!--<div class="row ctitle">
+                                <div class="col-md-5">
+                                    <span><strong>College Detail View</strong></span>
+                                </div>
+                                <div class="col-md-7 text-right">
+                                    <ol class="breadcrumb">
+                                        <li>You are in </li>
+                                        <li>Home</li>
+                                        <li>College Detail View</li>
+                                    </ol>
+                                </div>
+                            </div>-->
+                            <div class="row base-row">
+                                <div class="col-md-6 col-md-offset-3 ">
+                                    <div class="form-group" ng-show="CollegeID==0">
+                                        <div class="col-md-3">
+                                            <label class="label" for="collegSelect">Select College :</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="CollegeName" ng-init="loadAdmissionData()" ng-model="college"  ng-change="loadAdmissionData()">                                               
+                                                <option ng-repeat="x in collegeinfo" value="{{x.CollegeCode}}" ng-selected="{{ x.Selected == true }}">
+                                                    {{x.CollegeCode}} - {{x.college_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div style="width:100%;text-align:center;">
+                                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>College Details</h2>
+                                    </div>
+
+                                    <div class="table-responsive table-custom-tables">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10%" class="cb-1">General</th>
+                                                    <td style="width: 25%" >
+                                                        {{hodData.Table[0].GeneralName}}
+                                                    </td>
+                                                     
+                                                    <td style="width: 15%" >
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td> Mobile: &nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].Phone}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td style="width: 20%" >
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td> Year: &nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Need To Get</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td style="width: 30%"  colspan="2">
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td> Email: &nbsp; </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].Email}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+
+                                                </tr>
+                                                <tr ng-show="SystemUserTypeId!=2">
+                                                    <th class="cb-1"> Address</th>
+
+                                                    <td>
+                                                        {{hodData.Table[0].Address}}
+                                                    </td>
+
+                                                    <td>
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>District: </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].District}}</td>
+                                                            </tr>
+                                                        </table>
+                                                            
+                                                    </td>
+                                                    <td>
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>Mandal:</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].Mandal}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+
+                                                    <td>
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>Contact: </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].Phone}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>Email: </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].Email}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+
+                                                </tr>
+                                                <tr ng-show="SystemUserTypeId!=2">
+                                                    <th class="cb-1">Bank Details</th>
+                                                    <td>
+                                                        <table>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].BankBranch}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>A/C No: </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].BankAcNo}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+
+                                                    <td>
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>IFSC Code:</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].BankIfsc}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+
+                                                    <td colspan="2">
+                                                        <table class="table table-bordered custom-table-divider">
+                                                            <tr>
+                                                                <td>Address:</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>{{hodData.Table[0].BankAddress}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+
+
+
+
+
+
+
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    <div class="cl-details">
+                                        <h2>Student Details</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>Scheme</th>
+                                                    <th>Semester</th>
+                                                    <th>Branch</th>
+                                                    <th>Intake</th>
+                                                    <th>Allotted</th>
+                                                    <th>Reported</th>
+                                                    <th>Data Status</th>
+                                                    <th>Aadhar Verified</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in hodData.Table1">
+                                                    <td>{{x.Scheme}}</td>
+                                                    <td>{{x.Semester}}</td>
+                                                    <td>{{x.Branch}}</td>
+                                                    <td>{{x.Intake}}</td>
+                                                    <td>{{x.Allotted}}</td>
+                                                    <td>{{x.Reported}}</td>
+                                                    <td>{{x.DataStatus}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">Total</td> 
+                                                    <td>0</td>
+                                                    <td>0</td>
+                                                    <td>0</td>
+                                                    <td>0</td>
+                                                    <td>0</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="cl-details">
+                                        <h2>Attendance Details</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>Scheme</th>
+                                                    <th>Semester</th>
+                                                    <th>Branch</th>
+
+                                                    <th>No.of Students</th>
+                                                    <th>No.of Students less than 65%</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 hidden">
+                                    <div class="cl-details">
+                                        <h2>Result Details</h2>
+                                    </div>
+                                    <div class="table-responsive table-custom-tables-tb">
+                                        <table class="table table-bordered table-hover table-striped table-rounded">
+                                            <thead>
+                                                <tr class="cb-1">
+                                                    <th>Scheme</th>
+                                                    <th>Semester</th>
+                                                    <th>Branch</th>
+                                                    <th>No.of Students Attempted</th>
+                                                    <th>No.of Students Passed</th>
+                                                    <th>Pass %</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+                                                    <td>567</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>123</td>
+                                                    <td>345</td>
+                                                    <td>567</td>
+                                                    <td>567</td>
+
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row hidden">
+                                    <div class="col-md-6">
+                                        <div class="ci-details">
+                                            <span><strong> <i class="fa fa-graduation-cap" aria-hidden="true"></i> College:</strong> <span id="college_name1">{{CollegeInfo.college_name1}}</span> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ci-details">
+                                            <span><strong> <i class="fa fa-user" aria-hidden="true"></i> Principal Name:</strong> <span id="address">{{CollegeInfo.principal_name}}</span> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ci-details">
+                                            <span><strong><i class="fa fa-phone-square" aria-hidden="true"></i> Phone:</strong> <span id="address">{{CollegeInfo.principal_mobile_no}}</span> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="row">
+                                    <div class="col-md-12"><hr></div>
+                                </div>-->
+
+                                <div class="boxes hidden">
+                                    <div class="items">
+                                        <div class="item">
+                                            <div class="border-text border-cyan-dark pointer">
+                                                <h5 class="bold uppercase">Address</h5>
+                                            </div>
+                                            <div class="decoration"></div>
+                                            <ul>
+                                                <li><p class="cp">{{CollegeInfo.address}}</p></li>
+                                                <li><p class="cp"><strong>District:</strong> {{CollegeInfo.district_name}}</p></li>
+                                                <li><p class="cp"><strong>Mandal:</strong> {{CollegeInfo.mandal}}</p></li>
+                                                <li><p class="cp"><strong>Phone:</strong> {{CollegeInfo.telephone_no}}</p></li>
+                                                <li><p class="cp"><strong>Email:</strong> {{CollegeInfo.clg_email_id}}</p></li>
+                                            </ul>
+
+
+
+
+
+                                        </div>
+                                        <div class="item">
+                                            <div class="border-text border-light-blue pointer">
+                                                <h5 class="bold uppercase">Type</h5>
+                                            </div>
+                                            <div class="decoration"></div>
+
+                                            <ul>
+                                                <li><p id="year_of_starting" class="cp"><strong>College Type:</strong> {{CollegeInfo.clg_type}}</p></li>
+                                                <li><p id="second_lang" class="cp"><strong>College Category:</strong> {{CollegeInfo.CatName}}</p></li>
+                                            </ul>
+
+
+
+
+
+                                        </div>
+                                        <div class="item">
+                                            <div class="border-text border-light-green pointer">
+                                                <h5 class="bold uppercase">Status</h5>
+                                            </div>
+                                            <div class="decoration"></div>
+                                            <ul>
+                                                <li><p id="year_of_starting" class="cp"><strong>Running Status:</strong> {{CollegeInfo.runningStatus}}</p></li>
+                                                <li><p id="year_of_starting" class="cp"><strong>Starting Year:</strong> {{CollegeInfo.year_of_starting}}</p></li>
+                                                <li><p id="college_name1" class="cp"><strong>College Code:</strong> {{CollegeInfo.college_code}}</p></li>
+                                            </ul>
+
+                                        </div>
+                                        <div class="item">
+                                            <div class="border-text border-light-pink pointer">
+                                                <h5 class="bold uppercase">Bank Detail</h5>
+                                            </div>
+                                            <div class="decoration"></div>
+                                            <ul>
+
+                                                <li><p class="cp"><strong>College Bank name:</strong> {{CollegeInfo.clg_bank_name}}</p></li>
+                                                <li><p class="cp"><strong>A/C No:</strong> {{CollegeInfo.bank_account_no}}</p></li>
+                                                <li><p class="cp"><strong>IFSC Code:</strong> {{CollegeInfo.ifsc_code}}</p></li>
+                                                <li><p class="cp"><strong>Branch Address:</strong> {{CollegeInfo.bank_branch}}, {{CollegeInfo.branch_address}}</p></li>
+
+                                            </ul>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row hidden ">
+                                    <div id="address" class="col-md-3">
+                                        <div class="card">
+                                            <div class="ci-info">
+                                                <h3 class="ch3"> Address </h3>
+                                                <p class="cp">{{CollegeInfo.address}}</p>
+                                                <p class="cp"><strong>District:</strong> {{CollegeInfo.district_name}}</p>
+                                                <p class="cp"><strong>Mandal:</strong> {{CollegeInfo.mandal}}</p>
+                                                <p class="cp"><strong>Phone:</strong> {{CollegeInfo.telephone_no}}</p>
+                                                <p class="cp"><strong>Email:</strong> {{CollegeInfo.clg_email_id}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="ci-info">
+                                                <h3 class="ch3">Type </h3>
+                                                <p id="year_of_starting" class="cp"><strong>College Type:</strong> {{CollegeInfo.clg_type}}</p>
+                                                <p id="second_lang" class="cp"><strong>College Category:</strong> {{CollegeInfo.CatName}}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card">
+                                            <div class="ci-info">
+                                                <h3 class="ch3">Status </h3>
+                                                <p id="year_of_starting" class="cp"><strong>Running Status:</strong> {{CollegeInfo.runningStatus}}</p>
+                                                <p id="year_of_starting" class="cp"><strong>Starting Year:</strong> {{CollegeInfo.year_of_starting}}</p>
+                                                <p id="college_name1" class="cp"><strong>College Code:</strong> {{CollegeInfo.college_code}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="clg_bank_name" class="col-md-3">
+                                        <div class="card">
+                                            <div class="ci-info">
+
+                                                <h3 class="ch3">Bank Detail </h3>
+                                                <p class="cp"><strong>College Bank name:</strong> {{CollegeInfo.clg_bank_name}}</p>
+                                                <p class="cp"><strong>A/C No:</strong> {{CollegeInfo.bank_account_no}}</p>
+                                                <p class="cp"><strong>IFSC Code:</strong> {{CollegeInfo.ifsc_code}}</p>
+                                                <p class="cp"><strong>Branch Address:</strong> {{CollegeInfo.bank_branch}}, {{CollegeInfo.branch_address}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                    </div>
+                                </div>-->
+                                <div class="row hidden">
+                                    <div class="col-md-12">
+                                        <h3 class="ch3">Section Detail</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="CollegeRegs"
+                                             ej-grid
+                                             e-allowgrouping="true"
+                                             e-allowsorting="true"
+                                             e-allowresizing="true"
+                                             e-datasource="CollegeInfoData">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </ui-view>
+            </div>
+        </div>
+
+       
+
+    </div>
+    <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'"></div>
+    <!--<script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successful.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+    </script>-->
+</body>
+</html>

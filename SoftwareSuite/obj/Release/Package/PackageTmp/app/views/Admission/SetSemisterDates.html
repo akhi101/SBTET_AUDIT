@@ -1,0 +1,152 @@
+﻿<div ng-controller="SetSemisterDatesController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Semister Dates</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/FeePayment"> Fee Payment</a></li>
+                    <li><a href="#!/Dashboard/FeePayment/SetDates">Set Fee Payment Dates</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+
+    <div class="container">
+        <form name="SetDatesForm" ng-submit="submit()">
+            <div class="">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">
+                                Academic Year :
+                            </label>
+                            <div id='year'>
+                                <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Semester:</label>
+                            <div class="">
+                                <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="current_schemeid" ng-change="LoadExamType(current_schemeid)">
+                                    <option value="" selected>Select Semester</option>
+                                    <option ng-repeat="sem in ActiveSemesters" value="{{sem.semid}}">
+                                        {{sem.semester}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="datetimepicker1" class="font-weight-bold">Start Date :</label>
+                        <div class='input-group date'>
+                            <input type='date' class="form-control" id='datetimepicker1' ng-model="StartDate" min="{{today}}" ng-change="SetEndDate(StartDate)" name="StartDate" required />
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <span ng-show="SetDatesForm.StartDate.$dirty && SetDatesForm.StartDate.$invalid">
+                            <span ng-show="hasError('StartDate', 'required')">Start Date no is required</span>
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group ">
+                            <label for="datetimepicker2" class="font-weight-bold">End Date :</label>
+                            <div class='input-group'>
+                                <input type='date' class="form-control" id='datetimepicker2' ng-model="EndDate" min="{{enD}}" ng-disabled="endDisable" name="EndDate" ng-change="SetFineDate(EndDate)" required />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            <span ng-show="SetDatesForm.EndDate.$dirty && SetDatesForm.EndDate.$invalid">
+                                <span ng-show="hasError('EndDate', 'required')">End Date no is required</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+               
+
+            <div class="row">
+
+              
+               
+                <div class="col-md-3">
+                    <div class="form-group ">
+                        <label for="datetimepicker3" class="font-weight-bold">Fee Amount :</label>
+                        <div id='Fineamount'>
+                            <input type='text' class="form-control" ng-model="feeAmount" autocomplete="off" name="Fineamount" required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-detail">
+                        Set Dates
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="" ng-show="result">
+            <div class="cl-details">
+                <h4>Fee Payment Dates</h4>
+
+            </div>
+            <div class="scrollbox">
+                <table class="table   table-fixed table-bordered  table-responsive scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%">S No.</th>
+                            <th style="">Semester</th>
+                            <th style="">Student Type</th>
+                            <th style="">From Date </th>
+                            <th style="">Last Date Without Fine</th>
+                            <th style="">Last Date With Fine </th>
+                            <th style="">Tatkal Last Date</th>
+                            <th style="">Fee </th>
+                            <th style="">Late Date Fee </th>
+                            <th style="">Tatkal Fee</th>
+                            <th style="">Condonation Fee </th>
+                            <th style="">PAD </th>
+                            <th style="">MWD </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dates in FeeDates">
+                            <td style="width: 2%">{{$index+1}} </td>
+                            <td>{{dates.Semester==null ||dates.Semester==undefined ? '-' :dates.Semester}}</td>
+                            <td>{{dates.StudentType==null ||dates.StudentType==undefined ? '-' :dates.StudentType}}</td>
+                            <td>{{dates.FromDate==null ||dates.FromDate==undefined ? '-' :dates.FromDate | date :  "dd-MMM-yyyy HH:mm"}}</td>
+                            <td>{{dates.ToDate==null ||dates.ToDate==undefined ?'-' :dates.ToDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                            <td>{{dates.FineDate==null ||dates.FineDate==undefined ? '-' :dates.FineDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                            <td>{{dates.TatkalDate==null ||dates.TatkalDate==undefined ? '-' :dates.TatkalDate| date :  "dd-MMM-yyyy HH:mm"}}</td>
+                            <td>{{dates.Fee==null ||dates.Fee==undefined ? '-' :dates.Fee}}</td>
+                            <td>{{dates.LateFee==null ||dates.LateFee==undefined ? '-' :dates.LateFee}}</td>
+                            <td>{{dates.TatkalFee==null ||dates.TatkalFee==undefined ? '-' :dates.TatkalFee}}</td>
+                            <td>{{dates.CondonationFee==null ||dates.CondonationFee==undefined ? '-' :dates.CondonationFee}}</td>
+                            <td>{{dates.PresemptiveAttendedDays==null ||dates.PresemptiveAttendedDays==undefined ? '-' :dates.PresemptiveAttendedDays}}</td>
+                            <td>{{dates.MaxWorkingDays==null ||dates.MaxWorkingDays==undefined ? '-' :dates.MaxWorkingDays}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Noresult" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+</div>

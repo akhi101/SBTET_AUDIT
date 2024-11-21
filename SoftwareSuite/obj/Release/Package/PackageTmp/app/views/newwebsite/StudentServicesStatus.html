@@ -1,0 +1,153 @@
+﻿<div ng-controller="StudentServicesStatusController">
+    <div class="sm-spacer"></div>
+    <div class="container">
+
+
+        <!--<div class="col-md-12" ng-show="serviceform">
+        <button class="btn bck_btn"><a href="#/Dashboard/Diploma" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+    </div>-->
+        <div class="col-md-12 ng-scope">
+            <div class="cl-details">
+                <h2>Student Services Status </h2>
+                <!--<div class="loader"></div>-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form name="StudentRequestForm">
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="font-weight-bold">Services :</label>
+                                    <select class="form-control" ng-disabled="Service" ng-model="CertificateType" ng-change="changeCertificate()" name="CertificateType">
+                                        <option value="" selected>Select Service</option>
+                                        <option ng-repeat="data in CertificateTypes" value="{{data}}">
+                                            {{data.Name}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="font-weight-bold">PIN :</label>
+                                    <div id="PinNumber">
+                                        <input type='text' class="form-control" ng-model="PinNumber" autocomplete="off" name="PinNumber" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="sel1">
+                                    Enter Captcha :
+                                </label>
+                                <input class="form-control" type="text" placeholder="Enter Captcha" ng-keypress="keyLogin($event)" autocomplete="off" style="padding: 6px 12px;display: inline-block; border: 1px solid #ccc; border-radius: 4px;
+                                    box-sizing: border-box;" id="cpatchaTextBox" ng-model="stsercaptcha" />
+
+
+                            </div>
+
+                            <div class="col-md-12 ">
+
+                            </div>
+
+                            <!--<div class="col-md-12 ">
+                            <div class="">
+                                <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
+                                    Get Details
+                                </button>
+                            </div>
+                        </div>-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8"></div>
+                            <div id="captcha" class="col-md-2"><canvas id="captcha" width="120" height="40"></canvas></div>
+                            <div class="col-md-1" style="padding-top:15px;margin-left: -80px;"><a ng-click="createCaptcha();" title="Please click here to reload captcha"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+                            <div class="col-md-1">
+                                <div class="">
+                                    <button class="btn btn-success pull-right" style="margin-top: 23px!important;" ng-click="StudentRequestForm.$valid && save(PinNumber)">
+                                        Get Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 ng-scope" ng-show="result">
+            <div class="cl-details">
+                <h2>Student Details</h2>
+            </div>
+        </div>
+        <form name="results">
+            <div class="col-md-12" >
+                <div class="card">
+                   
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">PIN</div>
+                        <div class="col-md-6">: {{userData.Pin}}</div>
+
+                    </div>
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Name</div>
+                        <div class="col-md-6">: {{userData.Name}}</div>
+
+                    </div>
+                   
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Father Name</div>
+                        <div class="col-md-6">: {{userData.FatherName == null ? '-': userData.FatherName}}</div>
+
+                    </div>
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Gender</div>
+                        <div class="col-md-6">
+                            : <span class="fSize" ng-if="userData.Gender=='M'">Male</span>
+                            <span class="fSize" ng-if="userData.Gender=='F'">Female</span>
+                        </div>
+
+                    </div>
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Mother Name</div>
+                        <div class="col-md-6">
+                            :{{userData.Mothername == null|| userData.Mothername == ""?"-":userData.Mothername}}
+                            <!--<input type="text" placeholder="Enter Mother Name" ng-model="userData.Mothername" class="upld-file">-->
+
+                        </div>
+                    </div>
+                  
+
+
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Total Marks</div>
+                        <div class="col-md-6">: {{userData.TotalMarksInFigure}}</div>
+
+                    </div>
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Percentage</div>
+                        <div class="col-md-6">: {{userData.PercentageOfMarks}}</div>
+
+                    </div>
+                    <div class="row userRow" >
+                        <div class="col-md-4 font_bold">Class</div>
+                        <div class="col-md-6">: {{userData.Class}}</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" ng-show="result">
+                <!--    <button class="btn  pull-right  btn-success" ng-click="Submit()">Submit</button>-->
+            </div>
+            <div class="col-md-6" ng-show="result">
+                <button class="btn  pull-right  btn-success" ng-disabled="ProceedDisable" ng-click="Proceed()">
+                    <span ng-show="!loader">Proceed</span>
+                    <span ng-show="loader"><div class="loader"> </div></span>
+                </button>
+            </div>
+        </form>
+    </div>
+    </div>

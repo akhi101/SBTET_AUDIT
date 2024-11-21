@@ -33,16 +33,7 @@
             College_Code: '',
             College_Name: '',
             BranchCode: '',
-            //PaymentUrl: 'http://202.62.85.194:82/frmPaymentService',
-            PaymentUrl: 'http://localhost:25490/frmPaymentService',
-            QRString: 'http://192.168.1.98/#!/StudentOnlineRequest/VerifySign/',
-            DigiSign: 'http://192.168.1.98:84/sign/Index?PDFFileName=',
-            NRApproval: 'http://localhost:53254/sign/Index1?prnno=',
-            PreZoneDigiSign: 'http://localhost:53254/sign/PreZone?',
             LoadingImage: '../../../contents/img/loading2.gif',
-            QPpwd: 'TSBIE@321',
-            QPUname: 'admin',
-            QPEnPwd: '123456'
         };
     });
 });

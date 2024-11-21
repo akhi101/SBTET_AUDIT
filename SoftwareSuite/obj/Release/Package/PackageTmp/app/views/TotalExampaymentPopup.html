@@ -1,0 +1,148 @@
+﻿<style>
+    label{
+        font-size:13px;
+        font-weight:bold;
+    }
+</style>
+
+<div class="modal-header ">
+    <h4 class="modal-title text-center" >
+        <b>Verify the Payment Details before you Proceed</b>
+        <!--<button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>-->
+    </h4>
+</div>
+<div class="modal-body">
+    <div>
+
+        <div class="row" ng-if="isShowResults">
+            <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width: 2%;">S.No</th>
+                            <th ng-click="sort('Scheme')">Pin</th>
+                            <th class="" ng-click="sort('Semester')">Student Name</th>
+                            <th class="" ng-click="sort('Semester')">Phone Number</th>
+                            <!--<th class="text-center" style="width: 10%" ng-click="sort('Branch')">(TAD +PAD)/90 *100 %</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('Branch')">Actual Attendance %</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Exam Fee (Rs)</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Condonation Fee (Rs)</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Penalty Fee(Rs)</th>
+                            <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Tatkal Fee (Rs)</th>-->
+                            <th class="text-left" style="width: 10%" ng-click="sort('On Roll')">Total Fee (Rs)</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="x in PaymentStudent">
+                            <td class="text-left">{{$index + 1}}</td>
+                            <td class="text-left">{{x.Pin}}</td>
+                            <td class="text-left">{{x.Name}}</td>
+                            <td class="text-left">{{ x.StudentContact === undefined || x.StudentContact == null ? "-":x.StudentContact}}</td>
+                            <!--<td class="text-center">{{x.PresemptivePercentage.toFixed(2)}}%</td>
+                            <td class="text-center">{{x.ActualPercentage.toFixed(2)}}%</td>
+                            <td class="text-center">{{x.ExamFee}}</td>
+                            <td class="text-center">{{x.Condonation}}</td>
+                            <td class="text-center">{{x.Penality}}</td>
+                            <td class="text-center">{{x.Tatkal}}</td>-->
+                            <td class="text-center">{{x.Amount}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4"><label for="stdSem">Challan Number</label></div>
+            <div class="col-md-8">: {{challan}}</div>
+
+            <!--<a ng-click="clipBoard()" > <i class="fa fa-copy" ></i> </a>-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4"><label for="stdSem">Total Student</label></div>
+            <div class="col-md-8">: {{total}}</div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4"><label for="stdSem">Total Amount</label></div>
+            <div class="col-md-8 payment-result">: {{sum}}</div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <h5>Note: Payment gateway transaction charges as below</h5>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center" style="width: 2%;">S.No</th>
+                            <th class="text-center">Mode of Payment</th>
+                            <th class="text-center" > < Rs.2000 </th>
+                            <th class="text-center" > > Rs.2000 </th>
+                            <th class="text-center" style="width: 10%" >Recommended</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center">1</td>
+                            <td class="text-center">UPI</td>
+                            <td class="text-center">NIL</td>
+                            <td class="text-center">NIL</td>
+                            <td class="text-center">All</td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center">2</td>
+                            <td class="text-center">Debit Card- Rupay</td>
+                            <td class="text-center">NIL</td>
+                            <td class="text-center">NIL</td>
+                            <td class="text-center">Student Individual Payment</td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center">3</td>
+                            <td class="text-center">Debit Card-Visa/Master</td>
+                            <td class="text-center">1.00%</td>
+                            <td class="text-center">1.24%</td>
+                            <td class="text-center">Student individual payment</td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center">4</td>
+                            <td class="text-center">Net Banking</td>
+                            <td class="text-center">10rs</td>
+                            <td class="text-center">10rs</td>
+                            <td class="text-center">Colleges Group payment</td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center">5</td>
+                            <td class="text-center">Wallets</td>
+                            <td class="text-center">1.24%</td>
+                            <td class="text-center">1.24%</td>
+                            <td class="text-center">Student individual payment</td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center">6</td>
+                            <td class="text-center">Credit Card</td>
+                            <td class="text-center">1.24%</td>
+                            <td class="text-center">1.24%</td>
+                            <td class="text-center">Student individual payment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-1"><input type="checkbox" ng-checked="noteChallan" ng-model="noteChallan" ng-change="notedChallan()" /></div>
+                <div class="col-md-8" style="margin-top: 5px;">: I agreed that i have noted to the challan number</div>
+                <div class="sm-spacer"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" ng-click="Proceedtopayfine()" ng-disabled="!noteChallan && !secondClick">Proceed</button>
+                <button type="button" class="btn btn-default pull-left" ng-click="closeModal()">Cancel</button>
+            </div>
+        </div>
+        </div>
+    </div>

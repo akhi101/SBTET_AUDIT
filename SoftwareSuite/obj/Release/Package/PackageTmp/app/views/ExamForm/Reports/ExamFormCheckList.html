@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Challan Generated List</title>
+</head>
+<body>
+    <div ng-controller="ExamFormCheckListController">
+        <div class="container-fluid">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Challan Generated List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Challan Generated List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row" ng-hide="{{ForBoardDisable}}">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+
+                                    <!--<label for="sel1">District :</label>-->
+                                    <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormCheckList.DistrictID" ng-change="FillMandal(ExamFormCheckList.DistrictID)">
+                                        <option value="" selected>Select District</option>
+                                        <option ng-selected="ExamFormCheckList.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+
+                                   <!-- <label for="sel1">Mandal :</label>-->
+                                    <select class="form-control input-sm" id="MandalID" ng-model="ExamFormCheckList.MandalID" ng-change="FillCollege(ExamFormCheckList.MandalID)" ng-disabled="MandalDisable">
+                                        <option value="" selected>Select Mandal</option>
+                                        <option ng-selected="ExamFormCheckList.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                   <!-- <label for="sel1">College :</label>-->
+                                    <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormCheckList.CollegeID" ng-change="FillCollData(ExamFormCheckList.CollegeID)" ng-disabled="CollegeDisable">
+                                        <option value="" selected>Select College</option>
+                                        <option ng-selected="ExamFormCheckList.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <div class="form-group">
+                                    <!-- <label for="sel1">Stream :</label>-->
+                                    <select class="form-control" ng-model="ExamFormCheckList.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormCheckList.CourseID)">
+                                        <option value="" selected>Select Stream</option>
+                                        <option ng-selected="ExamFormCheckList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <!-- <label for="sel1">Branch :</label>-->
+                                    <select class="form-control" ng-model="ExamFormCheckList.BranchID" id="BranchID">
+                                        <option value="" selected>All Branch/Select Branch</option>
+                                        <option ng-selected="ExamFormCheckList.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <!--<label for="sel1">Exam :</label>-->
+                                    <select class="form-control" ng-model="ExamFormCheckList.ExamID" id="ExamID">
+                                        <option value="" selected>Select Exam</option>
+                                        <option ng-selected="ExamFormCheckList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <!-- <label for="sel1">Select Type :</label>-->
+                                    <select class="form-control  input-sm" ng-model="ExamFormCheckList.ApprovalType">
+                                        <option value="selected">Select Type</option>
+                                        <option value="Y">Generated</option>
+                                        <option value="N">Not Generated</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <!-- <label for="sel1">Select Type :</label>-->
+                                    <select class="form-control  input-sm" ng-model="ExamFormCheckList.ExmFrmType" ng-change="SetExMFrmType()">
+                                        <option value="" selected>Select Type</option>
+                                        <option value="R">Reguler</option>
+                                        <option value="B">Bridge</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" ng-click="Print()" class="btn btn-sm btn-detail">Submit</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal" name="ReportForm" novalidate>
+                                    <div class="content-container-fluid">
+                                        <div class="row">
+                                            <div class="cols-sample-area">
+                                                <div class="control">
+                                                    <div id="container" ej-reportviewer="ej-reportviewer"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+           <!-- <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Examination</li>
+                        <li>Exam Form Check List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row ctitle">
+                <div class="col-md-4">
+                    <span><strong>Exam Form Check List</strong></span>
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="row" ng-hide="{{ForBoardDisable}}">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="sel1">District :</label>
+                            <select class="form-control input-sm" id="DistrictID" ng-model="ExamFormCheckList.DistrictID" ng-change="FillMandal(ExamFormCheckList.DistrictID)">
+                                <option ng-selected="ExamFormCheckList.DistrictID == option.DistrictID" ng-repeat="option in DistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="sel1">Mandal :</label>
+                            <select class="form-control input-sm" id="MandalID" ng-model="ExamFormCheckList.MandalID" ng-change="FillCollege(ExamFormCheckList.MandalID)" ng-disabled="MandalDisable">
+                                <option ng-selected="ExamFormCheckList.MandalID == option.MandalID" ng-repeat="option in MandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sel1">College :</label>
+                            <select class="form-control input-sm" id="CollegeID" ng-model="ExamFormCheckList.CollegeID" ng-change="FillCollData(ExamFormCheckList.CollegeID)" ng-disabled="CollegeDisable">
+                                <option ng-selected="ExamFormCheckList.CollegeID == option.CollegeID" ng-repeat="option in CollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Stream :</label>
+                        <select class="form-control" ng-model="ExamFormCheckList.CourseID" id="CourseID" ng-change="FillCoursePart(ExamFormCheckList.CourseID)">
+                            <option ng-selected="ExamFormCheckList.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Branch :</label>
+                        <select class="form-control" ng-model="ExamFormCheckList.BranchID" id="BranchID">
+                            <option ng-selected="ExamFormCheckList.BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Exam :</label>
+                        <select class="form-control" ng-model="ExamFormCheckList.ExamID" id="ExamID">
+                            <option ng-selected="ExamFormCheckList.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1">Approval Type :</label>
+                        <select class="form-control  input-sm" ng-model="ExamFormCheckList.ApprovalType">
+                            <option value="A" selected>All</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="col-md-2">
+            <div class="form-group">
+                <label for="sel1">From Approval Date :</label>
+                <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="ApprovalFromDate" ng-model="ExamFormCheckList.ApprovalFromDate">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="sel1">To Approval Date :</label>
+                <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="ApprovalToDate" ng-model="ExamFormCheckList.ApprovalToDate">
+            </div>
+        </div>-->
+                <!--<div class="col-md-4">
+            <div class="form-group">
+                <label for="sel1">Print Subject :</label>
+                <input type="checkbox" ng-model="ExamFormCheckList.PrintSubject">
+            </div>
+            <div class="form-group">
+                <label for="sel1">Print Photo :</label>
+                <input type="checkbox" ng-model="ExamFormCheckList.PrintPhoto">
+            </div>
+        </div>-->
+               <!-- <div class="col-md-2">
+                    <div class="form-group">
+                        <button type="button" ng-click="Print()" class="btn btn-sm btn-detail">Print</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr style="margin-top:20px;">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <div id="container" ej-reportviewer="ej-reportviewer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</body>
+</html>
+
+
+

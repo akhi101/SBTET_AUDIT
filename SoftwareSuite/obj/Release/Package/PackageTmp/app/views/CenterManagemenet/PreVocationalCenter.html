@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Create Practical Center </title>
+</head>
+<body>
+    <div ng-controller="PreVocationalCenterController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Create Vocational Center</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Vocational Practical</li>
+                        <li>Create Vocational Center</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="showhide">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form action="#">
+                                        <div id="BasicCollege" ej-grid e-allowgrouping="false" e-allowsorting="false" e-allowresizing="false"
+                                             e-datasource="BasicCollegeist" e-actioncomplete="complete"></div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div style="margin-top:10px;" class="col-md-3 col-md-offset-9">
+                                    Total :  <input id="StudentTotalCount" type="text" ng-model="PreVocationalCenter.StudentTotalCount" readonly style="width:100px;text-align:right" />
+                                </div>
+                            </div>-->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-4"><label for="sel1">District :</label></div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-control" ng-model="PreVocationalCenter.DistrictID" id="DistrictID" ng-change="GetPreZoneList(PreVocationalCenter.DistrictID)" ng-disabled="districtDisable">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="PreVocationalCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-4"><label for="sel1">Zone :</label></div>
+                                    <div class="col-md-8 form-group">
+                                        <select class="form-control" ng-model="PreVocationalCenter.ZoneID" id="ZoneID" ng-change="GetCenterCollegeList(PreVocationalCenter.ZoneID)" ng-disabled="EnableCenterCollege">
+                                            <option value="">--Select Zone --</option>
+                                            <option ng-selected="PreVocationalCenter.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"> <label for="sel1">Center College :</label></div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-control" ng-model="PreVocationalCenter.CenterCollegeID" id="CenterCollegeID" ng-disabled="EnableCenterCollege1">
+                                        <option value="">--Select Vocational Center --</option>
+                                        <option ng-selected="PreVocationalCenter.CenterCollegeID == option.CollegeID" ng-repeat="option in CenterCollegeListZone" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><label for="email">Center Capacity</label></div>
+                                <div class="col-md-8 form-group">
+                                    <input type="text" class="form-control" id="Code" ng-model="PreVocationalCenter.ExamCapacity" input-Number-Only placeholder="Capacity">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"> <label for="sel1"> Stream :</label></div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-control" ng-model="PreVocationalCenter.CourseID" id="CourseID" ng-change="GetExamList(PreVocationalCenter.CourseID)" ng-disabled="true">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="PreVocationalCenter.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="col-md-4"><label for="SelectExam"> Year :</label></div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-control" ng-model="PreVocationalCenter.ExamID" id="ExamID" ng-disabled="EnableYear">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="PreVocationalCenter.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <!--<div class="row">
+                                <div class="col-md-4"> <label for="sel1">College to be Allotted to this Center :</label></div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-control" ng-model="PreVocationalCenter.CollegeID" id="CollegeID">
+                                        <option value="">--Select College --</option>
+                                        <option ng-selected="PreVocationalCenter.CollegeID == option.CollegeID" ng-repeat="option in CenterCollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+
+                            </div>-->
+                            <div class="row">
+                                <div class="col-md-4"> <label for="sel1">CCTV Count:</label></div>
+                                <div class="col-md-8 form-group">
+                                    <input type="text" class="form-control" id="CCamerasNo" ng-model="PreVocationalCenter.CCamerasNo" input-Number-Only placeholder="CCTV">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <input type="checkbox" ng-model="PreVocationalCenter.ElectricityFlag"> Electricity
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <input type="checkbox" ng-model="PreVocationalCenter.InternetFlag"> Internet
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <input type="checkbox" ng-model="PreVocationalCenter.ComputerFlag"> Computer
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <input type="checkbox" ng-model="PreVocationalCenter.PrinterFlag"> Printer
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6"><button type="button" class="btn btn-detail btn-sm" ng-click="ShowColleges()">Add</button></div>
+                                <div class="col-md-6"> <button type="button" class="btn btn-sm btn-danger" ng-click="ResetDate()">Reset</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-detail btn-sm" ng-click="SavePreVocationalCenter()">Save</button>
+                    <button type="reset" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeletePreVocationalCenterNew()">Delete</button>
+                    <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <form action="#">
+                        <div id="PreVocationalCenter" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                             e-datasource="PreVocationalCenterList"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

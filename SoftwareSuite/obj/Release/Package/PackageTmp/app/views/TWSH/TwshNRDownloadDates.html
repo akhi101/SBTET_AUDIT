@@ -1,0 +1,277 @@
+<style>
+    .table > thead:first-child > tr:first-child > th {
+        border-top: 0;
+        background-color: #98abb9;
+        color: #fff;
+    }
+
+    .table > thead:first-child > tr:first-child > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 1px solid #d8d8d8 !important;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
+    element.style {
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .myBtn1 {
+        margin-top: 23px;
+        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+    /**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+<script>
+
+
+//$("#datetimepicker4").datepicker({
+//    format: 'dd-mm-yyyy',
+//    autoclose: true,
+//    todayHighlight: true,
+//    showAnim: "slideDown"
+
+//});
+</script>
+<div ng-controller="TwshNRDownloadDatesController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH NRDates Settings</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/NR Dates Settings">TWSH NRDates Settings</a></li>
+                </ol>
+
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="col-md-12 base-row">
+            <div class="card">
+                <form name="RegisterForm">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="ExamType">
+                                Month & Year :
+                            </label>
+                            <select class="form-control" id="State" ng-model="ExamMonthYearId"
+                                    ng-options="data.Id as data.ExamMonthYear for data in getExamYearMonth">
+                                <option value="" selected>Select Month Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--<div class="col-md-3">
+        <label for="datetimepicker1" class="font-weight-bold">NR Start Date :</label>
+        <div class='input-group date'>
+            <input type='date' class="form-control" id='datetimepicker1' ng-model="NRStartDate" min="{{today}}" name="NRStartDate" required />
+            <span class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+        </div>
+        <span ng-show="SetDatesForm.NRStartDate.$dirty && SetDatesForm.NRStartDate.$invalid">
+            <span ng-show="hasError('NRStartDate', 'required')">NR Start Date no is required</span>
+        </span>
+    </div>
+
+
+    <div class="col-md-3">
+        <label for="datetimepicker2" class="font-weight-bold">NR End Date :</label>
+        <div class='input-group date'>
+            <input type='date' class="form-control" id='datetimepicker2' ng-model="NREndDate"  name="NREndDate" required />
+            <span class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </span>
+        </div>
+        <span ng-show="SetDatesForm.NREndDate.$dirty && SetDatesForm.NREndDate.$invalid">
+            <span ng-show="hasError('NREndDate', 'required')">NR Start Date no is required</span>
+        </span>
+    </div>-->
+
+                    <div class="col-md-3">
+                        <div class='input-group date'>
+                            <label for="datetimepicker" class="font-weight-bold">NR Start Date : </label>
+                            <input type='date' class="form-control" id='datetimepicker' ng-model="NRStartDate" name="NRStartDate" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class='input-group date'>
+                            <label for="datetimepicker2" class="font-weight-bold">End Date : </label>
+                            <input type='date' class="form-control" id='datetimepicker2' ng-model="NREndDate" name="NREndDate" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button ng-show="!edit" class="btn btn-info" style="margin-top:32px;" type="submit" ng-click="RegisterForm.$valid && AddNrDates()">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col-md-12" ng-show="array.length>0">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Exam Month Year</th>
+                            <th>NR Start Date </th>
+                            <th>NR End Date </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr ng-repeat="data in array track by $index ">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.ExamMonthYear}}</td>
+                            <td>{{data.NRStartDate | date:'dd-MM-yyyy'}}</td>
+                            <td>{{data.NREndDate | date:'dd-MM-yyyy'}}</td>
+                            <td>
+                                <div class='input-group'>
+                                    <input type="date" class="form-control" id='datetimepicker4' ng-model="data.NRStartDate" name="NRStartDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class='input-group'>
+                                    <input type="date" class="form-control" id='datetimepicker5' ng-model="data.NREndDate" name="NREndDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td><button class="btn btn-danger btn-xs" ng-click="Delete($index)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <button ng-show="array.length>0" class="btn btn-info pull-right" style="margin-top:32px;" type="submit" ng-click="SaveDates()">Save</button>
+
+            </div>
+        </div>
+        <!--<div class="col-md-12">
+
+        </div>-->
+        <div class="col-md-12" ng-show="TwshNRDates.length>0">
+            <div class="cl-details">
+                <h2>TWSH NR Download Dates</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="TwshNRDates.length>0">
+
+            <div class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%">S.No</th>
+                            <th>Exam Month Year</th>
+                            <th>NR Start Date </th>
+                            <th>NR End Date </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dates in TwshNRDates track by $index ">
+                            <td style="width: 2%">{{$index+1}} </td>
+                            <td>
+                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="dates.ExamMonthYearID" name="iselective" style="width: min-content;"
+                                        ng-options="dat.Id as dat.ExamMonthYear for dat in getExamYearMonth">
+                                    <option value="" selected>Select </option>
+                                </select>
+
+                            </td>
+
+                            <td>
+
+                                <input type="text" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" placeholder="DD-MM-YYYY" autocomplete="off" name="NRStartDate{{$index + 1}}" ng-model="dates.NRStartDate | date:'dd-MM-yyyy'" />
+
+                            </td>
+
+                            <td>
+
+                                <input type="text" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" placeholder="DD-MM-YYYY" autocomplete="off" name="NREndDate{{$index + 1}}" ng-model="dates.NREndDate | date:'dd-MM-yyyy'" />
+
+                            </td>
+
+                            <td style="width:15%">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="EditTwshNRDate(dates,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="UpdateTwshNRDate(dates,$index+1)">
+                                    Update
+                                </button>
+                                <button class="btn-xs btn btn-danger" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Cancel($index+1)">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="GetTwshNRDates.length==0">
+            <div class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+        <div class="loading">
+            <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+
+</div>
+

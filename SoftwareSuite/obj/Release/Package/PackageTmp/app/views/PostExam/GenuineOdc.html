@@ -1,0 +1,346 @@
+﻿<div ng-controller="GenuineOdcController">
+    <div class="container-fluid">
+        <div class="sm-spacer"></div>
+        <!--<div class="col-md-12">
+            <a  href="#!/Dashboard/PostExam/GenuinenessApproval/GenuinenessApproveList" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>-->
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PostExam/GenuinenessApproval/GenuinenessApproveList" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+        <!--<div class="sm-spacer"></div>-->
+        <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+            <img src="../../../contents/img/loading.gif" width="100" />
+        </div>
+       
+       
+        <div class="">
+            <div class="col-md-6 print" id="idtoDivPrintAdmin" >
+                <div class="col-md-12 ">
+                    <div class="cl-details">
+                        <h2>STUDENT ODC DETAILS</h2>
+                    </div>
+                </div>
+                <div ng-show="ResultFound">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-12">
+                            <div class="logo-img">
+                               <img src="../../../contents/img/big-logo.png" />
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-12">
+                            <div class="logo-name">
+                                <h2 style="text-align: center">
+                                    STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                </h2>
+                                <!--<h2><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br /><p style="text-align: center">TELANGANA</p></h2>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top: 35px;">
+                    <div class="row padRow">
+                        <div class="col-md-4 font_bold">Permanent Id No. (PIN)</div>
+                        <div class="col-md-7">: {{ODCstudData.Pin}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-4 font_bold">Name Of the Candidate</div>
+                        <div class="col-md-7">: {{ODCstudData.Name}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-4 font_bold">Father Name</div>
+                        <div class="col-md-7">: {{ODCstudData.FatherName}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-4 font_bold">Branch</div>
+                        <div class="col-md-7">: {{ODCstudData.BranchCode}}-{{ODCstudData.BranchName}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-4 font_bold">Course Duration</div>
+                        <div class="col-md-7">: {{ODCstudData.CourseDuration}}</div>
+                    </div>
+                    <div class="row padRow">
+                        <div class="col-md-4 font_bold">Month & Year of Exam</div>
+                        <div class="col-md-7">: {{ODCstudData.MonthYear}}</div>
+                    </div>
+                    <div class="row padRow" ng-show="ODCstudData.scheme=='ER91'">
+                        <div class="col-md-2 font_bold">Passed Class</div>
+                        <div class="col-md-10">: {{ODCstudData.PassedClass}}</div>
+                    </div>
+
+                    <div class="row padRow">
+                        <div class="col-md-2 font_bold">Name of the Institution</div>
+                        <div class="col-md-10">: {{ODCstudData.CollegeCode}}-{{ODCstudData.CollegeName}},{{ODCstudData.CollegeAddress}}</div>
+                    </div>
+
+                    <div class="row padRow">
+                        <div class="col-md-2 font_bold">CGPA</div>
+                        <div class="col-md-10">: {{ODCstudData.CGPA}}</div>
+                    </div>
+
+                    <div class="row padRow">
+                        <div class="col-md-2 font_bold">Total Credits Earned</div>
+                        <div class="col-md-10">: {{ODCstudData.TotalCreditsEarned}}</div>
+                    </div>
+
+                    <div class="row padRow">
+                        <div class="col-md-2 font_bold">Division</div>
+                        <div class="col-md-10">: {{ODCstudData.Class}}</div>
+                    </div>
+
+
+                    <div class="table-responsive customtable" ng-show="Odcmarkstable.length>0">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th class="text-center" rowspan="2">Examination</th>
+                                    <th class="text-center" rowspan="3">Maximum <br />Marks </th>
+                                    <th class="text-center" rowspan="3">Marks <br /> Secured</th>
+                                    <th class="text-center" colspan="3">
+                                        MARKS TAKEN INTO CONSIDERATION FOR THE
+                                        AWARD OF CLASS
+                                    </th>
+
+
+                                </tr>
+                                <tr>
+
+                                    <th class="text-center">IN FIGURES</th>
+                                    <th class="text-center">PERCENTAGE</th>
+                                    <th class="text-center">IN WORDS</th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+
+                                <tr ng-repeat="x in Odcmarkstable ">
+                                    <td class="text-center"> {{x.Examination}}</td>
+                                    <td class="text-center">{{x.MaxMarks}}</td>
+                                    <td class="text-center">{{x.MaxSecured}}</td>
+                                    <td class="text-center">{{x.InFigures}}</td>
+                                    <td class="text-center">{{x.Per}}</td>
+                                    <td class="text-center">
+                                        {{x.InWords}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"> Total Marks In Figure</td>
+
+                                    <td class="text-center" colspan="5"><b class="text-uppercase ">{{ODCstudData.TotalMarksInFigure}}</b> </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center"> IN Words</td>
+
+                                    <td class="text-center" colspan="5"><b class="text-uppercase ">{{ODCstudData.TotalMarksInWords}}</b> </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="text-center"> Percentage of Marks</td>
+
+                                    <td class="text-center" colspan="5"><b class="text-uppercase ">{{ODCstudData.PercentageOfMarks}}</b> </td>
+
+
+                                </tr>
+                            </tbody>
+
+
+
+
+                        </table>
+                    </div>
+                </div>
+               
+            </div>
+                <div class="col-md-12">
+                    <div ng-show="ResultNotFound" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+                </div>
+            <div class="col-md-6">
+                <div class="">
+                    <div class="cl-details">
+                        <h2>Uploaded ODC</h2>
+                    </div>
+                </div>
+                <img style="width:650px; height:750px;" ng-show="StudentDetails.ODC" ng-src="{{StudentDetails.ODC}}" />
+                <div class="col-md-12">
+                    <div ng-show="!StudentDetails.ODC" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>File Not Found</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" >
+
+                <div class="col-md-6 ">
+                    <div class="">
+                        <div class="cl-details">
+                            <h2>StudentDetails</h2>
+                        </div>
+                    </div>
+                    <div class="card" ng-show="Data">
+                        <div class="col-md-12">
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Name</div>
+                                <div class="col-md-6">: {{StudentDetails.Name}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Pin</div>
+                                <div class="col-md-6">: {{StudentDetails.Pin}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Scheme</div>
+                                <div class="col-md-6">: {{StudentDetails.scheme}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Branch</div>
+                                <div class="col-md-6">: {{StudentDetails.BranchName}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">College Code</div>
+                                <div class="col-md-6">: {{StudentDetails.CollegeCode}} - {{StudentDetails.CollegeName}}</div>
+                            </div>
+                            <!--<div class="row padRow">
+            <div class="col-md-6 font_bold">Phone</div>
+            <div class="col-md-6">: {{StudentDetails.Mobile}}</div>
+        </div>-->
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">ODC Number</div>
+                                <div class="col-md-6">: {{StudentDetails.OdcNo}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Passed Year</div>
+                                <div class="col-md-6">: {{StudentDetails.ExamMonthYear}}</div>
+                            </div>
+
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Organization Name</div>
+                                <div class="col-md-6">: {{StudentDetails.OrganizationName}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Organization Type</div>
+                                <div class="col-md-6">: {{StudentDetails.OrganizationType}}</div>
+                            </div><div class="row padRow">
+                                <div class="col-md-6 font_bold">Organization Mobile</div>
+                                <div class="col-md-6">: {{StudentDetails.OrganizationMobile}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Organization Email</div>
+                                <div class="col-md-6">: {{StudentDetails.OrganizationEmail}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Organization Address</div>
+                                <div class="col-md-6">: {{StudentDetails.OrganizationAddress}}</div>
+                            </div>
+
+
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Applied Date</div>
+                                <div class="col-md-6">: {{StudentDetails.LogDate|date:'dd-MMM-yyyy HH:mm:ss'}}</div>
+                            </div>
+                            <div class="row padRow">
+                                <div class="col-md-6 font_bold">Amount Paid</div>
+                                <div class="col-md-6">: {{StudentDetails.Amount == null ? '0' : StudentDetails.Amount}}</div>
+                            </div>
+                             
+                            <div class="row padRow" ng-if="StudentDetails.As_Status">
+                                <div class="col-md-6 font_bold">AS Status</div>
+                                <div class="col-md-6">: 
+                                <span ng-if="StudentDetails.As_Status ==1">Genuine</span>
+                                <span ng-if="StudentDetails.As_Status ==2">Not Genuine</span></div>
+                            </div>
+                            <div class="row padRow" ng-if="StudentDetails.As_remarks">
+                                <div class="col-md-6 font_bold">AS Remarks</div>
+                                <div class="col-md-6">: {{StudentDetails.As_remarks}}</div>
+                            </div>
+                            <div class="row padRow" ng-if="StudentDetails.Ds_Status">
+                                <div class="col-md-6 font_bold">DS Status</div>
+                                <div class="col-md-6">: 
+                                <span ng-if="StudentDetails.Ds_Status ==1">Genuine</span>
+                                <span ng-if="StudentDetails.Ds_Status ==2">Not Genuine</span></div>
+                            </div>
+                            <div class="row padRow" ng-if="StudentDetails.Ds_remarks">
+                                <div class="col-md-6 font_bold">DS Remarks</div>
+                                <div class="col-md-6">: {{StudentDetails.Ds_remarks}}</div>
+                            </div>
+                            <!--<div class="row padRow" ng-if="StudentDetails.Js_Status">
+                                <div class="col-md-6 font_bold">COE Status</div>
+                                <div class="col-md-6">: 
+                                <span ng-if="StudentDetails.Js_Status ==1">Genuine</span>
+                                <span ng-if="StudentDetails.Js_Status ==2">Not Genuine</span></div>
+                            </div>-->
+                          
+                            
+                            <!--<div class="row padRow" ng-if="StudentDetails.Js_remarks">
+                                <div class="col-md-6 font_bold">COE Remarks</div>
+                                <div class="col-md-6">: {{StudentDetails.Js_remarks}}</div>
+                            </div>-->
+                            <div class="row padRow" style="margin-bottom:10px" ng-show="ApproveType == 0">
+                                <div class="col-md-6 font_bold">Is Certificate Genuine?</div>
+                                <div class="col-md-6">
+                                    <select class="" ng-model="IsGenuine" name="IsGenuine">
+                                        <option value="" selected>Select </option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No"> No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row padRow" ng-show="ApproveType == 0 && IsGenuine =='No'">
+                                <div class="col-md-6 font_bold">Enter Remarks</div>
+                                <div class="col-md-6"><input class="" ng-model="Remarks" placeholder="Enter Remarks" /></div>
+                            </div>
+                           
+                            <div class="row padRow">
+                                <div class="col-md-12" ng-show="ApproveType == 0">
+                                    <button class="btn btn-success btn-sm pull-right" style="margin-top:21px" ng-click="Verify()"> Verify & Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="col-md-6" ng-if="StudentDetails.CertificateApplication">
+                    <div class="">
+                        <div class="cl-details">
+                            <h2>Department/Covering Letter</h2>
+                        </div>
+                    </div>
+                    <img style="width:650px; height:950px;" ng-src="{{StudentDetails.CertificateApplication}}" />
+                </div>
+            </div>
+           
+        </div>
+        <div class="">
+
+            <!--<div class="col-md-6">
+            <button class="btn btn-info" style="margin-top:21px" ng-click="closeModal()">Back</button>
+        </div>-->
+            <!--<div class="col-md-12" ng-show="ResultFound && ApproveType == 0">
+                <button class="btn btn-success pull-right" style="margin-top:21px" ng-click="Verify()"> Verify & Submit</button>
+            </div>-->
+        </div>
+        <div class="">
+            <div class="col-md-12">
+                <div ng-show="ResultNotFound1" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

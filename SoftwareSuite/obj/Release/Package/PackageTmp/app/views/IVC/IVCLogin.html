@@ -1,0 +1,121 @@
+<style>
+    form.white-popup-block label {
+        float: left;
+        color: #1F497D;
+        font-weight: bold;
+    }
+    .login-Sidepanel {
+        /*color: #fff;*/
+        background: linear-gradient(90deg, rgba(237,245,255,1) 0%, rgba(204,223,247,1) 100%);
+        /* background: linear-gradient(to bottom right, rgba(237,245,255,1), rgba(204,223,247,1));*/
+        padding: 30px;
+        padding-bottom: 200px
+    }
+    .img-login-logo {
+        height: 100px;
+        margin: 20px;
+        margin-bottom:40px;
+    }
+    .clr_blue {
+        color: #1F497D;
+    }
+    h4.fee_class { 
+        color: #1F497D;
+    }
+    form.white-popup-block .lost-pass-link {
+        float: right;
+        margin-top: 10px;
+    }
+
+    .refresh_captcha {
+        margin-top: 24px;
+        border: 3px solid #ddd;
+        border-style: groove;
+        width:136px;
+        margin-left:-5px;
+        padding-left:14px;
+    }
+
+    .refresh_img {
+        height: 27px;
+        margin-top: 27px;
+    }
+   
+</style>
+<div ng-controller="IVCLoginController">
+    <div class="pages-links">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a ui-sref="index">Home</a></li>
+                        <li class="breadcrumb-item "><a ui-sref="index.IVCLogin">IVC</a></li>
+                        <li class="breadcrumb-item active" ui-sref="index.IVCLogin" aria-current="page">IVC Login</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="inner-body">
+        <!-- <div class="spacer"></div>-->
+        <!-- Start Login
+        ============================================= -->
+        <div class="login-area default-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <form id="login-form" class="white-popup-block">
+
+                            <div class="col-md-12 login-custom  base-row">
+                                <h4 class="text-center">login </h4>
+                                <div class="col-md-12 ">
+
+                                    <div class="form-group">
+                                        <label>Registration Number / Mobile Number</label>
+                                        <input class="form-control" placeholder="Registration Number / Mobile Number" ng-model="UserName" maxlength="20" minlength="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="text">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input class="form-control" placeholder="Password" type="password" ng-model="Password">
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Captcha</label>
+                                    <input class="form-control" maxlength="5" placeholder="Captcha" type="text" ng-model="CaptchaText">
+                                </div>
+                                <div class="col-md-4" style="padding:0px;">
+                                    <label></label>
+                                    <img class="refresh_captcha" data-ng-src="data:image/png;base64,{{CaptchaImage}}" width="150" height="33" />
+                                </div>
+                                <div class="col-md-2">
+                                    <a class="pull-right" title="Click to Refresh Captcha" ng-click="GetCaptchaData()"><img class="refresh_img" src="/assets/img/reload.png" /> </a>
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    <button class="btn btn-primary btn_margin" ng-disabled="loginbutton" ng-click="ValidateCaptcha()" style="margin-top:23px;">
+                                        Login
+                                    </button>
+
+                                </div>
+                                <a title="Password Password" ui-sref="index.StudentForgotPage" class="lost-pass-link">Forgot Password?</a>
+                                <!--  <p class="link-bottom">Not a member yet? <a ui-sref="index.registration">Register</a></p>-->
+                                <!--<p class="link-bottom">Already have an Account <a ui-sref="index.Login">Login</a></p>-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Login Area -->
+
+    </div>
+</div>

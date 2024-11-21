@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>DRDC Chart</title>
+</head>
+<body>
+    <div ng-controller="DRDCChartController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>DRDC Chart</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>DRDC Chart</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <select class="form-control" ng-model="DRDCChart.CourseID" id="CourseID" ng-change="FillCoursePart(DRDCChart.CourseID)">
+                                        <option value="">-- Select Stream --</option>
+                                        <option ng-selected="DRDCChart.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Exam :</label>
+                                    <select class="form-control" ng-model="DRDCChart.ExamID" id="ExamID" ng-change="FillSubjects(DRDCChart.ExamID)">
+                                        <option value="">--Select Exam--</option>
+                                        <option ng-selected="DRDCChart.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Subject For Chart :</label>
+                                    <select class="form-control" ng-model="DRDCChart.SubjectID" id="SubjectID">
+                                        <option value="">-- Select Subject--</option>
+                                        <option ng-selected="DRDCChart.SubjectID == option.SubjectID" ng-repeat="option in SubjectsList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="row">
+        <div class="col-md-3 col-md-offset-2">
+            <div class="form-group">
+                <label for="sel1">Subject For Chart :</label>
+                <select class="form-control" ng-model="DRDCChart.SubjectID" id="SubjectID">
+                    <option ng-selected="DRDCChart.SubjectID == option.SubjectID" ng-repeat="option in SubjectsList" value="{{option.SubjectID}}">{{option.SubName}}</option>
+                </select>
+            </div>
+        </div>
+    </div>-->
+                        <!--<div class="row">
+        <div class="col-md-12"><h3 class="ch3">Blocked DRDC for Campus<hr></h3></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">
+            <div class="form-group">
+                <label for="sel1">Camp :</label>
+                <select class="form-control" ng-model="DRDCChart.CampusID" id="CampusID" ng-change="FillDRDC(DRDCChart.CampusID)">
+                    <option ng-selected="DRDCChart.CampusID == option.CampusID" ng-repeat="option in CampusList" value="{{option.CampusID}}">{{option.CampusName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="email">Camp Day's </label>
+                <input type="text" class="form-control" id="CampDays" ng-model="DRDCChart.CampDays" input-Number-Only>
+            </div>
+        </div>
+    </div>-->
+                        <!--<div class="row">
+        <div class="col-md-12">
+            <div class="form-group" ng-show="campusselect">
+                <label for="sel1">Select DRDC :</label>
+                <div ng-repeat="option in DRDCList">
+                    <div style="font-size:12px;" class="col-md-3">
+                        <input id="chkCustomer_{{option.DRDCID}}" type="checkbox" ng-change="getcheckvalue(option.Selected)" ng-model="option.Selected" />
+                        {{option.DRDCCenterName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+                        <!--<div class="row">
+        <div style="margin-top:24px;" class="col-md-1">
+            <button type="button" ng-click="SaveBlockedDRDC()" class="btn btn-sm btn-detail">Save Block DRDC</button>
+        </div>
+    </div>-->
+                        <div class="row">
+                            <div style="margin-top:24px;" class="col-md-12">
+                                <div class="col-md-6 text-right">
+                                    <button type="button" ng-click="Show()" class="btn btn-sm btn-detail">Submit</button>
+                                    <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row" ng-show="chartshow">
+                            <div class="form-group" id="printableArea">
+                                <table id="filtereddata" class="table">
+                                    <thead style="font-size:xx-large;font-weight:bold;">
+                                        {{CharHead}}
+                                    </thead>
+                                    <tr>
+                                        <th> </th>
+                                        <th style="text-align:center;" ng-repeat="x in DRDCChartdata">
+                                            {{ x.CampusCode }} [{{ x.ExmCnt }}]
+                                        </th>
+                                        <th style="text-align:center;">Total [{{ExmCntTotal}}]</th>
+                                    </tr>
+                                    <tr ng-repeat="x in DRDCChartdata">
+                                        <td>{{ x.DRDCCenterCode }}</td>
+                                        <td style="text-align:center;">{{ x.col1 }}</td>
+                                        <td style="text-align:center;">{{ x.col2 }}</td>
+                                        <td style="text-align:center;">{{ x.col3 }}</td>
+                                        <td style="text-align:center;">{{ x.col4 }}</td>
+                                        <td style="text-align:center;">{{ x.col5 }}</td>
+                                        <td style="text-align:center;">{{ x.col6 }}</td>
+                                        <td style="text-align:center;">{{ x.col7 }}</td>
+                                        <td style="text-align:center;">{{ x.col8 }}</td>
+                                        <td style="text-align:center;">{{ x.col9 }}</td>
+                                        <td style="text-align:center;">{{ x.col10 }}</td>
+                                        <td style="text-align:center;">{{ x.col11 }}</td>
+                                        <td style="text-align:center;">{{ x.SriptsTotal }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center;font-weight:bold">Total</td>
+
+                                        <td style="text-align:center;font-weight:bold">{{col1Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col2Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col3Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col4Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col5Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col6Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col7Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col8Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col9Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col10Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{col11Total}}</td>
+                                        <td style="text-align:center;font-weight:bold">{{SriptsTotalValue}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="margin-top:24px;" class="col-md-12">
+                                <div class="col-md-6 text-right">
+                                    <input type="button" onclick="printDiv('printableArea')" value="Print" class="btn btn-primary btn-sm" />
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+</body>
+</html>
+
+
+

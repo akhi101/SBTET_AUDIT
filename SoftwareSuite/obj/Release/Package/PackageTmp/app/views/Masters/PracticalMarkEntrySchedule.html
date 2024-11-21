@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Practical Mark Entry Schedule  </title>
+</head>
+<body>
+    <div ng-controller="PracticalMarkEntryScheduleController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> Practical Mark Entry Schedule </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Masters</li>
+                        <li>Schedule</li>
+                        <li> Practical Mark Entry Schedule</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="form-group" ng-show="false">
+                        <!--<label> :</label>-->
+                        <input type="text" class="form-control" ng-model="BasicMarksEntrSchedule.PrePracScheID" id="PrePracScheID">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="BasicMarksEntrSchedule.CourseID" id="CourseID" ng-change="GetExamList(BasicMarksEntrSchedule.CourseID)" ng-disabled="isCouseDisable">
+                                        <option value="">--Select Stream --</option>
+                                        <option ng-selected="BasicMarksEntrSchedule.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="SelectExam"> Year :</label>
+                                    <select class="form-control" ng-model="BasicMarksEntrSchedule.ExamID" id="ExamID" ng-disabled="isExamDisable">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="BasicMarksEntrSchedule.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="BasicMarksEntrSchedule.DistrictID" id="DistrictID" ng-change="FillCollegeList(BasicMarksEntrSchedule.DistrictID)" ng-disabled="isDistrictDisable">
+                                        <option value="">-- ALL --</option>
+                                        <option ng-selected="BasicMarksEntrSchedule.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Center :</label>
+                                    <select class="form-control" ng-model="BasicMarksEntrSchedule.PrePractCntrID" id="PrePractCntrID" ng-disabled="isCenterDisable">
+                                        <option value=""> -- ALL -- </option>
+                                        <option ng-selected="BasicMarksEntrSchedule.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PraCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Start Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicMarksEntrSchedule.StartDate" id="StartDate" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">End Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="BasicMarksEntrSchedule.EndDate" id="EndDate" required="">
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Morning Batch Start Time : </label>
+                                    <sa-time ng-model="BasicMarksEntrSchedule.StartTime" object="BasicMarksEntrSchedule.StartTime" objectname="StartTime" ispascal="true" compulsory="true"> </sa-time>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Morning Batch End Time : </label>
+                                    <sa-time ng-model="BasicMarksEntrSchedule.EndTime" object="BasicMarksEntrSchedule.EndTime" objectname="EndTime" ispascal="true" compulsory="true"> </sa-time>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">After Noon Batch Start Time : </label>
+                                    <sa-time ng-model="BasicMarksEntrSchedule.AfterNoonStartTime" object="BasicMarksEntrSchedule.AfterNoonStartTime" objectname="AfterNoonStartTime" ispascal="true" compulsory="true"> </sa-time>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">After Noon Batch End Time : </label>
+                                    <sa-time ng-model="BasicMarksEntrSchedule.AfterNoonEndTime" object="BasicMarksEntrSchedule.AfterNoonEndTime" objectname="AfterNoonEndTime" ispascal="true" compulsory="true"> </sa-time>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Extended Morning Hour's : </label>
+                                        <input type="text" ng-model="BasicMarksEntrSchedule.ExtendedMorningHours" class="form-control" id="ExtendedMorningHours" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="sel1">Extended After Noon Hour's : </label>
+                                        <input type="text" ng-model="BasicMarksEntrSchedule.ExtendedAfterNoonHours" class="form-control" id="ExtendedAfterNoonHours" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicMarksEntrSchedule()">Save</button>
+                        <button type="button" ng-disabled="isdeleteDisable" class="btn btn-sm btn-detail" ng-click="DeleteBasicMarksEntrSchedule()">Delete</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+            </div>
+            <!--<br />
+            <div style="width:100%;text-align:center;">
+                <img id="LoadImg" src="" ng-show="LoadImg" width="100" />
+            </div><br /><br />-->
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+﻿<style>
+    input[type=checkbox] {
+        display: block;
+        width: 25px;
+        height: 25px;
+        -webkit-appearance: none;
+        outline: 0;
+        border: none;
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+    }
+    input[type=checkbox]:not(:checked) {
+        background-image: url(../../../contents/img/unchecked.png);
+    }
+    input[type=checkbox]:checked {
+        background-image: url(../../../contents/img/checked.png);
+    }
+</style>
+
+<div ng-controller="CondonationListController">
+    <div class="container">
+        <section class="content">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination/Condonation" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                </div>
+                <div class="row" ng-if="isShowTags">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2>Condonation Reports</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12 hidden">
+                        <div class="row base-row hidden">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">
+                                        Academic Year :
+                                    </label>
+                                    <div id='year'>
+                                        <input type='text' class="form-control" ng-model="years.AcademicYear" disabled autocomplete="off" name="Fineamount" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Exam Type:</label>
+                                    <div class="">
+                                        <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="SetStartDate()" required>
+                                            <option value="" selected>Select Exam Type</option>
+                                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                {{Student.type}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-4 hidden">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Semester:</label>
+                                    <div class="">
+                                        <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="current_schemeid" ng-change="LoadExamType(current_schemeid)">
+                                            <option value="" selected>Select Semester</option>
+                                            <option ng-repeat="sem in ActiveSemesters" value="{{sem.semid}}">
+                                                {{sem.semester}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row hidden">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-detail" ng-click="showPaymentDetails()">
+                                    Show Results
+                                </button>
+                            </div>
+                        </div>
+                    <div class="sm-spacer"></div>
+                        <div class="row" ng-if="isShowResults">
+                            <!-- this is the table for Principal-->
+                            <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12" ng-if="isPrincipalTable">
+                                <table class="table table-bordered  table-striped table-rounded">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                                            <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-checked="isTopChecked" ng-change="selectAll()"></th>
+                                            <th style="width: 2%;">S.No</th>
+                                            <th ng-click="sort('Scheme')">Pin</th>
+                                            <th ng-click="sort('Scheme')">Name</th>
+                                            <th ng-click="sort('Scheme')">Actual Percentage</th>
+                                            <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Approved</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;" ng-repeat="x in ExamPayment">
+                                            <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="isAllchecked" ng-change="selectEntity(x.Pin)" checked></td>
+                                            <td class="text-center">{{$index + 1}}</td>
+                                            <td class="text-center">{{x.Pin}}</td>
+                                            <td class="text-center">{{x.name}}</td>
+                                            <td class="text-center">{{x.P}}</td>
+                                            <td class="text-center">{{x.IsApproved}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- this is the table for hod-->
+                            <div id="attendanceReport" class="table-responsive table-custom-tables-tb col-md-12" ng-if="isHodTable">
+                                <table class="table table-bordered  table-striped table-rounded" >
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-checked="isTopChecked" ng-change="selectAll()"></th>
+                                            <th style="width: 2%;">S.No</th>
+                                            <th ng-click="sort('Scheme')">Pin</th>
+                                            <th ng-click="sort('Scheme')">Name</th>
+                                            <th ng-click="sort('Scheme')">Actual Percentage</th>
+                                            <th class="text-center" style="width: 10%" ng-click="sort('On Roll')">Approved</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="background-color:#fff!important;" ng-repeat="x in ExamPayment">
+                                            <td style="text-align: center"><input type="checkbox" ng-model="x.isChecked" ng-checked="isAllchecked" ng-change="selectEntity(x.Pin)" checked></td>
+                                            <td class="text-center">{{$index + 1}}</td>
+                                            <td class="text-center">{{x.Pin}}</td>
+                                            <td class="text-center">{{x.name}}</td>
+                                            <td class="text-center">{{x.P}}</td>
+                                            <td class="text-center">{{x.IsApproved}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer"></div>
+                            <div class="row">
+                                <div class="col-md-12" style= "margin-bottom: 50px;">
+                                    <button class="btn pay_bck_btn" ng-click="approve()">Approve <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="sm-spacer"></div>
+                <div class="text-center" ng-if="!isShowTags">
+                    <img src="../../../contents/img/comingsoon.png">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

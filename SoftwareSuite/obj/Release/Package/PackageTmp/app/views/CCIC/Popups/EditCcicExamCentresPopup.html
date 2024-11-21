@@ -1,0 +1,70 @@
+<style>
+
+    input[type=checkbox] {
+        margin: 4px 0 0;
+        width: 20px;
+        margin: 0px 10px !important;
+        padding: 0px 10px;
+        height: 20px;
+    }
+</style>
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Edit Details</h2>
+        <button type="button" class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+            <span1 aria-hidden="true">&times;</span1>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form>
+
+
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Institution Name:</label>
+                <input type="text" class="form-control" disabled maxlength="10" ng-model="EditData[0].InstitutionName">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Course Name:</label>
+                <input type="text" class="form-control" disabled maxlength="100" ng-model="EditData[0].CourseName">
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="font-weight-bold"> Examination Centre :</label>
+                <select class="form-control" id="ExaminationCentre" ng-model="EditData[0].ExaminationCentreID"
+                        ng-options="data.ExaminationCentreID as data.ExaminationCentreName for data in GetExaminationCentresTable">
+                    <option value="" selected>Select Examination Centre</option>
+                </select>
+            </div>
+
+            <!--<div class="col-md-6 form-group">
+                <label class="font-weight-bold" for="Exam Centre">
+                    Examination Centre :
+                </label>
+                <select class="form-control" name="CentreName" required ng-model="ExamCentre" ng-disabled="ExamCentreDisable">
+                    <option value="" selected>Select Examination Centre</option>
+                    <option ng-repeat="data in GetExaminationCentresTable" value="{{data}}">
+                        {{data.ExaminationCentreName}}
+                    </option>
+                </select>
+            </div>-->
+
+
+
+            <div class="col-md-1">
+                <label for="checkbox" class="col-form-label">Active:</label>
+                <input type="checkbox" ng-model="EditData[0].IsActive" />
+            </div>
+            <!--</div>-->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="UpdateDetails(EditData[0])">Update</button>
+        <button type="button" class="btn btn-danger" ng-click="closeModal()">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,242 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+</style>
+<div ng-controller="TwshExamTimeSlotsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Exam Time Slots</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting"> TWSH</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/TwshExamTimeSlots">TWSH Exam Time Slots</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <!-- <div class="sm-spacer"></div>-->
+            <div class="row" style="padding:0px!important">
+                <div class="cl-details">
+                    <h2>TWSH Exam Time Slots</h2>
+                </div>
+            </div>
+            <div class="base-row row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">
+                            Academic Year :
+                        </label>
+                        <select class="form-control" ng-model="year" ng-change="getExamMonthYearsData(year)">
+                            <option value="" selected>Select Academic Year</option>
+                            <option ng-repeat="yr in Acayears" value="{{yr.AcademicID}}">
+                                {{yr.AcademicYear}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Exam Month year:</label>
+                        <div class="">
+                            <select class="form-control" name="semister" required ng-model="ExamMonthYear" ng-change="ChangeExamMonthYear()">
+                                <option value="" selected>Select Month year</option>
+                                <option ng-repeat="data in ExamMonthYears" value="{{data.ExamMonthYearID}}">
+                                    {{data.ExamMonthYear}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> Course : </b>
+                        </label>
+                        <select class="form-control" id="ExamMode" ng-model="Course"
+                                ng-options="data.Id as data.CourseName for data in Courses">
+                            <option value="" selected>Select Course</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> Batch : </b>
+                        </label>
+                        <select class="form-control" id="ExamMode" ng-model="Batch"
+                                ng-options="data.Id as data.BatchName for data in GetBatches">
+                            <option value="" selected>Select Exam Batch</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> Grade : </b>
+                        </label>
+                        <select class="form-control" id="ExamMode" ng-model="Grade"
+                                ng-options="data.Id as data.GradeName for data in Grades">
+                            <option value="" selected>Select Exam Grade</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> Paper 1 Time Slot : </b>
+                        </label>
+                        <input class="form-control" type="text" name="InstituteCode" ng-model="Paper1" required />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> Paper 2 Time Slot : </b>
+                        </label>
+                        <input class="form-control" type="text" name="InstituteCode" ng-model="Paper2" required />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> PCODE : </b>
+                        </label>
+                        <input class="form-control" type="text" name="PCODE" ng-model="PCODE" required />
+                    </div>
+                </div>-->
+                <div class="col-md-3">
+                    <div class="gr-btn">
+                        <button class="btn btn-success" ng-click="Timeslots()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12 " ng-show="Data">
+            <div class="pull-right">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+
+        </div>
+        <div class="col-md-12" style="padding:0px!important" ng-show="Data">
+            <div class="cl-details">
+                <h2>TWSH Exam Time Slots</h2>
+            </div>
+        </div>
+        <div class="row" ng-show="Data">
+
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb col-md-12 scrollbox">
+                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th class="text-center" style="width: 2%;">S.No</th>
+                            <th class="text-center">Academic Year</th>
+                            <th style="">ExamYearMonth</th>
+                            <th class="text-center">Course</th>
+                            <th class="text-center">Batch</th>
+                            <th class="text-center">Grade</th>
+                            <th class="text-center">Exam Date</th>
+                            <th class="text-center">Paper 1 Time Slot</th>
+                            <th class="text-center">Paper 2 Time Slot</th>
+                            <th class="text-center">PCODE</th>
+                            <th class="text-center">Action</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="data in getData" ng-click="openDetails(x)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">
+                                {{data.AcademicYear}}
+                            </td>
+
+                            <td>
+                                {{data.ExamMonthYear}}
+                            </td>
+                            <td class="text-center">
+                                {{data.CourseName}}
+                                <!--<select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.CourseId"
+                ng-options="data.Id as data.CourseName for data in Courses">
+            <option value="" selected>Choose</option>
+        </select>-->
+                            </td>
+                            <td class="text-center">
+                                {{data.BatchName}}
+                                <!--<select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.BatchId"
+                ng-options="data.Id as data.BatchName for data in GetBatches">
+            <option value="" selected>Choose</option>
+        </select>-->
+                            </td>
+                            <td class="text-center">
+                                {{data.GradeName}}
+                                <!--<select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.GradeId"
+                ng-options="data.Id as data.GradeName for data in Grades">
+            <option value="" selected>Choose</option>
+        </select>-->
+                            </td>
+                            <td class="text-center">
+                                {{data.ExamDate}}
+                                <!--<select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.GradeId"
+                ng-options="data.Id as data.GradeName for data in Grades">
+            <option value="" selected>Choose</option>
+        </select>-->
+                            </td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.Paper1TimeSlot" /></td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.Paper2TimeSlot" /></td>
+                            <td class="text-center"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.PCODE" /></td>
+                            <td class="text-center">
+                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                    Edit
+                                </button>
+                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                    Update
+                                </button>
+                                <button class="btn-xs btn btn-danger" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Cancel(data,$index+1)">
+                                    Cancel
+                                </button>
+                            </td>
+                            <td class="text-center" style="cursor:pointer"><button ng-click="DeleteTimeSlot(data.Id)" class="btn btn-xs btn-danger"><b>Delete</b></button></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div style="width:100%;text-align:center;">
+            <div class="loading">
+                <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+            </div>
+
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

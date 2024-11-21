@@ -1,0 +1,86 @@
+﻿<style>
+    fieldset.group-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+  legend.group-border {
+        width: inherit;
+        /* Or auto */
+        padding: 0 10px;
+        /* To give a bit of padding on the left and right */
+        border-bottom: none;
+    }
+  .AddDetainedStudent {
+    background-color: aliceblue;
+}
+</style>
+    <div ng-controller="ReAdmissionController"  >
+        <div class="breadcrumb-header">
+            <!-- breadcrumb Open -->
+            <div class="container">
+                <section class="content-header">
+                    <h5>Detained Students</h5>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="/#!/Dashboard/AdmissionDashboard"> Admission Dashboard</a></li>
+                        <li><a href="/#!/Dashboard/AdmissionDashboard/ReAdmission"> DetainedStudents</a></li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+        <!-- breadcrumb Close -->
+        <section class="content"  >
+          
+            <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+            <!-- {{responsedata}} -->
+            <div class="col-md-12" ng-show="showReAdmissionList">
+         <div class="base-row" >
+               <div class="table-responsive table-custom-tables-tb" >
+                    <table class="table table-bordered  table-striped table-rounded ">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S No</th>
+                                <th>Academic Year</th>
+                                <th>Scheme</th>
+                                <th>Semester</th>
+                                <th>Branch</th>
+                                <th>Detained Count</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in responsedata">
+                                <td>{{$index+1}} </td>
+                                <td>{{data.AcademicYear}}</td>
+                                <td>{{data.Scheme}}</td>
+                                <td>{{data.semid}}</td>
+                                <td>{{data.BranchCode}}</td>
+                                <td>{{data.DetainedCount}}</td>
+                                <td><a class="Verify pointer" ng-click="showDetails(data.College_Code,data.BranchCode,data.semid,data.AcademicYear,data.Scheme)">Click Here</a></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>         
+            </div>
+                </div> 
+                <div class="col-md-12" ng-show="NoResult">
+                    <div  class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2 ng-if="ErrorMsg">{{ErrorMsg}}<div  ng-if="LastDate"> on {{LastDate|date:'dd-MM-yyyy'}}</div></h2>
+                        <h2 ng-if="!ErrorMsg">No Data Found></h2>
+                    </div>
+                </div>
+                </div> 
+        </section>
+    </div>
+

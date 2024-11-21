@@ -1,0 +1,171 @@
+﻿<style>
+
+    .modal-fit .modal-content {
+        height: auto !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+    }
+
+    .modal-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 6px 6px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+        border-top: 1px solid #ddd;
+        font-size: 13px;
+        border: 1px solid #000 !important;
+    }
+
+    table.table {
+        clear: both;
+        margin-bottom: 0px !important;
+        max-width: none !important;
+        border: 1px solid #000;
+    }
+
+    .labCls {
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .DataCss {
+        font-size: 13px;
+    }
+
+    .h_iframe iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    .h_iframe {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<!--<script>
+  function resizeIframe(obj) {
+    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+  }
+</script>-->
+<div class="modal-header aadhar-modal-header">
+    <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+    <h4 class="modal-title center-block"><b>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</b></h4>
+</div>
+<!--<div class="modal-header">
+    <div class=''>
+        <div class=''>
+         
+            <div class='col-md-12 title'>
+                <h5 class='text-center hall_head' style='margin-left: -67px;margin-right: -53px;font-weight:bold;'><b>STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA</b></h5>
+               
+            </div>
+
+        </div>
+    </div>
+</div>-->
+
+<div class="modal-body">
+    <br />
+
+    <div class="col-md-8">
+        <div class="col-md-5 labCls">Name </div><div class="col-md-7 DataCss">: {{StudentData.Name}}</div>
+        <div class="col-md-5 labCls">Application no </div><div class="col-md-7 DataCss">: {{StudentData.ApplicationNumber}}</div>
+        <div class="col-md-5 labCls">Hall Ticket Number </div><div class="col-md-7 DataCss">: {{StudentData.RegNo}}</div>
+        <div class="col-md-5 labCls">Father Name </div><div class="col-md-7 DataCss">: {{StudentData.FatherName}}</div>
+        <div class="col-md-5 labCls">Phone no </div><div class="col-md-7 DataCss">: {{StudentData.StudentPhoneNumber}}</div>
+        <div class="col-md-5 labCls">Grade Applied </div><div class="col-md-7 DataCss">: {{StudentData.GradeName}}</div>
+        <div class="col-md-5 labCls">Date of Birth </div><div class="col-md-7 DataCss">: {{StudentData.DOB}}</div>
+        <div class="col-md-5 labCls">Examination Center </div><div class="col-md-7 DataCss">: {{StudentData.ExaminationCenterName}}</div>
+    </div>
+    <div class="col-md-4">
+        <img src="{{StudentData.photo}}" height="150" width="130" style="border: 2px solid #ddd;margin-bottom:10px;" />
+    </div>
+    <div class="col-md-12">
+        <h6 class='text-center' style='text-transform: uppercase;font-weight:bold;'>
+            Marks Card {{StudentData.MonthYear}}
+        </h6>
+    </div>
+    <div class=''>
+        <!--<table class='table'>
+            <thead>
+
+                <tr>
+                    <th class='text-center' border 1px solid #000000 !important;'>HALL TICKET NO</th>
+                    <th class='text-center' border 1px solid #000000 !important;'>Name</th>
+                    <th class='text-center' border 1px solid #000000 !important;'>Subject Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class='text-center'>{{StudentData.RegNo}} </td>
+                    <td class='text-center'>{{StudentData.Name}}</td>
+                    <td class='text-center'>{{StudentData.Course}}</td>
+                </tr>
+            </tbody>
+        </table>-->
+
+        <table class='table'>
+            <thead>
+
+                <tr>
+                    <th class='text-center' border 1px solid #000000 !important;'>P1 MARKS</th>
+                    <th class='text-center' border 1px solid #000000 !important;'>P2 Marks</th>
+                    <th class='text-center' border 1px solid #000000 !important;'>Result</th>
+                    <th class='text-center' border 1px solid #000000 !important;'>Division</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class='text-center'>{{StudentData.paper1}} </td>
+                    <td class='text-center'>{{StudentData.paper2}}</td>
+                    <td class='text-center'>{{StudentData.Remarks}}</td>
+                    <td class='text-center'>{{StudentData.division}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div style="margin: 6px 0px;">
+        <div class="cl-details">
+            <h2>Exam Answer Sheet</h2>
+        </div>
+    </div>
+    <div class="col-md-12 ">
+        <!--<a class="pull-right" ng-click='OpenFixedWindow()'>Click here to View the preview in new tab.</a>-->
+         <a class="pull-right" ng-href={{Src}} target="_blank">Click here to View the preview in new tab.</a> 
+    </div>
+    <div class="h_iframe">
+        <iframe src={{Src}}></iframe>
+    </div>
+    <!--<div class='sm-spacer'></div>
+                \sandbox="allow-scripts allow-same-origin"
+                 frameborder="0" scrolling="no" class="doc"
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='sm-spacer'></div>
+            <div class='row'>
+                <div class='col-md-6'>
+                    <div style='line-height: 2.0'><b> Place : Hyderabad</b></div>
+                    <div style='line-height: 2.0'><b> Date :  {{StudentData.Today}}</b>
+        </div>
+    </div>
+    <div class='col-md-6'>
+        <div class='pull-right style = ' line-height 2.0'><b> Joint Secretary</b></div>
+    </div>
+            </div>-->
+</div>
+

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bridge Practical Batch Chart</title>
+</head>
+<body>
+    <div ng-controller="PrePractGeographyBatchChartReportController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Geography Practical Batch Allocation Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>Geography Practical Batch Allocation Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <div class="form-group">
+                                    <label for="sel1"> Stream :</label>
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.CourseID" id="CourseID" ng-change="GetExamList(PrePracticalBatchAllocationReport.CourseID)" ng-disabled="true">
+                                        <option value="">Select Stream </option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Year:</label>
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.ExamID" id="ExamID" ng-disabled="true">
+                                        <option value="">Select Year</option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">District:</label>
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.DistrictID" id="DistrictID" ng-change="GetPracticalCenterList(PrePracticalBatchAllocationReport.DistrictID)">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                     <label for="sel1">Practical Center:</label>
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.PrePractCntrID" id="PrePractCntrID">
+                                        <option value=""> -- ALL -- </option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PracticalCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <!--<div class="col-md-3 col-md-offset-1">
+                                <div class="form-group">
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.ZoneID" id="ZoneID" ng-change="GetPracticalCenterList(PrePracticalBatchAllocationReport.DistrictID)" ng-disabled="EnableCenterCollege">
+                                        <option value=""> -- ALL -- </option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <!--<div class="col-md-2 ">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.DistrictID" id="DistrictID" ng-change="GetPracticalCenterList(PrePracticalBatchAllocationReport.DistrictID)">
+                                        <option value="">Select District </option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <!--<div class="col-md-3 ">
+                                <div class="form-group">
+                                     <label for="sel1">Practical Center:</label>
+                                    <select class="form-control" ng-model="PrePracticalBatchAllocationReport.PrePractCntrID" id="PrePractCntrID">
+                                        <option value=""> -- ALL -- </option>
+                                        <option ng-selected="PrePracticalBatchAllocationReport.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PracticalCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetGeographyPrePracticalBatchAllocationReport()">Show</button>
+                                <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <form class="form-horizontal" name="ReportForm" novalidate>
+                            <div class="content-container-fluid">
+                                <div class="row">
+                                    <div class="cols-sample-area">
+                                        <div class="control">
+                                            <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

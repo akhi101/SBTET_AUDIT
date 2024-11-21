@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pre-Exam Management</title>
+</head>
+<body>
+    <div ng-controller="PreExamManagementNewController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Same Management</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Theory</li>
+                        <!--<li>Center Management</li>-->
+                        <li>Same Management</li>
+                    </ol>
+                </div>
+            </div>
+            <div style="margin-top:20px;" class="row base-row">
+                <div class="col-md-6">                    
+                    <form action="#">
+                        <div style="color : red;"><strong>NOTE : After deleteing colleges, Click on Save button.</strong> </div>
+                        <div id="BasicCollege"
+                             ej-grid e-recorddoubleclick="doubleclick"
+                             e-allowgrouping="false"
+                             e-allowsorting="false"
+                             e-allowresizing="false"
+                             e-editsettings-allowdeleting="true"
+                             e-isresponsive="true"
+                             e-datasource="BasicCollegeist"
+                             e-actioncomplete="complete"></div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-4"><label for="sel1">District </label></div>
+                            <div class="col-md-6 form-group">
+                                <select class="form-control" ng-model="PreExamManagementNew.DistrictID" id="DistrictID" ng-disabled="DistEnable">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreExamManagementNew.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label for="ManagementName">Management Name </label></div>
+                            <div class="col-md-6 form-group">
+
+                                <input type="text" class="form-control" id="ExamMngtName" ng-model="PreExamManagementNew.ExamMngtName" required="" maxlength="40" placeholder="ManagementName Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"><label for="ManagementCode">Management Code <span style="color:red">  (e.g 2A)</span></label></div>
+                            <div class="col-md-6 form-group">
+
+                                <input type="text" class="form-control" id="ExamMngtCode" ng-model="PreExamManagementNew.ExamMngtCode" onkeyup="this.value = this.value.toUpperCase();" required="" maxlength="2" placeholder="ManagementName Code"><!--{{ PreExamManagementNew.ExamMngtCode | uppercase }}-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7"><label for="CollegeTo">Add Colleges To This Management<span style="color:red">  (e.g 30201)</span></label></div>
+                            <div class="col-md-3 form-group">
+
+                                <input type="text" class="form-control" id="ColCode" ng-model="PreExamManagementNew.ColCode" input-Number-Only required="" maxlength="8" ng-keydown="FillGrid($event)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary btn-sm"  ng-click="ShowColleges()">Add</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-danger" ng-click="ResetData()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="row">
+                <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreExamManagementNew()">Save</button>
+                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeletePreExamManagementNew()">Delete</button>
+                    <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <form action="#">
+                        <div style="color : red;"><strong>NOTE : Double click on Management to add the colleges. </strong> </div>
+                        <div id="PreExamManagementNew" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                             e-datasource="PreExamManagementNewList"></div>
+                    </form>
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+        <!--<div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="heading_icon"></span><b>Pre-Exam Management</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-6" style="margin-left:400px;">
+                            <div class="form-group">
+                                <label for="sel1">District </label>
+                                <select class="form-control" ng-model="PreExamManagementNew.DistrictID" id="DistrictID">
+                                    <option value="">--Select District --</option>
+                                    <option ng-selected="PreExamManagementNew.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ManagementName">Management Name </label>
+                                <input type="text" class="form-control" id="ExamMngtName" ng-model="PreExamManagementNew.ExamMngtName" required="" maxlength="40" placeholder="ManagementName Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="ManagementCode">Management Code </label>
+                                <input type="text" class="form-control" id="ExamMngtCode" ng-model="PreExamManagementNew.ExamMngtCode" required="" maxlength="40" placeholder="ManagementName Code">
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="margin-left:400px;">
+                            <div class="form-group">
+                                <label style="width:2000px" for="CollegeTo">Add Colleges To This Management </label> <label style="color:red">  (e.g 30001,30098,30098)</label>
+                                <input type="text" class="form-control" style="width:150px" id="ColCode" ng-model="PreExamManagementNew.ColCode" required="" maxlength="8" ng-keydown="FillGrid($event)">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="CollegeTo"></label><br /><br />
+                                <button type="button" class="btn btn-default" style="margin-top:10px" ng-click="ShowColleges()">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="panel-body form_border">
+                        <form action="#">
+                            <div id="BasicCollege"
+                                 ej-grid e-recorddoubleclick="doubleclick"
+                                 e-allowgrouping="false"
+                                 e-allowsorting="false"
+                                 e-allowresizing="false"
+                                 e-editsettings-allowdeleting="true"
+                                 e-isresponsive="true"
+                                 e-datasource="BasicCollegeist"
+                                 e-actioncomplete="complete"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="col-md-12 list_table" style="overflow-x: auto;">
+                    <div class="panel-body" style="overflow-x: auto;">
+                        <div class="form-group text-center">
+                            <div class="form-group" style="text-align: center;">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SavePreExamManagementNew()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-reset" ng-click="DeletePreExamManagementNew()">Delete<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">Exit<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body form_border">
+                <form action="#">
+                    <div id="PreExamManagementNew" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                         e-datasource="PreExamManagementNewList"></div>
+                </form>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

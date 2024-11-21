@@ -1,0 +1,93 @@
+﻿<div ng-controller="OmrCountController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Omr Count</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PreExamination"> Fee Payment</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/OmrCount">Omr Count</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="row base-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Scheme</label>
+                        <select class="form-control" name="scheme" required ng-model="SchemeId" >
+                            <option value="" selected>Select Scheme</option>
+                            <option ng-repeat="data in getSchemes" value="{{data.SchemeID}}">
+                                {{data.Scheme}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!--<div class="form-group">
+                        <select class="form-control" name="semCount" required ng-model="SemCount" >
+                            <option value="" selected>Select Scheme</option>
+                            <option ng-repeat="data in getSchemes" value="{{data.SchemeID}}">
+                                {{data.Scheme}}
+                            </option>
+                        </select>
+                    </div>-->
+                    <button class="btn btn-success" style="margin-top: 23px;" ng-click="getDetails()">Submit</button>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="col-md-12"  ng-show="result">
+            <div class="cl-details">
+                <h2>Omr Count</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="result" >
+            <div class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <!--<th style="width: 1%;"><input type="checkbox" ng-model="allItemsSelected" ng-change="selectAll()"></th>-->
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center" >Scheme</th>
+                            <th class="text-center" >Semester</th>
+                            <th class="text-center"  >Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-click="openDetails(x.SemId,x.SchemeId)" ng-repeat="x in getSemCount">
+                            <!--<td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="data.isChecked" ng-class="{selected: data.isChecked}" ng-change="selectEntity(data)"></td>-->
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{x.Scheme}}</td>
+                            <td class="text-center">{{x.Semester}}</td>
+                            <td class="text-center">{{x.Count}}</td>                     
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-center"><b>Total</b></td>
+                           
+                            <td class="text-center"><b>{{Count}}</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="NoData" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+</div>

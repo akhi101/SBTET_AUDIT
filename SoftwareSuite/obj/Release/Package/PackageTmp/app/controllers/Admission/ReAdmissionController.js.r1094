@@ -1,0 +1,118 @@
+﻿define(['app'], function (app) {
+    app.controller("ReAdmissionController", function ($http, $scope, $localStorage, $state, $stateParams, AppSettings, ReAdmissionService) {
+       
+        var authData = $localStorage.authorizationData;
+        $scope.College_Code = authData.College_Code;
+        $scope.LoadImg = true;
+        $scope.showReAdmissionList = false;
+        $scope.DisplayButton = true;
+        $scope.responsedata = [];
+        $scope.SemesterData = [];
+        $scope.AcaYrData = [];
+        $scope.SchemeData = [];
+        
+        var regex = /^\d+$/;
+        var temp = regex.test($scope.userName);
+
+        $scope.AccessControl = function () {
+            $scope.Access = false;
+            if (temp && ($scope.CollegeID != "0" && $scope.CollegeID != "")) {
+                $scope.Access = true;
+            }
+            else {
+                alert("You are not allowed to access this page");
+                $state.go('login');
+            }
+        };
+
+        var ReAdmissionlistByCollege = ReAdmissionService.GetReAdmissionListByCollegeCode($scope.College_Code);
+        ReAdmissionlistByCollege.then(function (response) {
+            if (response.length > 0) {
+                var SrNo = 1
+                for (var i = 0; i < response.length; i++) {
+                    response[i].ReAdmitStudSrNo = SrNo;
+                    SrNo = SrNo + 1;
+                }
+                $scope.responsedata = response;
+                $scope.filteredData = $scope.responsedata;
+                $scope.LoadImg = false;
+                $scope.showReAdmissionList = true;
+            }
+            else {
+                $scope.LoadImg = false;
+                $scope.showReAdmissionList = true;
+                alert("Data Not Found");
+                $scope.responsedata = [];
+                return;
+            }
+
+        }, function (error) {
+            alert("error");
+
+        });
+       
+       
+
+        $scope.AddDetainedStudent = function (AcademicYear, Deatainedscheme, DetainedSem, Pin) {
+            var collegecode = $scope.College_Code;
+            var AcademicYr = AcademicYear;
+            var scheme = Deatainedscheme;
+            var semid = DetainedSem;
+            var pin =Pin;
+            var AddDetainedStudent = ReAdmissionService.RegisterDetainedStudent(collegecode, AcademicYr, scheme, semid, pin);
+            AddDetainedStudent.then(function (response) {
+                var res = JSON.stringify(response)
+               
+               if (res == "{}" || res == null || res == "") {
+                    alert("student Added Successfully");
+                }else{
+                   alert(res);
+                }
+                  $state.go($state.$current, null, { reload: true });
+               
+            }, function (error) {
+                alert("error");
+                console.log(error);
+
+            });
+        };
+
+        $scope.showAddStudent = function () {
+            $scope.AddStudent = true;
+            $scope.DisplayButton = false;
+
+            var ReAdmissionDisplayList = ReAdmissionService.GetReAdmissionDisplayListBYCollegeCode($scope.College_Code);
+            ReAdmissionDisplayList.then(function (response) {
+                if (response.Table.length > 0) {
+                    $scope.AcaYrData = response.Table;
+                    $scope.SchemeData = response.Table1;
+                    $scope.SemesterData = response.Table2;
+                } else {
+                    alert("dropdowndata not found");
+                    $scope.SemesterData = [];
+                    $scope.AcaYrData = [];
+                    $scope.SchemeData = [];
+                }
+            }, function (error) {
+                alert("error");
+            });
+
+        }
+        //$scope.hasError = function (field, validation) {
+        //    if (validation) {
+        //        return ($scope.StudentDetainedForm[field].$dirty && $scope.StudentDetainedForm[field].$error[validation]) || ($scope.submitted && $scope.StudentDetainedForm[field].$error[validation]);
+        //    }
+        //    return ($scope.StudentDetainedForm[field].$dirty && $scope.StudentDetainedForm[field].$invalid) || ($scope.submitted && $scope.StudentDetainedForm[field].$invalid);
+        //};
+
+        $scope.showDetails = function (CollegeCode, BranchCode, semid,AcademicYear,Scheme) {
+            AppSettings.College_Code = CollegeCode;
+            AppSettings.BranchCode = BranchCode;
+            AppSettings.Semid = semid;
+            AppSettings.AcademicYear = AcademicYear;
+            AppSettings.Scheme = Scheme;
+            $state.go('Admission.ReAdmissionStudentList');
+
+        }
+    });
+});

@@ -1,0 +1,332 @@
+﻿<style>
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .head_print {
+        /*position: fixed;*/
+        /*top: 0mm;
+    width: 100%;*/
+        /*border-bottom: 1px solid black;*/
+    }
+
+    /*--------------------------------------------------*/
+
+
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxessem label {
+            display: block;
+        }
+
+            #checkboxessem label:hover {
+                background-color: #1e90ff;
+            }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .image {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    @media print {
+        .time {
+            display: none;
+        }
+
+        .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+            float: left;
+        }
+
+        .col-md-12 {
+            width: 100%;
+        }
+
+        .col-md-11 {
+            width: 91.66666666666666%;
+        }
+
+        .col-md-10 {
+            width: 83.333333%;
+        }
+
+        .col-md-9 {
+            width: 75%;
+        }
+
+        .col-md-8 {
+            width: 66.66666666666666%;
+        }
+
+        .col-md-7 {
+            width: 58.333333333333336%;
+        }
+
+        .col-md-6 {
+            width: 50%;
+        }
+
+        .col-md-5 {
+            width: 41.66666666666667%;
+        }
+
+        .col-md-4 {
+            width: 33.33333333333333%;
+        }
+
+        .col-md-3 {
+            width: 25%;
+        }
+
+        .col-md-2 {
+            width: 16.666666666666664%;
+        }
+
+        .col-md-1 {
+            width: 8.333333333333332%;
+        }
+
+        .print_tbl {
+            padding: 0px;
+            page-break-after: always;
+        }
+
+        .bck_btn {
+            display: none;
+        }
+
+        .sm-spacer {
+            display: none;
+        }
+
+        .btn_print {
+            display: none;
+        }
+
+        .top-header {
+            display: none;
+        }
+
+        .head_text {
+            font-size: 11px;
+        }
+
+        .footer_section {
+            display: none;
+        }
+    }
+
+    .bck_btn {
+        margin-top: 20px;
+    }
+</style>
+
+<div ng-controller="TwshOdcDownloadController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH ODC Data Download</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TypeWriting</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/TwshOdcDownload">TWSH ODC Data Download</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+          
+            <section class="content">
+                <div id="exTab2" class="container">
+                    <ul class="nav nav-tabs">
+                        <li class="myBtn active" ng-click="ClearData()">
+                            <a href="#1" data-toggle="tab">TMBT</a>
+                        </li>
+                        <li ng-click="ClearData()">
+                            <a href="#2" data-toggle="tab">CBT</a>
+                        </li>
+                        
+                    </ul>
+
+                    <div class="tab-content ">
+                        <div class="tab-pane active" id="1">
+                            <div class="col-md-12">
+                                <div class="cl-details">
+                                    <h2> Generate ODC Data</h2>
+                                </div>
+                            </div>
+                            <div class="alert alert-info">
+                                <div class="row">
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="sel1">
+                                            Exam Month Year:
+                                        </label>
+                                        <select class="form-control" ng-model="ExamMonthYear" name="ExamMonthYear">
+                                            <option value="" selected>Select Exam Month Year</option>
+                                            <option ng-repeat="item in ExamMonthYears track by $index" value="{{item.MONTH_YEAR}}">
+                                                {{item.MONTH_YEAR}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="gr-btn">
+                                            <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="downloadTwshOdcNr()">Twsh ODC Download<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-2">
+                                <div class="gr-btn">
+                                    <button type="button" class="btn btn-sm btn-orange gr-button  pull-left" ng-click="PrinterNrDownloadExcelReport()">Printer NR Excel<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                </div>
+                            </div>-->
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="2">
+                            <div class="alert alert-info">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="sel1">
+                                           From Date :
+                                        </label>
+                                       <input type="date" class="form-control" name="FromDate" ng-model="FromDate" />
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label for="sel1">
+                                            To Date :
+                                        </label>
+                                        <input type="date" class="form-control" name="ToDate" ng-model="ToDate" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="gr-btn">
+                                            <button type="button" class="btn btn-sm btn-primary gr-button  pull-left" ng-click="GetDetails()">Get Data<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-2">
+                <div class="gr-btn">
+                    <button type="button" class="btn btn-sm btn-orange gr-button  pull-left" ng-click="PrinterNrDownloadExcelReport()">Printer NR Excel<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                </div>
+            </div>-->
+
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                            <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                                <img src="../../../contents/img/loading1.gif" width="100" />
+                                <h4><b>Loading, Please wait...</b></h4>
+                            </div>
+
+                            <div style="width: 100%; text-align: center;" ng-show="NrGenerating">
+                                <img src="../../../contents/img/loading1.gif" width="100" />
+                                <h4><b>Generating Twsh ODC Data. This may take a while, Please be Patient.</b></h4>
+                            </div>
+</section>
+        </div>
+        </div>
+    </div>
+

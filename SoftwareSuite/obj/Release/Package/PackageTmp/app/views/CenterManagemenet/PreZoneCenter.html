@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Create Exam Center </title>
+    <style>
+        .table > tbody > tr > td {
+            text-align: left !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="PreZoneCenterController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Create Exam Center</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Theory</li>
+                        <li>Create Exam Center</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="PreZoneCenter.DistrictID" id="DistrictID" ng-change="GetPreZoneData(PreZoneCenter.DistrictID)">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="PreZoneCenter.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Zone :</label>
+                                    <select class="form-control" ng-model="PreZoneCenter.ZoneID" id="ZoneID" ng-change="GetZoneTotal(PreZoneCenter.ZoneID)">
+                                        <option value="">--Select Zone --</option>
+                                        <option ng-selected="PreZoneCenter.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">I Year Total </label>
+                                    <input type="text" class="form-control" id="IYearCount" readonly ng-model="PreZoneCenter.IYearCount">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="email">II Year Total </label>
+                                    <input type="text" class="form-control" id="IIYearCount" readonly ng-model="PreZoneCenter.IIYearCount">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="email">Center to be constituted in this Zone (e.g 30201) </label> <!--<label style="color:red">  (e.g 30001,30098,30098)</label>-->
+                                    <input type="text" class="form-control" id="ColCode" ng-model="PreZoneCenter.ColCode" required="" maxlength="8" input-Number-Only ng-keydown="FillGrid($event)" ng-blur="FillGridOnChange($event)">
+
+                                    <!--<select class="form-control" ng-model="PreZoneCenter.ColCode" id="DistrictID" ng-change="FillGrid($event)">
+                                        <option value="">--Select College --</option>
+                                        <option ng-selected="PreZoneCenter.ColCode == option.ColCode" ng-repeat="option in BasicCollegeList" value="{{option.ColCode}}">{{option.ColName}}</option>
+                                    </select>-->
+
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label for="email">Center Type </label>
+                                    <input type="text" class="form-control" id="ColType" ng-model="PreZoneCenter.ColType" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label for="email">Enter A/B  </label>
+                                    <input type="text" class="form-control" id="MgmtCode" ng-model="PreZoneCenter.MgmtCode" maxlength="2">
+                                </div>
+                            </div>
+                            <div style="margin-top:26px;" class="col-md-2">
+                                <div class="form-group">
+                                    <!--<label for="email">Center</label>-->
+                                    <label class="control-label"><input type="checkbox" ng-model="PreZoneCenter.ChkExistingCenter" id="ChkExistingCenter" ng-change="CheckExistingCenter(PreZoneCenter.ChkExistingCenter)">Existing Center</label> <!--style="margin-right: 4px;"-->
+                                    <label class="control-label"><input type="checkbox" ng-model="PreZoneCenter.ChkNewCenter" id="ChkNewCenter" ng-change="CheckNewCenter(PreZoneCenter.ChkNewCenter)">New Center</label> <!--style="margin-right: 4px; margin-left:10px"-->
+                                </div>
+                            </div>
+                            <div style="margin-top:22px;" class="col-md-2">
+                                <div class="form-group">
+                                    <label for="CollegeTo"></label>
+                                    <button type="button" class="btn btn-detail btn-sm" ng-click="ShowColleges()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-hide="BlnNewCenter">
+                        <div class="col-md-4 col-md-offset-4">
+                            <label>Justification Report </label>
+
+                            <textarea rows="3" cols="60" id="JustificationReport" ng-model="PreZoneCenter.JustificationReport" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" ng-hide="PreZoneCenter.BlnRemainsStudent">
+                        <div style="font-size: 16px; color: #FF0000; font-weight: 700;" class="col-md-12 text-center">
+                            <label> Remaining candidates to be accomodated -{{PreZoneCenter.Diffrence}} </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="row">
+                        <div style="font-size: 16px; color: #3d7eaa; font-weight: 700;" class="col-md-12 text-center">
+                            Center List
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+
+                            <table id="CollegeData" style="font-size:10px;" class="table table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>SrNo</th>
+                                        <th>College Code</th>
+                                        <th>Affiliated</th>
+                                        <th>Stud.Capacity (Max = 1000)</th>
+                                        <th style="width:10px" ;>Sens./ Compl.</th>
+                                        <th>Voc.</th>
+                                        <th>Minor Subject (MS)</th>
+                                        <th>Post Office in Same Area</th>
+                                        <th>Place & Name</th>
+                                        <th>Distance</th>  <!--(Center to Post Office)-->
+                                        <!--<th>Same AS Post Office </th>-->
+                                        <th>Police Station</th>
+                                        <th>Place & Name</th>
+                                        <th>Distance</th>  <!--(Center to Police Station)-->
+                                        <th>With Furniture</th>
+                                        <th>Without Furniture</th>
+                                        <th>Total Seats</th>
+                                        <th>CCTV Count</th>
+                                        <th>Electricity</th>
+                                        <th>Internet</th>
+                                        <th>Computer</th>
+                                        <th>Printer</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="PreZoneClg in PreZoneClgList | filter:search | filter:new_search">
+                                        <td>{{PreZoneClg.SrNo}}</td>
+                                        <td>{{PreZoneClg.ColCode}} -  {{PreZoneClg.ColName}}</td>
+                                        <td><input type="checkbox" style="width:10px ;text-align:right" ng-model="PreZoneClg.AffiliatedFlag" ng-disabled="true"></td>
+                                        <td><input type="number" style="width:50px ;text-align:right" ng-model="PreZoneClg.ExamCapacity" max="1000" input-Number-Only ng-change="GetZoneDifferenceCapacity()"></td>
+                                        <td>
+                                            <!--<label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="ExamForms.Gender" checked value="M">Y
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optradio" ng-model="ExamForms.Gender" value="F">N
+                                            </label>-->
+                                            <!--<select class="form-control" id="sel1" style="width:20px ;text-align:right" ng-model="PreZoneClg.SensiCompli">
+                                                <option value="Y">Yes</option>
+                                                <option value="N">No</option>
+                                            </select>-->
+                                            <input type="checkbox" ng-model="PreZoneClg.SensiCompli">
+                                        </td>
+                                        <td><input type="checkbox" ng-model="PreZoneClg.Vocational"></td>
+                                        <td><input type="checkbox" ng-model="PreZoneClg.MinorSubject"></td>
+                                        <td><input type="checkbox" ng-model="PreZoneClg.PostOfficeFlag" ng-change="CheckChangePostOffice(PreZoneClg)"></td>
+                                        <td><input ng-disabled="PreZoneClg.PostOfficeFlag" type="text" ng-model="PreZoneClg.PostOffice"></td>
+                                        <td><input ng-disabled="PreZoneClg.PostOfficeFlag" type="text" style="width:30px ;text-align:right" ng-model="PreZoneClg.PostOfficeDistance" input-Number-Only></td>
+                                        <!--<td><input type="checkbox" ng-model="PreZoneClg.SameCity" ng-checked="SameCityClicked(PreZoneClg)"></td>-->
+                                        <td><input type="checkbox" ng-model="PreZoneClg.PoliceStationFlag" ng-change="CheckChangePoliceStation(PreZoneClg)"></td>
+                                        <td><input ng-disabled="PreZoneClg.PoliceStationFlag" type="text" ng-model="PreZoneClg.PoliceStation" ></td>
+                                        <td><input ng-disabled="PreZoneClg.PoliceStationFlag" type="text" style="width:30px ;text-align:right" ng-model="PreZoneClg.Distance" input-Number-Only></td>
+                                        <td><input type="text" style="width:30px; text-align:right" ng-model="PreZoneClg.FurnitureNo" ng-disabled="true" input-Number-Only ></td>
+                                        <td><input type="text" style="width:30px; text-align:right" ng-model="PreZoneClg.OFurnitureNo" ng-change="CalTotalSeats(PreZoneClg)" input-Number-Only></td>
+                                        <td>{{PreZoneClg.TotalSeats}}</td>
+                                        <td><input type="text" style="width:30px; text-align:right" ng-model="PreZoneClg.CCamerasNo" input-Number-Only></td>
+                                        <td><input type="checkbox" style="width:20px" ; ng-model="PreZoneClg.ElectricityFlag"></td>
+                                        <td><input type="checkbox" style="width:20px" ; ng-model="PreZoneClg.InternetFlag"></td>
+                                        <td><input type="checkbox" style="width:20px" ; ng-model="PreZoneClg.ComputerFlag"></td>
+                                        <td><input type="checkbox" style="width:20px" ; ng-model="PreZoneClg.PrinterFlag"></td>
+                                        <td><button style="width:50px" ng-click="Delete($index)">Delete</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="sel1" style="color:red;"width:30px" ;> <input type="checkbox" checked ng-disabled="true" /> Indicates 'Yes'</label>
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-md-offset-7" style="margin-left:765px">
+                            Total :  <input id="TotalFreight" type="text" ng-model="PreZoneCenter.TotalStudentCapacity" readonly style="width:50px;height:20px;text-align:right" />
+                        </div>
+                    </div>
+                    <div style="margin-bottom:20px;" class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreZoneCenter()">Save</button>
+                            <!--<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeletePreZoneCenter()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>-->
+                            <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- New Style End-->
+    </div>
+</body>
+</html>

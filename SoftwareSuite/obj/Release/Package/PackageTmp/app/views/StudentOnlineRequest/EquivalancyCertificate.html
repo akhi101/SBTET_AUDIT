@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Equivalency Certificate</title>
+    <script>
+        function AvoidSpace(event) {
+            var k = event ? event.which : window.event.keyCode;
+            if (k == 32) return false;
+        }
+    </script>
+</head>
+<body>
+    <div ng-controller="EquivalancyCertificateController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Equivalency Certificates</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Equivalency Certificates</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p>The Candidate who passed Intermediate/HSC/+2 are eligible.</p>
+                    <p style="font-size:18px; font-weight:100;">For any queries please mail to :</p>
+                    <p style="font-weight:700;">helpdesk-ie@telangana.gov.in</p>
+                    <p style="font-weight:700;">
+                        Contact 040-24600110
+                    </p>
+                    <p style="font-weight:700;">(Timings 9:30 AM to 5:30 PM on all Working Days)</p>
+                </div>
+                <div class="col-md-9">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-12 blu-txt"> <b>Student Details</b><hr /> </div>
+                        </div>
+                        <!--New Style Start-->
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for="sel1">
+                                    <font color="red">*&nbsp;</font>10th Passed Year :
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group" >
+                                <select class="form-control" id="ExamYear" ng-model="EquivalancyCertificate.TenExYr">
+                                    <option value="0">Select Year</option>
+                                    <option ng-repeat="Exam_Year in Exam_Years">{{Exam_Year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for="sel1"><font color="red">*&nbsp;</font>12th Passed Year :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control" id="ExamYear" ng-model="EquivalancyCertificate.TweExYr">
+                                    <option value="0">Select Year</option>
+                                    <option ng-repeat="Exam_Year in Exam_Years">{{Exam_Year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label>Type</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="radio-inline"><input type="radio" id="General" name="optradio" ng-model="CourseType" value="G" ng-change="ChangeCourseType(CourseType)" checked >General</label>
+                                <label class="radio-inline"><input type="radio" id="Vocational" name="optradio" ng-model="CourseType" value="V" ng-change="ChangeCourseType(CourseType)">Vocational</label>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label for=""><font color="red">*&nbsp;</font>Candidate Name :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="StudName" ng-model="EquivalancyCertificate.StudName" ng-minlength="3" ng-maxlength="100" required>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for=""><font color="red">*&nbsp;</font>Gender :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <form>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="EquivalancyCertificate.Gender" checked value="M"> Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <
+                                        <input type="radio" name="optradio" ng-model="EquivalancyCertificate.Gender" value="F"> Female
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="EquivalancyCertificate.Gender" value="T"> Transgender
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label class="form-inline" for=""><font color="red">*&nbsp;</font>Father Name :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="FatherName" ng-minlength="3" ng-maxlength="100" ng-model="EquivalancyCertificate.FatherName">
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label class="form-inline" for=""><font color="red">*&nbsp;</font>Mother Name :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="MotherName" ng-minlength="3" ng-maxlength="100" ng-model="EquivalancyCertificate.MotherName">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label class="form-inline" for=""><font color="red">*&nbsp;</font>Hall Ticket No/Seat No/Unique Id :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="SSCHallTicket" ng-model="EquivalancyCertificate.SSCHallTicket" onkeypress="return AvoidSpace(event)" ng-pattern="/^[a-zA-Z0-9]*$/">
+                                <span ng-show="hideReApply" style="font-size:9px;"> (If You have Roll Code and Roll No, Please enter Roll Code first give a space then enter Roll No.)</span>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for=""><font color="red">*&nbsp;</font>Residential Address :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <textarea style="width:100%;" rows="4" id="Address" ng-model="EquivalancyCertificate.Address" ng-minlength="1" ng-maxlength="100"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label><font color="red">*&nbsp;</font>Mobile Number :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="MobileNo" ng-model="EquivalancyCertificate.MobileNo" maxlength="10" input-Number-Only onpaste="return false;">
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for="sel1"><font color="red">*&nbsp;</font>12th Board Name :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <select class="form-control" id="BoardID" ng-model="EquivalancyCertificate.BoardID" ng-change="BoardChange(EquivalancyCertificate.BoardID)">
+                                    <option value="0">Select Board Name</option>
+                                    <option ng-selected="EquivalancyCertificate.BoardID == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for="ExaminationName"><font color="red">*&nbsp;</font>12th Examination Name :</label><!--BoardID-->
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="ExamName" ng-model="EquivalancyCertificate.ExamName" ng-minlength="1" ng-maxlength="200">
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for="sel1"><font color="red">*&nbsp;</font> 12th Passed Year and Month :</label>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <select class="form-control" id="ExamYear" ng-model="EquivalancyCertificate.TweExYr">
+                                    <option value="0">Select Year</option>
+                                    <option ng-repeat="Exam_Year in Exam_Years">{{Exam_Year}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <select class="form-control" id="ExamMonth" ng-model="EquivalancyCertificate.ExmMonth">
+                                    <option value="0">Select Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc1}}" font color="red">View Uploaded 10th Marks Memo</a><br />
+                                    <font color="red">*&nbsp;</font>
+                                    Upload 10th Marks Memo
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="10thMarkFile" id="10thMarkFile" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload1(this)" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                               
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc2}}" font color="red">View Uploaded 12th Marks Memo</a><br />
+                                    <font color="red">*&nbsp;</font>
+                                    Upload 12th Marks Memo
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="12thMarkFile" id="12thMarkFile" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload2(this)" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                               
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc3}}" font color="red">View Uploaded 12th Transfer Certificate</a><br />
+                                    <font color="red">*&nbsp;</font> 
+                                    Upload 12th Transfer Certificate
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="12thTransCerti" id="12thTransCerti" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload3(this)" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc4}}" font color="red">View Uploaded 12th Migration Certificate</a><br />
+                                    <font color="red">*&nbsp;</font> 
+                                    Upload 12th Migration Certificate</label><!--Upload 10th Transfer Certificate-->
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="10thTransFile" id="10thTransFile" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload4(this)" />
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="ShowForeign">
+                            <div class="col-md-3">
+                                
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc5}}" font color="red">View  Uploaded Copy of Passport</a><br />
+                                <font color="red">*&nbsp;</font> 
+                                Copy of Passport</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="PassportCopy" id="PassportCopy" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload5(this)" />
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="ShowForeign">
+                            <div class="col-md-3">
+                                
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc6}}" font color="red">View Uploaded Letter from Embassy/Association of Indian Universities</a><br />
+                                    <font color="red">*&nbsp;</font>
+                                    Letter from Embassy/Association of Indian Universities</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="LetterFromEmbassy" id="LetterFromEmbassy" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload6(this)" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <label>
+                                    <a ng-show="ShowReAppCert" ng-href="{{EquivalancyCertificate.UploadDoc7}}" font color="red">View Uploaded Affidavit</a><br />
+                                    <font color="red">*&nbsp;</font> 
+                                    Upload Affidavit
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="file" class="form-control btn-primary" name="Affidavit" id="AffidavitFile" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileUpload7(this)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="/* margin-top: 20px; */margin-bottom:20px;" class="col-md-11 col-md-offset-3"><span style="font-size:10px;"> (All above Document file size must be less then 200KB, and should be in PDF format)</span></div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for=""><font color="red">*&nbsp;</font> Address and name of the College into which admission is bought :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <textarea style="width:100%;" rows="4" id="ColNmAndAddr" ng-model="EquivalancyCertificate.ColNmAndAddr"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for=""><font color="red">Fee (in rupees) :</font></label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="FeeAmount" style="color:red;" ng-model="EquivalancyCertificate.FeeAmount" ng-readonly="true" input-Number-Only>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3">
+                                <label for=""><font color="red">*&nbsp;</font> Purpose :</label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <textarea style="width:100%;" rows="4" id="Purpose" ng-model="EquivalancyCertificate.Purpose" ng-minlength="1" ng-maxlength="120"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 form-group" ng-show="DwFileShow">
+                                <a href="{{EquivalancyCertificate.DwFilePath}}">Download Equivalancy Certificate></a>
+                            </div>
+                        </div>
+                        <div class="row form-group" ng-show="hideReApply">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 form-group"></div>
+                        </div>
+                        <!--New Style End-->
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="submit"   ng-show="showsubmitpay" ng-disabled="RollEditDisable" ng-click="SaveEquivalencyCertificate()" class="btn btn-detail btn-sm">Submit & Pay</button>
+                                <button type="button" ng-show="showReapply" ng-click="SaveEquivalencyCertificateReApply()" class="btn btn-sm btn-detail">Submit</button>
+                                <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm">Back</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Style end-->
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

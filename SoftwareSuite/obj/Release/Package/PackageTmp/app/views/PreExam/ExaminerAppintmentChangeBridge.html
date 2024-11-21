@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Examiner Mobile Number Update</title>
+</head>
+<body>
+    <div ng-controller="BasicExaminerAppointMentChangeBridgeController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> Examiner Appointment Change </strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Pre Exam</li>
+                        <li>Bridge Examiner Appointments</li>
+                        <li>Bridge Examiner Appointment Change </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">                            
+                           
+                             
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Main Group :</label>
+                                    <select class="form-control" ng-disabled="isGroupDisabled" ng-model="BasicExaminer.MainGrpID" id="MainGrpID" ng-change="GetBasicExamSubjectList(BasicExaminer.BranchID)">
+                                        <option value="">--Select Main Group --</option>
+                                        <option ng-selected="BasicExaminer.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Subject :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.ExmSubID" id="ExmSubID">
+                                        <option value="">--Select Subject --</option>
+                                        <option ng-selected="BasicExaminer.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.DistrictID" id="DistrictID" ng-change="GetBasicCollegeList(BasicExaminer.DistrictID)">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="BasicExaminer.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Center :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.PrePractCntrID" id="PrePractCntrID">
+                                        <option value="">Select  Center </option>
+                                        <option ng-selected="BasicExaminer.PrePractCntrIDNew == option.PrePractCntrID" ng-repeat="option in PracticalCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                    <!--<select class="form-control" ng-model="BasicExaminer.CollegeID" id="CollegeID">
+                <option value="">--Select College --</option>
+
+                <option ng-selected="BasicExaminer.CollegeID == option.CollegeID" ng-repeat="option in BasicCollegeList" value="{{option.CollegeID}}">{{option.ColName}}</option>
+            </select>-->
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetBasicExaminerList()">Show</button>
+                        <!--<button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="exTab1" style="margin-top:0px;">
+                            <!--<br />-->
+                            <table class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr style="font-weight:bold">
+                                        <td style="text-align:center; width:50px;">#</td>
+                                        <td>Examiner Name</td>
+                                        <td>From Date</td>
+                                        <td>To Date</td>
+                                        <td style="text-align:center;">Designation</td>
+                                        <td>Examiner No</td>
+                                        <td>Examiner College</td>
+                                        <td>Examiner Mobile No.</td>
+                                        <td>Appointed College</td>
+                                        <!-- <td>New College</td>-->
+                                        <td>New Examiner</td>
+                                        <td>New Examiner Mobile</td>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="BasicExaminer in BasicExaminerList | filter:search | filter:new_search">
+                                    <td style="text-align:center; width:50px;"><input type="checkbox" ng-model="BasicExaminer.cheExaminer"></td>
+                                    <td style="text-align:left;">{{BasicExaminer.full_name}}</td>
+                                    <td>{{BasicExaminer.FromDateStr}}</td>
+                                    <td>{{BasicExaminer.ToDateStr}}</td>
+                                    <td style="text-align:center;">{{BasicExaminer.designation}}</td>
+                                    <td>{{BasicExaminer.ExaminerCode}}</td>
+                                    <td>{{BasicExaminer.ExaminerCollege}}</td>
+                                    <td><input type="text" class="form-control" ng-model="BasicExaminer.mobile_no" input-Number-Only maxlength="10"></td>
+                                    <td>{{BasicExaminer.ColName}}</td>
+                                    <!--<td><input type="text" class="form-control" ng-model="BasicExaminer.mobile_no" input-Number-Only maxlength="10"></td>
+                                <td>
+    <select class="form-control" ng-model="BasicExaminer.PrePractCntrIDNew" id="PrePractCntrIDNew">
+        <option value="">Select  Center </option>
+        <option ng-selected="BasicExaminer.PrePractCntrIDNew == option.PrePractCntrIDNew" ng-repeat="option in PracticalCenterListForAppointment" value="{{option.PrePractCntrIDNew}}">{{option.ColName}}</option>
+    </select>    </td>-->
+                                    <td>
+                                        <select class="form-control" ng-model="BasicExaminer.ExaminerIDNew" id="ExaminerIDNew" ng-change="GetNewExaminerMobileNo(BasicExaminer)">
+                                            ID
+                                            <option value="">Select  Examiner </option>
+                                            <option ng-selected="BasicExaminer.ExaminerIDNew == option.ExaminerIDNew" ng-repeat="option in BasicExaminer.BasicExaminerList" value="{{option.ExaminerIDNew}}">{{option.full_nameNew}}</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" ng-model="BasicExaminer.mobile_noNew" input-Number-Only maxlength="10"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveExaminerAppointment()">Save</button>
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

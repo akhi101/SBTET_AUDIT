@@ -1,0 +1,1104 @@
+﻿<style>
+    legend.group-border {
+        width: inherit;
+        /* Or auto */
+        padding: 0 10px;
+        /* To give a bit of padding on the left and right */
+        border-bottom: none;
+    }
+
+    /*date picker css*/
+    .full button span {
+        background-color: limegreen;
+        border-radius: 32px;
+        color: black;
+    }
+
+    .partially button span {
+        background-color: orange !important;
+        border-radius: 32px;
+        color: black !important;
+    }
+    /* .datpicker .text-info contains text for today's date but
+    it dosn't work when we are not showing the current month */
+    .datepicker .text-info {
+        font-size: 14px;
+        color: black !important;
+    }
+    /* .datpicker .btn-info contains selected date */
+    .datepicker .btn-info {
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #39b3d7 !important;
+    }
+
+    .btn-default {
+        border-color: #fdfdfd !important;
+        color: #fff !important;
+        background-color: #34495e !important;
+    }
+
+    .datepicker .btn:disabled {
+        font-size: 14px;
+        font-weight: normal;
+        color: gray;
+    }
+
+        .datepicker .btn:disabled > .text-muted {
+            font-size: 14px;
+            font-weight: normal;
+            color: gray;
+        }
+
+    .datepicker .text-muted {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .datepicker .btn:enabled {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .required:before {
+        content: "*";
+        color: red;
+        font-weight: bold;
+    }
+
+    fieldset.group-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    .sm-spacer {
+        height: 70px;
+    }
+
+    @media print {
+
+        .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+            float: left;
+        }
+
+        .col-md-12 {
+            width: 100%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-11 {
+            width: 91.66666666666666%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-10 {
+            width: 83.33333333333334%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-9 {
+            width: 75%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-8 {
+            width: 66.66666666666666%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-7 {
+            width: 58.333333333333336%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-6 {
+            width: 50%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-5 {
+            width: 41.66666666666667%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-4 {
+            width: 33.33333333333333%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-3 {
+            width: 25%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-2 {
+            width: 16.666666666666664%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .col-md-1 {
+            width: 8.333333333333332%;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .o-info {
+            display: none;
+        }
+
+        .top-header {
+            display: none;
+        }
+
+        .breadcrumb {
+            display: none;
+        }
+
+        .formSection {
+            display: none;
+        }
+
+        .breadcrumb-header {
+            display: none;
+        }
+
+        .backA {
+            display: none;
+        }
+
+        .footer_section {
+            display: none;
+        }
+
+        .printBtn {
+            display: none;
+        }
+
+        mtp-50 {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .card {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        hr {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+            border: 0;
+            border-top: 1px solid #eee;
+        }
+
+        .card {
+            border: 0px !important;
+        }
+    }
+</style>
+<div ng-controller="StudentRegController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Student Details Updation</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/Admission">Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/Admission/StudentRegList">Student Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/Admission/StudentRegList/StudentReg">Student Details Updation</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="content " ng-show="details">
+        <div class="container">
+            <div class="col-md-12">
+                <a class="backA" ng-click="backPage()"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="col-md-12 mtp-50">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offer-custom-style">
+                                <h2>Application Details</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="custom-forms">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="">
+
+                                        <div class="col-md-12 ">
+
+                                            <div class="col-md-3"><label style="margin:0px 10px 0px 10px">PIN  </label></div>
+
+                                            <div class="col-md-9 pre-text" style="padding:0px 10px 0px 10px">: {{printData.PIN}}</div>
+                                        </div>
+
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"> <label style="margin:0px 10px 0px 10px"> Name </label></div>
+                                            <div class="col-md-9 pre-text" style="padding:0px 10px 0px 0px">: {{printData.AcademicYearId}} </div>
+                                        </div>
+                                        <div class="col-md-12 ">
+                                            <div class="col-md-3"> <label style="margin:0px 10px 0px 10px">Father Name </label></div>
+
+                                            <div class="col-md-9 pre-text" style="padding:0px 10px 0px 10px">: {{printData.FatherName}}</div>
+
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"><label style="margin:0px 10px 0px 10px">Mother's Name</label></div>
+                                            <div class="col-md-9 pre-text" style="padding:0px 10px 0px 0px!important;">: {{printData.MotherName}}</div>
+                                        </div>
+                                        <div class="col-md-12 ">
+
+                                            <div class="col-md-3"> <label style="margin:0px 10px 0px 10px">Date of Birth </label></div>
+                                            <div class="col-md-9 pre-text" style="padding:0px 10px 0px 10px">: {{printData.DateOfBirth}}</div>
+
+
+
+
+                                        </div>
+
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Gender </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px">: {{printData.Gender}}</div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Semester </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px">:{{printData.Semester}}</div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Branch </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px">: {{printData.BankBranch}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Tenth Year </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px">: {{printData.TenthYear}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Tenth Board </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px;">: {{printData.BoardName}}</div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Tenth Hallticket Number </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px;">: {{printData.TenthHallTicketNo}}</div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Polycet Hallticket Number </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px;">: {{printData.PolycetHallTicketNo}}</div>
+                                        </div>
+
+                                        <div class="col-md-6 ">
+                                            <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Minority Type </label></div>
+                                            <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px;">: {{printData.MinorityType}}</div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-center">
+                                    <img ng-src="{{printData.profilephoto}}" style="border: 2px solid #ddd;" height="175" width="150" />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row " style="padding: 0px 15px;">
+                                <!--<div class="col-md-6 ">
+
+                                    <div class="col-md-5"><label>Institution </label></div>
+                                    <div class="col-md-7 pre-text">: Private Candidate</div>
+                                </div>-->
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Tenth Board </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.TenthBoard}}</div>
+                                </div>
+
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Tenth Hallticket Number </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.TenthHallTicketNo}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Polycet Hallticket Number </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.PolycetHallTicketNo}}</div>
+                                </div>
+
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Minority Type </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.MinorityType}}</div>
+                                </div>
+
+                                <!--<div class="col-md-5"><label>Institution </label></div>
+                                    <div class="col-md-7 pre-text">: Private Candidate</div>
+                                </div>-->
+
+
+
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Region </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.Region}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Aadhar Number </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.AadharNo}}</div>
+                                </div>
+
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Highest Educational Qualification</label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.EduQualification}}</div>
+                                </div>
+
+
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Religion </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.Religion}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Studied /Resided During SSC </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.StudentRecided}}</div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="col-md-4"><label style="margin:0px 10px 0px 10px">House No & Street (or) Village </label></div>
+                                    <div class="col-md-8 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.HouseNo}}</div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-4"><label style="margin:0px 10px 0px 10px">Village Post Office (or) Town </label></div>
+                                    <div class="col-md-8 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.VillageorTown}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">District</label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.DistrictId}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Mandal </label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.MandalId}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Pincode</label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.Pincode}}</div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Email Id</label></div>
+                                    <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.EmailId}}</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Parent Mobile Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.ParentContact}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Student Mobile Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.StudentContact}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Father Aadhaar Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.FatherAadhaarNo}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Mother Aadhaar Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.MotherAadhaarNo}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Is Father Govt Employee ?</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">
+                                    :<span ng-if="printData.IsFatherGorthEmp == true">Yes</span>
+                                    {{printData.IsFatherGorthEmp}}
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Meeseva Income Certificate Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.Income}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Occupation</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.Occupation}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">MeeSeva Caste Certificate Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.CasteNo}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Bank Name</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.Bank}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Bank Account Number</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.BankAccountNo}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">IFSC Code</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.IfscCode}}</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="col-md-6"><label style="margin:0px 10px 0px 10px">Branch</label></div>
+                                <div class="col-md-6 pre-text" style="padding:0px 10px 0px 10px!important;">: {{printData.BankBranch}}</div>
+                            </div>
+
+
+
+                            <!--<div class="col-md-6 form-group">
+                                <label>Examination Center :</label> Hyderabad
+                            </div>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <button type="submit" ng-click="printDetails()" style="margin-bottom:50px;" class="btn printBtn btn-detail pull-right">
+                    Print
+                </button>
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+    <section class="content base-row formSection" id="idtoDivPrint" ng-show="Form">
+        <div class="container">
+            <div class="col-md-12" ng-show="RouteName==1">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard/AdmissionReports/AdmissionReportPinList" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12" ng-show="RouteName==2">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard/Admission/StudentRegList" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <h3>
+                        Update Student
+                    </h3>
+                </div>
+                <div class="col-md-3">
+
+                    <button class="btn btn-success" ng-click="viewDetails()">View Details & Print</button>
+
+                </div>
+
+            </div>
+
+            <!--<toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>-->
+            <form name="studentRegForm" class="studentRegForm" ng-submit="UpdateFirstPage()">
+                <fieldset class="group-border">
+                    <legend class="group-border">Student's Personal Detail</legend>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdPin">PIN :</label>
+                                <input type="text" ng-disabled="PreDisable" class="form-control input-sm" id="stdPin" ng-Model="StudentReg.PIN"
+                                       no-Special-Char>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdSem"> Joining Year :</label>
+                                <input type="text" class="form-control input-sm" value="{{StudentReg.AcademicYearId}}" ng-disabled="PreDisable" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdShift">Shift :</label>
+                                <select class="form-control input-sm" id="stdShift" ng-Model="StudentReg.ShiftId"
+                                        ng-options="x.ShiftId as x.Shift for x in staticData.Table11"
+                                        no-Special-Char disabled></select>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label for="stdName">Name :</label>
+                                <input type="text" class="form-control input-sm" name="Name" id="stdName" ng-Model="StudentReg.Name"
+                                       disabled no-Special-Char ng-disabled="PreDisable">
+                                <!--<span ng-show="studentRegForm.Name.$dirty && studentRegForm.Name.$invalid">
+                                    <span ng-show="hasError('Name', 'required')">Name is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="stdGender">Gender :</label>
+                                <select class="form-control input-sm" id="stdGender" ng-model="StudentReg.Gender" ng-disabled="PreDisable" name="Gender"
+                                        ng-options="x.GenderId as x.Gender for x in staticData.Table">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                                <!--<span ng-show="studentRegForm.Gender.$dirty && studentRegForm.Gender.$invalid">
+                                    <span ng-show="hasError('Gender', 'required')">Gender is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="datetimepicker1">Date Of Birth :</label>
+                            <div class='input-group'>
+                                <sa-date ng-model="StudentReg.DateOfBirth" datedisable="DOBDisable" object="StudentReg.DateOfBirth" objectname="DateofBirth" length="100" ispascal="true"> </sa-date>
+
+                                <!--
+                                                        <div class='input-group' id='datetimepicker1'>
+                                                            <input type='date' class="form-control" name="DateofBirth" ng-disabled="DOBDisable" ng-model="StudentReg.DateOfBirth" />
+                                                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>-->
+                                <!--<span ng-show="studentRegForm.DateofBirth.$dirty && studentRegForm.DateofBirth.$invalid">
+                                    <span ng-show="hasError('DateofBirth', 'required')">Date of Birth is required</span>
+                                </span>
+                                                        </div>-->
+                                <!--<div class="form-group hidden">
+                                    <input type="text" class="form-control input-sm" id="BirthDate"
+                                           ng-model="StudentReg.DateOfBirth" no-Special-Char ng-disabled="PreDisable">
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label for="stdFathername">Father Name :</label>
+                                <input type="text" disabled class="form-control input-sm" maxlength="1000" ng-disabled="PreDisable" name="FatherName" id="stdFathername" ng-Model="StudentReg.FatherName"
+                                       no-Special-Char>
+                                <!--<span ng-show="studentRegForm.FatherName.$dirty && studentRegForm.FatherName.$invalid">
+                                    <span ng-show="hasError('FatherName', 'required')">Father's name is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <!--<label for="StudentPhoto">Photo Update :</label>-->
+                                <img ng-src="{{StudentReg.profilephoto}}" id="stdPhotoImg" class="img img-responsive"
+                                     style="height: 100px; width: 125px;" requried>
+                                <label>click here to Update  Photo :</label>
+                                <input onchange="angular.element(this).scope().uploadPhoto()" type="file" accept="image/x-png,image/jpeg,image/jpg" ng-model="StudentReg.profilephoto" id="stdPhotoFile" class="upld-file">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <img ng-src="{{StudentReg.CandidateSign}}" id="stdCandidateSignImg" class="img img-responsive"
+                                     style="height: 75px; width: 200px;" required>
+                                <label>click here to update Sign</label>
+                                <input id="stdCandidateSignFile" onchange="angular.element(this).scope().uploadSign()" accept="image/x-png,image/jpeg,image/jpg" ng-model="StudentReg.CandidateSign" type="file" class="upld-file">
+                                <!--<span ng-show="studentRegForm.CandidateSign.$dirty && studentRegForm.CandidateSign.$invalid">
+
+                                    <span ng-show="hasError('CandidateSign', 'required')">Signature is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="CategoryId">Special Category :</label>
+                                <div class="checkbox">
+                                    <div ng-repeat="x in staticData.Table10">
+                                        <input type="checkbox" id="spCatId{{x.SpecialCategoryId}}" value="{{x.SpecialCategoryId}}" ng-click=selectioncheck(x)>
+                                        <label class="splabel"> {{x.SpecialCategory}} </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label for="stdFathername">Father Name :</label>
+                                <input type="text" disabled class="form-control input-sm" maxlength="1000" ng-disabled="PreDisable" name="FatherName" id="stdFathername" ng-Model="StudentReg.FatherName"
+                                       no-Special-Char>
+                                <!--<span ng-show="studentRegForm.FatherName.$dirty && studentRegForm.FatherName.$invalid">
+                                    <span ng-show="hasError('FatherName', 'required')">Father's name is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdCategory">Caste Category :</label>
+                                <select class="form-control input-sm" id="stdCategory" ng-model="StudentReg.CategoryId" ng-disabled="categorydisable" name="Category"
+                                        ng-options="x.CategoryId as x.Category for x in staticData.Table5">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                                <!--<span ng-show="studentRegForm.Category.$dirty && studentRegForm.Category.$invalid">
+                                    <span ng-show="hasError('Category', 'required')">Catagory is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdFathername">Allotted :</label>
+                                <input type="text" disabled class="form-control input-sm" maxlength="1000" ng-disabled="PreDisable" name="AdmissionCategory" id="AdmissionCategory" ng-Model="StudentReg.AdmissionCategory"
+                                       no-Special-Char>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdSemester">Semester :</label>
+                                <select class="form-control input-sm" id="stdSemester" name="stdSemester" ng-Model="StudentReg.SemId"
+                                        no-Special-Char ng-disabled="PreDisable" ng-options="x.SemId as x.YearSem for x in staticData.Table13">
+                                    <option value="0">Choose</option>
+                                </select>
+                                <!--<span ng-show="studentRegForm.stdSemester.$dirty && studentRegForm.stdSemester.$invalid">
+                                    <span ng-show="hasError('stdSemester', 'required')">Religion is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdBranch">Branch :</label>
+                                <select class="form-control input-sm" id="stdBranch" ng-Model="StudentReg.BranchId"
+                                        ng-options="x.courseid as x.BranchName for x in staticData.Table14"
+                                        no-Special-Char ng-disabled="PreDisable">
+                                    <option value="">Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdTenthYear">Tenth Year :</label>
+                                <select class="form-control input-sm" id="stdTenthYear" ng-model="StudentReg.TenthYear" ng-disabled="PreDisable" name="stdTenthYear">
+                                    <option value="">Choose</option>
+                                    <option>2010</option>
+                                    <option>2011</option>
+                                    <option>2012</option>
+                                    <option>2013</option>
+                                    <option>2014</option>
+                                    <option>2015</option>
+                                    <option>2016</option>
+                                    <option>2017</option>
+                                    <option>2018</option>
+                                    <option>2019</option>
+                                    <option>2020</option>
+
+                                </select>
+                                <!--<span ng-show="studentRegForm.stdTenthYear.$dirty && studentRegForm.stdTenthYear.$invalid">
+                                    <span ng-show="hasError('stdTenthYear', 'required')">Tenth class year is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdTenthBoard">Tenth Board :</label>
+                                <select class="form-control input-sm" id="stdTenthBoard" name="stdTenthBoard" ng-disabled="PreDisable" ng-model="StudentReg.TenthBoard" ng-options=" x.BoardID as x.BoardName for x in staticData.Table15">
+                                    <option value="">Choose</option>
+                                </select>
+                                <!--<span ng-show="studentRegForm.stdTenthBoard.$dirty && studentRegForm.stdTenthBoard.$invalid">
+                                    <span ng-show="hasError('stdTenthBoard', 'required')">Tenth board is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdTenthHallticket">Tenth Hallticket Number :</label>
+                                <input type="text" class="form-control input-sm" id="stdTenthHallticket" name="stdTenthHallticket" disabled
+                                       ng-Model="StudentReg.TenthHallticketNo" no-Special-Char ng-disabled="PreDisable">
+                                <!--<span ng-show="studentRegForm.stdTenthHallticket.$dirty && studentRegForm.stdTenthHallticket.$invalid">
+                                    <span ng-show="hasError('stdTenthHallticket', 'required')">Tenth hall ticket number is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdPolycetHallTicket">POLYCET Hallticket Number :</label>
+                                <input type="text" class="form-control input-sm" name="polycetHallTkt" ng-Model="StudentReg.PolycetHallTicketNo" ng-disabled="PreDisable" no-Special-Char>
+                                <!--<span ng-show="studentRegForm.polycetHallTkt.$dirty && studentRegForm.polycetHallTkt.$invalid">
+                                    <span ng-show="hasError('polycetHallTkt', 'required')">ploycet hall ticket no is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!--<div class="col-lg-4">
+                            <div class="form-group required">
+                                <label for="stdTenthRoll">Tenth RollNo :</label>
+                                <input type="text" class="form-control input-sm" id="stdTenthRoll" name="stdTenthRoll" ng-Model="StudentReg.TenthRollNo" no-Special-Char ng-disabled="PreDisable" required>
+                                <span ng-show="studentRegForm.stdTenthRoll.$dirty && studentRegForm.stdTenthRoll.$invalid">
+                                    <span ng-show="studentRegForm.stdTenthRoll.$error.required">Tenth roll number is required</span>
+                                </span>
+                            </div>
+                        </div>-->
+
+
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdMinorityType">Minority Type :</label>
+                                <select class="form-control input-sm" id="stdMinorityType" name="stdMinorityType" ng-model="StudentReg.MinorityType"
+                                        ng-disabled="PreDisable"
+                                        ng-options="x.MinorityId as x.Minority for x in staticData.Table1">
+                                    <option value="0">N/A</option>
+                                </select>
+                                <!--<span ng-show="studentRegForm.stdMinorityType.$dirty && studentRegForm.stdMinorityType.$invalid">
+                                    <span ng-show="hasError('stdMinorityType', 'required')">Minority type is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdRegion">Region :</label>
+                                <select class="form-control input-sm" id="stdRegion" ng-model="StudentReg.Region" ng-disabled="PreDisable"
+                                        ng-options="x.RegionId as x.Region for x in staticData.Table2">
+                                    <option value="0">Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdAadhaar">Aadhaar No :</label>
+                                <input type="text" minlength="12" maxlength="12" name="stdAadhaar" class="form-control input-sm" id="stdAadhaar"
+                                       ng-model="StudentReg.AadharNo" ng-disabled="true" no-Special-Char>
+                                <!-- <span ng-show="studentRegForm.stdAadhaar.$dirty && studentRegForm.stdAadhaar.$invalid">
+                                    <span ng-show="hasError('stdAadhaar', 'required')">Aadhaar no is required</span>
+                                </span> -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="stdMothername">Mother's Name :</label>
+                                <input type="text" class="form-control input-sm" id="stdMothername" name="MotherName" ng-Model="StudentReg.MotherName"
+                                       no-Special-Char>
+                                <!--<span ng-show="studentRegForm.MotherName.$dirty && studentRegForm.MotherName.$invalid">
+                                    <span ng-show="hasError('MotherName', 'required')">Mother's name is required</span>
+                                </span>-->
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdEduQual">Highest Educational Qualification :</label>
+                                <select class="form-control input-sm" id="stdEduQual"
+                                        ng-options="x.EduQualificationId as x.EduQualification for x in staticData.Table4"
+                                        ng-model="StudentReg.QualificationId">
+                                    <option value="number:0">Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdReligion">Religion :</label>
+                                <select class="form-control input-sm" id="stdReligion" name="stdReligion" ng-model="StudentReg.ReligionId"
+                                        ng-options=" x.ReligionId as x.Religion for x in staticData.Table3" ng-disabled="Religiondisable">
+                                    <option value="" selected="selected">Choose</option>
+                                </select>
+                                <!--<span ng-show="studentRegForm.stdReligion.$dirty && studentRegForm.stdReligion.$invalid">
+                                    <span ng-show="hasError('stdReligion', 'required')">Religion is required</span>
+                                </span>-->
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdResided">Studied / Resided During SSC :</label>
+                                <select class="form-control input-sm" id="stdResided" ng-model="StudentReg.StudentRecided"
+                                        ng-options="x.ResidedId as x.Resided for x in staticData.Table8">
+                                    <option value="0" selected>Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset class="group-border">
+                    <legend class="group-border">Address</legend>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdHouseStreet">House No.& Street (or) Village :</label>
+                                <input type="text" class="form-control input-sm" id="stdVillageTown"
+                                       ng-model="StudentReg.HouseNo">
+                                <!--<textarea ng-model="StudentReg.HouseNo" rows="2" cols="35"></textarea>-->
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="stdVillageTown">Village Post Office (or) Town :</label>
+                                <input type="text" class="form-control input-sm" id="stdVillageTown"
+                                       ng-Model="StudentReg.VillageorTown">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="stdDistrict">District :</label>
+                                <select class="form-control" ng-model="StudentReg.DistrictId" ng-change="updateMandals(StudentReg.DistrictId)"
+                                        ng-options="data.DistrictID as data.District_Name for data in districts">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="col-md-4">
+                            <div class="form-group">
+                                <label for="stdDistrict">District/Mandal :</label>
+                                <input type="text" class="form-control input-sm" id="stdVillageTown"
+                                       ng-Model="StudentReg.District" no-Special-Char>
+                                --<select ng-options="x.DistrictId as x.District_Name for x in staticData.Table6"
+                                        class="form-control input-sm" id="stdDistrict" ng-model="StudentReg.DistrictId"
+                                        ng-change="updateMandals()">
+                                    <option value="" selected="selected">Choose</option>
+                                </select>
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="stdDistrict">Mandal :</label>
+                                <select class="form-control" ng-model="StudentReg.MandalId"
+                                        ng-options="data.MandalID as data.Mandal_Name for data in mandals">
+                                    <option value="" selected>Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="col-md-4">
+                            <div class="form-group">
+                                <label for="stdMandal">Mandal :</label>
+                                <select class="form-control input-sm" id="stdMandal" ng-model="StudentReg.MandalId"
+                                        ng-disabled="ExamDisable"
+                                        ng-options="x.MandalID as x.Mandal_Name for x in mandals">
+                                    <option selected value="">Choose</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="stdPincode">Pincode :</label>
+                                <input type="text" class="form-control input-sm" minlength="6" maxlength="6" id="stdPincode"
+                                       ng-Model="StudentReg.Pincode" no-Special-Char>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label for="">Email Id :</label>
+                                <input type="email" class="form-control input-sm" id="" ng-Model="StudentReg.EmailId">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label for="ParentContact">Parent Mobile Number :</label>
+                                <input type="text" maxlength="10" class="form-control input-sm" id="ParentContact" ng-Model="StudentReg.ParentContact" required
+                                       no-Special-Char>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label for="stdMobile">Student Mobile Number :</label>
+                                <input type="text" maxlength="10" class="form-control input-sm" id="stdMobile" ng-Model="StudentReg.StudentContact" required
+                                       no-Special-Char>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="group-border">
+                    <legend class="group-border">TS-epass</legend>
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="stdFatherAadhaar">Father Aadhaar No :</label>
+                                    <input type="text" class="form-control input-sm" id="stdFatherAadhaar"
+                                           ng-Model="StudentReg.FatherAadhaarNo" no-Special-Char>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="stdMotherAadhaar">Mother Aadhaar No :</label>
+                                    <input type="text" class="form-control input-sm" id="stdMotherAadhaar"
+                                           ng-Model="StudentReg.MotherAadhaarNo" no-Special-Char>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="stdIsFatherGovtEmp">Is Father Govt Emp :</label>
+                                    <!--<select class="form-control input-sm" id="stdIsFatherGovtEmp" ng-model="StudentReg.IsFatherGovtEmp"
+                                            ng-disabled="ExamDisable">
+                                        <option value="">Choose</option>
+                                        <option value="M">Yes</option>
+                                        <option value="F">No</option>
+                                    </select>-->
+                                    <input type="checkbox" ng-model="StudentReg.IsFatherGovtEmp" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>MeeSeva Income Certificate No:</label>
+                                    <input type="text" class="form-control input-sm" id="" ng-Model="StudentReg.Income">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Occupation : </label>
+                                    <input type="text" class="form-control input-sm" id="" ng-Model="StudentReg.Occupation"
+                                           no-Special-Char>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>MeeSeva Caste Certificate No : </label>
+                                    <input type="text" class="form-control input-sm" id="" ng-disabled="!categorydisable" ng-Model="StudentReg.CasteNo">
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Income certificate validity :</label>
+                                    <input type='date' class="form-control" ng-Model="StudentReg.IncomeStatusValidity" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Income Category : </label>
+                                    <select class="form-control input-sm" id="stdIncome" ng-model="StudentReg.IncomeCategory"
+                                           >
+                                        <option value="">Choose</option>
+                                        <option value="M">Yes</option>
+                                        <option value="F">No</option>
+                                    </select>
+                                </div>
+                            </div> -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="stdBankNames">Bank Name : </label>
+
+                                    <select class="form-control input-sm" id="stdBankNames" name="stdBankNames" ng-model="StudentReg.BankId"
+                                            ng-options="x.BankId as x.BankName for x in staticData.Table7">
+                                        <option value="" selected="selected">--Select Bank--</option>
+                                    </select>
+                                    <!-- <select class="form-control" id="stdBankNames" name="stdBankNames"  ng-model="StudentReg.BankName">
+                                        <option value="" selected>--Select Bank--</option>
+                                        <option ng-repeat="x in staticData.Table7" value="{{x.BankId}}">
+                                            {{x.BankName}}
+                                        </option>
+                                    </select> -->
+                                    <!-- <select class="form-control" ng-model="StudentReg.BankName"
+                                        ng-repeat="Student.type for Student in StudentType">
+                                        <option value="" selected>--Select Bank--</option>
+                                    </select> -->
+                                    <!-- <select class="form-control " id="stdBankNames" ng-model="StudentReg.BankName" ng-options="x.BankId as x.BankName for x in staticData.Table7">
+                                        <option value="" selected="selected">Choose</option>
+                                    </select> -->
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Bank Account No : </label>
+                                    <input type="text" class="form-control input-sm" id="BankAccountNo" ng-Model="StudentReg.BankAccountNo"
+                                           no-Special-Char>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>IFSC Code :</label>
+                                    <input type="text" class="form-control input-sm" id="BankIfscCode" ng-Model="StudentReg.IfscCode"
+                                           no-Special-Char>
+                                </div>
+                            </div>
+                            <div class="">
+                                <!--<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="stdBankNames">Bank : </label>
+
+                                        <select class="form-control input-sm" id="stdBankNames" name="stdBankNames" ng-model="StudentReg.BankId"
+                                                ng-options="x.BankId as x.BankName for x in staticData.Table7">
+                                            <option value="selected" selected="selected">--Select Bank--</option>
+                                        </select>
+
+                                    </div>
+                                </div>-->
+                                <!--<div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Bank Account No : </label>
+                                        <input type="text" class="form-control input-sm" id="BankAccountNo" ng-Model="StudentReg.BankAccountNo"
+                                               no-Special-Char>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Ifsc Code :</label>
+                                        <input type="text" class="form-control input-sm" id="BankIfscCode" ng-Model="StudentReg.IfscCode"
+                                               no-Special-Char>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Branch : </label>
+                                        <input type="text" class="form-control input-sm" id="BankBranch" ng-Model="StudentReg.BankBranch">
+                                    </div>
+                                </div>-->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Branch : </label>
+                                        <input type="text" class="form-control input-sm" id="BankBranch" ng-Model="StudentReg.BankBranch">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <div class="">
+                    <div class="col-md-12 text-center">
+                        <!--<button type="button" class="btn btn-detail" ng-click="GenPin()">Generate PIN</button>-->
+                        <button type="submit" class="btn btn-detail">
+                            Update Student Details
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="goToStudentList()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+

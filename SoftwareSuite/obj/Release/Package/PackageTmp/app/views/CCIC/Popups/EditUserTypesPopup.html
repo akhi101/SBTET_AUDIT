@@ -1,0 +1,37 @@
+<style>
+    input[type=checkbox] {
+        margin: 4px 0 0;
+        width: 20px;
+        margin: 0px 10px !important;
+        padding: 0px 10px;
+        height: 20px;
+    }
+</style>
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Edit Details</h2>
+        <button type="button" class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form>
+
+            <div class="form-group" ng-repeat="EditData in EditData">
+                <label for="recipient-name" class="col-form-label">UserType Name:</label>
+                <input type="text" class="form-control" maxlength="100" ng-model="EditData.UserTypeName">
+            </div>
+
+            <div class="col-md-1" ng-repeat="EditData in EditData">
+                <label for="checkbox" class="col-form-label">Active:</label>
+                <input type="checkbox" ng-model="EditData.Active" />
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="updateUserTypes(EditData)">Update</button>
+        <button type="button" class="btn btn-danger" ng-click="closeModal()">Cancel</button>
+    </div>
+</div>

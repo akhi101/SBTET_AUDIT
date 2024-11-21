@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RegisterAdmittedStudent">
+    <title>Register Admitted Student</title>
+</head>
+<body>
+    <div ng-controller="RegisterAdmittedStudentController">
+        <section id="main-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel">
+                        <div class="box-header">
+                            <div class="box-name">
+                                <i class="fa fa-search"></i>
+                                <span>Register Admitted Student</span>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <form class="form-horizontal" name="RegisterAdmittedStudent" novalidate>
+                                <div class="form-group">
+                                    <div>
+                                        <label style="padding-top:3px;" class="control-label col-lg-1">SSC:</label>
+                                        <div class="col-lg-1">
+                                            <input type="checkbox" id="CheckSSC" ng-model="RegisterAdmittedStudent.CheckSSC" ng-change="CheckSSC()" style="width:40px" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label style="padding-top:3px;" class="control-label col-lg-2">Eligibility: </label>
+                                        <div class="col-lg-1">
+                                            <input type="checkbox" id="CheckEligibility" ng-model="RegisterAdmittedStudent.CheckEligibility" ng-change="CheckEligibility()" style="width:40px" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="RegisterAdmittedStudent.CheckSSC">
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2">Admission No. :</label>
+                                        <label class="control-label col-sm-1">{{AdmNo}}</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2">SSC HallTicket No. :</label>
+                                        <div class="col-lg-3">
+                                            <input type="text" class="form-control" ng-model="RegisterAdmittedStudent.AdmNo " id="AdmNo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"ng-show="RegisterAdmittedStudent.CheckEligibility">
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2">Eligibility No. :</label>
+                                        <label class="control-label col-sm-1">{{EligibilityNo}}</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2">SSC HallTicket No :</label>
+                                        <div class="col-lg-3">
+                                            <input type="text" class="form-control" ng-model="RegisterAdmittedStudent.Eligibility " id="Eligibility">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="Bottom-HozLine"></div>
+                                <div class="form-group">
+                                    <div class="col-lg-offset-2 col-lg-12">
+                                        <button ng-disabled="RollEditDisable" type="button" class="btn btn-primary" ng-click="SaveRegisterAdmittedStudent()">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Duplicate/Triplicate Pass Certificate</title>
+    <style>
+        .myspan{
+            font-size:10px !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="DupTripPassCertController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Duplicate/Triplicate Pass Certificate</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>Duplicate/Triplicate Pass Certificate</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3 left-col">
+                    <p style="font-size:18px;  font-weight:100;"><b>Eligibility Criteria :</b></p>
+                    <p># Candidates who passed 1st and 2nd year are eligible </p>
+                    <p># Applicants please check all the details entered before proceeding to payment. The fee once paid cannot be refunded.</p>
+                    <p># Applicants take the print out of acknowledgement and note the transaction reference number after successful submission of application form for further reference</p>
+                </div>
+                <div class="col-md-9">
+                    <div class="row frow" ng-show="hideReApply">
+                        <div class="col-md-8 col-md-offset-3">
+                            <span style=" margin-top: 2px; font-weight: 500;" class="rspan">Type:</span>
+                            <div class="maxl">
+                                <label class="radio inline"><input type="radio" id="Duplicate" name="Duplicate" ng-model="DupTripFlag" value="D" checked ng-change="chekDupTrip(DupTripFlag)"><span>Duplicate Pass Certificate</span></label>
+                                <label class="radio inline"><input type="radio" id="Triplicate" name="Triplicate" ng-model="DupTripFlag" value="T" ng-change="chekDupTrip(DupTripFlag)"><span>Triplicate Pass Certificate</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row frow" ng-show="hideReApply">
+                        <div class="col-md-3 col-md-offset-2 text-right" style="padding-top: 7px;">
+                            <label><font color="red">*</font> Enter Hall Ticket No. </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Enter Hall Ticket No." class="form-control" id="HTNO" ng-model="DupTripPassCert.HTNO" maxlength="20" ng-keyup="clearScreen()">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" ng-click="FillDataByHTNO()" class="btn btn-detail btn-sm">Get Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><hr></div>
+                    </div>
+                    <div class="showhide" ng-show="ViewData">
+                        <div class="row" ng-show="hideReApply">
+                            <div class="col-md-12 text-center blu-txt">Submit original documents which are uploaded along with Ack Receipt in TSBIE NAMPALLY </div>
+                        </div>
+                        <!--Data Row Start-->
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6"  >
+                                        <div class="form-group">
+                                            <label for="">Candidate Name :</label>
+                                            <input type="text" class="form-control" id="StudName" ng-model="DupTripPassCert.StudName" ng-readonly="true" ng-disabled="disableReApply">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" >
+                                        <div class="form-group">
+                                            <label for="">Father Name :</label>
+                                            <input type="text" class="form-control" id="Fathername" ng-model="DupTripPassCert.Fathername" ng-readonly="true" ng-disabled="disableReApply">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" ng-show="hideReApply">
+                                            <label for="">College Code :</label>
+                                            <input type="text" class="form-control" id="ColName" ng-model="DupTripPassCert.ColCode" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" ng-show="hideReApply">
+                                            <label for="">College Name :</label>
+                                            <input type="text" class="form-control" id="ColName" ng-model="DupTripPassCert.ColName" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" >
+                                            <label for=""><font color="red">* </font>Mobile Number :</label>
+                                            <input type="text" class="form-control" id="MobileNo" ng-model="DupTripPassCert.MobileNo" maxlength="10" ng-disabled="disableReApply" input-Number-Only>
+                                        </div>
+                                        <div class="form-group" ng-show="hideReApply">
+                                            <label for="">Fee (in rupees) :</label>
+                                            <input type="text" class="form-control" id="FeeAmount" ng-model="DupTripPassCert.FeeAmount" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" ng-show="hideReApply">
+                                            <label for=""><font color="red">* </font>Purpose :</label>
+                                            <textarea style="width:100%;" rows="4" id="Purpose" ng-model="DupTripPassCert.Purpose" maxlength="60"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" ng-show="hideReApply">
+                                            <label for="">Case :</label>
+                                            <label class="radio-inline"><input type="radio" id="rdLost" name="Lost" ng-model="LostOrDamage" checked value="L" ng-change="chekValue(LostOrDamage)">If Lost</label>
+                                            <label class="radio-inline"><input type="radio" id="rdDamage" name="Damage" ng-model="LostOrDamage" value="D" ng-change="chekValue(LostOrDamage)">If Damaged </label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row" >
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div><label for="">
+                                            <a ng-show="ShowReAppCert" ng-href="{{DupTripPassCert.UploadDoc1}}"><font color="red">View Uploaded Photo</font></a><br />
+                                            <font color="red">* </font>
+                                                Photo(jpeg &  &lt;200 KB) :
+                                            </label></div>
+                                            <span class="btn btn-primary btn-sm btn-file">
+                                                Browse File
+                                                <input type="file" class="form-control" name="Photo" id="Photo" accept="image/*" ng-model-instant onchange="angular.element(this).scope().FilePhotoUpload(this)" />
+                                            </span>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div><label for="">
+                                                     <a ng-show="ShowReAppCert" ng-href="{{DupTripPassCert.UploadDoc2}}"><font color="red">View Uploaded Letter of the Principal</font></a><br />
+                                                <font color="red">* </font>
+                                                Letter of the Principal(pdf &  &lt;200 KB) :</label></div>
+                                            <span class="btn btn-primary btn-sm btn-file">
+                                                Browse File
+                                                <input type="file" class="form-control" name="LetterPrincipal" id="LetterPrincipal" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileLetterPrincipalUpload(this)" />
+                                            </span>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                                <div class="row" ng-hide="FIRAffidavitHide" >
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div><label for="">
+                                            <a ng-show="ShowReAppCert" ng-href="{{DupTripPassCert.UploadDoc3}}"><font color="red">View Uploaded FIR</font></a><br />
+                                            <font color="red">* </font>
+                                            FIR(Upload Police Certificate)(pdf &  &lt;200 KB) :
+                                        </label></div>
+                                            <span class="btn btn-primary btn-sm btn-file">
+                                                Browse File
+                                                <input type="file" class="form-control" name="FIR" id="FIR" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileFIRUpload(this)" />
+                                            </span>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div><label for="">
+                                            <a ng-show="ShowReAppCert" ng-href="{{DupTripPassCert.UploadDoc4}}"><font color="red">View Uploaded Upload Affidavit</font></a><br />
+                                            <font color="red">* </font>
+                                                Upload Affidavit(pdf &  &lt;200 KB) :
+                                            </label></div>
+                                            <span class="btn btn-primary btn-sm btn-file">
+                                                Browse File
+                                                <input type="file" class="form-control" name="Affidavit" id="Affidavit" accept="pdf" ng-model-instant onchange="angular.element(this).scope().FileAffidavitUpload(this)" />
+                                            </span>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Data Upload part Start-->
+                            <div class="col-md-3" ng-show="hideReApply">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for=""> Photo</label>
+                                            <!--<img ng-src="{{DupTripPassCert.StudentPhoto}}" style=" width: 100%; height: 220px;" alt="Candidate Photo Not Available" />-->
+
+                                            <img ng-src="{{PhotoData.PhotoString}}" style=" width: 100%; height: 220px;" alt="Candidate Photo Not Available" />
+                                        </div>
+                                </div>
+                            </div>
+                            <!--Data Upload Part End-->
+                        </div>
+                        <!--Data Row End-->
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row" ng-show="ShowDPCTPCMarks">
+                            <div class="col-md-12">
+                                <table style="font-size:10px;" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr style="background-color: #cfcfcf;">
+                                            <th></th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Theory Practical</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th><span class="myspan" id="PC1">{{DupTripPassCert.YR1PC1_NAME}}</span></th>
+                                            <th><span class="myspan" id="PC2">{{DupTripPassCert.YR1PC2_NAME}}</span> </th>
+                                            <th><span class="myspan" id="PC3">{{DupTripPassCert.YR1PC3_NAME}}</span></th>
+                                            <th><span class="myspan" id="PC4">{{DupTripPassCert.YR1PC4_NAME}}</span> </th>
+                                            <th><span class="myspan" id="PC5">{{DupTripPassCert.YR1PC5_NAME}}</span></th>
+                                            <th><span class="myspan" id="PC6">{{DupTripPassCert.YR1PC6_NAME}}</span></th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1 Year</td>
+                                            <td><span class="myspan" id="M11">{{DupTripPassCert.YR1MRK1}}</span></td>
+                                            <td><span class="myspan" id="M12">{{DupTripPassCert.YR1MRK2}}</span></td>
+                                            <td><span class="myspan" id="M13">{{DupTripPassCert.YR1MRK3}}</span></td>
+                                            <td><span class="myspan" id="M14">{{DupTripPassCert.YR1MRK4}}</span></td>
+                                            <td><span class="myspan" id="M15">{{DupTripPassCert.YR1MRK5}}</span></td>
+                                            <td><span class="myspan" id="M16">{{DupTripPassCert.YR1MRK6}}</span></td>
+                                            <td><span class="myspan" id="M1T">{{DupTripPassCert.YR1TOT}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2 Year</td>
+                                            <td><span class="myspan" id="M21">{{DupTripPassCert.YR2MRK1}}</span></td>
+                                            <td><span class="myspan" id="M22">{{DupTripPassCert.YR2MRK2}}</span></td>
+                                            <td><span class="myspan" id="M23">{{DupTripPassCert.YR2MRK3}}</span></td>
+                                            <td><span class="myspan" id="M24">{{DupTripPassCert.YR2MRK4}}</span></td>
+                                            <td><span class="myspan" id="M25">{{DupTripPassCert.YR2MRK5}}</span></td>
+                                            <td><span class="myspan" id="M26">{{DupTripPassCert.YR2MRK6}}</span></td>
+                                            <td><span class="myspan" id="M2T">{{DupTripPassCert.YR2TOT}}</span></td>
+                                        </tr>
+                                        <tr style="font-weight:bold;">
+                                            <td align="right" colspan="7">Grand Total</td>
+                                            <td><span class="myspan" id="GTOT"><strong>{{DupTripPassCert.GTOT}}</strong></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-show="showsubmitpay" class="btn btn-sm btn-detail" ng-click="SaveDupTripPassCert()">Submit &amp; Pay</button>
+                                <button type="button" ng-show="showReapply" ng-click="SaveDupTripPassCertReApply()" class="btn btn-sm btn-detail">Submit</button>
+                                <!--<button type="submit" ng-click="SaveDupTripPassCert()" class="btn btn-detail btn-sm">Submit</button>-->
+                                <button type="button" ng-click="Exit()" class="btn btn-danger btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--New Style End-->
+        </div>
+    </div>
+</body>
+</html>

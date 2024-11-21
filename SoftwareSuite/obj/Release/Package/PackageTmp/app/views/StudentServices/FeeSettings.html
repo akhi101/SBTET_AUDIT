@@ -1,0 +1,170 @@
+﻿
+<div ng-controller="FeeSettingsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+         <div class="container">
+            <section class="content-header">
+                <h5>Fee Settings</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/FeeSettings">Fee Settings</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/MasterSettings" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+           
+        </div>
+        <div>
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <form novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <!--<div class="col-md-3">
+                                        <div class="form-group ">
+                                            <label class="font-weight-bold">Service Name:</label>
+                                            <select class="form-control" ng-disabled="Service" ng-change="changeCertificate()" name="CertificateType" ng-model="ServiceName"
+                                                    ng-options="data.Id as data.Name for data in CertificateTypes">
+                                                <option value="" selected>Select ServiceName</option>
+                                            </select>
+
+                                        </div>
+                                    </div>-->
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">
+                                            Service Name :
+                                        </label>
+                                        <input autocomplete="off" placeholder="Enter ServiceName"  maxlength="200" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' style="width:100%;" class="form-control"  type="text" ng-model="ServiceName" />
+                                    </div>
+
+
+                                    
+                                   
+
+
+
+
+
+
+
+
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">Service Type</label>
+
+                                        <select class="form-control" ng-model="ServiceType"
+                                                ng-options="data.value as data.Id for data in ServiceTypeValues">
+                                            <option value="" selected>Select ServiceType</option>
+                                        </select>
+                                    </div>
+
+
+                                    <!--<div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">ChallanPrefix</label>-->
+
+                                        <!--<select class="form-control" ng-model="data.ChallanPrefix"
+                                                ng-options="data.Id as data.value for data in ChallanPrefixValues">
+                                            <option value="" selected>Select ChallanPrefix</option>
+                                        </select>-->
+
+                                        <!--<select class="form-control" ng-model="ChallanPrefix"  name="ChallanPrefix" >
+                                            <option value="" selected>Select ChallanPrefix</option>
+                                            <option ng-repeat="data in ChallanPrefixValues" ng-value="data">
+                                                {{data.value}}
+                                            </option>
+                                        </select>
+                                    </div>-->
+
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">
+                                            ChallanPrefix:
+                                        </label>
+                                        <input autocomplete="off" placeholder="Enter ChallanPrefix"  maxlength="200" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' style="width:100%;" class="form-control"  type="text" ng-model="ChallanPrefix" />
+                                    </div>
+
+
+
+
+
+                                    <div class="col-md-3 form-group">
+                                        <label class="font-weight-bold">
+                                            Amount:
+                                        </label>
+                                        <input autocomplete="off" placeholder="Enter Amount" minlength="2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width:100%;" class="form-control" maxlength="3" type="text" ng-model="Amount" />
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <button class="btn pull-right btn-success btn-css text-uppercase" style="margin-top: 23px;" ng-click="Add()">
+                                            ADD
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container " ng-show="FeeSettingsData.length>0">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2> Fee Settings</h2>
+                </div>
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S.No</th>
+                                <th class="text-center">Service Name</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="" ng-repeat="data in FeeSettingsData">
+                                <td class="text-left">{{$index + 1}}</td>
+                                <td><div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.Name" /></div></td>
+                                <td><div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.Price" /></div></td>
+                                <td><div><input type="text" class="form-control tableinpt enabletable{{$index + 1}}" ng-model="data.ChallanPrefix" /></div></td>
+                                <!--<td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.Name" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.Price" /></td>
+                                <td class="text-center pointer" style="padding: 3px;"><input autocomplete="off" style="width:100%;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" ng-model="data.ChallanPrefix" /></td>-->
+
+                                <td class="text-center">
+                                    <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editfeesettings(data,$index+1)">
+                                        Edit
+                                    </button>
+                                    <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatefeesettings(data,$index+1)">
+                                        Update
+                                    </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="container" ng-show="Noreports">
+            <div class="col-md-12">
+                <div class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No data Found</h2>
+                </div>
+            </div>
+        </div>
+
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>  

@@ -1,0 +1,165 @@
+﻿<style>
+    .sm-spacer{
+        height:50px;
+    }
+      .table-custom-tables-tb .table-bordered > thead > tr > th {
+   position:sticky;
+   top:0px;
+   
+}
+</style>
+<div ng-controller="AdminCategoryReportsController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Category Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard"> Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdminCategoryReports">Admin Category Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12">
+                <a href="#!/Dashboard/AdmissionDashboard" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3" style="padding-left: 30px;">
+                    <div class="form-group">
+                        <label class="font-weight-bold"> Academic Year :</label>
+                        <select class="form-control" id="designationid" ng-model="academicYear"
+                                ng-options="data.AcademicID as data.AcademicYear for data in GetAcademicYears">
+                            <option value="" selected>Select Year</option>
+                        </select>
+                        <!--<select class="form-control " ng-model="academicYear" name="AcademicYear" required>
+                    <option value="" selected="selected">Select Year</option>
+                    <option value="{{data.AcademicID}}" ng-repeat="data in GetAcademicYears" class="">
+                        {{data.AcademicYear}}
+                    </option>
+
+                </select>-->
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-3 pull-left">
+                    <button class="btn pull-right btn-success btn-css" style="margin-top: 23px;" ng-click="getadmincategory()">
+                        Get Details
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="pull-right" ng-show="result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="result">
+                <div class="cl-details">
+                    <h2> Category Reports</h2>
+                </div>
+
+
+                <div id="tblParent" class="table-responsive table-custom-tables-tb scrollbox">
+                    <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S.No</th>
+                                <th>College Code</th>
+                                <th>On Roll</th>
+                                <th>OC(M)</th>
+                                <th>OC(F)</th>
+                                <th>SC(M)</th>
+                                <th>SC(F)</th>
+                                <th>ST(M)</th>
+                                <th>ST(F)</th>
+                                <th>BC-A(M)</th>
+                                <th>BC-A-F</th>
+                                <th>BC-B(M)</th>
+                                <th>BC-B-F</th>
+                                <th>BC-C(M)</th>
+                                <th>BC-C(F)</th>
+                                <th>BC-D(M)</th>
+                                <th>BC-D(F)</th>
+                                <th>BC-E(M)</th>
+                                <th>BC-E(F)</th>
+                                <th>NA(M)</th>
+                                <th>NA(F)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in CollegeCategories track by $index" ng-click="openReport(x.CollegeCode)">
+                                <td>{{$index+1}}</td>
+                                <td>{{x.CollegeCode}} </td>
+                                <td>{{x.onroll}} </td>
+                                <td>{{x.Oc_M}}</td>
+                                <td>{{x.Oc_F}}</td>
+                                <td>{{x.Sc_M}}</td>
+                                <td>{{x.Sc_F}} </td>
+                                <td>{{x.St_M }}</td>
+                                <td>{{x.St_F}}</td>
+                                <td>{{x.BC_A_M}}</td>
+                                <td>{{x.BC_A_F}}</td>
+                                <td>{{x.BC_B_M}}</td>
+                                <td>{{x.BC_B_F}}</td>
+                                <td>{{x.BC_C_M}}</td>
+                                <td>{{x.BC_C_F}}</td>
+                                <td>{{x.BC_D_M}}</td>
+                                <td>{{x.BC_D_F}}</td>
+                                <td>{{x.BC_E_M}}</td>
+                                <td>{{x.BC_E_F}}</td>
+                                <td>{{x.NA_M}}</td>
+                                <td>{{x.NA_F}}</td>
+                            </tr>
+
+                            <tr style="font-weight:bold!important;">
+                                <td colspan="2">Total</td>
+                                <td>{{onroll}}</td>
+                                <td>{{Oc_M}}</td>
+                                <td>{{Oc_F}}</td>
+                                <td>{{Sc_M}}</td>
+                                <td>{{Sc_F}} </td>
+                                <td>{{St_M }}</td>
+                                <td>{{St_F}}</td>
+                                <td>{{BC_A_M}}</td>
+                                <td>{{BC_A_F}}</td>
+                                <td>{{BC_B_M}}</td>
+                                <td>{{BC_B_F}}</td>
+                                <td>{{BC_C_M}}</td>
+                                <td>{{BC_C_F}}</td>
+                                <td>{{BC_D_M}}</td>
+                                <td>{{BC_D_F}}</td>
+                                <td>{{BC_E_M}}</td>
+                                <td>{{BC_E_F}}</td>
+                                <td>{{NA_M}}</td>
+                                <td>{{NA_F}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+    </section>
+</div>

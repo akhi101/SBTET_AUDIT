@@ -1,0 +1,1266 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Results</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+            page-break-after: auto;
+        }
+
+        .print:last-child {
+            page-break-after: auto;
+        }
+
+        .status_css {
+            color: red !important;
+        }
+
+        #currenttime {
+            display: none;
+        }
+
+        .image {
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #currenttime {
+                display: block !important;
+            }
+
+            .logo-name h2 {
+                text-align: left;
+                margin-left: 130px;
+                margin-top: -20px;
+                font-size: 25px !important;
+                line-height: 36px;
+            }
+
+            #idtoDivPrintAdmin {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+                page-break-after: auto;
+            }
+
+            #goto-top-arrow {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        setInterval(function () {
+            var date = new Date();
+            var format = "DD-MMM-YYYY DDD";
+            dateConvert(date, format)
+        }, 1);
+
+        function dateConvert(dateobj, format) {
+            var year = dateobj.getFullYear();
+            var month = ("0" + (dateobj.getMonth() + 1)).slice(-2);
+            var date = ("0" + dateobj.getDate()).slice(-2);
+            var hours = ("0" + dateobj.getHours()).slice(-2);
+            var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+            var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+            var day = dateobj.getDay();
+            var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+            var converted_date = "";
+
+            switch (format) {
+                case "DD-MMM-YYYY DDD":
+                    converted_date = date + "-" + month + "-" + year + " " + hours + ":" + minutes + ":" + seconds;;
+                    break;
+                case "YYYY-MM-DD":
+                    converted_date = year + "-" + month + "-" + date;
+                    break;
+                case "YYYY-MMM-DD DDD":
+                    converted_date = year + "-" + months[parseInt(month) - 1] + "-" + date
+                        + " " + hours + ":" + minutes + ":" + seconds;
+                    break;
+            }
+            //return converted_date;
+            // to show it I used innerHTMl in a <p> tag
+            if (document.getElementById("currenttime") != null) {
+                document.getElementById("currenttime").innerHTML = "" + converted_date + "  GMT+0530 (India Standard Time)";
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <div ng-controller="DiplomaStudentResultController" id="studentresult1">
+
+        <div class="sm-spacer"></div>
+        <section class="content">
+            <div class="container">
+                <div class="col-md-12 ng-scope">
+                    <div class="cl-details">
+                        <h2>Diploma Results</h2>
+                        <!--<div class="loader"></div>-->
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="studWishinputs">
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Scheme :
+                                    </label>
+                                    <!--<select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)">
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="scheme in schemeinfo" value="{{scheme.schemeid}}">
+                                            {{scheme.scheme}}
+                                        </option>
+                                    </select>-->
+                                    <select class="form-control" id="ExamYear" ng-model="scheme" ng-change="loadSemExamTypes(scheme)"
+                                            ng-options="scheme.scheme for scheme in schemeinfo track by scheme.schemeid">
+                                        <option value="" selected>Select Scheme</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Exam Pass Type :
+                                    </label>
+                                    <!--<select class="form-control" ng-model="SelStudentType" name="StudentType">
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                    </select>-->
+                                    <!--<select class="form-control" ng-model="SelStudentType" name="StudentType" required  ng-change="hidePreviousResult()"
+                                    ng-options="Student.id as Student.type for Student in StudentType"></select>-->
+                                    <select class="form-control" ng-model="SelStudentType" name="StudentType" required ng-change="hidePreviousResult()"
+                                            ng-options="Student.type for Student in StudentType track by Student.id">
+                                        <option value="" selected>Select Exam Type</option>
+                                    </select>
+                                </div>
+
+
+
+
+                                <div class="col-md-2 form-group" ng-show="SelStudentType.id ==1 ">
+                                    <label for="sel1">
+                                        Sem & Year :
+                                    </label>
+                                    <!--<select class="form-control" id="ExamYear" ng-model="sem" ng-change="loadExamTypes(sem)">
+                                        <option value="" selected>Select Sem</option>
+                                        <option ng-repeat="sem in seminfo" value="{{sem.semid}}">
+                                            {{sem.semester}}
+                                        </option>
+
+                                    </select>-->
+                                    <select class="form-control" class="form-control" ng-model="sem" ng-change="loadExamTypes(sem)"
+                                            ng-options="sem.semester for sem in seminfo track by sem.semid">
+                                        <option value="" selected>Select Sem</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-2 form-group" ng-show="SelStudentType.id==1 ">
+                                    <label for="ExamType">
+                                        Exam :
+                                    </label>
+                                    <select class="form-control" id="ExamType" ng-model="examtype" ng-change="hidePreviousResult()">
+                                        <option value="" selected>Select Exam</option>
+                                        <option ng-repeat="examtype in examtypeinfo" value="{{examtype.examtypeid}}">
+                                            {{examtype.examname}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group" ng-show="(examtype==5 &&scheme.schemeid == '5')  || scheme.schemeid == '3' || scheme.schemeid == '4' || scheme.schemeid == '1' || scheme.schemeid == '8' || scheme.schemeid == '2'|| scheme.schemeid == '10'||(examtype==28 &&scheme.schemeid == '9')||(examtype==29 &&scheme.schemeid == '9')||(examtype==5 &&scheme.schemeid == '9') ||(scheme.schemeid == '9' && SelStudentType.id ==2)">
+                                    <label for="sel1">
+                                        Exam Month/Year :
+                                    </label>
+                                    <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                            ng-options="monYer.ExamYearMonth for monYer in MonthAndYear track by monYer.Id">
+                                        <option value="" selected>Select Month/Year of Exam</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Pin Number :
+                                    </label>
+                                    <input class="form-control" type="text" ng-model="Pin" />
+                                </div>
+                                <div class="col-md-2 form-group">
+
+                                </div>
+
+
+                                <div class="col-md-2 pull-right">
+                                    <div class="gr-btn">
+                                        <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; text-align: center;">
+                    <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <!--<div class="widget-container row" ng-show="ResultFound">
+                    <div class="col-md-6">
+                        <div class="common-box c2">
+                            <span class="my-icon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </span>
+
+                            <h2>Sem & Year</h2>
+                            <h1>{{semyear}}</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="common-box c3">
+                            <span class="my-icon">
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                            </span>
+
+                            <h2>Pin Number</h2>
+                            <h1>{{pin}}</h1>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="row" ng-show="ResultFound">
+
+                    <div class="col-md-6">
+                        <div class="">
+                            <div class="down-foramt">
+                                <div class="col-md-4 hidden">
+                                    <label for="sel1">
+                                        Download Format :
+                                    </label>
+                                </div>
+                                <div class="col-md-5 form-group hidden">
+
+                                    <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="ExamYear" ng-model="EquivalancyCertificate.TenExYr">
+                                        <option value="0" selected="selected">Select Format</option>
+                                        <!-- ngRepeat: Exam_Year in Exam_Years -->
+                                        <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2019">2019</option><!-- end ngRepeat: Exam_Year in Exam_Years -->
+                                        <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2018">2018</option><!-- end ngRepeat: Exam_Year in Exam_Years -->
+
+
+
+                                    </select>
+                                </div>
+
+                                <!--<div class="col-md-3>
+                                    <div class="down-btn">
+                                        </div>
+                                </div>-->
+                                <div class="col-md-3" ng-if="examtype=='5'">
+                                    <div class="down-btn" ng-show="scheme.schemeid == '5'|| scheme.schemeid == '9'">
+                                        <a class="btn btn-sm btn-primary dwl-button" href="#" target="_blank" data-toggle="modal" data-target="#exampleModalStud">Grade Info<span class="fa fa-info-circle heading_icon btn_icons"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 pull-right" ng-show="ResultFound">
+                        <div class="pt-btn">
+                            <button type="button" class="btn btn-sm btn-primary ptr-button" ng-click="PrintStudentResult()">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row print" ng-show="ResultFound" id="idtoDivPrintAdmin">
+                    <div class="col-md-12 hidden">
+                        <div class="table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Pin</th>
+                                        <th>Name</th>
+                                        <th>Branch</th>
+                                        <th>Sem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{studentInfo.Pin}}</td>
+                                        <td>{{studentInfo.StudentName}}</td>
+                                        <td>{{studentInfo.BranchName}}</td>
+                                        <td>{{studentInfo.Sem}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 hidden">
+                        <div class="table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>College Code</th>
+                                        <th>College Name</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{$studentInfo.CollegeCode}}</td>
+                                        <td>{{$studentInfo.CollegeName}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div ng-if="showData == 1" class="col-md-12">
+
+                        <div class="container">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-12">
+                                        <div class="logo-img">
+                                            <img src="../../../contents/img/big-logo.png" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-10 col-md-12">
+                                        <div class="logo-name">
+                                            <h2 style="text-align: center">
+                                                STATE BOARD OF TECHNICAL EDUCATION AND TRAINING TELANGANA
+                                            </h2>
+                                            <!--<h2><p style="text-align: center">STATE BOARD OF TECHNICAL EDUCATION AND TRAINING <br /><p style="text-align: center">TELANGANA</p></h2>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+
+                                <div class="card-title" ng-show="AcadamicYear && (scheme.schemeid =='10' ||scheme.schemeid =='2' ||scheme.schemeid =='5' || scheme.schemeid =='3' ||scheme.schemeid =='4'||scheme.schemeid=='1'||scheme.schemeid =='8'|| scheme.schemeid =='9')">
+                                    <h2><bold ng-if="SelStudentType.id ==2">Supplementary </bold>Marks Card <bold ng-if="examtype=='5'">{{AcadamicYear}}</bold></h2>
+                                </div>
+                                <div class="card-title" ng-if="!AcadamicYear &&  scheme.schemeid =='5'">
+                                    <h2>Marks Card MAR/APR 2019</h2>
+                                </div>
+                                <div class="card-title" ng-if="!AcadamicYear && (scheme.schemeid =='1' || scheme.schemeid =='4')">
+                                    <h2>Marks Card JUNE 2019</h2>
+                                </div>
+                                <div class="table-responsive customtable ">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Pin</th>
+                                                <th>Name</th>
+                                                <th>Branch</th>
+                                                <th ng-if="SelStudentType.id ==2">Scheme</th>
+                                                <th ng-if="SelStudentType.id !=2 && scheme.schemeid != '2'|| SelStudentType.id !=2 && scheme.schemeid != '10'">Sem</th>
+                                                <th ng-if="SelStudentType.id !=2 && scheme.schemeid == '2'|| SelStudentType.id !=2 && scheme.schemeid == '10'">Year</th>
+                                                <th ng-if="SelStudentType.id !=2">Exam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{studentInfo.Pin}}</td>
+                                                <td>{{studentInfo.StudentName}}</td>
+                                                <td>{{studentInfo.BranchCode}}</td>
+                                                <td ng-if="SelStudentType.id ==2">{{studentInfo.Scheme}}</td>
+                                                <td ng-if="SelStudentType.id !=2">{{studentInfo.Sem}}</td>
+                                                <td ng-if="SelStudentType.id !=2">{{StudentWiseReportData[0].ExamMonthYear}}</td>
+                                                <td ng-if="SelStudentType.id !=2">{{studentInfo.ExamType}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>College Code</th>
+                                                <th>College Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{studentInfo.CollegeCode}}</td>
+                                                <td> <!--style="text-align: left;padding-left: 10px !important;"">-->{{studentInfo.CollegeName}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <!--for c16 regular students marks display-->
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid == '8' && SelStudentType.id ==1) && Result!='MALPRACTICE' && Result!='WITHHELD' ">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="examtype=='5' || examtype=='3'">Internal</th>
+                                                <th ng-if="examtype=='5' || examtype=='4'">End SEM</th>
+
+                                                <th ng-if="examtype=='5'">Subject Total</th>
+                                                <th ng-if="examtype=='5'">Remarks</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="student in StudentWiseReportData">
+                                                <td>{{student.SubjectCode}}</td>
+                                                <td style="text-align: left; padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <!--<td ng-if="student.Result=='F' && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>-->
+                                                <td>{{student.Internal}}</td>
+                                                <td>{{student.EndExam}}</td>
+
+
+
+                                                <td>{{student.SubjectTotal}}</td>
+                                                <td ng-class="{'status_css':student.Remarks=='F'}">{{student.Remarks}}</td>
+
+
+                                            </tr>
+                                            <tr ng-if="examtype=='5'">
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td colspan="2">
+                                                    {{Total}}
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="2">
+                                                    <!-- <span ng-if="Result=='FAIL'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PROMOTED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='COMPLETED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PASS'" style="font-weight : bold"><strong>{{Result}}</strong></span> -->
+                                                    <span style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid == '8' && SelStudentType.id ==2) || (scheme.schemeid == '1' && SelStudentType.id ==2) && Result!='MalPractice' && Result!='WITHHELD' ">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+
+                                                <th>Internal</th>
+                                                <th>End SEM</th>
+
+                                                <th>Subject Total</th>
+                                                <th>Remarks</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr ng-repeat-start="(key, val) in resultDisplayInfo">
+                                                <td colspan="6">{{val.Semester}}</td>
+                                            </tr>
+
+                                            <tr ng-repeat="student in val.Subjects">
+                                                <td>{{student.SubjectCode}}</td>
+                                                <td style="text-align: left; padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <!--<td ng-if="student.Result=='F' && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>-->
+                                                <td>{{student.Internal_MARKS}}</td>
+                                                <td>{{student.EndSemMarks}}</td>
+
+
+
+                                                <td>{{student.SubjectTotal}}</td>
+                                                <td ng-class="{'status_css':student.Remarks=='F' || student.Remarks=='MP'}">{{student.Remarks}}</td>
+
+
+                                            </tr>
+                                            <tr ng-repeat-end></tr>
+                                            <!--<tr ng-if="examtype=='5'" >
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td colspan="2">
+                                                    {{Total}}
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="2">-->
+                                            <!-- <span ng-if="Result=='FAIL'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                            <span ng-if="Result=='PROMOTED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                            <span ng-if="Result=='COMPLETED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                            <span ng-if="Result=='PASS'" style="font-weight : bold"><strong>{{Result}}</strong></span> -->
+                                            <!--<span style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+
+                                            </tr>-->
+
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid == '10'&& SelStudentType.id ==1)||(scheme.schemeid == '2'&& SelStudentType.id ==1)||(scheme.schemeid == '3'&& SelStudentType.id ==1)||(scheme.schemeid == '4'&& SelStudentType.id ==1 ) && (Result!='MALPRACTICE'|| Result!='MalPractice') && Result!='WITHHELD' ">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="scheme.schemeid == '4' && examtype=='5' && sem.semid =='6'">Industry Name</th>
+                                                <th ng-if="examtype=='5' || examtype=='4'|| examtype=='10'">End SEM</th>
+
+                                                <th ng-if="examtype=='5' || examtype=='3'|| examtype=='10'">Internal</th>
+                                                <th ng-if="examtype=='5'|| examtype=='10'">Subject Total</th>
+                                                <th ng-if="examtype=='5'|| examtype=='10'">Remarks</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="student in StudentWiseReportData">
+                                                <td>{{student.SubjectCode}}</td>
+                                                <td style="text-align: left; padding-left: 10px !important;">{{student.SubjectName}}</td>
+                                                <th ng-if="scheme.schemeid == '4' && examtype=='5' && sem.semid =='6'">{{student.IndustryName}}</th>
+                                                <!--<td ng-if="student.Result=='F' && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>-->
+                                                <td>{{student.EndSemMarks}}</td>
+                                                <td>{{student.Internal_MARKS}}</td>
+
+
+                                                <td>{{student.SubjectTotal}}</td>
+                                                <td ng-class="{'status_css':student.Remarks=='F'}">{{student.Remarks}}</td>
+
+
+                                            </tr>
+                                            <tr ng-if="examtype=='5' && sem.semid =='6'">
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td colspan="3">
+                                                    {{Total}}
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+                                            <tr ng-if="examtype=='5' && sem.semid !='6'">
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td colspan="2">
+                                                    {{Total}}
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+                                            <tr ng-if="sem.semid =='6'">
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="3">
+
+                                                    <span style="font-weight : bold" ng-if="Result !='MalPractice' && Result != 'MP'"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='MP' || Result=='MalPractice'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr ng-if="sem.semid !='6'">
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="2">
+
+                                                    <span style="font-weight : bold" ng-if="Result !='MalPractice' && Result != 'MP'"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='MP' || Result=='MalPractice'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid == '3' && SelStudentType.id ==1) &&( Result=='MalPractice' ||Result=='WITHHELD')">
+                                        <tr>
+                                            <td colspan="4">
+                                                Result
+                                            </td>
+                                            <td colspan="2">
+                                                <span ng-if="Result=='MP' || Result=='MalPractice'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+
+                                            </td>
+                                            <!-- <td colspan="1"></td>-->
+                                        </tr>
+
+                                    </table>
+
+                                    <!--for c16 backlog students marks display-->
+
+                                    <table class="table table-bordered" ng-if="((scheme.schemeid == '3'&&SelStudentType.id ==2)||(scheme.schemeid == '4'&& SelStudentType.id ==2) )&& Result!='MalPractice' && Result!='WITHHELD' ">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="examtype=='5' || examtype=='4'">End SEM</th>
+                                                <th ng-if="examtype=='5' || examtype=='3'">Internal</th>
+                                                <th ng-if="examtype=='5'">Subject Total</th>
+                                                <th ng-if="examtype=='5'">Result</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="(key, val) in resultDisplayInfo">
+
+                                                <td colspan="6" ng-if="examtype=='5' &&SelStudentType.id ==2">{{val.Semester}}</td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-repeat="student in val.Subjects">
+                                                <td>{{student.SubjectCode}}</td>
+                                                <td style="text-align: left; padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <!--<td ng-if="student.Result=='F' && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>-->
+                                                <td>{{student.EndSemMarks}}</td>
+                                                <td>{{student.Internal_MARKS}}</td>
+
+
+                                                <td>{{student.SubjectTotal}}</td>
+                                                <td ng-class="{'status_css':student.Remarks=='F'}">{{student.Remarks}}</td>
+
+
+                                            </tr>
+                                            <tr ng-if="(scheme.schemeid == '5'&&SelStudentType.id ==2 && examtype=='5') ">
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td>
+                                                    {{Total}}
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <tr ng-if="(scheme.schemeid == '5'&&SelStudentType.id ==2|| scheme.schemeid == '9'&&SelStudentType.id ==2 ) ">
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="2">
+                                                    <!-- <span ng-if="Result=='FAIL'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PROMOTED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='COMPLETED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PASS'" style="font-weight : bold"><strong>{{Result}}</strong></span> -->
+                                                    <span style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='MP' || Result=='MalPractice'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid == '2'&&SelStudentType.id ==2)&& Result!='MalPractice' && Result!='WITHHELD'|| (scheme.schemeid == '10'&&SelStudentType.id ==2)&& Result!='MalPractice' && Result!='WITHHELD' ">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="examtype=='5' || examtype=='4'">End SEM</th>
+                                                <th ng-if="examtype=='5' || examtype=='3'">Internal</th>
+                                                <th ng-if="examtype=='5'">Subject Total</th>
+                                                <th ng-if="examtype=='5'">Result</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="(key, val) in resultDisplayInfo">
+
+                                                <td colspan="6" ng-if="examtype=='5' &&SelStudentType.id ==2">{{val.Semester}}</td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-repeat="student in val.Subjects">
+                                                <td>{{student.SubjectCode}}</td>
+                                                <td style="text-align: left; padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <!--<td ng-if="student.Result=='F' && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>-->
+                                                <td>{{student.EndSemMarks}}</td>
+                                                <td>{{student.Internal_MARKS}}</td>
+
+
+                                                <td>{{student.SubjectTotal}}</td>
+                                                <td ng-class="{'status_css':student.Remarks=='F'}">{{student.Remarks}}</td>
+
+
+                                            </tr>
+                                            <tr ng-if="(scheme.schemeid == '5')&&SelStudentType.id ==2 && examtype=='5') ">
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td>
+                                                    {{Total}}
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <tr ng-if="(scheme.schemeid == '5'&&SelStudentType.id ==2 ||scheme.schemeid == '9'&&SelStudentType.id ==2) ">
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="2">
+                                                    <!-- <span ng-if="Result=='FAIL'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PROMOTED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='COMPLETED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PASS'" style="font-weight : bold"><strong>{{Result}}</strong></span> -->
+                                                    <span style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='MP' || Result=='MalPractice'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered" ng-if="((scheme.schemeid == '5' &&SelStudentType.id ==2) &&( Result=='MalPractice' ||Result=='WITHHELD'))||((scheme.schemeid == '9' &&SelStudentType.id ==2) &&( Result=='MalPractice' ||Result=='WITHHELD'))">
+                                        <tr>
+                                            <td colspan="4">
+                                                Result
+                                            </td>
+                                            <td colspan="2">
+                                                <span ng-if="Result=='MP' || Result=='MalPractice'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+
+                                            </td>
+                                            <!-- <td colspan="1"></td>-->
+                                        </tr>
+
+                                    </table>
+
+                                    <!--for old students marks display-->
+
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid != '9' &&scheme.schemeid != '5' && scheme.schemeid != '8' && scheme.schemeid != '3' && scheme.schemeid != '4' &&  scheme.schemeid != '1' && scheme.schemeid != '2'&& scheme.schemeid != '10') && scheme.schemeid == '2'&& Result!='MALPRACTICE' && Result!='WITHHELD' ">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="examtype=='10' || examtype=='4'">End SEM</th>
+                                                <th ng-if="examtype=='10' || examtype=='3'">Internal</th>
+                                                <th ng-if="examtype=='10'">Subject Total</th>
+                                                <th ng-if="examtype=='10'">Remarks</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="student in StudentWiseReportData">
+                                                <td>{{student.SubjectCode}}</td>
+                                                <td style="text-align: left; padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <!--<td ng-if="student.Result=='F' && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>-->
+                                                <td>{{student.EndSemMarks}}</td>
+                                                <td>{{student.Internal_MARKS}}</td>
+
+
+                                                <td>{{student.SubjectTotal}}</td>
+                                                <td ng-class="{'status_css':student.Remarks=='F'}">{{student.Remarks}}</td>
+
+
+                                            </tr>
+                                            <tr ng-if="examtype=='10'">
+                                                <td colspan="4">
+                                                    <strong>Total:</strong>
+
+                                                </td>
+
+
+                                                <td colspan="2">
+                                                    {{Total}}
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="4">
+                                                    Result
+                                                </td>
+                                                <td colspan="2">
+                                                    <!-- <span ng-if="Result=='FAIL'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PROMOTED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='COMPLETED'" style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='PASS'" style="font-weight : bold"><strong>{{Result}}</strong></span> -->
+                                                    <span style="font-weight : bold"><strong>{{Result}}</strong></span>
+                                                </td>
+                                                <!--<td colspan="1"></td>-->
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered" ng-if="(scheme.schemeid != '9' &&scheme.schemeid != '5' &&scheme.schemeid != '3') &&( Result=='MALPRACTICE' ||Result=='WITHHELD')">
+                                        <tr>
+                                            <td colspan="4">
+                                                Result
+                                            </td>
+                                            <td colspan="2">
+                                                <span ng-if="Result=='MP' || Result=='MALPRACTICE'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+                                                <span ng-if="Result=='WITHHELD'" style="color:red;
+                                                          font-weight : bold"><strong>{{Result}}</strong></span>
+
+                                            </td>
+                                            <!-- <td colspan="1"></td>-->
+                                        </tr>
+
+                                    </table>
+
+
+
+
+                                    <table class="table table-bordered" ng-if="scheme.schemeid == 5 &&SelStudentType.id ==1  ||scheme.schemeid == 9 &&SelStudentType.id ==1">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="examtype=='5'">Course Credits</th>
+                                                <th ng-if="examtype=='1'||examtype=='5' || examtype=='28'">Mid SEM1<br />(20)</th>
+                                                <th ng-if="examtype=='5' || examtype=='2'|| examtype=='29'">Mid SEM2<br />(20)</th>
+                                                <th ng-if="examtype=='5' || examtype=='3'">Internal<br />(20)</th>
+                                                <th ng-if="examtype=='5' || examtype=='4'">End SEM<br />(40)</th>
+                                                <th ng-if="examtype=='5'">Subject Total<br />(100)</th>
+                                                <th ng-if="examtype=='5'">Grade</th>
+                                                <th ng-if="examtype=='5' &&SelStudentType.id ==1">Grade Points Equiv</th>
+                                                <th ng-if="examtype=='5'">Credits Earned</th>
+                                                <th ng-if="examtype=='5' &&SelStudentType.id ==1">Total Grade Points</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="student in StudentWiseReportData">
+
+                                                <td>{{student.Subject_Code}}</td>
+                                                <td style="text-align: left;padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <td ng-if="examtype=='5'">{{student.MaxCredits}}</td>
+                                                <td ng-if="examtype=='5'|| examtype=='1' || examtype=='28'">{{student.MID1_MARKS}}</td>
+                                                <td ng-if="examtype=='5'|| examtype=='2'|| examtype=='29'">{{student.MID2_MARKS}}</td>
+
+                                                <td ng-if="examtype=='5'|| examtype=='3'">{{student.Internal_MARKS}}</td>
+
+                                                <td ng-if="(student.Result=='F') && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>
+                                                <td ng-if="(student.Result=='P' ||student.Result=='W') && examtype=='5'">{{student.EndSemMarks}}</td>
+
+                                                <td ng-if="(examtype=='5'&& student.Result=='W')">W</td>
+                                                <td ng-if="(examtype=='5' && student.Result!='W')">{{student.SubjectTotal}}</td>
+
+                                                <td ng-if="examtype=='5'">{{student.HybridGrade}}</td>
+
+                                                <td ng-if="student.GradePoint==0 && examtype=='5'&&SelStudentType.id ==1">{{student.GradePoint}}</td>
+                                                <td ng-if="student.GradePoint!=0 && examtype=='5'&&SelStudentType.id ==1">{{student.GradePoint}}</td>
+                                                <!--<td ng-if="student.GradePoint!=0 && examtype=='5'">{{student.GradePoint}}</td>-->
+
+                                                <td ng-if="examtype=='5'">{{student.CreditsGained}}</td>
+                                                <td ng-if="examtype=='5' &&SelStudentType.id ==1">{{student.TotalGradePoints}}</td>
+                                            </tr>
+                                            <tr ng-if="examtype=='5'">
+                                                <td></td>
+                                                <td style=" text-align left">Rubrics</td>
+                                                <td>2.5</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>P</td>
+                                                <td>-</td>
+                                                <td>2.5</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr ng-if="examtype=='5'">
+                                                <td colspan="2" ng-if="SelStudentType.id ==1">
+                                                    <strong>Semester Total:</strong>
+
+                                                </td>
+
+                                                <td ng-if="SelStudentType.id ==1">{{getMaxCredits}}</td>
+
+                                                <td colspan="7"></td>
+
+                                                <td class="hidden">
+                                                    <strong>{{getTotalMarks}}</strong>
+                                                </td>
+                                                <td class="hidden"></td>
+                                                <td class="hidden"></td>
+                                                <td>
+                                                    {{getCreditsGained}}
+                                                </td>
+                                                <td>
+                                                    {{SgpaTotalPoints}}
+                                                </td>
+                                            </tr>
+                                            <tr ng-if="examtype=='5'">
+                                                <td colspan="2">
+                                                    <strong>Course Total:</strong>
+
+                                                </td>
+                                                <td>{{CumulativeMaxCredits}}</td>
+                                                <td colspan="7"></td>
+
+                                                <td>
+                                                    {{CumulativeCreditsGained}}
+                                                </td>
+                                                <td>
+                                                    {{CumulativeGradePointsGained}}
+                                                </td>
+                                            </tr>
+                                            <tr ng-if="examtype=='5' &&SelStudentType.id ==1">
+                                                <td colspan="11">
+                                                    Semester Grade Point Average(SGPA)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{SgpaTotalPoints}}/{{SgpaTotalCredits}})
+                                                </td>
+                                                <td>{{SGPA}}</td>
+                                            </tr>
+                                            <!--<tr ng-if="examtype=='5' &&SelStudentType.id ==1">
+                                                <td colspan="11">
+                                                    Cummulative Grade Point Average(CGPA)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{CgpaTotalPoints}}/{{CgpaTotalCredits}})
+                                                </td>
+                                                <td>{{CGPA}}</td>
+
+                                            </tr>-->
+                                            <tr ng-if="examtype=='5'">
+                                                <td colspan="11">
+                                                    Result
+                                                </td>
+                                                <td>
+                                                    <span ng-if="Result=='MP'" style=" color red;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='Promoted'" style=" color red;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='Pass'" style=" color green;
+                                                          font-weight:bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='WithHeld'" style=" color green;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='Fail'" style=" color red;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+
+
+                                    <table class="table table-bordered" ng-if="scheme.schemeid == 5 &&SelStudentType.id ==2 || scheme.schemeid == 9 &&SelStudentType.id ==2">
+                                        <thead>
+                                            <tr>
+                                                <!--<th ng-if="examtype=='5' &&SelStudentType ==2">Sem</th>-->
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th ng-if="examtype=='5'">Course Credits</th>
+                                                <th ng-if="examtype=='1'||examtype=='5'">Mid SEM1<br />(20)</th>
+                                                <th ng-if="examtype=='5' || examtype=='2'">Mid SEM2<br />(20)</th>
+                                                <th ng-if="examtype=='5' || examtype=='3'">Internal<br />(20)</th>
+                                                <th ng-if="examtype=='5' || examtype=='4'">End SEM<br />(40)</th>
+                                                <th ng-if="examtype=='5'">Subject Total<br />(100)</th>
+                                                <th ng-if="examtype=='5'">Grade</th>
+
+                                                <th ng-if="examtype=='5'">Credits Earned</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat-start="(key, val) in newresultDisplayInfo">
+
+                                                <td colspan="10" ng-if="(examtype=='5' &&SelStudentType.id ==2)|| (scheme.schemeid == '9' &&SelStudentType.id ==2)">{{val.Semester}}</td>
+                                            </tr>
+                                            <tr ng-repeat-end ng-repeat="student in val.Subjects">
+                                                <td>{{student.Subject_Code}}</td>
+                                                <td style="text-align: left;padding-left: 10px !important;" ">{{student.SubjectName}}</td>
+                                                <td ng-if="examtype=='5'">{{student.MaxCredits}}</td>
+                                                <td ng-if="examtype=='5'|| examtype=='1'">{{student.MID1_MARKS}}</td>
+                                                <td ng-if="examtype=='5'|| examtype=='2'">{{student.MID2_MARKS}}</td>
+
+                                                <td ng-if="examtype=='5'|| examtype=='3'">{{student.Internal_MARKS}}</td>
+
+                                                <td ng-if="(student.Result=='F') && (examtype=='5'|| examtype=='4')" style="color: red;font-weight: bold">
+                                                    <u>{{student.EndSemMarks}}</u>
+                                                </td>
+                                                <td ng-if="(student.Result=='P' ||student.Result=='W') && examtype=='5'">{{student.EndSemMarks}}</td>
+
+                                                <td ng-if="(examtype=='5'&& student.Result=='W')">W</td>
+                                                <td ng-if="(examtype=='5' && student.Result!='W')">{{student.SubjectTotal}}</td>
+
+                                                <td ng-if="examtype=='5'">{{student.HybridGrade}}</td>
+
+
+                                                <td ng-if="examtype=='5'">{{student.CreditsGained}}</td>
+                                            </tr>
+
+
+
+                                            <tr ng-if="examtype=='5'">
+
+                                                <td colspan="2">
+                                                    <strong>Supplementary Total:</strong>
+
+                                                </td>
+                                                <td>{{getMaxCredits}}</td>
+                                                <td colspan="6"></td>
+
+                                                <td>
+                                                    {{getCreditsGained}}
+                                                </td>
+                                            </tr>
+                                            <tr ng-if="examtype=='5'">
+                                                <td colspan="2">
+                                                    <strong>Course Total:</strong>
+
+                                                </td>
+                                                <td colspan="7"></td>
+
+                                                <td>
+                                                    {{CumulativeCreditsGained}}
+                                                </td>
+
+                                            </tr>
+
+                                            <tr ng-if="examtype=='5'">
+                                                <td colspan="9">
+                                                    Result
+                                                </td>
+                                                <td>
+                                                    <span ng-if="Result=='MP'" style=" color red;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='Promoted'" style=" color red;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='Pass'" style=" color green;
+                                                          font-weight:bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='WithHeld'" style=" color green;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                    <span ng-if="Result=='Fail'" style=" color red;
+                                                          font-weight bold"><strong>{{Result}}</strong></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                    <p id="currenttime"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <Label ng-show="ResultFound"><strong>Abbrevations</strong></Label>
+                    <div class="col-md-12" ng-show="ResultFound">
+                        <div class="col-md-3">
+                            <label><strong>R - Regular Exam</strong></label>
+                        </div>
+                        <div class="col-md-3">
+                            <label><strong>S - Supplementary Exam</strong></label>
+                        </div>
+                        <div class="col-md-3">
+                            <label><strong>P - Pass</strong></label>
+                        </div>
+                        <div class="col-md-3">
+                            <label><strong>F - Fail</strong></label>
+                        </div>
+                        <!--<div class="col-md-3">
+                            <label><strong>W - WithHeld</strong></label>
+                        </div>-->
+                        <div class="col-md-3">
+                            <label><strong>MP - MalPractice</strong></label>
+                        </div>
+                        <div class="col-md-3">
+                            <label><strong>W - Wanting</strong></label>
+                        </div>
+                        <div class="col-md-3">
+                            <label><strong>UE - Under Evaluation</strong></label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ng-show="ResultNotFound" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ng-show="UnderMaintainance" class="no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>Under Maintainance will Resume Soon</h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <div id="popupContainer" class="panel">
+            <div class="modal" id="exampleModalStud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document" style="width:100%;">
+                    <div class="modal-content" style="width:100%;">
+
+
+                        <div class="popup_title">
+                            <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> </button>
+                            <h4> <i class="fa fa-info-circle" aria-hidden="true"></i> Grade Info </h4>
+                        </div>
+                        <!--<h5 class="modal-title" id="exampleModalLabel">Grade Info : </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>-->
+
+                        <div class="modal-body">
+                            <div class="">
+                                <div class="customtable scrollbox-content">
+                                    <table class="table table-responsive table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject_Code</th>
+                                                <th>SubjectName</th>
+                                                <th>A+</th>
+                                                <th>A</th>
+                                                <th>B+</th>
+                                                <th>B</th>
+                                                <th>C+</th>
+                                                <th>C</th>
+                                                <th>D</th>
+                                                <th>Topper Marks</th>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="subject in BranchSubjectGradeInfo">
+                                            <td>{{subject.Subject_Code}}</td>
+                                            <td>{{subject.SubjectName}}</td>
+                                            <td>{{subject.APlusGrade}}</td>
+                                            <td>{{subject.AGrade}}</td>
+                                            <td>{{subject.BPlusGrade}}</td>
+                                            <td>{{subject.BGrade}}</td>
+                                            <td>{{subject.CPlusGrade}}</td>
+                                            <td>{{subject.CGrade}}</td>
+                                            <td>{{subject.DGrade}}</td>
+                                            <td>{{subject.TopperMarks}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-raised waves-effect cancel-but text-uppercase" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="sm-spacer"></div>
+
+
+    </div>
+</body>
+</html>
+

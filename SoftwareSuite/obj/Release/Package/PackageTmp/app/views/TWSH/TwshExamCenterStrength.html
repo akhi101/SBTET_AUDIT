@@ -1,0 +1,213 @@
+﻿<style>
+    th, td, p, input {
+        font: 14px Verdana;
+    }
+
+    table, th, td {
+        border: solid 1px #000;
+        border-collapse: collapse;
+        padding: 5px 5px;
+        /*text-align: center;*/
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .th {
+        background-color: red;
+    }
+
+    .sm-spacer {
+        height: 50px;
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .scrollbox {
+        height: 540px;
+        overflow: auto !important;
+        visibility: hidden;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+    }
+</style>
+<div ng-controller="TwshExamCenterStrengthController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>TWSH Exam Centerwise Student Strength</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting">TypeWriting</a></li>
+                    <li><a href="#!/Dashboard/TypeWriting/TwshExamCenterStrength"> Centerwise Student Strength</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/TypeWriting" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <div class="sm-spacer"></div>
+            <div class="base-row row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="bold" for="sel1">
+                            <b> Exam : </b>
+                        </label>
+                        <!--<select class="form-control " ng-model="ExamMode" name="ExamMode" >
+                            <option value="" selected="selected">Select Exam mode</option>
+                            <option value="{{Exam.Id}}" ng-repeat="Exam in ExamTypes">
+                                {{Exam.Name}}
+                            </option>
+                        </select>-->
+                        <select class="form-control" id="ExamMode" ng-model="ExamMode" ng-change="changemode(ExamMode)"
+                                ng-options="Exam.Name for Exam in ExamTypes track by Exam.Id">
+                            <option value="" selected>Select Exam mode</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="gr-btn">
+                        <button class="btn btn-success" ng-click="submit()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+            
+        <div class="col-md-12">
+            <div class="pull-right" ng-if="Data">
+                <a class="ExportToExcel1 pointer"
+                   id="ExportToExcel1" ng-click="DownloadExcel()">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2>TWSH Exam Centerwise Student Strength</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div id=" Studentstrength" class="table-responsive table-custom-tables-tb scrollbox">
+                <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center">CollegeCode</th>
+                            <th class="text-center">CollegeName</th>
+                            <th class="text-center">TEJ </th>
+                            <th class="text-center">TEL	</th>
+                            <th class="text-center">TEH</th>
+                            <th class="text-center">TEHS</th>
+                            <th class="text-center">TTL</th>
+                            <th class="text-center">TTH	</th>
+                            <th class="text-center">TTHS</th>
+                            <th class="text-center">THL</th>
+                            <th class="text-center">THH	</th>
+                            <th class="text-center">TUL</th>
+                            <th class="text-center">TUH	</th>
+                            <th class="text-center">SEL</th>
+                            <th class="text-center">SEI</th>
+                            <th class="text-center">SEH</th>
+                            <th class="text-center">SEHS150</th>
+                            <th class="text-center">SEHS180</th>
+                            <th class="text-center">SEHS200</th>
+                            <th class="text-center">STL</th>
+                            <th class="text-center">STH	</th>
+                            <th class="text-center">STHS80</th>
+                            <th class="text-center">STHS100	</th>
+                            <th class="text-center">SUL</th>
+                            <th class="text-center">SUH</th>
+                            <th class="text-center">Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="x in StrengthReport">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <th class="text-center">{{x.CollegeCode}}</th>
+                            <th class="text-center">{{x.CollegeName}}</th>
+                            <th class="text-center">{{x.TEJ}}</th>
+                            <th class="text-center">{{x.TEL}}</th>
+                            <th class="text-center">{{x.TEH}}</th>
+                            <th class="text-center">{{x.TEHS}}</th>
+                            <th class="text-center">{{x.TTL}}</th>
+                            <th class="text-center">{{x.TTH}}</th>
+                            <th class="text-center">{{x.TTHS}}</th>
+                            <th class="text-center">{{x.THL}}</th>
+                            <th class="text-center">{{x.THH}}</th>
+                            <th class="text-center">{{x.TUL}}</th>
+                            <th class="text-center">{{x.TUH}}</th>
+                            <th class="text-center">{{x.SEL}}</th>
+                            <th class="text-center">{{x.SEI}}</th>
+                            <th class="text-center">{{x.SEH}}</th>
+                            <th class="text-center">{{x.SEHS150}}</th>
+                            <th class="text-center">{{x.SEHS180}}</th>
+                            <th class="text-center">{{x.SEHS200}}</th>
+                            <th class="text-center">{{x.STL}}</th>
+                            <th class="text-center">{{x.STH}}</th>
+                            <th class="text-center">{{x.STHS80}}</th>
+                            <th class="text-center">{{x.STHS100	}}</th>
+                            <th class="text-center">{{x.SUL}}</th>
+                            <th class="text-center">{{x.SUH}}</th>
+                            <td class="text-center">
+                                {{x.TEJ+x.TEL+x.TEH+x.TEHS+x.TTL+x.TTH+ x.TTHS+x.THL+x.THH+x.TUL+x.TUH+x.SEL+x.SEI+x.SEH+x.SEHS150+ x.SEHS180+x.SEHS200+x.STL+x.STH+x.STHS80+x.STHS100+x.SUL+x.SUH}}
+                            </td>
+                        </tr>
+                        <tr style="background-color:#fff!important;">
+                            <td class="text-center" colspan="3">Total</td>
+                            <th class="text-center">{{TEJ}}</th>
+                            <th class="text-center">{{TEL}}</th>
+                            <th class="text-center">{{TEH}}</th>
+                            <th class="text-center">{{TEHS}}</th>
+                            <th class="text-center">{{TTL}}</th>
+                            <th class="text-center">{{TTH}}</th>
+                            <th class="text-center">{{TTHS}}</th>
+                            <th class="text-center">{{THL}}</th>
+                            <th class="text-center">{{THH}}</th>
+                            <th class="text-center">{{TUL}}</th>
+                            <th class="text-center">{{TUH}}</th>
+                            <th class="text-center">{{SEL}}</th>
+                            <th class="text-center">{{SEI}}</th>
+                            <th class="text-center">{{SEH}}</th>
+                            <th class="text-center">{{SEHS150}}</th>
+                            <th class="text-center">{{SEHS180}}</th>
+                            <th class="text-center">{{SEHS200}}</th>
+                            <th class="text-center">{{STL}}</th>
+                            <th class="text-center">{{STH}}</th>
+                            <th class="text-center">{{STHS80}}</th>
+                            <th class="text-center">{{STHS100}}</th>
+                            <th class="text-center">{{SUL}}</th>
+                            <th class="text-center">{{SUH}}</th>
+                            <td class="text-center">
+                                {{TEL+TEH+TEHS+TTL+TTH+TTHS+THL+THH+TUL+TUH+SEL+SEI+SEH+SEHS150+SEHS180+SEHS200+STL+STH+STHS80+STHS100+SUL+SUH+TEJ}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

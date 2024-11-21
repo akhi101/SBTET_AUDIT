@@ -1,0 +1,78 @@
+﻿<div ng-controller="UpdateAttendanceController">
+    <div class="breadcrumb-header ng-scope">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Update Attendance</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/UpdateAttendance">Update Attendance</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12 ng-scope" >
+            <div class="row ">
+                <div class="cl-details">
+                    <h2>Update Attendance</h2>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">
+                           Enter Pin :
+                        </label>
+                        <div id="year">
+                            <input type="text" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="StudentPin"  autocomplete="off" name="PinNumber" required>
+                        </div>
+                    </div>
+                </div>             
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <button type="submit" style="margin-top:23px;" class="btn btn-success" ng-click="ViewDetails()">
+                           Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sm-spacer"></div>
+            <!-- ngIf: isShowResults -->
+        </div>
+        <div class="col-md-12" ng-show="searchResult">
+            <div  class="table-responsive table-custom-tables-tb " >
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width:1%;font-weight:600;">S.No</th>
+                            <th style="width: 10%;font-weight:600;" >PIN</th>
+                            <th style="width: 10%;font-weight:600;">Student Name</th>
+                            <th style="width: 10%;font-weight:600;">Scheme </th>
+                            <th style="width: 10%;font-weight:600;">Sem </th>
+                            <th style="width: 10%;font-weight:600;">Attendance Percentage </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color:#fff!important;" ng-repeat="data in AdmissioneReports">
+                            <td style="width: 1%">{{$index+1}}</td>
+                            <td style="width: 10%;">{{data.Pin}}</td>
+                            <td style="width: 10%;">{{data.Name}}</td>
+                            <td style="width: 10%;">{{data.SchemeId}}</td>
+                            <td style="width: 10%;">{{data.SemId}}</td>
+                            <td style="width: 10%"><span><input class="form-control" type="text" placeholder="Attendance Percentage" ng-model="attendance" value="attendance" /></span></td>
+                        </tr>         
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="col-md-12 pull-right" ng-show="searchResult">
+            <button class="btn btn-success pull-right" ng-click="submitData()" >Submit</button>
+        </div>
+        </div>
+</div>

@@ -1,0 +1,140 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+</style>
+
+<div ng-controller="CcicPrinterNRDownloadController">
+    <div class="breadcrumb-header">
+        <div class="container">
+            <section class="content-header">
+                <h5>Printer NR Download</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard">Ccic Dashboard</i> </a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination">Ccic PreExamination</a></li>
+                    <li><a href="#!/CcicDashboard/PreExamination/PrinterNRDownload">Printer NR Download</a></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="col-md-12">
+            <a href="#!/CcicDashboard/PreExamination" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+
+
+        <div id="exTab2" class="container">
+
+
+
+            <div class="tab-content ">
+
+
+
+
+                <div class="col-md-12">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Academic Year :</label>
+                                    <select class="form-control " ng-model="academicYear" name="AcademicYear" required ng-change="getAYBatchExamMonthYear(academicYear)">
+                                        <option value="" selected="selected">Select Year</option>
+                                        <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-3">
+                <div class="form-group">
+
+                    <label class="font-weight-bold"> Batch :</label>
+                    <select class="form-control " ng-model="BaTch" name="BatchType" required" ng-change="getAYBatchExamMonthYear(academicYear,BaTch)">
+                        <option value="" selected="selected">Select Batch</option>
+                        <option value="{{data.BatchID}}" ng-repeat="data in CurrentBatchData" class="">
+                            {{data.Batch}}
+                        </option>
+                    </select>
+                </div>
+            </div>-->
+
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" ng-model="monthyear" id="ExamYear"
+                                        ng-options="monYer.ExamMonthYearID as monYer.ExamMonthYearName for monYer in ExamMonthYearData">
+                                    <option value="" selected>Select Month/Year of Exam</option>
+                                </select>
+                            </div>
+
+
+                            <!--<div class="col-md-3 form-group">
+                <label for="sel1">
+                    Exam Dates :
+                </label>
+                <select class="form-control" ng-model="ExamDate" id="ExamDate"
+                        ng-options="data.ExamDate as data.ExamDate for data in ExamDates">
+                    <option value="" selected>Select Exam Date</option>
+                </select>
+            </div>-->
+
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-primary gr-button btn_top pull-left" style="margin-top: 23px!important;" ng-click="getNRStudentDetails()">
+                                        Download NR
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+
+                                    </button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div style="width:100%;text-align:center;">
+                        <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                    </div>
+                    <div class="sm-spacer"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>

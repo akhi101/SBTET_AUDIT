@@ -1,0 +1,198 @@
+﻿<style>
+    .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+</style>
+<div ng-controller="SetExamCentersController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Set Examination Centers</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/FeePayment"> Fee Payment</a></li>
+                    <li><a href="#!/Dashboard/FeePayment/SetExamCenters">Set Examination Centers</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="sm-spacer"></div>
+        <div class="container">
+
+            <div class="col-md-6">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <div class="row">
+                            <form novalidate>
+                                <!--<div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Exam Type :
+                                    </label>
+                                    <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changeStuentType(Student.id)" required>
+                                        <option value="" selected>Select Student</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                    </select>
+                                </div>-->
+                                <!--<div class="col-md-2 form-group">
+                                    <label for="sel1">
+                                        Academic Year :
+                                    </label>
+
+                                    <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="currentAcademicYear" ng-change="LoadExamType(current_schemeid)">
+                                        <option value="" selected>Select Academic year</option>
+                                        <option ng-repeat="data in getAcademicyears" value="{{data.AcademicID}}">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group" ng-show="studentTypeId == 2">
+                                    <label for="sel1">
+                                        Scheme :
+                                    </label>
+
+                                    <select class="form-control"  name="semister" required ng-model="current_schemeid" ng-change="LoadExamType(current_schemeid)">
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="data in getSchemes" value="{{data.SchemeID}}">
+                                            {{data.Scheme}}
+                                        </option>
+                                    </select>
+                                </div>-->
+                                <div class="col-md-2 form-group">
+                                    <label for="ExaminationType">
+                                        Student Type:
+                                    </label>
+                                    <select class="form-control" name="StudentType" required ng-model="StudentType">
+                                        <option value="" selected>Select Student Type</option>
+                                        <option ng-repeat="data in StudentTypes" value="{{data.id}}">
+                                            {{data.type}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 form-group" ng-show="StudentType==1">
+                                    <label for="ExaminationType">
+                                        Exam Type:
+                                    </label>
+                                    <select class="form-control" name="ExamType" required ng-model="ExaminationType">
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="data in getExamTypes" value="{{data.id}}">
+                                            {{data.examname}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="ExamType">
+                                        Exam Month year :
+                                    </label>
+                                    <select class="form-control" name="semister" required ng-model="Examyear" ng-change="changeExamCentre(currentYearMonth)">
+                                        <option value="" selected>Select Exam Year Month</option>
+                                        <option ng-repeat="data in getExamYearMonth" value="{{data.ExamMonthYearId}}">
+                                            {{data.ExamYearMonth}}
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-2 ">
+                                    <div class="gr-btn">
+                                        <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="Submit(ExaminationType)">
+                                            Get Exam Centers<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ng-show="ResultNotFound" class="no-results ng-hide">
+                            <img src="../../contents/img/Folder-Icon.svg">
+                            <h2>No Result Found</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+            </div>
+            <div ng-show="result">
+                <div class="col-md-6 pull-right" ng-show="edit && GetCollegeCenters ">
+                    <button class="btn btn-success pull-right" ng-show="userType==1||userType==1009" style="margin-bottom:10px" ng-click="editDetaila()">Edit Exam Centers</button>
+                </div>
+                <div class="col-md-6 pull-right" ng-show="update">
+                    <button class="btn btn-success pull-right" style="margin-bottom:10px" ng-click="SaveData()">Save</button>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="edit">
+                <div class="pull-right" ng-show="result">
+                    <a class="ExportToExcel1 pointer"
+                       id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                        <i class="fa fa-file-excel-o"></i>
+                        Export to Excel
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-12" ng-show="result">
+                <div class="cl-details">
+                    <h2>Set Examination Centers</h2>
+                </div>
+
+                <div class="table-responsive table-custom-tables-tb scrollbox">
+                    <table id="tblParent" class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                        <thead>
+                            <tr class="cb-1">
+                                <th width="2%">S.No</th>
+
+                                <th>College Name</th>
+                                <th>Examination Center</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in GetCollegeCenters" ng-click="selectSubjectDetails(x)">
+                                <td>{{$index+1}}</td>
+
+                                <td>{{x.CollegeCode}} - {{x.CollegeName}}</td>
+                                <td>
+                                    <span ng-if="edit">
+                                        {{x.ExaminationCenterName}}
+                                    </span>
+                                    <span ng-if="!edit">
+                                        <select class="form-control" ng-model="x.ExaminationCenterId"
+                                                ng-options="data.ExaminationCenterId as data.ExaminationCenter for data in ExamCenters" ng-change="changeCenter(x)">
+                                            <option value="" selected>Choose</option>
+                                        </select>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div ng-if="Noresult" class="no-results">
+                    <img src="../../contents/img/Folder-Icon.svg" />
+                    <h2>No Result Found</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="spacer"></div>
+</div>

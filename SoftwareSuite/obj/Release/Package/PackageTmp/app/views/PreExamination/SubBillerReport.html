@@ -1,0 +1,228 @@
+﻿<style>
+    .gr-button {
+        float: none !important;
+    }
+    a.ExportToExcel {
+        color: #1f497d;
+        text-decoration: none;
+        font-size: 18px;
+        padding-right: 10px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+    .fa-file-excel:before {
+        content: "\f1c3";
+    }
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    button.btn.btn-success.pull-right.btn-xs {
+        margin-bottom: 5px;
+    }
+    
+    @media print {
+        tr.cb-1 th {
+            color: #000!important;
+        }
+        .table-custom-tables-tb .table-bordered > thead > tr > th {
+            border: 1px solid #ddd !important;
+            color: #000 !important;
+            font-size: 12px !important;
+        }
+        .base-row {
+            display: none;
+        }
+        .top-header{
+            display:none;
+        }
+        .bck_btn{
+            display:none;
+        }
+        .noprint{
+            display:none;
+        }
+    }
+    .footer_section {
+        display:none;
+    }
+</style>
+<div ng-controller="SubBillerReportController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active noprint">
+                        <a href="#1" class="noprint" data-toggle="tab">Sub-Biller Report</a>
+                    </li>
+                    <li class="noprint">
+                        <a href="#2" class="noprint" data-toggle="tab">Day Wise Abstract</a>
+                    </li>
+
+                </ul>
+                <!--<div class="row ">
+            <div class="cl-details">
+                <h2>Sub-Biller Report</h2>
+            </div>
+        </div>-->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="1">
+                        <div class="row base-row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Sub-Biller Id:</label>
+                                    <div class="">
+                                        <select class="form-control" ng-model="selectedSubBiller" name="StudentType" required>
+                                            <option value="" selected>Select Sub-Biller</option>
+                                            <option ng-repeat="sb in SubBillers" value="{{sb}}">
+                                                {{sb}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>From Date:</label>
+                                    <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                        <input type="text" class="form-control" placeholder="Select From Date" title="Click on Calendar icon to Select From Date" disabled autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="setFromDate" ng-model="setFromDate" is-open="showFlag12" ng-change="Todate()" required />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="showFlag12 = true"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>To Date:</label>
+                                    <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                        <input type="text" class="form-control" placeholder="Select End Date" title="Click on Calendar icon to Select To Date" disabled autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="setToDate " ng-model="setToDate" is-open="showFlag3" required ng-change="Setdate()" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="showFlag3 = true"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <div class="form-group text-center">
+                                    <button class="btn btn-sm btn-primary  text-center  gr-button btn_top" ng-click="GetReport()">
+                                        Get Report
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="2">
+                        <div class="row base-row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Select Date:</label>
+                                    <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                        <input type="text" class="form-control" placeholder="Select Date" title="Click on Calendar icon to Select Date" disabled autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="Date" ng-model="Date" is-open="showFlag13" required />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary" ng-click="showFlag13 = true"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <button class="btn btn-sm btn-primary  text-center  gr-button btn_top" ng-click="GetCount()">
+                                        Get Report
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-right noprint" ng-show="SubBillerCount.length>0">
+                            <a class="ExportToExcel1 pointer"
+                               id="ExportToExcel1" title="Excel Download" ng-click="DownloadtoExcel('#tblParent')">
+                                <i class="fa fa-file-excel"></i>
+                                SubBiller Count
+                            </a>
+                        </div>
+
+                        <div class="col-md-1 pull-right noprint" ng-show="SubBillerCount.length>0">
+                            <button class="btn btn-success pull-right btn-xs" title="Print" ng-click="printDetails('Details')">Print</button>
+                        </div>
+                        <div ng-show="SubBillerCount.length>0" class="col-md-7 notifylabel noprint" for="sel1" style="color: red;">Click on row to view details</div>
+                        <div id="Details">
+                            <div class="col-md-12 ng-scope" ng-show="SubBillerCount.length>0">
+                                <div class="cl-details">
+                                    <h2>SubBiller Report</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="SubBillerCount.length>0">
+                                <div class="table-responsive table-custom-tables-tb">
+                                    <table class="table table-bordered table-hover table-rounded">
+                                        <thead>
+                                            <tr class="cb-1">
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Sub BillerID</th>
+                                                <th class="text-center">Total Records</th>
+                                                <th class="text-center">Total Amount Payed</th>
+                                                <th class="text-center">Success</th>
+                                                <th class="text-center">Success Amount</th>
+                                                <th class="text-center">Fail</th>
+                                                <th class="text-center">Fail Amount</th>
+                                                <th class="text-center">Rejected</th>
+                                                <th class="text-center">Rejected Amount</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="Data in SubBillerCount">
+                                                <td width="10%" class="text-center">{{Data.Date | date:'dd-MM-yyyy'}}</td>
+                                                <td class="text-center">{{Data.subbillerid}}</td>
+                                                <td class="text-center"><b><a class="Verify" ng-click="GetDayWiseReport(1,Data.subbillerid)">{{Data.TotalRecords == null ?'--':Data.TotalRecords}}</a></b></td>
+                                                <td class="text-center">{{Data.TotalAmountPayed}}</td>
+                                                <td class="text-center"><b><a class="Verify" ng-click="GetDayWiseReport(3,Data.subbillerid)">{{Data.Success == null ?'--':Data.Success}}</a></b></td>
+                                                <td class="text-center">{{Data.SuccessAmount}}</td>
+                                                <td class="text-center"><b><a class="Verify" ng-click="GetDayWiseReport(5,Data.subbillerid)">{{Data.Fail == null ?'--':Data.Fail}}</a></b></td>
+                                                <td class="text-center">{{Data.FailAmount}}</td>
+                                                <td class="text-center"><b><a class="Verify" ng-click="GetDayWiseReport(7,Data.subbillerid)">{{Data.Rejected == null ?'--':Data.Rejected}}</a></b></td>
+                                                <td class="text-center">{{Data.RejectedAmount}}</td>
+                                            </tr>
+                                            <tr style="font-weight:bold">
+                                                <td colspan="2" class="text-center">Total</td>
+                                                <td class="text-center">{{TotalRecords}}</td>
+                                                <td class="text-center">{{TotalAmountPayed}}</td>
+                                                <td class="text-center">{{Success}}</td>
+                                                <td class="text-center">{{SuccessAmount}}</td>
+                                                <td class="text-center">{{Fail}}</td>
+                                                <td class="text-center">{{FailAmount}}</td>
+                                                <td class="text-center">{{Rejected}}</td>
+                                                <td class="text-center">{{RejectedAmount}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="width: 100%; text-align: center;">
+                    <img src="../../../contents/img/loading.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div class="sm-spacer"></div>
+
+            </div>
+        </div>
+                </section>
+</div>
+

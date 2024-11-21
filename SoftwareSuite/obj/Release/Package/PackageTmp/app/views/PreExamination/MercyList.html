@@ -1,0 +1,77 @@
+﻿<div ng-controller="MercyListController">
+    <div class="container">
+        <div class="sm-spacer"></div>
+        <div class="col-md-12">
+            <a href="#!/Dashboard/PreExamination" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+        </div>
+        <div class="sm-spacer"></div>
+        <!--<div class="col-md-12" ng-show="Data">
+            <a class="ExportToExcel1 pointer pull-right"
+               id="ExportToExcel1" ng-click="DownloadtoExcel()" style="margin-top: 15px;">
+                <i class="fa fa-file-excel-o"></i>
+                Export to Excel
+            </a>
+        </div>-->
+        <div class="col-md-12" ng-if="Data">
+            <div class="cl-details">
+                <h2>Mercy List Summary</h2>
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="Data">
+            <div id="preExamReports" class="table-responsive table-custom-tables-tb ">
+                <table class="table table-bordered  table-striped table-rounded">
+                    <thead>
+                        <tr class="cb-1">
+                            <th style="width: 2%;">S.No</th>
+                            <th class="text-center">Scheme</th>
+                            <th class="text-center">College Code</th>
+                            <th class="text-center">PIN</th>
+                            <th class="text-center">First Name</th>
+                            <th class="text-center">Last Name</th>
+                            <th class="text-center">Mobile Number</th>
+                            <th class="text-center">Corrected PIN</th>
+                            <th class="text-center">Photo Download</th>
+                            <th class="text-center">File Download</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr style="background-color:#fff!important;cursor:pointer" ng-repeat="x in MercyData" ng-click="openDetails(x.Id)">
+
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td class="text-center">{{x.Scheme}}</td>
+                            <td class="text-center">{{x.CollegeCode}}</td>
+                            <td class="text-center">{{x.PIN}}</td>
+                            <td class="text-center">{{x.first_Name}}</td>
+                            <td class="text-center">{{x.last_Name}}</td>
+                            <td class="text-center">{{x.Mobile}}</td>
+                            <td class="text-center">{{x.CorrectedPIN}}</td>
+                            <td class="text-center">
+                                <i style="color: #337ab7;" title="Download" ng-click="getPhotoData(x.Id,1)" class="fa fa-download" aria-hidden="true"></i>
+                            </td>
+                            <td class="text-center">
+                                <i style="color: #337ab7;" title="Download" ng-click="getPhotoData(x.Id,2)" class="fa fa-download" aria-hidden="true"></i>
+                            </td>
+                            <!--<td class="text-center " ng-click="ApprovedList(x.Scheme,x.Approved)"><a><b>{{x.Approved}}</b></a></td>
+    <td class="text-center " ng-click="RejectedList(x.Scheme,x.Rejected)"><a><b>{{x.Rejected}}</b></a></td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--<div class="loading">
+            <img src="../../contents/img/loading2.gif" ng-show="loading" width="64" />
+        </div>-->
+
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Result Found</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

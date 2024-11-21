@@ -1,0 +1,395 @@
+﻿<style>
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------------------------------------*/
+
+
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxessem label {
+            display: block;
+        }
+
+            #checkboxessem label:hover {
+                background-color: #1e90ff;
+            }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .image {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+
+        .logo-name h2 {
+            text-align: left;
+            margin-left: 130px;
+            margin-top: -20px;
+            font-size: 25px !important;
+            line-height: 36px;
+        }
+
+        #idtoDivPrintAdmin {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        #goto-top-arrow {
+            display: block;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+    }
+</style>
+<div ng-controller="SeatingPlanGeneratorController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>SeatingPlan Generation</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PreExamination">Pre Examination</a></li>
+                    <li><a href="#!/Dashboard/PreExamination/ExamHallDetails">Examination Hall Management </a></li>
+                    <li><a href="#!/Dashboard/PreExamination/ExamHallDetails/GenerateSeatingPlan">SeatingPlan Generator </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination/ExamHallDetails" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            </div>
+            <div class="container">               
+                <div class="row frow base-row">
+                    <div class="col-md-12">
+                        <form name="SaeatingPlanForm">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label>Exam Month Year</label>
+                                    <select class="form-control" ng-model="selectedEmy" name="ExamMonthYear" ng-change="getexamdates()">
+                                        <option value="" selected>Select Exam Month Year</option>
+                                        <option ng-repeat="item in ExamMonthYears" value="{{item.ExamMonthYearId}}">
+                                            {{item.ExamYearMonth}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Student Type</label>
+                                    <select class="form-control" ng-model="studentTypeId" ng-change="getexamdates()">
+                                        <option value="">Select Student Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="ExamType">
+                                        Exam :
+                                    </label>
+                                    <select class="form-control" id="ExamType" ng-model="examtype" ng-change="getexamdates()"
+                                            ng-options="Exa.id as Exa.exam for Exa in Exams">
+                                        <option value="" selected>Select Exam</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Exam Date</label>
+                                    <select class="form-control" ng-model="selectedExamDate" name="ExamDate" ng-change="GetExamSessionByExamDate()">
+                                        <option value="" selected>Select Exam Date</option>
+                                        <option ng-repeat="item in ExamDates" value="{{item.ExamDate}}">
+                                            {{item.ExamDate}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label>Time Slot</label>
+                                    <select class="form-control" id="timeSlot" ng-model="timeSlot"
+                                            ng-options="itm.ExamSession as itm.ExamSession for itm in Examsessions">
+                                        <option value="" selected>Select Time Slot</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label> Examination Halls: </label>
+                                        <div class="multiselect">
+                                            <div class="selectBox" ng-click="showCheckboxes()">
+                                                <select class="form-control ">
+                                                    <option ng-blur="closeCheckbox()">Select Examination Halls</option>
+                                                </select>
+                                                <div class="overSelect"></div>
+                                            </div>
+                                            <div id="checkboxes" style="max-height: 8em;overflow-y: scroll;">
+                                                <label class="contain">
+                                                    <input type="checkbox" ng-click="toggleAll()" ng-model="isAllSelected" /><span class="checkmark"></span>Select All
+                                                </label>
+                                                <label class="contain" ng-repeat="data in Hallinfo">
+                                                    <input type="checkbox" ng-model="data.selected" ng-change="optionToggled(data.selected)"><span class="checkmark"></span>{{data.ExamHall}}
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="hallarr.length>0">
+                                <div class="col-md-12">
+                                    <h4>Examination Halls Selected</h4>
+                                    <table class="table" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <th>ExamHall Name</th>
+                                            <th>Columns</th>
+                                            <th>Rows</th>
+                                            <th>Students per Bench</th>
+                                            <th></th>
+                                        </tr>
+                                        <tbody ng-repeat="eh in hallarr track by eh.Id">
+                                            <tr>
+                                                <td><p>{{eh.ExamHall}}</p></td>
+                                                <td><p>{{eh.Colums}}</p></td>
+                                                <td><p>{{eh.Rows}}</p></td>
+                                                <td>
+                                                    <select class="form-control" id="SeatingPerBench" ng-model="eh.NoOfStudentsPerBeanch" ng-change="res(eh.Colums,eh.NoOfStudentsPerBeanch,eh.Id)"
+                                                            ng-options="spb.Id as spb.val for spb in studentperbench">
+                                                        <option value="" selected>Select students per Bench</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="button" ng-click="RemoveHall(eh.Id,$index)" value="Remove" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                </div>
+                                <div class="col-md-3 text-center" style="padding:20px;">
+                                    <button type="submit" ng-click="getSeatingData()" class="btn btn-block btn-detail btn-md">Generate Seating Plan </button>
+                                </div>
+                                <div class="col-md-4">
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+
+                </div>
+                <div class="row" ng-show="ResultFound">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-default btn-xs"><span><a ng-href={{seatingpdf}} target="_blank">{{seatingpdf == null ? '':"Download PDF"}}</a></span></button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-info btn-xs"><span><a ng-href={{seatingexcel}} target="_blank">{{seatingexcel == null ? '':"Download Excel"}}</a></span></button>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+                    <div style="width: 100%; text-align: center;" ng-show="LoadImg">
+                        <img src="../../../contents/img/loading.gif" width="100" />
+                        <div><p>Seating Plan Generation is in process, please wait .....</p></div>
+                        <div><p>Print the seating Plan on A3 or legal size paper.</p></div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div ng-show="ResultNotFound" class="no-results">
+                                <img src="../../contents/img/Folder-Icon.svg" />
+                                <h2>No Data Found</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </section>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+</div>

@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exam Form Correction</title>
+</head>
+<body>
+    <div ng-controller="ExamFormsCorrectionNewController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Exam Form Correction</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Examination</li>
+                        <li>Exam Form Correction</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2 text-right">
+                                <div class="form-group">
+                                    <label for="email"> Enter PRN Number/HTNo :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.PRNNo" id="PRNNo" ng-disabled="Updateddisable" maxlength="15" input-Number-Only placeholder="PRN Number">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <button type="button" ng-click="ShowPRNData1()" ng-disabled="Updateddisable" class="btn btn-sm btn-detail">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Personal Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">
+                                <input type="checkbox" id="chkStudentName" ng-change="chkStudentName()" ng-model="ExamFormsCorrectionNew.StudNameFlag" style="width:40px" />
+                                <div class="form-group">
+                                    <label for="sel1">Student Name:</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.StudName" id="StudName" placeholder="Student Name">
+                                </div>
+                            </div>
+                            <!--<input type="checkbox" id="chkGender" ng-change="chkGender()" style="width:40px" />
+
+                            <div class="form-group" ng-disabled="true">
+                                <label for="email">Gender :</label>
+                                <form>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="ExamFormsCorrectionNew.Gender" checked value="M">Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="ExamFormsCorrectionNew.Gender" value="F">Female
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-model="ExamFormsCorrectionNew.Gender" value="O">Other
+                                    </label>
+                                </form>
+                            </div>
+                            <input type="checkbox" id="chkDateofBirth" ng-change="chkDateofBirth()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label>Date of Birth :</label>
+                                <input type="text" class="form-control input-sm" id="DateofBirth" ng-Model="ExamFormsCorrectionNew.DateofBirth">
+                            </div>
+                            <input type="checkbox" id="chkStream" ng-change="chkStream()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label for="sel1">Stream :</label>
+                                <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.CourseName" id="CourseName" readonly="readonly">
+                            </div>
+
+                            <input type="checkbox" id="chkYear" ng-change="chkYear()" style="width:40px" />
+                            <div class="form-group">
+                                <label for="sel1">Year :</label>
+                                <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.ExmName" id="ExmName" readonly="readonly">
+                            </div>
+                            <input type="checkbox" id="chkBranch" ng-change="chkBranch()" style="width:40px" />
+                            <div class="form-group">
+                                <label for="sel1">Branch :</label>
+                                <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.BranchName" id="BranchName" readonly="readonly">
+                            </div>
+                            <input type="checkbox" id="chkMainGroup" ng-change="chkMainGroup()" style="width:40px" />
+                            <div class="col-md-2 col-md-offset-2">
+                                <label for="sel1"> Main Group :</label>
+                                <select class="form-control" ng-model="ExamFormsCorrectionNew.MainGrpID" id="MainGrpID" ng-change="GetGroupSubjects(ExamFormsCorrectionNew.MainGrpID)" ng-disabled="editvalue">
+                                    <option ng-selected="ExamFormsCorrectionNew.MainGrpID == option.MainGrpID" ng-repeat="option in MainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                </select>
+                            </div>
+                            <input type="checkbox" id="chkMedium" ng-change="chkMedium()" style="width:40px" />>
+                            <div class="col-md-2">
+                                <label for="MediumID">Medium :</label>
+                                <select class="form-control input-sm" id="MediumID" ng-model="ExamFormsCorrectionNew.MediumID" ng-disabled="editvalue">
+                                    <option ng-selected="ExamFormsCorrectionNew.MediumID == option.MediumID" ng-repeat="option in MediumList" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                                </select>
+                            </div>
+                            <input type="checkbox" id="chkSecondLanguage" ng-change="chkSecondLanguage()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label for="MediumID">2nd Language :</label>
+                                <select class="form-control" id="SecondLangID" ng-model="ExamFormsCorrectionNew.SecondLangID" ng-disabled="editvalue" ng-change="CheckSecLangLimit(ExamFormsCorrectionNew.SecondLangID)">
+                                    <option ng-selected="ExamFormsCorrectionNew.SecondLangID == option.SecondLangID" ng-repeat="option in SecondLangList" value="{{option.SecondLangID}}">{{option.SubName}}</option>
+                                </select>
+                            </div>
+
+                            <input type="checkbox" id="chkStudentCategory" ng-change="chkStudentCategory()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label for="sel1">Student Category :</label>
+                                <select class="form-control" id="StudCatID" ng-model="ExamFormsCorrectionNew.StudCatID" ng-disabled="editvalue">
+                                    <option ng-selected="ExamFormsCorrectionNew.StudCatID == option.StudCatID" ng-repeat="option in StudCatList" value="{{option.StudCatID}}">{{option.StudCatName}}</option>
+                                </select>
+                            </div>
+                            <input type="checkbox" id="chkStudentType" ng-change="chkStudentType()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label for="sel1">Student Type :</label>
+                                <select class="form-control" id="sel1" ng-model="ExamFormsCorrectionNew.StudType" ng-disabled="true">
+                                    <option value="F">Fresher</option>
+                                    <option value="R">Repeater</option>
+                                </select>
+                            </div>-->
+                            <!--<input type="checkbox" id="chkPhysicalHandicap" ng-change="chkPhysicalHandicap()" style="width:40px" />
+                            <div class="form-group">
+                                <label for="email">Physically Handicapped :</label>
+                                <form>
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-disabled="editvalue" name="optradio" ng-model="ExamFormsCorrectionNew.Handicaped" checked value="N">No
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" ng-disabled="editvalue" name="optradio" ng-model="ExamFormsCorrectionNew.Handicaped" value="Y">Yes
+                                    </label>
+                                </form>
+                            </div>-->
+                            <!--<input type="checkbox" id="chkCasteCommunity" ng-change="chkCasteCommunity()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label>Caste/Community :</label>
+                                <select class="form-control input-sm" id="CasteCommunity" ng-model="ExamFormsCorrectionNew.CasteCommunity">
+                                    <option ng-selected="ExamFormsCorrectionNew.Nationality == option.Nationality" ng-repeat="option in NationalityList" value="{{option.NationalityID}}">{{option.NationalityName}}</option>
+                                </select>
+                            </div>
+                            <input type="checkbox" id="chkSubCaste" ng-change="chkSubCaste()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label>Sub Caste :</label>
+                                <select class="form-control input-sm" id="SubCaste" ng-model="ExamFormsCorrectionNew.SubCaste">
+                                    <option ng-selected="ExamFormsCorrectionNew.SubCaste == option.SubCaste" ng-repeat="option in SubCaste" value="{{option.NationalityID}}">{{option.NationalityName}}</option>
+                                </select>
+                            </div>-->
+                            
+                            
+                            <!--<input type="checkbox" id="chkDateofAdmission" ng-change="chkDateofAdmission()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label>Date of Admission :</label>
+                                <input type="text" class="form-control input-sm" id="DateofAdmission" ng-Model="ExamFormsCorrectionNew.DateofAdmission">
+                            </div>-->
+                            <!--<input type="checkbox" id="chkFatherName" ng-change="chkFatherName()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label>Father Name :</label>
+                                <input type="text" class="form-control input-sm" id="FatherName" ng-Model="ExamFormsCorrectionNew.FatherName">
+                            </div>
+                            <input type="checkbox" id="chkMotherName" ng-change="chkMotherName()" style="width:40px" />
+                            <div class="col-md-2">
+                                <label>Mother Name :</label>
+                                <input type="text" class="form-control input-sm" id="MotherName" ng-Model="ExamFormsCorrectionNew.MotherName">
+                            </div>-->
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3"> Exam Form Details <hr></h3></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Form No :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.Formno" id="Formno" placeholder="Form Number" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Application Date :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.CreDateDesc" id="CreDateDesc" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Regular Fee :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.RegularFees" id="RegularFees" placeholder="Regular Fees" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Late Fee :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.LateFees" id="LateFees" placeholder="Late Fees" ng-readonly="true">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1"> Fee Amount :</label>
+                                    <input type="text" class="form-control" ng-model="ExamFormsCorrectionNew.FormFees" id="FormFees" placeholder="Fee Amount" ng-readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><h3 class="ch3">Subject Details <hr></h3></div>
+                        </div>
+                        <table id="filtereddata" class="table">
+                            <tr>
+                                <th></th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                            </tr>
+                            <tr ng-repeat="x in Subjectdata">
+                                <td style="text-align:center; width:100px;"><input type="checkbox" ng-disabled="x.SubDisable " ng-click='GetCheckSubject(x)' ng-model="x.CheckSub"></td>
+                                <td>{{ x.ExmSubCode }}</td>
+                                <td>{{ x.ExmSubName }}</td>
+                            </tr>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveExamFormsCorrectionNew()">Save</button>
+                                <button type="reset" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

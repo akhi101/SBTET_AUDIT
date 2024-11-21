@@ -1,0 +1,171 @@
+﻿<style>
+    .arrow-up:after {
+        bottom: 12px;
+        border-bottom-color: #fff;
+    }
+
+    .footer_section {
+        /* position: fixed; */
+        display: none !important;
+        bottom: 0px;
+        z-index: 99;
+    }
+
+    .arrow-down:after {
+        top: 10px;
+        border-top-color: white;
+    }
+
+    @media (min-width: 768px) {
+        .modal-dialog {
+            width: 800px !important;
+            margin: 30px auto;
+        }
+    }
+</style>
+<div ng-controller="TwshApprovalListDetailsController">
+
+    <div class="container" ng-if="userType == '1007' || userType == '1009' || userType == '1002'|| userType == '1'|| userType == '5'">
+        <!-- -->
+        <div class="row">
+
+            <div class="sm-spacer"></div>
+            <div class="col-md-12">
+                <a href="#!/Dashboard/TypeWriting/TwshApprovalList" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="sm-spacer"></div>
+
+            <div class="col-md-6" ng-show="data">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+
+
+                <!--<div style="width:100%;text-align:center;">
+            <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+        </div>-->
+            </div>
+            <div class="col-md-6 " ng-show="data && DataType =='0'">
+                <label class="notifylabel" for="sel1" style="color: red;">Click on view details for candidate info</label>
+            </div>
+            <div class="col-md-12" ng-show="data">
+                <a class="ExportToExcel1 pointer pull-right"
+                   id="ExportToExcel1" ng-click="DownloadtoExcel('#Table1')" style="margin-top: 15px;">
+                    <i class="fa fa-file-excel-o"></i>
+                    Export to Excel
+                </a>
+            </div>
+            <div class="col-md-12 " ng-show="data">
+                <div class="cl-details">
+                    <h2>TWSH CBT Candidates Result List</h2>
+                </div>
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+                <div id="Table1" class="table-responsive table-custom-tables-tb ">
+                    <table class="table table-bordered  table-striped table-rounded ">
+                        <thead>
+                            <tr class="cb-1">
+                                <!--  <th style="width: 1%;"><input name='allItemsSelected' type="checkbox" ng-model="items.allItemsSelected" ng-checked="checkedStatus" ng-click="selectAll(items.allItemsSelected)"></th>-->
+                                <th style="width: 1%;"></th>
+                                <th style="width: 2%" ng-click="sort('Sno')">S.No</th>
+                                <!-- <th class="text-center" ng-click="sort('Scheme')">HallTicket Number</th>-->
+                                <th class="text-center" ng-click="sort('Scheme')">Registration No</th>
+                                <th class="text-center" ng-click="sort('Semester')">Name</th>
+                                <th class="text-center" ng-click="sort('Branch')">Month & Year of Pass </th>
+                                <th class="text-center" ng-click="sort('On Roll')">Phone Number</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Paper 1</th>
+                                <th class="text-center" ng-click="sort('On Roll')">Paper 2</th>
+                                <th class="text-center" ng-click="sort('Result')">Result</th>
+                                <th class="text-center" ng-show="DataType =='0'">Applied Date</th>
+                                <th class="text-center" ng-show="DataType =='1' && userType==1009">Approved Date</th>
+                                <th class="text-center" ng-show="DataType =='1' && userType==1009">Certificate</th>
+                                <th class="text-center" ng-show="DataType =='1' && userType==1009">Reset</th>
+                                <th class="text-center" ng-show="DataType =='1' && userType==1009">Message</th>
+                                <th class="text-center" ng-click="">View Details</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="data in QualifiedList |orderBy:sortKey:reverse|filter:search" style="background-color:#fff!important;">
+                                <!-- <td style="text-align: center" class="checkboxs"><input type="checkbox" ng-model="x.isChecked" ng-class="{selected: x.isChecked}" ng-change="selectEntity(x)"></td>-->
+                                <td style="text-align: center"><input type="checkbox" ng-model="data.isChecked" ng-checked="data.isChecked" ng-change="selectEntity(data)"></td>
+                                <td>{{$index+1}}</td>
+                                <!-- <td class="text-center">{{data.HallTicketNumber}}</td>-->
+                                <td class="text-center">{{data.RegistrationNo}}</td>
+                                <td class="text-center">{{data.StudentName}}</td>
+                                <td class="text-center">{{data.YearofMonth}} - {{data.YearofPass}}</td>
+                                <td class="pointer text-center">{{data.StudentPhoneNumber}}</td>
+                                <td class="pointer text-center">{{data.PaperOne}}</td>
+                                <td class="pointer text-center">{{data.PaperTwo}}</td>
+                                <td class="pointer text-center">{{data.Result}}</td>
+                                <td class="pointer text-center" ng-show="DataType =='0'">{{data.AppliedDate|date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                <td class="pointer text-center" ng-show="DataType =='1' && userType==1009">{{data.IsJsApprovedDate|date:'dd-MMM-yyyy hh:mm:ss'}}</td>
+                                <td class="text-center " ng-show="DataType =='1' && userType==1009"><a ng-href={{data.CertificatePath}} target="_blank">{{data.CertificatePath == null ? '-':"Document"}}</a></td>
+                                <td class="text-center " ng-show="DataType =='1' && userType==1009">
+                                    <span>
+                                        <button class="btn btn-warning btn-xs" ng-click="ResetCertificateStatus(data.RegistrationNo,data.CertificatePath)"><span>Reset</span></button>
+                                    </span>
+                                </td>
+                                <td class="text-center " ng-show="DataType =='1' && userType==1009">
+                                    <span>
+                                        <button class="btn btn-info btn-xs" ng-show="data.IsSmsSent ==0" ng-disabled="smsbtndisable{{$index}}" ng-class="{'disabled': smsbtndisable{{$index}}}" ng-click="sensSMS(data.RegistrationNo,data.CertificatePath,data.StudentPhoneNumber,$index)"><span>Send SMS</span></button>
+                                    </span>
+                                    <span>
+                                        <button class="btn btn-success btn-xs" ng-show="data.IsSmsSent ==1" ng-disabled="smsbtndisable{{$index + 1}}" ng-class="{'disabled': smsbtndisable{{$index}}}" ng-click="sensSMS(data.RegistrationNo,data.CertificatePath,data.StudentPhoneNumber,$index)"><span>Resend SMS</span></button>
+                                    </span>
+                                </td>
+                                <td class="pointer text-center" ng-click="OpenPopup(data.RegistrationNo)"><a style="font-weight:bold;">View Details</a> </td>
+                            </tr>
+                            <!--<tr class="alert-success">
+                        <td colspan="2">Total</td>
+                        <td class="text-center">{{Applied|number}}</td>
+                        <td class="text-center">{{FeePaid}}</td>
+                        <td class="pointer text-center">{{FeeNotPaid}}</td>
+                    </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12" style="position: fixed;bottom: 0px;width: 100%;padding-bottom: 5px;padding-top: 5px;" ng-show="data && DataType =='0'">
+
+                <div class="col-md-8">
+                    <button class="btn btn-danger print_btn" ng-show="userType==1007 ||userType==1002 ||userType==1009" style="margin-top:21px " ng-click="Reject()">Reject</button>
+
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-success print_btn " ng-show="userType==1007 || userType==1002" style="margin-top:21px" ng-disabled="btndisable" ng-click="!btndisable && ApprovePin()">
+                        Forward
+                    </button>
+
+                    <button class="btn btn-success print_btn " ng-show="userType==1009" style="margin-top:21px" ng-disabled="btndisable" ng-click="!btndisable && ApprovePin()">{{buttonlabel}}</button>
+                </div>
+
+            </div>
+            <!--<div class="col-md-12" ng-show="data && DataType =='0' &&(userType==1007 || userType==1002 ||userType==1009)">
+        <div class="sm-spacer"></div>
+        <div class="row">
+
+            <div class="col-md-6">
+                <button class="btn btn-danger" style="margin-top:21px " ng-click="Reject()">Reject</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-success print_btn pull-right" ng-show="userType==1007 || userType==1002" ng-disabled="btndisable" ng-click="!btndisable && Approve()">Forward</button>
+                <button class="btn btn-success pull-right" ng-show="userType==1009" style="margin-top:21px" ng-disabled="btndisable" ng-click="!btndisable && ApprovePin()">{{buttonlabel}}</button>
+            </div>
+        </div>
+    </div>-->
+        </div>
+        <div class="col-md-12">
+            <div ng-if="Nodata" class="no-results">
+                <img src="../../contents/img/Folder-Icon.svg" />
+                <h2>No Data Found </h2>
+            </div>
+        </div>
+        <div class="sm-spacer"></div>
+        <div class="sm-spacer"></div>
+    </div>
+</div>

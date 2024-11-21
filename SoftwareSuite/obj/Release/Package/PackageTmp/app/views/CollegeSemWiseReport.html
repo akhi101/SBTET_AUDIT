@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Results</title>
+    <style>
+        .mya {
+            color: #337ab7 !important;
+            text-decoration: underline !important;
+            cursor: pointer !important;
+        }
+
+        .modal-content {
+            height: 550px !important;
+            overflow: scroll !important;
+        }
+
+        .print-cnt {
+            display: none;
+        }
+
+        @media screen {
+            #printSection {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printSection, #printSection * {
+                visibility: visible;
+            }
+
+            #printSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            .print-cnt {
+                display: block;
+            }
+
+            .mya {
+                text-decoration: none !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        function PrintDashboard() {
+            printElement(document.getElementById("idtoDivPrintAdmin"));
+        }
+        function PrintInfo() {
+            printElement(document.getElementById("PrintCollegeDataDiv"));
+        }
+        function PrintArea() {
+            printElement(document.getElementById("printableArea"));
+        }
+        function printElement(elem) {
+            var domClone = elem.cloneNode(true);
+            var $printSection = document.getElementById("printSection");
+            if (!$printSection) {
+                var $printSection = document.createElement("div");
+                $printSection.id = "printSection";
+                document.body.appendChild($printSection);
+            }
+            $printSection.innerHTML = "";
+            $printSection.appendChild(domClone);
+            window.print();
+            document.body.removeChild($printSection);
+        }
+        $("[id$=ExportToExcel]").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=idtoDivPrintAdmin]').html()));
+            e.preventDefault();
+        });
+    </script>
+</head>
+<body>
+    <div ng-controller="CollegeSemWiseController">
+        <header>
+
+            <div class="header" ng-include="'app/views/SBPHeader.html'">
+
+            </div>
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active">
+                                            <a ng-click="OpenDashboard()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>
+                                        <!--<li class="active">
+                                            <a ng-click="GoToHome()"><b class="main_header_main_menu home_icon"><i class="fa fa-home myhome"></i> </b></a>
+                                        </li>-->
+                                        <!--<li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Examination
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="item in programsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>-->
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                <b class="main_header_main_menu">
+                                                    Results
+                                                    <span class="caret"></span>
+                                                </b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li ng-show="CollegeID==0">
+                                                    <a href=""  ng-click="OpenCollegeSemWiseReport()">Sem wise</a>
+                                                </li>
+                                                <li><a href="" ng-click="OpenStudentWiseReport()">Student Wise</a></li>
+                                                <li><a href="" ng-click="OpenBranchWiseReport()">Branch Wise</a></li>
+                                                <!--<li ng-repeat="item in ReportsList">
+                                                    <a ui-sref=".{{item.GridFormToOpen}}">{{item.SysProgName}}</a>
+                                                </li>-->
+                                            </ul>
+                                        </li>
+                                        <!--<li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="MyCollege()" href="#">
+                                                <b class="main_header_main_menu">
+                                                    College Detail View
+                                                </b>
+                                            </a>
+                                        </li>-->
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li style="font-size:13px; color:#fff; margin-top:10px;">Welcome <span id="college_name1">{{college_name1}}</span> | {{userName}} |</li>
+                                        <li><a href="#" class="main_header_main_menu" ng-click="logOut()"><i class="fa fa-sign-out fa-fw"></i> Logout <span><b></b></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Sem wise</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+
+                        <li>Request</li>
+                        <li>Sem wise</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="custom-section">
+
+                <div class="row" ng-show="ResultFound">
+                    <div class="col-md-2 pull-right">
+                        <div class="pt-btn">
+                            <button type="button" onclick="PrintDashboard()" class="btn btn-sm btn-primary ptr-button">Print<span class="fa fa-print heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="sel1">
+                            College :
+                        </label>
+                        <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="Scheme" ng-model="SemWiseReport.scheme">
+                            <option value="0" selected>Select College</option>
+                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.SchemeId}}">
+                                {{scheme.SchemeCode}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Scheme :
+                        </label>
+                        <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="Scheme" ng-model="SemWiseReport.scheme">
+                            <option value="0" selected>Select Scheme</option>
+                            <option ng-repeat="scheme in schemeinfo" value="{{scheme.SchemeId}}">
+                                {{scheme.SchemeCode}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="sel1">
+                            Sem & Year :
+                        </label>
+                        <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="SemYear" ng-model="SemWiseReport.SemYear">
+                            <option value="0" selected>Select Sem</option>
+                            <option ng-repeat="sem in seminfo" value="{{sem.SemId}}">
+                                {{sem.yearsem}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="gr-btn">
+                            <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                        </div>
+                    </div>
+
+                </div>
+
+            <div ng-show="ResultFound">
+                    <div class="row">
+
+
+
+                        <div class="col-md-4">
+                            <div class="common-box c1">
+                                <span class="my-icon">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                </span>
+
+                                <h2>Scheme</h2>
+                                <h1>{{scheme}}</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="common-box c2">
+                                <span class="my-icon">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </span>
+
+                                <h2>Sem & Year</h2>
+                                <h1>{{semyear}}</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="common-box c3">
+                                <span class="my-icon">
+                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                </span>
+
+                                <h2>Students Count</h2>
+                                <h1>{{studentscount}}</h1>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12" id="idtoDivPrintAdmin">
+                            <div class="table-responsive customtable ">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Pin</th>
+                                            <th>Branch Code</th>
+                                            <th>Subject Code</th>
+                                            <th>Subject Name</th>
+                                            <th>Grade </th>
+                                            <th>Subject Total</th>
+                                            <th>Grade Information</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in ReportData">
+                                            <td>{{ x.pin }}</td>
+                                            <td>{{ x.Branch_Code }}</td>
+                                            <td>{{ x.CODE }}</td>
+                                            <td>{{ x.SubjectName }}</td>
+                                            <td>{{ x.HybridGrade }}<br/>({{x.MID1_MARKS}}+{{x.MID2_MARKS}}+{{x.Internal_MARKS}}+{{x.EndSemMarks}})</td>
+                                            <td>{{x.SubjectTotal}}</td>
+                                            <td>{{ x.GradeInformation }}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mtb-30">
+
+                        <div class="col-md-6 pull-right">
+                            <div class="row">
+                                <div class="down-foramt">
+                                    <div class="col-md-4">
+                                        <label for="sel1">
+                                            Download Format :
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5 form-group">
+
+                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="ExamYear" ng-model="EquivalancyCertificate.TenExYr">
+                                            <option value="0" selected="selected">Select Year</option>
+                                            <!-- ngRepeat: Exam_Year in Exam_Years -->
+                                            <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2019">2019</option><!-- end ngRepeat: Exam_Year in Exam_Years -->
+                                            <option ng-repeat="Exam_Year in Exam_Years" class="ng-binding ng-scope" value="2018">2018</option><!-- end ngRepeat: Exam_Year in Exam_Years -->
+
+
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="down-btn">
+                                            <button type="button" id="ExportToExcel" class="btn btn-sm btn-primary dwl-button">Down load PDF<span class="fa fa-download heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-show="ResultNotFound" class="no-results">
+                       <img src="../../contents1/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+
+        </div>
+    
+    </div>
+    <script>
+        function printDiv(divName) {
+          //  alert(divName);
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+
+        function printMainDashBoard() {
+            alert("ok");
+            
+            var divName = "idtoDivPrintAdmin";
+            //if ($Scope.adminuser == true) {
+            //    alert($Scope.adminuser);
+            //    divName = "idtoDivPrintAdmin";
+            //}
+            //else {
+            //    divName = "DivIdToPrint";
+            //}
+            var divToPrint = document.getElementById(divName);
+
+            var newWin = window.open('', 'Print-Window');
+
+            newWin.document.open();
+
+            newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+            newWin.document.close();
+
+            setTimeout(function () { newWin.close(); }, 10);
+
+        }
+       
+    </script>
+</body>
+</html>

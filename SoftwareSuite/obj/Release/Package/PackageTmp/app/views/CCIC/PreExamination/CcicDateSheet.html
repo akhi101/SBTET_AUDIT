@@ -1,0 +1,329 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+    }
+
+
+    .input-group-addon {
+        padding: 4px 12px !important;
+    }
+
+    input[type=date]::-webkit-inner-spin-button,
+    input[type=date]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    div#Fineamount {
+        width: -webkit-fill-available !important;
+    }
+
+    div#year {
+        width: -webkit-fill-available !important;
+    }
+
+    .cl-details {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+    }
+
+    /*----------------------------------------------date time css-------------------------------------------------------*/
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    /*--------------------------------------------------*/
+
+
+    /*.multiselect {
+      width: 200px;
+    }*/
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxes label {
+            display: block;
+        }
+
+            #checkboxes label:hover {
+                background-color: #1e90ff;
+            }
+
+    #checkboxessem {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+        #checkboxessem label {
+            display: block;
+        }
+
+            #checkboxessem label:hover {
+                background-color: #1e90ff;
+            }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .image {
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+
+        .logo-name h2 {
+            text-align: left;
+            margin-left: 130px;
+            margin-top: -20px;
+            font-size: 25px !important;
+            line-height: 36px;
+        }
+
+        #idtoDivPrintAdmin {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        #goto-top-arrow {
+            display: block;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+    }
+
+    .clr_red {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<div ng-controller="CcicDateSheetController">
+
+    <ui-view>
+        <section class="content">
+            <div class="container">
+
+                <div class="row widgets-container">
+                    <div class="col-lg-3 col-xs-6" ng-repeat="item in PreExamModules track by $index">
+                        <a href="#" class="grow" ui-sref=".{{item.ModuleRouteName}}" ng-click="OpenSubModule(item)">
+                            <div class="{{item.ModuleImageClass}}">
+                                <div class="inner">
+                                    <div class="icon" ng-show="item.ModuleRouteName=='ExamMonthYearSettings'">
+                                        <img src="../../contents/img/calender.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='GenerateDateSheet'">
+                                        <img src="../../contents/img/Examcenter.png" width="60" height="60" />
+                                    </div>
+                                    <div class="icon" ng-show="item.ModuleRouteName=='UpdateDateSheet'">
+                                        <img src="../../contents/img/Bulkpay.png" width="60" height="60" />
+                                    </div>
+                                    
+                                    <h3>{{item.SysModName}}</h3>
+                                    <div class="icon1">
+                                        <img src="../../contents/img/transprent.png" width="100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+                <!--<a href="#" class="card education">
+                    <div class="overlay"></div>
+                    <div class="circle">
+
+                        <img src="../../contents/img/admissionnew.png" width="60" height="60" />
+                    </div>
+                    <p>Set Dates</p>
+                </a>
+
+
+
+
+
+
+                <a href="#" class="card credentialing">
+                    <div class="overlay bg-green-clr"></div>
+                    <div class="circle bg-green-clr">
+
+                        <img src="../../contents/img/results.png" width="60" height="60" />
+
+                    </div>
+                    <p>Set Examination Centers</p>
+                </a>
+
+
+
+
+
+
+
+
+
+                <a href="#" class="card wallet">
+                    <div class="overlay bg-voilet-clr"></div>
+                    <div class="circle bg-voilet-clr">
+                        <img src="../../contents/img/Assess.png" width="60" height="60" />
+
+
+                    </div>
+                    <p>Reports</p>
+                </a>
+
+
+                <a href="#" class="card human-resources">
+                    <div class="overlay bg-blue-clr"></div>
+                    <div class="circle bg-blue-clr">
+
+
+                        <img src="../../contents/img/admissionnew.png" width="60" height="60" />
+
+                    </div>
+                    <p>Search Pin</p>
+                </a>-->
+            </div>
+            <div class="container">
+
+            </div>
+            <div class="spacer"></div>
+        </section>
+
+    </ui-view>
+    
+</div>

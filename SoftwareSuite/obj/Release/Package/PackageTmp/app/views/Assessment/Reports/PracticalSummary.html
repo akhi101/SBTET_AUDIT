@@ -1,0 +1,292 @@
+﻿
+<style>
+    button {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .footer_section {
+        /* position: fixed; */
+        display: none;
+        bottom: 0px;
+        z-index: 99;
+    }
+
+    table {
+        border: 1px solid #CCC;
+        border-collapse: collapse !important;
+    }
+
+    .label {
+        display: inline;
+    }
+
+    td {
+        border: none !important;
+    }
+
+    .markstable {
+        margin-top: 0px;
+        margin-bottom: 60px;
+    }
+
+    @media screen {
+        #printSection {
+            display: none !important;
+        }
+    }
+
+    @media print {
+
+        .header-top-section {
+            display: none;
+        }
+
+         .main-header{
+            display: none !important;
+        }
+
+        #text-right {
+            float: right !important;
+            color: #000 !important;
+        }
+
+        #idtoDivPrint {
+            /*display: flex;*/
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            color: #000;
+        }
+
+        tr th {
+            background: #98abb9;
+            color: #000 !important;
+            font-weight: 800;
+        }
+
+        /*.sbtet_img{
+
+               width:130px;
+               height:80px;
+               display: list-item;
+               list-style-image: url(../../../contents/img/big-logo.png);
+               list-style-position: inside;
+           }*/
+        td input {
+            width: 50px;
+            text-align: center;
+            border: none;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+
+        #text-left {
+            color: #000 !important;
+        }
+
+        #text-center {
+            text-align: center !important;
+            color: #000 !important;
+        }
+
+        #divtitle {
+            font-size: 24px !important;
+            text-align: center !important;
+        }
+
+        .sem-pad {
+            margin-left: 10px !important;
+        }
+
+        th {
+            color: #000 !important;
+            font-weight: bold !important;
+        }
+
+        label {
+            font-weight: bold !important;
+        }
+    }
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="PracticalSummaryController" id="markslist">
+     
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <div class="breadcrumb-header">
+                    <!-- breadcrumb Open -->
+                    <div class="container">
+                        <section class="content-header">
+                            <h5>Branch Name : {{branch}}</h5>
+                            <ol class="breadcrumb">
+                                 <li><a href="#!/Dashboard"> Dashboard</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard">Assessment Dashboard</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/MarksSummary">Reports</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/MarksSummary/PracticalEvents">Event List</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/MarksSummary/PracticalEvents/Reports">Subject List</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/MarksSummary/PracticalEvents/Reports/PracticalSummary">Marks Entry List</a></li>
+                                <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                            </ol>
+                        </section>
+                    </div>
+                    <!-- breadcrumb Close -->
+                </div>
+                <section class="">
+                        <div class="container">
+                                <div class="col-md-12">
+                                        <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard/MarksSummary/PracticalEvents/Reports" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                                    </div>
+                        </div>
+                    <div class="container base-row ">
+                        <div class="row ">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-md-7">
+                                        <label class="label" for="collegSelect">Academic Year :</label>
+                                    </div>
+                                    {{AcademicYearsActiveResponse.AcademicYear}}
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect"> Scheme :</label>
+                                    </div>
+                                    {{scheme}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <label class="label" for="collegSelect"> Semester :</label>
+                                    </div>
+                                    {{selectedsem.sem}}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-md-7">
+                                        <label class="label" for="Subjectcode"> Subject Code :</label>
+                                    </div>
+                                    <b>{{subjectCode}}</b>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--subject Details -->
+                        <div>
+                            <div class="col-sm-12 clr_red" ng-show="subjectDetailsView">
+                                <div style="float:right;font-size:12px;"><b>Note :</b> <b style="font-size:13px;color:red">AB</b> indicates Absent,  <b style="font-size:13px;color:green">MP</b> indicates Malpractice,  <b style="font-size:13px;color:blue">DC</b> indicates Discontinued,  <b style="font-size:13px;color:forestgreen">TC</b> indicates TC taken,  <b style="font-size:13px;color:#6741dc">DT</b> indicates Detained</div>
+                            </div>
+                            <div class="col-md-12" ng-show="subjectDetailsView">
+                              
+                                <div class="cl-details" ng-show="subjectDetailsView">
+                                    <h2>{{SubjectName}} Marks Entry</h2>
+                                </div>
+                                <!--<div style="width:100%;text-align:center;">
+                                    <img src="../../contents/img/loading2.gif" ng-show="LoadImgForPinList" width="100" />
+                                </div>-->
+                                <div class="table-responsive table-custom-tables-tb" ng-show="subjectDetailsView" id="idtoDivPrint" ng-init="loadPinAndMarks()">
+                                    <table class="table table-bordered table-hover table-striped table-rounded">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%;text-align: center;">S no</th>
+                                                <th style="width: 2%;text-align: center" ng-click="sort('pin')">Pin<i class="fa fa-fw fa-sort"></i></th>
+                                                <th style="width: 10%;text-align: center">Name</th>
+                                                <th style="width: 1%;text-align: center">Marks ({{MaxMarks}})</th>
+                                                <th ng-if="IndustryName ==1" style="width: 1%;text-align: center">Industry Name </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in pinWise|orderBy:sortKey:reverse" ng-click="selectSubjectDetails(x)">
+                                                <td style="text-align: center">{{$index+1}}</td>
+                                                <td style="text-align: center">{{x.pin}} </td>
+                                                <td style="text-align: center">{{x.name}}</td>
+                                                <td style="text-align: center">{{x.marks}}</td>
+                                                <td style="text-align: center"  ng-if="IndustryName ==1">{{x.IndustryName}}</td>
+                                               
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-show="studentsNotFound" class="no-results">
+                                            <img src="../../contents/img/Folder-Icon.svg" />
+                                            <h2>No Students found for marks entry</h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="position: fixed; z-index: 100;bottom: 0px;width: 79%;padding-bottom: 5px;padding-top: 5px;">
+                                    <div class="col-md-6">
+                                        <div class="pull-left">
+                                            <button class="btn btn-default" ng-click="back()">
+                                                Back
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="pull-right">
+                                            <!--<button class="btn btn-primary" ng-click="save()">
+                                                Save
+                                            </button>
+                                         
+                                            <button class="btn btn-success" ng-show="submitHide" ng-click="submit()">Submit</button>-->
+                                            <button class="btn btn-info"  ng-click="printMarksEntered()">Print</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:100%;text-align:center;" class="col-md-12">
+                                <img src="../../../contents/img/loading2.gif" ng-show="LoadImgForPinList" width="100" />
+                            </div>
+                        </div>
+                    </div>
+           
+
+
+            </section>
+
+
+        </div>
+    </div>
+
+    <!--<div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+    </div>-->
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿<style>
+    .modal-fit .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .padRow {
+        padding: inherit;
+        margin: 0px;
+    }
+
+    input :focus {
+        border-color: #2a6dc9 !important;
+    }
+</style>
+
+<div class="modal-header ">
+    <h4 class="modal-title text-center">
+        <b>Write Email</b>
+        <button type="button" class="btn btn-circle btn-sm  btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="padRow form-group">
+        <div class="col-md-2 font_bold text-right"><b>From :</b></div>
+        <div class="col-md-10"><input class="col-md-12" disabled ng-model="from" /></div>
+    </div>
+    <div class="padRow form-group">
+        <div class="col-md-2 font_bold text-right"><b>To :</b></div>
+        <div class="col-md-10"><input type="text"  class="col-md-12" ng-model="TOUniversityEmails" /></div>
+    </div>
+    <div class="padRow form-group">
+        <div class="col-md-2 font_bold text-right"><b>Subject :</b></div>
+        <div class="col-md-10"> <input type="text" class="col-md-12" ng-model="Subject" /></div>
+    </div>
+    <div class="padRow form-group col-md-12">
+        <textarea class="col-md-12" rows="8" style="resize:none" ng-model="message"  class="form-control"></textarea>
+    </div>
+    <div class="padRow form-group" ng-show="StudentDetails.Ds_Status ==1">
+        <div class="col-md-2"><b>Attachments</b></div>
+        <div class="col-md-10">: <div ><a ng-href={{Attachment}} target="_blank">{{Attachment == null || Attachment == undefined?'-':'ODC'}}</a></div></div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default pull-left" ng-click="closeModal()">Cancel</button>
+    <button type="button" class="btn btn-primary pull-Right" ng-disabled="btndisable" ng-click="!btndisable && sendmail(Subject,message,TOUniversityEmails,Attachment)">
+    <span ng-show="!loader">Send Mail</span><span ng-show="loader"><div class="loader"></div></span></button>
+   
+</div>

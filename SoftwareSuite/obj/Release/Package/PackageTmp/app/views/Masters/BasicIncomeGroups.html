@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basic Income Groups</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <div ng-controller="BasicIncomeGroupsController">
+
+
+
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Basic Income Groups</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Basic Income Groups</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="form-group" ng-show="false">
+                            <label>Inc Grp ID  :</label>
+                            <input type="text" class="form-control" ng-model="BasicIncomeGroups.IncGrpID" id="IncGrpID">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="email">Name:</label>
+                                        <input type="text" class="form-control" ng-model="BasicIncomeGroups.IncGrpame" no-Special-Char id="IncGrpame" maxlength="40" required="" placeholder="Enter Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Code:</label>
+                                        <input type="text" class="form-control" ng-model="BasicIncomeGroups.IncGrpCode" no-Special-Char id="IncGrpCode" maxlength="2" required="" placeholder="Enter Code">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Upper Limit:</label>
+                                        <input type="text" class="form-control" ng-model="BasicIncomeGroups.UpperLimit" id="UpperLimit" input-Number-Only required="" placeholder="Enter Upper Limit">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Lower Limit:</label>
+                                        <input type="text" class="form-control" ng-model="BasicIncomeGroups.LowerLimit" id="LowerLimit" input-Number-Only required="" placeholder="Enter Lower Limit">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicIncomeGroups()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicIncomeGroups()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+       <!-- <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-inr heading_icon"></span><b>Basic Income Groups</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" ng-show="false">
+                                            <label class=" control-label col-lg-2">IncGrpID :</label>
+                                            <div class="col-lg-1">
+                                                <input type="text" class="form-control" ng-model="BasicIncomeGroups.IncGrpID" id="IncGrpID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Name:</label>
+                                            <input type="text" class="form-control" ng-model="BasicIncomeGroups.IncGrpame" no-Special-Char id="IncGrpame" maxlength="40" required="" placeholder="Enter Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Code:</label>
+                                            <input type="text" class="form-control" ng-model="BasicIncomeGroups.IncGrpCode" no-Special-Char id="IncGrpCode" maxlength="2" required="" placeholder="Enter Code">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Upper Limit:</label>
+                                            <input type="text" class="form-control" ng-model="BasicIncomeGroups.UpperLimit" id="UpperLimit" input-Number-Only required="" placeholder="Enter Upper Limit">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Lower Limit:</label>
+                                            <input type="text" class="form-control" ng-model="BasicIncomeGroups.LowerLimit" id="LowerLimit" input-Number-Only required="" placeholder="Enter Lower Limit">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button ng-disabled="isupdatableDisable" type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicIncomeGroups()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button ng-disabled="isdeletableDisable" type="button" class="btn form_btn_align delete_btn" ng-click="DeleteBasicIncomeGroups()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

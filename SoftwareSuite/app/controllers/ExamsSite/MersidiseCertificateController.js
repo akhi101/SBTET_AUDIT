@@ -478,18 +478,19 @@
             var fileSize = input.files[0].size;
             var file = input.files[0];
             $scope.PhotoFileName = file.name;
-            if (fileSize <= 500000) {
-                var checkexttype = AdminService.CheckFileExtension($scope.PhotoFileName);
-                checkexttype.then(function (response) {
 
-                    //var res = JSON.parse(response)
-                    $scope.Status = response;
-                    if ($scope.Status == "NO") {
-                        alert("Invalid Extension Type");
-                        $('#stdPhotoFile').val('');
-                        return;
-                    }
-                });
+            //var allowedTypes = ['image/jpeg', 'image/png'];
+
+            //if (file) {
+            //    if (allowedTypes.indexOf(file.type) === -1) {
+            //        alert('Invalid file type. Only JPEG, PNG files are allowed.');
+            //        input.value = '';// Clear the input
+            //        return fasle;
+            //    } else {
+ 
+            //    }
+            //}
+            if (fileSize <= 500000) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.readAsDataURL(input.files[0]);
@@ -558,6 +559,7 @@
                 return;
             }
 
+
             $scope.EncAadhar = $crypto.encrypt($crypto.encrypt($scope.IdNumber, 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
 
             var req = {
@@ -584,7 +586,8 @@
                 "filedata": $scope.studentfilearr == null || angular.isUndefined($scope.studentfilearr) ? "" : $scope.studentfilearr,
                 "Photo": $scope.userPhoto == null || angular.isUndefined($scope.userPhoto) ? "" : $scope.userPhoto,
                 "backlogCount": $scope.NoOfBacklogs == null || angular.isUndefined($scope.NoOfBacklogs) ? -1 : parseInt($scope.NoOfBacklogs),
-                "backlogsubjson": $scope.array == null || angular.isUndefined($scope.array) ? "" : JSON.stringify($scope.array)
+                "backlogsubjson": $scope.array == null || angular.isUndefined($scope.array) ? "" : JSON.stringify($scope.array),
+                "filename": $scope.PhotoFileName == null || angular.isUndefined($scope.PhotoFileName) ? "" : $scope.PhotoFileName,
 
             }
             var GetPinStatus = PreExaminationService.getMersyFeeStatus($scope.PinNo);
@@ -597,7 +600,11 @@
 
             var AddUserData = PreExaminationService.AddMersyData(req);
             AddUserData.then(function (response) {
-                if (response == 'INVALID FIRST NAME') {
+
+                if (response == 'false') {
+                    alert('INVALID Extension');
+                }
+                else if (response == 'INVALID FIRST NAME') {
                     alert('INVALID FIRST NAME');
                 }
                 else if (response == 'INVALID LAST NAME') {
@@ -704,6 +711,46 @@
 
         }
 
+
+        $scope.decryptParameter = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncOTP; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter = $scope.decryptedText;
+        };
+
+        $scope.decryptParameter1 = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncStatus; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText1 = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter1 = $scope.decryptedText1;
+        };
         $scope.SendOtp = function () {
             if ($scope.PinNo == "" || $scope.PinNo == null || $scope.PinNo == undefined) {
                 alert("Please Enter Pin")
@@ -713,13 +760,19 @@
                 $scope.Otp = true;
                 $scope.NoOtp = false;
                 $scope.loader = true;
-                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate($scope.PinNo, $scope.MobileNumber)
+
+                $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNo.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
+                $scope.EncriptedMobile = $crypto.encrypt($crypto.encrypt($scope.MobileNumber.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
+
+                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate($scope.EncriptedPin, $scope.EncriptedMobile)
                 GenerateOtpForMobileNoUpdate.then(function (response) {
                     try {
                         var detail = JSON.parse(response);
                     } catch (err) { }
                     if (detail.status == '200') {
                         alert(detail.description);
+                        $scope.EncOTP = detail.resp1;
+                        $scope.decryptParameter();
                         $scope.loader = false;
                         $scope.Otp = true;
                         $scope.NoOtp = false;
@@ -758,13 +811,14 @@
                 return;
             } else {
                 $scope.loader = true;
-                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate($scope.PinNo, $scope.MobileNumber)
+                var GenerateOtpForMobileNoUpdate = PreExaminationService.GenerateOtpForMobileNoUpdate($scope.EncriptedPin, $scope.EncriptedMobile)
                 GenerateOtpForMobileNoUpdate.then(function (response) {
                     try {
                         var detail = JSON.parse(response);
                     } catch (err) { }
                     if (detail.status == '200') {
                         alert(detail.description);
+                        $scope.decryptParameter();
                         $scope.Otp = true;
                         $scope.NoOtp = false;
                         $scope.loader = false;
@@ -798,29 +852,43 @@
                 alert('Please Enter valid OTP.');
                 return;
             }
-            var UpdateUserdata = PreExaminationService.UpdateUserdata($scope.PinNo, $scope.MobileNumber, $scope.OTPdata)
-            UpdateUserdata.then(function (response) {
+                $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNo.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
+                $scope.EncriptedMobile = $crypto.encrypt($crypto.encrypt($scope.MobileNumber.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
+                $scope.EncriptedOTP = $crypto.encrypt($crypto.encrypt($scope.OTPdata.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
+                var UpdateUserdata = PreExaminationService.UpdateUserdata($scope.EncriptedPin, $scope.EncriptedMobile, $scope.EncriptedOTP)
+                UpdateUserdata.then(function (response) {
 
-                try {
-                    var res = JSON.parse(response);
-                } catch (err) { }
-                if (res.Table[0].StatusCode == '200') {
-                    alert(res.Table[0].StatusDescription);
-                    $scope.phonenoupdated = true;
-                    $scope.Verified = true;
-                    $scope.MobileDisable = true;
-                } else {
-                    alert(res.Table[0].StatusDescription);
+                    try {
+                        var res = JSON.parse(response);
+                    } catch (err) { }
+                    if (res == undefined || res == '' || res == null) {
+                        alert(response);
+                    }
+                    else {
+                        $scope.EncStatus = res.status;
+                        $scope.decryptParameter1();
+                        if ($scope.decryptedParameter1 == '200') {
+                                alert("Mobile Number Verified");
+                                $scope.phonenoupdated = true;
+                                $scope.Verified = true;
+                                $scope.MobileDisable = true;
+                            }
+                        
+                        else {
+                            alert("Not Verified");
+                                $scope.phonenoupdated = false;
+                                $scope.Verified = false;
+                               $scope.MobileDisable = false;
+                            
+                        }
+                    }
+                }, function (error) {
+                    alert('error occured while updating Mobile number.');
                     $scope.phonenoupdated = false;
                     $scope.Verified = false;
                     $scope.MobileDisable = false;
-                }
-            }, function (error) {
-                alert('error occured while updating Mobile number.');
-                $scope.phonenoupdated = false;
-                $scope.Verified = false;
-                $scope.MobileDisable = false;
-            });
+                });
+            
 
 
         }
@@ -832,57 +900,51 @@
             var fileSize = input.files[0].size;
             var file = input.files[0];
             $scope.PhotoFileName = file.name;
-            if (fileSize <= 1000000) {
-                var checkexttype = AdminService.CheckFileExtension($scope.PhotoFileName);
-                checkexttype.then(function (response) {
+            var filecheck = PreExaminationService.CheckFileType($scope.PhotoFileName)
+            filecheck.then(function (response) {
 
-                    //var res = JSON.parse(response)
-                    $scope.Status = response;
-                    if ($scope.Status == "NO") {
-                        alert("Invalid Extension Type");
-                        $('#stdPhotoFile').val('');
-                        return;
+                alert(response);
+
+                if (fileSize <= 1000000) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(input.files[0]);
+                        reader.onload = function (ele) {
+                            $('#studentFile' + val).attr('src', ele.target.result);
+                            var canvas = document.createElement("canvas");
+                            var imageElement = document.createElement("img");
+                            imageElement.setAttribute = $('<img>', { src: ele.target.result });
+                            var context = canvas.getContext("2d");
+                            imageElement.setAttribute.one("load", function () {
+                                canvas.width = this.width;
+                                canvas.height = this.height;
+                                context.drawImage(this, 0, 0);
+                                var base64Image = canvas.toDataURL("image/png").replace(/^data:image\/[a-z]+;base64,/, "");
+
+                                if ($scope.studentfilearr.length > 0) {
+                                    $scope.studentfilearr.map((obj) => {
+                                        if (obj.fileindex == val) {
+                                            obj.file = base64Image;
+                                        }
+                                    });
+                                }
+
+                            });
+
+
+                        }
+                        reader.onerror = function (ele) {
+                            console.error("File could not be read! Code " + ele.target.error.code);
+                        };
+
                     }
-                });
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.readAsDataURL(input.files[0]);
-                    reader.onload = function (ele) {
-                        $('#studentFile' + val).attr('src', ele.target.result);
-                        var canvas = document.createElement("canvas");
-                        var imageElement = document.createElement("img");
-                        imageElement.setAttribute = $('<img>', { src: ele.target.result });
-                        var context = canvas.getContext("2d");
-                        imageElement.setAttribute.one("load", function () {
-                            canvas.width = this.width;
-                            canvas.height = this.height;
-                            context.drawImage(this, 0, 0);
-                            var base64Image = canvas.toDataURL("image/png").replace(/^data:image\/[a-z]+;base64,/, "");
-
-                            if ($scope.studentfilearr.length > 0) {
-                                $scope.studentfilearr.map((obj) => {
-                                    if (obj.fileindex == val) {
-                                        obj.file = base64Image;
-                                    }
-                                });
-                            }
-
-                        });
-
-
-                    }
-                    reader.onerror = function (ele) {
-                        console.error("File could not be read! Code " + ele.target.error.code);
-                    };
-
+                }
+                else {
+                    alert("file size should be less then 1000kb ");
+                    return;
                 }
             }
-            else {
-                alert("file size should be less then 1000kb ");
-                return;
-            }
         }
-
 
         $scope.addfilData = function (fileindex, file) {
             return {

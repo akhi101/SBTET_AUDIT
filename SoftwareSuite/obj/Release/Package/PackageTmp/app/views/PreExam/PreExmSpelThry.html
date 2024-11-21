@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Theory Spell</title>
+</head>
+<body>
+    <div ng-controller="PreExmSpelThryController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Theory Spell</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Pre-Exam</li>
+                        <li>Theory Spell</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+               
+                    
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-3 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label class=" control-label">Spell No :</label>
+                                            <input type="text" class="form-control" ng-model="PreExmSpelThry.SpellNo" id="SpellNo" maxlength="3" no-Special-Char>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class=" control-label">Spell Date :</label>
+                                            <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="SpellDate" ng-model="PreExmSpelThry.SpellDate" ng-readonly="true" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label for="sel1">Stream :</label>
+                                            <select class="form-control" ng-model="PreExmSpelThry.CourseID" id="CourseID" ng-change="FillCoursePart(PreExmSpelThry.CourseID)">
+                                                <option ng-selected="PreExmSpelThry.CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Exam :</label>
+                                            <select class="form-control" ng-model="PreExmSpelThry.ExamID" id="ExamID" ng-change="FillSubject(PreExmSpelThry.ExamID)" ng-disabled="examDisable">
+                                                <option ng-selected="PreExmSpelThry.ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Subject :</label>
+                                            <select class="form-control input-sm" id="ExmSubID" ng-model="PreExmSpelThry.ExmSubID" ng-disabled="subDisable">
+                                                <option ng-selected="PreExmSpelThry.ExmSubID == option.ExmSubID" ng-repeat="option in ExmSubList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:22px;" class="col-md-2">
+                                      
+                                            <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreExmSpelThry()">Save</button>
+                                            <button type="button" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </form>
+                       
+           
+        </div>
+    </div>
+</body>
+</html>

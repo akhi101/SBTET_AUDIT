@@ -1,0 +1,201 @@
+﻿<style>
+    .table > thead:first-child > tr:first-child > th {
+        border-top: 0;
+        background-color: #98abb9;
+        color: #fff;
+    }
+</style>
+<div ng-controller="ExamYearMonthController">
+    <div class="breadcrumb-header">
+        
+        <div class="container">
+            <section class="content-header">
+                <h5>Exam Settings </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"> Dashboard</i> </a></li>
+                    <li><a href="#!/Dashboard/MasterSettings">Master Settings</a></li>
+                    <li><a href="#!/Dashboard/MasterSettings/ExamYearMonth">Exam Settings</a></li>
+                </ol>
+            </section>
+        </div>
+     
+    </div>
+    <div class="container">
+        <section class="content">
+            <div class="col-md-12">
+                <div class="cl-details">
+                    <h2> Set Current Exam Month Year</h2>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="sel1">
+                                    Exam Month & Year
+                                </label>
+                                <select class="form-control" ng-model="activeMonthYear" name="StudentType" ng-change="changeMonthYear(data.StudentTypeId)" required>
+                                    <option value="" selected>Select Current Exam month Year</option>
+                                    <option ng-repeat="data in getExamYearMonth" value="{{data.Id}}">
+                                        {{data.ExamYearMonth}} ({{data.type}})
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class="gr-btn">
+                                    <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="SetCurrentMonth()">
+                                        Set Current Exam Month & Year<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            <div class="sm-spacer"></div>
+                            <div class="col-md-12">
+                                <div class="cl-details">
+                                    <h2> Insert New Exam Month Year</h2>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <form>
+                                    <div class="studWishinputs">
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <label for="sel1">
+                                                    Student type :
+                                                </label>
+                                                <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changeStuentType(Student.id)" required>
+                                                    <option value="" selected>Select Student</option>
+                                                    <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                        {{Student.type}}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="sel1">
+                                                    Academic year :
+                                                </label>
+
+                                                <select class="form-control" ng-init="LoadSemisters()" name="semister" required ng-model="currentAcademicYear" ng-change="LoadExamType(current_schemeid)">
+                                                    <option value="" selected>Select Academic year</option>
+                                                    <option ng-repeat="data in getAcademicyears" value="{{data.AcademicID}}">
+                                                        {{data.AcademicYear}}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="sel1">
+                                                    Scheme :
+                                                </label>
+
+                                                <select class="form-control" name="semester" required ng-model="current_schemeid" ng-change="LoadExamType(current_schemeid)">
+                                                    <option value="" selected>Select Scheme</option>
+                                                    <option ng-repeat="data in getSchemes" value="{{data.SchemeID}}">
+                                                        {{data.Scheme}}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="sel1">
+                                                    Semester :
+                                                </label>
+
+                                                <select class="form-control" name="semister" required ng-model="current_semId" ng-change="LoadExamType(current_schemeid)">
+                                                    <option value="" selected>Select Scheme</option>
+                                                    <option ng-repeat="data in ActiveSemesters" value="{{data.semid}}">
+                                                        {{data.sem}}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+
+
+                                            <div class="col-md-3 form-group">
+                                                <label for="ExamType">
+                                                    Month & Year :
+                                                </label>
+                                                <!--<select class="form-control" name="semister" required ng-model="currentYearMonth" ng-change="LoadExamType(current_schemeid)">
+                                                <option value="" selected>Select Year Month</option>
+                                                <option ng-repeat="data in getExamYearMonth" value="{{data.Id}}">
+                                                    {{data.ExamYearMonth}}
+                                                </option>
+                                            </select>-->
+                                                <input type="text" class="form-control" style="text-transform: uppercase;" name="YearMonth" ng-model="currentYearMonth" />
+                                            </div>
+                                            <div class="col-md-3 pull-right">
+                                                <div class="gr-btn">
+                                                    <button type="submit" class="btn btn-sm btn-primary gr-button" ng-click="Submit()">
+                                                        Set Exam month & Year <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        </form>
+                                </div>
+
+                                <div style="width:100%;text-align:center;">
+                                    <img src="../../../contents/img/loading2.gif" ng-show="LoadImg" width="100" class="ng-hide">
+                                </div>
+
+                                <div class="" ng-show="result">
+                                    <div class="cl-details">
+                                        <h4>Exam Month & year</h4>
+
+                                    </div>
+                                    <div class="scrollbox">
+                                        <table class="table   table-fixed table-bordered  table-responsive scrollbox-content">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 4%">S No</th>
+                                                    <!--<th style="">Id</th>-->
+                                                    <th style="">Student Type</th>
+                                                    <th style="">AcademicYear</th>
+                                                    <th style="">Scheme</th>
+                                                    <th style="">Semester</th>
+                                                    <th style="">ExamYearMonth</th>
+                                                    <th style="text-center"
+                                                        >Current Exam Year Month</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="data in getExamYearMonth">
+                                                    <td style="width: 2%">{{$index+1}} </td>
+                                                    <td>{{data.type}}</td>
+                                                    <td>{{data.AcademicYear}}</td>
+                                                    <td>{{data.Scheme}}</td>
+                                                    <td>{{data.Semester}}</td>
+                                                    <td>{{data.ExamYearMonth}}</td>
+                                                    <td style="text-center"><span ng-if="data.IsActive == true" class="text-success"><b> Yes</b></span>
+                                                        <span ng-if="data.IsActive == false" class="text-danger"><b> No</b></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-show="ResultNotFound" class="no-results ">
+                                            <img src="../../contents/img/Folder-Icon.svg">
+                                            <h2>No Result Found</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            <div class="sm-spacer"></div>
+        </section>
+    </div>
+</div>

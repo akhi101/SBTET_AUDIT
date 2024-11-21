@@ -1,0 +1,232 @@
+﻿<div ng-controller="ReleaseMarksEntryController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Release Marks Entry</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard">Assessment Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AssessmentDashboard/ReleaseMarksEntry">Release Marks Entry</a></li>
+
+                    <!--<li><a href="#!/Driverlinks">Bio-Device Driver Links</a></li>-->
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container ">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard/Assessment" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12 ">
+                <div class="alert alert-info">
+                    <div class="studWishinputs">
+                        <form name="ReleaseForm">
+                            <div class="row">
+
+                                <div class="col-md-3 form-group" ng-show="UserTypeId==1">
+                                    <label class="font-weight-bold"> College :</label>
+                                    <select class="form-control" ng-model="College" name="College" ng-change="ChangeCollege()" required>
+                                        <option value="" selected>Select College</option>
+                                        <option ng-repeat="data in GetCollegeList" value="{{data.CollegeCode}}">
+                                            {{data.CollegeCode}} - {{data.CollegeName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold"> Branch :</label>
+                                    <select class="form-control" ng-model="SelBranch" name="Branch" required>
+                                        <option value="" selected>Select Branch</option>
+                                        <option ng-repeat="data in branchdata" value="{{data.BranchCode}}">
+                                            {{data.Branch}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label">
+                                            Academic Year :
+                                        </label>
+                                        <select class="form-control" ng-model="year" ng-change="setAcademicYear(year)">
+                                            <option value="" selected>Select Academic Year</option>
+                                            <option ng-repeat="yr in yearslist" value="{{yr}}">
+                                                {{yr.AcademicYear}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold"> Scheme :</label>
+                                    <select class="form-control" ng-model="SelScheme" name="Semester" ng-change="ChangeScheme(SelScheme)" required>
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="data in getSchemes" value="{{data.SchemeID}}">
+                                            {{data.Scheme}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label class="font-weight-bold"> Semester :</label>
+                                    <select class="form-control" ng-model="SelSemester" name="Semester" required>
+                                        <option value="" selected>Select Semester</option>
+                                        <option ng-repeat="data in GetSemesters" value="{{data.SemId}}">
+                                            {{data.Sem}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label">
+                                            Exam Month Year :
+                                        </label>
+                                        <div class="">
+                                            <select class="form-control" name="semister" required ng-model="ExamMonthYear">
+                                                <option value="" selected>Select Exam Month Year</option>
+                                                <option ng-repeat="data in ExamMonthYears" value="{{data.Id}}">
+                                                    {{data.ExamYearMonth}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" ng-init="LoadExamTypeBysem()">
+                                        <label class="label">Student Type:</label>
+                                        <select class="form-control" ng-model="SelectedStudent" ng-change="GetSubjectType(SelectedStudent,selectedsem,ExamMonthYear)">
+                                            <option value="" selected>Select Student Type</option>
+                                            <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                                {{Student.type}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label">Subject Type:</label>
+                                        <select class="form-control" ng-model="SubjectType">
+                                            <option value="" selected>Select Subject Type</option>
+                                            <option ng-repeat="data in SubjectTypes" value="{{data.SubjectTypeId}}">
+                                                {{data.ExamType}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-md-2" ng-show="SelStudent.id == 2 || SelStudent.id == 1">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Schemes:</label>
+                                        <div class="">
+                                            <select class="form-control" name="Scheme" ng-model="schemeId" ng-change="getSemestersByScheme(schemeId)" required>
+                                                <option value="" selected>Select Scheme</option>
+                                                <option ng-repeat="data in getActiveSchemes" value="{{data.SchemeId}}">
+                                                    {{data.Scheme}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2" ng-show="SelStudent.id == 2 || SelStudent.id == 1">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Semester:</label>
+                                        <div class="">
+                                            <select class="form-control" name="semister" ng-model="SemesterId" ng-change="GetSubjectType(SelectedStudent,SemesterId,ExamMonthYear)" required>
+                                                <option value="" selected>Select Semester</option>
+                                                <option ng-repeat="userSem in UserSemesters" value="{{userSem.SemId}}">
+                                                    {{userSem.sem}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label for="sel1">
+                                        Exam Type :
+                                    </label>
+                                    <select class="form-control" id="ExamYear" ng-model="ExamType" required>
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="data in getExamTypes" value="{{data.id}}">
+                                            {{data.examname}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2 pull-right">
+                                    <div class="gr-btn">
+                                        <button type="submit" class="btn  btn-primary " ng-click="GetSubjects()">Get Subject List</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div style="width:100%;text-align:center;">
+                <img src="../../../contents/img/loading2.gif" ng-show="LoadImgForSubject" width="100" />
+            </div>
+            <div class="col-md-12" ng-show="subjectDetailsView">
+                <div class="cl-details">
+                    <h2>Marks Entry Subject List</h2>
+                </div>
+
+                <div class="table-responsive table-custom-tables-tb">
+                    <table class="table table-bordered table-hover table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th>S no</th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Total</th>
+                                <th>Not Posted</th>
+                                <th>Absent</th>
+                                <th>Malpractice</th>
+                                <th class="text-center">Submitted</th>
+                                <th class="text-center">Release</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in getSemSubjectsResponse">
+                                <td ng-click="selectSubjectDetails(x)">{{$index+1}}</td>
+                                <td ng-click="selectSubjectDetails(x)">{{x.Subject_Code}} </td>
+                                <td ng-click="selectSubjectDetails(x)">{{x.SubjectName}}</td>
+                                <td ng-click="selectSubjectDetails(x)">{{x.total}}</td>
+                                <td ng-click="selectSubjectDetails(x)">{{x.notPosted}}</td>
+                                <td ng-click="selectSubjectDetails(x)"> {{x.absent}}</td>
+                                <td ng-click="selectSubjectDetails(x)">{{x.mp}}</td>
+                                <td class="text-center" ng-click="selectSubjectDetails(x)">
+                                    <span ng-show="x.Submitted!=0" class="text-success"><b>Yes</b></span>
+                                    <span ng-show="x.Submitted==0" class="text-danger"><b>No</b></span>
+                                </td>
+                                <td class="text-center">
+                                    <btn class="btn btn-xs btn-success" ng-disabled="x.Submitted==0" ng-click="Release(x.Submitted,x.subid)">Release</btn>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--ng-if="payfine"payfine>-->
+            <div class="col-md-12" ng-if="payfine">
+                <div class="text-center">
+                    <button class="btn btn-success" ng-click="payFineAmount()">Pay Penality</button>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div style="width:100%;text-align:center;">
+                    <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="sm-spacer"></div>
+    <div class="sm-spacer"></div>
+</div>

@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard">
+    <meta name="author" content="">
+    <title>Home - Dashboard</title>
+</head>
+
+<body>
+    <div ng-controller="DashboardController">
+        <header>
+
+            <div class="top-header hidden">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="office-timings">
+                                <h2>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i> 9:30 AM to 5:30 PM on All Working
+                                    Days Only
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="o-info">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>helpdesk-ie@telangana.gov.in</a></li>
+                                    <li><a href="#"><i class="fa fa-phone-square" aria-hidden="true"></i>040-24600110 </a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-10 col-sm-12 col-xs-12 hidden">
+                            <div class="mobile_nos">
+                                <h2>
+                                    For any Queries please mail to <b>
+                                        helpdesk-ie@telangana.gov.in Contact :
+                                        040-24600110 (Timings 9:30 AM to 5:30 PM on All Working Days Only)
+                                    </b>
+                                </h2>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="header" ng-include="'app/views/SBPHeader.html'">
+
+            </div>
+
+
+
+
+
+
+            <div class="row navbar_section">
+                <nav class="navbar navbar-inverse navbar_inverse_section">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#"></a>
+                        </div>
+                        <div class="container navbar_container_section">
+                            <div class="row">
+                                <div class="collapse navbar-collapse" id="myNavbar">
+                                    <ul class="nav navbar-nav navbar-left">
+                                        <li style="font-size:13px; color:#fff; margin-top:10px;"> DASHBOARD </li>
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li style="font-size:13px; color:#fff; margin-top:10px;">
+                                            Welcome <span id="college_name1">{{college_name1}}</span>
+                                            | {{userName}} |
+                                        </li>
+                                        <li>
+                                            <a href="#" class="main_header_main_menu" ng-click="logOut()">
+                                                <i class="fa fa-sign-out fa-fw"></i>
+                                                Logout
+                                            </a>
+                                        </li>
+                                        <li ng-show="CollegeVisible==true">
+                                            <a style="font-size:small" href="#" class="main_header_main_menu"
+                                               ng-click="ChangePassword()">
+                                                <i class="fa fa-sign-out fa-fw"></i> Change
+                                                Password <span><b></b></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div ng-repeat="item in modulesList">
+                        <a href="#" ng-click="OpenModule(item.ModuleRouteName)">
+                            <div class="{{item.ModuleImageClass}}">
+                                <p>{{item.SysModName}}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-12 footer_section" ng-include="'app/views/SBPFooter.html'">
+
+    </div>
+</body>
+
+</html>

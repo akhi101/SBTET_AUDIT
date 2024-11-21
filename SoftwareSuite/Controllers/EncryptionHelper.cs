@@ -3,17 +3,28 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-public class EncryptionHelper
+public class Encryption
 {
-    private static readonly string Key = "a2b3c4d5e6f7890123456789abcdef01234567"; // 32-byte key for AES-256
-    private static readonly string IV = "a2b3c4d5e6f78901"; // 16-byte IV for AES
-
-    public static string Encrypt(string plainText)
+    public static string Encrypt(string plainText, string base64Key, string base64IV)
     {
+        // Decode Base64-encoded key and IV
+        byte[] key = Convert.FromBase64String(base64Key);
+        byte[] iv = Convert.FromBase64String(base64IV);
+
+        // Validate key and IV lengths
+        if (key.Length != 32) // 32 bytes = 256 bits
+        {
+            throw new ArgumentException("Invalid key length. Key must be 32 bytes for AES-256.");
+        }
+        if (iv.Length != 16) // 16 bytes = 128 bits
+        {
+            throw new ArgumentException("Invalid IV length. IV must be 16 bytes.");
+        }
+
         using (Aes aes = Aes.Create())
         {
-            aes.Key = Encoding.UTF8.GetBytes(Key);
-            aes.IV = Encoding.UTF8.GetBytes(IV);
+            aes.Key = key;
+            aes.IV = iv;
 
             using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
             {

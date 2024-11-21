@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmed Photo And Sign</title>
+</head>
+<body>
+    <div ng-controller="PreStudentRegPhotoSignController">
+         <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Confirmed Photo And Sign</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Student Admission</li>
+                        <li>Confirmed Photo And Sign</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-6">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="adno">Admission No.:</label>
+                            <input type="text" class="form-control" id="adno" ng-Model="PreStudentRegPhotoSign.AdmNo" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="adno">SSC HallTicket No.:</label>
+                            <input type="text" class="form-control" id="adno" ng-Model="PreStudentRegPhotoSign.SSCHallTicket" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="adno">Candidate's Name:</label>
+                            <input type="text" class="form-control" id="cname" ng-Model="PreStudentRegPhotoSign.StudName" maxlength="100" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="adno">Father's Name:</label>
+                            <input type="text" class="form-control" id="fname" ng-Model="PreStudentRegPhotoSign.FatherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="adno">Mother's Name:</label>
+                            <input type="text" class="form-control" id="mname" ng-Model="PreStudentRegPhotoSign.MotherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="adno">College Name:</label>
+                            <input type="text" class="form-control" id="ColName" ng-Model="PreStudentRegPhotoSign.ColName" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="name">Student Photo:</label>
+                        <img data-ng-src={{StudentPhoto}} id="StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px; margin-bottom:10px;">
+                        <!--<input type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />-->
+                        <!--<p style="font-size:12px; margin-top:10px;">Photo file size must be less than 50kb. With 3cm X 4.5cm (Width X Height) and should be in .jpg or .png format.</p>-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="name">Student Signature:</label>
+                        <img data-ng-src={{StudentSign}} id="StudentSign" class="img img-responsive" style="height: 80px; width: 150px;margin-bottom:68px;">
+                        <!--<input type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />-->
+                        <!--<p style="font-size:12px; margin-top:10px;">Signature must be less than 20kb. With 3cm X 1.5cm (Width X Height) and should be in .jpg or .png format.</p>-->
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr>
+                </div>
+                <div class="col-md-12">
+                    <center>
+                        <!--<button type="button" ng-disabled="true" ng-click="SaveStudentRegPhotoSign()" class="btn btn-detail btn-sm">Submit</button>-->
+                        <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                    </center>
+                </div>
+            </div>
+           
+        </div>
+            <!-- New Style Start-->
+        <!--<div class="panel-group">
+            <div class="panel">
+                <div class="panel-heading header_background"><span class="fa fa-university heading_icon"></span><b>Upload Photo And Sign</b></div>
+                <div class="panel-body form_border">
+                    <form action="#">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="adno">Admission No.:</label>
+                                <input type="text" class="form-control" id="adno" ng-Model="PreStudentRegPhotoSign.AdmNo" ng-readonly="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="adno">SSC HallTicket No.:</label>
+                                <input type="text" class="form-control" id="adno" ng-Model="PreStudentRegPhotoSign.SSCHallTicket" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="adno">Candidate's Name:</label>
+                                <input type="text" class="form-control" id="cname" ng-Model="PreStudentRegPhotoSign.StudName" maxlength="100" ng-readonly="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="adno">Father's Name:</label>
+                                <input type="text" class="form-control" id="fname" ng-Model="PreStudentRegPhotoSign.FatherName" maxlength="40" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="adno">Mother's Name:</label>
+                                <input type="text" class="form-control" id="mname" ng-Model="PreStudentRegPhotoSign.MotherName" maxlength="40" ng-readonly="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="adno">College Name:</label>
+                                <input type="text" class="form-control" id="ColName" ng-Model="PreStudentRegPhotoSign.ColName" ng-readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Student Photo:</label>
+                                    <img data-ng-src={{StudentPhoto}} id="StudentPhoto" class="img img-responsive" style="height: 150px; width: 150px;">
+                                    <input type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />
+                                    <p style="font-size:12px;">Photo file size must be less than 50kb. With 3cm X 4.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Student Signature:</label>
+                                    <img data-ng-src={{StudentSign}} id="StudentSign" class="img img-responsive" style="height: 80px; width: 150px;margin-bottom:68px;">
+                                    <input type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                    <p style="font-size:12px;">Signature must be less than 20kb. With 3cm X 1.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                </div>
+                            </div>
+                            <!--<label>Photo file size must be less than 50kb. With 3cm X 4.5cm (Width X Height)</label>
+                            <label>and Signature must be less than 20kb. With 3cm X 1.5cm (Width X Height).</label>
+                            <label>Both should be in .jpg or .png format.</label>
+                        </div>
+                        <div class="col-md-12">
+                            <center>
+                                <button type="button" ng-disabled="true" ng-click="SaveStudentRegPhotoSign()" class="btn form_btn_align save_btn">Submit<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                <button type="reset" ng-click="Exit()" class="btn form_btn_align save_btn">Exit<span class="fa fa-close heading_icon btn_icons"></span></button>
+                            </center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

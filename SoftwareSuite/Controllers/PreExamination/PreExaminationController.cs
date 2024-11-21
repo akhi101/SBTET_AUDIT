@@ -43,6 +43,8 @@ using DocumentFormat.OpenXml.Bibliography;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SoftwareSuite.Controllers.PreExamination
 {
@@ -5129,13 +5131,29 @@ namespace SoftwareSuite.Controllers.PreExamination
             {
                 //var base64EncodedBytes = System.Convert.FromBase64String(OTP);
                 //var password=  System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-                var dbHandler = new dbHandler();
-                var param = new SqlParameter[3];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@StudentPhoneNumber", StudentPhoneNumber);
-                param[2] = new SqlParameter("@Otp", OTP);
-                var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SET_UpdateStudentPhone", param);
-                return JsonConvert.SerializeObject(dt);
+
+                string pin = GetDecryptedData(Pin);
+                string phone = GetDecryptedData(StudentPhoneNumber);
+                string otp = GetDecryptedData(OTP);
+
+                OTPServiceController otpService = new OTPServiceController();
+                string OTPData = otpService.VerifyOTP(phone.ToString(), otp.ToString(), pin.ToString());
+                if (OTPData == "OTP is invalid due to multiple failed attempts.")
+                {
+                    return "OTP is invalid due to multiple failed attempts.";
+                }
+                if (OTPData == "Incorrect OTP.")
+                {
+                    return "Incorrect OTP.";
+                }
+                if (OTPData == "OTP has expired. Please request a new OTP.")
+                {
+                    return "OTP has expired. Please request a new OTP.";
+                }
+                else
+                {
+                    return OTPData;
+                }
             }
             catch (Exception ex)
             {
@@ -5143,6 +5161,8 @@ namespace SoftwareSuite.Controllers.PreExamination
             }
 
         }
+
+
 
         [HttpGet, ActionName("getFileUploadDetails")]
         public string getFileUploadDetails(string Pin)
@@ -8455,15 +8475,18 @@ namespace SoftwareSuite.Controllers.PreExamination
             switch (ext.ToLower())
             {
                 case ".jpg":
-                    return "YES";
+                    return "true";
                 case ".jpeg":
-                    return "YES";
+                    return "true";
                 case ".png":
-                    return "YES";
+                    return "true";
                 default:
-                    return "NO";
+                    return "false";
             }
+
         }
+
+
 
         [HttpGet, ActionName("NameCheck")]
         public string NameCheck(string DataType)
@@ -8721,6 +8744,9 @@ namespace SoftwareSuite.Controllers.PreExamination
                 string District = NameCheck(CertificateReqAtt.District.ToString());
                 string States = NameCheck(CertificateReqAtt.States.ToString());
 
+                string FileType = CheckFileType(CertificateReqAtt.FileName.ToString());
+
+
                 var fileDat = new List<filelist>();
                 int size = CertificateReqAtt.filedata.Count;
                 var file = string.Empty;
@@ -8745,6 +8771,12 @@ namespace SoftwareSuite.Controllers.PreExamination
                 if (first_Name == "NO")
                 {
                     response = Request.CreateResponse(HttpStatusCode.OK, "INVALID FIRST NAME");
+                    return response;
+                }
+
+                else if (FileType == "false")
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID Extension");
                     return response;
                 }
                 else if (last_Name == "NO")
@@ -9320,6 +9352,8 @@ namespace SoftwareSuite.Controllers.PreExamination
             public string backlogsubjson { get; set; }
             public List<filelist> filedata { get; set; }
             public string Photo { get; set; }
+
+            public string FileName { get; set; }
         }
 
 
@@ -12271,6 +12305,13 @@ namespace SoftwareSuite.Controllers.PreExamination
         //    }
         //}
 
+        internal class Output
+        {
+            public string ResponceCode { get; internal set; }
+            public string ResponceDescription { get; internal set; }
+            public string Data { get; internal set; }
+        }
+
         [HttpGet, ActionName("GenerateOtpForMobileNoUpdate")]
         public string GenerateOtpForMobileNoUpdate(string Pin, string Phone)
         {
@@ -12279,12 +12320,18 @@ namespace SoftwareSuite.Controllers.PreExamination
             string Message = string.Empty;
             string resp = string.Empty;
             string MobileOTP = string.Empty;
+
+            List<Output> p = new List<Output>();
+            Output p1 = new Output();
+
+            string pin = GetDecryptedData(Pin);
+            string phone = GetDecryptedData(Phone);
             try
             {
                 var dbHandler = new dbHandler();
                 var param = new SqlParameter[2];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@PhoneNumber", Phone);
+                param[0] = new SqlParameter("@Pin", pin);
+                param[1] = new SqlParameter("@PhoneNumber", phone);
                 dt = dbHandler.ReturnDataWithStoredProcedure("usp_SOS_GET_OTP_MobileUpdate", param);
 
                 if (dt.Tables[0].Rows[0]["StatusCode"].ToString() != "200")
@@ -12294,17 +12341,33 @@ namespace SoftwareSuite.Controllers.PreExamination
                 Message = string.Format(otpMsg, dt.Tables[1].Rows[0]["Otp"]);
                 MobileOTP = string.Format((string)dt.Tables[1].Rows[0]["Otp"]);
                 string url = ConfigurationManager.AppSettings["SMS_API"].ToString();
-                if (Phone != null || Phone != string.Empty)
+                if (phone != null || phone != string.Empty)
                 {
-                    string urlParameters = "?mobile=" + Phone + "&message=" + Message + "&templateid=1007161786863825790";
+                    string urlParameters = "?mobile=" + phone + "&message=" + Message + "&templateid=1007161786863825790";
                     HttpClient client = new HttpClient();
                     client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage response = client.GetAsync(urlParameters).Result;
-                    resp = "OTP sent to the mobile number :" + Phone.ToString().Substring(0, 2) + "xxxxx" + Phone.ToString().Substring(7);
-                    string parameterToEncrypt = MobileOTP;
-                    string encryptedParameter = EncryptionHelper.Encrypt(parameterToEncrypt);
-                    return "{\"status\":\"200\",\"description\" : \"" + resp + "\",\"resp1\" : \"" + encryptedParameter + "\"}";
+                    resp = "OTP sent to the mobile number :" + phone.ToString().Substring(0, 2) + "xxxxx" + phone.ToString().Substring(7);
+                    string plaintext = MobileOTP;
+
+                    OTPServiceController otpService = new OTPServiceController();
+                    string OTPCount = otpService.SendOTP(phone.ToString(), plaintext);
+
+
+
+                    //string key = KeyIVGenerator.GenerateKey(32); // AES-256 key
+                    //string iv = KeyIVGenerator.GenerateIV();     // AES IV
+
+                    //Console.WriteLine("AES Key (Base64): " + key);
+                    //Console.WriteLine("AES IV (Base64): " + iv);
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string encrypted = Encryption.Encrypt(plaintext, key, iv);
+
+                    return "{\"status\":\"200\",\"description\" : \"" + resp + "\",\"resp1\" : \"" + encrypted + "\"}";
 
                 }
                 else

@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Admission Form</title>
+    <style type="text/css">
+        .control {
+            padding-left: 10px;
+            min-height: 680px !important;
+        }
+
+        .content-container-fluid > :first-child.row {
+            width: 100% !important;
+        }
+
+        .cols-sample-area {
+            min-width: 800px !important;
+            min-height: 706px !important;
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div ng-controller="AdmissionFormPrintController">
+        <!-- New Style Start-->
+        <div class="container">
+                <div class="row ctitle">
+                        <div class="col-md-5">
+                            <span><strong>Print Admission Form</strong></span>
+                        </div>
+                        <div class="col-md-7 text-right">
+                                <ol class="breadcrumb">
+                                        <li>You are in </li>
+                                        <li>Home</li>
+                                        <li>Reports</li>
+                                        <li>Print Admission Form</li>
+                                </ol>
+                        </div>
+                    </div>
+            <div class="base-row">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-1">
+                    <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                        <option value="" selected>Select Stream</option>
+                        <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" id="ExamID" ng-model="ExamID">
+                        <option value="" selected>Select Year</option>
+                        <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" ng-model="BranchID" id="BranchID">
+                        <option value="" selected>Select Branch</option>
+                        <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <span style="margin-top: 6px;" class="rspan">From:</span>
+                    <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="FromDate" ng-model="FromDate">
+                </div>
+                <div class="col-md-2">
+                    <span style="margin-top: 6px;" class="rspan">To:</span>
+                    <input type="text" class="form-control input-sm" datetime-picker="dd/MMM/yyyy" id="ToDate" ng-model="ToDate">
+                </div>
+            </div>
+            <div class="row frow">
+                <div class="col-md-2 col-md-offset-3">
+                    <input type="text" placeholder="From Enroll No." class="form-control" id="FromAdmNo" ng-model="FromAdmNo" input-Number-Only>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" placeholder="To Enroll No." class="form-control" id="ToAdmNo" ng-model="ToAdmNo" input-Number-Only>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" ng-click="Print()" class="btn btn-detail btn-sm">Show Detail</button>
+                    <button type="button" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-md-12">
+                    <hr style="margin-top:20px;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" name="ReportForm" novalidate>
+                        <div class="content-container-fluid">
+                            <div class="row">
+                                <div class="cols-sample-area">
+                                    <div class="control">
+                                        <div id="container" ej-reportviewer="ej-reportviewer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

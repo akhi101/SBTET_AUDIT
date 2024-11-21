@@ -1,0 +1,98 @@
+﻿<style>
+    .genAttId {
+        cursor: pointer;
+        color: cornflowerblue;
+    }
+
+        .genAttId:hover {
+            text-decoration: underline;
+        }
+</style>
+<div ng-controller="AdmissionReportPinListController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>Admission Sub Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard">Admission </a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdmissionReports">Admission Reports</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/AdmissionReports/AdmissionReports">Admission Sub Reports</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-12" ng-show="UserTypeId==1">
+                <a href="#!/Dashboard/AdmissionDashboard/AdmissionReports" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="col-md-12" ng-show="UserTypeId==2||UserTypeId==3">
+                <a href="#!/Dashboard/AdmissionDashboard/AdmissionReports/AdmissionSubReports" class="backA"><button class="btn bck_btn"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</button></a>
+            </div>
+            <div class="sm-spacer"></div>
+            <div class="col-md-12">
+                <div class="row base-row">
+                    <div class="col-md-12">
+                        <div class="pull-right" ng-if="result">
+                            <a class="ExportToExcel1 pointer"
+                               id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent')">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                        <div class="col-lg-12">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label>Search</label>
+                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+                            <label class="notifylabel" for="sel1" style="color: red;"> Double click on row to Update Student</label>
+                            <div style="width:100%;text-align:center;">
+                                <img src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                            </div>
+                            <div class="scrollbox" id="tblParent" ng-show="result">
+                                <table id="studentRegTable" class="table table-hover table-fixed table-bordered studentadmission-table table-responsive scrollbox-content">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%" ng-click="sort('StudentId')">S No.</th>
+                                            <th style="width: 10%" ng-click="sort('PIN')">PIN<i class="fa fa-fw fa-sort"></i></th>
+                                            <th style="width: 10%" ng-click="sort('AttendeeId')">AttendeeId <i class="fa fa-fw fa-sort"></i></th>
+                                            <th style="width: 20%" ng-click="sort('Name')">Student Name <i class="fa fa-fw fa-sort"></i></th>
+                                            <th style="width: 10%" ng-click="sort('DateOfBirth')">Birth Date <i class="fa fa-fw fa-sort"></i></th>
+                                            <th style="width: 10%" ng-click="sort('ADMType')">AdmissionType <i class="fa fa-fw fa-sort"></i></th>
+                                            <th style="width: 10%">Aadhaar Status</th>
+                                            <th style="width: 10%" ng-show="SystemUserTypeId==1">Generate Pin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-dblclick="doubleclick(x)" ng-repeat="x in filteredData|orderBy:sortKey:reverse|filter:search">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{x.Pin == null ? '-' : x.Pin}}</td>
+                                            <td ng-class="{'genAttId': x.AttendeeId =='Generate AttendeeId'}" ng-click="generateAttendeeId(x.StudentId,x.AttendeeId)">{{x.AttendeeId}}</td>
+
+                                            <td>{{x.Name}}</td>
+                                            <td>{{x.DateOfBirth == null ? '-' :x.DateOfBirth.replace('-','/').replace('-','/')}}</td>
+                                            <td>{{x.ADMType}}</td>
+                                            <td ng-show="x.AadharVerfied==true" class="Verify">Completed</td>
+                                            <td ng-show="x.AadharVerfied==false">
+                                                <a class="notVerify" ng-click="showAadhaarModal(x.StudentId)">Pending</a>
+                                            </td>
+                                            <td ng-show="SystemUserTypeId ==1">
+                                                <b class="clrRed" ng-click="GeneratePin(x.StudentId)" title="Click to Generate Pin" ng-show="x.Pin==''||x.Pin==null">Generate Pin</b>
+                                                <b class="ClrGreen" ng-show="x.Pin!=''&&x.Pin!=null">Pin Generated</b>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+</div>

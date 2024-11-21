@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <style>
+        table {
+            font-size: 12px;
+        }
+        #container_Stud {
+            display: grid;
+            grid-template-columns: repeat(2, 50%);
+            grid-gap: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .current {
+            color: green;
+            text-decoration: underline;
+        }
+        #pagin li {
+            display: inline-block;
+        }
+            #pagin li a {
+                font-weight: bold;
+                font-size: 12px;
+                cursor: pointer;
+                background-color: #0f73d9;
+                color: #fff;
+                padding: 5px;
+                border-radius: 4px;
+            }
+        #stud-data {
+            padding: 5px 0 5px 0;
+            display: block;
+        }
+        #stud-data-tab {
+            
+            color: black;
+        }
+        #stud-data-tab td.info-lab {
+            width: 15%;
+            font-weight: bold;
+            padding: 1px 0px 0 3px;
+        }
+        #stud-data-tab td.info-colon {
+            text-align: center;
+            width: 1%;
+            font-weight: bold;
+        }
+        #stud-data-tab td.info {
+            width: 38%;
+            padding: 1px 0 0 3px;
+        }
+        #stud-data-tab td.pic {
+            text-align: center;
+            vertical-align: middle;
+            width: 17%;
+        }
+        #stud-data-tab td.col-confirm-chk {
+            text-align: center;
+            vertical-align: middle;
+            width: 11%;
+        }
+        #stud-data-tab td.col-confirm-edit {
+            text-align: center;
+            vertical-align: middle;
+        }
+        #pagin {
+            width: 100%;
+            text-align: center;
+            padding: 5px 0 20px 0;
+        }
+    </style>
+    <title>Pre Exam</title>
+</head>
+<body>
+    <div ng-controller="NRPhotoCorrectionController" ng-init="init()">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Update/Upload Photo & Sign</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>PreExam</li>
+                        <li>Update/Upload Photo & Sign</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row" style="margin-bottom: 0px;">
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-4">
+                        <div class="form-group">
+                            <input type="text" onpaste="return false" autocomplete="off" placeholder="Enter HT NO" class="form-control" id="HTNO" ng-change="HTNOChange()" ng-Model="PhotoCorrectionData.HTNO" maxlength="40">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="button" ng-click="GetStudentList()" class="btn btn-detail btn-sm" value="Get Details" ng-disabled="GetStudentDisable" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <img id="LoadImg" src="" ng-show="ShowLoading" width="100" />
+                </div>
+            </div>
+            <div class="row base-row" ng-show="ShowStudInfo">
+                <div class="col-md-12">
+                    <table id="stud-data-tab" border="1" cellpadding="1" width="100%" height="300px">
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">HT NO.</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].HTNO}}</td>
+                            <td class="pic"><b>Current Photo & Sign</b></td>
+                            <td class="pic"><b>New Photo & Sign</b></td>
+                            <td class="col-confirm-edit" rowspan="11">
+                                <input ng-show="ShowUpdate" type="button" ng-click="UpdateStudInfo()" class="btn btn-detail btn-sm" ng-disabled="UpdateDisable" value="{{UpdateText}}" />
+                                <input ng-show="ShowPayment" type="button" ng-click="Payment()" class="btn btn-detail btn-sm" ng-disabled="UpdateStudent" value="Pay Bill" />
+                                <label ng-show="ShowStatus" style="font-weight: bold; font-size: 14px !important; color: blueviolet;padding: 10px 0 0 0;">{{ApprovalStatus}}</label>
+                                <label ng-show="ShowStatus" style="font-weight: bold; font-size: 13px !important; color: red;float:left">{{ApprovalComment}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">PRN NO.</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].PRNNo}}</td>
+                            <td class="pic" rowspan="7"><img src="{{StudList[0].PhotoPath}}" style="border: 1px solid #000;" alt="Photo" height="135" width="105"></td>
+                            <td class="pic" rowspan="7">
+                                <div class="form-group">
+                                    <label for="name" style="display: block;">&nbsp;</label>
+                                    <img data-ng-src="{{StudentPhoto}}" id="StudentPhoto" class="img img-responsive" style="border: 1px solid #000;height: 135px; width: 105px; display: inline-block;">
+                                    <input ng-hide="BrowseHide" style="border:none; box-shadow: none; margin-top:10px;" class="form-control" type="file" id="PhotoUpload" ng-model-instant onchange="angular.element(this).scope().PhotoUpload(this)" />
+                                    <p ng-hide="BrowseHide" style="font-size:10px; text-align: left;">Photo file size must be less than 50kb. With 3cm X 4.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">STUDENT NAME</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].StudName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">FATHER NAME</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].FatherName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">MOTHER NAME</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].MotherName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">GENDER</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].Gender}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">COMM. CODE</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].CasteCode}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">GROUP</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].MainGrpName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">MEDIUM</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].MediumName}}</td>
+                            <td class="pic" rowspan="3"><img src="{{StudList[0].SignPath}}" style="border: 1px solid #000;" alt="Sign" height="40" width="100"></td>
+                            <td class="pic" rowspan="3">
+                                <div class="form-group">
+                                    <label for="name" style="display: block;">&nbsp;</label>
+                                    <img data-ng-src={{StudentSign}} id="StudentSign" class="img img-responsive" style="border: 1px solid #000;height: 40px; width: 100px; display: inline-block;">
+                                    <input ng-hide="BrowseHide" style=" border:none; box-shadow: none;" class="form-control" type="file" id="SignUpload" ng-model-instant onchange="angular.element(this).scope().SignUpload(this)" />
+                                    <p ng-hide="BrowseHide" style="font-size:10px; text-align: left;">Signature must be less than 20kb. With 3cm X 1.5cm (Width X Height) and should be in .jpg or .png format.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">SECOND LANGUAGE</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].SubName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;" class="info-lab">PH</td>
+                            <td class="info-colon">:</td>
+                            <td class="info">{{StudList[0].PH}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var RefNo = GetParameterValues('refKey');
+            if (RefNo != undefined) {
+                alert('Transaction No: ' + RefNo + ' was Successful.');
+            }
+            function GetParameterValues(param) {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                    var urlparam = url[i].split('=');
+                    if (urlparam[0] == param) {
+                        return urlparam[1];
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
+

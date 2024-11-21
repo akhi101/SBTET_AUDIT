@@ -1,0 +1,53 @@
+﻿<!-- Modal content-->
+<style>
+    .modal-fit .modal-content {
+        height: max-content !important;
+        overflow: unset !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+</style>
+<div class="modal-header aadhar-modal-header">
+    <button type="button" class="btn btn-circle btn-close btn-modal-close" ng-click="closeModal()">&times;</button>
+    <h4 class="modal-title center-block">{{marksTypeTitle}}</h4>
+</div>
+<div class="modal-body">
+    <div class="">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive table-custom-tables-tb" >
+                    <table class="table table-bordered table-hover table-striped table-rounded">
+                        <thead>
+                            <tr class="cb-1">
+                                <th style="width: 1%;text-align: center">S no</th>
+                                <th style="width: 2%;text-align: center">Pin</th>
+                                <th style="width: 10%;text-align: center">Name</th>
+                                <th style="width: 1%;text-align: center">Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in previewList">
+                                <td style="text-align: center">{{$index+1}}</td>
+                                <td style="text-align: center">{{x.pin}} </td>
+                                <td style="text-align: center">{{x.name}}</td>
+                                <td style="text-align: center"><input class ="disabled" ng-model="x.marks" value="marks{{$index+1}}" style="width: 50px; text-align: center" autocomplete="off" type='text' maxlength="3" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-xs-12  col-md-6 col-sm-6 col-lg-6">
+        <button type="button" class="btn btn-default" ng-click="closeModal()">Cancel</button>
+       
+    </div>
+   
+</div>
+
+
+

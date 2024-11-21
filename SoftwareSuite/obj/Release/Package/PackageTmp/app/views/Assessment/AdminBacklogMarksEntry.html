@@ -1,0 +1,324 @@
+﻿
+<style>
+    button {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .footer_section {
+        /* position: fixed; */
+        display: none;
+        bottom: 0px;
+        z-index: 99;
+    }
+
+    table {
+        border: 1px solid #CCC;
+        border-collapse: collapse !important;
+    }
+
+    .submit_css {
+        background-color: #dff0d8 !important;
+    }
+
+    .label {
+        display: inline;
+    }
+
+    .details {
+        background: white !important;
+    }
+
+    td {
+        border: none !important;
+    }
+
+    .markstable {
+        margin-top: 0px;
+        margin-bottom: 60px;
+    }
+
+    @media screen {
+        #printSection {
+            display: none !important;
+        }
+    }
+
+    @media print {
+
+        .header-top-section {
+            display: none;
+        }
+
+        .main-header {
+            display: none !important;
+        }
+
+        #text-right {
+            float: right !important;
+            color: #000 !important;
+        }
+
+        .fa-fw {
+            width: 1.28571429em;
+            text-align: center;
+            display: none;
+        }
+
+        #idtoDivPrint {
+            /*display: flex;*/
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            color: #000;
+        }
+
+        tr th {
+            background: #98abb9;
+            color: #000 !important;
+            font-weight: 800;
+        }
+
+        /*.sbtet_img{
+
+               width:130px;
+               height:80px;
+               display: list-item;
+               list-style-image: url(../../../contents/img/big-logo.png);
+               list-style-position: inside;
+           }*/
+        td input {
+            width: 50px;
+            text-align: center;
+            border: none;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .print-cnt {
+            display: block;
+            page-break-after: auto;
+        }
+
+        .mya {
+            text-decoration: none !important;
+        }
+
+        #text-left {
+            color: #000 !important;
+        }
+
+        #text-center {
+            text-align: center !important;
+            color: #000 !important;
+        }
+
+        #divtitle {
+            font-size: 24px !important;
+            text-align: center !important;
+        }
+
+        .sem-pad {
+            margin-left: 10px !important;
+        }
+
+        th {
+            color: #000 !important;
+            font-weight: bold !important;
+        }
+
+        label {
+            font-weight: bold !important;
+        }
+    }
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="AdminBacklogMarksEntryController" id="markslist">
+
+        <div class="clearfix"></div>
+        <div>
+            <div class="">
+                <div class="breadcrumb-header">
+                    <!-- breadcrumb Open -->
+                    <div class="container">
+                        <section class="content-header">
+                            <h5>Backlog Marks Entry</h5>
+                            <ol class="breadcrumb">
+                                <li><a href="#!/Dashboard"> Dashboard</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard">Assessment Dashboard</a></li>
+                                <li><a href="#!/Dashboard/AssessmentDashboard/Assessment">BacklogMarksEntry</a></li>
+                            </ol>
+                        </section>
+                    </div>
+                    <!-- breadcrumb Close -->
+                </div>
+                <section class="content">
+                    <div class="container">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <button class="btn bck_btn"><a href="#!/Dashboard/AssessmentDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container base-row ">
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label">
+                                    Academic Year :
+                                </label>
+                                <select class="form-control" ng-model="year" ng-change="setAcademicYears(year)">
+                                    <option value="" selected>Select Academic Year</option>
+                                    <option ng-repeat="yr in yearslist" value="{{yr}}">
+                                        {{yr.AcademicYear}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class=" label font-weight-bold">Schemes:</label>
+                                <div class="">
+                                    <select class="form-control" name="Scheme" ng-model="sch" ng-change="setscheme(sch)" required>
+                                        <option value="" selected>Select Scheme</option>
+                                        <option ng-repeat="data in getActiveSchemes" value="{{data}}">
+                                            {{data.Scheme}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">
+                            <div class="gr-btn">
+                                <button type="button" class="btn btn-sm btn-primary gr-button" ng-click="GetData()">Get Data<span class="fa fa-arrow-down heading_icon btn_icons"></span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width:100%;text-align:center;" ng-show="LoadImgForPinList">
+                        <img src="../../contents/img/loading2.gif" width="100" />
+                    </div>
+
+
+
+                    <div class="container base-row" ng-show="resultFound">
+                        <div class="col-md-6">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label>Search</label>
+                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <a class="ExportToExcel1 pointer"
+                                   id="ExportToExcel1" ng-click="DownloadtoExcel('#tblParent',data.Scheme)">
+                                    <i class="fa fa-file-excel-o"></i>
+                                    Export to Excel
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12">
+                                <div class="col-sm-12 clr_red details">
+                                    <div style="float:right;font-size:12px;"><b>Note :</b> <b style="font-size:13px;color:red">AB</b> indicates Absent,  <b style="font-size:13px;color:green">MP</b> indicates Malpractice,  <b style="font-size:13px;color:blue">DC</b> indicates Discontinued,  <b style="font-size:13px;color:forestgreen">TC</b> indicates TC taken,  <b style="font-size:13px;color:#6741dc">DT</b> indicates Detained</div>
+                                </div>
+                                <div class="cl-details">
+                                    <h2> Backlog Marks Entry</h2>
+                                </div>
+
+                                <div class="table-responsive table-custom-tables-tb" id="idtoDivPrint">
+                                    <table  id="tblParent" class="table table-bordered table-hover table-striped table-rounded">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%;text-align: center;">S no</th>
+                                                <th style="width: 1%;text-align: center">College Code</th>
+                                                <th style="width: 4%;text-align: center" ng-click="sort('pin')">Pin<i class="fa fa-fw fa-sort"></i></th>
+                                                <th style="width: 10%;text-align: center">Name</th>
+                                                <th style="width: 10%;text-align: center">Subject Name</th>
+                                                <th style="width: 1%;text-align: center">Marks </th>
+                                                <!--<th ng-if="selectedsem.semid ==6 && SchemeId == 4" style="width: 1%;text-align: center">Industry Name </th>-->
+                                                <!--<th style="width: 1%;text-align: center" ng-show="subbtn">Edit </th>-->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in pinWise|orderBy:sortKey:reverse|filter:search" ng-click="selectSubjectDetails(x)" title="MaxMarks: {{x.maxmarks}}" ng-class="{'submit_css':x.issubmited==true}">
+                                                <td style="width: 1%;text-align: center">{{$index+1}}</td>
+                                                <td style="width: 1%;text-align: center">{{x.ExaminationCenterCode}}</td>
+                                                <td style="width: 2%;text-align: center">{{x.pin}} </td>
+                                                <td style="width: 10%;text-align: left">{{x.name}}</td>
+                                                <td style="width: 10%;text-align: left">{{x.subjectname}}({{x.subjectcode}})</td>
+                                                <td style="width: 1%;text-align: center"><span ng-if="!excelhide">{{x.marks}}</span><input ng-model="x.marks" class='disablefield text-uppercase'ng-if="excelhide" ng-disabled="{{x.issubmited}}" id="{{x.id}}" value="marks{{$index+1}}" ng-change="AddMarksById(x)" style="width: 50px; text-align: center" autocomplete="off" type='text' ng-maxlength="{{MaxMarks.length}}" /></td>
+                                                <!--<td ng-if="selectedsem.semid ==6 && SchemeId == 4" style="width: 10%;text-align: center"><input ng-model="x.IndustryName" class='text-uppercase' ng-disabled="{{x.issubmited}}" value="marks{{$index+1}}" ng-change="AddIndustryNameId(x)" style="width: 100%; text-align: center" autocomplete="off" type='text' ng-maxlength="200" /></td>-->
+                                                <!--<td style="width: 1%;text-align: center" ng-if="x.issubmited==true"><a ng-click="editMarks(x)">Edit</a></td>-->
+                                            </tr>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="row" ng-show="resultFound" style="position: fixed; z-index: 100;bottom: 0px;width: 100%;padding-bottom: 5px;padding-top: 5px;">
+                                    <div class="col-md-6">
+                                        <div class="pull-left">
+                                            <button class="btn btn-default" ng-click="back()">
+                                                Back
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="pull-left">
+                                            <button class="btn btn-primary" ng-click="save()">
+                                                Save
+                                            </button>
+                                            <!--<button type="button" class="btn btn-info" ng-click="preview()">preview</button> ng-show="submitHide"-->
+                                            <!--<button class="btn btn-success" ng-show="subbtn" ng-click="submit()">Submit</button>-->
+                                            <button class="btn btn-info" ng-disabled="printDisable" ng-click="printMarksEntered()">Print</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container row" ng-show="studentsNotFound">
+                        <div class="col-md-12">
+                            <div class="no-results">
+                                <img src="../../contents/img/Folder-Icon.svg" />
+                                <h2>No Students found for marks entry</h2>
+                            </div>
+                        </div>
+                    </div>
+</div>
+
+
+            </section>
+
+
+        </div>
+    </div>
+
+
+</body>
+</html>

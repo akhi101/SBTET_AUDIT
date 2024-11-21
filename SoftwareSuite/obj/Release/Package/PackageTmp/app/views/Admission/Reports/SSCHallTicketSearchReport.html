@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>SSC Hall Ticket Search</title>
+
+</head>
+<body>
+    <div ng-controller="SSCHallTicketSearchReportController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>SSC Hall Ticket Search</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Center Management</li>
+                        <li>SSC Hall Ticket Search</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div style="margin-top:40px;" class="row">
+                            <div class="col-md-3 col-md-offset-2 text-right">
+                                <div class="form-group">
+                                    <label for="">Enter SSC Hall Ticket Number :</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="SSCHallTicketSearchReport.SSCHallTicket">
+                                </div>
+                                <div class="form-group" ng-show="false">
+                                    <input type="text" class="form-control" ng-model="SSCHallTicketSearchReport.PreStudRegID">
+                                </div>
+                            </div>
+                            <div style="margin-top: -1px;" class="col-md-2">
+                                <div class="form-group">
+                                    <button type="button" ng-click="ShowSSCHallTicketData()" class="btn btn-sm btn-detail">Submit</button>
+                                    <button type="button" ng-click="Exit()" class="btn btn-sm btn-detail">Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="sel1" style="color:red;"> Double click on row to view record</label>
+                                <div id="PreStudentRegs"
+                                     ej-grid
+                                     e-recorddoubleclick="doubleclick"
+                                     e-allowgrouping="true"
+                                     e-allowsorting="true"
+                                     e-allowresizing="true"
+                                     e-datasource="PreStudentRegdata">
+                                </div>
+                            </div>
+                            <!--<div class="col-md-3 col-md-offset-1">
+                                <p class="cp"><strong>Student Name:</strong> {{SSCHallTicketSearchReportStudName}}</p>
+                                <p class="cp"><strong>1<sup>st</sup> Admitted College:</strong> {{ColName}}</p>
+                                <p class="cp"><strong>Last Admitted College:</strong> {{ColName}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="cp"><strong>Father's Name:</strong> {{FatherName}}</p>
+                                <p class="cp"><strong>Principal Name :</strong>{{principal_name}}</p>
+                                <p class="cp"><strong>Principal Name :</strong>{{principal_name}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="cp"><strong>Admission Number:</strong> <a style="color:red;" href="{{AdmNo}}">View Detail</a></p>
+                                <p class="cp"><strong>Phone Number :</strong>{{principal_mobile_no}}</p>
+                                <p class="cp"><strong>Phone Number :</strong>{{principal_mobile_no}}</p>
+                            </div>-->
+                        </div>
+                        <div class="row" ng-hide="candidateinfo">
+                            <div class="tab-pane active" id="1a">
+                                <h3 class="ch3">Student's Academic Detail <hr></h3>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Admission No.:</label>
+                                            <input type="text" class="form-control" id="adno" ng-Model="SSCHallTicketSearchReport.AdmNo" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Name Of Institution (SSC) :</label>
+                                            <input type="text" class="form-control" id="LstInstName" ng-Model="SSCHallTicketSearchReport.LstInstName" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">SSC HallTicket No.:</label>
+                                            <input type="text" class="form-control" id="adno" ng-Model="SSCHallTicketSearchReport.SSCHallTicket" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">PRN No.:</label>
+                                            <input type="text" class="form-control" id="PRNNo" ng-Model="SSCHallTicketSearchReport.PRNNo" ng-readonly="true" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="ch3">Student's Personal Detail <hr></h3>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Candidate's  Name :</label>
+                                            <input type="text" class="form-control" id="cname" ng-Model="SSCHallTicketSearchReport.StudName" maxlength="100" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Father's Name :</label>
+                                            <input type="text" class="form-control" id="fname" ng-Model="SSCHallTicketSearchReport.Fathername" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Mother's Name :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.MotherName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="Nationality">Nationality :</label>
+                                            <select class="form-control" id="Nationality" ng-model="SSCHallTicketSearchReport.Nationality" ng-readonly="true" ng-disabled="true">
+                                                <option value="I">Indian</option>
+                                                <option value="F">Foreigner</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="email">Date Of Birth :</label>
+                                            <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="BirthDate" ng-model="SSCHallTicketSearchReport.BirthDate" ng-readonly="true" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Caste/Community :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.CasteName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="SubCastID">Sub Caste :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.SubCastName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="email">Gender :</label>
+                                            <form ng-disabled="true">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="SSCHallTicketSearchReport.Gender" checked value="M" ng-disabled="true">Male
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="SSCHallTicketSearchReport.Gender" value="F" ng-disabled="true">Female
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradio" ng-model="SSCHallTicketSearchReport.Gender" value="O" ng-disabled="true">Other
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="MothTID">Mother Tongue :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.MothTName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group" style="padding-top: 6px;">
+                                            <label for="adno">Student Identification Mark 1 :</label>
+                                            <input type="text" class="form-control" id="IdentiMarks" ng-Model="SSCHallTicketSearchReport.IdentiMarks" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group" style="padding-top: 6px;">
+                                            <label for="adno">Student Identification Mark 2 :</label>
+                                            <input type="text" class="form-control" id="IdentiMarks2" ng-Model="SSCHallTicketSearchReport.IdentiMarks2" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="OcupID">Father's Occupation :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.OcupName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Parent/Guardian Income :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.IncGrpame" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Parent/Guardian Name :</label>
+                                            <input type="text" class="form-control" id="Guardianname" ng-Model="SSCHallTicketSearchReport.Guardianname" maxlength="60" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="GradePoints">Grade Points :</label>
+                                            <input type="text" class="form-control input-sm" id="GradePoints" ng-Model="SSCHallTicketSearchReport.GradePoints" maxlength="5" input-Number-Only oncopy="return false" onpaste="return false" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="ch3">Student's Communication Detail <hr></h3>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-2">
+                                        <div class="form-group">
+                                            <label for="adno">Student Mobile No :</label>
+                                            <input type="text" class="form-control" id="MobileNo" ng-Model="SSCHallTicketSearchReport.MobileNo" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Parent Mobile No :</label>
+                                            <input type="text" class="form-control input-sm" id="ParentCellNo" ng-Model="SSCHallTicketSearchReport.ParentCellNo" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Email ID :</label>
+                                            <input type="text" class="form-control" id="EmailId" ng-Model="SSCHallTicketSearchReport.EmailId" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Aadhaar Card No. (UID) :</label>
+                                            <input type="text" class="form-control" id="AadharNo" ng-Model="SSCHallTicketSearchReport.AadharNo" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="2a">
+                                <div style="margin-top: 20px;" class="row">
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label for="AdmDate">Date Of Admission :</label>
+                                            <input type="text" class="form-control" datetime-picker="dd/MMM/yyyy" id="AdmDate" ng-readonly="true" ng-model="SSCHallTicketSearchReport.AdmDate" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="email">Class Admitted :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.ExmName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="email">Receiving Any Scholarship :</label>
+                                            <form ng-disabled="{{PreDisable}}">
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="Y" ng-model="SSCHallTicketSearchReport.ScholarshipFlag" name="optradio" ng-disabled="{{PreDisable}}">Yes
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" value="N" ng-model="SSCHallTicketSearchReport.ScholarshipFlag" checked name="optradio" ng-disabled="{{PreDisable}}">No
+                                                </label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label for="MediumID">Medium :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.MediumName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Second Language (Part II) :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.SubName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Group (Part III) :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.MainGrpName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane active" id="3a">
+                                <div class="row frow">
+                                    <h3 class="ch3">Parent/Guardian's Present Address: <hr></h3>
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label for="HousenoP">House No. :</label>
+                                            <input type="text" class="form-control" id="Houseno" ng-Model="SSCHallTicketSearchReport.Houseno" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="StreetnameP">Street :</label>
+                                            <input type="text" class="form-control" id="Streetname" ng-Model="SSCHallTicketSearchReport.streetName" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="adno">Village :</label>
+                                            <input type="text" class="form-control" id="Cityname" ng-Model="SSCHallTicketSearchReport.cityname" ng-disabled="{{PreDisable}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label for="sel1">Mandal :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.MandalName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">Your District :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.DistName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="sel1">State :</label>
+                                            <input type="text" class="form-control" id="mname" ng-Model="SSCHallTicketSearchReport.StateName" maxlength="40" ng-readonly="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-3 col-md-offset-1">
+                                <img src="cinqueterre.jpg" class="img-thumbnail img-responsive" alt="Student Image" width="100%" height="220">
+                                <img src="cinqueterre.jpg" class="img-thumbnail img-responsive" alt="Student Signature" width="100%" height="100">
+                            </div>
+                            <div class="col-md-3">
+                                <p class="cp"><strong>Personal Detail:</strong> Student's Personal Detail </p>
+                                <p class="cp"><strong>Personal info 1:</strong> Student's Personal info 1</p>
+                                <p class="cp"><strong>Personal info 2:</strong> Student's Personal info 2</p>
+                                <p class="cp"><strong>Personal info 3:</strong> Student's Personal info 3</p>
+                                <p class="cp"><strong>Personal info 4:</strong> Student's Personal info 4</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="cp"><strong>Group Detail:</strong> Student's Group Detail</p>
+                                <p class="cp"><strong>Group info 1:</strong> Student's Group Detail info 1</p>
+                                <p class="cp"><strong>Group info 2:</strong> Student's Group Detail info 2</p>
+                                <p class="cp"><strong>Group info 3:</strong> Student's Group Detail info 3</p>
+                                <p class="cp"><strong>Group info 4:</strong> Student's Group Detail info 4</p>
+                            </div>-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><hr></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+    </div>
+</body>
+</html>
+

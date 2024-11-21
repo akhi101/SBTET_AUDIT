@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Exam </title>
+</head>
+<body>
+    <div ng-controller="BasicExamController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Examination</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+
+                        <li>General</li>
+                        <li>Examination</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <form action="#">
+                    <div class="col-md-12">
+                        <div class="showhide">
+                            <div style="margin-top:20px;" class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="sel1"> Stream :</label>
+                                        <select class="form-control" ng-model="BasicExam.CourseID" id="CourseID">
+                                            <option value="">--Select Stream --</option>
+                                            <option ng-selected="BasicExam.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email"> Exam Name :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExam.ExmName" no-Special-Char id="ExmName" maxlength="20" required="" placeholder=" Exam Name">
+                                    </div>
+                                </div>
+                                <div  style="margin-top: 26px;" class="col-md-1">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="ResultFlag" ng-model="BasicExam.ResultFlag" required=""> Result
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="SylApplicable" ng-model="BasicExam.SylApplicable" required=""> Syllabus Applicable
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email"> Short Name :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExam.ExmShrtName" no-Special-Char id="ExmShrtName" maxlength="10" required="" placeholder=" Exam Short Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email"> Code:</label>
+                                        <input type="text" class="form-control" ng-model="BasicExam.ExmCode" no-Special-Char id="ExmCode" required="" placeholder="Exam Code" maxlength="2">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-1">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExam.ScaleFlag" id="ScaleFlag" required=""> Scale
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" ng-model="BasicExam.OrdFlag" id="OrdFlag" required=""> Ordinance
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="email">Max. Attempts to Complete :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExam.MaxAttemptsToComplete" no-Special-Char id="MaxAttemptsToComplete" input-Number-Only required="" placeholder="Max. Attempts to Complete">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="email">Sequence Number :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExam.SequenceNo" no-Special-Char id="SequenceNo" required="" input-Number-Only placeholder="Sequence no">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div style="margin-top: 26px;" class="form-group">
+                                        <input type="checkbox" ng-model="BasicExam.ClassFlag" id="ClassFlag" required=""> Class
+                                    </div>
+                                </div>
+                                <div style="margin-top: 26px;" class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="GPAApplyFlag" ng-model="BasicExam.GPAApplyFlag" required=""> GPA Applicable
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <div class="form-group">
+                                        <label for="email">Scaling Percentage :</label>
+                                        <input type="text" class="form-control" ng-model="BasicExam.ScalingPercentage" id="ScalingPercentage" required="" input-Number-Only placeholder="Scaling Percentage" maxlength="4">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 22px;" class="col-md-3">
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicExam()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeleteBasicExam()">Delete</button>
+                                    <button type="reset" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- New Style End-->
+        </div>
+
+
+
+
+
+
+       <!-- <div>
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b> Exam </b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sel1"> Stream :</label>
+                                            <select class="form-control" ng-model="BasicExam.CourseID" id="CourseID">
+                                                <option value="">--Select Stream --</option>
+                                                <option ng-selected="BasicExam.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email"> Exam Name :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExam.ExmName" no-Special-Char id="ExmName" maxlength="20" required="" placeholder=" Exam Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="ResultFlag" ng-model="BasicExam.ResultFlag" required=""> Result
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="SylApplicable" ng-model="BasicExam.SylApplicable" required=""> Syllabus Applicable
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email"> Short Name :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExam.ExmShrtName" no-Special-Char id="ExmShrtName" maxlength="10" required="" placeholder=" Exam Short Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email"> Code:</label>
+                                            <input type="text" class="form-control" ng-model="BasicExam.ExmCode" no-Special-Char id="ExmCode" required="" placeholder="Exam Code" maxlength="2">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExam.OrdFlag" id="OrdFlag" required=""> Ordinance
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExam.ScaleFlag" id="ScaleFlag" required=""> Scale
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Max. Attempts to Complete :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExam.MaxAttemptsToComplete" no-Special-Char id="MaxAttemptsToComplete" input-Number-Only required="" placeholder="Max. Attempts to Complete">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Sequence Number :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExam.SequenceNo" no-Special-Char id="SequenceNo" required="" input-Number-Only placeholder="Sequence no">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" ng-model="BasicExam.ClassFlag" id="ClassFlag" required=""> Class
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="GPAApplyFlag" ng-model="BasicExam.GPAApplyFlag" required=""> GPA Applicable
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="email">Scaling Percentage :</label>
+                                            <input type="text" class="form-control" ng-model="BasicExam.ScalingPercentage" id="ScalingPercentage" required="" input-Number-Only placeholder="Scaling Percentage" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button ng-disabled="isupdatableDisable" type="button" class="btn form_btn_align save_btn" ng-click="SaveBasicExam()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                        <button ng-disabled="isdeletableDisable" type="button" class="btn form_btn_align delete_btn" ng-click="DeleteBasicExam()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+                                        <button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</body>
+</html>

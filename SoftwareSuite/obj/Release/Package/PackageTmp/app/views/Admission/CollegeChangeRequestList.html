@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>College Change Request</title>
+</head>
+<body>
+    <div ng-controller="CollegeChangeRequestListController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>College Change Request</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>1st Year Admission</li>
+                        <li>College Change Request</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="base-row">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <select class="form-control  input-sm" ng-model="CollegeChangeRequestList.CheckType">
+                            <option value="" selected>Select Board</option>
+                            <option value="S">Telangana Board of Secondary School</option>
+                            <option value="E">Other Than Telangana</option>
+                            <option value="O">Telangana Open School</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="CollegeChangeRequestList.CheckType=='E'">
+
+                        <select class="form-control" id="CourseID" ng-model="CollegeChangeRequestList.BoardID">
+                            <option value="" selected>Other Board</option>
+                            <option ng-selected="BoardList == option.BoardID" ng-repeat="option in BoardList" value="{{option.BoardID}}">{{option.BoardName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <input type="text" placeholder="SSC HallTicket No" class="form-control input-sm" ng-model="CollegeChangeRequestList.SSCHallTicket" id="SSCHallTicket" maxlength="16">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <select class="form-control input-sm" ng-model="CollegeChangeRequestList.YrName">
+                            <option value="" selected>Select Year</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <select class="form-control input-sm" ng-model="CollegeChangeRequestList.PassingMonth">
+                            <option value="" selected>Select Month</option>
+                            <option value="Mar">March</option>
+                            <option value="Jun">Jun</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <button type="button" ng-click="ShowStudentInfo()" ng-disabled="RollEditDisableShow" class="btn btn-detail btn-sm">Show Student Info</button>
+                    <button type="button" ng-click="ClearData()" class="btn btn-reset btn-sm">Reset </button>
+                </div>
+            </div>
+           
+            <div id="candidateinfo" ng-hide="candidateinfo">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="ch3">Student Details<hr></h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="adno">Current College Name:</label>
+                            <input type="text" class="form-control input-sm" id="ColName" ng-Model="CollegeChangeRequestList.ColName" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Current Stream :</label>
+                            <input type="text" class="form-control input-sm" id="CourseName" ng-Model="CollegeChangeRequestList.CourseName" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Current Group :</label>
+                            <input type="text" class="form-control input-sm" id="MainGrpName" ng-Model="CollegeChangeRequestList.MainGrpName" ng-readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="adno">Candidate's  Name:</label>
+                            <input type="text" class="form-control input-sm" id="cname" ng-Model="CollegeChangeRequestList.StudName" maxlength="100" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Father's Name:</label>
+                            <input type="text" class="form-control input-sm" id="fname" ng-Model="CollegeChangeRequestList.FatherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Mother's Name:</label>
+                            <input type="text" class="form-control input-sm" id="mname" ng-Model="CollegeChangeRequestList.MotherName" maxlength="40" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="adno">Mobile No. :</label>
+                            <input type="text" class="form-control input-sm" id="MobileNo" ng-Model="CollegeChangeRequestList.MobileNo" maxlength="10" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="email">Gender :</label>
+                            <div class="form-group" style="margin-top: 2px;">
+                                <form>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-disabled="true" ng-model="CollegeChangeRequestList.Gender" checked value="M">Male
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-disabled="true" ng-model="CollegeChangeRequestList.Gender" value="F">Female
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optradio" ng-disabled="true" ng-model="CollegeChangeRequestList.Gender" value="O">Other
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="form-group">
+                            <label for="sel1">New Stream :</label>
+                            <select class="form-control input-sm" id="CourseIDNew" ng-model="CollegeChangeRequestList.CourseIDNew" ng-change="FillCoursePart(CollegeChangeRequestList.CourseIDNew)">
+                                <option ng-selected="CollegeChangeRequestList.CourseIDNew == option.CourseID" ng-repeat="option in CourseListNew" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">New Group :</label>
+                            <select class="form-control input-sm" id="MainGrpIDNew" ng-model="CollegeChangeRequestList.MainGrpIDNew" ng-change="FillBranchByGroup(CollegeChangeRequestList.MainGrpIDNew)">
+                                <option ng-selected="CollegeChangeRequestList.MainGrpIDNew == option.MainGrpID" ng-repeat="option in MainGroupListNew" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Branch :</label>
+                            <input type="text" class="form-control" id="BranchName" ng-Model="CollegeChangeRequestList.BranchName" ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="MediumID">Medium :</label>
+                            <select class="form-control input-sm" id="MediumIDNew" ng-model="CollegeChangeRequestList.MediumIDNew">
+                                <option ng-selected="CollegeChangeRequestList.MediumIDNew == option.MediumID" ng-repeat="option in MediumListNew" value="{{option.MediumID}}">{{option.MediumName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide="true">
+                        <input type="text" class="form-control" id="CourseID" ng-Model="CollegeChangeRequestList.CourseID">
+                        <input type="text" class="form-control" id="BranchID" ng-Model="CollegeChangeRequestList.BranchID">
+                        <input type="text" class="form-control" id="ExamID" ng-Model="CollegeChangeRequestList.ExamID">
+                        <input type="text" class="form-control" id="MediumID" ng-Model="CollegeChangeRequestList.MediumID">
+                        <input type="text" class="form-control" id="CollegeID" ng-Model="CollegeChangeRequestList.CollegeID">
+                        <input type="text" class="form-control" id="StudRegID" ng-Model="CollegeChangeRequestList.StudRegID">
+
+                        <input type="text" class="form-control" id="CourseIDNew" ng-Model="CollegeChangeRequestList.CourseIDNew">
+                        <input type="text" class="form-control" id="BranchIDNew" ng-Model="CollegeChangeRequestList.BranchIDNew">
+                        <input type="text" class="form-control" id="MediumIDNew" ng-Model="CollegeChangeRequestList.MediumIDNew">
+                        <input type="text" class="form-control" id="CollegeIDNew" ng-Model="CollegeChangeRequestList.CollegeIDNew">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="sel1">Purpose :</label>
+                            <input type="text" class="form-control" id="Purpose" ng-Model="CollegeChangeRequestList.Purpose">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr /></div>
+                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <center>
+                                    <button ng-disabled="RollEditDisable" type="button" ng-click="SaveCollegeChangeRequestList()" class="btn btn-detail btn-sm">Submit</button>
+                                    <button type="reset" ng-click="Exit()" class="btn btn-reset btn-sm">Exit</button>
+                                </center>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+﻿<div ng-controller="ReAdmissionSetDateController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>ReAdmission Set Date</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard"> Admission</a></li>
+                    <li><a href="#!/Dashboard/AdmissionDashboard/ReAdmissionSetDate">ReAdmission Set Date</a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/AdmissionDashboard" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+        <div class="col-md-12">
+            <form name="SetDatesForm"  novalidate>
+                <div class="base-row" style="padding:15px!important;">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Academic Year:</label>
+
+                                    <select class="form-control" ng-model="AcademicYear" name="StudentType" required>
+                                        <option value="" selected>Select Academic year </option>
+                                        <option ng-repeat="data in getAcademicYears" value="{{data.AcademicID}}">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="datetimepicker1" class="font-weight-bold">Enter Readmission Start Date :</label>
+                                <div class='input-group date'>
+                                    <input type='date' class="form-control" id='datetimepicker1' dateformat="dd-mm-yyyy" ng-model="StartDate" min="{{today}}"  name="StartDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="datetimepicker1" class="font-weight-bold">Enter Readmission End Date :</label>
+                                <div class='input-group date'>
+                                    <input type='date' class="form-control" id='datetimepicker1' dateformat="dd-mm-yyyy" ng-model="EndDate" min="{{StartDate}}" ng-change="SetEndDate(StartDate)" name="StartDate" required />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <button type="submit" style="margin-top:23px;" ng-click="submit()" class="btn  btn-info pull-right">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>

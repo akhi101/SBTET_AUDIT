@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Student Service Requests</title>
+</head>
+<body>
+    <script type="text/x-jsrender" id="checkboxTemplate">
+        <input type="checkbox" class="rowCheckbox" />
+    </script>
+    <script type="text/x-jsrender" id="headerTemplate">
+        <input type="checkbox" hidden="true" id="headchk" />
+    </script>
+    <div ng-controller="StudSerListController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>{{StudReqTypeData.ServiceName}}</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Request</li>
+                        <li>{{StudReqTypeData.ServiceName}}</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="StudSerList" ej-grid e-recorddoubleclick="doubleclick" e-allowgrouping="true" e-allowsorting="true" e-allowresizing="true"
+                             e-datasource="StudSerListdata" e-allowselection="true" e-actioncomplete="actioncomplete" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-offset-5">&nbsp;</div>
+                        <div class="col-md-offset-5">
+                            <input class="btn btn-sm btn-detail" type="button" id="AddBulkDigiSign" value="Add Signature" ng-click="AddBulkDigiSign()" />
+                        </div>
+                    </div>
+                 </div>
+                </div>
+            <!-- New Style end-->
+        </div>
+</body>
+</html>
+

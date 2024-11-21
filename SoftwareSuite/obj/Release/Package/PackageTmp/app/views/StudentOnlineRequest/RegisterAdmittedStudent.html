@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SSC Details</title>
+</head>
+<body>
+    <div ng-controller="RegisterAdmittedStudentController">
+        <div class="container top_margin">
+            <div class="container col-xs-12">
+                <div class="panel-group">
+                    <div class="panel">
+                        <div class="panel-heading header_background"><span class="fa fa-book heading_icon"></span><b>SSC Details</b></div>
+                        <div class="panel-body form_border">
+                            <form action="#">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sel1">Select Course :</label>
+                                        <select class="form-control" id="CourseID" ng-model="RegisterAdmittedStudent.CourseID"  ng-change="FillCoursePart(RegisterAdmittedStudent.CourseID)">
+                                            <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select Course Part :</label>
+                                        <select class="form-control" id="ExamID" ng-model="RegisterAdmittedStudent.ExamID">
+                                            <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel1">Select Branch :</label>
+                                        <select class="form-control" id="BranchID" ng-model="RegisterAdmittedStudent.BranchID">
+                                            <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div>
+                                            <label style="padding-top:3px;" class="control-label col-lg-1">SSC:</label>
+                                            <div class="col-lg-1">
+                                                <input type="checkbox" id="CheckSSC" ng-model="RegisterAdmittedStudent.CheckSSC" ng-change="CheckSSC()" style="width:40px" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label style="padding-top:3px;" class="control-label col-lg-2">Eligibility: </label>
+                                            <div class="col-lg-1">
+                                                <input type="checkbox" id="CheckEligibility" ng-model="RegisterAdmittedStudent.CheckEligibility" ng-change="CheckEligibility()" style="width:40px" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" ng-show="RegisterAdmittedStudent.CheckSSC">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-3">Admission No :</label>
+                                            <input type="text" class="form-control" ng-model="RegisterAdmittedStudent.AdmNo" id="AdmNo">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4">SSC HallTicket No :</label>
+                                            <input type="text" class="form-control" ng-model="RegisterAdmittedStudent.SSCHallTicket" id="SSCHallTicket">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" ng-show="RegisterAdmittedStudent.CheckEligibility">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-3">Eligibility No :</label>
+                                            <input type="text" class="form-control" ng-model="RegisterAdmittedStudent.EligibilityNo" id="EligibilityNo">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4">SSC HallTicket No :</label>
+                                            <input type="text" class="form-control" ng-model="RegisterAdmittedStudent.SSCHallTicket" id="SSCHallTicket">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center>
+                                        <button ng-disabled="RollEditDisable" type="button" ng-click="SaveRegisterAdmittedStudent()" class="btn form_btn_align save_btn">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

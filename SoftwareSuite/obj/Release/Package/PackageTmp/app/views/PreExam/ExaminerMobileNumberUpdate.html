@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Examiner Mobile Number Update or Send OTP </title>
+</head>
+<body>
+    <div ng-controller="BasicExaminerUpdateController">
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong> Examiner Mobile Number Update or Send OTP</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Pre Exam</li>
+                        <li>Examiner Appointments</li>
+                        <li>Examiner Mobile Number Update or Send OTP</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <div class="form-group">
+                                    <label for="sel1">Stream :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.CourseID" id="CourseID" ng-change="GetBasicExamList(BasicExaminer.CourseID)">
+                                        <option value="">--Select Course --</option>
+                                        <option ng-selected="BasicExaminer.CourseID == option.CourseID" ng-repeat="option in BasicCourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Exam :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.ExamID" id="ExamID" ng-change="GetBasicCollegeList()" ng-disabled="isDisableExam">
+                                        <option value="">--Select Exam --</option>
+                                        <option ng-selected="BasicExaminer.ExamID == option.ExamID" ng-repeat="option in BasicExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Branch :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.BranchID" id="BranchID" ng-change="GetBasicExamSubjectList(BasicExaminer.BranchID)" ng-disabled="isDisableBranch">
+                                        <option value="">--Select Branch --</option>
+                                        <option ng-selected="BasicExaminer.BranchID == option.BranchID" ng-repeat="option in BasicBranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Group :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.MainGrpID" id="MainGrpID"  ng-disabled="isGroupDisable" ng-change="GetBasicExamSubjectListByMainGrpID(BasicExaminer.MainGrpID)">
+                                        <option value="">--Select Group --</option>
+                                        <option ng-selected="BasicExaminer.MainGrpID == option.MainGrpID" ng-repeat="option in BasicMainGroupList" value="{{option.MainGrpID}}">{{option.MainGrpName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="sel1">Subject :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.ExmSubID" id="ExmSubID" ng-disabled="isSubjectDisable">
+                                        <option value="">--Select Subject --</option>
+                                        <option ng-selected="BasicExaminer.ExmSubID == option.ExmSubID" ng-repeat="option in BasicExamSubjectList" value="{{option.ExmSubID}}">{{option.ExmSubName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-2">
+        <div class="form-group">
+            <label for="sel1">District :</label>
+            <select class="form-control" ng-model="BasicExaminer.DistrictID" id="DistrictID" ng-change="GetBasicCollegeList(BasicExaminer.DistrictID)" ng-disabled="isDistrictDisable">
+                <option value="">--Select District --</option>
+                <option ng-selected="BasicExaminer.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="sel1">Center :</label>
+            <select class="form-control" ng-model="BasicExaminer.PrePractCntrID" id="PrePractCntrID">
+                <option value=""> -- Select Center -- </option>
+                <option ng-selected="BasicExaminer.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PraCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+            </select>
+        </div>
+    </div>-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1 ">
+                                <div class="form-group">
+                                    <label for="sel1">District :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.DistrictID" id="DistrictID" ng-change="GetBasicCollegeList(BasicExaminer.DistrictID)" ng-disabled="isDistrictDisable">
+                                        <option value="">--Select District --</option>
+                                        <option ng-selected="BasicExaminer.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sel1">Center :</label>
+                                    <select class="form-control" ng-model="BasicExaminer.PrePractCntrID" id="PrePractCntrID">
+                                        <option value=""> -- Select Center -- </option>
+                                        <option ng-selected="BasicExaminer.PrePractCntrID == option.PrePractCntrID" ng-repeat="option in PraCenterList" value="{{option.PrePractCntrID}}">{{option.ColName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="GetBasicExaminerList()">Show</button>
+                        <!--<button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <label style="font-size:xx-large;font-weight:bold;color:red;"> Please Use this Form For Sending OTP At the Time of General Practical Exam</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><hr></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div id="exTab1" style="margin-top:0px;">
+                            <!--<br />-->
+                            <table class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr style="font-weight:bold">
+                                        <td style="text-align:center; width:50px;">#</td>
+                                        <td>Examiner Name</td>
+                                        <td style="text-align:center;">Designation</td>
+                                        <td>Examiner No</td>
+                                        <td>Medium</td>
+                                        <td>Mobile Number</td>
+                                        <td>OTP</td>
+                                        <td>Send OTP</td>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="BasicExaminer in BasicExaminerList | filter:search | filter:new_search">
+                                    <td style="text-align:center; width:50px;"><input type="checkbox" ng-model="BasicExaminer.cheExaminer"></td>
+                                    <td style="text-align:left;">{{BasicExaminer.full_name}}</td>
+                                    <td style="text-align:center;">{{BasicExaminer.designation}}</td>
+                                    <td>{{BasicExaminer.examinerNo}}</td>
+                                    <td>{{BasicExaminer.medium}}</td>
+                                    <td><input type="text" class="form-control" ng-model="BasicExaminer.mobile_no" input-Number-Only maxlength="10"></td>
+                                    <td>{{BasicExaminer.OTP}}</td>
+                                    <td><input type="button" class="btn btn-sm btn-detail" value=" Save & Send OTP" ng-click="SendOTPToExaminer($index)" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="row">
+                    <div style="margin-bottom:20px;" class="col-md-12 text-center">
+                        <!--<button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SaveBasicExaminer()">Save</button>-->
+                        <button type="reset" class="btn btn-danger btn-sm" ng-click="Exit()">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+﻿<style>
+    .gr-button {
+        float: none !important;
+    }
+</style>
+<div ng-controller="TransactionReportController">
+    <section class="content">
+        <div class="container">
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a href="#!/Dashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="cl-details">
+                        <h2>Transaction Repoort</h2>
+                    </div>
+                </div>
+                <form>
+                    <div class="row base-row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Student Type:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="Student.id" name="StudentType" ng-change="changeStuentType(Student.id)" required>
+                                        <option value="" selected>Select Student Type</option>
+                                        <option ng-repeat="Student in StudentType" value="{{Student.id}}">
+                                            {{Student.type}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Exam Type:</label>
+                                <div class="">
+                                    <select class="form-control" ng-model="Examtype"  ng-disabled="RegularDisable" name="StudentType"  required>
+                                        <option value="" selected>Select Exam Type</option>
+                                        <option ng-repeat="Exam in ExamType" value="{{Exam.ExamtYPE}}">
+                                            {{Exam.type}}
+                                        </option>
+                                        <!--ng-options="Student.type for Student in StudentType">-->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>From Date:</label>
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Select Start Date" autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="setFromDate" ng-model="setFromDate" is-open="showFlag12" ng-change="Todate()" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag12 = true"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>End Date:</label>
+                                <p class="input-group" style="margin-top: unset; margin-bottom: unset;margin-left: 0 ;margin-right: 0;padding-left: 0px;">
+                                    <input type="text" class="form-control" placeholder="Select End Date" autocomplete="off" name="setdate" datetime-picker="dd/MM/yyyy" id="setToDate " ng-model="setToDate" is-open="showFlag3" required ng-change="Setdate()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="showFlag3 = true"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                                  <div class="col-md-12 text-center">
+                                <div class="form-group text-center">
+                                    <button class="btn btn-sm btn-primary  text-center  gr-button btn_top" ng-click="GetTransaction()">
+                                        Get Transaction
+                                        <span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+         </div>
+        <div class="sm-spacer"></div>
+  </section>
+</div>
+

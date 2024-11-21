@@ -1,0 +1,428 @@
+﻿<style>
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff !important;
+        cursor: default;
+        background-color: #35a5f1 !important;
+        border: 1px solid #d8d8d8 !important;
+        border-bottom-color: transparent;
+        font-weight: bold;
+    }
+
+    element.style {
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .myBtn1 {
+        margin-top: 23px;
+        font-size: 12px;
+        padding: 2px;
+        width: 150px;
+        border-radius: 2px;
+    }
+    /**/
+
+    /*background-color: #3d7eaa!important;*/
+</style>
+<div ng-controller="OdcGenerationController">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+        <div class="container">
+            <section class="content-header">
+                <h5>ODC Generation </h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/Dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/Dashboard/PostExam">Post Exam</a></li>
+                    <li><a href="#!/Dashboard/PostExam/OdcGeneration">ODC Generation </a></li>
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <button class="btn bck_btn"><a href="#!/Dashboard/PostExam" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="myBtn active" ng-click="ClearData()">
+                    <a href="#1" data-toggle="tab">Generate ODC Data</a>
+                </li>
+                <li ng-click="ClearData()">
+                    <a href="#2" data-toggle="tab">Generate ODC Data By Pin</a>
+                </li>
+                <li ng-click="ClearData()">
+                    <a href="#3" data-toggle="tab">Update ODC Data By Pin</a>
+                </li>
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Generate ODC Data</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Exam Month Year:
+                                        </label>
+                                        <select class="form-control" ng-model="ExamMonthYear" name="ExamMonthYear" required>
+                                            <option value="" selected>Select Exam Month Year</option>
+                                            <option ng-repeat="data in getExamMonthYears" value="{{data.Id}}">
+                                                {{data.ExamYearMonth}}
+                                            </option>
+                                            <!--ng-options="Student.type for Student in StudentType">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Day:
+                                        </label>
+                                        <input class="form-control" ng-model="Day" placeholder="Enter Day" name="Day" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Month:
+                                        </label>
+                                        <input class="form-control" ng-model="Month" placeholder="Enter Month" name="Month" required />
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Year:
+                                        </label>
+                                        <input class="form-control" ng-model="Year" placeholder="Enter Year" name="Year" required />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="gr-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary gr-button  pull-right" style="margin-top:6px;" ng-click="Submit()">Submit<span class="fa fa-arrow-up heading_icon btn_icons"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sm-spacer"></div>
+
+                    <div class="col-md-12">
+                        <div class="no-results" ng-show="NoOutput">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Result Found</h2>
+                        </div>
+                        <div class="no-results" ng-show="Error">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>{{ErrMsg}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="width:100%;text-align:center;">
+                            <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="2">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Generate ODC Data By Pin</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Pin:
+                                        </label>
+                                        <input class="form-control" ng-model="Pin" autocomplete="off" placeholder="Enter Pin" name="Year" required />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="gr-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary gr-button" style="margin-top:6px;" ng-click="GenerateOdcByPin()">Generate ODC Data</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sm-spacer"></div>
+
+                    <div class="col-md-12">
+                        <div class="no-results" ng-show="Noresult">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>ODC Data Not Generated</h2>
+                        </div>
+                        <div class="no-results" ng-show="Error1">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>{{ErrMsg1}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="width:100%;text-align:center;">
+                            <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="3">
+                    <div class="col-md-12">
+                        <div class="cl-details">
+                            <h2> Update ODC Data By Pin</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <form name="dataForm" class="ng-pristine ng-invalid ng-invalid-required">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label for="sel1">
+                                            Pin:
+                                        </label>
+                                        <input class="form-control" ng-model="ODCPin" placeholder="Enter Pin" name="Year" required />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="gr-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary gr-button" style="margin-top:6px;" ng-click="GetOdcDetailsByPin()">Get Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="container " ng-show="DataFound">
+                        <div class="col-md-12">
+                            <div class="cl-details">
+                                <h2>Update ODC Data</h2>
+
+                            </div>
+                            <div class="table-responsive table-custom-tables-tb">
+                                <table class="table table-bordered table-hover table-striped table-rounded custom-table-wdith" style="width: max-content;">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th>ODC No</th>
+                                            <th>NAME</th>
+                                            <th>FNAME</th>
+                                            <th>Exam Month Year</th>
+                                            <th>College Code</th>
+                                            <th>College</th>
+                                            <th>College Address</th>
+                                            <th>PIN</th>
+                                            <th>Course</th>
+                                            <th>Branch</th>
+                                            <th>MAX_MARKS_1YR</th>
+                                            <th>TOTAL1</th>
+                                            <th>TOTAL1_25</th>
+                                            <th>MAX_MARKS_3SEM</th>
+                                            <th>TOTAL3S</th>
+                                            <th>MAX_MARKS_4SEM</th>
+                                            <th>TOTAL4S</th>
+                                            <th>MAX_MARKS_5SEM</th>
+                                            <th>TOTAL5S</th>
+                                            <th>MAX_MARKS_6SEM</th>
+                                            <th>TOTAL6S</th>
+                                            <th>MAX_MARKS_7SEM</th>
+                                            <th>TOTAL7S</th>
+                                            <th>GRAND_TOTAL</th>
+                                            <th>PER</th>
+                                            <th>scheme</th>
+                                            <th>MAX_MARKS_1SEM</th>
+                                            <th>TOTAL1S</th>
+                                            <th>TOTAL1S_25</th>
+                                            <th>MAX_MARKS_2SEM</th>
+                                            <th>TOTAL2S</th>
+                                            <th>TOTAL2S_25</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr style="background-color: #fff!important;">
+
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.SNO" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.NAME" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.FNAME" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="OdcData.MONTH_YEAR" name="iselective" style="width: min-content;"
+                                                        ng-options="dat.ExamYearMonth | uppercase as dat.ExamYearMonth | uppercase for dat in getExamMonthYears">
+                                                    <option value="" selected>Select </option>
+                                                </select>
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.CEN" />
+                                            </td>
+
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.CEN_NAME" />
+                                            </td>
+
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.CEN_ADDRESS" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.PIN" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.COURSE" />
+                                            </td>
+                                        
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <select class="form-control tableinpt enabletable{{$index + 1}}" ng-model="OdcData.BR" name="iselective" style="width: min-content;"
+                                                        ng-options="dat.BranchCode | uppercase as (dat.BranchCode+' - '+dat.Branch) | uppercase for dat in getAllBranches">
+                                                    <option value="" selected>Select {{OdcData.BR}}</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_1YR" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL1" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL1_25" />
+                                            </td>
+
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_3SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL3S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_4SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL4S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_5SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL5S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_6SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL6S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_7SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL7S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.GRAND_TOTAL" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.PER" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.scheme" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_1SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL1S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL1S_25" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.MAX_MARKS_2SEM" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL2S" />
+                                            </td>
+                                            <td class="text-center pointer" style="padding: 3px;">
+                                                <input autocomplete="off" style="width: min-content;" class="form-control tableinpt enabletable{{$index + 1}}" type="text" maxlength="40" ng-model="OdcData.TOTAL2S_25" />
+                                            </td>
+
+
+                                            <td class="text-center">
+                                                <button class="btn-xs btn btn-info" style="width: 70px;" ng-show="edit{{$index + 1}}" ng-click="Editsemesterdat(data,$index+1)">
+                                                    Edit
+                                                </button>
+                                                <button class="btn-xs btn btn-primary" style="width: 70px;" ng-show="!edit{{$index + 1}}" ng-click="Updatesemesterdat(data,$index+1)">
+                                                    Update
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--<div style="width: 100%; text-align: center;" ng-show="loading">
+                        <img src="../../../contents/img/loading.gif" width="100" />
+
+                    </div>-->
+                    <div class="sm-spacer"></div>
+
+                    <div class="col-md-12">
+                        <div class="no-results" ng-show="NoData">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>ODC Data Not Generated</h2>
+                        </div>
+                        <div class="no-results" ng-show="Error2">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>{{ErrMsg2}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="width:100%;text-align:center;">
+                            <img id="LoadImg" src="../../../contents/img/loading2.gif" ng-show="loading" width="100" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+    </div>
+
+    <div class="container">
+
+    </div>
+</div>

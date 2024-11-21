@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Center Constitution Report</title>
+</head>
+<body>
+    <div ng-controller="CenterConstitutionReportController">
+        <div class="container">
+            <!-- New Style Start-->
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Center Constitution Report</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Reports</li>
+                        <li>Center Constitution Report</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+
+                <div class="col-md-12">
+                    <div class="showhide">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="CenterConstitutionReport.ReportType" id="ReportType" ng-change="">
+                                    <option value="">Select Report Type</option>
+                                    <option ng-selected="CenterConstitutionReport.ReportType == option.ReportType" ng-repeat="option in reportTypes" value="{{option.ReportType}}">{{option.ReportTypeName}}</option>
+                                </select>
+
+                            </div>
+                            <div class="col-md-3">
+                                <!--<label for="sel1"> Select District :</label>-->
+                                <select class="form-control" ng-model="CenterConstitutionReport.DistrictID" id="DistrictID" ng-change="">
+                                    <option value="0">ALL</option>
+                                    <option ng-selected="CenterConstitutionReport.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-sm btn-detail" ng-click="PrintCenterConstitutionReport()">Show</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="Exit()">Exit</button>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-12"><hr></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <form class="form-horizontal" name="ReportForm" novalidate>
+                                        <div class="content-container-fluid">
+                                            <div class="row">
+                                                <div class="cols-sample-area">
+                                                    <div class="control">
+                                                        <div id="reportviewer" ej-reportviewer=ej-reportviewer></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

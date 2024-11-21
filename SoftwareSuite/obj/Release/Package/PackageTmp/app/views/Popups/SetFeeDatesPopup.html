@@ -1,0 +1,165 @@
+﻿<style>
+    input[type=checkbox] {
+        margin: 4px 0 0;
+        width: 20px;
+        margin: 0px 10px !important;
+        padding: 0px 10px;
+        height: 20px;
+    }
+</style>
+<style>
+    .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+        z-index: 2;
+        margin-left: -1px;
+    }
+</style>
+<!--<link href="../../../assets/css/bootstrap.min.css" rel="stylesheet" />-->
+<script type="text/javascript">
+        // When the document is ready
+        $(document).ready(function () {
+
+            $('#example1').datepicker({
+                minViewMode: 'years',
+                autoclose: true,
+                format: 'yyyy'
+            });
+            $('#example2').datepicker({
+                minViewMode: 1,
+                autoclose: true,
+                format: 'mm-yyyy'
+            });
+            $('.tabledate').datepicker({
+                //minViewMode: 1,
+                autoclose: true,
+                format: 'dd-mm-yyyy'
+            });
+            //$('#example4').datepicker({
+            //    //minViewMode: 1,
+            //    autoclose: true,
+            //    //format: 'dd-mm-yyyy'
+            //});
+        });
+</script>
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Edit Fee Payment Dates</h2>
+        <button type="button" class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+            <span style="font-size:21px" aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form>
+
+            <div class="form-group ">
+                <label>
+                    Academic Year:
+                </label>
+                <select class="form-control" id="academicyr" ng-model="EditData[0].AcademicYearID"
+                        ng-options="data.AcademicYearID as data.AcademicYear for data in GetCcicCurrentAcademicYear">
+                    <option value="" selected>Select AcademicYear</option>
+                </select>
+            </div>
+
+            <div class="form-group ">
+                <label>
+                    Exam Month Year:
+                </label>
+                <select  class="form-control" id="exammnthyr" ng-model="EditData[0].ExamMonthYearID"
+                        ng-options="data.ExamMonthYearID as data.ExamMonthYearName for data in GetExamMonthYear">
+                    <option value="" selected>Select Exam Month Year</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date-picker-example"> Start Date(dd/mm/yyyy):</label>
+                <p class="input-group">
+                    <input type="text" disabled show-weeks="false" class="form-control" id="datetimepicker1" placeholder="Select Start Date" autocomplete="off" name="StartDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="EditData[0].StartDate" is-open="showFlag1" required style=" margin-left: 0px; border-left-width: 0px;  margin-right: 0px; padding-right: 12px; padding-left: 12px; right: 40px;width:278px">
+                    <span class="input-group-btn" style=" right: 249px;">
+                        <button type="button" class="btn btn-primary" ng-click="showFlag1 = true"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="date-picker-example"> Last Date without fine(dd/mm/yyyy):</label>
+                <p class="input-group">
+                    <input type="text" disabled show-weeks="false" class="form-control" id="datetimepicker2" placeholder="Select End Date" autocomplete="off" name="StartDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="EditData[0].LastDatewithoutFine" is-open="showFlag2" required style=" margin-left: 0px; border-left-width: 0px;  margin-right: 0px; padding-right: 12px; padding-left: 12px; right: 40px;width:278px">
+                    <span class="input-group-btn" style=" right: 249px;">
+                        <button type="button" class="btn btn-primary" ng-click="showFlag2 = true"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="date-picker-example"> Last Date with Fine(dd/mm/yyyy):</label>
+                <p class="input-group">
+                    <input type="text" disabled show-weeks="false" class="form-control" id="datetimepicker3" placeholder="Select End Date" autocomplete="off" name="StartDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="EditData[0].LastDatewithFine" is-open="showFlag3" required style=" margin-left: 0px; border-left-width: 0px;  margin-right: 0px; padding-right: 12px; padding-left: 12px; right: 40px;width:278px">
+                    <span class="input-group-btn" style=" right: 249px;">
+                        <button type="button" class="btn btn-primary" ng-click="showFlag3 = true"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="date-picker-example"> Tatkal End Date(dd/mm/yyyy):</label>
+                <p class="input-group">
+                    <input type="text" disabled show-weeks="false" class="form-control" id="datetimepicker4" placeholder="Select End Date" autocomplete="off" name="StartDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="EditData[0].TatkalEndDate" is-open="showFlag4" required style=" margin-left: 0px; border-left-width: 0px;  margin-right: 0px; padding-right: 12px; padding-left: 12px; right: 40px;width:278px">
+                    <span class="input-group-btn" style=" right: 249px;">
+                        <button type="button" class="btn btn-primary" ng-click="showFlag4 = true"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="date-picker-example"> Premium Tatkal End Date(dd/mm/yyyy):</label>
+                <p class="input-group">
+                    <input type="text" disabled show-weeks="false" class="form-control" id="datetimepicker5" placeholder="Select End Date" autocomplete="off" name="StartDate" pattern="^(\d{1,2})\/(\d{1,2})\/(\d{4})$" datetime-picker="dd/MM/yyyy" ng-model="EditData[0].PremiumTatkalEndDate" is-open="showFlag5" required style=" margin-left: 0px; border-left-width: 0px;  margin-right: 0px; padding-right: 12px; padding-left: 12px; right: 40px;width:278px">
+                    <span class="input-group-btn" style=" right: 249px;">
+                        <button type="button" class="btn btn-primary" ng-click="showFlag5 = true"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Examination Fee:</label>
+                <input type="text" class="form-control" maxlength="100" ng-model="EditData[0].ExaminationFee">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Late Fee:</label>
+                <input type="text" class="form-control" maxlength="100" ng-model="EditData[0].LateFee">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Tatkal Fee:</label>
+                <input type="text" class="form-control" maxlength="100" ng-model="EditData[0].TatkalFee">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Premium Tatkal Fee:</label>
+                <input type="text" class="form-control" maxlength="100" ng-model="EditData[0].PremiumTatkalFee">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Certificate Fee(CF):</label>
+                <input type="text" class="form-control" maxlength="100" ng-model="EditData[0].CertificateFee">
+            </div>
+
+
+            <div class="form-group">
+                <label for="checkbox" class="col-form-label">Active:</label>
+                <input type="checkbox" ng-model="EditData[0].Active" />
+            </div>
+            <!--</div>-->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="updateFeePaymentDates(EditData)">Update</button>
+        <button type="button" class="btn btn-secondary" ng-click="closeModal()">Cancel</button>
+    </div>
+</div>
+

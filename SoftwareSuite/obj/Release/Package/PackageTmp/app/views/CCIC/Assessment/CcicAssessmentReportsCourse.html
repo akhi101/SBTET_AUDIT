@@ -1,0 +1,251 @@
+
+<style>
+
+    .navbar {
+        position: relative;
+        min-height: 50px;
+        margin-bottom: 0px !important;
+        border: 1px solid transparent;
+        font-family: 'Open Sans';
+    }
+
+    .table-bordered > thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    thead > tr > th {
+        position: sticky;
+        top: 0px;
+    }
+
+    #checkboxesinstitution {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+
+    .txt_decorate {
+        text-transform: uppercase;
+    }
+
+
+    #checkboxesinstitution label {
+        display: block;
+    }
+
+    #checkboxescourse label:hover {
+        background-color: #1e90ff;
+    }
+
+    .ExportToExcel1 {
+        margin-left: 10px;
+    }
+
+
+    .contain {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        /* margin-bottom: 12px; */
+        /* padding-top: 5px; */
+        cursor: pointer;
+        margin: 5px !important;
+        font-size: 15px !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .contain input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+        border: 1px solid #cac6c6;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .contain:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .contain input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .contain input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .contain .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .contain {
+        font-size: 13px !important;
+    }
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div ng-controller="CcicAssessmentReportsCourseController" ng-init="detectRefresh()">
+    <div class="breadcrumb-header">
+        <!-- breadcrumb Open -->
+
+        <div class="container">
+            <section class="content-header">
+                <h5>Assesment Reports</h5>
+                <ol class="breadcrumb">
+                    <li><a href="#!/CcicDashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#!/CcicDashboard/Assessment"> Assessment </a></li>
+                    <li><a href="#!/CcicDashboard/Assessment/AssesmentReports">Assessment Reports</a></li>
+                    <li><a href="#!/CcicDashboard/Assessment/AssesmentReports/AssessmentReportsCourse">Assessment Reports Course</a></li>
+
+                </ol>
+            </section>
+        </div>
+        <!-- breadcrumb Close -->
+    </div>
+    <section class="">
+        <div class="container" style="margin-bottom:50px">
+
+            <div class="col-md-12">
+                <button class="btn bck_btn"><a ng-click="back()" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+            </div>
+
+
+            <div class="tab-content container">
+
+
+                
+
+
+                <div style="width:100%;text-align:center;">
+                    <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                </div>
+
+
+                <div class="col-md-12">
+
+
+                    <div class="table-responsive table-custom-tables-tb" ng-if="AssessmentInstituteCourseCount.length>0">
+                        <div class="table-responsive table-custom-tables-tb scrollbox">
+                            <table class="table table-bordered table-hover table-striped table-rounded scrollbox-content">
+                                <thead class="sticky-header">
+                                    <tr class="cb-1">
+                                        <th width="2%">S.No</th>
+                                        <th class="text-center">Course</th>
+                                        <!--<th class="text-center">Course</th>-->
+                                        <!--<th class="text-center">Course Duration</th>-->
+                                        <th class="text-center">Total Records</th>
+                                        <th class="text-center">Marks Posted</th>
+                                        <th class="text-center">Marks Not Posted</th>
+                                        <th class="text-center">Submitted</th>
+                                        <th class="text-center">Not Submitted</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in AssessmentInstituteCourseCount" ng-click="getInstituteCourseSubjectwiseCount(data.CourseID)">
+                                        <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.Course}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.TotalRecords}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.MarksPosted}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.MarksNotPosted}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.Submitted}}</td>
+                                        <td class="text-center" style="padding: 3px;">{{data.NotSubmitted}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center" colspan="2">Total</td>
+                                        <td class="text-center"><b>{{TotalRecords}}</b></td>
+                                        <td class="text-center"><b>{{MarksPosted}}</b></td>
+                                        <td class="text-center"><b>{{MarksNotPosted}}</b></td>
+                                        <td class="text-center"><b>{{Submitted}}</b></td>
+                                        <td class="text-center"><b>{{NotSubmitted}}</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="col-md-12">
+                    <div ng-if="Noresult" class="no-results">
+                        <img src="../../contents/img/Folder-Icon.svg" />
+                        <h2>No Result Found</h2>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </section>
+</div>

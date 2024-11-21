@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Schedule</title>
+</head>
+<body>
+    <div ng-controller="PreReqScheduleController">
+        <div class="container-fluid">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Request Schedule</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Master</li>
+                        <li>Instance & Schedule</li>
+                        <li>Request Schedule</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row base-row">
+                <form action="#">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-12 form-group" ng-show="false">
+                                <label class=" control-label col-lg-2"> ReqSchID :</label>
+                                <div class="col-lg-1">
+                                    <input type="text" class="form-control" ng-model="PreReqSchedule.ReqSchID" id="ReqSchID">
+                                    <input type="text" class="form-control" ng-model="PreReqSchedule.AcdYrID" id="AcdYrID">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="sel1">Academic Instance :</label>
+                                    <input type="text" ng-model="PreReqSchedule.AcdYrName" class="form-control" id="AcdYrName" required="" placeholder="Academic Instance">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="sel1">Select Service :</label>
+                                    <select class="form-control" ng-model="PreReqSchedule.ServiceID" id="ServiceID" ng-disabled="DisableServiceFlag">
+                                        <option value="">--Select--</option>
+                                        <option ng-selected="PreReqSchedule.ServiceID == option.ServiceID" ng-repeat="option in ReqStudSerMasterList" value="{{option.ServiceID}}">{{option.ServiceName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="sel1">From Date :</label>
+                                    <input type="text" datepicker class="form-control" ng-model="PreReqSchedule.FromDate" id="FromDate" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="email">To Date:</label>
+                                <div class="form-group">
+                                    <input type="text" datepicker class="form-control" ng-model="PreReqSchedule.ToDate" id="ToDate" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="email">Fee Amount:</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="PreReqSchedule.FeeAmount" id="FeeAmount" required="">
+                                </div>
+                            </div>
+                            <div style="margin-top:22px;" class="col-md-3">
+                               
+                                    <button type="button" ng-disabled="isupdatableDisable" class="btn btn-sm btn-detail" ng-click="SavePreReqSchedule()">Save</button>
+                                    <button type="button" ng-disabled="isdeletableDisable" class="btn btn-sm btn-danger" ng-click="DeletePreReqSchedule()">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-reset" ng-click="Exit()">Cancel</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> Zone College </title>
+</head>
+<body>
+	<script type="text/x-jsrender" id="checkboxTemplate">
+		<input type="checkbox" class="rowCheckbox" />
+	</script>
+	<script type="text/x-jsrender" id="headerTemplate">
+		<input type="checkbox" hidden="true" id="headchk" />
+	</script>
+	<div ng-controller="PreZoneCollegeController">
+		<div class="panel-group">
+			<div class="panel">
+				<div class="panel-heading header_background"><span class="heading_icon"></span><b> Attach College To Zone </b></div>
+				<div class="panel-body form_border">
+					<form action="#">
+						<div class="col-md-12">
+							<div class="col-md-4" style="margin-left:500px;">
+								<div class="form-group">
+									<label for="sel1">District :</label>
+									<select class="form-control" ng-model="PreZoneCollege.DistrictID" id="DistrictID" ng-change="GetBasicMandl(PreZoneCollege.DistrictID)">
+										<option value="">--Select District --</option>
+										<option ng-selected="PreZoneCollege.DistrictID == option.DistrictID" ng-repeat="option in BasicDistrictList" value="{{option.DistrictID}}">{{option.DistName}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="sel1">Mandal :</label>
+									<select class="form-control" ng-model="PreZoneCollege.MandalID" id="MandalID" ng-change="GetPreZoneData(PreZoneCollege.DistrictID,PreZoneCollege.MandalID)">
+										<option value="">--Select Mandal --</option>
+										<option ng-selected="PreZoneCollege.MandalID == option.MandalID" ng-repeat="option in BasicMandalList" value="{{option.MandalID}}">{{option.MandalName}}</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="sel1">Zone :</label>
+									<select class="form-control" ng-model="PreZoneCollege.ZoneID" id="ZoneID" ng-change="GetCollegeList(PreZoneCollege.DistrictID,PreZoneCollege.MandalID,PreZoneCollege.ZoneID)">
+										<option value="">--Select Zone --</option>
+										<option ng-selected="PreZoneCollege.ZoneID == option.ZoneID" ng-repeat="option in PreZoneList" value="{{option.ZoneID}}">{{option.ZoneName}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 table_top_border" style="margin-top:0px;">
+							<center><span class="fa fa-university heading_icon table_heading"></span><b class="table_heading">College List</b></center>
+						</div>
+
+						<div class="panel panel-info" style="margin-bottom:12px;">
+							<div class="panel-body" style="padding-right:0px;padding-left:0px;padding-bottom:0px;">
+								<div class="table-responsive">
+
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="col-md-12 list_table" style="overflow-x: auto;">
+								<div class="panel-body" style="overflow-x: auto;">
+									<table class="table table-bordered table-hover table-condensed" style="overflow-x: auto;">
+										<thead>
+											<tr style="font-weight:bold">
+												<td style="text-align:left; width:50px;">Sr. No.</td>
+												<td style="text-align:center; width:50px;">check</td>
+												<td style="text-align:left; width:300px;">College Name</td>
+												<td style="text-align:left; width:100px;">College Code</td>
+											</tr>
+										</thead>
+										<tr ng-repeat="BasicCollege in BasicCollegeList | filter:search | filter:new_search">
+											<td>{{BasicCollege.SrNo}}</td>
+											<td style="text-align:center; width:100px;"><input type="checkbox" ng-model="BasicCollege.CollegeCheck"></td>
+											<td>{{BasicCollege.ColName}}</td>
+											<td>{{BasicCollege.ColCode}}</td>
+										</tr>
+									</table>
+									<!--<div id="BasicCollege" ng-init="chkinit()" ej-grid e-datasource="BasicCollegeData" e-recorddoubleclick="doubleclick"
+										 e-recordclick="recordClick" e-allowselection="true"
+										 e-actioncomplete="actioncomplete" e-allowsorting="allowsorting" e-templaterefresh="refreshTemplate" e-databound="dataBound" e-actionbegin="actionbegin">
+									</div>-->
+									<div class="form-group text-center">
+										<div class="form-group" style="text-align: center;">
+											<button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SavePreZoneCollege()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+											<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeletePreZoneCollege()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+											<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

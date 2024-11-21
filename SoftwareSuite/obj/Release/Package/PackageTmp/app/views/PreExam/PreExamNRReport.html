@@ -1,0 +1,53 @@
+﻿<div class="container">
+    <div class="row ctitle">
+        <div class="col-md-5">
+            <span><strong>NR Report</strong></span>
+        </div>
+        <div class="col-md-7 text-right">
+            <ol class="breadcrumb">
+                <li>You are in </li>
+                <li>Home</li>
+                <li>Pre Exam Process</li>
+                <li>NR Report</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row base-row" ng-controller="PreExamNRReportController" ng-init="init()">
+        <div class="col-md-12">
+            <form name="preExamNRReportForm">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-3">
+                        <sa-select ng-model="PreExamNRReport.CourseID" object="PreExamNRReport.CourseID" options="basicCourses" displaycolumn="CourseName" valuecolumn="CourseID" objectname="CourseID" objecttext="Stream" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <sa-select ng-model="PreExamNRReport.ExamID" object="PreExamNRReport.ExamID" options="basicExams" displaycolumn="ExmName" valuecolumn="ExamID" objectname="examID" objecttext="Exam" compulsory="true"> </sa-select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="Reg">Regular / Private :</label><br>
+                            <select name="RegPVT" class="form-control" ng-model="PreExamNRReport.TypeID">
+                                <option value="0">All</option>
+                                <option value="1">Regular</option>
+                                <option value="2">Private</option>
+                            </select>
+                    </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center"><hr /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" ng-click="getPreExamNRReport()" class="btn btn-detail btn-sm">Get NR Report</button>
+                                <button ui-sref="PreExam" class="btn btn-reset btn-sm">Cancel</button>
+                                <!--<button type="submit" ng-show="ShowPrint" ng-click="printPreExamNRReport()" class="btn btn-detail btn-sm">Print NR Report</button>-->
+                            </div>
+                        </div>
+                    </div>
+</form>
+            <br />
+            <div style="width:100%;text-align:center;">
+                <img src="../../../tsbieweb/contents/img/loading2.gif" ng-show="LoadImg" width="100" />
+            </div>
+            <embed id="pdfviewer" src="" type="application/pdf" width="100%" height="500px" />
+        </div>
+    </div>
+</div>

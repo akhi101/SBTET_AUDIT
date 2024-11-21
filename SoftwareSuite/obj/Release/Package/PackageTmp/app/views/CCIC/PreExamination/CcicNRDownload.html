@@ -1,0 +1,391 @@
+<style>
+    table {
+        /* Not required only for visualizing */
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        table thead tr th {
+            /* Important */
+            background-color: red;
+            position: sticky;
+            z-index: 100;
+            top: 0;
+        }
+
+    td {
+        /* Not required only for visualizing */
+        padding: 1em;
+    }
+    .tableinpt {
+        width: 100%;
+        box-shadow: none;
+        border: 0;
+        pointer-events: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    .btn-default, .btn-dark-blue {
+        border-color: #314559;
+        color: #000;
+        background-color: white;
+    }
+
+        .btn-default.active, .btn-dark-blue.active, .open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-dark-blue {
+            border-color: #2c3e50;
+            color: #fff;
+            background-color: #2f4254;
+        }
+
+    button > span.active {
+        color: #ffffff !important;
+    }
+
+    .text-info {
+        color: #ffffff;
+    }
+
+    span {
+        color: #000 !important;
+    }
+    /*--------------------------------------------------*/
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+    }
+
+    .table-custom-tables-tb .table-bordered .table-hover > tbody > tr > td {
+        border: 1px solid #ddd !important;
+        color: #337ab7;
+        font-size: 14px !important;
+        cursor: default !important;
+        font-family: 'Open Sans';
+    }
+
+    .base-row {
+        background-color: #fefefe;
+        border-radius: 4px;
+        margin-top: 0px;
+        margin-bottom: 60px;
+        padding: 15px;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0px 3px 17px -8px #888888;
+        font-family: 'Open Sans';
+    }
+
+    .table-custom-tables-tb .table-bordered > thead > tr > th {
+        border: 1px solid #ddd !important;
+        color: #788598;
+        font-size: 14px !important;
+        font-family: 'Open Sans';
+    }
+
+    .navbar_section {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: -20px;
+    }
+
+    a.backA, a.backA:focus {
+        color: #fff !important;
+        text-decoration: none !important;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    a {
+        color: #337ab7;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .breadcrumb-header {
+        background-color: #d8d8d8;
+        padding: 8px 0px;
+        margin-bottom: 20px;
+        font-family: 'Open Sans';
+        font-size: 14px;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+
+    .btn:not(.btn-link):not(.btn-circle) {
+        box-shadow: 0 0px 0px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        /* -webkit-border-radius: 2px; */
+        /* border-radius: 0px !important; */
+        font-size: 14px;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-family: 'Open Sans';
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        font-family: 'Open Sans';
+    }
+
+    .cl-details h2 {
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans';
+        background: #5ca0d3;
+        padding: 6px 9px;
+        font-weight: 600;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 14px !important;
+    }
+
+    .col-md-12 {
+        width: 100%;
+        font-family: 'Open Sans';
+    }
+</style>
+
+<div ng-controller="CcicNRDownloadController">
+    
+
+    <div class="container containercontent">
+
+        <div class="col-md-12 containercontent" style="top:10px">
+            <button class="btn bck_btn"><a href="#!/CcicDashboard/PreExamination" class="backA"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Back</a></button>
+        </div>
+
+        <div class="sm-spacer"></div>
+        <ul class="nav nav-tabs containercontent">
+            <li class="active">
+                <a href="#1" data-toggle="tab">NR Excel</a>
+            </li>
+            <li>
+                <a href="#2" data-toggle="tab" ng-click="ClickPhotoAttendenceSheet()">Photo Attendence Sheet</a>
+            </li>
+
+
+
+        </ul>
+
+        <div class="tab-content">
+
+
+            <div class="tab-pane active" id="1">
+                <div class="col-md-12 containercontent">
+                    <div class="cl-details">
+                        <h2>NR Excel</h2>
+
+                    </div>
+                </div>
+                <div class="col-md-12 containercontent">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Academic Year :</label>
+                                    <select class="form-control " ng-model="AcademicYear" ng-disabled="AcademicYearDisable" name="AcademicYear" required ng-change="GetExamMonthYearData(AcademicYear)">
+                                        <option value="" selected="selected">Select Year</option>
+                                        <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label class="font-weight-bold" for="ExamMonthYear">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" name="ExamMonthYear" ng-disabled="monthyearDisable" required ng-model="monthyear">
+                                    <option value="" selected>Select Exam Month/Year</option>
+                                    <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                        {{data.ExamMonthYearName}}
+                                    </option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-2 pull-left">
+                                <div class="gr-btn">
+                                    <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getNRExcelData()">
+                                        Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-if="loading">
+                        <!--<div class="sm-spacer"></div>-->
+                        <div style="width:100%;text-align:center;">
+                            <img src="../../../contents/img/loading2.gif" ng-if="loading" width="100" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-if="NoData">
+                        <div class="col-md-12 no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-if="GetNRExcelData.length>0" style="bottom:50px">
+                        <div class="pull-right">
+                            <a class="ExportToExcel1 pointer"
+                               id="ExportToExcel1" ng-click="getNRExcel('#tblParent')">
+                                <i class="fa fa-file-excel-o"></i>
+                                Export to Excel
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-if="GetNRExcelData.length>0" style="bottom:50px">
+
+                        <div class="table-responsive table-custom-tables-tb">
+                            <div ng-if="GetNRExcelData.length>0" class="cl-details">
+                                <h2>NR Data</h2>
+                            </div>
+                            <div ng-if="GetNRExcelData.length>0" class="table-responsive table-custom-tables-tb scrollbox">
+                                <table class="table table-bordered  table-striped table-rounded scrollbox-content">
+                                    <thead>
+                                        <tr class="cb-1">
+                                            <th width="3%">S.No</th>
+                                            <th width="9%" class="text-center">Course Code</th>
+                                            <th width="10%" class="text-center">PIN</th>
+                                            <th width="20%" class="text-center">Student Name</th>
+                                            <th width="16%" class="text-center">Exam Type</th>
+                                            <th width="10%" class="text-center">SUBJECT 1</th>
+                                            <th width="10%" class="text-center">SUBJECT 2</th>
+                                            <th width="10%" class="text-center">SUBJECT 3</th>
+                                            <th width="10%" class="text-center">SUBJECT 4</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background-color: #fff!important;cursor: pointer" ng-repeat="data in GetNRExcelData">
+                                            <td class="text-center pointer" style="padding: 3px;">{{$index + 1}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.CourseCode}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.PIN}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.StudentName}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.ExamType}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.SUB1}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.SUB2}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.SUB3}}</td>
+                                            <td class="text-center" style="padding: 3px;">{{data.SUB4}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="sm-spacer"></div>
+                            <div class="sm-spacer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="tab-pane" id="2">
+                <div class="col-md-12 containercontent">
+                    <div class="cl-details">
+                        <h2>Photo Attendence Sheet</h2>
+
+                    </div>
+                </div>
+                <div class="col-md-12 containercontent">
+                    <div class="base-row" style="padding:15px!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"> Academic Year :</label>
+                                    <select class="form-control " ng-model="academicyear" ng-disabled="AcademicYearDisable" name="AcademicYear" required ng-change="GetExamMonthYearData(academicyear)">
+                                        <option value="" selected="selected">Select Year</option>
+                                        <option value="{{data.AcademicYearID}}" ng-repeat="data in GetCcicCurrentAcademicYear" class="">
+                                            {{data.AcademicYear}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label class="font-weight-bold" for="ExamMonthYear">
+                                    Exam Month/Year :
+                                </label>
+                                <select class="form-control" name="ExamMonthYear" ng-disabled="monthyearDisable" required ng-model="MonthYear" ng-change="getExamDates()">
+                                    <option value="" selected>Select Exam Month/Year</option>
+                                    <option ng-repeat="data in GetExamMonthYear" value="{{data.ExamMonthYearID}}">
+                                        {{data.ExamMonthYearName}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label class="font-weight-bold" for="ExamDates">
+                                    Exam Dates :
+                                </label>
+                                <select class="form-control" name="ExamDates" required ng-model="ExamDate">
+                                    <option value="" selected>Select Exam Date</option>
+                                    <option ng-repeat="data in ExamDates" value="{{data.ExamDate}}">
+                                        {{data.ExamDate}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 pull-left">
+                                <div class="gr-btn">
+                                    <button type="submit" style="margin-top:5px!important;" class="btn btn-sm btn-primary gr-button" ng-click="getNRStudentDetails()">
+                                        Get Report<span class="fa fa-arrow-down heading_icon btn_icons"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" ng-if="loading">
+                        <div style="width: 100%; text-align: center;">
+                            <img src="../../../contents/img/Loading1.gif" width="100" />
+                            <h4><b>Generating NR. This may take a while, Please be Patient.</b></h4>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12" ng-if="NoData">
+                        <div class="col-md-12 no-results">
+                            <img src="../../contents/img/Folder-Icon.svg" />
+                            <h2>No Data</h2>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+</div>

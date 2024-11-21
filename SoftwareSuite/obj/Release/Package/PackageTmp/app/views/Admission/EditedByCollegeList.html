@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Users">
+    <title>Edit/Confirm-Photo Check List</title>
+</head>
+<body>
+    <div ng-controller="EditedByCollegeListController">
+        <!-- New Style Start-->
+        <div class="container">
+            <div class="row ctitle">
+                <div class="col-md-5">
+                    <span><strong>Edit/Confirm-Photo Check List</strong></span>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ol class="breadcrumb">
+                        <li>You are in </li>
+                        <li>Home</li>
+                        <li>Student Admission</li>
+                        <li>Edit/Confirm-Photo Check List</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row base-row">
+                <div class="col-md-2 col-md-offset-1">
+                    <select class="form-control" id="CourseID" ng-model="CourseID" ng-change="FillCoursePart(CourseID)">
+                        <option value="" selected>Select stream</option>
+                        <option ng-selected="CourseID == option.CourseID" ng-repeat="option in CourseList" value="{{option.CourseID}}">{{option.CourseName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" id="ExamID" ng-model="ExamID">
+                        <option value="" selected>Select Year</option>
+                        <option ng-selected="ExamID == option.ExamID" ng-repeat="option in ExamList" value="{{option.ExamID}}">{{option.ExmName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" id="BranchID" ng-model="BranchID">
+                        <option value="" selected>Select Branch</option>
+                        <option ng-selected="BranchID == option.BranchID" ng-repeat="option in BranchList" value="{{option.BranchID}}">{{option.BranchName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" ng-click="Show()" class="btn btn-detail btn-sm">Show Detail</button>
+                    <button type="button" ng-click="ShowAll()" class="btn btn-detail btn-sm">Show All</button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="sel1" style="color:red;"> Double click on row to view/edit record</label>
+                        <div id="EditedByColleges"
+                             ej-grid
+                             e-recorddoubleclick="doubleclick"
+                             e-allowgrouping="true"
+                             e-allowsorting="true"
+                             e-allowresizing="true"
+                             e-datasource="EditedByCollegedata">
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+          
+        </div>
+    </div>
+</body>
+</html>
+

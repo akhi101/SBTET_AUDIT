@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> District </title>
+</head>
+<body>
+	<div ng-controller="BasicDistrictsController">
+		<div>
+			<div class="container col-xs-12">
+				<div class="panel-group">
+					<div class="panel">
+						<div class="panel-heading header_background"><span class="heading_icon"></span><b>Basic District</b></div>
+						<div class="panel-body form_border">
+							<form action="#">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="sel1"> State :</label>
+											<select class="form-control" ng-model="BasicDistricts.StateID" id="StateID">
+												<option value=""> --Select State -- </option>
+												<option ng-selected="BasicDistricts.StateID == option.StateID" ng-repeat="option in BasicStateList" value="{{option.StateID}}">{{option.StateName}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="email">Name:</label>
+											<input type="text" class="form-control"  ng-model="BasicDistricts.DistName" no-Special-Char  id="DistName"  maxlength="250"   required="" placeholder="District Name">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="sel1">Code :</label>
+											<input type="text" class="form-control" ng-model="BasicDistricts.DistCode" no-Special-Char  id="DistCode"  maxlength="2"  required="" placeholder="District Code">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="email">Old Code:</label>
+											<input type="text" class="form-control" ng-model="BasicDistricts.OldCode" no-Special-Char  id="name" maxlength="10"  placeholder="District Old Code">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<center>
+										<button type="button" ng-disabled="isupdatableDisable" class="btn form_btn_align save_btn" ng-click="SaveBasicDistricts()">SAVE<span class="fa fa-save heading_icon btn_icons"></span></button>
+										<button type="button" ng-disabled="isdeletableDisable" class="btn form_btn_align delete_btn" ng-click="DeleteBasicDistricts()">DELETE<span class="fa fa-trash heading_icon btn_icons"></span></button>
+										<button type="reset" class="btn form_btn_align cancel_btn" ng-click="Exit()">CANCEL<span class="fa fa-remove heading_icon btn_icons"></span></button>
+									</center>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>
