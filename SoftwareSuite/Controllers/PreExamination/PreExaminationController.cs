@@ -1,6 +1,8 @@
 ﻿extern alias itextalias;
 
 using System;
+
+using Microsoft.AspNetCore.StaticFiles;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -45,6 +47,8 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static OTPServiceController;
+using System.Text;
 
 namespace SoftwareSuite.Controllers.PreExamination
 {
@@ -5131,29 +5135,153 @@ namespace SoftwareSuite.Controllers.PreExamination
             {
                 //var base64EncodedBytes = System.Convert.FromBase64String(OTP);
                 //var password=  System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+                if (Pin.Length<20)
+                {
+                    string pin = Pin;
+                    string phone = StudentPhoneNumber;
+                    string otp = OTP;
 
-                string pin = GetDecryptedData(Pin);
-                string phone = GetDecryptedData(StudentPhoneNumber);
-                string otp = GetDecryptedData(OTP);
+                    OTPServiceController otpService = new OTPServiceController();
+                    string OTPData = otpService.VerifyOTP(phone.ToString(), otp.ToString(), pin.ToString());
+                    if (OTPData == "OTP is invalid due to multiple failed attempts.")
+                    {
+                        var plaintext = "400";
+                        var plaintext1 = "OTP is invalid due to multiple failed attempts.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
 
-                OTPServiceController otpService = new OTPServiceController();
-                string OTPData = otpService.VerifyOTP(phone.ToString(), otp.ToString(), pin.ToString());
-                if (OTPData == "OTP is invalid due to multiple failed attempts.")
-                {
-                    return "OTP is invalid due to multiple failed attempts.";
-                }
-                if (OTPData == "Incorrect OTP.")
-                {
-                    return "Incorrect OTP.";
-                }
-                if (OTPData == "OTP has expired. Please request a new OTP.")
-                {
-                    return "OTP has expired. Please request a new OTP.";
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
+                    if (OTPData == "Incorrect OTP.")
+                    {
+                        var plaintext = "400";
+                        var plaintext1 = "Incorrect OTP.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
+                    if (OTPData == "OTP has expired. Please request a new OTP.")
+                    {
+                        var plaintext = "400";
+                        var plaintext1 = "OTP has expired. Please request a new OTP.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
+                    else
+                    {
+                        var plaintext = "200";
+                        var plaintext1 = "OTP Verification Success.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
                 }
                 else
                 {
-                    return OTPData;
+                    string pin = GetDecryptedData(Pin);
+                    string phone = GetDecryptedData(StudentPhoneNumber);
+                    string otp = GetDecryptedData(OTP);
+
+                    OTPServiceController otpService = new OTPServiceController();
+                    string OTPData = otpService.VerifyOTP(phone.ToString(), otp.ToString(), pin.ToString());
+                    if (OTPData == "OTP is invalid due to multiple failed attempts.")
+                    {
+                        var plaintext = "400";
+                        var plaintext1 = "OTP is invalid due to multiple failed attempts.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
+                    if (OTPData == "Incorrect OTP.")
+                    {
+                        var plaintext = "400";
+                        var plaintext1 = "Incorrect OTP.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
+                    if (OTPData == "OTP has expired. Please request a new OTP.")
+                    {
+                        var plaintext = "400";
+                        var plaintext1 = "OTP has expired. Please request a new OTP.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
+                    else
+                    {
+                        var plaintext = "200";
+                        var plaintext1 = "OTP Verification Success.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                    }
                 }
+                
             }
             catch (Exception ex)
             {
@@ -8468,20 +8596,107 @@ namespace SoftwareSuite.Controllers.PreExamination
         }
 
 
+        [HttpGet, ActionName("GetFileSize")]
+        public static long GetFileSize(string fileName)
+        {
+            try
+            {
+                // Create a FileInfo object to get the file properties
+                FileInfo fileInfo = new FileInfo(fileName);
+
+                // Return the file size in bytes
+                return fileInfo.Length;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("The file does not exist.");
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return -1;
+            }
+        }
+
+        [HttpGet, ActionName("GetMimeType")]
+        public static string GetMimeType(string fileName)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            string mimeType;
+
+            if (provider.TryGetContentType(fileName, out mimeType))
+            {
+                return mimeType;
+            }
+            else
+            {
+                return "application/octet-stream"; // Default MIME type for unknown files
+            }
+        }
+
+
+        private static readonly string[] AllowedMimeTypes = { "image/jpeg", "image/png", "image/jpg" };
+        private static readonly string[] AllowedExtensions = { ".jpeg", ".png", ".jpg" };
+        private readonly long MaxFileSize = 1 * 1024 * 1024; // 1 MB max size
+
+
         [HttpGet, ActionName("CheckFileType")]
         public string CheckFileType(string fileName)
         {
-            string ext = Path.GetExtension(fileName);
-            switch (ext.ToLower())
+          string ext = Path.GetExtension(fileName).ToLower();
+
+          string mimeType = GetMimeType(fileName);
+
+          long fileSize = GetFileSize(fileName);
+
+            if (!AllowedMimeTypes.Contains(mimeType))
             {
-                case ".jpg":
-                    return "true";
-                case ".jpeg":
-                    return "true";
-                case ".png":
-                    return "true";
-                default:
-                    return "false";
+                return "Invalid Mime Type";
+            }
+
+            if(!AllowedExtensions.Contains(ext))
+            {
+                return "Invalid Extension";
+            }
+            if (fileSize > MaxFileSize)
+            {
+                return "File size exceeds the maximum limit of 1 MB.";
+            }
+            else
+            {
+                return "application/octet-stream"; // Default MIME type for unknown files
+            }
+
+        }
+
+        private readonly long MaxFileSizedoc = 2 * 1024 * 1024; // 2 MB max size
+
+        [HttpGet, ActionName("CheckFileTypeDocs")]
+        public string CheckFileTypeDocs(string fileName)
+        {
+            string ext = Path.GetExtension(fileName).ToLower();
+
+            string mimeType = GetMimeType(fileName);
+
+            long fileSize = GetFileSize(fileName);
+
+            if (!AllowedMimeTypes.Contains(mimeType))
+            {
+                return "Invalid Mime Type";
+            }
+
+            if (!AllowedExtensions.Contains(ext))
+            {
+                return "Invalid Extension";
+            }
+            if (fileSize > MaxFileSizedoc)
+            {
+                return "File size exceeds the maximum limit of 2 MB.";
+            }
+            else
+            {
+                return "application/octet-stream"; // Default MIME type for unknown files
             }
 
         }
@@ -8718,35 +8933,419 @@ namespace SoftwareSuite.Controllers.PreExamination
         [HttpPost, ActionName("AddMersyData")]
         public HttpResponseMessage AddMersyData([FromBody] CertificateReqAtt CertificateReqAtt)
         {
+
             try
             {
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
                 string first_Name = NameCheck(CertificateReqAtt.first_Name.ToString());
+                if (first_Name == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid First Name";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+
                 string last_Name = NameCheck(CertificateReqAtt.last_Name.ToString());
+                if (last_Name == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid last Name";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+
                 string Father_Name = NameCheck(CertificateReqAtt.Father_Name.ToString());
+                if (Father_Name == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Father Name";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
 
                 string Gender = GenderCheck(CertificateReqAtt.Gender.ToString());
+                if (Gender == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Gender";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string Mobile = MobileNumberCheck(CertificateReqAtt.Mobile.ToString());
+                if (Mobile == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mobile";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string Email = EmailCheck(CertificateReqAtt.Email.ToString());
+                if (Email == "NO")
+                {
 
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Email";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string CollegeName = CollegeNameCheck(CertificateReqAtt.CollegeName.ToString());
-                string CourseName = NameCheck(CertificateReqAtt.CourseName.ToString());
-                string CollegeCode = OnlyThreeDigitCheck(CertificateReqAtt.CollegeCode.ToString());
+                if (CollegeName == "NO")
+                {
 
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid College Name";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+                string CourseName = NameCheck(CertificateReqAtt.CourseName.ToString());
+                if (CourseName == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Course Name";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+                string CollegeCode = OnlyThreeDigitCheck(CertificateReqAtt.CollegeCode.ToString());
+                if (CollegeCode == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid College Code";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
 
                 string CourseType = NameCheck(CertificateReqAtt.CourseType.ToString());
+                if (CourseType == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Course Type";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string Purpose = NameCheck(CertificateReqAtt.Purpose.ToString());
+                if (Purpose == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Purpose";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
 
                 string Village = DataCheck1(CertificateReqAtt.Village.ToString());
+                if (Village == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Village";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string Town = DataCheck1(CertificateReqAtt.Town.ToString());
+                if (Town == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Town";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string Mandal = NameCheck(CertificateReqAtt.Mandal.ToString());
+                if (Mandal == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mandal";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
 
                 string District = NameCheck(CertificateReqAtt.District.ToString());
-                string States = NameCheck(CertificateReqAtt.States.ToString());
+                if (District == "NO")
+                {
 
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid District";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+                string States = NameCheck(CertificateReqAtt.States.ToString());
+                if (States == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid State";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 string FileType = CheckFileType(CertificateReqAtt.FileName.ToString());
 
+                if (FileType == "Invalid Mime Type")
+                {
 
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mime Type";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType == "Invalid Extension")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Extension";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType == "File size exceeds the maximum limit of 500 KB.")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "File size exceeds the maximum limit of 500 KB.";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
                 var fileDat = new List<filelist>();
                 int size = CertificateReqAtt.filedata.Count;
                 var file = string.Empty;
@@ -8761,101 +9360,213 @@ namespace SoftwareSuite.Controllers.PreExamination
                     byte[] imageBytes = Convert.FromBase64String(CertificateReqAtt.filedata[i].file);
                     File.WriteAllBytes(imgPath, imageBytes);
                     file += filename + ',';
+
+
+                    string FileType1 = CheckFileTypeDocs(file.ToString().Replace(",", ""));
+                    if (FileType1 == "Invalid Mime Type")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "Invalid Mime Type";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    if (FileType1 == "Invalid Extension")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "Invalid Extension";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    if (FileType1 == "File size exceeds the maximum limit of 2 MB.")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+
+                    string FileType2 = CheckFileTypeDocs(file.ToString().Replace(",", ""));
+
+                    if (FileType2 == "Invalid Mime Type")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "Invalid Mime Type";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    if (FileType2 == "Invalid Extension")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "Invalid Extension";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    if (FileType2 == "File size exceeds the maximum limit of 2 MB.")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    string FileType3 = CheckFileTypeDocs(file.ToString().Replace(",", ""));
+
+                    if (FileType3 == "Invalid Mime Type")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "Invalid Mime Type";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    if (FileType3 == "Invalid Extension")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "Invalid Extension";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
+                    if (FileType3 == "File size exceeds the maximum limit of 2 MB.")
+                    {
+
+                        var plaintext = "400";
+                        var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                        var plaintext2 = "status";
+                        var plaintext3 = "description";
+
+                        string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                        string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                        string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                        string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                        string Status = Encryption.Encrypt(plaintext2, key, iv);
+                        string Description = Encryption.Encrypt(plaintext3, key, iv);
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                        };
+                    }
+
                 }
                 string encriptedaadhar = "";
 
                 string EncryptedAadhar = GetEncryptedData(CertificateReqAtt.IdNumber);
                 string DecryptedAadhar = GetDecryptedData(CertificateReqAtt.IdNumber);
                 string Aadhar = OnlyTwelveDigitCheck(DecryptedAadhar.ToString());
+                string decOTP = GetDecryptedData(CertificateReqAtt.OTP);
 
-                if (first_Name == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID FIRST NAME");
-                    return response;
-                }
-
-                else if (FileType == "false")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID Extension");
-                    return response;
-                }
-                else if (last_Name == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID LAST NAME");
-                    return response;
-                }
-                else if (Father_Name == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID FATHER NAME");
-                    return response;
-                }
-                else if (Gender == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID GENDER");
-                    return response;
-                }
-                else if (Mobile == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID MOBILE NUMBER");
-                    return response;
-                }
-                else if (Email == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID EMAIL");
-                    return response;
-                }
-                else if (CollegeName == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COLLEGE NAME");
-                    return response;
-                }
-                else if (CourseName == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COURSE NAME");
-                    return response;
-                }
-                else if (CollegeCode == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COLLEGE CODE");
-                    return response;
-                }
-                else if (CourseType == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID COURSE TYPE");
-                    return response;
-                }
-                else if (Purpose == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID PURPOSE");
-                    return response;
-                }
-                else if (Village == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID VILLAGE");
-                    return response;
-                }
-                else if (Town == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID TOWN");
-                    return response;
-                }
-                else if (Mandal == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID MANDAL NAME");
-                    return response;
-                }
-                else if (District == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID DISTRICT NAME");
-                    return response;
-                }
-                else if (States == "NO")
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "INVALID STATE NAME");
-                    return response;
-                }
                 var dbHandler = new dbHandler();
-                var param = new SqlParameter[24];
+                var param = new SqlParameter[25];
                 param[0] = new SqlParameter("@PIN", CertificateReqAtt.PIN);
                 param[1] = new SqlParameter("@first_Name", CertificateReqAtt.first_Name);
                 param[2] = new SqlParameter("@last_Name", CertificateReqAtt.last_Name);
@@ -8880,6 +9591,7 @@ namespace SoftwareSuite.Controllers.PreExamination
                 param[21] = new SqlParameter("@Photo", CertificateReqAtt.Photo);
                 param[22] = new SqlParameter("@backlogCount", CertificateReqAtt.backlogCount);
                 param[23] = new SqlParameter("@backlogsubjson", CertificateReqAtt.backlogsubjson);
+                param[24] = new SqlParameter("@OTP", decOTP);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("SP_SET_MercyStudentData", param);
                 response = Request.CreateResponse(HttpStatusCode.OK, dt);
@@ -9307,6 +10019,8 @@ namespace SoftwareSuite.Controllers.PreExamination
 
         public class GenuineRequest
         {
+            public string MailOTP { get; set; }
+            public string MobileOTP { get; set; }
             public string Pin { get; set; }
             public string Name { get; set; }
             public string FatherName { get; set; }
@@ -9322,12 +10036,15 @@ namespace SoftwareSuite.Controllers.PreExamination
             public string ApplyingOfficer { get; set; }
             public string CertificateApplication { get; set; }
             public string OfficerDesignation { get; set; }
+
+            public string AadharFileName { get; set; }
+            public string ApplicationFileName { get; set; }
         }
 
 
         public class CertificateReqAtt
         {
-
+            public string OTP { get; set; }
             public string CourseType { get; set; }
             public string PIN { get; set; }
             public string first_Name { get; set; }
@@ -10728,8 +11445,139 @@ namespace SoftwareSuite.Controllers.PreExamination
                 relatePath = Authorpath.Replace(HttpContext.Current.Request.PhysicalApplicationPath, GetWebAppRoot()).Replace(@"\", "/");
                 ApplicationCert = relatePath;
                 Authorization = relatePath;
+
+                string FileType = CheckFileTypeDocs(GenuineRequest.AadharFileName.ToString());
+                if (FileType == "Invalid Mime Type")
+                {
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mime Type";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType == "Invalid Extension")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Extension";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType == "File size exceeds the maximum limit of 2 MB.")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                string FileType1 = CheckFileTypeDocs(GenuineRequest.ApplicationFileName.ToString());
+                if (FileType1 == "Invalid Mime Type")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mime Type";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType1 == "Invalid Extension")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Extension";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType1 == "File size exceeds the maximum limit of 2 MB.")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                var mailOTP = GetDecryptedData(GenuineRequest.MailOTP);
+                var mobileOTP = GetDecryptedData(GenuineRequest.MobileOTP);
+
                 var dbHandler = new dbHandler();
-                var param = new SqlParameter[13];
+                var param = new SqlParameter[15];
                 param[0] = new SqlParameter("@Pin", GenuineRequest.Pin);
                 param[1] = new SqlParameter("@OrganizationType", GenuineRequest.OrganizationType);
                 param[2] = new SqlParameter("@OrganizationName", GenuineRequest.OrganizationName);
@@ -10743,6 +11591,8 @@ namespace SoftwareSuite.Controllers.PreExamination
                 param[10] = new SqlParameter("@ApplyingOfficer", GenuineRequest.ApplyingOfficer);
                 param[11] = new SqlParameter("@CertificateApplication", Authorization);
                 param[12] = new SqlParameter("@OfficerDesignation", GenuineRequest.OfficerDesignation);
+                param[13] = new SqlParameter("@MailOTP", mailOTP);
+                param[14] = new SqlParameter("@MobileOTP", mobileOTP);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_SET_GenuinenessCheckDetails", param);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, dt);
@@ -10761,6 +11611,247 @@ namespace SoftwareSuite.Controllers.PreExamination
         {
             try
             {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+
+                string Org_Name = NameCheck(GenuineRequest.OrganizationName.ToString());
+                if (Org_Name == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Organization Name";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                string Org_Email = EmailCheck(GenuineRequest.OrganizationEmail.ToString());
+                if (Org_Email == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Organization Email";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                string Org_Contact = MobileNumberCheck(GenuineRequest.OrganizationMobile.ToString());
+                if (Org_Contact == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Organization Contact Number";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                string Name_Applying = NameCheck(GenuineRequest.ApplyingOfficer.ToString());
+                if (Name_Applying == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Organization Contact Number";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                string Design_Applying = NameCheck(GenuineRequest.OfficerDesignation.ToString());
+                if (Design_Applying == "NO")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Organization Contact Number";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+
+
+                string FileType = CheckFileTypeDocs(GenuineRequest.AadharFileName.ToString());
+                if (FileType == "Invalid Mime Type")
+                {
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mime Type";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType == "Invalid Extension")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Extension";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType == "File size exceeds the maximum limit of 2 MB.")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                string FileType1 = CheckFileTypeDocs(GenuineRequest.ApplicationFileName.ToString());
+                if (FileType1 == "Invalid Mime Type")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Mime Type";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType1 == "Invalid Extension")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "Invalid Extension";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+
+                if (FileType1 == "File size exceeds the maximum limit of 2 MB.")
+                {
+
+                    var plaintext = "400";
+                    var plaintext1 = "File size exceeds the maximum limit of 2 MB.";
+                    var plaintext2 = "status";
+                    var plaintext3 = "description";
+
+                    string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                    string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                    string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                    string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                    string Status = Encryption.Encrypt(plaintext2, key, iv);
+                    string Description = Encryption.Encrypt(plaintext3, key, iv);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}", Encoding.UTF8, "application/json")
+                    };
+                }
+               
                 var dir = AppDomain.CurrentDomain.BaseDirectory + @"\Reports\UnsignedCert\";
                 var fileDat = new List<filetranlist>();
                 //int size = request.filedata.Count;
@@ -10796,9 +11887,10 @@ namespace SoftwareSuite.Controllers.PreExamination
                 ApplicationCert = relatePath;
                 Authorization = relatePath;
 
-
+                var mailOTP = GetDecryptedData(GenuineRequest.MailOTP);
+                var mobileOTP = GetDecryptedData(GenuineRequest.MobileOTP);
                 var dbHandler = new dbHandler();
-                var param = new SqlParameter[13];
+                var param = new SqlParameter[15];
                 param[0] = new SqlParameter("@Pin", GenuineRequest.Pin);
                 param[1] = new SqlParameter("@OrganizationType", GenuineRequest.OrganizationType);
                 param[2] = new SqlParameter("@OrganizationName", GenuineRequest.OrganizationName);
@@ -10812,9 +11904,11 @@ namespace SoftwareSuite.Controllers.PreExamination
                 param[10] = new SqlParameter("@ApplyingOfficer", GenuineRequest.ApplyingOfficer);
                 param[11] = new SqlParameter("@CertificateApplication", Authorization);
                 param[12] = new SqlParameter("@OfficerDesignation", GenuineRequest.OfficerDesignation);
+                param[13] = new SqlParameter("@MailOTP", mailOTP);
+                param[14] = new SqlParameter("@MobileOTP", mobileOTP);
 
                 var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SS_SET_GenuinenessCheckPaymentDetails", param);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, dt);
+                response = Request.CreateResponse(HttpStatusCode.OK, dt);
                 return response;
             }
             catch (Exception ex)
@@ -12031,25 +13125,164 @@ namespace SoftwareSuite.Controllers.PreExamination
 
 
         [HttpGet, ActionName("Verify_GenuinenessEmailLog")]
-        public HttpResponseMessage Verify_GenuinenessEmailLog(string Pin, string Email, string OTP)
+        public string Verify_GenuinenessEmailLog(string Pin, string Email, string OTP)
         {
             try
-            {
-                var dbHandler = new dbHandler();
-                var param = new SqlParameter[3];
-                param[0] = new SqlParameter("@Pin", Pin);
-                param[1] = new SqlParameter("@Email", Email);
-                param[2] = new SqlParameter("@OTP", OTP);
-                var dt = dbHandler.ReturnDataWithStoredProcedure("USP_SFP_CheckGenuineEmailLog", param);
+                {
+                    if (Pin.Length < 20)
+                    {
+                        string pin = Pin;
+                        string email = Email;
+                        string otp = OTP;
 
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
+                        MailOTPServiceController mailotpService = new MailOTPServiceController();
+                        string OTPData = mailotpService.VerifyMailOTP(pin.ToString(),email.ToString(), otp.ToString());
+                        if (OTPData == "OTP is invalid due to multiple failed attempts.")
+                        {
+                            var plaintext = "400";
+                            var plaintext1 = "OTP is invalid due to multiple failed attempts.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                        if (OTPData == "Incorrect OTP.")
+                        {
+                            var plaintext = "400";
+                            var plaintext1 = "Incorrect OTP.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                        if (OTPData == "OTP has expired. Please request a new OTP.")
+                        {
+                            var plaintext = "400";
+                            var plaintext1 = "OTP has expired. Please request a new OTP.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                        else
+                        {
+                            var plaintext = "200";
+                            var plaintext1 = "OTP Verification Success.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                    }
+                    else
+                    {
+                        string pin = GetDecryptedData(Pin);
+                        string email = GetDecryptedData(Email);
+                        string otp = GetDecryptedData(OTP);
+
+                        MailOTPServiceController mailotpService = new MailOTPServiceController();
+                        string OTPData = mailotpService.VerifyMailOTP(pin.ToString(), email.ToString(), otp.ToString());
+                        if (OTPData == "OTP is invalid due to multiple failed attempts.")
+                        {
+                            var plaintext = "400";
+                            var plaintext1 = "OTP is invalid due to multiple failed attempts.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                        if (OTPData == "Incorrect OTP.")
+                        {
+                            var plaintext = "400";
+                            var plaintext1 = "Incorrect OTP.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                        if (OTPData == "OTP has expired. Please request a new OTP.")
+                        {
+                            var plaintext = "400";
+                            var plaintext1 = "OTP has expired. Please request a new OTP.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                        else
+                        {
+                            var plaintext = "200";
+                            var plaintext1 = "OTP Verification Success.";
+                            var plaintext2 = "status";
+                            var plaintext3 = "description";
+
+                            string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                            string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+
+                            string resstatus = Encryption.Encrypt(plaintext, key, iv);
+                            string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                            string Status = Encryption.Encrypt(plaintext2, key, iv);
+                            string Description = Encryption.Encrypt(plaintext3, key, iv);
+                            return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                }
+
             }
-            catch (Exception ex)
-            {
-                dbHandler.SaveErorr("USP_SFP_CheckGenuineEmailLog", 0, ex.Message);
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
-            }
-        }
 
         [HttpGet, ActionName("getAdminExamCentersList")]
         public HttpResponseMessage getAdminExamCentersList(int ExamMonthYearId, int StudentTypeId, int ExamTypeID = 0)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using SoftwareSuite.Models.Database;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 public class OTPServiceController
 {
@@ -49,7 +50,7 @@ public class OTPServiceController
         // Check if the OTP has expired
         if (DateTime.Now - otpData.GeneratedTime > OTPExpiryTime)
         {
-            otpStore.Remove(StudentPhoneNumber);  // Remove expired OTP data
+            //otpStore.Remove(StudentPhoneNumber);  // Remove expired OTP data
             return "OTP has expired. Please request a new OTP.";
         }
 
@@ -76,21 +77,28 @@ public class OTPServiceController
 
                 var plaintext1 = dt.Tables[0].Rows[0]["StatusDescription"].ToString();
 
+                var plaintext2 = "status";
+
+                var plaintext3 = "description";
+
                 string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
                 string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
 
-                string status = Encryption.Encrypt(plaintext, key, iv);
+                string resstatus = Encryption.Encrypt(plaintext, key, iv);
 
-                string description = Encryption.Encrypt(plaintext1, key, iv);
+                string resdescription = Encryption.Encrypt(plaintext1, key, iv);
+                string Status = Encryption.Encrypt(plaintext2, key, iv);
+                string Description = Encryption.Encrypt(plaintext3, key, iv);
 
                 if (dt.Tables[0].Rows[0]["StatusCode"].ToString() == "200")
                 {
 
-                    return "{\"status\" : \"" + status + "\",   \"description\" : \"" + description + "\"}";
+                    return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
+
                 }
                 else
                 {
-                    return "{\"status\" : \"" + status + "\",   \"description\" : \"" + description + "\"}";
+                    return "{\"" + Status + "\" : \"" + resstatus + "\", \"" + Description + "\" : \"" + resdescription + "\"}";
                 }
             }
             catch (Exception ex)

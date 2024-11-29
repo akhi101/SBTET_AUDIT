@@ -34,9 +34,6 @@
             College_Name: '',
             BranchCode: '',
             LoadingImage: '../../../contents/img/loading2.gif',
-            QPpwd: 'TSBIE@321',
-            QPUname: 'admin',
-            QPEnPwd: '123456'
         };
     });
 });

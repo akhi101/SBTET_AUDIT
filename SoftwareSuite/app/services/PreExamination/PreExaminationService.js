@@ -1608,7 +1608,7 @@
         };
 
         this.SetGenuinenessCheck = function (Pin, OrganizationType, OrganizationName, OrganizationAddress, OrganizationEmail, OrganizationMobile, ODCNo, ODC,
-            ExamMonthYear, Amount, ApplyingOfficer, CertificateApplication, OfficerDesignation) {
+            ExamMonthYear, Amount, ApplyingOfficer, CertificateApplication, OfficerDesignation, AadharFileName, ApplicationFileName, MailOTP, MobileOTP) {
             var paramObj = {
                 "Pin": Pin,
                 "OrganizationType": OrganizationType,
@@ -1622,7 +1622,11 @@
                 "Amount": Amount,
                 "ApplyingOfficer": ApplyingOfficer,
                 "CertificateApplication": CertificateApplication,
-                "OfficerDesignation": OfficerDesignation
+                "OfficerDesignation": OfficerDesignation,
+                "AadharFileName": AadharFileName,
+                "ApplicationFileName": ApplicationFileName,
+                "MailOTP": MailOTP,
+                "MobileOTP": MobileOTP
             }
 
             var promise = DataAccessService.postData('api/PreExamination/SetGenuinenessCheck', paramObj);
@@ -1631,7 +1635,7 @@
 
 
         this.SetGenuinenessCheckPayment = function (Pin, OrganizationType, OrganizationName, OrganizationAddress, OrganizationEmail, OrganizationMobile, ODCNo, ODC,
-            ExamMonthYear, Amount, ApplyingOfficer, CertificateApplication, OfficerDesignation) {
+            ExamMonthYear, Amount, ApplyingOfficer, CertificateApplication, OfficerDesignation, AadharFileName, ApplicationFileName, MailOTP, MobileOTP) {
             var paramObj = {
                 "Pin": Pin,
                 "OrganizationType": OrganizationType,
@@ -1645,8 +1649,11 @@
                 "Amount": Amount,
                 "ApplyingOfficer": ApplyingOfficer,
                 "CertificateApplication": CertificateApplication,
-                "OfficerDesignation": OfficerDesignation
-
+                "OfficerDesignation": OfficerDesignation,
+                "AadharFileName": AadharFileName,
+                "ApplicationFileName": ApplicationFileName,
+                "MailOTP": MailOTP,
+                "MobileOTP": MobileOTP
             }
 
             var promise = DataAccessService.postData('api/PreExamination/SetGenuinenessCheckPayment', paramObj);

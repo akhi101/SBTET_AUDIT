@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Data.SqlClient;
 using SoftwareSuite.Models.Database;
 using SoftwareSuite.Controllers.Common;
+using SoftwareSuite.Models.Security;
 
 namespace SoftwareSuite.Controllers
 {
@@ -196,43 +197,71 @@ namespace SoftwareSuite.Controllers
 
 
         }
+
+        [HttpGet, ActionName("GetDecryptedData")]
+        public string GetDecryptedData(string DataType)
+        {
+            try
+            {
+
+                var res = DataType.ToString().Split(new string[] { "$$@@$$" }, StringSplitOptions.None);
+                var crypt = new HbCrypt(res[1]);
+                var encrypt = new HbCrypt();
+                string datatype = crypt.AesDecrypt(res[0]);
+                string decryptdatatype = encrypt.AesDecrypt(datatype);
+                return decryptdatatype;
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
         [HttpPost, ActionName("SendGenuinenessOTP")]
         public async Task<string> SendGenuinenessOTP([FromBody] OtpReq request)
         {
             try
             {
+                string pin = GetDecryptedData(request.Pin);
+                string TO = GetDecryptedData(request.To);
+                string Subject = GetDecryptedData(request.Subject);
+                string CC = GetDecryptedData(request.cc);
+
                 CommunicationController CommunicationController = new CommunicationController();
                 var strNewPassword = CommunicationController.GeneratePassword().ToString();
-                var resp = CommunicationController.Set_GenuinenessEmailLog(request.Pin, request.To, strNewPassword);
-                var mailusername = ConfigurationManager.AppSettings["mail_Service_Username"].ToString().Trim();
-                var mailpassword = ConfigurationManager.AppSettings["mail_Service_Password"].ToString().Trim();
-                MailMessage message = new MailMessage();
-                ServicePointManager.ServerCertificateValidationCallback += (s, ce, ca, p) => true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;// | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                                                                                  // SmtpClient smtp = new SmtpClient("relay.nic.in", 465);
-                SmtpClient smtp = new SmtpClient("smtpsgwhyd.nic.in", 465);
+                var resp = CommunicationController.Set_GenuinenessEmailLog(pin, TO, strNewPassword);
+                MailOTPServiceController mailotpService = new MailOTPServiceController();
+                string SendResponse = mailotpService.SendMailOTP(TO, strNewPassword);
+                //var mailusername = ConfigurationManager.AppSettings["mail_Service_Username"].ToString().Trim();
+                //var mailpassword = ConfigurationManager.AppSettings["mail_Service_Password"].ToString().Trim();
+                //MailMessage message = new MailMessage();
+                //ServicePointManager.ServerCertificateValidationCallback += (s, ce, ca, p) => true;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //SmtpClient smtp = new SmtpClient("smtpsgwhyd.nic.in", 465);
              
-                message.From = new MailAddress(mailusername);
+                //message.From = new MailAddress(mailusername);
                
-                message.Subject = request.Subject;
-                message.To.Add(new MailAddress(request.To));
-                message.CC.Add(new MailAddress(request.cc));
-                message.IsBodyHtml = true;
-                var builder = new BodyBuilder { HtmlBody = "Your Verification Code for Genuineness Check is " + strNewPassword };
+                //message.Subject = Subject;
+                //message.To.Add(new MailAddress(TO));
+                //message.CC.Add(new MailAddress(CC));
+                //message.IsBodyHtml = true;
+                //var builder = new BodyBuilder { HtmlBody = "Your Verification Code for Genuineness Check is " + strNewPassword };
                
-                message.Body = builder.HtmlBody;
-                // message.Body = request.Message;
-                smtp.UseDefaultCredentials = false;
-                smtp.EnableSsl = true;
-                //  message.Attachments=
-                smtp.Credentials = new NetworkCredential(mailusername, mailpassword);
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //message.Body = builder.HtmlBody;
+                //smtp.UseDefaultCredentials = false;
+                //smtp.EnableSsl = true;
+                //smtp.Credentials = new NetworkCredential(mailusername, mailpassword);
+                //smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
              
-                smtp.Send(message);
-                var res = "Success";
-            
+                //smtp.Send(message);
 
-                return res;
+                var plaintext = SendResponse.ToString();
+                string key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 key
+                string iv = "u4I0j3AQrwJnYHkgQFwVNw==";     // AES IV
+                string Status = Encryption.Encrypt(plaintext, key, iv);
+                return Status;
             }
             catch (Exception ex)
             {

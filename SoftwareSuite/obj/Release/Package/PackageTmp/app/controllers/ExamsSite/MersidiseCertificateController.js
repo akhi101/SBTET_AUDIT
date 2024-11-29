@@ -143,7 +143,7 @@
                     $scope.Collegepreviewdata = JSON.parse($scope.Collegedata);
                 } catch (err) { }
 
-                console.log($scope.NoOfBacklogs)
+                //console.log($scope.NoOfBacklogs)
                 $scope.array = [];
                 if ($scope.NoOfBacklogs > 0) {
                     var obj = {};
@@ -249,7 +249,7 @@
                     $scope.array.push(obj);
                 }
 
-                console.log($scope.array)
+                //console.log($scope.array)
 
                 $scope.firstCard = false;
                 $scope.SecondCard = false;
@@ -321,19 +321,19 @@
             } else {
                 alert('maximum files limit reached');
             }
-            console.log($scope.studentfilearr);
+            //console.log($scope.studentfilearr);
         }
 
         $scope.removeUser = function (val) {
             var item = document.getElementById('userfile' + val);
             item.parentNode.removeChild(item);
             $scope.studentfilearr.splice(val, 1);
-            console.log($scope.studentfilearr);
+            //console.log($scope.studentfilearr);
         }
 
         $scope.ChangeData = function (myfile) {
-            console.log("Hii");
-            console.log(myfile)
+            //console.log("Hii");
+            //console.log(myfile)
         }
         $scope.notedChallan = function () {
             if ($scope.noteChallan == true) {
@@ -410,7 +410,7 @@
             }, function (err) {
                 $scope.noteChallan = false;
                 $scope.secondClick = true;
-                console.log(err);
+                //console.log(err);
             });
 
 
@@ -432,9 +432,9 @@
                 } else {
                     var UpdateMobile = PreExaminationService.UpdateMobileNumber($scope.PinNumber, $scope.LMobileNumber)
                     UpdateMobile.then(function (resp) {
-                        console.log(resp)
+                        //console.log(resp)
                     }, function (err) {
-                        console.log(err)
+                        //console.log(err)
                         alert('Mobile Updation Failed');
                     });
                     var getChallannumber = PreExaminationService.MersidyFeePaymentChallanNumber($scope.PinNumber,3)
@@ -478,18 +478,19 @@
             var fileSize = input.files[0].size;
             var file = input.files[0];
             $scope.PhotoFileName = file.name;
-            if (fileSize <= 500000) {
-                var checkexttype = AdminService.CheckFileExtension($scope.PhotoFileName);
-                checkexttype.then(function (response) {
 
-                    //var res = JSON.parse(response)
-                    $scope.Status = response;
-                    if ($scope.Status == "NO") {
-                        alert("Invalid Extension Type");
-                        $('#stdPhotoFile').val('');
-                        return;
-                    }
-                });
+            var allowedTypes = ['image/jpeg', 'image/png'];
+
+            if (file) {
+                if (allowedTypes.indexOf(file.type) === -1) {
+                    alert('Invalid file type. Only JPEG, PNG files are allowed.');
+                    input.value = '';// Clear the input
+                    return fasle;
+                } else {
+ 
+                }
+            }
+            if (fileSize <= 1000000) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.readAsDataURL(input.files[0]);
@@ -512,13 +513,13 @@
 
                     }
                     reader.onerror = function (e) {
-                        console.error("File could not be read! Code " + e.target.error.code);
+                        //console.error("File could not be read! Code " + e.target.error.code);
                     };
 
                 }
             }
             else {
-                alert("file size should be less then 500kb ");
+                alert("file size should be less then 1mb ");
                 return;
             }
         }
@@ -558,7 +559,9 @@
                 return;
             }
 
+
             $scope.EncAadhar = $crypto.encrypt($crypto.encrypt($scope.IdNumber, 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
+            $scope.EncOTP = $crypto.encrypt($crypto.encrypt($scope.OTPdata.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
 
             var req = {
                 "PIN": $scope.PinNo == null || angular.isUndefined($scope.PinNo) ? "" : angular.uppercase($scope.PinNo),
@@ -584,7 +587,9 @@
                 "filedata": $scope.studentfilearr == null || angular.isUndefined($scope.studentfilearr) ? "" : $scope.studentfilearr,
                 "Photo": $scope.userPhoto == null || angular.isUndefined($scope.userPhoto) ? "" : $scope.userPhoto,
                 "backlogCount": $scope.NoOfBacklogs == null || angular.isUndefined($scope.NoOfBacklogs) ? -1 : parseInt($scope.NoOfBacklogs),
-                "backlogsubjson": $scope.array == null || angular.isUndefined($scope.array) ? "" : JSON.stringify($scope.array)
+                "backlogsubjson": $scope.array == null || angular.isUndefined($scope.array) ? "" : JSON.stringify($scope.array),
+                "filename": $scope.PhotoFileName == null || angular.isUndefined($scope.PhotoFileName) ? "" : $scope.PhotoFileName,
+                "OTP": $scope.EncOTP == null || angular.isUndefined($scope.EncOTP) ? "" : $scope.EncOTP,
 
             }
             var GetPinStatus = PreExaminationService.getMersyFeeStatus($scope.PinNo);
@@ -597,102 +602,72 @@
 
             var AddUserData = PreExaminationService.AddMersyData(req);
             AddUserData.then(function (response) {
-                if (response == 'INVALID FIRST NAME') {
-                    alert('INVALID FIRST NAME');
+                const keyToExclude = 'm4e/P4LndQ4QYQ8G+RzFmQ==';
+                if (response.hasOwnProperty(keyToExclude)) {
+                    var keys = Object.keys(response);
+
+                    $scope.statusKey = keys[0];
+                    $scope.statusValue = response[$scope.statusKey];
+
+                    $scope.descriptionKey = keys[1];
+                    $scope.descriptionValue = response[$scope.descriptionKey];
+
+                    $scope.EncStatusDescription2 = $scope.descriptionValue;
+                    if ($scope.statusValue == '6tEGN7Opkq9eFqVERJExVw==') {
+                        $scope.decryptParameter2();
+                        alert($scope.decryptedParameter2);
+
+                    }
                 }
-                else if (response == 'INVALID LAST NAME') {
-                    alert('INVALID LAST NAME');
-                }
-                else if (response == 'INVALID FATHER NAME') {
-                    alert('INVALID FATHER NAME');
-                }
-                else if (response == 'INVALID GENDER') {
-                    alert('INVALID GENDER');
-                }
-                else if (response == 'INVALID MOBILE NUMBER') {
-                    alert('INVALID MOBILE NUMBER');
-                }
-                else if (response == 'INVALID EMAIL') {
-                    alert('INVALID EMAIL');
-                }
-                else if (response == 'INVALID COLLEGE NAME') {
-                    alert('INVALID COLLEGE NAME');
-                }
-                else if (response == 'INVALID COURSE NAME') {
-                    alert('INVALID COURSE NAME');
-                }
-                else if (response == 'INVALID COLLEGE CODE') {
-                    alert('INVALID COLLEGE CODE');
-                }
-                else if (response == 'INVALID COURSE TYPE') {
-                    alert('INVALID COURSE TYPE');
-                }
-                else if (response == 'INVALID SCHEME') {
-                    alert('INVALID SCHEME');
-                }
-                else if (response == 'INVALID PURPOSE') {
-                    alert('INVALID PURPOSE');
-                }
-                else if (response == 'INVALID VILLAGE') {
-                    alert('INVALID VILLAGE');
-                }
-                else if (response == 'INVALID PURPOSE') {
-                    alert('INVALID PURPOSE');
-                }
-                else if (response == 'INVALID TOWN') {
-                    alert('INVALID TOWN');
-                }
-                else if (response == 'INVALID MANDAL NAME') {
-                    alert('INVALID MANDAL NAME');
-                }
-                else if (response == 'INVALID DISTRICT NAME') {
-                    alert('INVALID DISTRICT NAME');
-                }
-                else if (response == 'INVALID STATE NAME') {
-                    alert('INVALID STATE NAME');
+                else if (response.Table2 == undefined || response.Table2 == "" || response.Table2 == null) {
+                    alert("Mobile Number verification Failed")
                 }
                 else if (response.Table2[0].ResponceCode == '200') {
-                    alert(response.Table2[0].ResponceDescription);
+                        alert(response.Table2[0].ResponceDescription);
 
-                    var getChallannumber = PreExaminationService.MersidyFeePaymentChallanNumber($scope.PinNo,3)
-                    getChallannumber.then(function (resp) {
-                        if (resp.Table.length > 0) {
-                            if (resp.Table[0].ResponceCode == '400') {
-                                $scope.ProceedDisable = false;
-                                $scope.loader = false;
-                                alert(resp.Table[0].ResponceDescription)
-                                return;
+                        var getChallannumber = PreExaminationService.MersidyFeePaymentChallanNumber($scope.PinNo, 3)
+                        getChallannumber.then(function (resp) {
+                            if (resp.Table.length > 0) {
+                                if (resp.Table[0].ResponceCode == '400') {
+                                    $scope.ProceedDisable = false;
+                                    $scope.loader = false;
+                                    alert(resp.Table[0].ResponceDescription)
+                                    return;
+                                }
+                                $scope.challan = resp.Table1[0].ChallanNumber;
+                                $scope.paymentPin = $scope.PinNo;
+                                $scope.Amount = resp.Table1[0].Amount;
+                                $scope.billdeskamount = resp.Table1[0].Amount;
+                                $scope.DetailsFound = true;
+                                $scope.data = true;
+                                if (resp.Table1.length > 0) {
+                                    $scope.modalInstance = $uibModal.open({
+                                        templateUrl: "/app/views/CertificateFeePaymentPopup.html",
+                                        size: 'xlg',
+                                        scope: $scope,
+                                        windowClass: 'modal-fit-att',
+                                        //backdrop: 'static',
+                                    });
+                                }
+
                             }
-                            $scope.challan = resp.Table1[0].ChallanNumber;
-                            $scope.paymentPin = $scope.PinNo;
-                            $scope.Amount = resp.Table1[0].Amount;
-                            $scope.billdeskamount = resp.Table1[0].Amount;
-                            $scope.DetailsFound = true;
-                            $scope.data = true;
-                            if (resp.Table1.length > 0) {
-                                $scope.modalInstance = $uibModal.open({
-                                    templateUrl: "/app/views/CertificateFeePaymentPopup.html",
-                                    size: 'xlg',
-                                    scope: $scope,
-                                    windowClass: 'modal-fit-att',
-                                    //backdrop: 'static',
-                                });
-                            }
-
-                        }
-                    }, function (err) {
-                        $scope.data = false;
-                        $scope.DetailsFound = false;
-                    });
+                        }, function (err) {
+                            $scope.data = false;
+                            $scope.DetailsFound = false;
+                        });
 
 
-                } else {
-                    $scope.loading = false;
-                    alert("Request sent Failed")
-                    $scope.reports = false;
-                    $scope.Noreports = true;
-                }
-
+                    }
+                    else if (response.Table2[0].ResponceCode == '400') {
+                        alert(response.Table2[0].ResponceDescription);
+                    }
+                    else {
+                        $scope.loading = false;
+                        alert("Request sent Failed")
+                        $scope.reports = false;
+                        $scope.Noreports = true;
+                    }
+                
             },
                 function (error) {
                     $scope.loading = false;
@@ -743,6 +718,48 @@
             // Convert decrypted data to a UTF-8 string
             $scope.decryptedText1 = decrypted.toString(CryptoJS.enc.Utf8);
             $scope.decryptedParameter1 = $scope.decryptedText1;
+        };
+
+        $scope.decryptParameter2 = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncStatusDescription2; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText2 = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter2 = $scope.decryptedText2;
+        };
+
+
+
+        $scope.decryptParameter3 = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncStatusDescription3; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText3 = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter3 = $scope.decryptedText3;
         };
         $scope.SendOtp = function () {
             if ($scope.PinNo == "" || $scope.PinNo == null || $scope.PinNo == undefined) {
@@ -845,7 +862,6 @@
                 alert('Please Enter valid OTP.');
                 return;
             }
-            if ($scope.decryptedParameter == $scope.OTPdata) {
                 $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNo.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
                 $scope.EncriptedMobile = $crypto.encrypt($crypto.encrypt($scope.MobileNumber.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
                 $scope.EncriptedOTP = $crypto.encrypt($crypto.encrypt($scope.OTPdata.toString(), 'HBSBP9214EDU00TS'), $scope.StudentSessionEKey) + '$$@@$$' + $scope.StudentSessionEKey;
@@ -855,35 +871,51 @@
                     try {
                         var res = JSON.parse(response);
                     } catch (err) { }
-                    $scope.EncStatus = res.status;
-                    $scope.decryptParameter1();
 
-                    if ($scope.decryptedParameter1 == '200') {
-                        if ($scope.decryptedParameter == $scope.OTPdata) {
-                            alert("Mobile Number Verified");
+
+                    $scope.keys = Object.keys(res);
+
+                    $scope.statusKey = $scope.keys[0];
+                    $scope.statusValue = res[$scope.statusKey];
+
+                    $scope.descriptionKey = $scope.keys[1];
+                    $scope.descriptionValue = res[$scope.descriptionKey];
+
+                    if ($scope.statusValue = '6tEGN7Opkq9eFqVERJExVw==') {
+                        $scope.EncStatusDescription2 = $scope.descriptionValue;
+                        $scope.decryptParameter2();
+                        if ($scope.decryptedParameter2 == "OTP Verification Success.") {
+                            alert("OTP Verification Success.");
                             $scope.phonenoupdated = true;
                             $scope.Verified = true;
                             $scope.MobileDisable = true;
                         }
-                    }
+                        else
+                        {
+                            alert($scope.decryptedParameter2);}
+                        }
+                    else if ($scope.statusValue == 'RB1jvKUQZSQJsUq5WMKN7A==') {
+                        alert("OTP Verification Success.");
+                        $scope.phonenoupdated = true;
+                        $scope.Verified = true;
+                        $scope.MobileDisable = true;
+                    }                     
                     else {
                         alert("Not Verified");
-                        if ($scope.decryptedParameter != $scope.OTPdata) {
                             $scope.phonenoupdated = false;
                             $scope.Verified = false;
                             $scope.MobileDisable = false;
-                        }
+                            
                     }
+                    
                 }, function (error) {
                     alert('error occured while updating Mobile number.');
                     $scope.phonenoupdated = false;
                     $scope.Verified = false;
                     $scope.MobileDisable = false;
                 });
-            }
-            else {
-                alert("OTP Mismatched")
-            }
+            
+
 
         }
 
@@ -891,21 +923,25 @@
 
         $scope.uploadfiles = function (ele, val) {
             var input = document.getElementById("studentFile" + val);
+
             var fileSize = input.files[0].size;
             var file = input.files[0];
             $scope.PhotoFileName = file.name;
-            if (fileSize <= 1000000) {
-                var checkexttype = AdminService.CheckFileExtension($scope.PhotoFileName);
-                checkexttype.then(function (response) {
 
-                    //var res = JSON.parse(response)
-                    $scope.Status = response;
-                    if ($scope.Status == "NO") {
-                        alert("Invalid Extension Type");
-                        $('#stdPhotoFile').val('');
-                        return;
-                    }
-                });
+            var allowedTypes = ['image/jpeg', 'image/png'];
+
+            if (file) {
+                if (allowedTypes.indexOf(file.type) === -1) {
+                    alert('Invalid file type. Only JPEG, PNG files are allowed.');
+                    input.value = '';// Clear the input
+                    return fasle;
+                } else {
+
+                }
+            }
+
+
+            if (fileSize <= 2000000) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.readAsDataURL(input.files[0]);
@@ -934,17 +970,17 @@
 
                     }
                     reader.onerror = function (ele) {
-                        console.error("File could not be read! Code " + ele.target.error.code);
+                        //console.error("File could not be read! Code " + ele.target.error.code);
                     };
 
                 }
             }
             else {
-                alert("file size should be less then 1000kb ");
+                alert("file size should be less then 2000kb ");
                 return;
             }
         }
-
+        
 
         $scope.addfilData = function (fileindex, file) {
             return {
