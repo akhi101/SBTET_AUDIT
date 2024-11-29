@@ -245,7 +245,7 @@
                     <div class="col-md-4">
                         <div class="form-group ">
                             <label for="" class="font-weight-bold">ID Number :</label>
-                            <input type="{{inputType}}" maxlength="12" minlength="12" class="form-control" placeholder="Enter ID Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ng-model="IdNumber" name="IdNumber" required />
+                            <input type="{{inputType}}" maxlength="12" class="form-control" placeholder="Enter ID Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ng-model="IdNumber" name="IdNumber" required />
                             <div class="eye-icon" ng-click="toggleAadharVisibility()">
                                 {{eyeIcon}}
                             </div>
@@ -306,7 +306,7 @@
                             <label class="font-weight-bold">Update Photo with a sign(size less than 500KB) :</label>
                             <!--<label for="StudentPhoto">Photo Update :</label>-->
                             <img ng-src="{{userPhoto}}" class="img img-responsive" id="stdPhotoImg" />
-                            <input type="file" id="stdPhotoFile" ng-model="userPhoto" onchange="angular.element(this).scope().uploadUserPhoto()" class="upld-file" required>
+                            <input type="file" accept=".jpg, .jpeg, .png" id="stdPhotoFile" ng-model="userPhoto" onchange="angular.element(this).scope().uploadUserPhoto()" class="upld-file" required>
                         </div>
                     </div>
 
@@ -458,7 +458,7 @@
                             <div class="form-group ">
                                 <label for="" class="font-weight-bold">Mobile Number :</label>
                                 <div id=''>
-                                    <input type='text' maxlength="10" class="form-control" placeholder="Mobile Number" ng-model="MobileNumber" autocomplete="off" name="MobileNumber" required />
+                                    <input type='text' maxlength="10" class="form-control" placeholder="Mobile Number" ng-model="MobileNumber" ng-disabled="MobileDisable" autocomplete="off" name="MobileNumber" required />
                                 </div>
                             </div>
                         </div>
@@ -672,7 +672,7 @@
                     <div class="row" id="userfile{{$index}}">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input class="form-control" type="file" id="studentFile{{$index}}" accept="image/*" ng-model="studentFile" onchange="angular.element(this).scope().uploadfiles(this,angular.element(this).scope().$index)" class="upld-file">
+                                <input class="form-control" type="file" id="studentFile{{$index}}"  ng-model="studentFile" onchange="angular.element(this).scope().uploadfiles(this,angular.element(this).scope().$index)" class="upld-file">
                             </div>
                         </div>
                         <div class="col-md-3">

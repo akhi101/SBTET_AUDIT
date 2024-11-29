@@ -466,6 +466,20 @@
         $scope.uploadAadhar = function () {
             var input = document.getElementById("Aadhar");
             var fileSize = input.files[0].size;
+            var file = input.files[0];
+            $scope.AadharFileName = file.name;
+
+            var allowedTypes = ['image/jpeg', 'image/png'];
+
+            if (file) {
+                if (allowedTypes.indexOf(file.type) === -1) {
+                    alert('Invalid file type. Only JPEG, PNG files are allowed.');
+                    input.value = '';// Clear the input
+                    return fasle;
+                } else {
+
+                }
+            }
 
             if (fileSize <= 3000000 && fileSize >= 1000000) {
                 if (input.files && input.files[0]) {
@@ -519,6 +533,22 @@
         $scope.UploadApplication = function () {
             var input = document.getElementById("ApplicationLetter");
             var fileSize = input.files[0].size;
+            var file = input.files[0];
+            $scope.ApplicationFileName = file.name;
+
+            var allowedTypes = ['image/jpeg', 'image/png'];
+
+            if (file) {
+                if (allowedTypes.indexOf(file.type) === -1) {
+                    alert('Invalid file type. Only JPEG, PNG files are allowed.');
+                    input.value = '';// Clear the input
+                    return fasle;
+                } else {
+
+                }
+            }
+
+
 
             if (fileSize <= 3000000 && fileSize >= 1000000) {
                 if (input.files && input.files[0]) {
@@ -736,8 +766,10 @@
             } else {
                 $scope.loader = true;
                 $scope.proceedDisable = true;
+                $scope.EncriptedMailOTP = $crypto.encrypt($crypto.encrypt($scope.MailOTP.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+                $scope.EncriptedMobileOTP = $crypto.encrypt($crypto.encrypt($scope.OTPdata.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
                 var SetGenuineness = PreExaminationService.SetGenuinenessCheckPayment($scope.userData.Pin, $scope.OrgType, $scope.OrganizationName, $scope.OrganizationAddress, $scope.OrganizationEmail, $scope.OrganizationMobile, $scope.OdcNo, $scope.Aadharxerox,
-               $scope.ExamMonth, $scope.Price, $scope.ApplyingOfficer, $scope.ApplicationLetter, $scope.OfficerDesignation)
+                    $scope.ExamMonth, $scope.Price, $scope.ApplyingOfficer, $scope.ApplicationLetter, $scope.OfficerDesignation, $scope.AadharFileName, $scope.ApplicationFileName, $scope.EncriptedMailOTP, $scope.EncriptedMobileOTP)
                 SetGenuineness.then(function (res) {
                     try {
                         //alert(res.Table[0].ResponseDesription);
@@ -745,6 +777,26 @@
                     } catch (err) {
                         $scope.loader = false;
                         $scope.proceedDisable = false;
+                    }
+                    const keyToExclude = 'm4e/P4LndQ4QYQ8G+RzFmQ==';
+                    if (res.hasOwnProperty(keyToExclude)) {
+                        var keys = Object.keys(res);
+
+                        $scope.statusKey = keys[0];
+                        $scope.statusValue = res[$scope.statusKey];
+
+                        $scope.descriptionKey = keys[1];
+                        $scope.descriptionValue = res[$scope.descriptionKey];
+
+                        $scope.EncStatusDescription2 = $scope.descriptionValue;
+                        if ($scope.statusValue == '6tEGN7Opkq9eFqVERJExVw==') {
+                            $scope.decryptParameter2();
+                            alert($scope.decryptedParameter2);
+
+                        }
+                    }
+                    else if (res.Table == undefined || res.Table == "" || res.Table == null) {
+                        alert("Mobile Number or Email verification Failed")
                     }
                     if (res.Table[0].ResponseCode == '200') {
                         $scope.ResponsePin = res.Table[0].Pin;
@@ -772,15 +824,44 @@
         $scope.Submit = function () {
 
             $scope.loader = true;
+            $scope.EncriptedMailOTP = $crypto.encrypt($crypto.encrypt($scope.MailOTP.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedMobileOTP = $crypto.encrypt($crypto.encrypt($scope.OTPdata.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
             var SetInterimData = PreExaminationService.SetGenuinenessCheck($scope.userData.Pin, $scope.OrgType, $scope.OrganizationName, $scope.OrganizationAddress, $scope.OrganizationEmail, $scope.OrganizationMobile, $scope.OdcNo, $scope.Aadharxerox,
-              $scope.ExamMonth, $scope.Price, $scope.ApplyingOfficer, $scope.ApplicationLetter, $scope.OfficerDesignation)
-            SetInterimData.then(function (res) {
-                if (res.Table[0].ResponseCode == '200') {
+                $scope.ExamMonth, $scope.Price, $scope.ApplyingOfficer, $scope.ApplicationLetter, $scope.OfficerDesignation, $scope.AadharFileName, $scope.ApplicationFileName, $scope.EncriptedMailOTP, $scope.EncriptedMobileOTP)
+            SetInterimData.then(function (response) {
+                const keyToExclude = 'm4e/P4LndQ4QYQ8G+RzFmQ==';
+                if (response.hasOwnProperty(keyToExclude)) {
+                    var keys = Object.keys(response);
+
+                    $scope.statusKey = keys[0];
+                    $scope.statusValue = response[$scope.statusKey];
+
+                    $scope.descriptionKey = keys[1];
+                    $scope.descriptionValue = response[$scope.descriptionKey];
+
+                    $scope.EncStatusDescription2 = $scope.descriptionValue;
+                    if ($scope.statusValue == '6tEGN7Opkq9eFqVERJExVw==') {
+                        $scope.decryptParameter2();
+                        alert($scope.decryptedParameter2);
+                        $scope.loader = false;
+                        $scope.proceedDisable = false;
+
+
+                    }
+                }
+                else if (response.Table == undefined || response.Table == "" || response.Table == null) {
+                    alert("Mobile Number or Email verification Failed");
+                    $scope.loader = false;
+                    $scope.proceedDisable = false;
+
+                }
+
+                else if (response.Table[0].ResponseCode == '200') {
                     $scope.loader = false;
 
-                    alert(res.Table[0].ResponseDescription)
-                    $scope.ResponsePin = res.Table[0].Pin
-                    $scope.ApplicationNo = res.Table[0].ApplicationNo
+                    alert(response.Table[0].ResponseDescription)
+                    $scope.ResponsePin = response.Table[0].Pin
+                    $scope.ApplicationNo = response.Table[0].ApplicationNo
                     $scope.Form1 = false;
                     $scope.Form2 = false;
                     $scope.Form3 = false;
@@ -795,7 +876,7 @@
 
 
                 } else {
-                    alert(res.Table[0].ResponseDescription)
+                    alert(response.Table[0].ResponseDescription)
                     $scope.proceedDisable = false;
                     $scope.loader = false;
                 }
@@ -840,7 +921,6 @@
             $scope.decryptedParameter = $scope.decryptedText;
         };
 
-
         $scope.decryptParameter1 = function () {
             var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
             var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
@@ -859,6 +939,48 @@
             // Convert decrypted data to a UTF-8 string
             $scope.decryptedText1 = decrypted.toString(CryptoJS.enc.Utf8);
             $scope.decryptedParameter1 = $scope.decryptedText1;
+        };
+
+        $scope.decryptParameter2 = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncStatusDescription2; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText2 = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter2 = $scope.decryptedText2;
+        };
+
+
+
+        $scope.decryptParameter3 = function () {
+            var base64Key = "iT9/CmEpJz5Z1mkXZ9CeKXpHpdbG0a6XY0Fj1WblmZA="; // AES-256 Key
+            var base64IV = "u4I0j3AQrwJnYHkgQFwVNw=="; // AES IV
+            var ciphertext = $scope.EncStatusDescription3; // Encrypted text (Base64)
+
+            var key = CryptoJS.enc.Base64.parse(base64Key);
+            var iv = CryptoJS.enc.Base64.parse(base64IV);
+
+            // Decrypt the ciphertext
+            var decrypted = CryptoJS.AES.decrypt(ciphertext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC, // Ensure CBC mode
+                padding: CryptoJS.pad.Pkcs7, // Ensure PKCS7 padding
+            });
+
+            // Convert decrypted data to a UTF-8 string
+            $scope.decryptedText3 = decrypted.toString(CryptoJS.enc.Utf8);
+            $scope.decryptedParameter3 = $scope.decryptedText3;
         };
 
         $scope.SendOtp = function () {
@@ -953,28 +1075,40 @@
                     try {
                         var res = JSON.parse(response);
                     } catch (err) { }
-                    if (res == undefined || res == '' || res == null) {
-                        alert(response);
-                    }
-                    else {
-                        $scope.EncStatus = res.status;
-                        $scope.decryptParameter1();
-                        if ($scope.decryptedParameter1 == '200') {
-                            alert("Mobile Number Verified");
+                    $scope.keys = Object.keys(res);
+
+                    $scope.statusKey = $scope.keys[0];
+                    $scope.statusValue = res[$scope.statusKey];
+
+                    $scope.descriptionKey = $scope.keys[1];
+                    $scope.descriptionValue = res[$scope.descriptionKey];
+
+                    if ($scope.statusValue = '6tEGN7Opkq9eFqVERJExVw==') {
+                        $scope.EncStatusDescription2 = $scope.descriptionValue;
+                        $scope.decryptParameter2();
+                        if ($scope.decryptedParameter2 == "OTP Verification Success.") {
+                            alert("OTP Verification Success.");
                             $scope.phonenoupdated = true;
                             $scope.Verified = true;
                             $scope.MobileDisable = true;
                         }
-
                         else {
-                            alert("Not Verified");
-                            $scope.phonenoupdated = false;
-                            $scope.Verified = false;
-                            $scope.MobileDisable = false;
-
+                            alert($scope.decryptedParameter2);
                         }
                     }
-                    
+                    else if ($scope.statusValue == 'RB1jvKUQZSQJsUq5WMKN7A==') {
+                        alert("OTP Verification Success.");
+                        $scope.phonenoupdated = true;
+                        $scope.Verified = true;
+                        $scope.MobileDisable = true;
+                    }
+                    else {
+                        alert("Not Verified");
+                        $scope.phonenoupdated = false;
+                        $scope.Verified = false;
+                        $scope.MobileDisable = false;
+
+                    }
                 }, function (error) {
                     alert('error occured while updating Mobile number.');
                     $scope.phonenoupdated = false;
@@ -995,6 +1129,7 @@
 
         }
 
+  
         //  SendOTP
 
         $scope.sendmail = function (Subject, message, mails, Attachment) {
@@ -1008,14 +1143,24 @@
             $scope.SendMail = false;
             $scope.ResendMail = true
 
+            var From = 'sbtet-helpdesk.telangana.gov.in';
+            var CC = 'sbtet-helpdesk.telangana.gov.in';
+            var Subject = 'Genuineness OTP Verification';
+            var Message = 'Hii';
+
+            $scope.EncriptedFrom = $crypto.encrypt($crypto.encrypt(From.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedCC = $crypto.encrypt($crypto.encrypt(CC.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedSubject = $crypto.encrypt($crypto.encrypt(Subject.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedMessage = $crypto.encrypt($crypto.encrypt(Message.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedEmail = $crypto.encrypt($crypto.encrypt($scope.OrganizationEmail.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNumber.toString(), 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
             var obj = {
-                "From": 'sbtet-helpdesk[at]telangana[dot]gov[dot]in',
-                "To": $scope.OrganizationEmail,
-                "cc": "sbtet-helpdesk[at]telangana[dot]gov[dot]in",
-                "Subject": "Genuineness OTP Verification",
-                "Message": "Hii",
-                //"attachmentdata": Attachment,
-                "Pin": $scope.PinNumber
+                "From": $scope.EncriptedFrom,
+                "To": $scope.EncriptedEmail,
+                "cc": $scope.EncriptedCC,
+                "Subject": $scope.EncriptedSubject,
+                "Message": $scope.EncriptedMessage,
+                "Pin": $scope.EncriptedPin
             }
 
             var sendmail = PreExaminationService.SendOTP(obj)
@@ -1038,28 +1183,54 @@
         }
         $scope.SendMail = true;
         $scope.Verify = function () {
-            var setmailstatis = PreExaminationService.Verify_GenuinenessEmailLog($scope.PinNumber, $scope.OrganizationEmail, $scope.MailOTP);
+            $scope.EncriptedPin = $crypto.encrypt($crypto.encrypt($scope.PinNumber, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedEmail = $crypto.encrypt($crypto.encrypt($scope.OrganizationEmail, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            $scope.EncriptedOTP = $crypto.encrypt($crypto.encrypt($scope.MailOTP, 'HBSBP9214EDU00TS'), $scope.EKey) + '$$@@$$' + $scope.EKey;
+            var setmailstatis = PreExaminationService.Verify_GenuinenessEmailLog($scope.EncriptedPin, $scope.EncriptedEmail, $scope.EncriptedOTP);
             setmailstatis.then(function (response) {
-                if (response.Table[0].ResponseCode == '200') {
-                    alert(response.Table[0].ResponseDescription)
+
+                try {
+                    var res = JSON.parse(response);
+                } catch (err) { }
+
+
+                $scope.keys = Object.keys(res);
+
+                $scope.statusKey = $scope.keys[0];
+                $scope.statusValue = res[$scope.statusKey];
+
+                $scope.descriptionKey = $scope.keys[1];
+                $scope.descriptionValue = res[$scope.descriptionKey];
+
+                if ($scope.statusValue = '6tEGN7Opkq9eFqVERJExVw==') {
+                    $scope.EncStatusDescription2 = $scope.descriptionValue;
+                    $scope.decryptParameter2();
+                    if ($scope.decryptedParameter2 == "OTP Verification Success.") {
+                        alert("OTP Verification Success.");
+                        $scope.SendMail = false;
+                        $scope.ResendMail = false
+                        $scope.MailVerified = true;
+                        $scope.MailDisabled = true;
+                    }
+                    else {
+                        alert($scope.decryptedParameter2);
+                    }
+                }
+                else if ($scope.statusValue == 'RB1jvKUQZSQJsUq5WMKN7A==') {
+                    alert("OTP Verification Success.");
                     $scope.SendMail = false;
                     $scope.ResendMail = false
                     $scope.MailVerified = true;
                     $scope.MailDisabled = true;
-                } else if (response.Table[0].ResponseCode == '400') {
-                    alert(response.Table[0].ResponseDescription)
-                    $scope.MailDisabled = false;
-                    $scope.SendMail = false;
-                    $scope.ResendMail = true
-                    $scope.MailVerified = false;
-                } else {
-                    alert('OTP Not Matched');
-                    $scope.MailDisabled = false;
-                    $scope.SendMail = false;
-                    $scope.ResendMail = true
-                    $scope.MailVerified = false;
                 }
+                else {
+                    alert("Not Verified");
+                    $scope.MailDisabled = false;
+                    $scope.SendMail = false;
+                    $scope.ResendMail = true
+                    $scope.MailVerified = false;
 
+                }
             }, function () {
                 alert('OTP Not Matched');
                 $scope.MailDisabled = false;
